@@ -37,7 +37,8 @@ ns = JSS::NetworkSegment.new :id => :new, :name => 'Private Class C', :starting_
 # Associate this network segment with a specific building, which must exist in the JSS, and be listed in JSS::Building.all_names
 ns.building = "Main Office" 
 
-# Associate this network segment with a specific software update server, which must exist in the JSS, and be listed in JSS::SoftwareUpdateServer.all_names
+# Associate this network segment with a specific software update server, which must exist in the JSS, 
+# and be listed in JSS::SoftwareUpdateServer.all_names
 ns.swu_server = "Main SWU Server" 
 
 # Store the new network segment in the JSS
@@ -234,17 +235,31 @@ These must be created and edited via the JSS WebApp
 All supported API Objects can be deleted
 
 
-
 ## REQUIREMENTS
 
+JSS was written for ruby 1.8.7 and 2.0.0, the two versions that come with OS X 10.9.
+
+It also requires these gems, which will be installed automatically if you install JSS with `gem install`
+
+* rest-client >=1.6.7 http://rubygems.org/gems/rest-client
+* json or json\_pure >= 1.6.5 http://rubygems.org/gems/json or http://rubygems.org/gems/json_pure
+  * (only in ruby 1.8.7.  Ruby 2.0.0 has json in its standard library)
+* ruby-mysql >= 2.9.12
+  * (only for a few things that still require direct SQL access to the JSS database)
 
 ## INSTALL
 
+`gem install jss`
 
 ## RUNNING TESTS
 
+Totally automated tests are not really an option since you must connect to a JSS API, and once connected, it's impossible to assume what might be 
+defined there.
 
-## EXPECTED RESULTS
+There is a tiny stub of test that only check the ability to connect and to basic REST transactions. Eventually I may try to write more that are generally 
+runnable, interactively, on any JSS
 
 
 ## LICENSE
+
+I have yet to chat with Legal about getting this thing opensourced.

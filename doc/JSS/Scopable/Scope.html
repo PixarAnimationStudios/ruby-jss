@@ -1,0 +1,1638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::Scopable::Scope
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!JSS/Scopable/Scope.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Scopable.html" title="JSS::Scopable (module)">Scopable</a></span></span>
+     &raquo; 
+    <span class="title">Scope</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::Scopable::Scope
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">JSS::Scopable::Scope</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss/api_object/scopable/scope.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A Scope in the JSS, as can be applied to Scopable objects like Policies,
+Profiles, etc</p>
+
+<p>scope comes from the API as a hash of inclusions, exclusions, and
+limitations of objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="SCOPING_CLASSES-constant" class="">SCOPING_CLASSES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These are the classes that Scopes can use for defining a scope</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:computers</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:computer_groups</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_ComputerGroup constant id'>ComputerGroup</span><span class='comma token'>,</span>
+  <span class='symbol val'>:mobile_devices</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MobileDevice constant id'>MobileDevice</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:mobile_device_groups</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MobileDeviceGroup constant id'>MobileDeviceGroup</span><span class='comma token'>,</span>
+  <span class='symbol val'>:buildings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Building constant id'>Building</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:departments</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Department constant id'>Department</span><span class='comma token'>,</span>
+  <span class='symbol val'>:network_segments</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NetworkSegment constant id'>NetworkSegment</span><span class='comma token'>,</span>
+  <span class='symbol val'>:users</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_User constant id'>User</span><span class='comma token'>,</span>
+  <span class='symbol val'>:user_groups</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UserGroup constant id'>UserGroup</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="TARGET_KEYS-constant" class="">TARGET_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These keys can be the targets of a scope. Their values are the matching
+group key</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:computers</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:computer_groups</span><span class='comma token'>,</span> <span class='symbol val'>:mobile_devices</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:mobile_device_groups</span> <span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="INCLUSION_KEYS-constant" class="">INCLUSION_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These can be part of the base inclusion list of the scope,  along with the
+appropriate target and target group keys</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='comma token'>,</span> <span class='symbol val'>:departments</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="LIMITATION_KEYS-constant" class="">LIMITATION_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These can limit the inclusion list</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:network_segments</span><span class='comma token'>,</span> <span class='symbol val'>:users</span><span class='comma token'>,</span> <span class='symbol val'>:user_groups</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="EXCLUSION_KEYS-constant" class="">EXCLUSION_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>any of them can be excluded</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_INCLUSION_KEYS constant id'>INCLUSION_KEYS</span> <span class='plus op'>+</span> <span class='rubyid_LIMITATION_KEYS constant id'>LIMITATION_KEYS</span>
+</pre></dd>
+      
+        <dt id="DEFAULT_SCOPE-constant" class="">DEFAULT_SCOPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>A default scope has no inclusions, limitations, or exclusions, and is
+scoped to everything.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:all_computers</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+  <span class='symbol val'>:all_mobile_devices</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+  <span class='symbol val'>:limitations</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:exclusions=</span><span class='gt op'>&gt;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span> 
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_targets-instance_method" title="#all_targets (instance method)">- (Object) <strong>all_targets</strong> </a>
+    
+
+    
+      (also: #all_targets?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Bool, does this scope cover all computers, or mobile devices if this is
+true, the @inclusions hash is ignored, and all  targets in the JSS form the
+base scope.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#container-instance_method" title="#container (instance method)">- (Object) <strong>container</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a reference to the object that contains this Scope, so that we can tell it
+when a change is made and an update needed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exclusions-instance_method" title="#exclusions (instance method)">- (Object) <strong>exclusions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A Hash of Arrays of names The items in these arrays are the exclusions 
+appliend to the items in the @inclusions scope base.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inclusions-instance_method" title="#inclusions (instance method)">- (Object) <strong>inclusions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A Hash of Arrays of names The items in these arrays form the base scope to
+which the limitations and exclusions apply.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#limitations-instance_method" title="#limitations (instance method)">- (Object) <strong>limitations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A Hash of Arrays of names The items in these arrays are the limitations
+applied to the @inclusions scop base.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#target_key-instance_method" title="#target_key (instance method)">- (Object) <strong>target_key</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>what type of target is this scope for? Computers or Mobiledevices?.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_name-instance_method" title="#check_name (instance method)">- (Object) <strong>check_name</strong>(klass, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a name of some class of item to be used in the scope, check that it
+exists in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear-instance_method" title="#clear (instance method)">- (Object) <strong>clear</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set @all_targets = true, and remove all limitations and exclusions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exclude_from_scope-instance_method" title="#exclude_from_scope (instance method)">- (Object) <strong>exclude_from_scope</strong>(key, list) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>provide a new exclusion list of items for scoping this policy The list must
+be an Array of names or id’s for items of the type being excluded from
+the scope Each will be checked for existence in the JSS, and an exception
+raised if the item doesn’t exist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#include_all-instance_method" title="#include_all (instance method)">- (Object) <strong>include_all</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>remove all scoping inclusions, but not  limitations or exclusions, setting
+@all_targets to true.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#include_in_scope-instance_method" title="#include_in_scope (instance method)">- (Object) <strong>include_in_scope</strong>(key, list) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>provide a new inclusion list of names for scoping this policy The list must
+be an Array of names for items of the klass being added to the scope Each
+will be checked for existence in the JSS, and an exception raised if the
+item doesn’t exist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Scope) <strong>initialize</strong>(target_key, api_scope = DEFAULT_SCOPE) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The first arg must be the kind of target this scope specifies, one of the
+symbols in TARGET_KEYS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#limit_scope-instance_method" title="#limit_scope (instance method)">- (Object) <strong>limit_scope</strong>(key, list) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>provide a new limitation list of items for scoping this policy The list
+must be an Array of names for items of the type being limited in the scope
+Each will be checked for existence in the JSS, and an exception raised if
+the item doesn’t exist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope_xml-instance_method" title="#scope_xml (instance method)">- (Object) <strong>scope_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a REXML Element containing the current state of the Scope for adding
+into the XML of the container.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::Scopable::Scope (class)">Scope</a></span></tt>) <strong>initialize</strong>(target_key, api_scope = DEFAULT_SCOPE) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The first arg must be the kind of target this scope specifies, one of the
+symbols in TARGET_KEYS</p>
+
+<p>The second, if provided, is the :scope hash the JSON output of the API
+resource for an object that has a scope, e.g. a Policy. If the second is
+empty, a default scope, scoped to all targets, is created, and can be
+modified as needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 116</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target_key identifier id'>target_key</span><span class='comma token'>,</span> <span class='rubyid_api_scope identifier id'>api_scope</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_SCOPE constant id'>DEFAULT_SCOPE</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;The target key of a Scope must be one of :#{TARGET_KEYS.keys.join(', :')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_TARGET_KEYS constant id'>TARGET_KEYS</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_target_key identifier id'>target_key</span>
+  
+  <span class='rubyid_@target_key ivar id'>@target_key</span> <span class='assign token'>=</span> <span class='rubyid_target_key identifier id'>target_key</span>
+  <span class='rubyid_@target_class ivar id'>@target_class</span> <span class='assign token'>=</span> <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@group_key ivar id'>@group_key</span> <span class='assign token'>=</span> <span class='rubyid_TARGET_KEYS constant id'>TARGET_KEYS</span><span class='lbrack token'>[</span><span class='rubyid_target_key identifier id'>target_key</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@group_class ivar id'>@group_class</span> <span class='assign token'>=</span> <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@all_key ivar id'>@all_key</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;all_#{target_key}&quot;</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+  <span class='rubyid_@inclusion_keys ivar id'>@inclusion_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='comma token'>,</span> <span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_INCLUSION_KEYS constant id'>INCLUSION_KEYS</span>
+  <span class='rubyid_@exclusion_keys ivar id'>@exclusion_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='comma token'>,</span> <span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_EXCLUSION_KEYS constant id'>EXCLUSION_KEYS</span>
+  
+  <span class='rubyid_@all_targets ivar id'>@all_targets</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='rubyid_@all_key ivar id'>@all_key</span><span class='rbrack token'>]</span>
+  
+  <span class='comment val'>### Everything gets mapped from an Array of Hashes to an Array of names (or an empty array)</span>
+  <span class='comment val'>### since names are all that really matter when submitting the scope.</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span>  <span class='question op'>?</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='colon op'>:</span>  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:departments</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:departments</span><span class='rbrack token'>]</span>  <span class='question op'>?</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:departments</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='colon op'>:</span>  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='rbrack token'>]</span>  <span class='question op'>?</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='colon op'>:</span>  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@limitations ivar id'>@limitations</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:limitations</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@limitations ivar id'>@limitations</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:network_segments</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:user_groups</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:network_segments</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='symbol val'>:user_groups</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_@exclusions ivar id'>@exclusions</span> <span class='assign token'>=</span> <span class='rubyid_api_scope identifier id'>api_scope</span><span class='lbrack token'>[</span><span class='symbol val'>:exclusions</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@exclusions ivar id'>@exclusions</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:departments</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='rbrack token'>]</span>  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:network_segments</span><span class='rbrack token'>]</span>  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span>  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:user_groups</span><span class='rbrack token'>]</span>  <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_@target_key ivar id'>@target_key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_@group_key ivar id'>@group_key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:departments</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:buildings</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:network_segments</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='symbol val'>:user_groups</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_@container ivar id'>@container</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="all_targets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>all_targets</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='all_targets?-instance_method'>all_targets?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Bool, does this scope cover all computers, or mobile devices if this is
+true, the @inclusions hash is ignored, and all  targets in the JSS form the
+base scope.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 89</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_all_targets identifier id'>all_targets</span>
+  <span class='rubyid_@all_targets ivar id'>@all_targets</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="container=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="container-instance_method">
+  
+    - (<tt>Object</tt>) <strong>container</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a reference to the object that contains this Scope, so that we can tell it
+when a change is made and an update needed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 73</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_container identifier id'>container</span>
+  <span class='rubyid_@container ivar id'>@container</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="exclusions-instance_method">
+  
+    - (<tt>Object</tt>) <strong>exclusions</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A Hash of Arrays of names The items in these arrays are the exclusions 
+appliend to the items in the @inclusions scope base.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 101</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_exclusions identifier id'>exclusions</span>
+  <span class='rubyid_@exclusions ivar id'>@exclusions</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="inclusions-instance_method">
+  
+    - (<tt>Object</tt>) <strong>inclusions</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A Hash of Arrays of names The items in these arrays form the base scope to
+which the limitations and exclusions apply. they keys are:</p>
+
+<pre class="code ruby18"><code class="ruby18">:targets, :target_groups, :departments, :buildings</code></pre>
+
+<p>and the values are Arrays of names of those things.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 84</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_inclusions identifier id'>inclusions</span>
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="limitations-instance_method">
+  
+    - (<tt>Object</tt>) <strong>limitations</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A Hash of Arrays of names The items in these arrays are the limitations
+applied to the @inclusions scop base.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 96</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_limitations identifier id'>limitations</span>
+  <span class='rubyid_@limitations ivar id'>@limitations</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="target_key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>target_key</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>what type of target is this scope for? Computers or Mobiledevices?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 76</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_target_key identifier id'>target_key</span>
+  <span class='rubyid_@target_key ivar id'>@target_key</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="check_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>check_name</strong>(klass, name) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a name of some class of item to be used in the scope, check that it
+exists in the JSS. Return true or false Since users and user groups don’t
+come from the list of API users (they come  from LDAP or the client
+machine) the always return true</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 291</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_name identifier id'>check_name</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_klass identifier id'>klass</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_name identifier id'>name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear-instance_method">
+  
+    - (<tt>Object</tt>) <strong>clear</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set @all_targets = true, and remove all limitations and exclusions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 184</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_clear identifier id'>clear</span>
+  <span class='rubyid_set_scope_to_all identifier id'>set_scope_to_all</span>
+  <span class='rubyid_LIMITATION_KEYS constant id'>LIMITATION_KEYS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_limit_scope identifier id'>limit_scope</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@exclusion_keys ivar id'>@exclusion_keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_exclude_from_scope identifier id'>exclude_from_scope</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exclude_from_scope-instance_method">
+  
+    - (<tt>Object</tt>) <strong>exclude_from_scope</strong>(key, list) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>provide a new exclusion list of items for scoping this policy The list must
+be an Array of names or id’s for items of the type being excluded from
+the scope Each will be checked for existence in the JSS, and an exception
+raised if the item doesn’t exist.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 252</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_exclude_from_scope identifier id'>exclude_from_scope</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_list identifier id'>list</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Scope key must be one of :#{@exclusion_keys.join(', :')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@exclusion_keys ivar id'>@exclusion_keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_key identifier id'>key</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;List must be an Array of #{key} names, it may be empty.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span> <span class='eq op'>==</span> <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_list identifier id'>list</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='comment val'>### check the names</span>
+  <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No existing #{key} with name '#{name}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_check_name identifier id'>check_name</span> <span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_case case kw'>case</span> <span class='rubyid_key identifier id'>key</span>
+      <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_@inclusion_keys ivar id'>@inclusion_keys</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Can't exclude #{key} '#{name}' because it's already explicitly included.&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_name identifier id'>name</span>
+      <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_LIMITATION_KEYS constant id'>LIMITATION_KEYS</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Can't exclude #{key} '#{name}' because it's already an explicit limitation.&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each</span>
+  
+  <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span> 
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="include_all-instance_method">
+  
+    - (<tt>Object</tt>) <strong>include_all</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>remove all scoping inclusions, but not  limitations or exclusions, setting
+@all_targets to true</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 176</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_include_all identifier id'>include_all</span>
+  <span class='rubyid_@inclusion_keys ivar id'>@inclusion_keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_include_in_scope identifier id'>include_in_scope</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@all_targets ivar id'>@all_targets</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="include_in_scope-instance_method">
+  
+    - (<tt>Object</tt>) <strong>include_in_scope</strong>(key, list) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>provide a new inclusion list of names for scoping this policy The list must
+be an Array of names for items of the klass being added to the scope Each
+will be checked for existence in the JSS, and an exception raised if the
+item doesn’t exist.</p>
+
+<p>e.g include_in_scope(:computers, [‘kimchi’,‘mantis’])</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 197</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_include_in_scope identifier id'>include_in_scope</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_list identifier id'>list</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Scope key must be one of :#{@inclusion_keys.join(', :')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@inclusion_keys ivar id'>@inclusion_keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_key identifier id'>key</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;List must be an Array of #{key} names, it may be empty.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span>
+  
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span> <span class='eq op'>==</span> <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_@inclusion ivar id'>@inclusion</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='comment val'>### if ALL the @incliuusion keys are empty, then set all targets to true.</span>
+    <span class='rubyid_@all_targets ivar id'>@all_targets</span> <span class='assign token'>=</span>  <span class='rubyid_@inclusion ivar id'>@inclusion</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_list identifier id'>list</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='comment val'>### check the names</span>
+  <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No existing #{key} with name '#{name}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_check_name identifier id'>check_name</span> <span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Can't set #{key} scope to '#{name}' because it's already an explicit exclusion.&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each</span>
+  
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span> 
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="limit_scope-instance_method">
+  
+    - (<tt>Object</tt>) <strong>limit_scope</strong>(key, list) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>provide a new limitation list of items for scoping this policy The list
+must be an Array of names for items of the type being limited in the scope
+Each will be checked for existence in the JSS, and an exception raised if
+the item doesn’t exist.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 226</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_limit_scope identifier id'>limit_scope</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_list identifier id'>list</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Scope key must be one of :#{LIMITATION_KEYS.join(', :')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_LIMITATION_KEYS constant id'>LIMITATION_KEYS</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_key identifier id'>key</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;List must be an Array of #{key} names, it may be empty.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span> <span class='eq op'>==</span> <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_list identifier id'>list</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='comment val'>### check the names</span>
+  <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No existing #{key} with name '#{name}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_check_name identifier id'>check_name</span> <span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Can't set #{key} limitation to '#{name}' because it's already an explicit exclusion.&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each</span>
+  
+  <span class='rubyid_@limitations ivar id'>@limitations</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span> 
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="scope_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>scope_xml</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a REXML Element containing the current state of the Scope for adding
+into the XML of the container.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 299</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_scope_xml identifier id'>scope_xml</span>
+  <span class='rubyid_scope identifier id'>scope</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='string val'>&quot;scope&quot;</span>
+  <span class='rubyid_scope identifier id'>scope</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='rubyid_@all_key ivar id'>@all_key</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@all_targets ivar id'>@all_targets</span>
+  
+  <span class='rubyid_@inclusions ivar id'>@inclusions</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='comma token'>,</span><span class='rubyid_list identifier id'>list</span><span class='bitor op'>|</span>
+    <span class='rubyid_list_as_hash identifier id'>list_as_hash</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_scope identifier id'>scope</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_klass identifier id'>klass</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_xml_list identifier id'>xml_list</span><span class='lparen token'>(</span> <span class='rubyid_list_as_hash identifier id'>list_as_hash</span><span class='comma token'>,</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_limitations identifier id'>limitations</span> <span class='assign token'>=</span> <span class='rubyid_scope identifier id'>scope</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'limitations'</span><span class='rparen token'>)</span>
+  <span class='rubyid_@limitations ivar id'>@limitations</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='comma token'>,</span><span class='rubyid_list identifier id'>list</span><span class='bitor op'>|</span>
+    <span class='rubyid_list_as_hash identifier id'>list_as_hash</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_limitations identifier id'>limitations</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_klass identifier id'>klass</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_xml_list identifier id'>xml_list</span><span class='lparen token'>(</span> <span class='rubyid_list_as_hash identifier id'>list_as_hash</span><span class='comma token'>,</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_exclusions identifier id'>exclusions</span> <span class='assign token'>=</span> <span class='rubyid_scope identifier id'>scope</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'exclusions'</span><span class='rparen token'>)</span>
+  <span class='rubyid_@exclusions ivar id'>@exclusions</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='comma token'>,</span><span class='rubyid_list identifier id'>list</span><span class='bitor op'>|</span>
+    <span class='rubyid_list_as_hash identifier id'>list_as_hash</span> <span class='assign token'>=</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_exclusions identifier id'>exclusions</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_SCOPING_CLASSES constant id'>SCOPING_CLASSES</span><span class='lbrack token'>[</span><span class='rubyid_klass identifier id'>klass</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_xml_list identifier id'>xml_list</span><span class='lparen token'>(</span> <span class='rubyid_list_as_hash identifier id'>list_as_hash</span><span class='comma token'>,</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_scope identifier id'>scope</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:10:57 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

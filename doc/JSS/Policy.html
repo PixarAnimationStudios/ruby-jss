@@ -1,0 +1,5484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::Policy
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/Policy.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Policy</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::Policy
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::Policy</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span>, <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jss/api_object/policy.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A class implementing a JSS Policy</p>
+
+<p>Policy instances are partially read-only.</p>
+<ul><li>
+<p>new policies cannot be created via the Policy class, please use the WebApp.</p>
+</li><li>
+<p>Only a few attributes can be changed and updated via the Policy class:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='minus op'>-</span> <span class='rubyid_name identifier id'>name</span>
+<span class='minus op'>-</span> <span class='rubyid_enabled identifier id'>enabled</span>
+<span class='minus op'>-</span> <span class='rubyid_category identifier id'>category</span>
+<span class='minus op'>-</span> <span class='rubyid_triggers identifier id'>triggers</span> 
+<span class='minus op'>-</span> <span class='rubyid_scope identifier id'>scope</span><span class='comma token'>,</span> <span class='rubyid_see identifier id'>see</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Scopable constant id'>Scopable</span><span class='colon2 op'>::</span><span class='rubyid_Scope constant id'>Scope</span>
+<span class='minus op'>-</span> <span class='rubyid_files identifier id'>files</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_processes identifier id'>processes</span>
+</code></pre>
+</li></ul>
+
+<p>All other values and sections must be edited via the Web App.</p>
+
+<p>Policies may be deleted via this class</p>
+
+<p>See also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;policies&quot;</span>
+</pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:policies</span>
+</pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It’s also used in various
+error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:policy</span>
+</pre></dd>
+      
+        <dt id="VALID_DATA_KEYS-constant" class="">VALID_DATA_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>these keys, as well as :id and :name,  are present in valid API JSON data
+for this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:scope</span><span class='comma token'>,</span> <span class='symbol val'>:user_interaction</span><span class='comma token'>,</span> <span class='symbol val'>:files_processes</span> <span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="SECTIONS-constant" class="">SECTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <span class='symbol val'>:general</span><span class='comma token'>,</span>
+  <span class='symbol val'>:maintenance</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:account_maintenance</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:scripts</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:self_service</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:package_configuration</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:scope</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:user_interaction</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:reboot</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:files_processes</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:dock_items</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:disk_encryption</span><span class='comma token'>,</span> 
+  <span class='symbol val'>:printers</span>
+<span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="FREQUENCIES-constant" class="">FREQUENCIES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:ongoing</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Ongoing&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:once_per_computer</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Once per computer&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:once_per_user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Once per user&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:daily</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Once every day&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:weekly</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Once every week&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:monthly</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Once every month&quot;</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="RESTART_WHEN-constant" class="">RESTART_WHEN =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span> 
+  <span class='symbol val'>:if_pkg_requires</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Restart if a package or update requires it&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:now</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Restart immediately&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:delayed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Restart&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:dont</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Do not restart&quot;</span> 
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="RESTART_DISKS-constant" class="">RESTART_DISKS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:current</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Current Startup Disk&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:selected</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Currently Selected Startup Disk (No Bless)&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:netboot</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;NetBoot&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:os_installer</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;inPlaceOSUpgradeDirectory&quot;</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="ACCOUNT_ACTIONS-constant" class="">ACCOUNT_ACTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Create&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:change_pw</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Reset&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:delete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Delete&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:disable_fv2</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DisableFileVault&quot;</span> 
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="MGMT_ACCOUNT_ACTIONS-constant" class="">MGMT_ACCOUNT_ACTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:no_change</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;doNotChange&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:change_pw</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;specified&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:generate_pw</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;random&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:enable_fv2</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;fileVaultEnable&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:disable_fv2</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;fileVaultDisable&quot;</span> 
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="PACKAGE_ACTIONS-constant" class="">PACKAGE_ACTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:install</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Install&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:remove</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Uninstall&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:cache</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Cache&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:install_cache</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Install Cached&quot;</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="SCRIPT_PRIORITIES-constant" class="">SCRIPT_PRIORITIES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:pre</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Before&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:post</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;After&quot;</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="PRINTER_ACTIIONS-constant" class="">PRINTER_ACTIIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;install&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:unmap</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;uninstall&quot;</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="DOCK_ITEM_ACTIONS-constant" class="">DOCK_ITEM_ACTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:add_start</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Add To Beginning&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:add_end</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Add To End&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:remove</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Remove&quot;</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="NETWORK_REQUIREMENTS-constant" class="">NETWORK_REQUIREMENTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:any</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Any&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:ethernet</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EtherNet&quot;</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="TRIGGER_EVENTS-constant" class="">TRIGGER_EVENTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+ <span class='symbol val'>:startup</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_startup</span><span class='comma token'>,</span>
+ <span class='symbol val'>:login</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_login</span><span class='comma token'>,</span>
+ <span class='symbol val'>:logout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_logout</span><span class='comma token'>,</span>
+ <span class='symbol val'>:checkin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_checkin</span><span class='comma token'>,</span>
+ <span class='symbol val'>:network_state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_network_state_changed</span> <span class='comma token'>,</span>
+ <span class='symbol val'>:enrollment</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_enrollment_complete</span> <span class='comma token'>,</span>
+ <span class='symbol val'>:custom</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trigger_other</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="TRIGGER_TYPES-constant" class="">TRIGGER_TYPES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:event</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EVENT&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;USER_INITIATED&quot;</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="SCOPE_TARGET_KEY-constant" class="">SCOPE_TARGET_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:computers</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#RSRC_PREFIX-constant" title="JSS::FileUpload::RSRC_PREFIX (constant)">FileUpload::RSRC_PREFIX</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Scopable.html#SCOPABLE-constant" title="JSS::Scopable::SCOPABLE (constant)">Scopable::SCOPABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#accounts-instance_method" title="#accounts (instance method)">- (Object) <strong>accounts</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>accounts - an array of hashes for accts acted-upon by this policy each item
+looks like:    bar”,        
+:picture=&gt;“/path/to/pic.tif”,         :admin=&gt;true,        
+:home=&gt;“/Users/chrisltest”,         :realname=&gt;“ChrisTest
+Lasell”,         :filevault_enabled=&gt;true,        
+:username=&gt;“chrisltest”,        
+:password_md5=&gt;“3858f62230ac3c915f300c664312c63f”,        
+:password=&gt;“foobar”,         :password_sha256=&gt;         
+“c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2”,    
+:action=&gt;“Create”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category-instance_method" title="#category (instance method)">- (Object) <strong>category</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>policy category name, a string.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#client_side_limitations-instance_method" title="#client_side_limitations (instance method)">- (Object) <strong>client_side_limitations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This is a hash of four items,   :no_execute_on - An array of short day
+names as strings, e.g.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#directory_bindings-instance_method" title="#directory_bindings (instance method)">- (Object) <strong>directory_bindings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>client account maint  acct related maintenence performed by this policy.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disk_encryption-instance_method" title="#disk_encryption (instance method)">- (Object) <strong>disk_encryption</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>disk encryption - a hash, :action=&gt;“apply”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dock_items-instance_method" title="#dock_items (instance method)">- (Object) <strong>dock_items</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>dock items - an array of hashes, one for each dock item handled by this
+policy each item looks like: :id=&gt;14,
+:action=&gt;“Add To Beginning”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enabled-instance_method" title="#enabled (instance method)">- (Object) <strong>enabled</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is the polich enabled.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fix_byhost-instance_method" title="#fix_byhost (instance method)">- (Object) <strong>fix_byhost</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute fix_byhost.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flush_system_cache-instance_method" title="#flush_system_cache (instance method)">- (Object) <strong>flush_system_cache</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute flush_system_cache.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flush_user_cache-instance_method" title="#flush_user_cache (instance method)">- (Object) <strong>flush_user_cache</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute flush_user_cache.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#frequency-instance_method" title="#frequency (instance method)">- (Object) <strong>frequency</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>how often to run the policy on each computer.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">- (Object) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>policy JSS id.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Object) <strong>in_jss</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>in the jss? will be until deleted.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#install_cached_pkgs-instance_method" title="#install_cached_pkgs (instance method)">- (Object) <strong>install_cached_pkgs</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute install_cached_pkgs.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_account-instance_method" title="#management_account (instance method)">- (Object) <strong>management_account</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>things to do to the mgmt acct.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (Object) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>General This data comes from the :general hash in the raw JSON data and
+correspond to the general section of the Edit Policy windoe in  the JSS.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Object) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#offline-instance_method" title="#offline (instance method)">- (Object) <strong>offline</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>should be policy be available offline.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_firmware_efi_password-instance_method" title="#open_firmware_efi_password (instance method)">- (Object) <strong>open_firmware_efi_password</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>an array of the OFpw (3 ways) and the OF mode {:of_password,
+:of_password_md, :of_password_sha256, :of_mode }.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#override_default_settings-instance_method" title="#override_default_settings (instance method)">- (Object) <strong>override_default_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a hash like.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#packages-instance_method" title="#packages (instance method)">- (Object) <strong>packages</strong> </a>
+    
+
+    
+      (also: #pkgs)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>packages an array of hashes for the pkgs handled by this policy each item
+looks like:      :update_autorun=&gt;false,   
+:feu=&gt;false,    :name=&gt;“rbgem-json-1.6.5-4.pkg”,    :id=&gt;1073,
+:action=&gt;“Install”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#permissions_repair-instance_method" title="#permissions_repair (instance method)">- (Object) <strong>permissions_repair</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute permissions_repair.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#printers-instance_method" title="#printers (instance method)">- (Object) <strong>printers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>printers - an array of hashes, one for each printer handled by this policy
+each item looks like: :name=&gt;“torlan”,
+:id=&gt;3, :action=&gt;“install”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_options-instance_method" title="#reboot_options (instance method)">- (Object) <strong>reboot_options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>reboot options A hash llike this     not
+restart”,      :minutes_until_reboot=&gt;5,      :message=&gt;      
+“This computer will restart in 5 minutes. Please save anything you are
+working on and log out by choosing Log Out from the bottom of the Apple
+menu.”,      :startup_disk=&gt;“Current Startup Disk”,     
+:specify_startup=&gt;“”,      :no_user_logged_in=&gt;“Do not
+restart”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recon-instance_method" title="#recon (instance method)">- (Object) <strong>recon</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute recon.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset_name-instance_method" title="#reset_name (instance method)">- (Object) <strong>reset_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute reset_name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (Object) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the rest resource path for this policy.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scripts-instance_method" title="#scripts (instance method)">- (Object) <strong>scripts</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>scripts an array of hashes for each script run by this policy each item
+looks like:         :parameter8=&gt;“”,    
+:parameter9=&gt;“”,     :parameter4=&gt;“”,    
+:parameter10=&gt;“”,     :parameter5=&gt;“”,    
+:parameter11=&gt;“”,     :name=&gt;“chromegetter.sh”,    
+:parameter6=&gt;“”,     :id=&gt;1428,     :priority=&gt;“After”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service-instance_method" title="#self_service (instance method)">- (Object) <strong>self_service</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>self service a hash  like this:      :self_service_icon =&gt;
+href="https://casper.pixar.com:8443//iconservlet/?id=11",:id=>11”>casper.pixar.com:8443//iconservlet/?id=11“,:id=>11</a>,
+:filename=&gt;”DockSwapperIcon.png“     
+:use_for_self_service=&gt;true,     
+:install_button_text=&gt;”Install“,     
+:self_service_description=&gt;”Descriptive text“,     
+:force_users_to_view_description=&gt;false Note: we’ll add a convenience
+method below ”self_service?“     which returns the
+:use_for_self_service key.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server_side_limitations-instance_method" title="#server_side_limitations (instance method)">- (Object) <strong>server_side_limitations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This is a hash of two items, :activateion and :expiration, both DateTimes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site-instance_method" title="#site (instance method)">- (Object) <strong>site</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a string with the site name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#target_drive-instance_method" title="#target_drive (instance method)">- (Object) <strong>target_drive</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>which drive should the policy target.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#trigger-instance_method" title="#trigger (instance method)">- (Object) <strong>trigger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This contains either EVENT or USER_INITIATED if EVENT, then one or more of
+the members @trigger_events is true.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#trigger_events-instance_method" title="#trigger_events (instance method)">- (Object) <strong>trigger_events</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This is a hash with the following keys.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_may_defer-instance_method" title="#user_may_defer (instance method)">- (Object) <strong>user_may_defer</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>user interaction These are extracted from the :user_interaction hash  in
+the JSON output, which looks like this: :allow_users_to_defer=&gt;false, :allow_deferral_until_utc=&gt;“”,
+:message_finish=&gt;“”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_may_defer_until-instance_method" title="#user_may_defer_until (instance method)">- (Object) <strong>user_may_defer_until</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_message_finish-instance_method" title="#user_message_finish (instance method)">- (Object) <strong>user_message_finish</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_message_start-instance_method" title="#user_message_start (instance method)">- (Object) <strong>user_message_start</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_startup_disk-instance_method" title="#verify_startup_disk (instance method)">- (Object) <strong>verify_startup_disk</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>client machine maintenence  These are the computer maint.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Scopable.html#scope-instance_method" title="JSS::Scopable#scope (method)">#scope</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_file%3F-instance_method" title="#delete_file? (instance method)">- (Boolean) <strong>delete_file?</strong> </a>
+    
+
+    
+      (also: #delete_path?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should the searched path be deleted if found?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#directory_binding_ids-instance_method" title="#directory_binding_ids (instance method)">- (Object) <strong>directory_binding_ids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#directory_binding_names-instance_method" title="#directory_binding_names (instance method)">- (Object) <strong>directory_binding_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dock_item_ids-instance_method" title="#dock_item_ids (instance method)">- (Object) <strong>dock_item_ids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dock_item_names-instance_method" title="#dock_item_names (instance method)">- (Object) <strong>dock_item_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Policy) <strong>initialize</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialization takes a hash requiring at least a :name or an :id or :data
+If :data it provided, it’s assumed to be the JSON output from the API for
+a single policy,  otherwise, :name or :id are required, and will be looked
+up in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#kill_process%3F-instance_method" title="#kill_process? (instance method)">- (Boolean) <strong>kill_process?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should the process be killed if found.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locate_file-instance_method" title="#locate_file (instance method)">- (Object) <strong>locate_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The term to seach for using the locate command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locate_file%3D-instance_method" title="#locate_file= (instance method)">- (Object) <strong>locate_file=</strong>(term) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the term to seach for using the locate command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#package_ids-instance_method" title="#package_ids (instance method)">- (Object) <strong>package_ids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#package_names-instance_method" title="#package_names (instance method)">- (Object) <strong>package_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#printer_ids-instance_method" title="#printer_ids (instance method)">- (Object) <strong>printer_ids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#printer_names-instance_method" title="#printer_names (instance method)">- (Object) <strong>printer_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_xml-instance_method" title="#rest_xml (instance method)">- (Object) <strong>rest_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Private Instance Methods.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_command-instance_method" title="#run_command (instance method)">- (Object) <strong>run_command</strong> </a>
+    
+
+    
+      (also: #command_to_run)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The unix shell command to run on ths client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_command%3D-instance_method" title="#run_command= (instance method)">- (Object) <strong>run_command=</strong>(command) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the unix shell command to run on the client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script_ids-instance_method" title="#script_ids (instance method)">- (Object) <strong>script_ids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script_names-instance_method" title="#script_names (instance method)">- (Object) <strong>script_names</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_by_path-instance_method" title="#search_by_path (instance method)">- (Object) <strong>search_by_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The path to search for, Pathname.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_by_path%3D-instance_method" title="#search_by_path= (instance method)">- (Object) <strong>search_by_path=</strong>(path, delete = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the path to search for, a String or Pathname, and whether or not to
+delete it if found.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_for_process-instance_method" title="#search_for_process (instance method)">- (Object) <strong>search_for_process</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The process name to search for.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_for_process%3D-instance_method" title="#search_for_process= (instance method)">- (Object) <strong>search_for_process=</strong>(proc, kill = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the process name to search for, and should it be killed if found.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service%3F-instance_method" title="#self_service? (instance method)">- (Boolean) <strong>self_service?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_trigger_event-instance_method" title="#set_trigger_event (instance method)">- (Object) <strong>set_trigger_event</strong>(type, new_val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change a trigger event.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#spotlight_search-instance_method" title="#spotlight_search (instance method)">- (Object) <strong>spotlight_search</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The term to seach for using spotlight.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#spotlight_search%3D-instance_method" title="#spotlight_search= (instance method)">- (Object) <strong>spotlight_search=</strong>(term) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the term to seach for using spotlight.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_locate_database%3D-instance_method" title="#update_locate_database= (instance method)">- (Object) <strong>update_locate_database=</strong>(tf) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set whether or not to update the database used by the locate command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_locate_database%3F-instance_method" title="#update_locate_database? (instance method)">- (Boolean) <strong>update_locate_database?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should we update the databse used by the locate command?.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#upload-instance_method" title="JSS::FileUpload#upload (method)">#upload</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Scopable.html#parse_scope-instance_method" title="JSS::Scopable#parse_scope (method)">#parse_scope</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::Policy (class)">Policy</a></span></tt>) <strong>initialize</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialization takes a hash requiring at least a :name or an :id or :data
+If :data it provided, it’s assumed to be the JSON output from the API for
+a single policy,  otherwise, :name or :id are required, and will be looked
+up in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 399</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_super super kw'>super</span>
+  
+
+  <span class='rubyid_gen identifier id'>gen</span> <span class='assign token'>=</span>  <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@category ivar id'>@category</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:category</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@frequency ivar id'>@frequency</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:frequency</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@target_drive ivar id'>@target_drive</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:target_drive</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@offline ivar id'>@offline</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:offline</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@enabled ivar id'>@enabled</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:enabled</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@override_default_settings ivar id'>@override_default_settings</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:override_default_settings</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@trigger ivar id'>@trigger</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger</span> <span class='rbrack token'>]</span>
+  <span class='rubyid_@trigger_events ivar id'>@trigger_events</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+   <span class='symbol val'>:trigger_startup</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_startup</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_login</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_login</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_logout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_logout</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_checkin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_checkin</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_network_state_changed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_network_state_changed</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_enrollment_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_enrollment_complete</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:trigger_other</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:trigger_other</span> <span class='rbrack token'>]</span>
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_dtl identifier id'>dtl</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:date_time_limitations</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@server_side_limitations ivar id'>@server_side_limitations</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:activation</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_dtl identifier id'>dtl</span><span class='lbrack token'>[</span><span class='symbol val'>:activation_date_epoch</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> 
+    <span class='symbol val'>:expiration</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_dtl identifier id'>dtl</span><span class='lbrack token'>[</span><span class='symbol val'>:expiration_date_epoch</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_@client_side_limitations ivar id'>@client_side_limitations</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:no_execute_on</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_dtl identifier id'>dtl</span><span class='lbrack token'>[</span><span class='symbol val'>:no_execute_on</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='comment val'># NOTE- there's a bug in the JSON output, it's been reported to JAMF.</span>
+    <span class='symbol val'>:no_execute_start</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_dtl identifier id'>dtl</span><span class='lbrack token'>[</span><span class='symbol val'>:no_execute_start</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='comment val'># String like &quot;1:01 AM&quot;</span>
+    <span class='symbol val'>:no_execute_end</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_dtl identifier id'>dtl</span><span class='lbrack token'>[</span><span class='symbol val'>:no_execute_end</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='comment val'># String like &quot;2:02 PM&quot;</span>
+    <span class='symbol val'>:network_requirements</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:network_requirements</span><span class='rbrack token'>]</span>
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_maint identifier id'>maint</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:maintenance</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@verify_startup_disk ivar id'>@verify_startup_disk</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:verify</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@permissions_repair ivar id'>@permissions_repair</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:permissions</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@recon ivar id'>@recon</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:recon</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@fix_byhost ivar id'>@fix_byhost</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:byhost</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@reset_name ivar id'>@reset_name</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:reset_name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@flush_system_cache ivar id'>@flush_system_cache</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:system_cache</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@install_cached_pkgs ivar id'>@install_cached_pkgs</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:install_all_cached_packages</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@flush_user_cache ivar id'>@flush_user_cache</span> <span class='assign token'>=</span> <span class='rubyid_maint identifier id'>maint</span><span class='lbrack token'>[</span><span class='symbol val'>:user_cache</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_amaint identifier id'>amaint</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:account_maintenance</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@directory_bindings ivar id'>@directory_bindings</span> <span class='assign token'>=</span> <span class='rubyid_amaint identifier id'>amaint</span><span class='lbrack token'>[</span><span class='symbol val'>:directory_bindings</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@open_firmware_efi_password ivar id'>@open_firmware_efi_password</span> <span class='assign token'>=</span> <span class='rubyid_amaint identifier id'>amaint</span><span class='lbrack token'>[</span><span class='symbol val'>:open_firmware_efi_password</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@management_account ivar id'>@management_account</span> <span class='assign token'>=</span> <span class='rubyid_amaint identifier id'>amaint</span><span class='lbrack token'>[</span><span class='symbol val'>:management_account</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@accounts ivar id'>@accounts</span> <span class='assign token'>=</span> <span class='rubyid_amaint identifier id'>amaint</span><span class='lbrack token'>[</span><span class='symbol val'>:accounts</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@packages ivar id'>@packages</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:package_configuration</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:packages</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:package_configuration</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:packages</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@scripts ivar id'>@scripts</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:scripts</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@self_service ivar id'>@self_service</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:self_service</span><span class='rbrack token'>]</span>
+        
+  <span class='rubyid_uint identifier id'>uint</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:user_interaction</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@user_may_defer ivar id'>@user_may_defer</span> <span class='assign token'>=</span> <span class='rubyid_uint identifier id'>uint</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_users_to_defer</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@user_may_defer_until ivar id'>@user_may_defer_until</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_uint identifier id'>uint</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_deferral_until_utc</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@user_message_start ivar id'>@user_message_start</span> <span class='assign token'>=</span>  <span class='rubyid_uint identifier id'>uint</span><span class='lbrack token'>[</span><span class='symbol val'>:message_start</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@user_message_finish ivar id'>@user_message_finish</span> <span class='assign token'>=</span> <span class='rubyid_uint identifier id'>uint</span><span class='lbrack token'>[</span><span class='symbol val'>:message_finish</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@reboot_options ivar id'>@reboot_options</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:reboot</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:files_processes</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@dock_items ivar id'>@dock_items</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:dock_items</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@disk_encryption ivar id'>@disk_encryption</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:disk_encryption</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@printers ivar id'>@printers</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:printers</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_parse_scope identifier id'>parse_scope</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="accounts-instance_method">
+  
+    - (<tt>Object</tt>) <strong>accounts</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>accounts - an array of hashes for accts acted-upon by this policy each item
+looks like:</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">hint=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;foo  bar&quot;</span>,
+      :<span class="ruby-identifier">picture=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;/path/to/pic.tif&quot;</span>,
+      :<span class="ruby-identifier">admin=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+      :<span class="ruby-identifier">home=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;/Users/chrisltest&quot;</span>,
+      :<span class="ruby-identifier">realname=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;ChrisTest Lasell&quot;</span>,
+      :<span class="ruby-identifier">filevault_enabled=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+      :<span class="ruby-identifier">username=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;chrisltest&quot;</span>,
+      :<span class="ruby-identifier">password_md5=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;3858f62230ac3c915f300c664312c63f&quot;</span>,
+      :<span class="ruby-identifier">password=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;foobar&quot;</span>,
+      :<span class="ruby-identifier">password_sha256=</span><span class="ruby-operator">&gt;</span>
+       <span class="ruby-string">&quot;c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2&quot;</span>,
+      :<span class="ruby-identifier">action=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Create&quot;</span>}
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 286</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_accounts identifier id'>accounts</span>
+  <span class='rubyid_@accounts ivar id'>@accounts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="category=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="category-instance_method">
+  
+    - (<tt>Object</tt>) <strong>category</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>policy category name, a string</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 166</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_category identifier id'>category</span>
+  <span class='rubyid_@category ivar id'>@category</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="client_side_limitations-instance_method">
+  
+    - (<tt>Object</tt>) <strong>client_side_limitations</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This is a hash of four items,</p>
+
+<pre class="code ruby18"><code class="ruby18">:no_execute_on - An array of short day names as strings, e.g. [&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;]
+:no_execute_start - Time
+:no_execute_end - Time
+:network_connection - String</code></pre>
+
+<p>The data for the first three comes from the API in the
+date_time_limitations  hash of the general section The fourth comes from
+the network_requirements of the general section of the API but the UI shows
+them in the Client Side Limitations area This attribute is just for
+convience and consistency, and just  refers to the data in their API
+locations</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 218</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_client_side_limitations identifier id'>client_side_limitations</span>
+  <span class='rubyid_@client_side_limitations ivar id'>@client_side_limitations</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="directory_bindings-instance_method">
+  
+    - (<tt>Object</tt>) <strong>directory_bindings</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>client account maint  acct related maintenence performed by this policy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 260</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_directory_bindings identifier id'>directory_bindings</span>
+  <span class='rubyid_@directory_bindings ivar id'>@directory_bindings</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="disk_encryption-instance_method">
+  
+    - (<tt>Object</tt>) <strong>disk_encryption</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>disk encryption - a hash, :action=&gt;“apply”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+374
+375
+376</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 374</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_disk_encryption identifier id'>disk_encryption</span>
+  <span class='rubyid_@disk_encryption ivar id'>@disk_encryption</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="dock_items-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dock_items</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>dock items - an array of hashes, one for each dock item handled by this
+policy each item looks like: :id=&gt;14,
+:action=&gt;“Add To Beginning”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+371
+372
+373</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 371</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dock_items identifier id'>dock_items</span>
+  <span class='rubyid_@dock_items ivar id'>@dock_items</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enabled-instance_method">
+  
+    - (<tt>Object</tt>) <strong>enabled</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is the polich enabled</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 170</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_enabled identifier id'>enabled</span>
+  <span class='rubyid_@enabled ivar id'>@enabled</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="fix_byhost-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fix_byhost</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute fix_byhost</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+249
+250
+251</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 249</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_fix_byhost identifier id'>fix_byhost</span>
+  <span class='rubyid_@fix_byhost ivar id'>@fix_byhost</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="flush_system_cache-instance_method">
+  
+    - (<tt>Object</tt>) <strong>flush_system_cache</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute flush_system_cache</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 251</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_flush_system_cache identifier id'>flush_system_cache</span>
+  <span class='rubyid_@flush_system_cache ivar id'>@flush_system_cache</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="flush_user_cache-instance_method">
+  
+    - (<tt>Object</tt>) <strong>flush_user_cache</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute flush_user_cache</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+253
+254
+255</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 253</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_flush_user_cache identifier id'>flush_user_cache</span>
+  <span class='rubyid_@flush_user_cache ivar id'>@flush_user_cache</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="frequency-instance_method">
+  
+    - (<tt>Object</tt>) <strong>frequency</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>how often to run the policy on each computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 167</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_frequency identifier id'>frequency</span>
+  <span class='rubyid_@frequency ivar id'>@frequency</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>policy JSS id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 165</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_id identifier id'>id</span>
+  <span class='rubyid_@id ivar id'>@id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Object</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>in the jss? will be until deleted</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 387</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_in_jss identifier id'>in_jss</span>
+  <span class='rubyid_@in_jss ivar id'>@in_jss</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="install_cached_pkgs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>install_cached_pkgs</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute install_cached_pkgs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 252</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_install_cached_pkgs identifier id'>install_cached_pkgs</span>
+  <span class='rubyid_@install_cached_pkgs ivar id'>@install_cached_pkgs</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="management_account-instance_method">
+  
+    - (<tt>Object</tt>) <strong>management_account</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>things to do to the mgmt acct. A hash like this :action see
+MGMT_ACCOUNT_ACTIONS :managed_password</p>
+
+<p>:managed_password_md5  :managed_password_sha256  :managed_password_length 
+# for random generated pws</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 270</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_management_account identifier id'>management_account</span>
+  <span class='rubyid_@management_account ivar id'>@management_account</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>General This data comes from the :general hash in the raw JSON data and
+correspond to the general section of the Edit Policy windoe in  the JSS.
+They are general settings for this policy.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 164</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_@name ivar id'>@name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Object</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+384
+385
+386</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 384</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_need_to_update identifier id'>need_to_update</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="offline-instance_method">
+  
+    - (<tt>Object</tt>) <strong>offline</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>should be policy be available offline</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 169</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_offline identifier id'>offline</span>
+  <span class='rubyid_@offline ivar id'>@offline</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="open_firmware_efi_password-instance_method">
+  
+    - (<tt>Object</tt>) <strong>open_firmware_efi_password</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>an array of the OFpw (3 ways) and the OF mode {:of_password,
+:of_password_md, :of_password_sha256, :of_mode }</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+261
+262
+263</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 261</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_open_firmware_efi_password identifier id'>open_firmware_efi_password</span>
+  <span class='rubyid_@open_firmware_efi_password ivar id'>@open_firmware_efi_password</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="override_default_settings-instance_method">
+  
+    - (<tt>Object</tt>) <strong>override_default_settings</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a hash like</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+172
+173
+174</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 172</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_override_default_settings identifier id'>override_default_settings</span>
+  <span class='rubyid_@override_default_settings ivar id'>@override_default_settings</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="packages-instance_method">
+  
+    - (<tt>Object</tt>) <strong>packages</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pkgs-instance_method'>pkgs</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>packages an array of hashes for the pkgs handled by this policy each item
+looks like:</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">fut=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>,
+ :<span class="ruby-identifier">update_autorun=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>,
+ :<span class="ruby-identifier">feu=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>,
+ :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;rbgem-json-1.6.5-4.pkg&quot;</span>,
+ :<span class="ruby-identifier">id=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1073</span>,
+ :<span class="ruby-identifier">action=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Install&quot;</span>}
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+297
+298
+299</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 297</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_packages identifier id'>packages</span>
+  <span class='rubyid_@packages ivar id'>@packages</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="permissions_repair-instance_method">
+  
+    - (<tt>Object</tt>) <strong>permissions_repair</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute permissions_repair</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+247
+248
+249</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 247</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_permissions_repair identifier id'>permissions_repair</span>
+  <span class='rubyid_@permissions_repair ivar id'>@permissions_repair</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="printers-instance_method">
+  
+    - (<tt>Object</tt>) <strong>printers</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>printers - an array of hashes, one for each printer handled by this policy
+each item looks like: :name=&gt;“torlan”,
+:id=&gt;3, :action=&gt;“install”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+378
+379
+380</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 378</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_printers identifier id'>printers</span>
+  <span class='rubyid_@printers ivar id'>@printers</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reboot_options-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_options</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>reboot options A hash llike this</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">user_logged_in=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Do not restart&quot;</span>,
+ :<span class="ruby-identifier">minutes_until_reboot=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">5</span>,
+ :<span class="ruby-identifier">message=</span><span class="ruby-operator">&gt;</span>
+  <span class="ruby-string">&quot;This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.&quot;</span>,
+ :<span class="ruby-identifier">startup_disk=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Current Startup Disk&quot;</span>,
+ :<span class="ruby-identifier">specify_startup=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+ :<span class="ruby-identifier">no_user_logged_in=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Do not restart&quot;</span>}
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+350
+351
+352</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 350</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_reboot_options identifier id'>reboot_options</span>
+  <span class='rubyid_@reboot_options ivar id'>@reboot_options</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="recon-instance_method">
+  
+    - (<tt>Object</tt>) <strong>recon</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute recon</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 248</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_recon identifier id'>recon</span>
+  <span class='rubyid_@recon ivar id'>@recon</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reset_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reset_name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute reset_name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 250</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_reset_name identifier id'>reset_name</span>
+  <span class='rubyid_@reset_name ivar id'>@reset_name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the rest resource path for this policy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+381
+382
+383</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 381</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_rsrc identifier id'>rest_rsrc</span>
+  <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="scripts-instance_method">
+  
+    - (<tt>Object</tt>) <strong>scripts</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>scripts an array of hashes for each script run by this policy each item
+looks like:</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">parameter7=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter8=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter9=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter4=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter10=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter5=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">parameter11=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;chromegetter.sh&quot;</span>,
+:<span class="ruby-identifier">parameter6=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">id=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1428</span>,
+:<span class="ruby-identifier">priority=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;After&quot;</span>}
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+314
+315
+316</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 314</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_scripts identifier id'>scripts</span>
+  <span class='rubyid_@scripts ivar id'>@scripts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service-instance_method">
+  
+    - (<tt>Object</tt>) <strong>self_service</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>self service a hash  like this:</p>
+
+<pre class="ruby">:<span class="ruby-identifier">self_service_icon</span> =<span class="ruby-operator">&gt;</span> {:<span class="ruby-identifier">uri=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;https://casper.pixar.com:8443//iconservlet/?id=11&quot;</span>,:<span class="ruby-identifier">id=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">11</span>, :<span class="ruby-identifier">filename=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;DockSwapperIcon.png&quot;</span>}
+:<span class="ruby-identifier">use_for_self_service=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">install_button_text=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Install&quot;</span>,
+:<span class="ruby-identifier">self_service_description=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Descriptive text&quot;</span>,
+:<span class="ruby-identifier">force_users_to_view_description=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>
+</pre>
+
+<p>Note: we’ll add a convenience method below “self_service?”</p>
+
+<pre class="code ruby18"><code class="ruby18">which returns the :use_for_self_service key.</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+325
+326
+327</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 325</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self_service identifier id'>self_service</span>
+  <span class='rubyid_@self_service ivar id'>@self_service</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server_side_limitations-instance_method">
+  
+    - (<tt>Object</tt>) <strong>server_side_limitations</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This is a hash of two items, :activateion and :expiration, both DateTimes.
+the data comes from the API in the date_time_limitations hash of the
+general  section, but the UI shows them in the Server Side Limitations
+area. This attribute is just for convience and consistency, and just 
+refers to the data in their API locations</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 205</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_server_side_limitations identifier id'>server_side_limitations</span>
+  <span class='rubyid_@server_side_limitations ivar id'>@server_side_limitations</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="site-instance_method">
+  
+    - (<tt>Object</tt>) <strong>site</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a string with the site name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 171</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_site identifier id'>site</span>
+  <span class='rubyid_@site ivar id'>@site</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="target_drive-instance_method">
+  
+    - (<tt>Object</tt>) <strong>target_drive</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>which drive should the policy target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 168</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_target_drive identifier id'>target_drive</span>
+  <span class='rubyid_@target_drive ivar id'>@target_drive</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="trigger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>trigger</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This contains either EVENT or USER_INITIATED if EVENT, then one or more of
+the members @trigger_events is true.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 222</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_trigger identifier id'>trigger</span>
+  <span class='rubyid_@trigger ivar id'>@trigger</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="trigger_events-instance_method">
+  
+    - (<tt>Object</tt>) <strong>trigger_events</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This is a hash with the following keys. Each comes from the API as a key in
+the :general hash, but they make more sense separated out like this. These
+define when the policy should be triggered on applicable machines</p>
+
+<pre class="ruby">:<span class="ruby-identifier">trigger_startup</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_login</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_logout</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_checkin</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_network_state_changed</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_enrollment_complete</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Bool</span>
+:<span class="ruby-identifier">trigger_other</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">String</span> <span class="ruby-identifier">that</span> <span class="ruby-identifier">causes</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">custom</span> <span class="ruby-identifier">trigger</span>
+</pre>
+
+<p>To edit a value, call #set_trigger_event(type, new_val) where type is one
+of the keys in TRIGGER_EVENTS and new val is the new value (usually
+boolean)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 240</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_trigger_events identifier id'>trigger_events</span>
+  <span class='rubyid_@trigger_events ivar id'>@trigger_events</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user_may_defer-instance_method">
+  
+    - (<tt>Object</tt>) <strong>user_may_defer</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>user interaction These are extracted from the :user_interaction hash  in
+the JSON output, which looks like this: :allow_users_to_defer=&gt;false, :allow_deferral_until_utc=&gt;“”,
+:message_finish=&gt;“”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+335
+336
+337</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 335</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_user_may_defer identifier id'>user_may_defer</span>
+  <span class='rubyid_@user_may_defer ivar id'>@user_may_defer</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user_may_defer_until-instance_method">
+  
+    - (<tt>Object</tt>) <strong>user_may_defer_until</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+336
+337
+338</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 336</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_user_may_defer_until identifier id'>user_may_defer_until</span>
+  <span class='rubyid_@user_may_defer_until ivar id'>@user_may_defer_until</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user_message_finish-instance_method">
+  
+    - (<tt>Object</tt>) <strong>user_message_finish</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+338
+339
+340</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 338</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_user_message_finish identifier id'>user_message_finish</span>
+  <span class='rubyid_@user_message_finish ivar id'>@user_message_finish</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user_message_start-instance_method">
+  
+    - (<tt>Object</tt>) <strong>user_message_start</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 337</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_user_message_start identifier id'>user_message_start</span>
+  <span class='rubyid_@user_message_start ivar id'>@user_message_start</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="verify_startup_disk-instance_method">
+  
+    - (<tt>Object</tt>) <strong>verify_startup_disk</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>client machine maintenence  These are the computer maint. tasks that might
+be performed by this policy All are boolean</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 246</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_verify_startup_disk identifier id'>verify_startup_disk</span>
+  <span class='rubyid_@verify_startup_disk ivar id'>@verify_startup_disk</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="delete_file?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>delete_file?</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='delete_path?-instance_method'>delete_path?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Should the searched path be deleted if found?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+552</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 552</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_file? fid id'>delete_file?</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:delete_file</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="directory_binding_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>directory_binding_ids</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+590</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 590</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_directory_binding_ids identifier id'>directory_binding_ids</span><span class='semicolon token'>;</span> <span class='rubyid_@directory_bindings ivar id'>@directory_bindings</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="directory_binding_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>directory_binding_names</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+591</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 591</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_directory_binding_names identifier id'>directory_binding_names</span><span class='semicolon token'>;</span> <span class='rubyid_@directory_bindings ivar id'>@directory_bindings</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dock_item_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dock_item_ids</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+593</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 593</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dock_item_ids identifier id'>dock_item_ids</span><span class='semicolon token'>;</span> <span class='rubyid_@dock_items ivar id'>@dock_items</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dock_item_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dock_item_names</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+594</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 594</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dock_item_names identifier id'>dock_item_names</span><span class='semicolon token'>;</span> <span class='rubyid_@dock_items ivar id'>@dock_items</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="kill_process?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>kill_process?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Should the process be killed if found.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+538</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 538</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_kill_process? fid id'>kill_process?</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:kill_process</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="locate_file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>locate_file</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The term to seach for using the locate command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+574</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 574</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_locate_file identifier id'>locate_file</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:locate_file</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="locate_file=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>locate_file=</strong>(term) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the term to seach for using the locate command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+577
+578
+579
+580
+581</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 577</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_locate_file= identifier id'>locate_file=</span> <span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Term to locate must be a String&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_term identifier id'>term</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:locate_file</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_term identifier id'>term</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="package_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>package_ids</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+584</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 584</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_package_ids identifier id'>package_ids</span><span class='semicolon token'>;</span> <span class='rubyid_@packages ivar id'>@packages</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="package_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>package_names</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+585</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 585</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_package_names identifier id'>package_names</span><span class='semicolon token'>;</span> <span class='rubyid_@packages ivar id'>@packages</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="printer_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>printer_ids</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+596</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 596</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_printer_ids identifier id'>printer_ids</span><span class='semicolon token'>;</span> <span class='rubyid_@printers ivar id'>@printers</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="printer_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>printer_names</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+597</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 597</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_printer_names identifier id'>printer_names</span><span class='semicolon token'>;</span> <span class='rubyid_@printers ivar id'>@printers</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rest_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rest_xml</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Private Instance Methods</p>
+
+<p>private</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 606</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
+  <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_APIConnection constant id'>APIConnection</span><span class='colon2 op'>::</span><span class='rubyid_XML_HEADER constant id'>XML_HEADER</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  
+  <span class='rubyid_general identifier id'>general</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='string val'>&quot;general&quot;</span>
+  <span class='rubyid_general identifier id'>general</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span>
+  <span class='rubyid_general identifier id'>general</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'enabled'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@enabled ivar id'>@enabled</span>
+  <span class='rubyid_general identifier id'>general</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'category'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@category ivar id'>@category</span>
+  <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_hash_to_rexml_array identifier id'>hash_to_rexml_array</span><span class='lparen token'>(</span><span class='rubyid_@trigger_events ivar id'>@trigger_events</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_general identifier id'>general</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_t identifier id'>t</span><span class='rbrace token'>}</span>
+  
+  <span class='rubyid_obj identifier id'>obj</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_@scope ivar id'>@scope</span><span class='dot token'>.</span><span class='rubyid_scope_xml identifier id'>scope_xml</span>
+  
+  <span class='rubyid_files_processes identifier id'>files_processes</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='string val'>&quot;files_processes&quot;</span>
+  <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_hash_to_rexml_array identifier id'>hash_to_rexml_array</span><span class='lparen token'>(</span><span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_files_processes identifier id'>files_processes</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_f identifier id'>f</span><span class='rbrace token'>}</span>
+  
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_command-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run_command</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='command_to_run-instance_method'>command_to_run</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The unix shell command to run on ths client.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+515</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 515</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_command identifier id'>run_command</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:run_command</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_command=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run_command=</strong>(command) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the unix shell command to run on the client.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+519
+520
+521
+522
+523</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 519</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_command= identifier id'>run_command=</span> <span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Command to run must be a String&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_command identifier id'>command</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:run_command</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_command identifier id'>command</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="script_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>script_ids</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+587</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 587</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_script_ids identifier id'>script_ids</span><span class='semicolon token'>;</span> <span class='rubyid_@scripts ivar id'>@scripts</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="script_names-instance_method">
+  
+    - (<tt>Object</tt>) <strong>script_names</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+588</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 588</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_script_names identifier id'>script_names</span><span class='semicolon token'>;</span> <span class='rubyid_@scripts ivar id'>@scripts</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_by_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>search_by_path</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The path to search for, Pathname</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+549</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 549</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_by_path identifier id'>search_by_path</span> <span class='semicolon token'>;</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:search_by_path</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_by_path=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>search_by_path=</strong>(path, delete = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the path to search for, a String or Pathname, and whether or not to
+delete it if found.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+556
+557
+558
+559
+560
+561</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 556</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_by_path= identifier id'>search_by_path=</span> <span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_delete identifier id'>delete</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Path to search for must be a String or a Pathname&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Pathname constant id'>Pathname</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:search_by_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:delete_file</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_delete identifier id'>delete</span> <span class='integer val'>? </span><span class='rubyid_true true kw'>true</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_for_process-instance_method">
+  
+    - (<tt>Object</tt>) <strong>search_for_process</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The process name to search for</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+535</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 535</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_for_process identifier id'>search_for_process</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:search_for_process</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_for_process=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>search_for_process=</strong>(proc, kill = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the process name to search for, and should it be killed if found.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+541
+542
+543
+544
+545
+546</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 541</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_for_process= identifier id'>search_for_process=</span> <span class='lparen token'>(</span><span class='rubyid_proc identifier id'>proc</span><span class='comma token'>,</span> <span class='rubyid_kill identifier id'>kill</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Process to search for must be a String&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_proc identifier id'>proc</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:search_for_process</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:kill_process</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_kill identifier id'>kill</span> <span class='integer val'>? </span><span class='rubyid_true true kw'>true</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>self_service?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+599</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 599</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self_service? fid id'>self_service?</span><span class='semicolon token'>;</span> <span class='rubyid_@self_service ivar id'>@self_service</span><span class='lbrack token'>[</span><span class='symbol val'>:use_for_self_service</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_trigger_event-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_trigger_event</strong>(type, new_val) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Change a trigger event</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 503</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_trigger_event identifier id'>set_trigger_event</span> <span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Trigger type must be one of #{TRIGGER_EVENTS.keys.join(', ')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_TRIGGER_EVENTS constant id'>TRIGGER_EVENTS</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_type identifier id'>type</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='symbol val'>:custom</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Custom triggers must be Strings&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_new_val identifier id'>new_val</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_String constant id'>String</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Non-custom triggers must be true or false&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_TRUE_FALSE constant id'>TRUE_FALSE</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_new_val identifier id'>new_val</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@trigger_events ivar id'>@trigger_events</span><span class='lbrack token'>[</span><span class='rubyid_TRIGGER_EVENTS constant id'>TRIGGER_EVENTS</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_new_val identifier id'>new_val</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="spotlight_search-instance_method">
+  
+    - (<tt>Object</tt>) <strong>spotlight_search</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The term to seach for using spotlight</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+564</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 564</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_spotlight_search identifier id'>spotlight_search</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:spotlight_search</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="spotlight_search=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>spotlight_search=</strong>(term) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the term to seach for using spotlight</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+567
+568
+569
+570
+571</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 567</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_spotlight_search= identifier id'>spotlight_search=</span> <span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Spotlight search term must be a String&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_term identifier id'>term</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:spotlight_search</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_term identifier id'>term</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_locate_database=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>update_locate_database=</strong>(tf) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set whether or not to update the database used by the locate command.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+529
+530
+531
+532</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 529</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_locate_database= identifier id'>update_locate_database=</span> <span class='lparen token'>(</span><span class='rubyid_tf identifier id'>tf</span><span class='rparen token'>)</span>
+  <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:update_locate_database</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_tf identifier id'>tf</span> <span class='integer val'>? </span><span class='rubyid_true true kw'>true</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_locate_database?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>update_locate_database?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Should we update the databse used by the locate command?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+526</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 526</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_locate_database? fid id'>update_locate_database?</span> <span class='semicolon token'>;</span> <span class='rubyid_@files_processes ivar id'>@files_processes</span><span class='lbrack token'>[</span><span class='symbol val'>:update_locate_database</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:11 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::PeripheralType
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/PeripheralType.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">PeripheralType</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::PeripheralType
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::PeripheralType</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jss/api_object/peripheral_type.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A peripheral_type in the JSS</p>
+
+<p>See also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;peripheraltypes&quot;</span>
+</pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:peripheral_types</span>
+</pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It’s also used in various
+error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:peripheral_type</span>
+</pre></dd>
+      
+        <dt id="VALID_DATA_KEYS-constant" class="">VALID_DATA_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>these keys, as well as :id and :name,  are present in valid API JSON data
+for this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="FIELD_TYPES-constant" class="">FIELD_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>field types can be one of these, either String or Symbol</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='symbol val'>:menu</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">Creatable::CREATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields-instance_method" title="#fields (instance method)">- (Object) <strong>fields</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>:fields - an Array of (mostly) Hashes  The field definitions for this type
+of periph, in the order in which the fields appear in the Periph UI The
+first element of the hash is always nil, so that the one-based :order of
+the field matches it’s Array index.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#append_field-instance_method" title="#append_field (instance method)">- (Object) <strong>append_field</strong>(field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the end of the field list The arg is a Hash of the
+details of the field being added.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_field-instance_method" title="#delete_field (instance method)">- (Object) <strong>delete_field</strong>(order) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove a field from the array of fields.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#field_ok%3F-instance_method" title="#field_ok? (instance method)">- (Boolean) <strong>field_ok?</strong>(field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is a Hash of field data OK for use in the JSS? Return true or raise an
+exception.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (PeripheralType) <strong>initialize</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_field-instance_method" title="#insert_field (instance method)">- (Object) <strong>insert_field</strong>(at, field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the middle of the fields list The args are the field
+number before which to insert the new one, and then the hash of field data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#order_fields-instance_method" title="#order_fields (instance method)">- (Object) <strong>order_fields</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Close up gaps in the field order, and make each field’s :order match
+it’s array index.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prepend_field-instance_method" title="#prepend_field (instance method)">- (Object) <strong>prepend_field</strong>(field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the beginning of the field list The arg is a Hash of the
+details of the field being added.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_xml-instance_method" title="#rest_xml (instance method)">- (Object) <strong>rest_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_field-instance_method" title="#set_field (instance method)">- (Object) <strong>set_field</strong>(order, field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the details of one specific field The args are the fild number
+(:order) of the field being changed.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">#create</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::PeripheralType (class)">PeripheralType</a></span></tt>) <strong>initialize</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 94</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_super super kw'>super</span>
+  
+  <span class='rubyid_@fields ivar id'>@fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>  <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_f identifier id'>f</span><span class='lbrack token'>[</span><span class='symbol val'>:order</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_f identifier id'>f</span> <span class='rbrace token'>}</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="fields=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="fields-instance_method">
+  
+    - (<tt>Object</tt>) <strong>fields</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>:fields - an Array of (mostly) Hashes  The field definitions for this type
+of periph, in the order in which the fields appear in the Periph UI The
+first element of the hash is always nil, so that the one-based :order of
+the field matches it’s Array index.</p>
+
+<p>Each hash has these keys about the field it describes</p>
+
+<pre class="code ruby18"><code class="ruby18">:name - String, the name of the field
+:type - String, the kind of data to be stored in the field, one of &quot;text&quot; or &quot;menu&quot;
+:choices - Array of Strings - if type is &quot;menu&quot; these are the menu choices.
+:order - the one-based number of this field amid it's peers.</code></pre>
+
+<p>Fields come from the API as an array of hashes, with those keys. Since
+Arrays are zero-based, and the field order is one-based, keeping  a nil at
+the front of the Array will keep the order number in sync with the Array
+index of each field.This is done automatically by the field-editing 
+methods. #fields=, #set_field, #append_field, #prepend_field, #insert_field
+and #delete_field.</p>
+
+<p>So the Array from the API comes like this: [ :order=&gt;1, :choices=&gt;[], :name=&gt;“make”,</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">2</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;model&quot;</span>},
+{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">3</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;family&quot;</span>},
+{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">4</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;serialnum&quot;</span>} ]
+</pre>
+
+<p>But will be stored in Ruby like this: [ nil,</p>
+
+<pre class="ruby">{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;make&quot;</span>},
+{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">2</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;model&quot;</span>},
+{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">3</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;family&quot;</span>},
+{:<span class="ruby-identifier">type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;text&quot;</span>, :<span class="ruby-identifier">order=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">4</span>, :<span class="ruby-identifier">choices=</span><span class="ruby-operator">&gt;</span>[], :<span class="ruby-identifier">name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;serialnum&quot;</span>} ]
+</pre>
+
+<p>therefore @<a href="http://2">fields</a> will get you the second field,
+which has :order =&gt; 2.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 83</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_fields identifier id'>fields</span>
+  <span class='rubyid_@fields ivar id'>@fields</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="append_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>append_field</strong>(field) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Add a new field to the end of the field list The arg is a Hash of the
+details of the field being added</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 135</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_append_field identifier id'>append_field</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_ok? fid id'>field_ok?</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_@fields ivar id'>@fields</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_order_fields identifier id'>order_fields</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_field</strong>(order) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove a field from the array of fields. The arg is the field
+<strong>order</strong>, as it comes from the API,  which will match the
+array index.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 167</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_field identifier id'>delete_field</span><span class='lparen token'>(</span><span class='rubyid_order identifier id'>order</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_order identifier id'>order</span><span class='rbrack token'>]</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Fields can't be empty&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+    <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_delete_at identifier id'>delete_at</span> <span class='rubyid_index identifier id'>index</span>
+    <span class='rubyid_order_fields identifier id'>order_fields</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="field_ok?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>field_ok?</strong>(field) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is a Hash of field data OK for use in the JSS? Return true or raise an
+exception</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 186</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_field_ok? fid id'>field_ok?</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Field elements must be hashes with :name, :type, and possibly :choices&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Fields require names&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Fields :type must be one of: :#{FIELD_TYPES.join(', :')}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_FIELD_TYPES constant id'>FIELD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span> <span class='eq op'>==</span> <span class='symbol val'>:menu</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:choices</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span> <span class='rubyid_and and kw'>and</span>  <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:choices</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_String constant id'>String</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Choices for menu fields must be an Array of Strings&quot;</span>
+    <span class='rubyid_end end kw'>end</span> <span class='comment val'># unless</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='symbol val'>:choices</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># if type -- menu</span>
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>insert_field</strong>(at, field) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Add a new field to the middle of the fields list The args are the field
+number before which to insert the new one, and then the hash of field data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 156</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_insert_field identifier id'>insert_field</span><span class='lparen token'>(</span><span class='rubyid_at identifier id'>at</span><span class='comma token'>,</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_ok? fid id'>field_ok?</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_order identifier id'>order</span> <span class='integer val'>-1</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_order_fields identifier id'>order_fields</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="order_fields-instance_method">
+  
+    - (<tt>Object</tt>) <strong>order_fields</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Close up gaps in the field order, and make each field’s :order match
+it’s array index</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+204
+205
+206
+207
+208</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 204</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_order_fields identifier id'>order_fields</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_compact! fid id'>compact!</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_each_index identifier id'>each_index</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:order</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_i identifier id'>i</span><span class='plus op'>+</span><span class='integer val'>1</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_unshift identifier id'>unshift</span> <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prepend_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>prepend_field</strong>(field) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Add a new field to the beginning of the field list The arg is a Hash of the
+details of the field being added</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 145</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_prepend_field identifier id'>prepend_field</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_ok? fid id'>field_ok?</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_unshift identifier id'>unshift</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_order_fields identifier id'>order_fields</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rest_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rest_xml</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 214</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
+  <span class='rubyid_order_fields identifier id'>order_fields</span>
+  <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_APIConnection constant id'>APIConnection</span><span class='colon2 op'>::</span><span class='rubyid_XML_HEADER constant id'>XML_HEADER</span>
+  <span class='rubyid_pkg identifier id'>pkg</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_pkg identifier id'>pkg</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'id'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@id ivar id'>@id</span>
+  <span class='rubyid_pkg identifier id'>pkg</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span>
+  <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_pkg identifier id'>pkg</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='string val'>'fields'</span>
+
+  <span class='rubyid_flds identifier id'>flds</span> <span class='assign token'>=</span>  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+  <span class='rubyid_flds identifier id'>flds</span><span class='dot token'>.</span><span class='rubyid_each_index identifier id'>each_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+    <span class='rubyid_field identifier id'>field</span> <span class='assign token'>=</span> <span class='rubyid_fields identifier id'>fields</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='string val'>'field'</span>
+    <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'order'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span><span class='rubyid_flds identifier id'>flds</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:order</span><span class='rbrack token'>]</span>
+    <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_flds identifier id'>flds</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'type'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_flds identifier id'>flds</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_choices identifier id'>choices</span> <span class='assign token'>=</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'choices'</span><span class='rparen token'>)</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_flds identifier id'>flds</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:choices</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_flds identifier id'>flds</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:choices</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_choices identifier id'>choices</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'choice'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_c identifier id'>c</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each index do i</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_field</strong>(order, field) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Change the details of one specific field The args are the fild number
+(:order) of the field being changed. and the new field hash to put there.
+The number must already exist. Otherwise use #append_field, #prepend_field,
+or #insert_field</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 125</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_field identifier id'>set_field</span><span class='lparen token'>(</span><span class='rubyid_order identifier id'>order</span><span class='comma token'>,</span> <span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No field with number '#{order}'. Use #append_field, #prepend_field, or #insert_field&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_order identifier id'>order</span><span class='rbrack token'>]</span>
+  <span class='rubyid_field_ok? fid id'>field_ok?</span> <span class='rubyid_field identifier id'>field</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_order identifier id'>order</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_field identifier id'>field</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:08 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

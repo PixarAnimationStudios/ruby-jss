@@ -1,0 +1,1624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::APIConnection
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/APIConnection.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">APIConnection</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::APIConnection
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">JSS::APIConnection</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">Singleton</dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jss/api.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>An API connection to the JSS.</p>
+
+<p>This is a singleton class, only one can exist at a time. Its one instance
+is created automatically when the module loads, but it isn’t connected to
+anything.</p>
+
+<p>Use it via the JSS::API constant to call the #connect method, and the
+get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
+
+<p>To access the underlying RestClient::Resource instance, use JSS::API.cnx</p>
+
+<p>See Also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC-constant" class="">RSRC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base API path in the jss URL</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;JSSResource&quot;</span>
+</pre></dd>
+      
+        <dt id="HTTP_PORT-constant" class="">HTTP_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Default port</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>9006</span>
+</pre></dd>
+      
+        <dt id="SSL_PORT-constant" class="">SSL_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The SSL port</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>8443</span>
+</pre></dd>
+      
+        <dt id="XML_HEADER-constant" class="">XML_HEADER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The top line of an XML doc for submitting data via API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>'&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;'</span>
+</pre></dd>
+      
+        <dt id="DFT_OPEN_TIMEOUT-constant" class="">DFT_OPEN_TIMEOUT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default timeouts in seconds</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>60</span>
+</pre></dd>
+      
+        <dt id="DFT_TIMEOUT-constant" class="">DFT_TIMEOUT =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>60</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx-instance_method" title="#cnx (instance method)">- (Object) <strong>cnx</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>RestClient::Resource - the underlying connection resource.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connected-instance_method" title="#connected (instance method)">- (Object) <strong>connected</strong> </a>
+    
+
+    
+      (also: #connected?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - are we connected right now?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_user-instance_method" title="#jss_user (instance method)">- (Object) <strong>jss_user</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the username who’s connected to the JSS API.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server-instance_method" title="#server (instance method)">- (Object) <strong>server</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>JSS::Server - the details of the JSS to which we’re connected.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-instance_method" title="#connect (instance method)">- (true) <strong>connect</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Connect to the JSS API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_rsrc-instance_method" title="#delete_rsrc (instance method)">- (Object) <strong>delete_rsrc</strong>(rsrc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete a resource from the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disconnect-instance_method" title="#disconnect (instance method)">- (Object) <strong>disconnect</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>With a REST connection, there isn’t any real “connection” to
+disconnect from, just the saved authentication credentials.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_rsrc-instance_method" title="#get_rsrc (instance method)">- (Hash, String) <strong>get_rsrc</strong>(rsrc, format = :json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get an arbitrary JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (APIConnection) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>To connect, use JSS::APIConnection.instance.connect or a shortcut,
+JSS::API.connect.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_timeout%3D-instance_method" title="#open_timeout= (instance method)">- (Object) <strong>open_timeout=</strong>(timeout) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset the open-connection timeout for the rest connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_rsrc-instance_method" title="#post_rsrc (instance method)">- (String) <strong>post_rsrc</strong>(rsrc, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#put_rsrc-instance_method" title="#put_rsrc (instance method)">- (String) <strong>put_rsrc</strong>(rsrc, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change an existing JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#timeout%3D-instance_method" title="#timeout= (instance method)">- (Object) <strong>timeout=</strong>(timeout) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset the response timeout for the rest connection.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::APIConnection (class)">APIConnection</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>To connect, use JSS::APIConnection.instance.connect or a shortcut,
+JSS::API.connect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 83</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='rubyid_@connected ivar id'>@connected</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cnx-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cnx</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>RestClient::Resource - the underlying connection resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 66</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_cnx identifier id'>cnx</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connected-instance_method">
+  
+    - (<tt>Object</tt>) <strong>connected</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='connected?-instance_method'>connected?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - are we connected right now?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 69</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_connected identifier id'>connected</span>
+  <span class='rubyid_@connected ivar id'>@connected</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="jss_user-instance_method">
+  
+    - (<tt>Object</tt>) <strong>jss_user</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the username who’s connected to the JSS API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_jss_user identifier id'>jss_user</span>
+  <span class='rubyid_@jss_user ivar id'>@jss_user</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>server</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>JSS::Server - the details of the JSS to which we’re connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 73</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_server identifier id'>server</span>
+  <span class='rubyid_@server ivar id'>@server</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="connect-instance_method">
+  
+    - (<tt>true</tt>) <strong>connect</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Connect to the JSS API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the keyed arguments for connection. Arguments must include</p>
+<ul><li>
+<p>:server =&gt; the hostname of the JSS API server</p>
+</li><li>
+<p>:user =&gt; a JSS user who as API privs</p>
+</li><li>
+<p>:pw =&gt; the password for that user</p>
+</li></ul>
+
+<p>Other args available:</p>
+<ul><li>
+<p>:port =&gt; the port number to connect with, defaults to 8443</p>
+</li><li>
+<p>:open_timeout =&gt; the number of seconds to wait for an initial response,
+defaults to 60</p>
+</li><li>
+<p>:timeout =&gt; the number of seconds before an API call times out, defaults
+to 60</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>true</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 104</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_connect identifier id'>connect</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :user or :pw for API connection&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :server&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_SSL_PORT constant id'>SSL_PORT</span>
+  
+  <span class='rubyid_ssl identifier id'>ssl</span> <span class='assign token'>=</span> <span class='rubyid_SSL_PORT constant id'>SSL_PORT</span> <span class='eq op'>==</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='integer val'>? </span><span class='string val'>&quot;s&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+  <span class='rubyid_@rest_url ivar id'>@rest_url</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='colon2 op'>::</span><span class='rubyid_encode identifier id'>encode</span> <span class='dstring node'>&quot;http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}&quot;</span>
+  
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:password</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_DFT_TIMEOUT constant id'>DFT_TIMEOUT</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_DFT_OPEN_TIMEOUT constant id'>DFT_OPEN_TIMEOUT</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span> <span class='assign token'>=</span> <span class='rubyid_RestClient constant id'>RestClient</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{@rest_url}&quot;</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  
+  <span class='comment val'>### TO DO make sure we have at least read-access?</span>
+  <span class='rubyid_@jss_user ivar id'>@jss_user</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@connected ivar id'>@connected</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  
+  <span class='rubyid_@server ivar id'>@server</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Server constant id'>Server</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@server ivar id'>@server</span><span class='dot token'>.</span><span class='rubyid_version identifier id'>version</span> <span class='lt op'>&lt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_jss_version identifier id'>parse_jss_version</span><span class='lparen token'>(</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MINIMUM_SERVER_VERSION constant id'>MINIMUM_SERVER_VERSION</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher.&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_rsrc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_rsrc</strong>(rsrc) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete a resource from the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to create, the URL part after ‘JSSResource/’</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">JSS::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 228</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_rsrc identifier id'>delete_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :rsrc&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_rsrc identifier id'>rsrc</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  
+  <span class='comment val'>### delete the resource</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disconnect-instance_method">
+  
+    - (<tt>Object</tt>) <strong>disconnect</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>With a REST connection, there isn’t any real “connection” to
+disconnect from, just the saved authentication credentials. So to
+disconnect, just  unset all our credentials.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 157</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_disconnect identifier id'>disconnect</span>
+  <span class='rubyid_@jss_user ivar id'>@jss_user</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@rest_url ivar id'>@rest_url</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@connected ivar id'>@connected</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>get_rsrc</strong>(rsrc, format = :json) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get an arbitrary JSS resource</p>
+
+<p>The first argument is the resource to get (the part of the API url  after
+the ‘JSSResource/’ )</p>
+
+<p>By default we get the data in JSON, and parse it  into a ruby data
+structure (arrays, hashes, strings, etc) with symbolized Hash keys.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to get (the part of the API url after the ‘JSSResource/’ )</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:json</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either ;json or :xml If the second argument is :xml, the XML data is
+returned as a String.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of the get</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">JSS::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183
+184
+185
+186
+187</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 181</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_rsrc identifier id'>get_rsrc</span> <span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span> <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='symbol val'>:json</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  <span class='rubyid_rsrc identifier id'>rsrc</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='colon2 op'>::</span><span class='rubyid_encode identifier id'>encode</span> <span class='rubyid_rsrc identifier id'>rsrc</span>
+  <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:accept</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='symbol val'>:symbolize_names</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_format identifier id'>format</span> <span class='eq op'>==</span> <span class='symbol val'>:json</span>
+  <span class='rubyid_data identifier id'>data</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="open_timeout=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>open_timeout=</strong>(timeout) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset the open-connection timeout for the rest connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>timeout</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new timeout in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 147</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_open_timeout= identifier id'>open_timeout=</span> <span class='lparen token'>(</span><span class='rubyid_timeout identifier id'>timeout</span><span class='rparen token'>)</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_timeout identifier id'>timeout</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>post_rsrc</strong>(rsrc, xml) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new JSS resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being created, the URL part after ‘JSSResource/’</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the new object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">JSS::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 213</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_post_rsrc identifier id'>post_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  
+  <span class='comment val'>### convert CRs &amp; to &amp;#13;</span>
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/\r/</span><span class='comma token'>,</span> <span class='string val'>'&amp;#13;'</span><span class='rparen token'>)</span>
+  
+  <span class='comment val'>### send the data</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_post identifier id'>post</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/xml'</span><span class='comma token'>,</span> <span class='symbol val'>:accept</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:json</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="put_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>put_rsrc</strong>(rsrc, xml) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Change an existing JSS resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being changed, the URL part after ‘JSSResource/’</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the changes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">JSS::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198
+199
+200
+201
+202
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 196</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_put_rsrc identifier id'>put_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  
+  <span class='comment val'>### convert CRs &amp; to &amp;#13;</span>
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/\r/</span><span class='comma token'>,</span> <span class='string val'>'&amp;#13;'</span><span class='rparen token'>)</span>
+  
+  <span class='comment val'>### send the data</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_put identifier id'>put</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/xml'</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="timeout=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>timeout=</strong>(timeout) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset the response timeout for the rest connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>timeout</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new timeout in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 138</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_timeout= identifier id'>timeout=</span> <span class='lparen token'>(</span><span class='rubyid_timeout identifier id'>timeout</span><span class='rparen token'>)</span>
+  <span class='rubyid_@cnx ivar id'>@cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_timeout identifier id'>timeout</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:10:58 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

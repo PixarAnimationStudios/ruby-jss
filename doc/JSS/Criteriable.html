@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: JSS::Criteriable
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/Criteriable.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Criteriable</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: JSS::Criteriable
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss.rb<span class="defines">,<br />
+  lib/jss/api_object/criteriable.rb,<br /> lib/jss/api_object/criteriable/criteria.rb,<br /> lib/jss/api_object/criteriable/criterion.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A mix-in module that allows objects to handle standardized Criteria.</p>
+
+<p>Some objects in the JSS, such as Advanced Searches and Smart Groups,
+include a set of Criteria, conditions which, when met, signify inclusion in
+some result set.</p>
+
+<p>When a JSS::APIObject subclass includes this module, that subclass will
+have a :criteria attribute, which holds a JSS::Criteriable::Criteria
+instance, which itself is a container for JSS::Criteriable::Criterion 
+instances.</p>
+
+<p>The including subclass also gains some instance methods:</p>
+<ul><li>
+<p>#parse_critera - sets the :criteria attribute during initialization</p>
+</li><li>
+<p>#criteria= - allows the wholesale replacement of the criteria</p>
+</li><li>
+<p>#need_to_update - allows the JSS::Criteriable::Criteria instance to  inform
+the subclass instance that it has changed and needs an #update</p>
+</li></ul>
+
+<p>JSS::Criteriable::Criteria provides methods for dealing with the 
+individual JSS::Criteriable::Criterion instances it contains, and can be
+accessed via the :criteria attribute.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span>, <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="CRITERIABLE-constant" class="">CRITERIABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_true true kw'>true</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#criteria-instance_method" title="#criteria (instance method)">- (Object) <strong>criteria</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>JSS::Criteriable::Criteria - the criteria for the instance into which
+we’re mixed.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Object) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allow our Criteria to tell us when there’s been a change that needs to be
+updated.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_criteria-instance_method" title="#parse_criteria (instance method)">- (Object) <strong>parse_criteria</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>During initialization, convert the @<a
+href="http://:criteria">init_data</a> Hash into a
+JSS::Criteriable::Criteria instance stored in @criteria.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="criteria=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="criteria-instance_method">
+  
+    - (<tt>Object</tt>) <strong>criteria</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>JSS::Criteriable::Criteria - the criteria for the instance into which
+we’re mixed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_criteria identifier id'>criteria</span>
+  <span class='rubyid_@criteria ivar id'>@criteria</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="need_to_update-instance_method">
+  
+    - (<tt>Object</tt>) <strong>need_to_update</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allow our Criteria to tell us when there’s been a change that needs to be
+updated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_need_to_update identifier id'>need_to_update</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_criteria-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_criteria</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>During initialization, convert the @<a
+href="http://:criteria">init_data</a> Hash into a
+JSS::Criteriable::Criteria instance stored in @criteria</p>
+
+<p>Classes mixing in this module must call this in #initialize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 75</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_criteria identifier id'>parse_criteria</span>
+  <span class='rubyid_@criteria ivar id'>@criteria</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span>
+    <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criteria constant id'>Criteria</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_c identifier id'>c</span><span class='rbrace token'>}</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@criteria ivar id'>@criteria</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:10:56 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

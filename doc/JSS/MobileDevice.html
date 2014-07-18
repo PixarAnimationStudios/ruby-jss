@@ -1,0 +1,4484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::MobileDevice
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/MobileDevice.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (M)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">MobileDevice</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::MobileDevice
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::MobileDevice</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span>, <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>, <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jss/api_object/mobile_device.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This class represents Mobile Devices stored in the JSS.</p>
+
+<p>See JSS::APIObject for general info on instantiating.</p>
+
+<p>The API returns MobileDevice data in Subsets.  The items in the General,
+Location and Purchasing subsets are stored in direct attributes of the
+instance.  In otherwords there are no @general, @purchasing or @location
+attributes matching the :general and :location hashes that come with the
+API JSON data, but rather the items in those JSON hashes are attributes of
+the MobileDevice instance.</p>
+
+<p>The other subsets each are stored in an attribute as hashes, as they come
+in from the JSON data, and are currently not editable via this class.</p>
+
+<p>Those are:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='symbol val'>:applications</span><span class='comma token'>,</span>
+<span class='symbol val'>:certificates</span><span class='comma token'>,</span>
+<span class='symbol val'>:configuration_profiles</span><span class='comma token'>,</span>
+<span class='symbol val'>:extension_attributes</span><span class='comma token'>,</span>
+<span class='symbol val'>:mobile_device_groups</span><span class='comma token'>,</span>
+<span class='symbol val'>:network</span><span class='comma token'>,</span>
+<span class='symbol val'>:provisioning_profiles</span><span class='comma token'>,</span>
+<span class='symbol val'>:security</span>
+</code></pre>
+
+<p>subset :applications - An Array (of hashes?)</p>
+
+<p>subset :certificates - an Array oh Hashes with these keys</p>
+
+<pre class="ruby">:<span class="ruby-identifier">identity</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Boolean</span>
+:<span class="ruby-identifier">common_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">String</span>, <span class="ruby-identifier">possibly</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">udid</span>
+</pre>
+
+<p>subset :configuration_profiles - An Array of Hashes, one for each
+ConfigurationProfile on the device The Hash keys are:</p>
+
+<pre class="ruby">:<span class="ruby-identifier">identifier</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">unique</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">often</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">sams</span> <span class="ruby-identifier">as</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">uuid</span>
+:<span class="ruby-identifier">display_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">its</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">JSS</span>
+:<span class="ruby-identifier">uuid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">ConfigurationProfile</span> <span class="ruby-identifier">uuid</span>
+:<span class="ruby-identifier">version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">a</span> <span class="ruby-constant">String</span>
+</pre>
+
+<p>subset :extension_attributes - An Array of Hashes, one for each
+ComputerExtentionAttribute The Hash keys are:</p>
+
+<pre class="ruby">:<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">ExtAttrib</span> <span class="ruby-identifier">id</span>
+:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">ExtAttrib</span> <span class="ruby-identifier">name</span>
+:<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">data</span> <span class="ruby-identifier">type</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">ExtAttrib</span> <span class="ruby-identifier">value</span>
+:<span class="ruby-identifier">value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword">for</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">ExtAttrib</span> <span class="ruby-identifier">on</span> <span class="ruby-identifier">this</span> <span class="ruby-identifier">computer</span> <span class="ruby-identifier">as</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">last</span> <span class="ruby-identifier">report</span>.
+</pre>
+
+<p>subset :mobile_device_groups - An Array of Hashes, one for each group to
+which the device belongs The Hash keys are:</p>
+
+<pre class="ruby">:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">group</span> <span class="ruby-identifier">name</span>
+:<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">group</span> <span class="ruby-identifier">id</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">JSS</span>
+</pre>
+
+<p>subset :network - A Hash, with these keys The Hash keys are:</p>
+
+<pre class="ruby">:<span class="ruby-identifier">voice_roaming_enabled=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Disabled&quot;</span>,
+:<span class="ruby-identifier">current_mobile_network_code=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nnn&quot;</span>,
+:<span class="ruby-identifier">imei=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nn nnnnnn nnnnnn n&quot;</span>,
+:<span class="ruby-identifier">home_mobile_country_code=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nnn&quot;</span>,
+:<span class="ruby-identifier">iccid=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nnnn nnnn nnnn nnnn nnnn&quot;</span>,
+:<span class="ruby-identifier">home_mobile_network_code=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nnn&quot;</span>,
+:<span class="ruby-identifier">current_carrier_network=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>,
+:<span class="ruby-identifier">data_roaming_enabled=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>,
+:<span class="ruby-identifier">home_carrier_network=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;AT&amp;T&quot;</span>,
+:<span class="ruby-identifier">carrier_settings_version=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;16.0&quot;</span>,
+:<span class="ruby-identifier">roaming=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>,
+:<span class="ruby-identifier">cellular_technology=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;GSM&quot;</span>,
+:<span class="ruby-identifier">current_mobile_country_code=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;nnn&quot;</span>
+</pre>
+
+<p>subset :provisioning_profiles - An Array (of of Hashes?)</p>
+
+<p>subset :security - A Hash with these keys, all of which are Boolean</p>
+
+<pre class="ruby">:<span class="ruby-identifier">passcode_present=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">passcode_compliant=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">passcode_compliant_with_profile=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">data_protection=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">block_level_encryption_capable=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>,
+:<span class="ruby-identifier">file_level_encryption_capable=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>
+</pre>
+
+<p>See also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Class Constants</p>
+
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;mobiledevices&quot;</span>
+</pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:mobile_devices</span>
+</pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It’s also used in various
+error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:mobile_device</span>
+</pre></dd>
+      
+        <dt id="VALID_DATA_KEYS-constant" class="">VALID_DATA_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>these keys, as well as :id and :name,  are present in valid API JSON data
+for this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:device_name</span><span class='comma token'>,</span> <span class='symbol val'>:capacity</span><span class='comma token'>,</span> <span class='symbol val'>:tethered</span> <span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="SEARCH_CLASS-constant" class="">SEARCH_CLASS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This class lets us seach for computers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AdvancedMobileDeviceSearch constant id'>AdvancedMobileDeviceSearch</span>
+</pre></dd>
+      
+        <dt id="API_MDM_COMMANDS-constant" class="">API_MDM_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The MDM commands sendable via the api and alternative versions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:blank_push</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:send_blank_push</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:blank</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:noop</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:update_inventory</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UpdateInventory&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:recon</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UpdateInventory&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:device_lock</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:lock</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:lock_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:erase_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:erase</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:wipe</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:clear_passcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ClearPasscode&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:unmanage_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UnmanageDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:unmanage</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UnmanageDevice&quot;</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#RSRC_PREFIX-constant" title="JSS::FileUpload::RSRC_PREFIX (constant)">FileUpload::RSRC_PREFIX</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Matchable.html#MATCHABLE-constant" title="JSS::Matchable::MATCHABLE (constant)">JSS::Matchable::MATCHABLE</a></span>, <span class='object_link'><a href="Matchable.html#MATCH_RSRC-constant" title="JSS::Matchable::MATCH_RSRC (constant)">JSS::Matchable::MATCH_RSRC</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#PURCHASABLE-constant" title="JSS::Purchasable::PURCHASABLE (constant)">Purchasable::PURCHASABLE</a></span>, <span class='object_link'><a href="Purchasable.html#SUBSET_PURCH-constant" title="JSS::Purchasable::SUBSET_PURCH (constant)">Purchasable::SUBSET_PURCH</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#LOCATABLE-constant" title="JSS::Locatable::LOCATABLE (constant)">Locatable::LOCATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#airplay_password-instance_method" title="#airplay_password (instance method)">- (Object) <strong>airplay_password</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the airplay passwd on devices that can receive AirPlay (i.e. apple
+tvs).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#applications-instance_method" title="#applications (instance method)">- (Object) <strong>applications</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The other subsets, see the class documentation for details.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#asset_tag-instance_method" title="#asset_tag (instance method)">- (Object) <strong>asset_tag</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_mb-instance_method" title="#available_mb (instance method)">- (Object) <strong>available_mb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Intger - how much space available on the device?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#battery_level-instance_method" title="#battery_level (instance method)">- (Object) <strong>battery_level</strong> </a>
+    
+
+    
+      (also: #battery_percent)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - what percentage of the battery is remaining.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bluetooth_mac_address-instance_method" title="#bluetooth_mac_address (instance method)">- (Object) <strong>bluetooth_mac_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#capacity_mb-instance_method" title="#capacity_mb (instance method)">- (Object) <strong>capacity_mb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - total storage on the device.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#certificates-instance_method" title="#certificates (instance method)">- (Object) <strong>certificates</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute certificates.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer-instance_method" title="#computer (instance method)">- (Object) <strong>computer</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Hash - :id=&gt;nnn the computer associated with this
+device.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configuration_profiles-instance_method" title="#configuration_profiles (instance method)">- (Object) <strong>configuration_profiles</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute configuration_profiles.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#device_id-instance_method" title="#device_id (instance method)">- (Object) <strong>device_id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - what is this??.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extension_attributes-instance_method" title="#extension_attributes (instance method)">- (Object) <strong>extension_attributes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute extension_attributes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initial_entry_date-instance_method" title="#initial_entry_date (instance method)">- (Object) <strong>initial_entry_date</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - uses the value from the API’s initial_entry_date_epoch.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (Object) <strong>ip_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#languages-instance_method" title="#languages (instance method)">- (Object) <strong>languages</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_backup_time-instance_method" title="#last_backup_time (instance method)">- (Object) <strong>last_backup_time</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - uses the value from the API’s last_backup_time_epoch.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_inventory_update-instance_method" title="#last_inventory_update (instance method)">- (Object) <strong>last_inventory_update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - uses the value from the API’s last_inventory_update_utc.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locales-instance_method" title="#locales (instance method)">- (Object) <strong>locales</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#managed-instance_method" title="#managed (instance method)">- (Object) <strong>managed</strong> </a>
+    
+
+    
+      (also: #managed?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mobile_device_groups-instance_method" title="#mobile_device_groups (instance method)">- (Object) <strong>mobile_device_groups</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute mobile_device_groups.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#model_display-instance_method" title="#model_display (instance method)">- (Object) <strong>model_display</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#model_identifier-instance_method" title="#model_identifier (instance method)">- (Object) <strong>model_identifier</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#modem_firmware-instance_method" title="#modem_firmware (instance method)">- (Object) <strong>modem_firmware</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (Object) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the API’s device_name and display_name are not used.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#network-instance_method" title="#network (instance method)">- (Object) <strong>network</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute network.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_build-instance_method" title="#os_build (instance method)">- (Object) <strong>os_build</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_version-instance_method" title="#os_version (instance method)">- (Object) <strong>os_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#percentage_used-instance_method" title="#percentage_used (instance method)">- (Object) <strong>percentage_used</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - how much of the capacity is in use?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#phone_number-instance_method" title="#phone_number (instance method)">- (Object) <strong>phone_number</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the phone number of the device’s SIM card.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#provisioning_profiles-instance_method" title="#provisioning_profiles (instance method)">- (Object) <strong>provisioning_profiles</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute provisioning_profiles.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#security-instance_method" title="#security (instance method)">- (Object) <strong>security</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute security.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serial_number-instance_method" title="#serial_number (instance method)">- (Object) <strong>serial_number</strong> </a>
+    
+
+    
+      (also: #serialnumber, #sn)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site-instance_method" title="#site (instance method)">- (Object) <strong>site</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Hash :id=&gt;nnn the site associated with this
+device.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supervised-instance_method" title="#supervised (instance method)">- (Object) <strong>supervised</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tethered-instance_method" title="#tethered (instance method)">- (Object) <strong>tethered</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#udid-instance_method" title="#udid (instance method)">- (Object) <strong>udid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wifi_mac_address-instance_method" title="#wifi_mac_address (instance method)">- (Object) <strong>wifi_mac_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#applecare_id-instance_method" title="JSS::Purchasable#applecare_id (method)">#applecare_id</a></span>, <span class='object_link'><a href="Purchasable.html#is_leased-instance_method" title="JSS::Purchasable#is_leased (method)">#is_leased</a></span>, <span class='object_link'><a href="Purchasable.html#is_purchased-instance_method" title="JSS::Purchasable#is_purchased (method)">#is_purchased</a></span>, <span class='object_link'><a href="Purchasable.html#lease_expires-instance_method" title="JSS::Purchasable#lease_expires (method)">#lease_expires</a></span>, <span class='object_link'><a href="Purchasable.html#life_expectancy-instance_method" title="JSS::Purchasable#life_expectancy (method)">#life_expectancy</a></span>, <span class='object_link'><a href="Purchasable.html#os_applecare_id-instance_method" title="JSS::Purchasable#os_applecare_id (method)">#os_applecare_id</a></span>, <span class='object_link'><a href="Purchasable.html#os_maintenance_expires-instance_method" title="JSS::Purchasable#os_maintenance_expires (method)">#os_maintenance_expires</a></span>, <span class='object_link'><a href="Purchasable.html#po_date-instance_method" title="JSS::Purchasable#po_date (method)">#po_date</a></span>, <span class='object_link'><a href="Purchasable.html#po_number-instance_method" title="JSS::Purchasable#po_number (method)">#po_number</a></span>, <span class='object_link'><a href="Purchasable.html#purchase_price-instance_method" title="JSS::Purchasable#purchase_price (method)">#purchase_price</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_account-instance_method" title="JSS::Purchasable#purchasing_account (method)">#purchasing_account</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_contact-instance_method" title="JSS::Purchasable#purchasing_contact (method)">#purchasing_contact</a></span>, <span class='object_link'><a href="Purchasable.html#vendor-instance_method" title="JSS::Purchasable#vendor (method)">#vendor</a></span>, <span class='object_link'><a href="Purchasable.html#warranty_expires-instance_method" title="JSS::Purchasable#warranty_expires (method)">#warranty_expires</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#building-instance_method" title="JSS::Locatable#building (method)">#building</a></span>, <span class='object_link'><a href="Locatable.html#department-instance_method" title="JSS::Locatable#department (method)">#department</a></span>, <span class='object_link'><a href="Locatable.html#email_address-instance_method" title="JSS::Locatable#email_address (method)">#email_address</a></span>, <span class='object_link'><a href="Locatable.html#phone-instance_method" title="JSS::Locatable#phone (method)">#phone</a></span>, <span class='object_link'><a href="Locatable.html#position-instance_method" title="JSS::Locatable#position (method)">#position</a></span>, <span class='object_link'><a href="Locatable.html#real_name-instance_method" title="JSS::Locatable#real_name (method)">#real_name</a></span>, <span class='object_link'><a href="Locatable.html#room-instance_method" title="JSS::Locatable#room (method)">#room</a></span>, <span class='object_link'><a href="Locatable.html#username-instance_method" title="JSS::Locatable#username (method)">#username</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_ipads-class_method" title="all_ipads (class method)">+ (Object) <strong>all_ipads</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the list of all iPads.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_iphones-class_method" title="all_iphones (class method)">+ (Object) <strong>all_iphones</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the list of all iPhones.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_managed-class_method" title="all_managed (class method)">+ (Object) <strong>all_managed</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the list of all managed mobile devices.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_phone_numbers-class_method" title="all_phone_numbers (class method)">+ (Object) <strong>all_phone_numbers</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_serial_numbers-class_method" title="all_serial_numbers (class method)">+ (Object) <strong>all_serial_numbers</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Class Methods.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_udids-class_method" title="all_udids (class method)">+ (Object) <strong>all_udids</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_unmanaged-class_method" title="all_unmanaged (class method)">+ (Object) <strong>all_unmanaged</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the list of all unmanaged mobile devices.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_wifi_mac_addresses-class_method" title="all_wifi_mac_addresses (class method)">+ (Object) <strong>all_wifi_mac_addresses</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_mdm_command-class_method" title="send_mdm_command (class method)">+ (Object) <strong>send_mdm_command</strong>(dev, command) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an MDM command to a managed mobile device by JSS id, name, udid,
+serialnumber, wifi_mac_address, or phone number.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blank_push-instance_method" title="#blank_push (instance method)">- (Object) <strong>blank_push</strong> </a>
+    
+
+    
+      (also: #noop, #send_blank_push)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a blank_push MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_passcode-instance_method" title="#clear_passcode (instance method)">- (Object) <strong>clear_passcode</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a clear_passcode MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#device_lock-instance_method" title="#device_lock (instance method)">- (Object) <strong>device_lock</strong> </a>
+    
+
+    
+      (also: #lock_device, #lock)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a device_lock MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#erase_device-instance_method" title="#erase_device (instance method)">- (Object) <strong>erase_device</strong> </a>
+    
+
+    
+      (also: #wipe, #erase)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an erase_device MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MobileDevice) <strong>initialize</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Args must include :id, :udid, :serial_number, :macaddress, :name or :data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unmanage_device-instance_method" title="#unmanage_device (instance method)">- (Object) <strong>unmanage_device</strong> </a>
+    
+
+    
+      (also: #make_unmanaged, #unmanage)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a unmanage_device MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_inventory-instance_method" title="#update_inventory (instance method)">- (Object) <strong>update_inventory</strong> </a>
+    
+
+    
+      (also: #recon)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an update_inventory MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#upload-instance_method" title="JSS::FileUpload#upload (method)">#upload</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Matchable.html#match-instance_method" title="JSS::Matchable#match (method)">#match</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#parse_purchasing-instance_method" title="JSS::Purchasable#parse_purchasing (method)">#parse_purchasing</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_xml-instance_method" title="JSS::Purchasable#purchasing_xml (method)">#purchasing_xml</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">#location_xml</a></span>, <span class='object_link'><a href="Locatable.html#parse_location-instance_method" title="JSS::Locatable#parse_location (method)">#parse_location</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::MobileDevice (class)">MobileDevice</a></span></tt>) <strong>initialize</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Args must include :id, :udid, :serial_number, :macaddress, :name or :data</p>
+
+<h3 id="label-MDM+Commands">MDM Commands</h3>
+
+<p>The following methods can be used to send an APNS command to the device,
+equivalent to clicking one of the buttons on the Management Commands
+section of the Management tab of the Mobile Device details page in the JSS
+UI.</p>
+
+<p>The methods supported are:</p>
+<ul><li>
+<p>blank_push  (aliases blank, noop, send_blank_push)</p>
+</li><li>
+<p>update_inventory (alias recon)</p>
+</li><li>
+<p>device_lock (aliases lock, lock_device)</p>
+</li><li>
+<p>erase_device (aliases wipe)</p>
+</li><li>
+<p>clear_passcode</p>
+</li><li>
+<p>unmanage_device (alias unmanage)</p>
+</li></ul>
+
+<p>Each returns true if the command as sent.</p>
+
+<h3 id="label-Editing+values">Editing values</h3>
+
+<p>Only a few values can be changed via the API, using these methods, q.v:</p>
+<ul><li>
+<p>#asset_tag=  String</p>
+</li><li>
+<p>#extension_attribute=  Hash of :name or :id, and :value</p>
+</li><li>
+<p>#location= Hash of values in @location, not all are required</p>
+</li><li>
+<p>#purchasing= Hash of values in @purchasing, not all are required</p>
+</li></ul>
+
+<p>After modfying any values, #save must be called to save changes to the JSS.</p>
+
+<h3 id="label-Adding+devices+to+the+JSS">Adding devices to the JSS</h3>
+
+<p>This class cannot be used to add new mobile devices to the JSS. That can
+only be done via the enrollment process.  See JSS::MobileDeviceInvitation
+for sending an enrollment invite to a device.</p>
+
+<p>For more info, see: <a
+href="https://your.casper.server:8443/api/index.htm#!/mobiledevices/findMobileDevicesByIdSubset_get">your.casper.server:8443/api/index.htm#!/mobiledevices/findMobileDevicesByIdSubset_get</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 376</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_super super kw'>super</span> <span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='comma token'>,</span> <span class='symbol val'>:serialnumber</span><span class='comma token'>,</span> <span class='symbol val'>:macaddress</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_gen identifier id'>gen</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@airplay_password ivar id'>@airplay_password</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:airplay_password</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@asset_tag ivar id'>@asset_tag</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:asset_tag</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@available_mb ivar id'>@available_mb</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:available_mb</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@battery_level ivar id'>@battery_level</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:battery_level</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@bluetooth_mac_address ivar id'>@bluetooth_mac_address</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:bluetooth_mac_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@capacity_mb ivar id'>@capacity_mb</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:capacity_mb</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@computer ivar id'>@computer</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:computer</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@device_id ivar id'>@device_id</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:device_id</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@device_name ivar id'>@device_name</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:device_name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@display_name ivar id'>@display_name</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:display_name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@initial_entry_date ivar id'>@initial_entry_date</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:initial_entry_date_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:ip_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@languages ivar id'>@languages</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:languages</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@last_backup_time ivar id'>@last_backup_time</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span>  <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:last_backup_time_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@last_inventory_update ivar id'>@last_inventory_update</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:last_inventory_update_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@locales ivar id'>@locales</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:locales</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@managed ivar id'>@managed</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:managed</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@model_display ivar id'>@model_display</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:model_display</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@model_identifier ivar id'>@model_identifier</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:model_identifier</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@modem_firmware ivar id'>@modem_firmware</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:modem_firmware</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@os_build ivar id'>@os_build</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:os_build</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@os_version ivar id'>@os_version</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:os_version</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@percentage_used ivar id'>@percentage_used</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:percentage_used</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@phone_number ivar id'>@phone_number</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:phone_number</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@serial_number ivar id'>@serial_number</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:serial_number</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@supervised ivar id'>@supervised</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:supervised</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@tethered ivar id'>@tethered</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:tethered</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@udid ivar id'>@udid</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@wifi_mac_address ivar id'>@wifi_mac_address</span> <span class='assign token'>=</span> <span class='rubyid_gen identifier id'>gen</span><span class='lbrack token'>[</span><span class='symbol val'>:wifi_mac_address</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_parse_location identifier id'>parse_location</span>
+  <span class='rubyid_parse_purchasing identifier id'>parse_purchasing</span>
+
+  <span class='rubyid_@mobile_device_groups ivar id'>@mobile_device_groups</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:mobile_device_groups</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@network ivar id'>@network</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:network</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@extension_attributes ivar id'>@extension_attributes</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:extension_attributes</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@certificates ivar id'>@certificates</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:certificates</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@configuration_profiles ivar id'>@configuration_profiles</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:configuration_profiles</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@provisioning_profiles ivar id'>@provisioning_profiles</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:provisioning_profiles</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@security ivar id'>@security</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:security</span><span class='rbrack token'>]</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="airplay_password-instance_method">
+  
+    - (<tt>Object</tt>) <strong>airplay_password</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the airplay passwd on devices that can receive AirPlay (i.e. apple
+tvs)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 224</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_airplay_password identifier id'>airplay_password</span>
+  <span class='rubyid_@airplay_password ivar id'>@airplay_password</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="applications-instance_method">
+  
+    - (<tt>Object</tt>) <strong>applications</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The other subsets, see the class documentation for details</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+317
+318
+319</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 317</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_applications identifier id'>applications</span>
+  <span class='rubyid_@applications ivar id'>@applications</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="asset_tag-instance_method">
+  
+    - (<tt>Object</tt>) <strong>asset_tag</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 227</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_asset_tag identifier id'>asset_tag</span>
+  <span class='rubyid_@asset_tag ivar id'>@asset_tag</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="available_mb-instance_method">
+  
+    - (<tt>Object</tt>) <strong>available_mb</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Intger - how much space available on the device?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 230</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_available_mb identifier id'>available_mb</span>
+  <span class='rubyid_@available_mb ivar id'>@available_mb</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="battery_level-instance_method">
+  
+    - (<tt>Object</tt>) <strong>battery_level</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='battery_percent-instance_method'>battery_percent</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - what percentage of the battery is remaining</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 239</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_battery_level identifier id'>battery_level</span>
+  <span class='rubyid_@battery_level ivar id'>@battery_level</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bluetooth_mac_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bluetooth_mac_address</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 243</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_bluetooth_mac_address identifier id'>bluetooth_mac_address</span>
+  <span class='rubyid_@bluetooth_mac_address ivar id'>@bluetooth_mac_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="capacity_mb-instance_method">
+  
+    - (<tt>Object</tt>) <strong>capacity_mb</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - total storage on the device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 233</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_capacity_mb identifier id'>capacity_mb</span>
+  <span class='rubyid_@capacity_mb ivar id'>@capacity_mb</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="certificates-instance_method">
+  
+    - (<tt>Object</tt>) <strong>certificates</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute certificates</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+319
+320
+321</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 319</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_certificates identifier id'>certificates</span>
+  <span class='rubyid_@certificates ivar id'>@certificates</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="computer-instance_method">
+  
+    - (<tt>Object</tt>) <strong>computer</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Hash - :id=&gt;nnn the computer associated with this
+device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+249
+250
+251</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 249</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_computer identifier id'>computer</span>
+  <span class='rubyid_@computer ivar id'>@computer</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="configuration_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>configuration_profiles</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute configuration_profiles</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+321
+322
+323</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 321</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_configuration_profiles identifier id'>configuration_profiles</span>
+  <span class='rubyid_@configuration_profiles ivar id'>@configuration_profiles</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="device_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>device_id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - what is this??</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 252</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_device_id identifier id'>device_id</span>
+  <span class='rubyid_@device_id ivar id'>@device_id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="extension_attributes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>extension_attributes</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute extension_attributes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+323
+324
+325</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 323</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extension_attributes identifier id'>extension_attributes</span>
+  <span class='rubyid_@extension_attributes ivar id'>@extension_attributes</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="initial_entry_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>initial_entry_date</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - uses the value from the API’s initial_entry_date_epoch</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 258</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initial_entry_date identifier id'>initial_entry_date</span>
+  <span class='rubyid_@initial_entry_date ivar id'>@initial_entry_date</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+261
+262
+263</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 261</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ip_address identifier id'>ip_address</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="languages-instance_method">
+  
+    - (<tt>Object</tt>) <strong>languages</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 264</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_languages identifier id'>languages</span>
+  <span class='rubyid_@languages ivar id'>@languages</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="last_backup_time-instance_method">
+  
+    - (<tt>Object</tt>) <strong>last_backup_time</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - uses the value from the API’s last_backup_time_epoch</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 268</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_last_backup_time identifier id'>last_backup_time</span>
+  <span class='rubyid_@last_backup_time ivar id'>@last_backup_time</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="last_inventory_update-instance_method">
+  
+    - (<tt>Object</tt>) <strong>last_inventory_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - uses the value from the API’s last_inventory_update_utc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+271
+272
+273</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 271</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_last_inventory_update identifier id'>last_inventory_update</span>
+  <span class='rubyid_@last_inventory_update ivar id'>@last_inventory_update</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="locales-instance_method">
+  
+    - (<tt>Object</tt>) <strong>locales</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+274
+275
+276</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 274</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_locales identifier id'>locales</span>
+  <span class='rubyid_@locales ivar id'>@locales</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="managed-instance_method">
+  
+    - (<tt>Object</tt>) <strong>managed</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed?-instance_method'>managed?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 277</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_managed identifier id'>managed</span>
+  <span class='rubyid_@managed ivar id'>@managed</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mobile_device_groups-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mobile_device_groups</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute mobile_device_groups</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+325
+326
+327</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 325</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mobile_device_groups identifier id'>mobile_device_groups</span>
+  <span class='rubyid_@mobile_device_groups ivar id'>@mobile_device_groups</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="model_display-instance_method">
+  
+    - (<tt>Object</tt>) <strong>model_display</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+281
+282
+283</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 281</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_model_display identifier id'>model_display</span>
+  <span class='rubyid_@model_display ivar id'>@model_display</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="model_identifier-instance_method">
+  
+    - (<tt>Object</tt>) <strong>model_identifier</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 284</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_model_identifier identifier id'>model_identifier</span>
+  <span class='rubyid_@model_identifier ivar id'>@model_identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="modem_firmware-instance_method">
+  
+    - (<tt>Object</tt>) <strong>modem_firmware</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 287</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_modem_firmware identifier id'>modem_firmware</span>
+  <span class='rubyid_@modem_firmware ivar id'>@modem_firmware</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the API’s device_name and display_name are not used.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+255
+256
+257</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 255</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_@name ivar id'>@name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="network-instance_method">
+  
+    - (<tt>Object</tt>) <strong>network</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute network</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+327
+328
+329</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 327</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_network identifier id'>network</span>
+  <span class='rubyid_@network ivar id'>@network</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_build-instance_method">
+  
+    - (<tt>Object</tt>) <strong>os_build</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 293</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_os_build identifier id'>os_build</span>
+  <span class='rubyid_@os_build ivar id'>@os_build</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_version-instance_method">
+  
+    - (<tt>Object</tt>) <strong>os_version</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+290
+291
+292</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 290</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_os_version identifier id'>os_version</span>
+  <span class='rubyid_@os_version ivar id'>@os_version</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="percentage_used-instance_method">
+  
+    - (<tt>Object</tt>) <strong>percentage_used</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - how much of the capacity is in use?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 236</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_percentage_used identifier id'>percentage_used</span>
+  <span class='rubyid_@percentage_used ivar id'>@percentage_used</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="phone_number-instance_method">
+  
+    - (<tt>Object</tt>) <strong>phone_number</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the phone number of the device’s SIM card</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 296</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_phone_number identifier id'>phone_number</span>
+  <span class='rubyid_@phone_number ivar id'>@phone_number</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="provisioning_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>provisioning_profiles</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute provisioning_profiles</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+329
+330
+331</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 329</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_provisioning_profiles identifier id'>provisioning_profiles</span>
+  <span class='rubyid_@provisioning_profiles ivar id'>@provisioning_profiles</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="security-instance_method">
+  
+    - (<tt>Object</tt>) <strong>security</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute security</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+331
+332
+333</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 331</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_security identifier id'>security</span>
+  <span class='rubyid_@security ivar id'>@security</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="serial_number-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serial_number</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='serialnumber-instance_method'>serialnumber</span>, <span id='sn-instance_method'>sn</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 299</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serial_number identifier id'>serial_number</span>
+  <span class='rubyid_@serial_number ivar id'>@serial_number</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="site-instance_method">
+  
+    - (<tt>Object</tt>) <strong>site</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Hash :id=&gt;nnn the site associated with this
+device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 304</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_site identifier id'>site</span>
+  <span class='rubyid_@site ivar id'>@site</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="supervised-instance_method">
+  
+    - (<tt>Object</tt>) <strong>supervised</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+307
+308
+309</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 307</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_supervised identifier id'>supervised</span>
+  <span class='rubyid_@supervised ivar id'>@supervised</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="tethered-instance_method">
+  
+    - (<tt>Object</tt>) <strong>tethered</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+310
+311
+312</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 310</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_tethered identifier id'>tethered</span>
+  <span class='rubyid_@tethered ivar id'>@tethered</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="udid-instance_method">
+  
+    - (<tt>Object</tt>) <strong>udid</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 313</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_udid identifier id'>udid</span>
+  <span class='rubyid_@udid ivar id'>@udid</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="wifi_mac_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>wifi_mac_address</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 246</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_wifi_mac_address identifier id'>wifi_mac_address</span>
+  <span class='rubyid_@wifi_mac_address ivar id'>@wifi_mac_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="all_ipads-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_ipads</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the list of all iPads</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 140</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_ipads identifier id'>all_ipads</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span> <span class='string val'>&quot;iPad&quot;</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_iphones-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_iphones</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the list of all iPhones</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 135</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_iphones identifier id'>all_iphones</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span> <span class='string val'>&quot;iPhone&quot;</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_managed-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_managed</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the list of all managed mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 125</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_managed identifier id'>all_managed</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='symbol val'>:managed</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_phone_numbers-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_phone_numbers</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 112</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_phone_numbers identifier id'>all_phone_numbers</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:phone_number</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_serial_numbers-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_serial_numbers</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Class Methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 108</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_serial_numbers identifier id'>all_serial_numbers</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:serial_number</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_udids-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_udids</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 120</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_udids identifier id'>all_udids</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_unmanaged-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_unmanaged</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the list of all unmanaged mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 130</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_unmanaged identifier id'>all_unmanaged</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_d identifier id'>d</span><span class='lbrack token'>[</span><span class='symbol val'>:managed</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_wifi_mac_addresses-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_wifi_mac_addresses</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 116</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_wifi_mac_addresses identifier id'>all_wifi_mac_addresses</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:wifi_mac_address</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_mdm_command-class_method">
+  
+    + (<tt>Object</tt>) <strong>send_mdm_command</strong>(dev, command) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an MDM command to a managed mobile device by JSS id, name, udid,
+serialnumber, wifi_mac_address, or phone number.</p>
+
+<p>The first arg is the device identifier, the second is the command to send.
+See the keys of API_MDM_COMMANDS for a list of available commands and
+alternatives.</p>
+
+<p>Returns true if the command was sent</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 153</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span><span class='lparen token'>(</span><span class='rubyid_dev identifier id'>dev</span><span class='comma token'>,</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Unknown command '#{command}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_API_MDM_COMMANDS constant id'>API_MDM_COMMANDS</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_command identifier id'>command</span>
+  <span class='rubyid_command_xml identifier id'>command_xml</span> <span class='assign token'>=</span><span class='dstring node'>&quot;#{JSS::APIConnection::XML_HEADER}&lt;mobile_device&gt;&lt;command&gt;#{API_MDM_COMMANDS[command]}&lt;/command&gt;&lt;/mobile_device&gt;&quot;</span>
+  <span class='rubyid_the_id identifier id'>the_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_managed identifier id'>all_managed</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_mmd identifier id'>mmd</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:serial_number</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:phone_number</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:wifi_mac_address</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_dev identifier id'>dev</span>
+      <span class='rubyid_the_id identifier id'>the_id</span> <span class='assign token'>=</span> <span class='rubyid_mmd identifier id'>mmd</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+      <span class='rubyid_break break kw'>break</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each do mmd</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_the_id identifier id'>the_id</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_put_rsrc identifier id'>put_rsrc</span><span class='lparen token'>(</span> <span class='dstring node'>&quot;#{RSRC_BASE}/id/#{the_id}&quot;</span><span class='comma token'>,</span> <span class='rubyid_command_xml identifier id'>command_xml</span><span class='rparen token'>)</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='match op'>=~</span> <span class='regexp val'>%r{&lt;notification_sent&gt;(.+)&lt;/notification_sent&gt;}</span>
+    <span class='rubyid_return return kw'>return</span> <span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_$1 nth_ref id'>$1</span> <span class='eq op'>==</span> <span class='string val'>&quot;true&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnmanagedError constant id'>UnmanagedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Cannot send command to unknown/unmanaged device '#{dev}'&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="blank_push-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blank_push</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='noop-instance_method'>noop</span>, <span id='send_blank_push-instance_method'>send_blank_push</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a blank_push MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+428
+429
+430</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 428</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_blank_push identifier id'>blank_push</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:blank_push</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear_passcode-instance_method">
+  
+    - (<tt>Object</tt>) <strong>clear_passcode</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a clear_passcode MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+464
+465
+466</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 464</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_clear_passcode identifier id'>clear_passcode</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:clear_passcode</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="device_lock-instance_method">
+  
+    - (<tt>Object</tt>) <strong>device_lock</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='lock_device-instance_method'>lock_device</span>, <span id='lock-instance_method'>lock</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a device_lock MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+446
+447
+448</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 446</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_device_lock identifier id'>device_lock</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:device_lock</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="erase_device-instance_method">
+  
+    - (<tt>Object</tt>) <strong>erase_device</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='wipe-instance_method'>wipe</span>, <span id='erase-instance_method'>erase</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an erase_device MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+455
+456
+457</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 455</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_erase_device identifier id'>erase_device</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:erase_device</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unmanage_device-instance_method">
+  
+    - (<tt>Object</tt>) <strong>unmanage_device</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='make_unmanaged-instance_method'>make_unmanaged</span>, <span id='unmanage-instance_method'>unmanage</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a unmanage_device MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+471
+472
+473</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 471</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_unmanage_device identifier id'>unmanage_device</span>
+  <span class='rubyid_@managed ivar id'>@managed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span><span class='lparen token'>(</span><span class='symbol val'>:unmanage_device</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_inventory-instance_method">
+  
+    - (<tt>Object</tt>) <strong>update_inventory</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='recon-instance_method'>recon</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an update_inventory MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 438</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_inventory identifier id'>update_inventory</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:update_inventory</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:07 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

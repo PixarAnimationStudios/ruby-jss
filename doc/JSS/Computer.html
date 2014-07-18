@@ -1,0 +1,4189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::Computer
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/Computer.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Computer</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::Computer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::Computer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+      <dt class="r2">Extended by:</dt>
+      <dd class="r2"><span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></dd>
+      
+    
+  
+    
+      <dt class="r1">Includes:</dt>
+      <dd class="r1"><span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span>, <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss/api_object/computer.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A Computer in the JSS.</p>
+
+<p>Computers cannot be created in the JSS via this module. Please use other
+Casper methods (like the Recon App or QuickAdd package)</p>
+
+<p>Additionally, any data that arrives in the JSS via an “inventory
+update” (a.k.a. ‘recon’) cannot be modified through the API.</p>
+
+<p>Data that can be modified are:</p>
+<ul><li>
+<p>Management Account (see #set_management_to)</p>
+</li><li>
+<p>asset_tag</p>
+</li><li>
+<p>barcodes 1 and 2</p>
+</li><li>
+<p>ip_address</p>
+</li><li>
+<p>udid</p>
+</li><li>
+<p>mac_addresses</p>
+</li><li>
+<p>location data from the Locatable module</p>
+</li><li>
+<p>purchasing data from the Purchasable module</p>
+</li></ul>
+
+<p>After making any changes, you must call #update to send those changes to
+the server.</p>
+
+<p>See also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;computers&quot;</span>
+</pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:computers</span>
+</pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It’s also used in various
+error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:computer</span>
+</pre></dd>
+      
+        <dt id="VALID_DATA_KEYS-constant" class="">VALID_DATA_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>these keys, as well as :id and :name,  are present in valid API JSON data
+for this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:sus</span><span class='comma token'>,</span> <span class='symbol val'>:distribution_point</span><span class='comma token'>,</span> <span class='symbol val'>:alt_mac_address</span> <span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="SEARCH_CLASS-constant" class="">SEARCH_CLASS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This class lets us seach for computers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AdvancedComputerSearch constant id'>AdvancedComputerSearch</span>
+</pre></dd>
+      
+        <dt id="BOOT_FLAG-constant" class="">BOOT_FLAG =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Boot partitions are noted with the string “(Boot Partition)” at the end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot; (Boot Partition)&quot;</span>
+</pre></dd>
+      
+        <dt id="UPLOAD_TYPES-constant" class="">UPLOAD_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>file uploads can send attachments to the JSS using :computers as the
+sub-resource.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span> <span class='symbol val'>:attachment</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:computers</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="API_MDM_COMMANDS-constant" class="">API_MDM_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>A mapping of Symbols available to the send_mdm_command class method, to 
+the String commands actuallly sent via the API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:blank_push</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:send_blank_push</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:blank</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:noop</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;BlankPush&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:device_lock</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:lock</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:lock_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DeviceLock&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:erase_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:erase</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:wipe</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;EraseDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:unmanage_device</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UnmanageDevice&quot;</span><span class='comma token'>,</span>
+  <span class='symbol val'>:unmanage</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UnmanageDevice&quot;</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Matchable.html#MATCHABLE-constant" title="JSS::Matchable::MATCHABLE (constant)">Matchable::MATCHABLE</a></span>, <span class='object_link'><a href="Matchable.html#MATCH_RSRC-constant" title="JSS::Matchable::MATCH_RSRC (constant)">Matchable::MATCH_RSRC</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#RSRC_PREFIX-constant" title="JSS::FileUpload::RSRC_PREFIX (constant)">FileUpload::RSRC_PREFIX</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#PURCHASABLE-constant" title="JSS::Purchasable::PURCHASABLE (constant)">Purchasable::PURCHASABLE</a></span>, <span class='object_link'><a href="Purchasable.html#SUBSET_PURCH-constant" title="JSS::Purchasable::SUBSET_PURCH (constant)">Purchasable::SUBSET_PURCH</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#LOCATABLE-constant" title="JSS::Locatable::LOCATABLE (constant)">Locatable::LOCATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#alt_mac_address-instance_method" title="#alt_mac_address (instance method)">- (Object) <strong>alt_mac_address</strong> </a>
+    
+
+    
+      (also: #alt_macaddress)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the secondary mac address.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#asset_tag-instance_method" title="#asset_tag (instance method)">- (Object) <strong>asset_tag</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the asset tag.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#barcode_1-instance_method" title="#barcode_1 (instance method)">- (Object) <strong>barcode_1</strong> </a>
+    
+
+    
+      (also: #bar_code_1)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the barcodes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#barcode_2-instance_method" title="#barcode_2 (instance method)">- (Object) <strong>barcode_2</strong> </a>
+    
+
+    
+      (also: #bar_code_2)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the barcodes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configuration_profiles-instance_method" title="#configuration_profiles (instance method)">- (Object) <strong>configuration_profiles</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>configuration_profiles -  An Array of Hashes, one for each
+ConfigurationProfile on the computer.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#distribution_point-instance_method" title="#distribution_point (instance method)">- (Object) <strong>distribution_point</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - The name of the distribution point for this computer.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extension_attributes-instance_method" title="#extension_attributes (instance method)">- (Object) <strong>extension_attributes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>extension_attributes - An Array of Hashes, one for each
+ComputerExtentionAttribute.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#groups_accounts-instance_method" title="#groups_accounts (instance method)">- (Object) <strong>groups_accounts</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>groups_accounts - A Hash containing info about the local accts and
+ComputerGroups to which this machine beloings.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware-instance_method" title="#hardware (instance method)">- (Object) <strong>hardware</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>hardware - A Hash with these keys &amp; sample data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initial_entry_date-instance_method" title="#initial_entry_date (instance method)">- (Object) <strong>initial_entry_date</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - when was it added to the JSS.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (Object) <strong>ip_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>IPAddr - the last known IP address.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_version-instance_method" title="#jamf_version (instance method)">- (Object) <strong>jamf_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the version of the jamf binary.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_contact_time-instance_method" title="#last_contact_time (instance method)">- (Object) <strong>last_contact_time</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - the last contact time.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mac_address-instance_method" title="#mac_address (instance method)">- (Object) <strong>mac_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the primary macaddress.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#managed-instance_method" title="#managed (instance method)">- (Object) <strong>managed</strong> </a>
+    
+
+    
+      (also: #managed?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - is this machine “managed” by Casper?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_username-instance_method" title="#management_username (instance method)">- (Object) <strong>management_username</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the name of the management account.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdm_capable-instance_method" title="#mdm_capable (instance method)">- (Object) <strong>mdm_capable</strong> </a>
+    
+
+    
+      (also: #mdm?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - doesit support MDM?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#netboot_server-instance_method" title="#netboot_server (instance method)">- (Object) <strong>netboot_server</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the name of the netboot server for this machine.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#peripherals-instance_method" title="#peripherals (instance method)">- (Object) <strong>peripherals</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>peripherals - An Array of Hashes, one per periph.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#platform-instance_method" title="#platform (instance method)">- (Object) <strong>platform</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - what kind of computer?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#report_date-instance_method" title="#report_date (instance method)">- (Object) <strong>report_date</strong> </a>
+    
+
+    
+      (also: #last_recon)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DateTime - the last recon time.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serial_number-instance_method" title="#serial_number (instance method)">- (Object) <strong>serial_number</strong> </a>
+    
+
+    
+      (also: #serialnumber, #sn)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the serial number.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site-instance_method" title="#site (instance method)">- (Object) <strong>site</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Hash - the :name and :id of the site for this machine.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#software-instance_method" title="#software (instance method)">- (Object) <strong>software</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>software - a Hash of softwar data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sus-instance_method" title="#sus (instance method)">- (Object) <strong>sus</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the name of the Software Update Server assigned to this machine.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#udid-instance_method" title="#udid (instance method)">- (Object) <strong>udid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the UDID of the computer.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#applecare_id-instance_method" title="JSS::Purchasable#applecare_id (method)">#applecare_id</a></span>, <span class='object_link'><a href="Purchasable.html#is_leased-instance_method" title="JSS::Purchasable#is_leased (method)">#is_leased</a></span>, <span class='object_link'><a href="Purchasable.html#is_purchased-instance_method" title="JSS::Purchasable#is_purchased (method)">#is_purchased</a></span>, <span class='object_link'><a href="Purchasable.html#lease_expires-instance_method" title="JSS::Purchasable#lease_expires (method)">#lease_expires</a></span>, <span class='object_link'><a href="Purchasable.html#life_expectancy-instance_method" title="JSS::Purchasable#life_expectancy (method)">#life_expectancy</a></span>, <span class='object_link'><a href="Purchasable.html#os_applecare_id-instance_method" title="JSS::Purchasable#os_applecare_id (method)">#os_applecare_id</a></span>, <span class='object_link'><a href="Purchasable.html#os_maintenance_expires-instance_method" title="JSS::Purchasable#os_maintenance_expires (method)">#os_maintenance_expires</a></span>, <span class='object_link'><a href="Purchasable.html#po_date-instance_method" title="JSS::Purchasable#po_date (method)">#po_date</a></span>, <span class='object_link'><a href="Purchasable.html#po_number-instance_method" title="JSS::Purchasable#po_number (method)">#po_number</a></span>, <span class='object_link'><a href="Purchasable.html#purchase_price-instance_method" title="JSS::Purchasable#purchase_price (method)">#purchase_price</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_account-instance_method" title="JSS::Purchasable#purchasing_account (method)">#purchasing_account</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_contact-instance_method" title="JSS::Purchasable#purchasing_contact (method)">#purchasing_contact</a></span>, <span class='object_link'><a href="Purchasable.html#vendor-instance_method" title="JSS::Purchasable#vendor (method)">#vendor</a></span>, <span class='object_link'><a href="Purchasable.html#warranty_expires-instance_method" title="JSS::Purchasable#warranty_expires (method)">#warranty_expires</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#building-instance_method" title="JSS::Locatable#building (method)">#building</a></span>, <span class='object_link'><a href="Locatable.html#department-instance_method" title="JSS::Locatable#department (method)">#department</a></span>, <span class='object_link'><a href="Locatable.html#email_address-instance_method" title="JSS::Locatable#email_address (method)">#email_address</a></span>, <span class='object_link'><a href="Locatable.html#phone-instance_method" title="JSS::Locatable#phone (method)">#phone</a></span>, <span class='object_link'><a href="Locatable.html#position-instance_method" title="JSS::Locatable#position (method)">#position</a></span>, <span class='object_link'><a href="Locatable.html#real_name-instance_method" title="JSS::Locatable#real_name (method)">#real_name</a></span>, <span class='object_link'><a href="Locatable.html#room-instance_method" title="JSS::Locatable#room (method)">#room</a></span>, <span class='object_link'><a href="Locatable.html#username-instance_method" title="JSS::Locatable#username (method)">#username</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_mdm_command-class_method" title="send_mdm_command (class method)">+ (true) <strong>send_mdm_command</strong>(computer, command) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an MDM command to a managed computer by id or name.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apps-instance_method" title="#apps (instance method)">- (Array&lt;Hash&gt;) <strong>apps</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All apps installed on this machine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blank_push-instance_method" title="#blank_push (instance method)">- (Object) <strong>blank_push</strong> </a>
+    
+
+    
+      (also: #send_blank_push, #noop)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a blank_push MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer_groups-instance_method" title="#computer_groups (instance method)">- (Array) <strong>computer_groups</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS groups to which thismachine belongs (smart and static).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete this computer from the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#device_lock-instance_method" title="#device_lock (instance method)">- (Object) <strong>device_lock</strong> </a>
+    
+
+    
+      (also: #lock, #lock_device)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a device_lock MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drives-instance_method" title="#drives (instance method)">- (Array&lt;Hash&gt;) <strong>drives</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Each storage device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#erase_device-instance_method" title="#erase_device (instance method)">- (Object) <strong>erase_device</strong> </a>
+    
+
+    
+      (also: #wipe, #erase)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an erase_device MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Computer) <strong>initialize</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>As well as :id and :name, computers can be queried using :udid,
+:serialnumber, and :mac_address.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#licensed_sw-instance_method" title="#licensed_sw (instance method)">- (Array&lt;String&gt;) <strong>licensed_sw</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS-defined “licensed software” titles installed on this machine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#local_accounts-instance_method" title="#local_accounts (instance method)">- (Array&lt;Hash&gt;) <strong>local_accounts</strong> </a>
+    
+
+    
+      (also: #accounts, #accts)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All the local accts on the machine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make_unmanaged-instance_method" title="#make_unmanaged (instance method)">- (Object) <strong>make_unmanaged</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Make the machine unmanaged.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#printers-instance_method" title="#printers (instance method)">- (Array&lt;Hash&gt;) <strong>printers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Each printer on this computer Keys are :name, :uri, :type, :location.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_management_to-instance_method" title="#set_management_to (instance method)">- (Object) <strong>set_management_to</strong>(name, password) </a>
+    
+
+    
+      (also: #make_managed)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set or unset management acct and password for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send changes to the API.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Matchable.html#match-instance_method" title="JSS::Matchable#match (method)">match</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="FileUpload.html#upload-instance_method" title="JSS::FileUpload#upload (method)">#upload</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Purchasable.html#parse_purchasing-instance_method" title="JSS::Purchasable#parse_purchasing (method)">#parse_purchasing</a></span>, <span class='object_link'><a href="Purchasable.html#purchasing_xml-instance_method" title="JSS::Purchasable#purchasing_xml (method)">#purchasing_xml</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Locatable.html#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">#location_xml</a></span>, <span class='object_link'><a href="Locatable.html#parse_location-instance_method" title="JSS::Locatable#parse_location (method)">#parse_location</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::Computer (class)">Computer</a></span></tt>) <strong>initialize</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>As well as :id and :name, computers can be queried using :udid,
+:serialnumber, and :mac_address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data for looking up, or constructing, a new object. Must include :id,
+:name, or :data.</p>
+<ul><li>
+<p>:id or :name will be looked up via the API</p>
+</li><li><ul><li>
+<p>if the subclass includes JSS::Creatable, :id can be :new, to create a new
+object in the JSS.</p>
+</li></ul>
+</li><li>
+<p>:data must be the JSON output of a separate API query (a Hash of valid
+object data)</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>other_lookup_keys</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash keys than :id and :name, by which an API lookup may be performed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 370</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_super super kw'>super</span> <span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='comma token'>,</span> <span class='symbol val'>:serialnumber</span><span class='comma token'>,</span> <span class='symbol val'>:mac_address</span><span class='rbrack token'>]</span>
+  
+  <span class='comment val'>### now we have raw @init_data with something in it, so fill out the instance vars</span>
+  <span class='rubyid_@alt_mac_address ivar id'>@alt_mac_address</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:alt_mac_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@asset_tag ivar id'>@asset_tag</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:asset_tag</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@barcode_1 ivar id'>@barcode_1</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_1</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@barcode_2 ivar id'>@barcode_2</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_2</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@distribution_point ivar id'>@distribution_point</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:distribution_point</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@initial_entry_date ivar id'>@initial_entry_date</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:initial_entry_date_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:ip_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@jamf_version ivar id'>@jamf_version</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:jamf_version</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@last_contact_time ivar id'>@last_contact_time</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:last_contact_time_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@mac_address ivar id'>@mac_address</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:mac_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@managed ivar id'>@managed</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:remote_management</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:managed</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@management_username ivar id'>@management_username</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:remote_management</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:management_username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@mdm_capable ivar id'>@mdm_capable</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:mdm_capable</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@netboot_server ivar id'>@netboot_server</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:netboot_server</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@platform ivar id'>@platform</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:platform</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@report_date ivar id'>@report_date</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:report_date_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@serial_number ivar id'>@serial_number</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:serial_number</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@sus ivar id'>@sus</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:sus</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@udid ivar id'>@udid</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:udid</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_parse_location identifier id'>parse_location</span>
+  <span class='rubyid_parse_purchasing identifier id'>parse_purchasing</span>
+  
+  <span class='rubyid_@configuration_profiles ivar id'>@configuration_profiles</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:configuration_profiles</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@extension_attributes ivar id'>@extension_attributes</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:extension_attributes</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@groups_accounts ivar id'>@groups_accounts</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:groups_accounts</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@hardware ivar id'>@hardware</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:hardware</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@peripherals ivar id'>@peripherals</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:peripherals</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@software ivar id'>@software</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:software</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@management_password ivar id'>@management_password</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="alt_mac_address=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="alt_mac_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>alt_mac_address</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='alt_macaddress-instance_method'>alt_macaddress</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the secondary mac address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 140</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_alt_mac_address identifier id'>alt_mac_address</span>
+  <span class='rubyid_@alt_mac_address ivar id'>@alt_mac_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="asset_tag=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="asset_tag-instance_method">
+  
+    - (<tt>Object</tt>) <strong>asset_tag</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the asset tag</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 144</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_asset_tag identifier id'>asset_tag</span>
+  <span class='rubyid_@asset_tag ivar id'>@asset_tag</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="barcode_1=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="barcode_1-instance_method">
+  
+    - (<tt>Object</tt>) <strong>barcode_1</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='bar_code_1-instance_method'>bar_code_1</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the barcodes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 147</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_barcode_1 identifier id'>barcode_1</span>
+  <span class='rubyid_@barcode_1 ivar id'>@barcode_1</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="barcode_2=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="barcode_2-instance_method">
+  
+    - (<tt>Object</tt>) <strong>barcode_2</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='bar_code_2-instance_method'>bar_code_2</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the barcodes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 147</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_barcode_2 identifier id'>barcode_2</span>
+  <span class='rubyid_@barcode_2 ivar id'>@barcode_2</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="configuration_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>configuration_profiles</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>configuration_profiles -  An Array of Hashes, one for each
+ConfigurationProfile on the computer</p>
+
+<p>The Hash keys are:</p>
+<ul><li>
+<p>:id =&gt; the ConfigurationProfile id in the JSS</p>
+</li><li>
+<p>:name =&gt; the username to whom this user-level profile has been applied</p>
+</li><li>
+<p>:uuid =&gt; the ConfigurationProfile uuid</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 216</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_configuration_profiles identifier id'>configuration_profiles</span>
+  <span class='rubyid_@configuration_profiles ivar id'>@configuration_profiles</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="distribution_point-instance_method">
+  
+    - (<tt>Object</tt>) <strong>distribution_point</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - The name of the distribution point for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 152</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_distribution_point identifier id'>distribution_point</span>
+  <span class='rubyid_@distribution_point ivar id'>@distribution_point</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="extension_attributes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>extension_attributes</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>extension_attributes - An Array of Hashes, one for each
+ComputerExtentionAttribute</p>
+
+<p>The Hash keys are:</p>
+<ul><li>
+<p>:id =&gt; the ExtAttrib id</p>
+</li><li>
+<p>:name =&gt; the ExtAttrib name</p>
+</li><li>
+<p>:type =&gt; the data type of the ExtAttrib value, one of
+JSS::ComputerExtentionAttribute::DATA_TYPES</p>
+</li><li>
+<p>:value =&gt; the value for the ExtAttrib on this computer as of the last
+report.</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+226
+227
+228</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 226</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extension_attributes identifier id'>extension_attributes</span>
+  <span class='rubyid_@extension_attributes ivar id'>@extension_attributes</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="groups_accounts-instance_method">
+  
+    - (<tt>Object</tt>) <strong>groups_accounts</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>groups_accounts - A Hash containing info about the local accts and
+ComputerGroups to which this machine beloings</p>
+
+<p>The Hash keys are:</p>
+<ul><li>
+<p>:computer_group_memberships =&gt; An Array of names of ComputerGroups to
+which this computer belongs</p>
+</li><li>
+<p>:local_accounts =&gt; An Array of Hashes for each local user acct on this
+computer. Each hash has these keys:</p>
+<ul><li>
+<p>:name =&gt; String, the login name of the acct</p>
+</li><li>
+<p>:realname =&gt; the real name of the acct</p>
+</li><li>
+<p>:uid =&gt; String, the uid of the acct</p>
+</li><li>
+<p>:home =&gt; String, the path to the home folder</p>
+</li><li>
+<p>:home_size =&gt; String,  the size of the homedir as a string like
+“53245MB”</p>
+</li><li>
+<p>:home_size_mb =&gt; Integer,  the size of the homedir as an integer like
+53245</p>
+</li><li>
+<p>:administrator =&gt; Boolean</p>
+</li><li>
+<p>:filevault_enabled =&gt; Boolean</p>
+</li></ul>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 243</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_groups_accounts identifier id'>groups_accounts</span>
+  <span class='rubyid_@groups_accounts ivar id'>@groups_accounts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="hardware-instance_method">
+  
+    - (<tt>Object</tt>) <strong>hardware</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>hardware - A Hash with these keys &amp; sample data</p>
+<ul><li>
+<p>:number_processors=&gt;2,</p>
+</li><li>
+<p>:processor_speed_mhz=&gt;2530,</p>
+</li><li>
+<p>:make=&gt;“Apple”,</p>
+</li><li>
+<p>:cache_size=&gt;3072,</p>
+</li><li>
+<p>:processor_type=&gt;“Intel Core i5”,</p>
+</li><li>
+<p>:total_ram_mb=&gt;8192,</p>
+</li><li>
+<p>:model=&gt;“15-inch MacBook Pro (Mid 2010)”,</p>
+</li><li>
+<p>:available_ram_slots=&gt;0,</p>
+</li><li>
+<p>:processor_architecture=&gt;“i386”,</p>
+</li><li>
+<p>:bus_speed_mhz=&gt;0,</p>
+</li><li>
+<p>:total_ram=&gt;8192,</p>
+</li><li>
+<p>:os_name=&gt;“Mac OS X”,</p>
+</li><li>
+<p>:optical_drive=&gt;“HL-DT-ST DVDRW  GS23N”,</p>
+</li><li>
+<p>:model_identifier=&gt;“MacBookPro6,2”,</p>
+</li><li>
+<p>:cache_size_kb=&gt;3072,</p>
+</li><li>
+<p>:boot_rom=&gt;“MBP61.0057.B0F”,</p>
+</li><li>
+<p>:os_version=&gt;“10.9.3”,</p>
+</li><li>
+<p>:mapped_printers=&gt; An Array of Hashes, one per printer, with these keys</p>
+<ul><li>
+<p>:name =&gt; the name of the printer</p>
+</li><li>
+<p>:location =&gt; the location of the printer</p>
+</li><li>
+<p>:type =&gt; the printer model</p>
+</li><li>
+<p>:uri =&gt; the uri to reach the printer on the network</p>
+</li></ul>
+</li><li>
+<p>:nic_speed=&gt;“10/100/1000”,</p>
+</li><li>
+<p>:processor_speed=&gt;2530,</p>
+</li><li>
+<p>:active_directory_status=&gt;“Not Bound”,</p>
+</li><li>
+<p>:bus_speed=&gt;0,</p>
+</li><li>
+<p>:os_build=&gt;“13D65”,</p>
+</li><li>
+<p>:smc_version=&gt;“1.58f17”,</p>
+</li><li>
+<p>:service_pack=&gt;“”,</p>
+</li><li>
+<p>:battery_capacity=&gt;87</p>
+</li><li>
+<p>:storage=&gt; An Array of Hashes, one per Drive, with these keys</p>
+<ul><li>
+<p>:smart_status=&gt;“Verified”,</p>
+</li><li>
+<p>:connection_type=&gt;“NO”,</p>
+</li><li>
+<p>:model=&gt;“M4-CT256M4SSD2”,</p>
+</li><li>
+<p>:revision=&gt;“040H”,</p>
+</li><li>
+<p>:serial_number=&gt;“00000000130709JH7GhhC”,</p>
+</li><li>
+<p>:size=&gt;262205,</p>
+</li><li>
+<p>:disk=&gt;“disk0”,</p>
+</li><li>
+<p>:drive_capacity_mb=&gt;262205}],</p>
+</li><li>
+<p>:partition=&gt; A Hash with these keys</p>
+<ul><li>
+<p>:filevault2_status=&gt;“Encrypted”,</p>
+</li><li>
+<p>:type=&gt;“boot”,</p>
+</li><li>
+<p>:filevault2_percent=&gt;100,</p>
+</li><li>
+<p>:partition_capacity_mb=&gt;38014,</p>
+</li><li>
+<p>:lvgUUID=&gt;“C4883AF5-3E58-4F76-A56C-094D4CEC7E9F”,</p>
+</li><li>
+<p>:percentage_full=&gt;61,</p>
+</li><li>
+<p>:lvUUID=&gt;“745A262E-AEA6-4608-8A3A-6CDC225B4DE6”,</p>
+</li><li>
+<p>:filevault_status=&gt;“Encrypted”,</p>
+</li><li>
+<p>:size=&gt;38014,</p>
+</li><li>
+<p>:pvUUID=&gt;“C38051CF-5066-442F-A442-1035060ED462”,</p>
+</li><li>
+<p>:name=&gt;“KimDrive40 (Boot Partition)”,</p>
+</li><li>
+<p>:filevault_percent=&gt;100</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 300</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_hardware identifier id'>hardware</span>
+  <span class='rubyid_@hardware ivar id'>@hardware</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="initial_entry_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>initial_entry_date</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - when was it added to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 155</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initial_entry_date identifier id'>initial_entry_date</span>
+  <span class='rubyid_@initial_entry_date ivar id'>@initial_entry_date</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="ip_address=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ip_address</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>IPAddr - the last known IP address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 158</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ip_address identifier id'>ip_address</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_version-instance_method">
+  
+    - (<tt>Object</tt>) <strong>jamf_version</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the version of the jamf binary</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 161</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_jamf_version identifier id'>jamf_version</span>
+  <span class='rubyid_@jamf_version ivar id'>@jamf_version</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="last_contact_time-instance_method">
+  
+    - (<tt>Object</tt>) <strong>last_contact_time</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - the last contact time</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 164</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_last_contact_time identifier id'>last_contact_time</span>
+  <span class='rubyid_@last_contact_time ivar id'>@last_contact_time</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mac_address=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mac_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mac_address</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the primary macaddress</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 167</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mac_address identifier id'>mac_address</span>
+  <span class='rubyid_@mac_address ivar id'>@mac_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="managed-instance_method">
+  
+    - (<tt>Object</tt>) <strong>managed</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed?-instance_method'>managed?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - is this machine “managed” by Casper?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 170</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_managed identifier id'>managed</span>
+  <span class='rubyid_@managed ivar id'>@managed</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="management_username-instance_method">
+  
+    - (<tt>Object</tt>) <strong>management_username</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the name of the management account</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 174</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_management_username identifier id'>management_username</span>
+  <span class='rubyid_@management_username ivar id'>@management_username</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mdm_capable-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mdm_capable</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='mdm?-instance_method'>mdm?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - doesit support MDM?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 177</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mdm_capable identifier id'>mdm_capable</span>
+  <span class='rubyid_@mdm_capable ivar id'>@mdm_capable</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="netboot_server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>netboot_server</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the name of the netboot server for this machine</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 181</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_netboot_server identifier id'>netboot_server</span>
+  <span class='rubyid_@netboot_server ivar id'>@netboot_server</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="peripherals-instance_method">
+  
+    - (<tt>Object</tt>) <strong>peripherals</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>peripherals - An Array of Hashes, one per periph</p>
+
+<p>Each hash has keys &amp; sample data:</p>
+<ul><li>
+<p>:id=&gt;286,</p>
+</li><li>
+<p>:type=&gt;“Display”,</p>
+</li><li>
+<p>:field_0=&gt;“HP”,</p>
+</li><li>
+<p>:field_1=&gt;“HP LP2480zx”,</p>
+</li><li>
+<p>:field_2=&gt;“DreamColor”,</p>
+</li><li>
+<p>:field_3=&gt;“3CM10800F4”,</p>
+</li><li>
+<p>:field_4=&gt;“”,</p>
+</li><li>
+<p>:field_5=&gt;“”</p>
+</li><li>
+<p>:field_6=&gt;“”,</p>
+</li><li>
+<p>:bar_code_1=&gt;“”,</p>
+</li><li>
+<p>:bar_code_2=&gt;“”,</p>
+</li><li>
+<p>:purchasing=&gt; A hash with these keys:</p>
+<ul><li>
+<p>:warranty_expires_utc=&gt;“”,</p>
+</li><li>
+<p>:is_leased=&gt;false,</p>
+</li><li>
+<p>:po_date=&gt;“”,</p>
+</li><li>
+<p>:lease_expires=&gt;“”,</p>
+</li><li>
+<p>:po_number=&gt;“”,</p>
+</li><li>
+<p>:po_date_epoch=&gt;0,</p>
+</li><li>
+<p>:lease_expires_epoch=&gt;0,</p>
+</li><li>
+<p>:vendor=&gt;“”,</p>
+</li><li>
+<p>:attachments=&gt;[],</p>
+</li><li>
+<p>:po_date_utc=&gt;“”,</p>
+</li><li>
+<p>:lease_expires_utc=&gt;“”,</p>
+</li><li>
+<p>:applecare_id=&gt;“”,</p>
+</li><li>
+<p>:warranty_expires=&gt;“”,</p>
+</li><li>
+<p>:life_expectancy=&gt;0,</p>
+</li><li>
+<p>:purchase_price=&gt;“”,</p>
+</li><li>
+<p>:warranty_expires_epoch=&gt;0,</p>
+</li><li>
+<p>:is_purchased=&gt;true,</p>
+</li><li>
+<p>:purchasing_contact=&gt;“”,</p>
+</li><li>
+<p>:purchasing_account=&gt;“”</p>
+</li></ul>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 340</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_peripherals identifier id'>peripherals</span>
+  <span class='rubyid_@peripherals ivar id'>@peripherals</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="platform-instance_method">
+  
+    - (<tt>Object</tt>) <strong>platform</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - what kind of computer?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 184</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_platform identifier id'>platform</span>
+  <span class='rubyid_@platform ivar id'>@platform</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="report_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>report_date</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='last_recon-instance_method'>last_recon</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DateTime - the last recon time</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 187</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_report_date identifier id'>report_date</span>
+  <span class='rubyid_@report_date ivar id'>@report_date</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="serial_number-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serial_number</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='serialnumber-instance_method'>serialnumber</span>, <span id='sn-instance_method'>sn</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the serial number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 191</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serial_number identifier id'>serial_number</span>
+  <span class='rubyid_@serial_number ivar id'>@serial_number</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="site-instance_method">
+  
+    - (<tt>Object</tt>) <strong>site</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Hash - the :name and :id of the site for this machine</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 196</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_site identifier id'>site</span>
+  <span class='rubyid_@site ivar id'>@site</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="software-instance_method">
+  
+    - (<tt>Object</tt>) <strong>software</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>software - a Hash of softwar data</p>
+
+<p>The Hash has these keys:</p>
+<ul><li>
+<p>:running_services =&gt; An Array of services running on the computer (if
+gathered) TODO - is each item a hash?</p>
+</li><li>
+<p>:installed_by_casper =&gt; An Array of Package names unstalled on this
+computer by Casper</p>
+</li><li>
+<p>:fonts =&gt; An Array of fonts on this computer (if gathered) TODO - is
+each item a hash?</p>
+</li><li>
+<p>:installed_by_installer_swu =&gt; An Array of pkg IDs for pkgs installed by
+SoftwareUpdate or the Apple Installer</p>
+</li><li>
+<p>:applications =&gt; An Array of Hashes, one per Application on the
+computer, with these keys:</p>
+<ul><li>
+<p>:path =&gt; String, the path to the app</p>
+</li><li>
+<p>:name =&gt; String, the name of the app, including the .app suffix</p>
+</li><li>
+<p>:version =&gt; String, the version of the app at that path.</p>
+</li></ul>
+</li><li>
+<p>:cached_by_casper =&gt; An Array of Casper Package names cached on the
+machine, awaiting installation</p>
+</li><li>
+<p>:available_software_updates =&gt; An Array of available SoftwareUpdate (if
+gathered) TODO - is each item a hash?</p>
+</li><li>
+<p>:plugins =&gt; An Array of plugins installed on the machine (if gathered)
+TODO - is each item a hash?</p>
+</li><li>
+<p>:available_updates =&gt; A Hash - Deprecated?</p>
+</li><li>
+<p>:licensed_software =&gt; An Array, the names of Licenced Software (as
+defined in Casper) on this machine</p>
+</li><li>
+<p>:unix_executables =&gt; DEPRECATED</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+360
+361
+362</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 360</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_software identifier id'>software</span>
+  <span class='rubyid_@software ivar id'>@software</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sus-instance_method">
+  
+    - (<tt>Object</tt>) <strong>sus</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the name of the Software Update Server assigned to this machine.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+199
+200
+201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 199</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_sus identifier id'>sus</span>
+  <span class='rubyid_@sus ivar id'>@sus</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="udid=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="udid-instance_method">
+  
+    - (<tt>Object</tt>) <strong>udid</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the UDID of the computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+202
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 202</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_udid identifier id'>udid</span>
+  <span class='rubyid_@udid ivar id'>@udid</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="send_mdm_command-class_method">
+  
+    + (<tt>true</tt>) <strong>send_mdm_command</strong>(computer, command) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an MDM command to a managed computer by id or name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>computer</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the computer to recieve the command</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the command to send, one of the keys of API_MDM_COMMANDS</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>true</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if the command was sent</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 66</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span><span class='lparen token'>(</span><span class='rubyid_computer identifier id'>computer</span><span class='comma token'>,</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Unknown command '#{command}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_API_MDM_COMMANDS constant id'>API_MDM_COMMANDS</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_command identifier id'>command</span>
+  
+  <span class='rubyid_command_xml identifier id'>command_xml</span> <span class='assign token'>=</span><span class='dstring node'>&quot;#{JSS::APIConnection::XML_HEADER}&lt;computer&gt;&lt;command&gt;#{API_MDM_COMMANDS[command]}&lt;/command&gt;&lt;/computer&gt;&quot;</span>
+  <span class='rubyid_the_id identifier id'>the_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_computer identifier id'>computer</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='match op'>=~</span> <span class='regexp val'>/^\d+$/</span>
+    <span class='rubyid_the_id identifier id'>the_id</span> <span class='assign token'>=</span> <span class='rubyid_computer identifier id'>computer</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_the_id identifier id'>the_id</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_all_ids_to identifier id'>map_all_ids_to</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_invert identifier id'>invert</span><span class='lbrack token'>[</span><span class='rubyid_computer identifier id'>computer</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_the_id identifier id'>the_id</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_put_rsrc identifier id'>put_rsrc</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{RSRC_BASE}/id/#{the_id}&quot;</span><span class='comma token'>,</span> <span class='rubyid_command_xml identifier id'>command_xml</span><span class='rparen token'>)</span> 
+    <span class='rubyid_response identifier id'>response</span> <span class='match op'>=~</span> <span class='regexp val'>%r{&lt;notification_sent&gt;(.+)&lt;/notification_sent&gt;}</span>
+    <span class='rubyid_return return kw'>return</span> <span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_$1 nth_ref id'>$1</span> <span class='eq op'>==</span> <span class='string val'>&quot;true&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnmanagedError constant id'>UnmanagedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Cannot send command to unknown/unmanaged computer '#{computer}'&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apps-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>apps</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns all apps installed on this machine. Hash keys are :name, :path, and
+:version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all apps installed on this machine. Hash keys are :name, :path, and
+:version</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+446</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 446</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apps identifier id'>apps</span> <span class='semicolon token'>;</span> <span class='rubyid_@software ivar id'>@software</span><span class='lbrack token'>[</span><span class='symbol val'>:applications</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="blank_push-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blank_push</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='send_blank_push-instance_method'>send_blank_push</span>, <span id='noop-instance_method'>noop</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a blank_push MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+624
+625
+626</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 624</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_blank_push identifier id'>blank_push</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:blank_push</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_groups-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>) <strong>computer_groups</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS groups to which thismachine belongs (smart and static)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS groups to which thismachine belongs (smart and static)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+413
+414
+415</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 413</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_computer_groups identifier id'>computer_groups</span>
+  <span class='rubyid_@groups_accounts ivar id'>@groups_accounts</span><span class='lbrack token'>[</span><span class='symbol val'>:computer_group_memberships</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete this computer from the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 580</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_@alt_mac_address ivar id'>@alt_mac_address</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@asset_tag ivar id'>@asset_tag</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@barcode_1 ivar id'>@barcode_1</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@barcode_2 ivar id'>@barcode_2</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@distribution_point ivar id'>@distribution_point</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@initial_entry_date ivar id'>@initial_entry_date</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@jamf_version ivar id'>@jamf_version</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@last_contact_time ivar id'>@last_contact_time</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@macaddress ivar id'>@macaddress</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@managed ivar id'>@managed</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@management_username ivar id'>@management_username</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@mdm_capable ivar id'>@mdm_capable</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@netboot_server ivar id'>@netboot_server</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@platform ivar id'>@platform</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@report_date ivar id'>@report_date</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@serial_number ivar id'>@serial_number</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@sus ivar id'>@sus</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@udid ivar id'>@udid</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+  <span class='rubyid_@building ivar id'>@building</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@department ivar id'>@department</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@email_address ivar id'>@email_address</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@phone ivar id'>@phone</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@position ivar id'>@position</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@real_name ivar id'>@real_name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@room ivar id'>@room</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@username ivar id'>@username</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+  <span class='rubyid_@configuration_profiles ivar id'>@configuration_profiles</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@extension_attributes ivar id'>@extension_attributes</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@groups_accounts ivar id'>@groups_accounts</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@hardware ivar id'>@hardware</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@peripherals ivar id'>@peripherals</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@purchasing ivar id'>@purchasing</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@software ivar id'>@software</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="device_lock-instance_method">
+  
+    - (<tt>Object</tt>) <strong>device_lock</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='lock-instance_method'>lock</span>, <span id='lock_device-instance_method'>lock_device</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a device_lock MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+633
+634
+635</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 633</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_device_lock identifier id'>device_lock</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:device_lock</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="drives-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>drives</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns each storage device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>each storage device</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+430
+431
+432</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 430</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_drives identifier id'>drives</span>
+  <span class='rubyid_@hardware ivar id'>@hardware</span><span class='lbrack token'>[</span><span class='symbol val'>:storage</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="erase_device-instance_method">
+  
+    - (<tt>Object</tt>) <strong>erase_device</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='wipe-instance_method'>wipe</span>, <span id='erase-instance_method'>erase</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an erase_device MDM command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+642
+643
+644</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 642</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_erase_device identifier id'>erase_device</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span> <span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:erase_device</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="licensed_sw-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>licensed_sw</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS-defined “licensed software” titles installed on this
+machine.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS-defined “licensed software” titles installed on this machine.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+452</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 452</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_licensed_sw identifier id'>licensed_sw</span> <span class='semicolon token'>;</span> <span class='rubyid_@software ivar id'>@software</span><span class='lbrack token'>[</span><span class='symbol val'>:licensed_software</span><span class='rbrack token'>]</span>  <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="local_accounts-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>local_accounts</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='accounts-instance_method'>accounts</span>, <span id='accts-instance_method'>accts</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns all the local accts on the machine.  Each item has keys :name,
+:realname, :uid, :home, :home_size, :administrator, :filevault_enabled</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all the local accts on the machine.  Each item has keys :name, :realname,
+:uid, :home, :home_size, :administrator, :filevault_enabled</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+421
+422
+423</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 421</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_local_accounts identifier id'>local_accounts</span>
+  <span class='rubyid_@groups_accounts ivar id'>@groups_accounts</span><span class='lbrack token'>[</span><span class='symbol val'>:local_accounts</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="make_unmanaged-instance_method">
+  
+    - (<tt>Object</tt>) <strong>make_unmanaged</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Make the machine unmanaged.</p>
+
+<p>The same as</p>
+
+<pre class="code ruby18"><code class="ruby18">#set_management_to nil, nil</code></pre>
+
+<p>followed by</p>
+
+<pre class="code ruby18"><code class="ruby18">JSS::Computer.send_mdm_command @id, :unmanage_device</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+483
+484
+485
+486
+487
+488
+489
+490</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 483</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_make_unmanaged identifier id'>make_unmanaged</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_managed? fid id'>managed?</span>
+  <span class='rubyid_set_management_to identifier id'>set_management_to</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_send_mdm_command identifier id'>send_mdm_command</span><span class='lparen token'>(</span><span class='rubyid_@id ivar id'>@id</span><span class='comma token'>,</span> <span class='symbol val'>:unmanage_device</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="printers-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>printers</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns each printer on this computer Keys are :name, :uri, :type,
+:location</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>each printer on this computer Keys are :name, :uri, :type, :location</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 438</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_printers identifier id'>printers</span>
+  <span class='rubyid_@hardware ivar id'>@hardware</span><span class='lbrack token'>[</span><span class='symbol val'>:mapped_printers</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_management_to-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_management_to</strong>(name, password) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='make_managed-instance_method'>make_managed</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set or unset management acct and password for this computer</p>
+
+<p>The changes will need to be pushed to the server with #update before they
+take effect.</p>
+
+<p>CAUTION: this does nothing to confirm the name and password will work on
+the machine!</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the management acct.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>password</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password of the management acct</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+466
+467
+468
+469
+470
+471
+472</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 466</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_management_to identifier id'>set_management_to</span> <span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+  <span class='rubyid_password identifier id'>password</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_@management_username ivar id'>@management_username</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_@management_password ivar id'>@management_password</span> <span class='assign token'>=</span> <span class='rubyid_password identifier id'>password</span>
+  <span class='rubyid_@managed ivar id'>@managed</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span> <span class='integer val'>? </span><span class='rubyid_true true kw'>true</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    - (<tt>Object</tt>) <strong>update</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send changes to the API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+572
+573
+574
+575</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 572</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_@management_password ivar id'>@management_password</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:04 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

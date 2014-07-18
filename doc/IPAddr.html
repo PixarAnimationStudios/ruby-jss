@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: IPAddr
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!IPAddr.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (I)</a> &raquo;
+    
+    
+    <span class="title">IPAddr</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: IPAddr
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">IPAddr</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss/ruby_extensions/ipaddr.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A few augmentations to IPAddr handling.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cidr_from_ends-class_method" title="cidr_from_ends (class method)">+ (Object) <strong>cidr_from_ends</strong>(starting, ending) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the Integer CIDR from the starting and ending addresses for the
+subnet.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ending_address-class_method" title="ending_address (class method)">+ (Object) <strong>ending_address</strong>(starting, cidr) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return an ending IPAddr for a subnet when given a starting address (IPAddr
+or String) and a CIDR.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#masked_v4addr-class_method" title="masked_v4addr (class method)">+ (Object) <strong>masked_v4addr</strong>(starting, ending) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a Masked IPV4 IPAddr object from the  starting and ending address of
+the subnet.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="cidr_from_ends-class_method">
+  
+    + (<tt>Object</tt>) <strong>cidr_from_ends</strong>(starting, ending) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the Integer CIDR from the starting and ending addresses for the
+subnet. Addrs can be Strings or IPAddrs. eg  ‘10.0.0.0’,
+‘10.0.0.255’ =&gt; 24</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/ipaddr.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cidr_from_ends identifier id'>cidr_from_ends</span><span class='lparen token'>(</span><span class='rubyid_starting identifier id'>starting</span><span class='comma token'>,</span><span class='rubyid_ending identifier id'>ending</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_starting identifier id'>starting</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_starting identifier id'>starting</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_starting identifier id'>starting</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_IPAddr constant id'>IPAddr</span>
+  <span class='rubyid_ending identifier id'>ending</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ending identifier id'>ending</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ending identifier id'>ending</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_IPAddr constant id'>IPAddr</span>
+  
+  <span class='comment val'>### how many possible addresses in the range?</span>
+  <span class='rubyid_num_addrs identifier id'>num_addrs</span> <span class='assign token'>=</span>  <span class='rubyid_ending identifier id'>ending</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='minus op'>-</span> <span class='rubyid_starting identifier id'>starting</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+  
+  <span class='comment val'>### convert the number of possible addresses to </span>
+  <span class='comment val'>### binary then subtract the number of bits from</span>
+  <span class='comment val'>### the full length of an IPv4 addr </span>
+  <span class='comment val'>### (32 bits) and that gives the CIDR prefix</span>
+  <span class='rubyid_return return kw'>return</span> <span class='integer val'>32</span> <span class='minus op'>-</span> <span class='rubyid_num_addrs identifier id'>num_addrs</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='lparen token'>(</span><span class='integer val'>2</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ending_address-class_method">
+  
+    + (<tt>Object</tt>) <strong>ending_address</strong>(starting, cidr) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return an ending IPAddr for a subnet when given a starting address (IPAddr
+or String) and a CIDR</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/ipaddr.rb', line 38</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ending_address identifier id'>ending_address</span><span class='lparen token'>(</span><span class='rubyid_starting identifier id'>starting</span><span class='comma token'>,</span> <span class='rubyid_cidr identifier id'>cidr</span><span class='rparen token'>)</span>
+  <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span> <span class='dstring node'>&quot;#{starting}/#{cidr}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_range identifier id'>to_range</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="masked_v4addr-class_method">
+  
+    + (<tt>Object</tt>) <strong>masked_v4addr</strong>(starting, ending) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a Masked IPV4 IPAddr object from the  starting and ending address of
+the subnet. Addrs can be Strings or IPAddrs e.g. ‘10.0.0.0’,
+‘10.0.0.255’ =&gt; #&lt;IPAddr: IPv4:10.0.0.0/255.255.255.0&gt;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/ipaddr.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_masked_v4addr identifier id'>masked_v4addr</span><span class='lparen token'>(</span><span class='rubyid_starting identifier id'>starting</span><span class='comma token'>,</span><span class='rubyid_ending identifier id'>ending</span><span class='rparen token'>)</span>
+  <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='dstring node'>&quot;#{starting}/#{self.cidr_from_ends(starting,ending)}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:12 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

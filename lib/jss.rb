@@ -1,33 +1,35 @@
 ### Author::    Chris Lasell, Pixar Animation Studios (mailto:chrisl@pixar.com)
 ### Copyright:: Copyright (c) 2014 Pixar Animation Studios
 
-#####################################
-### Required Libraries, etc
-#####################################
-
-###################
-### Standard Libraries
-require 'date'
-require 'singleton'
-require 'pathname'
-require 'fileutils'
-require 'tempfile'
-require 'uri'
-require 'cgi'
-require "ipaddr"
-require "rexml/document"
-
-###################
-### Gems
-require 'mysql'
-require 'rest-client'
-require 'json'
-
 ###
 ### JSS, A Ruby module for interacting with the JAMF Software Server via it's API.
 ###
 ###
 module JSS
+
+  #####################################
+  ### Required Libraries, etc
+  #####################################
+  
+  ###################
+  ### Standard Libraries
+  require 'date'
+  require 'singleton'
+  require 'pathname'
+  require 'fileutils'
+  require 'tempfile'
+  require 'uri'
+  require 'cgi'
+  require "ipaddr"
+  require "rexml/document"
+  
+  ###################
+  ### Gems
+  require 'mysql'
+  require 'rest-client'
+  require 'json'
+  
+
 
   #####################################
   ### Constants

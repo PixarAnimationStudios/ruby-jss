@@ -1,0 +1,2923 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSS::DistributionPoint
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/DistributionPoint.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">DistributionPoint</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSS::DistributionPoint
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::DistributionPoint</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/jss/api_object/distribution_point.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A distribution point in the JSS</p>
+
+<p>For initialization, the args are a hash. If the hash has only one member,
+it must  be either :name (a string), or :id (an integer), or :master</p>
+
+<p>See also JSS::APIObject</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;distributionpoints&quot;</span>
+</pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS its
+also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:distribution_points</span>
+</pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It’s also used in various
+error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol val'>:distribution_point</span>
+</pre></dd>
+      
+        <dt id="VALID_DATA_KEYS-constant" class="">VALID_DATA_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>these keys, as well as :id and :name,  are present in valid API JSON data
+for this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:read_only_username</span><span class='comma token'>,</span> <span class='symbol val'>:ssh_username</span><span class='comma token'>,</span> <span class='symbol val'>:is_master</span> <span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="MOUNT_OPTIONS-constant" class="">MOUNT_OPTIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>what  are the mount options? these are comma-separated, and are passed with
+-o</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>'nobrowse'</span>
+</pre></dd>
+      
+        <dt id="master_distribution_point-classvariable" class="">@@master_distribution_point =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Class Variables</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_nil nil kw'>nil</span>
+</pre></dd>
+      
+        <dt id="my_distribution_point-classvariable" class="">@@my_distribution_point =
+          
+        </dt>
+        <dd><pre class="code"><span class='rubyid_nil nil kw'>nil</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#certificate-instance_method" title="#certificate (instance method)">- (Object) <strong>certificate</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the name of the cert.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#certificate_required-instance_method" title="#certificate_required (instance method)">- (Object) <strong>certificate_required</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - do http downloads use cert.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connection_type-instance_method" title="#connection_type (instance method)">- (Object) <strong>connection_type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - Protocol for fileservice access (e.g. AFP, SMB).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#context-instance_method" title="#context (instance method)">- (Object) <strong>context</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the “context” for http downloads (what goes after the hostname
+part of the URL).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_load_balancing-instance_method" title="#enable_load_balancing (instance method)">- (Object) <strong>enable_load_balancing</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - load balanacing enabled?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failover_point-instance_method" title="#failover_point (instance method)">- (Object) <strong>failover_point</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - the id of the DP to use for failover.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failover_point_url-instance_method" title="#failover_point_url (instance method)">- (Object) <strong>failover_point_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the URL to use if this one doesn’t work.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_downloads_enabled-instance_method" title="#http_downloads_enabled (instance method)">- (Object) <strong>http_downloads_enabled</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - are http downloads available from this DP?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_url-instance_method" title="#http_url (instance method)">- (Object) <strong>http_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the URL for http downloads.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_username-instance_method" title="#http_username (instance method)">- (Object) <strong>http_username</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the username to use for http downloads if needed for user/pw auth.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (Object) <strong>ip_address</strong> </a>
+    
+
+    
+      (also: #hostname)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the hostname of this DP.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_master-instance_method" title="#is_master (instance method)">- (Object) <strong>is_master</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - is this the master DP?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#local_path-instance_method" title="#local_path (instance method)">- (Object) <strong>local_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the local path on the server to the distribution point directory.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#no_authentication_required-instance_method" title="#no_authentication_required (instance method)">- (Object) <strong>no_authentication_required</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - do http downloads work without auth?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">- (Object) <strong>port</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - the port for http access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#protocol-instance_method" title="#protocol (instance method)">- (Object) <strong>protocol</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the protocol to use for http downloads (http/https).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_only_username-instance_method" title="#read_only_username (instance method)">- (Object) <strong>read_only_username</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - read-only username for fileservice.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_write_username-instance_method" title="#read_write_username (instance method)">- (Object) <strong>read_write_username</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - the read-write username for fileservice access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#share_name-instance_method" title="#share_name (instance method)">- (Object) <strong>share_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String -  the name of the fileservice sharepoint.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#share_port-instance_method" title="#share_port (instance method)">- (Object) <strong>share_port</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Integer - the port for fileservice access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssh_password-instance_method" title="#ssh_password (instance method)">- (Object) <strong>ssh_password</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute ssh_password.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssh_username-instance_method" title="#ssh_username (instance method)">- (Object) <strong>ssh_username</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ssh username.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#username_password_required-instance_method" title="#username_password_required (instance method)">- (Object) <strong>username_password_required</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Boolean - do http downloads use user/pw auth?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#workgroup_or_domain-instance_method" title="#workgroup_or_domain (instance method)">- (Object) <strong>workgroup_or_domain</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String - work group or domain for SMB.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#master_distribution_point-class_method" title="master_distribution_point (class method)">+ (Object) <strong>master_distribution_point</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a DistributionPoint instance for the master distribution point in
+the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#my_distribution_point-class_method" title="my_distribution_point (class method)">+ (Object) <strong>my_distribution_point</strong>(refresh = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>return the Distribution Point for the machine running this code based on
+its IP address.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (DistributionPoint) <strong>initialize</strong>(args) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>As well as the standard :id, :name, and :data, you can  instantiate this
+class with :id =&gt; :master, in which case you’ll get the Master
+Distribution Point as defined in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mount-instance_method" title="#mount (instance method)">- (Object) <strong>mount</strong>(password = nil, access = :ro) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>mount this distribution point locally The password for connecting must be
+provided in the first arg.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mounted%3F-instance_method" title="#mounted? (instance method)">- (Boolean) <strong>mounted?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is this thing mounted right now?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_xml-instance_method" title="#rest_xml (instance method)">- (Object) <strong>rest_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the XML representation of the current state of this object, for POSTing or
+PUTting back to the JSS via the API Will be supported for Dist Points some
+day, I’m sure.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unmount-instance_method" title="#unmount (instance method)">- (Object) <strong>unmount</strong> </a>
+    
+
+    
+      (also: #umount)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>unmount the distribution point.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></tt>) <strong>initialize</strong>(args) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>As well as the standard :id, :name, and :data, you can  instantiate this
+class with :id =&gt; :master, in which case you’ll get the Master
+Distribution Point as defined in the JSS. An error will be raised if one
+hasn’t been defined.</p>
+
+<p>You can also do this more easily by calling JSS.master_distribution_point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 193</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_@init_data ivar id'>@init_data</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  
+  <span class='comment val'>### looking for master?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='symbol val'>:master</span>
+    
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span>
+      <span class='rubyid_@init_data ivar id'>@init_data</span>  <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_get_rsrc identifier id'>get_rsrc</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{RSRC_BASE}/id/#{id}&quot;</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='rbrack token'>]</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:is_master</span><span class='rbrack token'>]</span>
+        <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+        <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+        <span class='rubyid_break break kw'>break</span> 
+      <span class='rubyid_end end kw'>end</span> <span class='comment val'># if data is master</span>
+      <span class='rubyid_@init_data ivar id'>@init_data</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_end end kw'>end</span> <span class='comment val'># each id</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># if args is master</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_puts identifier id'>puts</span> <span class='string val'>'init_data...'</span>
+    <span class='rubyid_pp identifier id'>pp</span> <span class='rubyid_@init_data ivar id'>@init_data</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span> 
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ip_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@local_path ivar id'>@local_path</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:local_path</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@enable_load_balancing ivar id'>@enable_load_balancing</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:enable_load_balancing</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@failover_point ivar id'>@failover_point</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:failover_point</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@is_master ivar id'>@is_master</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:is_master</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_@connection_type ivar id'>@connection_type</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:connection_type</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@share_port ivar id'>@share_port</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:share_port</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@share_name ivar id'>@share_name</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:share_name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@read_write_username ivar id'>@read_write_username</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:read_write_username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@read_only_username ivar id'>@read_only_username</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:read_only_username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@workgroup_or_domain ivar id'>@workgroup_or_domain</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:workgroup_or_domain</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_@http_downloads_enabled ivar id'>@http_downloads_enabled</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:http_downloads_enabled</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@protocol ivar id'>@protocol</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:protocol</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@port ivar id'>@port</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:context</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@no_authentication_required ivar id'>@no_authentication_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:no_authentication_required</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@certificate_required ivar id'>@certificate_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:certificate_required</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@username_password_required ivar id'>@username_password_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:username_password_required</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@http_username ivar id'>@http_username</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:http_username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@certificate ivar id'>@certificate</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:certificate</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@http_url ivar id'>@http_url</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:http_url</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@failover_point_url ivar id'>@failover_point_url</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:failover_point_url</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@ssh_username ivar id'>@ssh_username</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ssh_username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@port ivar id'>@port</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ssh_password</span><span class='rbrack token'>]</span>
+  
+  <span class='comment val'>### Note, as of Casper 9.3:</span>
+  <span class='comment val'>### :management_password_md5=&gt;&quot;xxxxx&quot;</span>
+  <span class='comment val'>### and</span>
+  <span class='comment val'>### :management_password_sha256=&gt; &quot;xxxxxxxxxx&quot;</span>
+  <span class='comment val'>### Are the read/write password</span>
+  <span class='comment val'>###</span>
+  <span class='comment val'>### An empty passwd is </span>
+  <span class='comment val'>### MD5 = d41d8cd98f00b204e9800998ecf8427e</span>
+  <span class='comment val'>### SHA256 = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+  <span class='comment val'>### </span>
+  <span class='comment val'>### Seemms the read-only pw isn't available in the API</span>
+  
+  
+  <span class='comment val'>### if we mount for fileservice, where's the mountpoint?</span>
+  <span class='rubyid_@mountpoint ivar id'>@mountpoint</span> <span class='assign token'>=</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='dstring node'>&quot;/Volumes/CasperDistribution-id-#{@id}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="certificate-instance_method">
+  
+    - (<tt>Object</tt>) <strong>certificate</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the name of the cert. used for http cert. auth.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 171</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_certificate identifier id'>certificate</span>
+  <span class='rubyid_@certificate ivar id'>@certificate</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="certificate_required-instance_method">
+  
+    - (<tt>Object</tt>) <strong>certificate_required</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - do http downloads use cert. authentication?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 162</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_certificate_required identifier id'>certificate_required</span>
+  <span class='rubyid_@certificate_required ivar id'>@certificate_required</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connection_type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>connection_type</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - Protocol for fileservice access (e.g. AFP, SMB)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 127</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_connection_type identifier id'>connection_type</span>
+  <span class='rubyid_@connection_type ivar id'>@connection_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="context-instance_method">
+  
+    - (<tt>Object</tt>) <strong>context</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the “context” for http downloads (what goes after the hostname
+part of the URL)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 156</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_context identifier id'>context</span>
+  <span class='rubyid_@context ivar id'>@context</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enable_load_balancing-instance_method">
+  
+    - (<tt>Object</tt>) <strong>enable_load_balancing</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - load balanacing enabled?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 116</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_enable_load_balancing identifier id'>enable_load_balancing</span>
+  <span class='rubyid_@enable_load_balancing ivar id'>@enable_load_balancing</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="failover_point-instance_method">
+  
+    - (<tt>Object</tt>) <strong>failover_point</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - the id of the DP to use for failover</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 119</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_failover_point identifier id'>failover_point</span>
+  <span class='rubyid_@failover_point ivar id'>@failover_point</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="failover_point_url-instance_method">
+  
+    - (<tt>Object</tt>) <strong>failover_point_url</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the URL to use if this one doesn’t work</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 177</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_failover_point_url identifier id'>failover_point_url</span>
+  <span class='rubyid_@failover_point_url ivar id'>@failover_point_url</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_downloads_enabled-instance_method">
+  
+    - (<tt>Object</tt>) <strong>http_downloads_enabled</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - are http downloads available from this DP?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 147</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_http_downloads_enabled identifier id'>http_downloads_enabled</span>
+  <span class='rubyid_@http_downloads_enabled ivar id'>@http_downloads_enabled</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_url-instance_method">
+  
+    - (<tt>Object</tt>) <strong>http_url</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the URL for http downloads</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 174</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_http_url identifier id'>http_url</span>
+  <span class='rubyid_@http_url ivar id'>@http_url</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_username-instance_method">
+  
+    - (<tt>Object</tt>) <strong>http_username</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the username to use for http downloads if needed for user/pw auth</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 168</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_http_username identifier id'>http_username</span>
+  <span class='rubyid_@http_username ivar id'>@http_username</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='hostname-instance_method'>hostname</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the hostname of this DP</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 109</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ip_address identifier id'>ip_address</span>
+  <span class='rubyid_@ip_address ivar id'>@ip_address</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_master-instance_method">
+  
+    - (<tt>Object</tt>) <strong>is_master</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - is this the master DP?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 122</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_master identifier id'>is_master</span>
+  <span class='rubyid_@is_master ivar id'>@is_master</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="local_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>local_path</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the local path on the server to the distribution point directory</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 113</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_local_path identifier id'>local_path</span>
+  <span class='rubyid_@local_path ivar id'>@local_path</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="no_authentication_required-instance_method">
+  
+    - (<tt>Object</tt>) <strong>no_authentication_required</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - do http downloads work without auth?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 159</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_no_authentication_required identifier id'>no_authentication_required</span>
+  <span class='rubyid_@no_authentication_required ivar id'>@no_authentication_required</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - the port for http access</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 153</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_port identifier id'>port</span>
+  <span class='rubyid_@port ivar id'>@port</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="protocol-instance_method">
+  
+    - (<tt>Object</tt>) <strong>protocol</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the protocol to use for http downloads (http/https)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 150</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_protocol identifier id'>protocol</span>
+  <span class='rubyid_@protocol ivar id'>@protocol</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_only_username-instance_method">
+  
+    - (<tt>Object</tt>) <strong>read_only_username</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - read-only username for fileservice</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 139</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_read_only_username identifier id'>read_only_username</span>
+  <span class='rubyid_@read_only_username ivar id'>@read_only_username</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_write_username-instance_method">
+  
+    - (<tt>Object</tt>) <strong>read_write_username</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - the read-write username for fileservice access</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 136</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_read_write_username identifier id'>read_write_username</span>
+  <span class='rubyid_@read_write_username ivar id'>@read_write_username</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="share_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>share_name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String -  the name of the fileservice sharepoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 133</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_share_name identifier id'>share_name</span>
+  <span class='rubyid_@share_name ivar id'>@share_name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="share_port-instance_method">
+  
+    - (<tt>Object</tt>) <strong>share_port</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Integer - the port for fileservice access</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 130</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_share_port identifier id'>share_port</span>
+  <span class='rubyid_@share_port ivar id'>@share_port</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ssh_password-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ssh_password</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute ssh_password</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 183</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ssh_password identifier id'>ssh_password</span>
+  <span class='rubyid_@ssh_password ivar id'>@ssh_password</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ssh_username-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ssh_username</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ssh username</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 182</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ssh_username identifier id'>ssh_username</span>
+  <span class='rubyid_@ssh_username ivar id'>@ssh_username</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="username_password_required-instance_method">
+  
+    - (<tt>Object</tt>) <strong>username_password_required</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean - do http downloads use user/pw auth?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 165</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_username_password_required identifier id'>username_password_required</span>
+  <span class='rubyid_@username_password_required ivar id'>@username_password_required</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="workgroup_or_domain-instance_method">
+  
+    - (<tt>Object</tt>) <strong>workgroup_or_domain</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>String - work group or domain for SMB</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 142</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_workgroup_or_domain identifier id'>workgroup_or_domain</span>
+  <span class='rubyid_@workgroup_or_domain ivar id'>@workgroup_or_domain</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="master_distribution_point-class_method">
+  
+    + (<tt>Object</tt>) <strong>master_distribution_point</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a DistributionPoint instance for the master distribution point in
+the JSS. If there’s only one DP in the JSS, return it even if not marked
+as master.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 72</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_master_distribution_point identifier id'>master_distribution_point</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@master_distribution_point ivar id'>@@master_distribution_point</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_refresh identifier id'>refresh</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@@master_distribution_point ivar id'>@@master_distribution_point</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@@master_distribution_point ivar id'>@@master_distribution_point</span>
+  
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
+    <span class='rubyid_when when kw'>when</span> <span class='integer val'>0</span> 
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='string val'>&quot;No distribution points defined&quot;</span>
+    <span class='rubyid_when when kw'>when</span> <span class='integer val'>1</span> 
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:master</span>
+    <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_distribution_point-class_method">
+  
+    + (<tt>Object</tt>) <strong>my_distribution_point</strong>(refresh = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>return the Distribution Point for the machine running this code based on
+its IP address.  If none defined for this IP address, use the result of
+master_distribution_point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 91</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_my_distribution_point identifier id'>my_distribution_point</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@my_distribution_point ivar id'>@@my_distribution_point</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_refresh identifier id'>refresh</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@@my_distribution_point ivar id'>@@my_distribution_point</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@@my_distribution_point ivar id'>@@my_distribution_point</span>
+  
+  <span class='rubyid_my_net_seg identifier id'>my_net_seg</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NetworkSegment constant id'>NetworkSegment</span><span class='dot token'>.</span><span class='rubyid_my_net_segment identifier id'>my_net_segment</span> 
+  <span class='rubyid_specific identifier id'>specific</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_my_net_seg identifier id'>my_net_seg</span>
+    <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NetworkSegment constant id'>NetworkSegment</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_net_seg identifier id'>my_net_seg</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_distribution_point identifier id'>distribution_point</span> 
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_specific identifier id'>specific</span> <span class='question op'>?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_specific identifier id'>specific</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_master_distribution_point identifier id'>master_distribution_point</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="mount-instance_method">
+  
+    - (<tt>Object</tt>) <strong>mount</strong>(password = nil, access = :ro) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>mount this distribution point locally The password for connecting must be
+provided in the first arg. the second arg is either :ro or :rw, indicating
+which level of access (and which username/password) to use when connecting.
+If omitted, defaults of :ro</p>
+
+<p>returns a Pathname object of the mountpoint.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 270</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mount identifier id'>mount</span><span class='lparen token'>(</span><span class='rubyid_password identifier id'>password</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_access identifier id'>access</span> <span class='assign token'>=</span> <span class='symbol val'>:ro</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@mountpoint ivar id'>@mountpoint</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_mounted? fid id'>mounted?</span>
+  <span class='rubyid_access identifier id'>access</span> <span class='assign token'>=</span> <span class='symbol val'>:rw</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_access identifier id'>access</span> <span class='eq op'>==</span> <span class='symbol val'>:ro</span>
+  
+  <span class='rubyid_username identifier id'>username</span> <span class='assign token'>=</span> <span class='rubyid_access identifier id'>access</span> <span class='eq op'>==</span> <span class='symbol val'>:ro</span> <span class='question op'>?</span> <span class='rubyid_@read_only_username ivar id'>@read_only_username</span> <span class='colon op'>:</span> <span class='rubyid_@read_write_username ivar id'>@read_write_username</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Password required for user #{username}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_password identifier id'>password</span>
+  
+  <span class='rubyid_safe_pw identifier id'>safe_pw</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_escape identifier id'>escape</span> <span class='rubyid_password identifier id'>password</span><span class='comma token'>,</span> <span class='regexp val'>/[^a-zA-Z\d]/</span>
+  
+  <span class='rubyid_@mount_url ivar id'>@mount_url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{@connection_type.downcase}://#{username}:#{safe_pw}@#{@ip_address}/#{@share_name}&quot;</span>
+  <span class='rubyid_@mnt_cmd ivar id'>@mnt_cmd</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@connection_type ivar id'>@connection_type</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'smb'</span> <span class='rubyid_then then kw'>then</span> <span class='string val'>'/sbin/mount_smbfs'</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'afp'</span> <span class='rubyid_then then kw'>then</span> <span class='string val'>'/sbin/mount_afp'</span>
+    <span class='rubyid_else else kw'>else</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Can't mount distribution point #{@name}: no known connection type.&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_mkpath identifier id'>mkpath</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}'&quot;</span> 
+    <span class='rubyid_@mounted ivar id'>@mounted</span> <span class='assign token'>=</span> <span class='rubyid_access identifier id'>access</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_rmdir identifier id'>rmdir</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_directory? fid id'>directory?</span>
+    <span class='rubyid_@mounted ivar id'>@mounted</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_raise identifier id'>raise</span>  <span class='dstring node'>&quot;There was a problem mounting #{@ip_address}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@mountpoint ivar id'>@mountpoint</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mounted?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>mounted?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is this thing mounted right now?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 316</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_mounted? fid id'>mounted?</span>
+  <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_directory? fid id'>directory?</span> <span class='rubyid_and and kw'>and</span>  <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_mountpoint? fid id'>mountpoint?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rest_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>rest_xml</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the XML representation of the current state of this object, for POSTing or
+PUTting back to the JSS via the API Will be supported for Dist Points some
+day, I’m sure.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 325</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>    
+  <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_dp identifier id'>dp</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span> <span class='string val'>&quot;distribution_point&quot;</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:ip_address</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@ip_address ivar id'>@ip_address</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:local_path</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@local_path ivar id'>@local_path</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:enable_load_balancing</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@enable_load_balancing ivar id'>@enable_load_balancing</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:failover_point</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@failover_point ivar id'>@failover_point</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:is_master</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@is_master ivar id'>@is_master</span>
+  
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:connection_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@connection_type ivar id'>@connection_type</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:share_port</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@share_port ivar id'>@share_port</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:share_name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@share_name ivar id'>@share_name</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:read_write_username</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@read_write_username ivar id'>@read_write_username</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:read_write_password</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@read_write_password ivar id'>@read_write_password</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:read_only_username</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@read_only_username ivar id'>@read_only_username</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:read_only_password</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@read_only_password ivar id'>@read_only_password</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:workgroup_or_domain</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@workgroup_or_domain ivar id'>@workgroup_or_domain</span>
+  
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:http_downloads_enabled</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@http_downloads_enabled ivar id'>@http_downloads_enabled</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:protocol</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@protocol ivar id'>@protocol</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:port</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@port ivar id'>@port</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:context</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@context ivar id'>@context</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:no_authentication_required</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@no_authentication_required ivar id'>@no_authentication_required</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:certificate_required</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@certificate_required ivar id'>@certificate_required</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:username_password_required</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@username_password_required ivar id'>@username_password_required</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:http_username</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@http_username ivar id'>@http_username</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:certificate</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@certificate ivar id'>@certificate</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:http_url</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@http_url ivar id'>@http_url</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:failover_point_url</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@failover_point_url ivar id'>@failover_point_url</span>
+  
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:ssh_username</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@ssh_username ivar id'>@ssh_username</span>
+  <span class='rubyid_dp identifier id'>dp</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='symbol val'>:ssh_password</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@ssh_password ivar id'>@ssh_password</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ssh_password ivar id'>@ssh_password</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unmount-instance_method">
+  
+    - (<tt>Object</tt>) <strong>unmount</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='umount-instance_method'>umount</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>unmount the distribution point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 301</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_unmount identifier id'>unmount</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_mounted? fid id'>mounted?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;umount '#{@mountpoint}'&quot;</span> 
+    <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_rmdir identifier id'>rmdir</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_directory? fid id'>directory?</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_not not kw'>not</span> <span class='rubyid_@mountpoint ivar id'>@mountpoint</span><span class='dot token'>.</span><span class='rubyid_mountpoint? fid id'>mountpoint?</span><span class='rparen token'>)</span>
+    <span class='rubyid_@mounted ivar id'>@mounted</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_raise identifier id'>raise</span>  <span class='dstring node'>&quot;There was a problem unmounting #{@mountpoint}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:11:05 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

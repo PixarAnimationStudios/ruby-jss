@@ -1,0 +1,1395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: JSS::Purchasable
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSS/Purchasable.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Purchasable</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: JSS::Purchasable
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss/api_object/purchasable.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Sub-Modules</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="PURCHASABLE-constant" class="">PURCHASABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_true true kw'>true</span>
+</pre></dd>
+      
+        <dt id="SUBSET_PURCH-constant" class="">SUBSET_PURCH =
+          
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;Purchasing&quot;</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#applecare_id-instance_method" title="#applecare_id (instance method)">- (Object) <strong>applecare_id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attribtues.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_leased-instance_method" title="#is_leased (instance method)">- (Object) <strong>is_leased</strong> </a>
+    
+
+    
+      (also: #leased?)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute is_leased.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_purchased-instance_method" title="#is_purchased (instance method)">- (Object) <strong>is_purchased</strong> </a>
+    
+
+    
+      (also: #purchased?)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute is_purchased.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lease_expires-instance_method" title="#lease_expires (instance method)">- (Object) <strong>lease_expires</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute lease_expires.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#life_expectancy-instance_method" title="#life_expectancy (instance method)">- (Object) <strong>life_expectancy</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute life_expectancy.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_applecare_id-instance_method" title="#os_applecare_id (instance method)">- (Object) <strong>os_applecare_id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute os_applecare_id.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_maintenance_expires-instance_method" title="#os_maintenance_expires (instance method)">- (Object) <strong>os_maintenance_expires</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute os_maintenance_expires.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#po_date-instance_method" title="#po_date (instance method)">- (Object) <strong>po_date</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute po_date.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#po_number-instance_method" title="#po_number (instance method)">- (Object) <strong>po_number</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute po_number.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchase_price-instance_method" title="#purchase_price (instance method)">- (Object) <strong>purchase_price</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute purchase_price.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_account-instance_method" title="#purchasing_account (instance method)">- (Object) <strong>purchasing_account</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute purchasing_account.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_contact-instance_method" title="#purchasing_contact (instance method)">- (Object) <strong>purchasing_contact</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute purchasing_contact.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vendor-instance_method" title="#vendor (instance method)">- (Object) <strong>vendor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute vendor.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#warranty_expires-instance_method" title="#warranty_expires (instance method)">- (Object) <strong>warranty_expires</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute warranty_expires.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_purchasing-instance_method" title="#parse_purchasing (instance method)">- (Object) <strong>parse_purchasing</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of  objects that have a Purchasing subset
+and the purchasing attribute will be populated from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_xml-instance_method" title="#purchasing_xml (instance method)">- (Object) <strong>purchasing_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a REXML  element to be included in the rest_xml of  objects that
+have a Purchasing subset.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="applecare_id=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="applecare_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>applecare_id</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attribtues</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_applecare_id identifier id'>applecare_id</span>
+  <span class='rubyid_@applecare_id ivar id'>@applecare_id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="is_leased=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_leased-instance_method">
+  
+    - (<tt>Object</tt>) <strong>is_leased</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='leased?-instance_method'>leased?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute is_leased</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 65</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_leased identifier id'>is_leased</span>
+  <span class='rubyid_@is_leased ivar id'>@is_leased</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="is_purchased=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_purchased-instance_method">
+  
+    - (<tt>Object</tt>) <strong>is_purchased</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='purchased?-instance_method'>purchased?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute is_purchased</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 70</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_purchased identifier id'>is_purchased</span>
+  <span class='rubyid_@is_purchased ivar id'>@is_purchased</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lease_expires=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lease_expires-instance_method">
+  
+    - (<tt>Object</tt>) <strong>lease_expires</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute lease_expires</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 68</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_lease_expires identifier id'>lease_expires</span>
+  <span class='rubyid_@lease_expires ivar id'>@lease_expires</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="life_expectancy=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="life_expectancy-instance_method">
+  
+    - (<tt>Object</tt>) <strong>life_expectancy</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute life_expectancy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 75</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_life_expectancy identifier id'>life_expectancy</span>
+  <span class='rubyid_@life_expectancy ivar id'>@life_expectancy</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="os_applecare_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_applecare_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>os_applecare_id</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute os_applecare_id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 89</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_os_applecare_id identifier id'>os_applecare_id</span>
+  <span class='rubyid_@os_applecare_id ivar id'>@os_applecare_id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="os_maintenance_expires=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_maintenance_expires-instance_method">
+  
+    - (<tt>Object</tt>) <strong>os_maintenance_expires</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute os_maintenance_expires</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 91</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_os_maintenance_expires identifier id'>os_maintenance_expires</span>
+  <span class='rubyid_@os_maintenance_expires ivar id'>@os_maintenance_expires</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="po_date=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="po_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>po_date</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute po_date</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 79</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_po_date identifier id'>po_date</span>
+  <span class='rubyid_@po_date ivar id'>@po_date</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="po_number=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="po_number-instance_method">
+  
+    - (<tt>Object</tt>) <strong>po_number</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute po_number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 77</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_po_number identifier id'>po_number</span>
+  <span class='rubyid_@po_number ivar id'>@po_number</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="purchase_price=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchase_price-instance_method">
+  
+    - (<tt>Object</tt>) <strong>purchase_price</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute purchase_price</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 73</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_purchase_price identifier id'>purchase_price</span>
+  <span class='rubyid_@purchase_price ivar id'>@purchase_price</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="purchasing_account=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_account-instance_method">
+  
+    - (<tt>Object</tt>) <strong>purchasing_account</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute purchasing_account</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 81</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_purchasing_account identifier id'>purchasing_account</span>
+  <span class='rubyid_@purchasing_account ivar id'>@purchasing_account</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="purchasing_contact=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_contact-instance_method">
+  
+    - (<tt>Object</tt>) <strong>purchasing_contact</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute purchasing_contact</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 83</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_purchasing_contact identifier id'>purchasing_contact</span>
+  <span class='rubyid_@purchasing_contact ivar id'>@purchasing_contact</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="vendor=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="vendor-instance_method">
+  
+    - (<tt>Object</tt>) <strong>vendor</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute vendor</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 85</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_vendor identifier id'>vendor</span>
+  <span class='rubyid_@vendor ivar id'>@vendor</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="warranty_expires=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="warranty_expires-instance_method">
+  
+    - (<tt>Object</tt>) <strong>warranty_expires</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute warranty_expires</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 87</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_warranty_expires identifier id'>warranty_expires</span>
+  <span class='rubyid_@warranty_expires ivar id'>@warranty_expires</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse_purchasing-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_purchasing</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Call this during initialization of  objects that have a Purchasing subset
+and the purchasing attribute will be populated from @init_data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_purchasing identifier id'>parse_purchasing</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:purchasing</span><span class='rbrack token'>]</span> 
+  
+  <span class='rubyid_@purchasing ivar id'>@purchasing</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:purchasing</span><span class='rbrack token'>]</span> 
+  
+  <span class='rubyid_@lease_expires ivar id'>@lease_expires</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span>  <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:lease_expires_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@po_date ivar id'>@po_date</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span>  <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:po_date_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@warranty_expires ivar id'>@warranty_expires</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span>  <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:warranty_expires_epoch</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@os_maintenance_expires ivar id'>@os_maintenance_expires</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span>  <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:os_maintenance_expires_epoch</span><span class='rbrack token'>]</span>
+  
+  <span class='rubyid_@applecare_id ivar id'>@applecare_id</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:applecare_id</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@is_leased ivar id'>@is_leased</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:is_leased</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@is_purchased ivar id'>@is_purchased</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:is_purchased</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@life_expectancy ivar id'>@life_expectancy</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:life_expectancy</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@po_number ivar id'>@po_number</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:po_number</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@purchase_price ivar id'>@purchase_price</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:purchase_price</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@purchasing_account ivar id'>@purchasing_account</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:purchasing_account</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@purchasing_contact ivar id'>@purchasing_contact</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:purchasing_contact</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@vendor ivar id'>@vendor</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:vendor</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@os_applecare_id ivar id'>@os_applecare_id</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing ivar id'>@purchasing</span><span class='lbrack token'>[</span><span class='symbol val'>:os_applecare_id</span><span class='rbrack token'>]</span>
+  
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_xml-instance_method">
+  
+    - (<tt>Object</tt>) <strong>purchasing_xml</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a REXML &lt;purchasing&gt; element to be included in the rest_xml of
+objects that have a Purchasing subset</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/purchasable.rb', line 221</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_purchasing_xml identifier id'>purchasing_xml</span>
+  <span class='rubyid_purch identifier id'>purch</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'purchasing'</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'applecare_id'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@applecare_id ivar id'>@applecare_id</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'is_leased'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@is_leased ivar id'>@is_leased</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'is_purchased'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@is_purchased ivar id'>@is_purchased</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'lease_expires'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@lease_expires ivar id'>@lease_expires</span><span class='dot token'>.</span><span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@lease_expires ivar id'>@lease_expires</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'life_expectancy'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@life_expectancy ivar id'>@life_expectancy</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'po_date'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@po_date ivar id'>@po_date</span><span class='dot token'>.</span><span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@po_date ivar id'>@po_date</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'po_number'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@po_number ivar id'>@po_number</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'purchase_price'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@purchase_price ivar id'>@purchase_price</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'purchasing_account'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing_account ivar id'>@purchasing_account</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'purchasing_contact'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@purchasing_contact ivar id'>@purchasing_contact</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'vendor'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@vendor ivar id'>@vendor</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'warranty_expires'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@warranty_expires ivar id'>@warranty_expires</span><span class='dot token'>.</span><span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@warranty_expires ivar id'>@warranty_expires</span>
+  
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'os_applecare_id'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@os_applecare_id ivar id'>@os_applecare_id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@os_applecare_id ivar id'>@os_applecare_id</span>
+  <span class='rubyid_purch identifier id'>purch</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'os_maintenance_expires'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@os_maintenance_expires ivar id'>@os_maintenance_expires</span><span class='dot token'>.</span><span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@os_maintenance_expires ivar id'>@os_maintenance_expires</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_purch identifier id'>purch</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Fri Jul 18 15:10:56 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
