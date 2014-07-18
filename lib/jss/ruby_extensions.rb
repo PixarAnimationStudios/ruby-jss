@@ -1,0 +1,6 @@
+require "jss/ruby_extensions/datetime.rb"
+require "jss/ruby_extensions/filetest.rb"
+require "jss/ruby_extensions/fixnum.rb"
+require "jss/ruby_extensions/ipaddr.rb"
+require "jss/ruby_extensions/pathname.rb"
+require "jss/ruby_extensions/string.rb"
