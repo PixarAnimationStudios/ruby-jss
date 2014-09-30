@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Composer
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -79,12 +79,35 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/jss/composer.rb</dd>
+    <dd class="r1 last">lib/jss.rb<span class="defines">,<br />
+  lib/jss/composer.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This module provides two methods for building very simple Casper-happy .pkg
+and .dmg packages for deployment.</p>
 
+<p>Unlike Composer.app from JAMF, this module currently doesn’t offer a way
+to do a before/after disk scan and use the differences to build the root
+folder from which the package is built. Nor does the module support editing
+the pre/post install scripts in .pkgs.</p>
+
+<p>The ‘root folder’, a folder representing the root filesystem of the
+target machine where the package will be installed, must already exist and
+be fully populated and with correct permissions.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
   <h2>Constant Summary</h2>
   
     <dl class="constants">
@@ -137,7 +160,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='string val'>'rubycomposer'</span>
+        <dd><pre class="code"><span class='string val'>'jss_gem_composer'</span>
 </pre></dd>
       
         <dt id="HDI_UTIL-constant" class="">HDI_UTIL =
@@ -157,6 +180,23 @@
         <dd><pre class="code"><span class='string val'>'/usr/bin/hdiutil'</span>
 </pre></dd>
       
+        <dt id="DEFAULT_OUT_DIR-constant" class="">DEFAULT_OUT_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Where to save the output ?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='string val'>&quot;/Users/Shared&quot;</span>
+</pre></dd>
+      
     </dl>
   
 
@@ -168,7 +208,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Class Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -177,7 +217,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#mk_dmg-instance_method" title="#mk_dmg (instance method)">- (Object) <strong>mk_dmg</strong>(args = {}) </a>
+      <a href="#mk_dmg-class_method" title="mk_dmg (class method)">+ (Pathname) <strong>mk_dmg</strong>(name, root, out_dir = DEFAULT_OUT_DIR) </a>
     
 
     
@@ -202,7 +242,7 @@ be correct.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#mk_pkg-instance_method" title="#mk_pkg (instance method)">- (Object) <strong>mk_pkg</strong>(args = {}) </a>
+      <a href="#mk_pkg-class_method" title="mk_pkg (class method)">+ (Pathname) <strong>mk_pkg</strong>(name, version, root, opts = {}) </a>
     
 
     
@@ -229,14 +269,14 @@ be correct.</p>
 
 
 
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="mk_dmg-instance_method">
+  <h3 class="signature first" id="mk_dmg-class_method">
   
-    - (<tt>Object</tt>) <strong>mk_dmg</strong>(args = {}) 
+    + (<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>) <strong>mk_dmg</strong>(name, root, out_dir = DEFAULT_OUT_DIR) 
   
 
   
@@ -246,41 +286,93 @@ be correct.</p>
   <div class="discussion">
     
 <p>Make a casper-happy .dmg out of a root folder, permissions are assumed to
-be correct. All args are required except :out_dir.</p>
-<ul><li>
-<p>:root =&gt; ‘/some/dir/path/’  the path to the “root folder”
-representing the root file system of the target install drive</p>
-</li><li>
-<p>:name =&gt; ‘somename’ the version-agnostic name of the item being
-pkgd, e.g. ‘filemaker’ or ‘googlechrome’</p>
-</li><li>
-<p>:version =&gt; ‘someversion’ the version of the thing being installed</p>
-</li><li>
-<p>:revision =&gt; someInt  the integer revision of this pkging of this
-version of the thing</p>
-</li><li>
-<p>:out_dir =&gt; /some/dir/path  the folder in which the .pkg will be
-created. Defaults to /Users/Shared</p>
-</li></ul>
-
-<p>Returns: the local path to the new .dmg (string), nil if there was an error
-running hdiutil.</p>
-
-<p>When creating the dmg, the dmg filename will be name-version-revision.dmg,
-and the mounted volume name will be name-version-revision</p>
+be correct.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the .dmg, the suffix will be added if needed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>root</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the path to the “root folder” representing the root file system of the
+target install drive</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>out_dir</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>DEFAULT_OUT_DIR</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the folder in which the .pkg will be created. Defaults to <span class='object_link'><a href="#DEFAULT_OUT_DIR-constant" title="JSS::Composer::DEFAULT_OUT_DIR (constant)">DEFAULT_OUT_DIR</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local path to the new .dmg</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></tt>)</span>
+        <span class='type'>(<tt>RuntimeError</tt>)</span>
       
       
       
@@ -294,9 +386,6 @@ and the mounted volume name will be name-version-revision</p>
       <pre class="lines">
 
 
-126
-127
-128
 129
 130
 131
@@ -308,31 +397,22 @@ and the mounted volume name will be name-version-revision</p>
 137
 138
 139
-140
-141
-142
-143</pre>
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/composer.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/composer.rb', line 129</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_mk_dmg identifier id'>mk_dmg</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :root path for building a .dmg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:root</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :name for building a .dmg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :version for building a .dmg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :revision for building a .dmg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:revision</span><span class='rbrack token'>]</span>
-  
-  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:out_dir</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/Users/Shared&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:out_dir</span><span class='rbrack token'>]</span>
-   
-  <span class='rubyid_dmg_filename identifier id'>dmg_filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:name]}-#{args[:version]}-#{args[:revision]}.dmg&quot;</span>
-  <span class='rubyid_dmg_vol identifier id'>dmg_vol</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:name]}-#{args[:version]}-#{args[:revision]}&quot;</span>
-  <span class='rubyid_dmg_out identifier id'>dmg_out</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:out_dir]}/#{dmg_filename}&quot;</span>
-  
-  <span class='rubyid_PixJSS constant id'>PixJSS</span><span class='dot token'>.</span><span class='rubyid_sudo_run identifier id'>sudo_run</span> <span class='dstring node'>&quot;#{HDI_UTIL} create -volname '#{dmg_vol}' -srcfolder '#{args[:root]}' '#{dmg_out}'&quot;</span>
-  
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_mk_dmg identifier id'>mk_dmg</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_root identifier id'>root</span><span class='comma token'>,</span> <span class='rubyid_out_dir identifier id'>out_dir</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_OUT_DIR constant id'>DEFAULT_OUT_DIR</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_dmg_filename identifier id'>dmg_filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{name}.dmg&quot;</span>
+  <span class='rubyid_dmg_vol identifier id'>dmg_vol</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_dmg_out identifier id'>dmg_out</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{out_dir}/#{dmg_filename}&quot;</span>
+
+  <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{HDI_UTIL} create -volname '#{dmg_vol}' -srcfolder '#{root}' '#{dmg_out}'&quot;</span>
+
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RuntimeError constant id'>RuntimeError</span><span class='comma token'>,</span> <span class='string val'>&quot;There was an error building the .dmg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_$? gvar id'>$?</span><span class='dot token'>.</span><span class='rubyid_exitstatus identifier id'>exitstatus</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_dmg_out identifier id'>dmg_out</span>
-  
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_dmg_out identifier id'>dmg_out</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -341,9 +421,9 @@ and the mounted volume name will be name-version-revision</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="mk_pkg-instance_method">
+  <h3 class="signature " id="mk_pkg-class_method">
   
-    - (<tt>Object</tt>) <strong>mk_pkg</strong>(args = {}) 
+    + (<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>) <strong>mk_pkg</strong>(name, version, root, opts = {}) 
   
 
   
@@ -355,48 +435,158 @@ and the mounted volume name will be name-version-revision</p>
 <p>Make a casper-happy .pkg out of a root folder, permissions are assumed to
 be correct.</p>
 
-<p>All args are required except :bundle_id_prefix, :out_dir and
-:preserve_ownership</p>
-<ul><li>
-<p>:root =&gt; ‘/some/dir/path/’  - the path to the “root folder”
-representing the root file system of the target install drive</p>
-</li><li>
-<p>:name =&gt; ‘somename’ the version-agnostic name of the item being
-pkgd, e.g. ‘filemaker’ or ‘googlechrome’</p>
-</li><li>
-<p>:bundle_id_prefix =&gt; ‘some.string’  the pkg bundle identifier
-prefix. e.g. ‘org.some.organization’ or ‘com.pixar.d3’</p>
-
-<pre class="code ruby18"><code class="ruby18">defaults to 'rubycomposer'. see 'man pkgbuild' for more info</code></pre>
-</li><li>
-<p>:version =&gt; ‘someversion’ the version of the thing being installed</p>
-</li><li>
-<p>:revision =&gt; someInt  the integer revision of this pkging of this
-version of the thing</p>
-</li><li>
-<p>:out_dir =&gt; /some/dir/path  the folder in which the .pkg will be
-created. Defaults to /Users/Shared</p>
-</li><li>
-<p>:preserve_ownership =&gt; boolean. If true, the owner/group of the rootpath
-are preserved.</p>
-
-<pre class="code ruby18"><code class="ruby18">By default, they become the pkgbuild/installer &quot;recommended&quot; (root/wheel or root/admin)</code></pre>
-</li></ul>
-
-<p>Returns: the local path to the new .pkg (string), or nil if there was an
-error running pkgbuild</p>
-
-<p>When creating the pkg, the name is used to make the pkg identifier
-“jss.name”, which is how the OS knows about versions of a thing and the
-version-revision are used for the pkg version, eg “1.2-2” &lt;br/&gt;
-The pkg filename will be name-version-revision.pkg, and the installer
-“title” will be name-version-revision</p>
-
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the .pkg. The .pkg suffix will be added if not present</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>version</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the version of the .pkg, needed for building the .pkg</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>root</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the path to the “root folder” representing the root file system of the
+target install drive</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the options for building the .pkg</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:bundle_id_prefix</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the pkg bundle identifier prefix. e.g. ‘org.some.organization’ or
+‘com.pixar.d3’. Defaults to ‘<span class='object_link'><a href="#PKG_BUNDLE_ID_PFX-constant" title="JSS::Composer::PKG_BUNDLE_ID_PFX (constant)">PKG_BUNDLE_ID_PFX</a></span>’. See ‘man
+pkgbuild’ for more info</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:out_dir</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>he folder in which the .pkg will be created. Defaults to <span class='object_link'><a href="#DEFAULT_OUT_DIR-constant" title="JSS::Composer::DEFAULT_OUT_DIR (constant)">DEFAULT_OUT_DIR</a></span></p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:preserve_ownership</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If true, the owner/group of the rootpath are preserved. Default is false:
+they become the pkgbuild/installer “recommended” (root/wheel or
+root/admin)</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local path to the new .pkg</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -417,20 +607,6 @@ The pkg filename will be name-version-revision.pkg, and the installer
       <pre class="lines">
 
 
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
 58
 59
 60
@@ -480,29 +656,30 @@ The pkg filename will be name-version-revision.pkg, and the installer
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/composer.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/composer.rb', line 58</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_mk_pkg identifier id'>mk_pkg</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_mk_pkg identifier id'>mk_pkg</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_version identifier id'>version</span><span class='comma token'>,</span> <span class='rubyid_root identifier id'>root</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing pkgbuild tool. Please make sure you're running 10.8 or later.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_PKGBUILD constant id'>PKGBUILD</span><span class='dot token'>.</span><span class='rubyid_executable? fid id'>executable?</span>
 
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :root path for building a .pkg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:root</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :name for building a .pkg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :version for building a .pkg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :revision for building a .pkg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:revision</span><span class='rbrack token'>]</span>
-  
-  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:out_dir</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;/Users/Shared&quot;</span>
-  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:bundle_id_prefix</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_PKG_BUNDLE_ID_PFX constant id'>PKG_BUNDLE_ID_PFX</span>
-  
-  <span class='rubyid_pkg_filename identifier id'>pkg_filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:name]}-#{args[:version]}-#{args[:revision]}.pkg&quot;</span>
-  <span class='rubyid_pkg_vers identifier id'>pkg_vers</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:version]}-#{args[:revision]}&quot;</span>
-  <span class='rubyid_pkg_id identifier id'>pkg_id</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:bundle_id_prefix</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&quot;.&quot;</span> <span class='plus op'>+</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-  <span class='rubyid_pkg_out identifier id'>pkg_out</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{args[:out_dir]}/#{pkg_filename}&quot;</span>
-  <span class='rubyid_pkg_ownership identifier id'>pkg_ownership</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:preserve_ownership</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;preserve&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;recommended&quot;</span>
-  
-  
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:out_dir</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_DEFAULT_OUT_DIR constant id'>DEFAULT_OUT_DIR</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:bundle_id_prefix</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_PKG_BUNDLE_ID_PFX constant id'>PKG_BUNDLE_ID_PFX</span>
+
+  <span class='rubyid_pkg_filename identifier id'>pkg_filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{name}.pkg&quot;</span>
+  <span class='rubyid_pkg_id identifier id'>pkg_id</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:bundle_id_prefix</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&quot;.&quot;</span> <span class='plus op'>+</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_pkg_out identifier id'>pkg_out</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{opts[:out_dir]}/#{pkg_filename}&quot;</span>
+  <span class='rubyid_pkg_ownership identifier id'>pkg_ownership</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:preserve_ownership</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;preserve&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;recommended&quot;</span>
+
+
   <span class='comment val'>### first, run 'analyze' to get a 'component plist' in which we can change some settings</span>
   <span class='comment val'>### for any bundles in the root (bundles like .apps, frameworks, plugins, etc..)</span>
   <span class='comment val'>###</span>
@@ -515,12 +692,11 @@ The pkg filename will be name-version-revision.pkg, and the installer
   <span class='comment val'>### In other words, just install the thing!</span>
   <span class='comment val'>### (see 'man pkgbuild' for more info)</span>
   <span class='comment val'>###</span>
-  <span class='comment val'>### If you need different settings, </span>
   <span class='comment val'>###</span>
   <span class='rubyid_comp_plist_out identifier id'>comp_plist_out</span> <span class='assign token'>=</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='dstring node'>&quot;/tmp/#{PKG_BUNDLE_ID_PFX}-#{pkg_filename}.plist&quot;</span>
-  <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{PKGBUILD} --analyze --root '#{args[:root]}' '#{comp_plist_out}'&quot;</span>
+  <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{PKGBUILD} --analyze --root '#{root}' '#{comp_plist_out}'&quot;</span>
   <span class='rubyid_comp_plist identifier id'>comp_plist</span> <span class='assign token'>=</span> <span class='rubyid_Plist constant id'>Plist</span><span class='dot token'>.</span><span class='rubyid_parse_xml identifier id'>parse_xml</span> <span class='rubyid_comp_plist_out identifier id'>comp_plist_out</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
-  
+
   <span class='comment val'>### if the plist is empty, there are no bundles in the pkg</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_comp_plist identifier id'>comp_plist</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_comp_plist_arg identifier id'>comp_plist_arg</span> <span class='assign token'>=</span> <span class='string val'>''</span>
@@ -537,17 +713,17 @@ The pkg filename will be name-version-revision.pkg, and the installer
     <span class='rubyid_comp_plist_out identifier id'>comp_plist_out</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='string val'>'w'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span> <span class='rubyid_comp_plist identifier id'>comp_plist</span><span class='dot token'>.</span><span class='rubyid_to_plist identifier id'>to_plist</span><span class='rbrace token'>}</span>
     <span class='rubyid_comp_plist_arg identifier id'>comp_plist_arg</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;--component-plist '#{comp_plist_out}'&quot;</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
   <span class='comment val'>### now build the pkg</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{PKGBUILD} --identifier '#{pkg_id}' --version '#{pkg_vers}' --ownership #{pkg_ownership} --install-location / --root '#{args[:root]}' #{comp_plist_arg} '#{pkg_out}' &quot;</span>
-  
+    <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{comp_plist_arg} '#{pkg_out}' &quot;</span>
+
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RuntimeError constant id'>RuntimeError</span><span class='comma token'>,</span> <span class='string val'>&quot;There was an error building the .pkg&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_$? gvar id'>$?</span><span class='dot token'>.</span><span class='rubyid_exitstatus identifier id'>exitstatus</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
   <span class='rubyid_ensure ensure kw'>ensure</span>
     <span class='rubyid_comp_plist_out identifier id'>comp_plist_out</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_comp_plist_out identifier id'>comp_plist_out</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span>
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_pkg_out identifier id'>pkg_out</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_pkg_out identifier id'>pkg_out</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -560,7 +736,7 @@ The pkg filename will be name-version-revision.pkg, and the installer
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:56 2014 by
+  Generated on Tue Sep 30 15:58:11 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

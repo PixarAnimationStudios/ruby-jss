@@ -13,10 +13,10 @@ module JSS
   #####################################
 
   ### 
-  ### A department in the JSS
+  ### A department in the JSS.
   ### These are simple, in that they only have an ID and a name
   ###
-  ### See also JSS::APIObject
+  ### @see JSS::APIObject
   ###
   class Department < JSS::APIObject
     

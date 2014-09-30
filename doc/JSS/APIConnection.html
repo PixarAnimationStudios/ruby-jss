@@ -6,7 +6,7 @@
 <title>
   Class: JSS::APIConnection
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -98,7 +98,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/jss/api.rb<span class="defines">,<br />
+    <dd class="r1 last">lib/jss/api_connection.rb<span class="defines">,<br />
   lib/jss.rb</span>
 </dd>
   
@@ -112,14 +112,13 @@
 
 <p>This is a singleton class, only one can exist at a time. Its one instance
 is created automatically when the module loads, but it isn’t connected to
-anything.</p>
+anything at that time.</p>
 
-<p>Use it via the JSS::API constant to call the #connect method, and the
-get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
+<p>Use it via the <span class='object_link'><a href="../JSS.html#API-constant" title="JSS::API (constant)">API</a></span> constant to call the #connect method, and the
+<span class='object_link'><a href="#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">#get_rsrc</a></span>, <span class='object_link'><a href="#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">#put_rsrc</a></span>, <span class='object_link'><a href="#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">#post_rsrc</a></span>, &amp; <span class='object_link'><a href="#delete_rsrc-instance_method" title="JSS::APIConnection#delete_rsrc (method)">#delete_rsrc</a></span> methods, q.v.
+below.</p>
 
 <p>To access the underlying RestClient::Resource instance, use JSS::API.cnx</p>
-
-<p>See Also JSS::APIObject</p>
 
 
   </div>
@@ -235,7 +234,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cnx-instance_method" title="#cnx (instance method)">- (Object) <strong>cnx</strong> </a>
+      <a href="#cnx-instance_method" title="#cnx (instance method)">- (RestClient::Resource) <strong>cnx</strong> </a>
     
 
     
@@ -255,7 +254,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>RestClient::Resource - the underlying connection resource.</p>
+<p>The underlying connection resource.</p>
 </div></span>
   
 </li>
@@ -264,7 +263,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#connected-instance_method" title="#connected (instance method)">- (Object) <strong>connected</strong> </a>
+      <a href="#connected-instance_method" title="#connected (instance method)">- (Boolean) <strong>connected</strong> </a>
     
 
     
@@ -286,7 +285,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - are we connected right now?.</p>
+<p>Are we connected right now?.</p>
 </div></span>
   
 </li>
@@ -295,7 +294,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#jss_user-instance_method" title="#jss_user (instance method)">- (Object) <strong>jss_user</strong> </a>
+      <a href="#jss_user-instance_method" title="#jss_user (instance method)">- (String) <strong>jss_user</strong> </a>
     
 
     
@@ -315,7 +314,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the username who’s connected to the JSS API.</p>
+<p>The username who’s connected to the JSS API.</p>
 </div></span>
   
 </li>
@@ -324,7 +323,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#server-instance_method" title="#server (instance method)">- (Object) <strong>server</strong> </a>
+      <a href="#server-instance_method" title="#server (instance method)">- (JSS::Server) <strong>server</strong> </a>
     
 
     
@@ -344,7 +343,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>JSS::Server - the details of the JSS to which we’re connected.</p>
+<p>The details of the JSS to which we’re connected.</p>
 </div></span>
   
 </li>
@@ -390,7 +389,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_rsrc-instance_method" title="#delete_rsrc (instance method)">- (Object) <strong>delete_rsrc</strong>(rsrc) </a>
+      <a href="#delete_rsrc-instance_method" title="#delete_rsrc (instance method)">- (String) <strong>delete_rsrc</strong>(rsrc) </a>
     
 
     
@@ -414,7 +413,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#disconnect-instance_method" title="#disconnect (instance method)">- (Object) <strong>disconnect</strong> </a>
+      <a href="#disconnect-instance_method" title="#disconnect (instance method)">- (void) <strong>disconnect</strong> </a>
     
 
     
@@ -430,7 +429,7 @@ get_rsrc, put_rsrc, post_rsrc, &amp; delete_rsrc methods, q.v. below.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>With a REST connection, there isn’t any real “connection” to
-disconnect from, just the saved authentication credentials.</p>
+disconnect from So to disconnect, we just unset all our credentials.</p>
 </div></span>
   
 </li>
@@ -490,7 +489,7 @@ JSS::API.connect.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#open_timeout%3D-instance_method" title="#open_timeout= (instance method)">- (Object) <strong>open_timeout=</strong>(timeout) </a>
+      <a href="#open_timeout%3D-instance_method" title="#open_timeout= (instance method)">- (void) <strong>open_timeout=</strong>(timeout) </a>
     
 
     
@@ -562,7 +561,7 @@ JSS::API.connect.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#timeout%3D-instance_method" title="#timeout= (instance method)">- (Object) <strong>timeout=</strong>(timeout) </a>
+      <a href="#timeout%3D-instance_method" title="#timeout= (instance method)">- (void) <strong>timeout=</strong>(timeout) </a>
     
 
     
@@ -617,12 +616,12 @@ JSS::API.connect</p>
       <pre class="lines">
 
 
-83
-84
-85</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rparen token'>)</span>
   <span class='rubyid_@connected ivar id'>@connected</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -643,7 +642,7 @@ JSS::API.connect</p>
       <div class="method_details first">
   <h3 class="signature first" id="cnx-instance_method">
   
-    - (<tt>Object</tt>) <strong>cnx</strong>  <span class="extras">(readonly)</span>
+    - (<tt>RestClient::Resource</tt>) <strong>cnx</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -652,13 +651,31 @@ JSS::API.connect</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>RestClient::Resource - the underlying connection resource</p>
+<p>Returns the underlying connection resource</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>RestClient::Resource</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the underlying connection resource</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -666,12 +683,12 @@ JSS::API.connect</p>
       <pre class="lines">
 
 
-66
-67
-68</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cnx identifier id'>cnx</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span>
@@ -687,7 +704,7 @@ JSS::API.connect</p>
       <div class="method_details ">
   <h3 class="signature " id="connected-instance_method">
   
-    - (<tt>Object</tt>) <strong>connected</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>connected</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -700,13 +717,31 @@ JSS::API.connect</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - are we connected right now?</p>
+<p>Returns are we connected right now?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>are we connected right now?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -714,12 +749,12 @@ JSS::API.connect</p>
       <pre class="lines">
 
 
-69
-70
-71</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_connected identifier id'>connected</span>
   <span class='rubyid_@connected ivar id'>@connected</span>
@@ -735,7 +770,7 @@ JSS::API.connect</p>
       <div class="method_details ">
   <h3 class="signature " id="jss_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>jss_user</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>jss_user</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -744,13 +779,31 @@ JSS::API.connect</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the username who’s connected to the JSS API</p>
+<p>Returns the username who’s connected to the JSS API</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username who’s connected to the JSS API</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -758,12 +811,12 @@ JSS::API.connect</p>
       <pre class="lines">
 
 
-63
-64
-65</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_jss_user identifier id'>jss_user</span>
   <span class='rubyid_@jss_user ivar id'>@jss_user</span>
@@ -779,7 +832,7 @@ JSS::API.connect</p>
       <div class="method_details ">
   <h3 class="signature " id="server-instance_method">
   
-    - (<tt>Object</tt>) <strong>server</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="Server.html" title="JSS::Server (class)">JSS::Server</a></span></tt>) <strong>server</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -788,13 +841,31 @@ JSS::API.connect</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>JSS::Server - the details of the JSS to which we’re connected.</p>
+<p>Returns the details of the JSS to which we’re connected.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Server.html" title="JSS::Server (class)">JSS::Server</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the details of the JSS to which we’re connected.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -802,12 +873,12 @@ JSS::API.connect</p>
       <pre class="lines">
 
 
-73
-74
-75</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_server identifier id'>server</span>
   <span class='rubyid_@server ivar id'>@server</span>
@@ -859,30 +930,131 @@ JSS::API.connect</p>
       
         &mdash;
         <div class='inline'>
-<p>the keyed arguments for connection. Arguments must include</p>
-<ul><li>
-<p>:server =&gt; the hostname of the JSS API server</p>
-</li><li>
-<p>:user =&gt; a JSS user who as API privs</p>
-</li><li>
-<p>:pw =&gt; the password for that user</p>
-</li></ul>
-
-<p>Other args available:</p>
-<ul><li>
-<p>:port =&gt; the port number to connect with, defaults to 8443</p>
-</li><li>
-<p>:open_timeout =&gt; the number of seconds to wait for an initial response,
-defaults to 60</p>
-</li><li>
-<p>:timeout =&gt; the number of seconds before an API call times out, defaults
-to 60</p>
-</li></ul>
+<p>the keyed arguments for connection.</p>
 </div>
       
     </li>
   
 </ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:server</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Required, the hostname of the JSS API server</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:port</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the port number to connect with, defaults to 8443</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verify_cert</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should HTTPS SSL certificates be verified. Defaults to true. If your
+connection raises RestClient::SSLCertificateNotVerified, and you don’t
+care about the validity of the SSL cert. just set this explicitly to false.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:user</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Required, a JSS user who as API privs</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:pw</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the
+user is promted on the commandline to enter the password for the :user. If
+:stdin, the password is read from the first line of stdin. If you use stdin
+to pass multiple passwords, the others must come after this one.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:stdin_line</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If :pw is :stdin, which line of standard input contains our password?
+defaults to the first line (1)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:open_timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds to wait for an initial response, defaults to 60</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds before an API call times out, defaults to 60</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
@@ -917,19 +1089,6 @@ to 60</p>
       <pre class="lines">
 
 
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
 117
 118
 119
@@ -944,38 +1103,113 @@ to 60</p>
 128
 129
 130
-131</pre>
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_connect identifier id'>connect</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :user or :pw for API connection&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :server&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span>
-  
+
+  <span class='comment val'># settings from config if they aren't in the args</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_server_name identifier id'>api_server_name</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_server_port identifier id'>api_server_port</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_username identifier id'>api_username</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_timeout identifier id'>api_timeout</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_timeout_open identifier id'>api_timeout_open</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:stdin_line</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='integer val'>1</span>
+
+  <span class='comment val'># if verify cert given was NOT in the args....</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verify_cert</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='comment val'># set it from the prefs</span>
+    <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verify_cert</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='dot token'>.</span><span class='rubyid_api_verify_cert identifier id'>api_verify_cert</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># default settings if needed</span>
   <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_SSL_PORT constant id'>SSL_PORT</span>
-  
-  <span class='rubyid_ssl identifier id'>ssl</span> <span class='assign token'>=</span> <span class='rubyid_SSL_PORT constant id'>SSL_PORT</span> <span class='eq op'>==</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='integer val'>? </span><span class='string val'>&quot;s&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
-  <span class='rubyid_@rest_url ivar id'>@rest_url</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='colon2 op'>::</span><span class='rubyid_encode identifier id'>encode</span> <span class='dstring node'>&quot;http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}&quot;</span>
-  
-  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:password</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span>
   <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_DFT_TIMEOUT constant id'>DFT_TIMEOUT</span>
   <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_DFT_OPEN_TIMEOUT constant id'>DFT_OPEN_TIMEOUT</span>
+
+  <span class='comment val'># must have server, user, and pw</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :server&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :user&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Missing :pw for user '#{args[:user]}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_ssl identifier id'>ssl</span> <span class='assign token'>=</span> <span class='rubyid_SSL_PORT constant id'>SSL_PORT</span> <span class='eq op'>==</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='integer val'>? </span><span class='string val'>&quot;s&quot;</span> <span class='colon op'>:</span> <span class='string val'>''</span>
+  <span class='rubyid_@rest_url ivar id'>@rest_url</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='colon2 op'>::</span><span class='rubyid_encode identifier id'>encode</span> <span class='dstring node'>&quot;http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}&quot;</span>
+
+  <span class='comment val'># prep the args for passing to RestClient::Resource</span>
+  <span class='comment val'># if verify_cert is nil (unset) or non-false, then we will verify</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verify_ssl</span><span class='rbrack token'>]</span> <span class='assign token'>=</span>  <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verify_cert</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verify_cert</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_OpenSSL constant id'>OpenSSL</span><span class='colon2 op'>::</span><span class='rubyid_SSL constant id'>SSL</span><span class='colon2 op'>::</span><span class='rubyid_VERIFY_PEER constant id'>VERIFY_PEER</span> <span class='colon op'>:</span>  <span class='rubyid_OpenSSL constant id'>OpenSSL</span><span class='colon2 op'>::</span><span class='rubyid_SSL constant id'>SSL</span><span class='colon2 op'>::</span><span class='rubyid_VERIFY_NONE constant id'>VERIFY_NONE</span>
+  
+  <span class='comment val'># make sure we have a user</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No JSS user specified, or listed in configuration.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span>
+  
+  <span class='comment val'># passwd from prompt, stdin, or args?</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:password</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span>
+    <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:prompt</span>
+      <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_prompt_for_password identifier id'>prompt_for_password</span>  <span class='dstring node'>&quot;Enter the password for JSS user '#{args[:user]}':&quot;</span>
+    <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:stdin</span>
+      <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_stdin identifier id'>stdin</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:stdin_line</span><span class='rbrack token'>]</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:pw</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
+  
+  <span class='comment val'># heres our connection</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span> <span class='assign token'>=</span> <span class='rubyid_RestClient constant id'>RestClient</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{@rest_url}&quot;</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
-  
-  <span class='comment val'>### TO DO make sure we have at least read-access?</span>
+
   <span class='rubyid_@jss_user ivar id'>@jss_user</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span>
-  
   <span class='rubyid_@connected ivar id'>@connected</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-  
   <span class='rubyid_@server ivar id'>@server</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Server constant id'>Server</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@server ivar id'>@server</span><span class='dot token'>.</span><span class='rubyid_version identifier id'>version</span> <span class='lt op'>&lt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_jss_version identifier id'>parse_jss_version</span><span class='lparen token'>(</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MINIMUM_SERVER_VERSION constant id'>MINIMUM_SERVER_VERSION</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher.&quot;</span>
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_true true kw'>true</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -986,7 +1220,7 @@ to 60</p>
       <div class="method_details ">
   <h3 class="signature " id="delete_rsrc-instance_method">
   
-    - (<tt>Object</tt>) <strong>delete_rsrc</strong>(rsrc) 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>delete_rsrc</strong>(rsrc) 
   
 
   
@@ -1022,6 +1256,24 @@ to 60</p>
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -1042,25 +1294,25 @@ to 60</p>
       <pre class="lines">
 
 
-228
-229
-230
-231
-232
-233
-234
-235</pre>
+284
+285
+286
+287
+288
+289
+290
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_rsrc identifier id'>delete_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::API.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :rsrc&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_rsrc identifier id'>rsrc</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-  
+
   <span class='comment val'>### delete the resource</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
-  
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1071,7 +1323,7 @@ to 60</p>
       <div class="method_details ">
   <h3 class="signature " id="disconnect-instance_method">
   
-    - (<tt>Object</tt>) <strong>disconnect</strong> 
+    - (<tt>void</tt>) <strong>disconnect</strong> 
   
 
   
@@ -1079,10 +1331,9 @@ to 60</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>With a REST connection, there isn’t any real “connection” to
-disconnect from, just the saved authentication credentials. So to
-disconnect, just  unset all our credentials.</p>
+disconnect from So to disconnect, we just unset all our credentials.</p>
 
 
   </div>
@@ -1096,15 +1347,15 @@ disconnect, just  unset all our credentials.</p>
       <pre class="lines">
 
 
-157
-158
-159
-160
-161
-162</pre>
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_disconnect identifier id'>disconnect</span>
   <span class='rubyid_@jss_user ivar id'>@jss_user</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -1132,11 +1383,11 @@ disconnect, just  unset all our credentials.</p>
     
 <p>Get an arbitrary JSS resource</p>
 
-<p>The first argument is the resource to get (the part of the API url  after
+<p>The first argument is the resource to get (the part of the API url after
 the ‘JSSResource/’ )</p>
 
-<p>By default we get the data in JSON, and parse it  into a ruby data
-structure (arrays, hashes, strings, etc) with symbolized Hash keys.</p>
+<p>By default we get the data in JSON, and parse it into a ruby data structure
+(arrays, hashes, strings, etc) with symbolized Hash keys.</p>
 
 
   </div>
@@ -1220,19 +1471,19 @@ returned as a String.</p>
       <pre class="lines">
 
 
-181
-182
-183
-184
-185
-186
-187</pre>
+231
+232
+233
+234
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 231</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_rsrc identifier id'>get_rsrc</span> <span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span> <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='symbol val'>:json</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::API.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
   <span class='rubyid_rsrc identifier id'>rsrc</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='colon2 op'>::</span><span class='rubyid_encode identifier id'>encode</span> <span class='rubyid_rsrc identifier id'>rsrc</span>
   <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:accept</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='symbol val'>:symbolize_names</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_format identifier id'>format</span> <span class='eq op'>==</span> <span class='symbol val'>:json</span>
@@ -1247,7 +1498,7 @@ returned as a String.</p>
       <div class="method_details ">
   <h3 class="signature " id="open_timeout=-instance_method">
   
-    - (<tt>Object</tt>) <strong>open_timeout=</strong>(timeout) 
+    - (<tt>void</tt>) <strong>open_timeout=</strong>(timeout) 
   
 
   
@@ -1255,7 +1506,7 @@ returned as a String.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Reset the open-connection timeout for the rest connection</p>
 
 
@@ -1290,12 +1541,12 @@ returned as a String.</p>
       <pre class="lines">
 
 
-147
-148
-149</pre>
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 195</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_open_timeout= identifier id'>open_timeout=</span> <span class='lparen token'>(</span><span class='rubyid_timeout identifier id'>timeout</span><span class='rparen token'>)</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_timeout identifier id'>timeout</span>
@@ -1399,25 +1650,25 @@ returned as a String.</p>
       <pre class="lines">
 
 
-213
-214
-215
-216
-217
-218
-219
-220
-221</pre>
+267
+268
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 213</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 267</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_post_rsrc identifier id'>post_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
-  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::API.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+
   <span class='comment val'>### convert CRs &amp; to &amp;#13;</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/\r/</span><span class='comma token'>,</span> <span class='string val'>'&amp;#13;'</span><span class='rparen token'>)</span>
-  
+
   <span class='comment val'>### send the data</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_post identifier id'>post</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/xml'</span><span class='comma token'>,</span> <span class='symbol val'>:accept</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:json</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1520,25 +1771,25 @@ returned as a String.</p>
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
-201
-202
-203
-204</pre>
+248
+249
+250
+251
+252
+253
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_put_rsrc identifier id'>put_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='comma token'>,</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::APIConnection.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
-  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Not Connected. Use JSS::API.connect first.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@connected ivar id'>@connected</span>
+
   <span class='comment val'>### convert CRs &amp; to &amp;#13;</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/\r/</span><span class='comma token'>,</span> <span class='string val'>'&amp;#13;'</span><span class='rparen token'>)</span>
-  
+
   <span class='comment val'>### send the data</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span><span class='lbrack token'>[</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_put identifier id'>put</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='symbol val'>:content_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text/xml'</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1551,7 +1802,7 @@ returned as a String.</p>
       <div class="method_details ">
   <h3 class="signature " id="timeout=-instance_method">
   
-    - (<tt>Object</tt>) <strong>timeout=</strong>(timeout) 
+    - (<tt>void</tt>) <strong>timeout=</strong>(timeout) 
   
 
   
@@ -1559,7 +1810,7 @@ returned as a String.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Reset the response timeout for the rest connection</p>
 
 
@@ -1594,12 +1845,12 @@ returned as a String.</p>
       <pre class="lines">
 
 
-138
-139
-140</pre>
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 184</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_timeout= identifier id'>timeout=</span> <span class='lparen token'>(</span><span class='rubyid_timeout identifier id'>timeout</span><span class='rparen token'>)</span>
   <span class='rubyid_@cnx ivar id'>@cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_timeout identifier id'>timeout</span>
@@ -1615,7 +1866,7 @@ returned as a String.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:58 2014 by
+  Generated on Tue Sep 30 15:58:17 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

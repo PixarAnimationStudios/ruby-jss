@@ -6,7 +6,7 @@
 <title>
   Class: JSS::ComputerGroup
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -112,13 +112,20 @@
 
 <p>See also the parent class JSS::Group</p>
 
-<p>See also JSS::APIObject</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+      <li><span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -217,53 +224,355 @@ for this class</p>
 
 
 
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#criteria-instance_method" title="#criteria (instance method)">- (JSS::Criteriable::Criteria) <strong>criteria</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Criteriable.html#criteria-instance_method" title="JSS::Criteriable#criteria (method)">Criteriable</a></span>
+    </span>
   
   
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Group.html#GROUP_TYPES-constant" title="JSS::Group::GROUP_TYPES (constant)">Group::GROUP_TYPES</a></span></p>
+  
+    
+    
+  
+  
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'>
+<p>The criteria for the instance into which we’re mixed.</p>
+</div></span>
   
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Criteriable.html#CRITERIABLE-constant" title="JSS::Criteriable::CRITERIABLE (constant)">JSS::Criteriable::CRITERIABLE</a></span></p>
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS id number.</p>
+</div></span>
   
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
+    
+
+    
+      (also: #in_jss?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'>
+<p>Is it in the JSS?.</p>
+</div></span>
   
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">JSS::Creatable::CREATABLE</a></span></p>
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_smart-instance_method" title="#is_smart (instance method)">- (Boolean) <strong>is_smart</strong> </a>
+    
+
+    
+      (also: #smart?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="Group.html#is_smart-instance_method" title="JSS::Group#is_smart (method)">Group</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'>
+<p>Is this a smart group.</p>
+</div></span>
   
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#members-instance_method" title="#members (instance method)">- (Array&lt;Hash&gt;) <strong>members</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="Group.html#members-instance_method" title="JSS::Group#members (method)">Group</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Each hash contains the identifiers for a member of the group, those being:
+- :id, :name, and possibly :udid, :serial_number, :mac_address,
+:alt_mac_address,  and :wifi_mac_address.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notify_on_change-instance_method" title="#notify_on_change (instance method)">- (Boolean) <strong>notify_on_change</strong> </a>
+    
+
+    
+      (also: #notify?, #notify_on_change?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="Group.html#notify_on_change-instance_method" title="JSS::Group#notify_on_change (method)">Group</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this group send notifications when it changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site-instance_method" title="#site (instance method)">- (String) <strong>site</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="Group.html#site-instance_method" title="JSS::Group#site (method)">Group</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The :name of the site for this group.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
 
 
-
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Group.html#is_smart-instance_method" title="JSS::Group#is_smart (method)">#is_smart</a></span>, <span class='object_link'><a href="Group.html#members-instance_method" title="JSS::Group#members (method)">#members</a></span>, <span class='object_link'><a href="Group.html#notify_on_change-instance_method" title="JSS::Group#notify_on_change (method)">#notify_on_change</a></span>, <span class='object_link'><a href="Group.html#site-instance_method" title="JSS::Group#site (method)">#site</a></span></p>
-
-  
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Criteriable.html#criteria-instance_method" title="JSS::Criteriable#criteria (method)">#criteria</a></span></p>
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -277,7 +586,7 @@ for this class</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#member_mac_addresses-instance_method" title="#member_mac_addresses (instance method)">- (Object) <strong>member_mac_addresses</strong> </a>
+      <a href="#member_mac_addresses-instance_method" title="#member_mac_addresses (instance method)">- (Array&lt;String&gt;) <strong>member_mac_addresses</strong> </a>
     
 
     
@@ -301,7 +610,7 @@ for this class</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#member_serial_numbers-instance_method" title="#member_serial_numbers (instance method)">- (Object) <strong>member_serial_numbers</strong> </a>
+      <a href="#member_serial_numbers-instance_method" title="#member_serial_numbers (instance method)">- (Array&lt;String&gt;) <strong>member_serial_numbers</strong> </a>
     
 
     
@@ -316,7 +625,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an array of the serial numbers of members in this group.</p>
+<p>The serial numbers of members in this group.</p>
 </div></span>
   
 </li>
@@ -334,58 +643,524 @@ for this class</p>
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Group.html#add_member-instance_method" title="JSS::Group#add_member (method)">#add_member</a></span>, <span class='object_link'><a href="Group.html#all_smart-class_method" title="JSS::Group.all_smart (method)">all_smart</a></span>, <span class='object_link'><a href="Group.html#all_static-class_method" title="JSS::Group.all_static (method)">all_static</a></span>, <span class='object_link'><a href="Group.html#clear-instance_method" title="JSS::Group#clear (method)">#clear</a></span>, <span class='object_link'><a href="Group.html#create-instance_method" title="JSS::Group#create (method)">#create</a></span>, <span class='object_link'><a href="Group.html#criteria%3D-instance_method" title="JSS::Group#criteria= (method)">#criteria=</a></span>, <span class='object_link'><a href="Group.html#delete-instance_method" title="JSS::Group#delete (method)">#delete</a></span>, <span class='object_link'><a href="Group.html#initialize-instance_method" title="JSS::Group#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Group.html#member_ids-instance_method" title="JSS::Group#member_ids (method)">#member_ids</a></span>, <span class='object_link'><a href="Group.html#member_names-instance_method" title="JSS::Group#member_names (method)">#member_names</a></span>, <span class='object_link'><a href="Group.html#refresh_members-instance_method" title="JSS::Group#refresh_members (method)">#refresh_members</a></span>, <span class='object_link'><a href="Group.html#remove_member-instance_method" title="JSS::Group#remove_member (method)">#remove_member</a></span>, <span class='object_link'><a href="Group.html#size-instance_method" title="JSS::Group#size (method)">#size</a></span>, <span class='object_link'><a href="Group.html#update-instance_method" title="JSS::Group#update (method)">#update</a></span></p>
-
   
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Criteriable.html#need_to_update-instance_method" title="JSS::Criteriable#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="Criteriable.html#parse_criteria-instance_method" title="JSS::Criteriable#parse_criteria (method)">#parse_criteria</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">#create</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <p class="notice">This class inherits a constructor from <span class='object_link'><a href="Group.html#initialize-instance_method" title="JSS::Group#initialize (method)">JSS::Group</a></span></p>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="criteria=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="criteria-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">JSS::Criteriable::Criteria</a></span></tt>) <strong>criteria</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Criteriable.html#criteria-instance_method" title="JSS::Criteriable#criteria (method)">Criteriable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the criteria for the instance into which we’re mixed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">JSS::Criteriable::Criteria</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the criteria for the instance into which we’re mixed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_smart-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>is_smart</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='smart?-instance_method'>smart?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="Group.html#is_smart-instance_method" title="JSS::Group#is_smart (method)">Group</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this a smart group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this a smart group</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="members=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="members-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>members</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="Group.html#members-instance_method" title="JSS::Group#members (method)">Group</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Each hash contains the identifiers for a member of the group, those being:</p>
+<ul><li>
+<p>:id, :name, and possibly :udid, :serial_number, :mac_address,
+:alt_mac_address,  and :wifi_mac_address</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the group membership</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Group.html#member_ids-instance_method" title="JSS::Group#member_ids (method)">#member_ids</a></span></li>
+    
+      <li><span class='object_link'><a href="Group.html#member_names-instance_method" title="JSS::Group#member_names (method)">#member_names</a></span></li>
+    
+  </ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="notify_on_change-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>notify_on_change</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='notify?-instance_method'>notify?</span>, <span id='notify_on_change?-instance_method'>notify_on_change?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="Group.html#notify_on_change-instance_method" title="JSS::Group#notify_on_change (method)">Group</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns does this group send notifications when it changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this group send notifications when it changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="site=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="site-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>site</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="Group.html#site-instance_method" title="JSS::Group#site (method)">Group</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the :name of the site for this group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the :name of the site for this group</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -395,7 +1170,7 @@ for this class</p>
       <div class="method_details first">
   <h3 class="signature first" id="member_mac_addresses-instance_method">
   
-    - (<tt>Object</tt>) <strong>member_mac_addresses</strong> 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>member_mac_addresses</strong> 
   
 
   
@@ -411,6 +1186,24 @@ for this class</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the member mac addresses</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -418,12 +1211,12 @@ for this class</p>
       <pre class="lines">
 
 
-83
-84
-85</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/group/computer_group.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/group/computer_group.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_member_mac_addresses identifier id'>member_mac_addresses</span>
   <span class='rubyid_@members ivar id'>@members</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='bitor op'>|</span> <span class='rubyid_m identifier id'>m</span><span class='lbrack token'>[</span><span class='symbol val'>:mac_address</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='plus op'>+</span> <span class='rubyid_@members ivar id'>@members</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='bitor op'>|</span> <span class='rubyid_m identifier id'>m</span><span class='lbrack token'>[</span><span class='symbol val'>:alt_mac_address</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -437,7 +1230,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="member_serial_numbers-instance_method">
   
-    - (<tt>Object</tt>) <strong>member_serial_numbers</strong> 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>member_serial_numbers</strong> 
   
 
   
@@ -446,13 +1239,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an array of the serial numbers of members in this group</p>
+<p>The serial numbers of members in this group</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the member serial numbers</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -460,12 +1271,12 @@ for this class</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/group/computer_group.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/group/computer_group.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_member_serial_numbers identifier id'>member_serial_numbers</span>
   <span class='rubyid_@members ivar id'>@members</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='bitor op'>|</span> <span class='rubyid_m identifier id'>m</span><span class='lbrack token'>[</span><span class='symbol val'>:serial_number</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -481,7 +1292,7 @@ for this class</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:02 2014 by
+  Generated on Tue Sep 30 15:58:24 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

@@ -14,9 +14,10 @@ module JSS
 
   ### 
   ### A removable_macaddr in the JSS
+  ###
   ### These are simple, in that they only have an ID and a name
   ###
-  ### See also JSS::APIObject
+  ### @see JSS::APIObject
   ###
   class RemovableMacAddress  < JSS::APIObject
     
@@ -66,6 +67,7 @@ module JSS
     
     alias macaddress name
     alias mac_address name
+    
   end # class removable_macaddr
   
 end # module

@@ -12,12 +12,12 @@ module JSS
   #####################################
   ### Classes
   #####################################
-
+  
   ### 
-  ### A Category in the JSS
-  ### These are simple, in that they only have an ID and a name.
+  ### A Category in the JSS.
+  ### 
   ###
-  ### See also JSS::APIObject
+  ### @see JSS::APIObject
   ### 
   class Category < JSS::APIObject
     
@@ -46,14 +46,23 @@ module JSS
     RSRC_OBJECT_KEY = :category
     
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = []
+    VALID_DATA_KEYS = [:priority]
     
     ### The Default category
     DEFAULT_CATEGORY = "Unknown"
-  
+    
+    ### The range of possible priorities
+    POSSIBLE_PRIORITIES = 1..20
+    
+    ### The Default Priority
+    DEFAULT_PRIORITY = 5
+    
     #####################################
     ### Attributes
     #####################################
+        
+    ### @return [Integer] the SelfService priority for this category
+    attr_reader :priority
     
     #####################################
     ### Constructor 
@@ -62,11 +71,52 @@ module JSS
     ###
     ### See JSS::APIObject#initialize
     ###
-
+    def initialize(args = {})
+      super
+      @priority = @init_data[:priority] || DEFAULT_PRIORITY
+      
+    end
+    
+    
     #####################################
     ### Public Instance Methods
     #####################################
     
+    
+    ###
+    ### Change the Priority
+    ###
+    ### @param new_val[Integer] the new priority, must be in the range POSSIBLE_PRIORITIES
+    ###
+    ### @return [void]
+    ###
+    def priority= (new_val = @priority)
+      return nil if new_val == @priority
+      raise JSS::InvalidDataError, "priority must be an integer between #{POSSIBLE_PRIORITIES.first} and #{POSSIBLE_PRIORITIES.last} (inclusive)" unless POSSIBLE_PRIORITIES.include? new_val
+      @priority = new_val
+      @need_to_update = true
+    end
+    
+    
+    #####################################
+    ### Private Instance Methods
+    #####################################
+    private
+
+    ###
+    ### Return a String with the XML Resource
+    ### for submitting creation or changes to the JSS via
+    ### the API via the Creatable or Updatable modules
+    ###
+    ### Most classes will redefine this method.
+    ###
+    def rest_xml
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      tmpl = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      tmpl.add_element('name').text = @name
+      tmpl.add_element('priority').text = @priority
+      return doc.to_s
+    end
   end # class category
   
 end # module

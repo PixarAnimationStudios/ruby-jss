@@ -6,7 +6,7 @@
 <title>
   Class: JSS::Criteriable::Criterion
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -111,12 +111,14 @@
 <p>This class defines a single criterion used in advanced searches and smart
 groups throughout the JSS module.</p>
 
-<p>They are used within JSS::Criteriable::Criteria instances which store an 
+<p>They are used within <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instances which store an
 array of these objects and provides methods for working with them as a
 group.</p>
 
-<p>The classes that mix-in JSS::Criteriable each have a :criteria attribute
-which holds one JSS::Criteriable::Criteria</p>
+<p>The classes that mix-in <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> each have a :criteria attribute
+which holds one <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span></p>
+
+<p>See <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> for examples</p>
 
 
   </div>
@@ -155,12 +157,29 @@ which holds one JSS::Criteriable::Criteria</p>
   <span class='string val'>&quot;before (yyyy-mm-dd)&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;after (yyyy-mm-dd)&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;more than x days ago&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;less than x days ago&quot;</span>
+  <span class='string val'>&quot;less than x days ago&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;in more than x days&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;in less than x days&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;member of&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;not member of&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;current&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;not current&quot;</span>
 <span class='rbrack token'>]</span>
 </pre></dd>
       
         <dt id="AND_OR-constant" class="">AND_OR =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the acceptable symboles for and/or</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:and</span><span class='comma token'>,</span> <span class='symbol val'>:or</span><span class='rbrack token'>]</span>
 </pre></dd>
@@ -177,7 +196,7 @@ which holds one JSS::Criteriable::Criteria</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#and_or-instance_method" title="#and_or (instance method)">- (Object) <strong>and_or</strong> </a>
+      <a href="#and_or-instance_method" title="#and_or (instance method)">- (Symbol) <strong>and_or</strong> </a>
     
 
     
@@ -195,8 +214,8 @@ which holds one JSS::Criteriable::Criteria</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Symbol - the and_or value for associating this criterion with the previous
-one in a set of criteria.</p>
+<p>:and or :or - the and_or value for associating this criterion with the
+previous one.</p>
 </div></span>
   
 </li>
@@ -205,7 +224,7 @@ one in a set of criteria.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name-instance_method" title="#name (instance method)">- (Object) <strong>name</strong> </a>
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
     
 
     
@@ -223,7 +242,7 @@ one in a set of criteria.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the name of the field being searched.</p>
+<p>The name of the field being searched.</p>
 </div></span>
   
 </li>
@@ -232,7 +251,7 @@ one in a set of criteria.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#priority-instance_method" title="#priority (instance method)">- (Object) <strong>priority</strong> </a>
+      <a href="#priority-instance_method" title="#priority (instance method)">- (Integer) <strong>priority</strong> </a>
     
 
     
@@ -250,8 +269,8 @@ one in a set of criteria.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Integer - zero-based index of this criterion within an array of criteria
-used for an advanced search or smart group.</p>
+<p>Zero-based index of this criterion within an array of criteria used for an
+advanced search or smart group.</p>
 </div></span>
   
 </li>
@@ -260,7 +279,7 @@ used for an advanced search or smart group.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#search_type-instance_method" title="#search_type (instance method)">- (Object) <strong>search_type</strong> </a>
+      <a href="#search_type-instance_method" title="#search_type (instance method)">- (String) <strong>search_type</strong> </a>
     
 
     
@@ -278,8 +297,8 @@ used for an advanced search or smart group.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the comparator between the field and the value, must be one of
-SEARCH_TYPES See #criteria= for details.</p>
+<p>The comparator between the field and the value, must be one of
+SEARCH_TYPES.</p>
 </div></span>
   
 </li>
@@ -288,7 +307,7 @@ SEARCH_TYPES See #criteria= for details.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#value-instance_method" title="#value (instance method)">- (Object) <strong>value</strong> </a>
+      <a href="#value-instance_method" title="#value (instance method)">- (String) <strong>value</strong> </a>
     
 
     
@@ -306,7 +325,7 @@ SEARCH_TYPES See #criteria= for details.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the value being searched for in the field named by :name.</p>
+<p>The value being searched for in the field named by :name.</p>
 </div></span>
   
 </li>
@@ -328,7 +347,7 @@ SEARCH_TYPES See #criteria= for details.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%3C%3D%3E-instance_method" title="#&lt;=&gt; (instance method)">- (Object) <strong>&lt;=&gt;</strong>(other) </a>
+      <a href="#%3C%3D%3E-instance_method" title="#&lt;=&gt; (instance method)">- (Integer) <strong>&lt;=&gt;</strong>(other) </a>
     
 
     
@@ -344,31 +363,6 @@ SEARCH_TYPES See #criteria= for details.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Comparison - allows the Comparable module to do its work.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#check_search_type-instance_method" title="#check_search_type (instance method)">- (Object) <strong>check_search_type</strong>(new_val) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>check the format of the search type raise an exception if there’s a
-problem.</p>
 </div></span>
   
 </li>
@@ -403,7 +397,7 @@ problem.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#rest_xml-instance_method" title="#rest_xml (instance method)">- (Object) <strong>rest_xml</strong> </a>
+      <a href="#rest_xml-instance_method" title="#rest_xml (instance method)">- (REXML::Element) <strong>rest_xml</strong> </a>
     
 
     
@@ -414,12 +408,12 @@ problem.</p>
   
   
   
-  
+  <span class="private note title">private</span>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>return the xml element for the criterion, to be embeded in that of  a
-Criteria instance NOTE: for this class, this can’t be a private method.</p>
+<p>The xml element for the criterion, to be embeded in that of a Criteria
+instance.</p>
 </div></span>
   
 </li>
@@ -428,7 +422,7 @@ Criteria instance NOTE: for this class, this can’t be a private method.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#signature-instance_method" title="#signature (instance method)">- (Object) <strong>signature</strong> </a>
+      <a href="#signature-instance_method" title="#signature (instance method)">- (String) <strong>signature</strong> </a>
     
 
     
@@ -443,8 +437,8 @@ Criteria instance NOTE: for this class, this can’t be a private method.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a Array - all our values except priority, for comparing this
-Criterion to another for equality.</p>
+<p>All our values except priority joined together for comparing this Criterion
+to another for equality and order.</p>
 </div></span>
   
 </li>
@@ -500,23 +494,73 @@ this instance</p>
       
         &mdash;
         <div class='inline'>
-<p>potential keys are</p>
-<ul><li>
-<p>:and_or [String, Symbol] :and, or :or. How should this criterion be join
-with its predecessor</p>
-</li><li>
-<p>:name [String] the name of a Criterion as is visible in the JSS webapp.</p>
-</li><li>
-<p>:search_type [String] one of SEARCH_TYPES, the comparison between the
-stored value and :value</p>
-</li><li>
-<p>:value [String] the value to compare with that stored for :name</p>
-</li></ul>
+<p>a hash of settings for the new criterion</p>
 </div>
       
     </li>
   
 </ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:and_or</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>:and, or :or. How should this criterion be join with its predecessor?</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:name</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the name of a Criterion as is visible in the JSS webapp.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:search_type</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>one of SEARCH_TYPES, the comparison between the stored value and :value</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:value</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the value to compare with that stored for :name</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
 
 
 </div><table class="source_code">
@@ -525,13 +569,6 @@ stored value and :value</p>
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
-95
 96
 97
 98
@@ -542,27 +579,34 @@ stored value and :value</p>
 103
 104
 105
-106</pre>
+106
+107
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_@priority ivar id'>@priority</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:priority</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:and_or</span><span class='rbrack token'>]</span>
     <span class='rubyid_@and_or ivar id'>@and_or</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:and_or</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;:and_or must be 'and' or 'or'.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_AND_OR constant id'>AND_OR</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_@and_or ivar id'>@and_or</span>
-  <span class='rubyid_end end kw'>end</span>  
-  
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:search_type</span><span class='rbrack token'>]</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Invalid :search_type&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_SEARCH_TYPES constant id'>SEARCH_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:search_type</span><span class='rbrack token'>]</span>
     <span class='rubyid_@search_type ivar id'>@search_type</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:search_type</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
   <span class='rubyid_@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -581,7 +625,7 @@ stored value and :value</p>
       <div class="method_details first">
   <h3 class="signature first" id="and_or-instance_method">
   
-    - (<tt>Object</tt>) <strong>and_or</strong> 
+    - (<tt>Symbol</tt>) <strong>and_or</strong> 
   
 
   
@@ -590,14 +634,33 @@ stored value and :value</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Symbol - the and_or value for associating this criterion with the previous
-one in a set of criteria. Either :and or :or</p>
+<p>Returns :and or :or - the and_or value for associating this criterion with
+the previous one</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:and or :or - the and_or value for associating this criterion with the
+previous one</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -605,12 +668,12 @@ one in a set of criteria. Either :and or :or</p>
       <pre class="lines">
 
 
-68
-69
-70</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_and_or identifier id'>and_or</span>
   <span class='rubyid_@and_or ivar id'>@and_or</span>
@@ -626,7 +689,7 @@ one in a set of criteria. Either :and or :or</p>
       <div class="method_details ">
   <h3 class="signature " id="name-instance_method">
   
-    - (<tt>Object</tt>) <strong>name</strong> 
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong> 
   
 
   
@@ -635,13 +698,31 @@ one in a set of criteria. Either :and or :or</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the name of the field being searched</p>
+<p>Returns the name of the field being searched</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the field being searched</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -649,12 +730,12 @@ one in a set of criteria. Either :and or :or</p>
       <pre class="lines">
 
 
-71
-72
-73</pre>
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
   <span class='rubyid_@name ivar id'>@name</span>
@@ -670,7 +751,7 @@ one in a set of criteria. Either :and or :or</p>
       <div class="method_details ">
   <h3 class="signature " id="priority-instance_method">
   
-    - (<tt>Object</tt>) <strong>priority</strong> 
+    - (<tt>Integer</tt>) <strong>priority</strong> 
   
 
   
@@ -679,15 +760,35 @@ one in a set of criteria. Either :and or :or</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Integer - zero-based index of this criterion within an array of criteria
-used for an advanced search or smart group.  This is maintained
-automaticaly by the enclosing Criteria object</p>
+<p>Returns zero-based index of this criterion within an array of criteria used
+for an advanced search or smart group. This is maintained automaticaly by
+the enclosing Criteria object</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zero-based index of this criterion within an array of criteria used for an
+advanced search or smart group. This is maintained automaticaly by the
+enclosing Criteria object</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -695,12 +796,12 @@ automaticaly by the enclosing Criteria object</p>
       <pre class="lines">
 
 
-64
-65
-66</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_priority identifier id'>priority</span>
   <span class='rubyid_@priority ivar id'>@priority</span>
@@ -716,7 +817,7 @@ automaticaly by the enclosing Criteria object</p>
       <div class="method_details ">
   <h3 class="signature " id="search_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>search_type</strong> 
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>search_type</strong> 
   
 
   
@@ -725,14 +826,39 @@ automaticaly by the enclosing Criteria object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the comparator between the field and the value, must be one of
-SEARCH_TYPES See #criteria= for details</p>
+<p>Returns the comparator between the field and the value, must be one of
+SEARCH_TYPES</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the comparator between the field and the value, must be one of SEARCH_TYPES</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="../Criteriable.html#criteria%3D-instance_method" title="JSS::Criteriable#criteria= (method)">JSS::Criteriable#criteria=</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -740,12 +866,12 @@ SEARCH_TYPES See #criteria= for details</p>
       <pre class="lines">
 
 
-75
-76
-77</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search_type identifier id'>search_type</span>
   <span class='rubyid_@search_type ivar id'>@search_type</span>
@@ -761,7 +887,7 @@ SEARCH_TYPES See #criteria= for details</p>
       <div class="method_details ">
   <h3 class="signature " id="value-instance_method">
   
-    - (<tt>Object</tt>) <strong>value</strong> 
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>value</strong> 
   
 
   
@@ -770,13 +896,31 @@ SEARCH_TYPES See #criteria= for details</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the value being searched for in the field named by :name</p>
+<p>Returns the value being searched for in the field named by :name</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value being searched for in the field named by :name</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -784,12 +928,12 @@ SEARCH_TYPES See #criteria= for details</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_value identifier id'>value</span>
   <span class='rubyid_@value ivar id'>@value</span>
@@ -810,7 +954,7 @@ SEARCH_TYPES See #criteria= for details</p>
       <div class="method_details first">
   <h3 class="signature first" id="<=>-instance_method">
   
-    - (<tt>Object</tt>) <strong>&lt;=&gt;</strong>(other) 
+    - (<tt>Integer</tt>) <strong>&lt;=&gt;</strong>(other) 
   
 
   
@@ -826,6 +970,31 @@ SEARCH_TYPES See #criteria= for details</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>-1, 0, or 1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>Comparable</li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -833,12 +1002,12 @@ SEARCH_TYPES See #criteria= for details</p>
       <pre class="lines">
 
 
-153
-154
-155</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 179</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='cmp op'>&lt;=&gt;</span><span class='lparen token'>(</span><span class='rubyid_other identifier id'>other</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_signature identifier id'>signature</span> <span class='cmp op'>&lt;=&gt;</span> <span class='rubyid_other identifier id'>other</span><span class='dot token'>.</span><span class='rubyid_signature identifier id'>signature</span>
@@ -850,68 +1019,9 @@ SEARCH_TYPES See #criteria= for details</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="check_search_type-instance_method">
-  
-    - (<tt>Object</tt>) <strong>check_search_type</strong>(new_val) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>check the format of the search type raise an exception if there’s a
-problem</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 129</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_search_type identifier id'>check_search_type</span><span class='lparen token'>(</span><span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
-  <span class='rubyid_case case kw'>case</span> <span class='rubyid_new_val identifier id'>new_val</span>
-    
-    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='lbrack token'>[</span><span class='string val'>&quot;more than&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;less than&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;more than x days ago&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;less than x days ago&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Value must be an integer for search type '#{new_val}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_criterion identifier id'>criterion</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/^\d+$/</span>
-    
-    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='lbrack token'>[</span><span class='string val'>&quot;before (yyyy-mm-dd)&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;after (yyyy-mm-dd)&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Value must be a a date in the format yyyy-mm-dd for search type '#{new_val}'&quot;</span>  <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_new_val identifier id'>new_val</span> <span class='match op'>=~</span> <span class='regexp val'>/^\d\d\d\d-\d\d-\d\d$/</span>
-  
-  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="rest_xml-instance_method">
   
-    - (<tt>Object</tt>) <strong>rest_xml</strong> 
+    - (<tt>REXML::Element</tt>) <strong>rest_xml</strong> 
   
 
   
@@ -919,15 +1029,46 @@ problem</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>return the xml element for the criterion, to be embeded in that of  a
-Criteria instance NOTE: for this class, this can’t be a private method.</p>
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>For this class, rest_xml can’t be a private method.</p>
+</div>
+  </div>
+
+
+<p>Returns The xml element for the criterion, to be embeded in that of a
+Criteria instance</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The xml element for the criterion, to be embeded in that of a Criteria
+instance</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -935,18 +1076,18 @@ Criteria instance NOTE: for this class, this can’t be a private method.</p>
       <pre class="lines">
 
 
-162
-163
-164
-165
-166
-167
-168
-169
-170</pre>
+191
+192
+193
+194
+195
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
    <span class='rubyid_crn identifier id'>crn</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='string val'>'criterion'</span>
@@ -966,7 +1107,7 @@ Criteria instance NOTE: for this class, this can’t be a private method.</p>
       <div class="method_details ">
   <h3 class="signature " id="signature-instance_method">
   
-    - (<tt>Object</tt>) <strong>signature</strong> 
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>signature</strong> 
   
 
   
@@ -975,14 +1116,40 @@ Criteria instance NOTE: for this class, this can’t be a private method.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a Array - all our values except priority, for comparing this
-Criterion to another for equality</p>
+<p>Returns All our values except priority joined together for comparing this
+Criterion to another for equality and order</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>All our values except priority joined together for comparing this Criterion
+to another for equality and order</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#%3C%3D%3E-instance_method" title="JSS::Criteriable::Criterion#&lt;=&gt; (method)">#&lt;=&gt;</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -990,15 +1157,15 @@ Criterion to another for equality</p>
       <pre class="lines">
 
 
-145
-146
-147</pre>
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criterion.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_signature identifier id'>signature</span>
-  <span class='lbrack token'>[</span><span class='rubyid_@and_or ivar id'>@and_or</span><span class='comma token'>,</span> <span class='rubyid_@name ivar id'>@name</span><span class='comma token'>,</span> <span class='rubyid_@search_type ivar id'>@search_type</span><span class='comma token'>,</span> <span class='rubyid_@value ivar id'>@value</span><span class='rbrack token'>]</span>
+  <span class='lbrack token'>[</span><span class='rubyid_@and_or ivar id'>@and_or</span><span class='comma token'>,</span> <span class='rubyid_@name ivar id'>@name</span><span class='comma token'>,</span> <span class='rubyid_@search_type ivar id'>@search_type</span><span class='comma token'>,</span> <span class='rubyid_@value ivar id'>@value</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span> <span class='string val'>&quot;,&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1011,7 +1178,7 @@ Criterion to another for equality</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:57 2014 by
+  Generated on Tue Sep 30 15:58:14 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

@@ -6,7 +6,7 @@
 <title>
   Class: JSS::Report
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -106,10 +106,19 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>At the moment there are many problems and inconsistencies withthe API
+output</p>
+</div>
+  </div>
+
+
 <p>The parent class of a Report in the JSS</p>
 
 <p>Subclasses must define the constant RESULT_CLASS, which is the JSS Module
-class of the items contained in the report,  e.g. JSS::Computer.</p>
+class of the items contained in the report,  e.g. <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>.</p>
 
 <p>Reports are read-only, they return the display_fields defined in the
 matching Advanced_xx_Search, for each of the items found. Make changes to
@@ -123,16 +132,24 @@ method, which instantiates one of these objects and returns its report_data</p>
 <p>The items in the array are hashes, with keys matching the display_fields
 Array of the corresponding Advanced_xx_Search</p>
 
-<p>NOTE: At the moment there are many problems and inconsistencies withthe API
-output  for reports. This code will change when it’s cleaned up.</p>
-
-<p>See also JSS::APIObject</p>
+<p>for reports. This code will change when it’s cleaned up.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AdvancedComputerSearch.html" title="JSS::AdvancedComputerSearch (class)">AdvancedComputerSearch</a></span></li>
+    
+      <li><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span></li>
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
@@ -191,7 +208,7 @@ the report.</p>
   
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -241,7 +258,7 @@ the report.</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#get_name-class_method" title="JSS::APIObject.get_name (method)">get_name</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -271,7 +288,6 @@ the report.</p>
       <pre class="lines">
 
 
-68
 69
 70
 71
@@ -286,10 +302,11 @@ the report.</p>
 80
 81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/report.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/report.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
@@ -352,12 +369,12 @@ changing soon!</p>
       <pre class="lines">
 
 
-62
 63
-64</pre>
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/report.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/report.rb', line 63</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report_data identifier id'>report_data</span>
   <span class='rubyid_@report_data ivar id'>@report_data</span>
@@ -374,7 +391,7 @@ changing soon!</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:03 2014 by
+  Generated on Thu Aug 14 13:28:48 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

@@ -6,7 +6,7 @@
 <title>
   Class: JSS::NetworkSegment
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -110,33 +110,20 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A ‘network segment’ in the JSS</p>
-
-<p>These are used in the JSS for scoping policies and other management
-activites. This class will mostly be used by the scripts that keep the JSS
-network segments in sync with the canonical document defining them in our
-wiki, <a
-href="http://wiki.pixar.com/display/SYS/NetworkNetblocks">wiki.pixar.com/display/SYS/NetworkNetblocks</a></p>
-
-<p>For initialization, the args are a hash. If the hash has only one member,
-it must be either :name (a string), :starting_addrees (a string containing
-an IP address) or :id (an integer).</p>
-
-<p>If more than one member of the hash is provided, all data must be present
-and must include, minimally, :name, :starting_address &amp; :ending_address
-or :cidr. The instance is built from the provided data and the JSS is not
-queried.</p>
-
-<p>Optional keys are :building, :department, :distribution_point,
-:netboot_server, :swu_server, :override_departments, :override_buildings</p>
-
-<p>See also JSS::APIObject</p>
+<p>A Network Segment in the JSS</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -235,24 +222,6 @@ for this class</p>
 
 
 
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">Creatable::CREATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
-
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -260,7 +229,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#building-instance_method" title="#building (instance method)">- (Object) <strong>building</strong> </a>
+      <a href="#building-instance_method" title="#building (instance method)">- (String) <strong>building</strong> </a>
     
 
     
@@ -278,7 +247,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - building for this segment.</p>
+<p>Building for this segment.</p>
 </div></span>
   
 </li>
@@ -287,7 +256,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cidr-instance_method" title="#cidr (instance method)">- (Object) <strong>cidr</strong> </a>
+      <a href="#cidr-instance_method" title="#cidr (instance method)">- (Integer) <strong>cidr</strong> </a>
     
 
     
@@ -305,7 +274,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Integer - the CIDR.</p>
+<p>The CIDR.</p>
 </div></span>
   
 </li>
@@ -314,7 +283,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#department-instance_method" title="#department (instance method)">- (Object) <strong>department</strong> </a>
+      <a href="#department-instance_method" title="#department (instance method)">- (String) <strong>department</strong> </a>
     
 
     
@@ -332,7 +301,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - department for this segment.</p>
+<p>Department for this segment.</p>
 </div></span>
   
 </li>
@@ -341,7 +310,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#distribution_point-instance_method" title="#distribution_point (instance method)">- (Object) <strong>distribution_point</strong> </a>
+      <a href="#distribution_point-instance_method" title="#distribution_point (instance method)">- (String) <strong>distribution_point</strong> </a>
     
 
     
@@ -359,8 +328,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the name of the distribution point to be used from this network
-segment.</p>
+<p>The name of the distribution point to be used from this network segment.</p>
 </div></span>
   
 </li>
@@ -369,7 +337,7 @@ segment.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ending_address-instance_method" title="#ending_address (instance method)">- (Object) <strong>ending_address</strong> </a>
+      <a href="#ending_address-instance_method" title="#ending_address (instance method)">- (IPAddr) <strong>ending_address</strong> </a>
     
 
     
@@ -387,7 +355,7 @@ segment.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>IPAddr - ending IP adresss.</p>
+<p>Ending IP adresss.</p>
 </div></span>
   
 </li>
@@ -396,7 +364,145 @@ segment.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#netboot_server-instance_method" title="#netboot_server (instance method)">- (Object) <strong>netboot_server</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS id number.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
+    
+
+    
+      (also: #in_jss?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is it in the JSS?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#netboot_server-instance_method" title="#netboot_server (instance method)">- (String) <strong>netboot_server</strong> </a>
     
 
     
@@ -414,7 +520,7 @@ segment.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the netboot server for this segment.</p>
+<p>The netboot server for this segment.</p>
 </div></span>
   
 </li>
@@ -423,9 +529,126 @@ segment.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#override_buildings-instance_method" title="#override_buildings (instance method)">- (Object) <strong>override_buildings</strong> </a>
+      <a href="#override_buildings-instance_method" title="#override_buildings (instance method)">- (Boolean) <strong>override_buildings</strong> </a>
     
 
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should machines checking in from this segment update their building.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#override_departments-instance_method" title="#override_departments (instance method)">- (Boolean) <strong>override_departments</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should machines checking in from this segment update their dept.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#starting_address-instance_method" title="#starting_address (instance method)">- (IPAddr) <strong>starting_address</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Starting IP adresss.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#subnet-instance_method" title="#subnet (instance method)">- (IPAddr) <strong>subnet</strong> </a>
+    
+
+    
+      (also: #range)
     
   </span>
   
@@ -443,8 +666,7 @@ segment.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - should machines checking in from this segment update their
-building.</p>
+<p>The IPAddr object representing this network segment, created from the uid.</p>
 </div></span>
   
 </li>
@@ -453,36 +675,7 @@ building.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#override_departments-instance_method" title="#override_departments (instance method)">- (Object) <strong>override_departments</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Boolean - should machines checking in from this segment update their dept.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#starting_address-instance_method" title="#starting_address (instance method)">- (Object) <strong>starting_address</strong> </a>
+      <a href="#swu_server-instance_method" title="#swu_server (instance method)">- (String) <strong>swu_server</strong> </a>
     
 
     
@@ -500,7 +693,7 @@ building.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>IPAddr - starting IP adresss.</p>
+<p>The swupdate server for this segment.</p>
 </div></span>
   
 </li>
@@ -509,63 +702,7 @@ building.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#subnet-instance_method" title="#subnet (instance method)">- (Object) <strong>subnet</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>IPAddr - the IPAddr object representing this network segment.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#swu_server-instance_method" title="#swu_server (instance method)">- (Object) <strong>swu_server</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>String - the swupdate server for this segment.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#uid-instance_method" title="#uid (instance method)">- (Object) <strong>uid</strong> </a>
+      <a href="#uid-instance_method" title="#uid (instance method)">- (String) <strong>uid</strong> </a>
     
 
     
@@ -587,7 +724,7 @@ building.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the unique identifier for this subnet, regardless of the JSS id.</p>
+<p>The unique identifier for this subnet, regardless of the JSS id.</p>
 </div></span>
   
 </li>
@@ -596,7 +733,7 @@ building.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#url-instance_method" title="#url (instance method)">- (Object) <strong>url</strong> </a>
+      <a href="#url-instance_method" title="#url (instance method)">- (String) <strong>url</strong> </a>
     
 
     
@@ -616,7 +753,7 @@ building.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the mount url for the distribution point.</p>
+<p>The mount url for the distribution point.</p>
 </div></span>
   
 </li>
@@ -625,11 +762,6 @@ building.</p>
   </ul>
 
 
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -643,7 +775,7 @@ building.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#my_network_segment-class_method" title="my_network_segment (class method)">+ (Object) <strong>my_network_segment</strong> </a>
+      <a href="#my_network_segment-class_method" title="my_network_segment (class method)">+ (Array&lt;Integer&gt;) <strong>my_network_segment</strong> </a>
     
 
     
@@ -658,7 +790,7 @@ building.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>return the network segment id (or nil) for the machine running this code.</p>
+<p>Find the current network segment ids for the machine running this code.</p>
 </div></span>
   
 </li>
@@ -667,7 +799,7 @@ building.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#network_ranges-class_method" title="network_ranges (class method)">+ (Object) <strong>network_ranges</strong>(refresh = false) </a>
+      <a href="#network_ranges-class_method" title="network_ranges (class method)">+ (Hash{Integer =&gt; IPAddr}) <strong>network_ranges</strong>(refresh = false) </a>
     
 
     
@@ -682,8 +814,8 @@ building.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a hash of all NetworkSegments in the jss, Key is jss ID, value is an
-IPAddr object representing the subnet as a masked IPv4 address.</p>
+<p>All NetworkSegments in the jss as IPAddr objects representing the subnet as
+a masked IPv4 address.</p>
 </div></span>
   
 </li>
@@ -692,7 +824,7 @@ IPAddr object representing the subnet as a masked IPv4 address.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#network_segment_for_ip-class_method" title="network_segment_for_ip (class method)">+ (Object) <strong>network_segment_for_ip</strong>(ip) </a>
+      <a href="#network_segment_for_ip-class_method" title="network_segment_for_ip (class method)">+ (Array&lt;Integer&gt;) <strong>network_segment_for_ip</strong>(ip) </a>
     
 
     
@@ -707,8 +839,7 @@ IPAddr object representing the subnet as a masked IPv4 address.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>return the id of the network segment that contains the given IP address or
-nil if none found.</p>
+<p>Find the ids of the network segments that contain a given IP address.</p>
 </div></span>
   
 </li>
@@ -731,7 +862,9 @@ nil if none found.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>An alias for <span class='object_link'><a href="#network_ranges-class_method" title="JSS::NetworkSegment.network_ranges (method)">NetworkSegment.network_ranges</a></span>.</p>
+</div></span>
   
 </li>
 
@@ -748,7 +881,7 @@ nil if none found.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%3C%3D%3E-instance_method" title="#&lt;=&gt; (instance method)">- (Object) <strong>&lt;=&gt;</strong>(other) </a>
+      <a href="#%3C%3D%3E-instance_method" title="#&lt;=&gt; (instance method)">- (-1, ...) <strong>&lt;=&gt;</strong>(other) </a>
     
 
     
@@ -763,7 +896,36 @@ nil if none found.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Thanks to comparable, we can tell if we’re equal or not.</p>
+<p>Thanks to Comparable, we can tell if we’re equal or not.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">- (Integer) <strong>create</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new object in the JSS.</p>
 </div></span>
   
 </li>
@@ -813,9 +975,66 @@ nil if none found.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initialization takes a hash requireing at least :name, :id, or :data To
-look up an existing object, use :name or :id If you have the JSON data from
-a previous API lookup (in a hash) provide it with :data =&gt; .</p>
+<p>A new instance of NetworkSegment.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name%3D-instance_method" title="#name= (instance method)">- (void) <strong>name=</strong>(newname) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">- (Boolean) <strong>update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
 </div></span>
   
 </li>
@@ -831,34 +1050,7 @@ a previous API lookup (in a hash) provide it with :data =&gt; .</p>
   
   
   
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">#create</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -873,13 +1065,7 @@ a previous API lookup (in a hash) provide it with :data =&gt; .</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Initialization takes a hash requireing at least :name, :id, or :data To
-look up an existing object, use :name or :id If you have the JSON data from
-a previous API lookup (in a hash) provide it with :data =&gt;
-&lt;JSONdata&gt;</p>
-
-<p>To create a new net segment in the JSS use :id =&gt; :new and also provide
-:name, :starting_address, and either :ending_address or :cidr</p>
+<p>Returns a new instance of NetworkSegment</p>
 
 
   </div>
@@ -887,12 +1073,28 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">APIObject#initialize</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+154
+155
+156
+157
+158
+159
+160
+161
+162
 163
 164
 165
@@ -922,19 +1124,10 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 189
 190
 191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201</pre>
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rparen token'>)</span>
 
@@ -945,7 +1138,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Missing :ending_address or :cidr.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span>
     <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:starting_address</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:starting_address</span><span class='rbrack token'>]</span>
     <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_@building ivar id'>@building</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:building</span><span class='rbrack token'>]</span>
@@ -960,11 +1153,11 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 
   <span class='comment val'>### by now, we must have either an ending address or a cidr</span>
   <span class='comment val'>### along with a starting address, so figure out the other one.</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span>
     <span class='rubyid_@ending_address ivar id'>@ending_address</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:ending_address</span><span class='rbrack token'>]</span>
     <span class='rubyid_@cidr ivar id'>@cidr</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_cidr_from_ends identifier id'>cidr_from_ends</span><span class='lparen token'>(</span><span class='rubyid_@starting_address ivar id'>@starting_address</span><span class='comma token'>,</span><span class='rubyid_@ending_address ivar id'>@ending_address</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@cidr ivar id'>@cidr</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@cidr ivar id'>@cidr</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:cidr</span><span class='rbrack token'>]</span>
     <span class='rubyid_@ending_address ivar id'>@ending_address</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_ending_address identifier id'>ending_address</span><span class='lparen token'>(</span><span class='rubyid_@starting_address ivar id'>@starting_address</span><span class='comma token'>,</span> <span class='rubyid_@cidr ivar id'>@cidr</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span> <span class='comment val'># if args[:cidr]</span>
 
@@ -991,7 +1184,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <div class="method_details first">
   <h3 class="signature first" id="building-instance_method">
   
-    - (<tt>Object</tt>) <strong>building</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>building</strong> 
   
 
   
@@ -1000,13 +1193,31 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - building for this segment. Must be one of the buildings in the JSS</p>
+<p>Returns building for this segment. Must be one of the buildings in the JSS</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>building for this segment. Must be one of the buildings in the JSS</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1014,12 +1225,12 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <pre class="lines">
 
 
+122
 123
-124
-125</pre>
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_building identifier id'>building</span>
   <span class='rubyid_@building ivar id'>@building</span>
@@ -1035,7 +1246,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <div class="method_details ">
   <h3 class="signature " id="cidr-instance_method">
   
-    - (<tt>Object</tt>) <strong>cidr</strong> 
+    - (<tt>Integer</tt>) <strong>cidr</strong> 
   
 
   
@@ -1044,13 +1255,31 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Integer - the CIDR</p>
+<p>Returns the CIDR</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the CIDR</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1058,12 +1287,12 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <pre class="lines">
 
 
+119
 120
-121
-122</pre>
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cidr identifier id'>cidr</span>
   <span class='rubyid_@cidr ivar id'>@cidr</span>
@@ -1079,7 +1308,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <div class="method_details ">
   <h3 class="signature " id="department-instance_method">
   
-    - (<tt>Object</tt>) <strong>department</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>department</strong> 
   
 
   
@@ -1088,13 +1317,31 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - department for this segment. Must be one of the depts in the JSS</p>
+<p>Returns department for this segment. Must be one of the depts in the JSS</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>department for this segment. Must be one of the depts in the JSS</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1102,12 +1349,12 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <pre class="lines">
 
 
+125
 126
-127
-128</pre>
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_department identifier id'>department</span>
   <span class='rubyid_@department ivar id'>@department</span>
@@ -1123,7 +1370,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
       <div class="method_details ">
   <h3 class="signature " id="distribution_point-instance_method">
   
-    - (<tt>Object</tt>) <strong>distribution_point</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>distribution_point</strong> 
   
 
   
@@ -1132,7 +1379,7 @@ a previous API lookup (in a hash) provide it with :data =&gt;
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the name of the distribution point to be used from this network
+<p>Returns the name of the distribution point to be used from this network
 segment</p>
 
 
@@ -1140,6 +1387,24 @@ segment</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the distribution point to be used from this network segment</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1147,12 +1412,12 @@ segment</p>
       <pre class="lines">
 
 
+128
 129
-130
-131</pre>
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 128</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_distribution_point identifier id'>distribution_point</span>
   <span class='rubyid_@distribution_point ivar id'>@distribution_point</span>
@@ -1168,7 +1433,7 @@ segment</p>
       <div class="method_details ">
   <h3 class="signature " id="ending_address-instance_method">
   
-    - (<tt>Object</tt>) <strong>ending_address</strong> 
+    - (<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>) <strong>ending_address</strong> 
   
 
   
@@ -1177,13 +1442,31 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>IPAddr - ending IP adresss</p>
+<p>Returns ending IP adresss</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ending IP adresss</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1191,12 +1474,12 @@ segment</p>
       <pre class="lines">
 
 
+116
 117
-118
-119</pre>
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ending_address identifier id'>ending_address</span>
   <span class='rubyid_@ending_address ivar id'>@ending_address</span>
@@ -1208,11 +1491,207 @@ segment</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="netboot_server=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="netboot_server-instance_method">
   
-    - (<tt>Object</tt>) <strong>netboot_server</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>netboot_server</strong> 
   
 
   
@@ -1221,13 +1700,31 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the netboot server for this segment</p>
+<p>Returns the netboot server for this segment</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the netboot server for this segment</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1235,12 +1732,12 @@ segment</p>
       <pre class="lines">
 
 
+134
 135
-136
-137</pre>
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_netboot_server identifier id'>netboot_server</span>
   <span class='rubyid_@netboot_server ivar id'>@netboot_server</span>
@@ -1252,11 +1749,11 @@ segment</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="override_buildings=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="override_buildings-instance_method">
   
-    - (<tt>Object</tt>) <strong>override_buildings</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>override_buildings</strong> 
   
 
   
@@ -1265,14 +1762,31 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - should machines checking in from this segment update their
-building</p>
+<p>Returns should machines checking in from this segment update their building</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should machines checking in from this segment update their building</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1280,12 +1794,12 @@ building</p>
       <pre class="lines">
 
 
+143
 144
-145
-146</pre>
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_override_buildings identifier id'>override_buildings</span>
   <span class='rubyid_@override_buildings ivar id'>@override_buildings</span>
@@ -1297,11 +1811,11 @@ building</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="override_departments=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="override_departments-instance_method">
   
-    - (<tt>Object</tt>) <strong>override_departments</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>override_departments</strong> 
   
 
   
@@ -1310,13 +1824,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - should machines checking in from this segment update their dept</p>
+<p>Returns should machines checking in from this segment update their dept</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should machines checking in from this segment update their dept</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1324,12 +1856,12 @@ building</p>
       <pre class="lines">
 
 
+140
 141
-142
-143</pre>
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_override_departments identifier id'>override_departments</span>
   <span class='rubyid_@override_departments ivar id'>@override_departments</span>
@@ -1341,11 +1873,60 @@ building</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="starting_address=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="starting_address-instance_method">
   
-    - (<tt>Object</tt>) <strong>starting_address</strong> 
+    - (<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>) <strong>starting_address</strong> 
   
 
   
@@ -1354,13 +1935,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>IPAddr - starting IP adresss</p>
+<p>Returns starting IP adresss</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>starting IP adresss</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1368,12 +1967,12 @@ building</p>
       <pre class="lines">
 
 
+113
 114
-115
-116</pre>
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 113</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_starting_address identifier id'>starting_address</span>
   <span class='rubyid_@starting_address ivar id'>@starting_address</span>
@@ -1389,22 +1988,45 @@ building</p>
       <div class="method_details ">
   <h3 class="signature " id="subnet-instance_method">
   
-    - (<tt>Object</tt>) <strong>subnet</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>) <strong>subnet</strong>  <span class="extras">(readonly)</span>
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='range-instance_method'>range</span></span>
+    </span>
   
 
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>IPAddr - the IPAddr object representing this network segment</p>
+<p>Returns the IPAddr object representing this network segment, created from
+the uid</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the IPAddr object representing this network segment, created from the uid</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1412,12 +2034,12 @@ building</p>
       <pre class="lines">
 
 
-151
-152
-153</pre>
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 149</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_subnet identifier id'>subnet</span>
   <span class='rubyid_@subnet ivar id'>@subnet</span>
@@ -1433,7 +2055,7 @@ building</p>
       <div class="method_details ">
   <h3 class="signature " id="swu_server-instance_method">
   
-    - (<tt>Object</tt>) <strong>swu_server</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>swu_server</strong> 
   
 
   
@@ -1442,13 +2064,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the swupdate server for this segment.</p>
+<p>Returns the swupdate server for this segment.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the swupdate server for this segment.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1456,12 +2096,12 @@ building</p>
       <pre class="lines">
 
 
+137
 138
-139
-140</pre>
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_swu_server identifier id'>swu_server</span>
   <span class='rubyid_@swu_server ivar id'>@swu_server</span>
@@ -1477,7 +2117,7 @@ building</p>
       <div class="method_details ">
   <h3 class="signature " id="uid-instance_method">
   
-    - (<tt>Object</tt>) <strong>uid</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>uid</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1490,13 +2130,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the unique identifier for this subnet, regardless of the JSS id</p>
+<p>Returns the unique identifier for this subnet, regardless of the JSS id</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the unique identifier for this subnet, regardless of the JSS id</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1504,12 +2162,12 @@ building</p>
       <pre class="lines">
 
 
+146
 147
-148
-149</pre>
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 146</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_uid identifier id'>uid</span>
   <span class='rubyid_@uid ivar id'>@uid</span>
@@ -1525,7 +2183,7 @@ building</p>
       <div class="method_details ">
   <h3 class="signature " id="url-instance_method">
   
-    - (<tt>Object</tt>) <strong>url</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>url</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1534,13 +2192,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the mount url for the distribution point</p>
+<p>Returns the mount url for the distribution point</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mount url for the distribution point</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1548,12 +2224,12 @@ building</p>
       <pre class="lines">
 
 
+131
 132
-133
-134</pre>
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_url identifier id'>url</span>
   <span class='rubyid_@url ivar id'>@url</span>
@@ -1574,7 +2250,7 @@ building</p>
       <div class="method_details first">
   <h3 class="signature first" id="my_network_segment-class_method">
   
-    + (<tt>Object</tt>) <strong>my_network_segment</strong> 
+    + (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>) <strong>my_network_segment</strong> 
   
 
   
@@ -1583,13 +2259,31 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>return the network segment id (or nil) for the machine running this code</p>
+<p>Find the current network segment ids for the machine running this code</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the NetworkSegment ids for this machine right now.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1597,15 +2291,15 @@ building</p>
       <pre class="lines">
 
 
+101
 102
-103
-104</pre>
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_my_network_segment identifier id'>my_network_segment</span>
-  <span class='rubyid_net_segment_for_ip identifier id'>net_segment_for_ip</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_my_ip_address identifier id'>my_ip_address</span>
+  <span class='rubyid_network_segment_for_ip identifier id'>network_segment_for_ip</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_my_ip_address identifier id'>my_ip_address</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1616,7 +2310,7 @@ building</p>
       <div class="method_details ">
   <h3 class="signature " id="network_ranges-class_method">
   
-    + (<tt>Object</tt>) <strong>network_ranges</strong>(refresh = false) 
+    + (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Integer =&gt; <span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span>}</tt>) <strong>network_ranges</strong>(refresh = false) 
   
 
   
@@ -1625,15 +2319,34 @@ building</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a hash of all NetworkSegments in the jss, Key is jss ID, value is an
-IPAddr object representing the subnet as a masked IPv4 address. Using the
-#include? and #to_range methods on those objects is very useful.</p>
+<p>All NetworkSegments in the jss as IPAddr objects representing the subnet as
+a masked IPv4 address.</p>
+
+<p>Using the #include? and #to_range methods on those objects is very useful.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Integer =&gt; <span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the network segments as masked IPv4 addresses</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1641,16 +2354,16 @@ IPAddr object representing the subnet as a masked IPv4 address. Using the
       <pre class="lines">
 
 
-78
-79
-80
-81
-82
-83
-84</pre>
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_network_ranges identifier id'>network_ranges</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@@network_ranges ivar id'>@@network_ranges</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_refresh identifier id'>refresh</span>
@@ -1668,7 +2381,7 @@ IPAddr object representing the subnet as a masked IPv4 address. Using the
       <div class="method_details ">
   <h3 class="signature " id="network_segment_for_ip-class_method">
   
-    + (<tt>Object</tt>) <strong>network_segment_for_ip</strong>(ip) 
+    + (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>) <strong>network_segment_for_ip</strong>(ip) 
   
 
   
@@ -1677,16 +2390,55 @@ IPAddr object representing the subnet as a masked IPv4 address. Using the
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>return the id of the network segment that contains the given IP address or
-nil if none found. Even tho IPAddr.include? will take a String or an IPAddr
-I convert the ip to an IPAddr so that an exception will be raised if the ip
-isn’t a valid ip.</p>
+<p>Find the ids of the network segments that contain a given IP address.</p>
+
+<p>Even tho IPAddr.include? will take a String or an IPAddr I convert the ip
+to an IPAddr so that an exception will be raised if the ip isn’t a valid
+ip.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>ip</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the IP address to locate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the ids of the NetworkSegments containing the given ip</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1694,17 +2446,21 @@ isn’t a valid ip.</p>
       <pre class="lines">
 
 
-94
-95
-96
-97</pre>
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_network_segment_for_ip identifier id'>network_segment_for_ip</span><span class='lparen token'>(</span><span class='rubyid_ip identifier id'>ip</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_network_ranges identifier id'>network_ranges</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_subnet identifier id'>subnet</span><span class='bitor op'>|</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_id identifier id'>id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_subnet identifier id'>subnet</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ip identifier id'>ip</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_ok_ip identifier id'>ok_ip</span> <span class='assign token'>=</span> <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ip identifier id'>ip</span><span class='rparen token'>)</span>
+  <span class='rubyid_matches identifier id'>matches</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_network_ranges identifier id'>network_ranges</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_subnet identifier id'>subnet</span><span class='bitor op'>|</span> <span class='rubyid_matches identifier id'>matches</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_id identifier id'>id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_subnet identifier id'>subnet</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_ok_ip identifier id'>ok_ip</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_matches identifier id'>matches</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1721,16 +2477,27 @@ isn’t a valid ip.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>An alias for <span class='object_link'><a href="#network_ranges-class_method" title="JSS::NetworkSegment.network_ranges (method)">network_ranges</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-85</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 76</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subnets identifier id'>subnets</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_network_ranges identifier id'>network_ranges</span> <span class='rubyid_refresh identifier id'>refresh</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1748,7 +2515,7 @@ isn’t a valid ip.</p>
       <div class="method_details first">
   <h3 class="signature first" id="<=>-instance_method">
   
-    - (<tt>Object</tt>) <strong>&lt;=&gt;</strong>(other) 
+    - (<tt>-1</tt>, ...) <strong>&lt;=&gt;</strong>(other) 
   
 
   
@@ -1757,13 +2524,33 @@ isn’t a valid ip.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Thanks to comparable, we can tell if we’re equal or not.</p>
+<p>Thanks to Comparable, we can tell if we’re equal or not.</p>
+
+<p>See Comparable#&lt;=&gt;</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>-1</tt>, <tt>0</tt>, <tt>1</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ar we less than, equal or greater than the other?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1771,20 +2558,79 @@ isn’t a valid ip.</p>
       <pre class="lines">
 
 
-206
-207
-208</pre>
+201
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 201</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='cmp op'>&lt;=&gt;</span><span class='lparen token'>(</span><span class='rubyid_other identifier id'>other</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='cmp op'>&lt;=&gt;</span> <span class='lparen token'>(</span><span class='rubyid_other identifier id'>other</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subnet identifier id'>subnet</span> <span class='cmp op'>&lt;=&gt;</span> <span class='rubyid_other identifier id'>other</span><span class='dot token'>.</span><span class='rubyid_subnet identifier id'>subnet</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
   </tr>
 </table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>create</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new object in the JSS.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jss ID of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
 </div>
     
       <div class="method_details ">
@@ -1805,7 +2651,27 @@ isn’t a valid ip.</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>some_addr</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the IP address to check</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -1826,15 +2692,15 @@ isn’t a valid ip.</p>
       <pre class="lines">
 
 
-298
-299
-300</pre>
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 356</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_include? fid id'>include?</span> <span class='lparen token'>(</span><span class='rubyid_some_addr identifier id'>some_addr</span><span class='rparen token'>)</span>
-  <span class='rubyid_@subnet ivar id'>@subnet</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_some_addr identifier id'>some_addr</span>
+  <span class='rubyid_@subnet ivar id'>@subnet</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span>  <span class='rubyid_IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_some_addr identifier id'>some_addr</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1842,12 +2708,133 @@ isn’t a valid ip.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    - (<tt>void</tt>) <strong>name=</strong>(newname) 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>update</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:07 2014 by
+  Generated on Tue Sep 30 15:58:36 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

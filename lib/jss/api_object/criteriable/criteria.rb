@@ -1,67 +1,71 @@
 module JSS
   module Criteriable
-  
+
     #####################################
     ### Module Variables
     #####################################
-  
+
     #####################################
     ### Module Methods
     #####################################
-    
+
     #####################################
     ### Classes
     #####################################
 
-    ### The JSS::Criteriable::Criteria class stores an array of JSS::Criteriable::Criterion instances 
+    ### This class stores an array of {JSS::Criteriable::Criterion} instances
     ### and provides methods for working with them as a group.
     ###
-    ### JSS::APIObject subclasses that include JSS::Criteriable each have a :criteria attribute
+    ### {JSS::APIObject} subclasses that include {JSS::Criteriable} have a :criteria attribute
     ### which holds one Criteria object.
     ###
-    ### Objects that contain Criteria objects need to 
-    ### 1 - call '#container = self' on their Criteria object when its created.
-    ### 2 - implement #need_to_update, which the Criteria object calls when it changes.
+    ### Objects that contain Criteria objects need to
+    ### - call '#container = self' on their Criteria object when its created.
+    ### - implement #should_update, which the Criteria object calls when it changes.
     ###
-    ### Both of those tasks are handled by the JSS::Criteriable module and are mixed in when 
+    ### Both of those tasks are handled by the {JSS::Criteriable} module and are mixed in when
     ### it's included.
     ###
+    ### See {JSS::Criteriable} for examples
+    ###
     class Criteria
-      
+
       #####################################
       ### Class Constants
       #####################################
-      
+
       ### Criterion instances we maintain need these attributes.s
       CRITERION_ATTRIBUTES = [:priority, :and_or, :name, :search_type, :value]
-      
+
       #####################################
       ### Attributes
       #####################################
-      
-      ### Array - the group of JSS::Criteriable::Criterion instances making up these Criteria
+
+      ### @return [Array] the group of JSS::Criteriable::Criterion instances making up these Criteria
       attr_reader :criteria
-      
-      ### JSS::APIObject subclass - a reference to the object containing these Criteria
+
+      ### @return [JSS::APIObject subclass] a reference to the object containing these Criteria
       attr_reader :container
-      
+
       ###
-      ### @param new_criteria[Array<JSS:Criteriable::Criterion>]
-      ### 
+      ### @param new_criteria[Array<JSS::Criteriable::Criterion>]
+      ###
       def initialize(new_criteria)
         @criteria = []
         self.criteria = new_criteria
       end # init
-      
-      ### set the object we belong to, so we can set its @need_to_update value
+
+      ### set the object we belong to, so we can set its @should_update value
       def container= (a_thing)
         @container = a_thing
       end
-      
+
       ###
       ### Provide a whole new array of JSS::Criteriable::Criterion instances for this Criteria
       ###
-      ### @param new_criteria[Array<JSS:Criteriable::Criterion>]
+      ### @param new_criteria[Array<JSS::Criteriable::Criterion>]
+      ###
+      ### @return [void]
       ###
       def criteria= (new_criteria)
         unless new_criteria.kind_of? Array and  new_criteria.reject{|c| c.kind_of? JSS::Criteriable::Criterion }.empty?
@@ -69,68 +73,60 @@ module JSS
         end
         new_criteria.each{ |nc| criterion_ok? nc }
         @criteria = new_criteria
-        set_priorities  
-        @container.need_to_update if @container
+        set_priorities
+        @container.should_update if @container
       end
-      
-      
-      
-      ###
-      ### Change the details of one specific criterion
-      ###
-      ### @param priority[Integer] the priority/index of the criterion being changed.
-      ###   The index must already exist. Otherwise use
-      ###   #append_criterion, #prepend_criterion, or #insert_criterion
-      ### @param criterion[JSS::Criteriable::Criterion] the new Criterion to store at that index
-      ###
-      def set_criterion(priority, criterion)
-        raise JSS::NoSuchItemError, "No current criterion with priority '#{priority}'" unless @criteria[priority]
-        criterion_ok? criterion
-        @criteria[priority] = criterion
-        @container.need_to_update if @container
-      end
-      
+
       ###
       ### Add a new criterion to the end of the criteria
       ###
       ### @param criterion[JSS::Criteriable::Criterion] the new Criterion to store
       ###
+      ### @return [void]
+      ###
       def append_criterion(criterion)
         criterion_ok? criterion
         criterion.priority = @criteria.length
         @criteria << criterion
-        @container.need_to_update if @container
+        @container.should_update if @container
       end
-      
+
       ###
       ### Add a new criterion to the beginning of the criteria
       ###
       ### @param criterion[JSS::Criteriable::Criterion] the new Criterion to store
       ###
+      ### @return [void]
+      ###
       def prepend_criterion(criterion)
         criterion_ok? criterion
         @criteria.unshift criterion
         set_priorities
-        @container.need_to_update if @container
+        @container.should_update if @container
       end
-      
+
       ###
       ### Add a new criterion to the middle of the criteria
       ###
       ### @param priority[Integer] the priority/index before which to insert the new one.
+      ###
       ### @param criterion[JSS::Criteriable::Criterion] the new Criterion to store at that index
+      ###
+      ### @return [void]
       ###
       def insert_criterion(priority,criterion)
         criterion_ok? criterion
         @criteria.insert criterion[:priority], criterion
         set_priorities
-        @container.need_to_update if @container
+        @container.should_update if @container
       end
-      
+
       ###
       ### Remove a criterion from the criteria
-      ### 
+      ###
       ### @param priority[Integer] the priority/index of the criterion to delete
+      ###
+      ### @return [void]
       ###
       def delete_criterion(priority)
         if @criteria[priority]
@@ -138,20 +134,43 @@ module JSS
           @criteria.delete_at priority
           set_priorities
         end
-        @container.need_to_update if @container
+        @container.should_update if @container
       end
-      
+
+      ###
+      ### Change the details of one specific criterion
+      ###
+      ### @param priority[Integer] the priority/index of the criterion being changed.
+      ###   The index must already exist. Otherwise use
+      ###   #append_criterion, #prepend_criterion, or #insert_criterion
+      ###
+      ### @param criterion[JSS::Criteriable::Criterion] the new Criterion to store at that index
+      ###
+      ### @return [void]
+      ###
+      def set_criterion(priority, criterion)
+        raise JSS::NoSuchItemError, "No current criterion with priority '#{priority}'" unless @criteria[priority]
+        criterion_ok? criterion
+        @criteria[priority] = criterion
+        set_priorities
+        @container.should_update if @container
+      end
+
       ###
       ### Set the priorities of the @criteria to match their array indices
       ###
+      ### @return [void]
+      ###
       def set_priorities
         @criteria.each_index{ |ci| @criteria[ci].priority = ci }
-      end 
-      
+      end
+
       ###
       ### @return [REXML::Element] the xml element for the criteria
       ###
-      ### @note This can't be a private method for this class.
+      ### @note This can't be a private method for this class since container classes must call it
+      ###
+      ### @api private
       ###
       def rest_xml
         raise JSS::MissingDataError, "Criteria can't be empty" if @criteria.empty?
@@ -159,13 +178,13 @@ module JSS
         @criteria.each { |c| cr << c.rest_xml }
         return cr
      end # rest_xml
-  
+
       #####################################
       ### Private Instance Methods
-      #####################################    
+      #####################################
       private
-      
-      
+
+
       ###
       ### Chech the validity of a criterion.
       ### Note that this doesn't check the :priority
@@ -181,7 +200,7 @@ module JSS
         raise JSS::InvalidDataError, "Missing :value for criterion: #{criterion.signature.join(', ')}" unless criterion.value
         true
       end
-      
+
     end # class Criteria
-  end # module Criteriable  
+  end # module Criteriable
 end # module

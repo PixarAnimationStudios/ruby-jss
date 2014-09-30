@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Locatable
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -93,7 +93,35 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Sub-Modules</p>
+<p>A mix-in module for handling location/user data for objects in the JSS.</p>
+
+<p>The JSS objects that have location data return it in a :location subset,
+which all have basically the same data,a simple hash with these keys:</p>
+<ul><li>
+<p>:building =&gt; String,</p>
+</li><li>
+<p>:department =&gt; String,</p>
+</li><li>
+<p>:email_address =&gt; String,</p>
+</li><li>
+<p>:phone =&gt; String</p>
+</li><li>
+<p>:position =&gt; String</p>
+</li><li>
+<p>:real_name =&gt; String,</p>
+</li><li>
+<p>:room =&gt; String,</p>
+</li><li>
+<p>:username =&gt; String</p>
+</li></ul>
+
+<p>Including this module in an <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass will give it attributes
+matching those keys, which are populated by calling <span class='object_link'><a href="#parse_location-instance_method" title="JSS::Locatable#parse_location (method)">#parse_location</a></span> in
+the subclass’s constructor after calling super.</p>
+
+<p>If the subclass is creatable or updatable, calling <span class='object_link'><a href="#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">#location_xml</a></span> returns
+a REXML element representing the location subset, to be included with the
+#rest_xml output of the subclass.</p>
 
 
   </div>
@@ -135,7 +163,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#building-instance_method" title="#building (instance method)">- (Object) <strong>building</strong> </a>
+      <a href="#building-instance_method" title="#building (instance method)">- (String) <strong>building</strong> </a>
     
 
     
@@ -152,9 +180,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -162,7 +188,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#department-instance_method" title="#department (instance method)">- (Object) <strong>department</strong> </a>
+      <a href="#department-instance_method" title="#department (instance method)">- (String) <strong>department</strong> </a>
     
 
     
@@ -179,9 +205,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -189,7 +213,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#email_address-instance_method" title="#email_address (instance method)">- (Object) <strong>email_address</strong> </a>
+      <a href="#email_address-instance_method" title="#email_address (instance method)">- (String) <strong>email_address</strong> </a>
     
 
     
@@ -206,9 +230,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -216,7 +238,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#phone-instance_method" title="#phone (instance method)">- (Object) <strong>phone</strong> </a>
+      <a href="#phone-instance_method" title="#phone (instance method)">- (String) <strong>phone</strong> </a>
     
 
     
@@ -233,9 +255,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -243,7 +263,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#position-instance_method" title="#position (instance method)">- (Object) <strong>position</strong> </a>
+      <a href="#position-instance_method" title="#position (instance method)">- (String) <strong>position</strong> </a>
     
 
     
@@ -260,9 +280,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -270,7 +288,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#real_name-instance_method" title="#real_name (instance method)">- (Object) <strong>real_name</strong> </a>
+      <a href="#real_name-instance_method" title="#real_name (instance method)">- (String) <strong>real_name</strong> </a>
     
 
     
@@ -287,9 +305,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -297,7 +313,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#room-instance_method" title="#room (instance method)">- (Object) <strong>room</strong> </a>
+      <a href="#room-instance_method" title="#room (instance method)">- (String) <strong>room</strong> </a>
     
 
     
@@ -314,9 +330,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -324,7 +338,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#username-instance_method" title="#username (instance method)">- (Object) <strong>username</strong> </a>
+      <a href="#username-instance_method" title="#username (instance method)">- (String) <strong>username</strong> </a>
     
 
     
@@ -343,9 +357,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -366,7 +378,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#location_xml-instance_method" title="#location_xml (instance method)">- (Object) <strong>location_xml</strong> </a>
+      <a href="#has_location%3F-instance_method" title="#has_location? (instance method)">- (Boolean) <strong>has_location?</strong> </a>
     
 
     
@@ -381,8 +393,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML  element to be included in the rest_xml of  objects that
-have a Location subset.</p>
+<p>Does this item have location data?.</p>
 </div></span>
   
 </li>
@@ -391,7 +402,7 @@ have a Location subset.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_location-instance_method" title="#parse_location (instance method)">- (Object) <strong>parse_location</strong> </a>
+      <a href="#location-instance_method" title="#location (instance method)">- (Hash&lt;String&gt;) <strong>location</strong> </a>
     
 
     
@@ -406,7 +417,56 @@ have a Location subset.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of  objects that have a Location subset and
+<p>All the location data in a Hash, as it comes from the API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#location_xml-instance_method" title="#location_xml (instance method)">- (REXML::Element) <strong>location_xml</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a REXML  element to be included in the rest_xml of objects that have
+a Location subset.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_location-instance_method" title="#parse_location (instance method)">- (void) <strong>parse_location</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of objects that have a Location subset and
 the location attributes will be populated (as primary attributes) from
 @init_data.</p>
 </div></span>
@@ -426,7 +486,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details first">
   <h3 class="signature first" id="building-instance_method">
   
-    - (<tt>Object</tt>) <strong>building</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>building</strong> 
   
 
   
@@ -435,13 +495,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -449,12 +520,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-56
-57
-58</pre>
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_building identifier id'>building</span>
   <span class='rubyid_@building ivar id'>@building</span>
@@ -470,7 +541,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="department-instance_method">
   
-    - (<tt>Object</tt>) <strong>department</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>department</strong> 
   
 
   
@@ -479,13 +550,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -493,12 +575,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-59
-60
-61</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_department identifier id'>department</span>
   <span class='rubyid_@department ivar id'>@department</span>
@@ -514,7 +596,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="email_address-instance_method">
   
-    - (<tt>Object</tt>) <strong>email_address</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>email_address</strong> 
   
 
   
@@ -523,13 +605,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -537,12 +630,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-62
-63
-64</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_email_address identifier id'>email_address</span>
   <span class='rubyid_@email_address ivar id'>@email_address</span>
@@ -558,7 +651,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="phone-instance_method">
   
-    - (<tt>Object</tt>) <strong>phone</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>phone</strong> 
   
 
   
@@ -567,13 +660,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -581,12 +685,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-65
-66
-67</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_phone identifier id'>phone</span>
   <span class='rubyid_@phone ivar id'>@phone</span>
@@ -602,7 +706,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="position-instance_method">
   
-    - (<tt>Object</tt>) <strong>position</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>position</strong> 
   
 
   
@@ -611,13 +715,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -625,12 +740,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-68
-69
-70</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_position identifier id'>position</span>
   <span class='rubyid_@position ivar id'>@position</span>
@@ -646,7 +761,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="real_name-instance_method">
   
-    - (<tt>Object</tt>) <strong>real_name</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>real_name</strong> 
   
 
   
@@ -655,13 +770,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -669,12 +795,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-71
-72
-73</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 74</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_real_name identifier id'>real_name</span>
   <span class='rubyid_@real_name ivar id'>@real_name</span>
@@ -690,7 +816,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="room-instance_method">
   
-    - (<tt>Object</tt>) <strong>room</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>room</strong> 
   
 
   
@@ -699,13 +825,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -713,12 +850,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-74
-75
-76</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_room identifier id'>room</span>
   <span class='rubyid_@room ivar id'>@room</span>
@@ -734,7 +871,7 @@ the location attributes will be populated (as primary attributes) from
       <div class="method_details ">
   <h3 class="signature " id="username-instance_method">
   
-    - (<tt>Object</tt>) <strong>username</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>username</strong> 
   
 
   
@@ -747,13 +884,24 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -761,12 +909,12 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-77
-78
-79</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_username identifier id'>username</span>
   <span class='rubyid_@username ivar id'>@username</span>
@@ -785,9 +933,9 @@ the location attributes will be populated (as primary attributes) from
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="location_xml-instance_method">
+  <h3 class="signature first" id="has_location?-instance_method">
   
-    - (<tt>Object</tt>) <strong>location_xml</strong> 
+    - (<tt>Boolean</tt>) <strong>has_location?</strong> 
   
 
   
@@ -796,14 +944,31 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of 
-objects that have a Location subset</p>
+<p>Returns Does this item have location data?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Does this item have location data?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -811,21 +976,176 @@ objects that have a Location subset</p>
       <pre class="lines">
 
 
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190</pre>
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 204</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_has_location? fid id'>has_location?</span>
+  <span class='rubyid_@username ivar id'>@username</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@real_name ivar id'>@real_name</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@email_address ivar id'>@email_address</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@position ivar id'>@position</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@phone ivar id'>@phone</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@department ivar id'>@department</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@building ivar id'>@building</span> <span class='rubyid_or or kw'>or</span> \
+  <span class='rubyid_@room ivar id'>@room</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="location-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>location</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All the location data in a Hash, as it comes from the API.</p>
+
+<p>The reason it isn’t stored this way is to prevent editing of the hash
+directly.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the location data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 115</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_location identifier id'>location</span>
+  <span class='lbrace token'>{</span>
+    <span class='symbol val'>:building</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@building ivar id'>@building</span><span class='comma token'>,</span>
+    <span class='symbol val'>:department</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@department ivar id'>@department</span><span class='comma token'>,</span>
+    <span class='symbol val'>:email_address</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@email_address ivar id'>@email_address</span><span class='comma token'>,</span>
+    <span class='symbol val'>:phone</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@phone ivar id'>@phone</span><span class='comma token'>,</span>
+    <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@position ivar id'>@position</span><span class='comma token'>,</span>
+    <span class='symbol val'>:real_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@real_name ivar id'>@real_name</span><span class='comma token'>,</span>
+    <span class='symbol val'>:room</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@room ivar id'>@room</span><span class='comma token'>,</span>
+    <span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@username ivar id'>@username</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="location_xml-instance_method">
+  
+    - (<tt>REXML::Element</tt>) <strong>location_xml</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
+objects that have a Location subset</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_location_xml identifier id'>location_xml</span>
   <span class='rubyid_location identifier id'>location</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'location'</span><span class='rparen token'>)</span>
@@ -848,7 +1168,7 @@ objects that have a Location subset</p>
       <div class="method_details ">
   <h3 class="signature " id="parse_location-instance_method">
   
-    - (<tt>Object</tt>) <strong>parse_location</strong> 
+    - (<tt>void</tt>) <strong>parse_location</strong> 
   
 
   
@@ -856,8 +1176,8 @@ objects that have a Location subset</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Call this during initialization of  objects that have a Location subset and
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Call this during initialization of objects that have a Location subset and
 the location attributes will be populated (as primary attributes) from
 @init_data</p>
 
@@ -873,20 +1193,20 @@ the location attributes will be populated (as primary attributes) from
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
 95
 96
 97
 98
 99
-100</pre>
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/locatable.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_location identifier id'>parse_location</span>
   <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -910,7 +1230,7 @@ the location attributes will be populated (as primary attributes) from
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:55 2014 by
+  Generated on Tue Sep 30 15:58:12 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

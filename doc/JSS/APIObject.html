@@ -6,7 +6,7 @@
 <title>
   Class: JSS::APIObject
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -121,23 +121,23 @@ to populate any class-specific attributes. @id, @name, @rest_rsrc, and
 
 <p>If a subclass can be looked up by some key other than :name or :id, the
 subclass must pass the keys as an Array in the second argument when calling
-super from #initialize. See JSS::Computer#initialize for an example of how
-to implement this feature.</p>
+super from #initialize. See <span class='object_link'><a href="Computer.html#initialize-instance_method" title="JSS::Computer#initialize (method)">Computer#initialize</a></span> for an example of
+how to implement this feature.</p>
 
 <h3 id="label-Object+Creation">Object Creation</h3>
 
 <p>If a subclass should be able to be created in the JSS be sure to include
-JSS::Creatable</p>
+<span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
 
 <p>The constructor should verify any extra required data (aside from :name) in
 the args before or after calling super.</p>
 
-<p>See JSS::Creatable for more details.</p>
+<p>See <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span> for more details.</p>
 
 <h3 id="label-Object+Modification">Object Modification</h3>
 
-<p>If a subclass should be modifiable in the JSS, include JSS::Updatable, q.v.
-for details.</p>
+<p>If a subclass should be modifiable in the JSS, include <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>,
+q.v. for details.</p>
 
 <h3 id="label-Object+Deletion">Object Deletion</h3>
 
@@ -196,7 +196,7 @@ in which case the VALID_DATA_KEYS are expected in the section :general.</p>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="NetbootServer.html" title="JSS::NetbootServer (class)">NetbootServer</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Report.html" title="JSS::Report (class)">Report</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></p>
+  <p class="children"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="LDAPServer.html" title="JSS::LDAPServer (class)">LDAPServer</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></p>
 </div>
 
   <h2>Constant Summary</h2>
@@ -278,7 +278,7 @@ queried and the value in this hash is updated.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#id-instance_method" title="#id (instance method)">- (Object) <strong>id</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
     
 
     
@@ -298,7 +298,7 @@ queried and the value in this hash is updated.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Integer - the JSS id number.</p>
+<p>The JSS id number.</p>
 </div></span>
   
 </li>
@@ -307,9 +307,11 @@ queried and the value in this hash is updated.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Object) <strong>in_jss</strong> </a>
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
     
 
+    
+      (also: #in_jss?)
     
   </span>
   
@@ -327,7 +329,7 @@ queried and the value in this hash is updated.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - is it in the JSS?.</p>
+<p>Is it in the JSS?.</p>
 </div></span>
   
 </li>
@@ -336,7 +338,7 @@ queried and the value in this hash is updated.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name-instance_method" title="#name (instance method)">- (Object) <strong>name</strong> </a>
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
     
 
     
@@ -356,7 +358,7 @@ queried and the value in this hash is updated.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the name.</p>
+<p>The name.</p>
 </div></span>
   
 </li>
@@ -365,7 +367,7 @@ queried and the value in this hash is updated.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Object) <strong>need_to_update</strong> </a>
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
     
 
     
@@ -385,37 +387,7 @@ queried and the value in this hash is updated.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean -  need to save any changes?.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (Object) <strong>rest_rsrc</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>String - the Rest resource for API access (the part after
-“JSSResource/” ).</p>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
 </div></span>
   
 </li>
@@ -509,6 +481,30 @@ queried and the value in this hash is updated.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#get_name-class_method" title="get_name (class method)">+ (String) <strong>get_name</strong>(a_thing) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Some API objects contain references to other API objects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#map_all_ids_to-class_method" title="map_all_ids_to (class method)">+ (Hash{Integer =&gt; Oject}) <strong>map_all_ids_to</strong>(other_key, refresh = false) </a>
     
 
@@ -568,7 +564,7 @@ JSS::APIObject.all.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
+      <a href="#delete-instance_method" title="#delete (instance method)">- (void) <strong>delete</strong> </a>
     
 
     
@@ -609,7 +605,31 @@ JSS::APIObject.all.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>See the JSS::APIObject overview for more details.</p>
+<p>The args hash must include :id, :name, or :data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save-instance_method" title="#save (instance method)">- (Integer) <strong>save</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Either Create or Update this object in the JSS.</p>
 </div></span>
   
 </li>
@@ -633,7 +653,20 @@ JSS::APIObject.all.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>See the JSS::APIObject overview for more details.</p>
+<p>The args hash must include :id, :name, or :data.</p>
+<ul><li>
+<p>:id or :name will be looked up via the API</p>
+</li><li><ul><li>
+<p>if the subclass includes JSS::Creatable, :id can be :new, to create a new
+object in the JSS. and :name is required</p>
+</li></ul>
+</li><li>
+<p>:data must be the JSON output of a separate <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> query (a
+Hash of valid object data)</p>
+</li></ul>
+
+<p>Some subclasses can accept other options, by pasing their keys in a final
+Array</p>
 
 
   </div>
@@ -655,18 +688,7 @@ JSS::APIObject.all.</p>
       
         &mdash;
         <div class='inline'>
-<p>the data for looking up, or constructing, a new object. Must include :id,
-:name, or :data.</p>
-<ul><li>
-<p>:id or :name will be looked up via the API</p>
-</li><li><ul><li>
-<p>if the subclass includes JSS::Creatable, :id can be :new, to create a new
-object in the JSS.</p>
-</li></ul>
-</li><li>
-<p>:data must be the JSON output of a separate API query (a Hash of valid
-object data)</p>
-</li></ul>
+<p>the data for looking up, or constructing, a new object.</p>
 </div>
       
     </li>
@@ -684,12 +706,63 @@ object data)</p>
       
         &mdash;
         <div class='inline'>
-<p>Hash keys than :id and :name, by which an API lookup may be performed.</p>
+<p>Hash keys other than :id and :name, by which an API lookup may be
+performed.</p>
 </div>
       
     </li>
   
 </ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:id</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the jss id to look up</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:name</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the name to look up</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:data</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the JSON output of a separate <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> query</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+    
+    
 
 
 </div><table class="source_code">
@@ -698,49 +771,6 @@ object data)</p>
       <pre class="lines">
 
 
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
 359
 360
 361
@@ -785,13 +815,65 @@ object data)</p>
 400
 401
 402
-403</pre>
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 359</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_other_lookup_keys identifier id'>other_lookup_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
+  <span class='comment val'>################################</span>
+  <span class='comment val'>################################</span>
   <span class='comment val'>####### Previously looked-up JSON data</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:data</span><span class='rbrack token'>]</span>
 
@@ -810,10 +892,12 @@ object data)</p>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No #{self.class::RSRC_OBJECT_KEY} with JSS id: #{@init_data[:id]}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span>  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_hash_to_check identifier id'>hash_to_check</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
 
 
+  <span class='comment val'>################################</span>
+  <span class='comment val'>################################</span>
   <span class='comment val'>###### Make a new one in the JSS, but only if we've included the Creatable module</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='symbol val'>:new</span>
 
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_CREATABLE constant id'>CREATABLE</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_defined? defined kw'>defined?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_CREATABLE constant id'>CREATABLE</span>
 
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;You must provide a :name for a new #{self.class::RSRC_OBJECT_KEY}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
 
@@ -822,10 +906,15 @@ object data)</p>
 
     <span class='comment val'>### NOTE: subclasses may want to pre-populate more keys in @init_data when :id == :new</span>
     <span class='comment val'>### then parse them into attributes later.</span>
-    <span class='rubyid_@init_data ivar id'>@init_data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-    <span class='rbrace token'>}</span>
+    <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@init_data ivar id'>@init_data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@in_jss ivar id'>@in_jss</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+    <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/name/#{URI.escape @name}&quot;</span>
+    <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_return return kw'>return</span>
 
+  <span class='comment val'>################################</span>
+  <span class='comment val'>################################</span>
   <span class='comment val'>###### Look up the data via the API</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='comment val'>### what lookup key are we using?</span>
@@ -838,45 +927,43 @@ object data)</p>
 
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_@init_data ivar id'>@init_data</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_get_rsrc identifier id'>get_rsrc</span><span class='lparen token'>(</span><span class='rubyid_rsrc identifier id'>rsrc</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='rbrack token'>]</span>
-      <span class='comment val'>### Does this data come in subsets?</span>
-      <span class='rubyid_@got_subsets ivar id'>@got_subsets</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+
+      <span class='comment val'>### If we're looking up by id or name and we're here,</span>
+      <span class='comment val'>### then we have it regardless of which subset it's in</span>
+      <span class='comment val'>### otherwise, first assume they are in the init hash</span>
+      <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_lookup_key identifier id'>lookup_key</span> <span class='eq op'>==</span> <span class='symbol val'>:id</span> <span class='question op'>?</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='rubyid_lookup_key identifier id'>lookup_key</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+      <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_lookup_key identifier id'>lookup_key</span> <span class='eq op'>==</span> <span class='symbol val'>:name</span> <span class='question op'>?</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='rubyid_lookup_key identifier id'>lookup_key</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RestClient constant id'>RestClient</span><span class='colon2 op'>::</span><span class='rubyid_ResourceNotFound constant id'>ResourceNotFound</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No #{self.class::RSRC_OBJECT_KEY} found matching: #{args[:name] ? args[:name] : args[:id]}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span> <span class='comment val'>## end arg parsing</span>
 
-  <span class='comment val'>### set the name and id, and remove empty strings</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@got_subsets ivar id'>@got_subsets</span>
-    <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:general</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NO_SITE constant id'>NO_SITE</span>
-    <span class='rubyid_@init_data ivar id'>@init_data</span><span class='dot token'>.</span><span class='rubyid_each_pair identifier id'>each_pair</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
-        <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_kk identifier id'>kk</span><span class='comma token'>,</span><span class='rubyid_vv identifier id'>vv</span><span class='bitor op'>|</span> <span class='rubyid_vv identifier id'>vv</span> <span class='eq op'>==</span> <span class='string val'>''</span><span class='rbrace token'>}</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_v identifier id'>v</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_v identifier id'>v</span> <span class='eq op'>==</span> <span class='string val'>''</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
+  <span class='comment val'># Find the &quot;main&quot; subset which contains :id and :name</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># If they aren't at the top-level of the init hash they are in a subset hash,</span>
+  <span class='comment val'># usually :general, but sometimes someething else,</span>
+  <span class='comment val'># like ldap servers, which have them in :connection</span>
+  <span class='comment val'># Whereever both :id and :name are, that's the main subset</span>
 
-  <span class='rubyid_else else kw'>else</span> <span class='comment val'># no subsets</span>
-    <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NO_SITE constant id'>NO_SITE</span>
-    <span class='rubyid_@init_data ivar id'>@init_data</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span> <span class='eq op'>==</span> <span class='string val'>''</span><span class='rbrace token'>}</span>
-
+  <span class='rubyid_@init_data ivar id'>@init_data</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subset identifier id'>subset</span><span class='bitor op'>|</span>
+    <span class='rubyid_@main_subset ivar id'>@main_subset</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='rubyid_subset identifier id'>subset</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='rubyid_subset identifier id'>subset</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='rubyid_subset identifier id'>subset</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='rubyid_subset identifier id'>subset</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@main_subset ivar id'>@main_subset</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@main_subset ivar id'>@main_subset</span> <span class='opasgn op'>||=</span> <span class='rubyid_@init_data ivar id'>@init_data</span>
 
-  <span class='comment val'>### if we have a @id here, we're already in the JSS</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@id ivar id'>@id</span>
-    <span class='rubyid_@in_jss ivar id'>@in_jss</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span>  <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/id/#{@id}&quot;</span>
-    <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@in_jss ivar id'>@in_jss</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-    <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/name/#{URI.escape @name}&quot;</span>
-    <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@id ivar id'>@id</span> <span class='opasgn op'>||=</span> <span class='rubyid_@main_subset ivar id'>@main_subset</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@name ivar id'>@name</span> <span class='opasgn op'>||=</span> <span class='rubyid_@main_subset ivar id'>@main_subset</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
 
+  <span class='comment val'># many things have  a :site</span>
+  <span class='rubyid_@site ivar id'>@site</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_APIObject constant id'>APIObject</span><span class='dot token'>.</span><span class='rubyid_get_name identifier id'>get_name</span><span class='lparen token'>(</span> <span class='rubyid_@main_subset ivar id'>@main_subset</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@main_subset ivar id'>@main_subset</span><span class='lbrack token'>[</span><span class='symbol val'>:site</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># set empty strings to nil</span>
+  <span class='rubyid_@init_data ivar id'>@init_data</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:recurse</span>
+
+  <span class='rubyid_@in_jss ivar id'>@in_jss</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span>  <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/id/#{@id}&quot;</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -894,7 +981,7 @@ object data)</p>
       <div class="method_details first">
   <h3 class="signature first" id="id-instance_method">
   
-    - (<tt>Object</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -903,13 +990,31 @@ object data)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Integer - the JSS id number</p>
+<p>Returns the JSS id number</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -917,12 +1022,12 @@ object data)</p>
       <pre class="lines">
 
 
-286
-287
-288</pre>
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 286</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 324</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id identifier id'>id</span>
   <span class='rubyid_@id ivar id'>@id</span>
@@ -938,22 +1043,44 @@ object data)</p>
       <div class="method_details ">
   <h3 class="signature " id="in_jss-instance_method">
   
-    - (<tt>Object</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
   
 
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - is it in the JSS?</p>
+<p>Returns is it in the JSS?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -961,12 +1088,12 @@ object data)</p>
       <pre class="lines">
 
 
-292
-293
-294</pre>
+330
+331
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 330</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_in_jss identifier id'>in_jss</span>
   <span class='rubyid_@in_jss ivar id'>@in_jss</span>
@@ -982,7 +1109,7 @@ object data)</p>
       <div class="method_details ">
   <h3 class="signature " id="name-instance_method">
   
-    - (<tt>Object</tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -991,13 +1118,31 @@ object data)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the name</p>
+<p>Returns the name</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1005,12 +1150,12 @@ object data)</p>
       <pre class="lines">
 
 
-289
-290
-291</pre>
+327
+328
+329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 327</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
   <span class='rubyid_@name ivar id'>@name</span>
@@ -1024,53 +1169,9 @@ object data)</p>
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="need_to_update-instance_method">
-  
-    - (<tt>Object</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Boolean -  need to save any changes?</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-295
-296
-297</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 295</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_need_to_update identifier id'>need_to_update</span>
-  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <div class="method_details ">
   <h3 class="signature " id="rest_rsrc-instance_method">
   
-    - (<tt>Object</tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1079,14 +1180,32 @@ object data)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the Rest resource for API access (the part after
-“JSSResource/” )</p>
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1094,12 +1213,12 @@ object data)</p>
       <pre class="lines">
 
 
-299
-300
-301</pre>
+333
+334
+335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 299</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 333</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_rsrc identifier id'>rest_rsrc</span>
   <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span>
@@ -1169,7 +1288,7 @@ or anything besides false or nil will work.</p>
         <span class='name'>refresh</span>
       
       
-        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1268,7 +1387,7 @@ computers in the JSS</p>
         <span class='name'>refresh</span>
       
       
-        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1353,7 +1472,7 @@ computers in the JSS</p>
         <span class='name'>refresh</span>
       
       
-        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1402,6 +1521,121 @@ computers in the JSS</p>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_refresh identifier id'>refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_name-class_method">
+  
+    + (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>get_name</strong>(a_thing) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Some API objects contain references to other API objects. Usually those
+references are a Hash containing the :id and :name of the target.
+Sometimes, however the reference is just the name of the target.</p>
+
+<p>A Script has a property :category, which comes from the API as a String,
+the name of the category for that script. e.g. “GoodStuff”</p>
+
+<p>A Policy also has a property :category, but it comes from the API as a Hash
+with both the name and id, e.g.  {:id =&gt; 8, :name =&gt;
+“GoodStuff”}</p>
+
+<p>When that reference is to a single thing (like the category to which
+something belongs) APIObject subclasses usually store only the name, and
+use the name when returning data to the API.</p>
+
+<p>When an object references a list of related objects (like the computers
+assigned to a user) that list will be and Array of Hashes as above, with
+both the :id and :name</p>
+
+<p>This method is just a handy way to extract the name regardless of how it
+comes from the API. Most APIObject subclasses use it in their #initialize
+method</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>a_thing</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the api data from which we’re extracting the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name extracted from a_thing</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 289</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_name identifier id'>get_name</span><span class='lparen token'>(</span><span class='rubyid_a_thing identifier id'>a_thing</span><span class='rparen token'>)</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_a_thing identifier id'>a_thing</span>
+    <span class='rubyid_when when kw'>when</span> <span class='rubyid_String constant id'>String</span>
+      <span class='rubyid_a_thing identifier id'>a_thing</span>
+    <span class='rubyid_when when kw'>when</span> <span class='rubyid_Hash constant id'>Hash</span>
+      <span class='rubyid_a_thing identifier id'>a_thing</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_when when kw'>when</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1474,7 +1708,7 @@ list resources. Invert its result to map the other identfier to ids.</p>
         <span class='name'>refresh</span>
       
       
-        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1514,14 +1748,14 @@ list resources. Invert its result to map the other identfier to ids.</p>
       <pre class="lines">
 
 
-208
 209
 210
 211
-212</pre>
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 209</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_all_ids_to identifier id'>map_all_ids_to</span><span class='lparen token'>(</span><span class='rubyid_other_key identifier id'>other_key</span><span class='comma token'>,</span> <span class='rubyid_refresh identifier id'>refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_h identifier id'>h</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -1654,12 +1888,12 @@ puts xml_names  # output manually formatted for clarity, xml.to_s has no newline
       <pre class="lines">
 
 
-256
-257
-258</pre>
+258
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 258</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_xml_list identifier id'>xml_list</span><span class='lparen token'>(</span><span class='rubyid_array identifier id'>array</span><span class='comma token'>,</span> <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
   <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_item_list_to_rexml_list identifier id'>item_list_to_rexml_list</span> <span class='rubyid_self self kw'>self</span><span class='colon2 op'>::</span><span class='rubyid_RSRC_LIST_KEY constant id'>RSRC_LIST_KEY</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='colon2 op'>::</span><span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='comma token'>,</span> <span class='rubyid_array identifier id'>array</span><span class='comma token'>,</span> <span class='rubyid_content identifier id'>content</span>
@@ -1679,7 +1913,7 @@ puts xml_names  # output manually formatted for clarity, xml.to_s has no newline
       <div class="method_details first">
   <h3 class="signature first" id="delete-instance_method">
   
-    - (<tt>Object</tt>) <strong>delete</strong> 
+    - (<tt>void</tt>) <strong>delete</strong> 
   
 
   
@@ -1687,7 +1921,7 @@ puts xml_names  # output manually formatted for clarity, xml.to_s has no newline
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Delete this item from the JSS.</p>
 
 <p>Subclasses may want to redefine this method, first calling super, then
@@ -1705,17 +1939,17 @@ setting other attributes to nil, false, empty, etc..</p>
       <pre class="lines">
 
 
-416
-417
-418
-419
-420
-421
-422
-423</pre>
+489
+490
+491
+492
+493
+494
+495
+496</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 416</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 489</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
@@ -1723,7 +1957,86 @@ setting other attributes to nil, false, empty, etc..</p>
   <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/name/#{URI.escape @name}&quot;</span>
   <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_@in_jss ivar id'>@in_jss</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>save</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Either Create or Update this object in the JSS</p>
+
+<p>If this item is creatable or updatable, then create it if needed, or update
+it if it already exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the item created or updated</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 467</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='string val'>&quot;Updating this object in the JSS is currently not supported&quot;</span> \
+      <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_defined? defined kw'>defined?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_UPDATABLE constant id'>UPDATABLE</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='string val'>&quot;Creating this object in the JSS is currently not supported&quot;</span> \
+      <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_defined? defined kw'>defined?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_CREATABLE constant id'>CREATABLE</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1736,7 +2049,7 @@ setting other attributes to nil, false, empty, etc..</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:58 2014 by
+  Generated on Tue Sep 30 15:58:16 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Updatable
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -78,7 +78,7 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></dd>
     
   
   
@@ -93,13 +93,39 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Sub-Modules</p>
+<p>A mix-in module that allows objects to be updated in the JSS via the API.</p>
+
+<p>When a JSS::APIObject subclass includes this module, instances of that
+subclass can be modified in the JSS using the <span class='object_link'><a href="#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span> or <span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span>
+methods.</p>
+
+<p>Such classes should define setter methods for any values that they wish to
+modify, such as the <span class='object_link'><a href="#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span> method defined here. Those setter methods
+must:</p>
+<ul><li>
+<p>ensure the correctness of the data they accept.</p>
+</li><li>
+<p>set @need_to_update to true, indicating that the local object no longer
+matches the JSS, and the changes should be pushed to the server with
+<span class='object_link'><a href="#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
+</li></ul>
+
+<p>Classes mixing this module <strong>must</strong> provide a #rest_xml
+instance method that returns the XML String to be submitted to the API for
+object updating.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -129,6 +155,40 @@
 
 
 
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
 
 
 
@@ -143,7 +203,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name%3D-instance_method" title="#name= (instance method)">- (Object) <strong>name=</strong>(newname) </a>
+      <a href="#name%3D-instance_method" title="#name= (instance method)">- (void) <strong>name=</strong>(newname) </a>
     
 
     
@@ -168,7 +228,7 @@ server.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong> </a>
+      <a href="#update-instance_method" title="#update (instance method)">- (Boolean) <strong>update</strong> </a>
     
 
     
@@ -183,33 +243,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>an alias doesn’t propagate to classes where this is included,  if the
-class redefines #update, so use a method definition to  call the local one
-explicitly.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>save changes to the JSS.</p>
+<p>Save changes to the JSS.</p>
 </div></span>
   
 </li>
@@ -219,15 +253,15 @@ explicitly.</p>
   
 
 
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
     
+      
+      <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="name=-instance_method">
+  <h3 class="signature first" id="need_to_update-instance_method">
   
-    - (<tt>Object</tt>) <strong>name=</strong>(newname) 
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -236,6 +270,73 @@ explicitly.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 51</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_need_to_update identifier id'>need_to_update</span>
+  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="name=-instance_method">
+  
+    - (<tt>void</tt>) <strong>name=</strong>(newname) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Change the name of this item Remember to #update to push changes to the
 server.</p>
 
@@ -243,7 +344,27 @@ server.</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -264,17 +385,18 @@ server.</p>
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47</pre>
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name= identifier id'>name=</span> <span class='lparen token'>(</span><span class='rubyid_newname identifier id'>newname</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_UPDATABLE constant id'>UPDATABLE</span>
@@ -282,51 +404,8 @@ server.</p>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Names can't be empty!&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_newname identifier id'>newname</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span><span class='lparen token'>(</span><span class='symbol val'>:refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_newname identifier id'>newname</span>
   <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_newname identifier id'>newname</span>
+  <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{self.class::RSRC_BASE}/name/#{URI.escape @name}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='string val'>'/name/'</span>
   <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="save-instance_method">
-  
-    - (<tt>Object</tt>) <strong>save</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>an alias doesn’t propagate to classes where this is included,  if the
-class redefines #update, so use a method definition to  call the local one
-explicitly.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-66
-67
-68</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 66</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span> 
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -337,7 +416,7 @@ explicitly.</p>
       <div class="method_details ">
   <h3 class="signature " id="update-instance_method">
   
-    - (<tt>Object</tt>) <strong>update</strong> 
+    - (<tt>Boolean</tt>) <strong>update</strong> 
   
 
   
@@ -346,13 +425,31 @@ explicitly.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>save changes to the JSS</p>
+<p>Save changes to the JSS</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -373,17 +470,17 @@ explicitly.</p>
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57
-58
-59</pre>
+81
+82
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/updatable.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_UPDATABLE constant id'>UPDATABLE</span>
@@ -391,7 +488,7 @@ explicitly.</p>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
   <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_put_rsrc identifier id'>put_rsrc</span>  <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span><span class='comma token'>,</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
   <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_@id ivar id'>@id</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -404,7 +501,7 @@ explicitly.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:56 2014 by
+  Generated on Tue Sep 30 15:58:13 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

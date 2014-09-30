@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Scopable
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -93,11 +93,27 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Classes that mix in this module must:</p>
+<p>A mix-in module for handling scoping data for objects in the JSS.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='minus op'>-</span> <span class='rubyid_Set constant id'>Set</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_Constant constant id'>Constant</span> <span class='rubyid_SCOPE_TARGET_KEY constant id'>SCOPE_TARGET_KEY</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_either identifier id'>either</span> <span class='symbol val'>:computers</span> <span class='rubyid_or or kw'>or</span> <span class='symbol val'>:mobile_devices</span>
-<span class='minus op'>-</span>
-</code></pre>
+<p>The JSS objects that can be scoped use similar data to represent that
+scoping. This module provides a consistant way to deal with scoping data
+via some instance methods and the <span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> class.</p>
+
+<p>When this module is mixed in to a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass, instances of
+the subclass will have a @scope attribute containing a
+<span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> instance</p>
+
+<p>Classes that mix in this module must:</p>
+<ul><li>
+<p>Set a Constant SCOPE_TARGET_KEY that is either :computers or
+:mobile_devices</p>
+</li><li>
+<p>Call <span class='object_link'><a href="#parse_scope-instance_method" title="JSS::Scopable#parse_scope (method)">#parse_scope</a></span> during initialization to make a <span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span>
+instance for their @scope attribute.</p>
+</li><li>
+<p>Include the result of self.scope.scope_xml in their own rest_xml output if
+they are <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span> or <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
+</li></ul>
 
 
   </div>
@@ -189,7 +205,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Object) <strong>need_to_update</strong> </a>
+      <a href="#parse_scope-instance_method" title="#parse_scope (instance method)">- (void) <strong>parse_scope</strong> </a>
     
 
     
@@ -200,11 +216,12 @@
   
   
   
-  
+  <span class="private note title">private</span>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>the Scope has to tell us when it changes.</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -213,7 +230,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_scope-instance_method" title="#parse_scope (instance method)">- (Object) <strong>parse_scope</strong> </a>
+      <a href="#should_update-instance_method" title="#should_update (instance method)">- (void) <strong>should_update</strong> </a>
     
 
     
@@ -228,8 +245,33 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of  objects that have a scope and the scope
-attribute will be populated from @init_data.</p>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A wrapper around the update method, to try catching RestClient::Conflict
+409 errors when we couldn’t verify all ldap users/groups due to lack of
+ldap connections.</p>
 </div></span>
   
 </li>
@@ -270,12 +312,12 @@ attribute will be populated from @init_data.</p>
       <pre class="lines">
 
 
-45
 46
-47</pre>
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_scope identifier id'>scope</span>
   <span class='rubyid_@scope ivar id'>@scope</span>
@@ -294,9 +336,9 @@ attribute will be populated from @init_data.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="need_to_update-instance_method">
+  <h3 class="signature first" id="parse_scope-instance_method">
   
-    - (<tt>Object</tt>) <strong>need_to_update</strong> 
+    - (<tt>void</tt>) <strong>parse_scope</strong> 
   
 
   
@@ -304,8 +346,13 @@ attribute will be populated from @init_data.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>the Scope has to tell us when it changes</p>
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+<p class="note returns_void">This method returns an undefined value.</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data</p>
 
 
   </div>
@@ -319,14 +366,58 @@ attribute will be populated from @init_data.</p>
       <pre class="lines">
 
 
-75
-76
-77</pre>
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 60</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_need_to_update identifier id'>need_to_update</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_scope identifier id'>parse_scope</span>
+  <span class='rubyid_@scope ivar id'>@scope</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Scopable constant id'>Scopable</span><span class='colon2 op'>::</span><span class='rubyid_Scope constant id'>Scope</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_SCOPE_TARGET_KEY constant id'>SCOPE_TARGET_KEY</span><span class='comma token'>,</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:scope</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@scope ivar id'>@scope</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="should_update-instance_method">
+  
+    - (<tt>void</tt>) <strong>should_update</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 85</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_should_update identifier id'>should_update</span>
   <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -336,9 +427,9 @@ attribute will be populated from @init_data.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="parse_scope-instance_method">
+  <h3 class="signature " id="update-instance_method">
   
-    - (<tt>Object</tt>) <strong>parse_scope</strong> 
+    - (<tt>Object</tt>) <strong>update</strong> 
   
 
   
@@ -347,8 +438,9 @@ attribute will be populated from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Call this during initialization of  objects that have a scope and the scope
-attribute will be populated from @init_data</p>
+<p>A wrapper around the update method, to try catching RestClient::Conflict
+409 errors when we couldn’t verify all ldap users/groups due to lack of
+ldap connections</p>
 
 
   </div>
@@ -362,15 +454,35 @@ attribute will be populated from @init_data</p>
       <pre class="lines">
 
 
-57
-58
-59</pre>
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 94</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_scope identifier id'>parse_scope</span>
-  <span class='rubyid_@scope ivar id'>@scope</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Scopable constant id'>Scopable</span><span class='colon2 op'>::</span><span class='rubyid_Scope constant id'>Scope</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_SCOPE_TARGET_KEY constant id'>SCOPE_TARGET_KEY</span><span class='comma token'>,</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:scope</span><span class='rbrack token'>]</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_super super kw'>super</span>
+    
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RestClient constant id'>RestClient</span><span class='colon2 op'>::</span><span class='rubyid_Conflict constant id'>Conflict</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_conflict identifier id'>conflict</span>
+    <span class='rubyid_if if kw'>if</span>  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_scope identifier id'>scope</span><span class='dot token'>.</span><span class='rubyid_unable_to_verify_ldap_entries identifier id'>unable_to_verify_ldap_entries</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Potentially non-existant LDAP user or group in new scope values.&quot;</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_conflict identifier id'>conflict</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># begin</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -383,7 +495,7 @@ attribute will be populated from @init_data</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:56 2014 by
+  Generated on Tue Sep 30 15:58:13 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

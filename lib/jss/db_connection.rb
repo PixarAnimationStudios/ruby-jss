@@ -1,0 +1,216 @@
+module JSS
+
+
+
+  #####################################
+  ### Module Variables
+  #####################################
+
+  #####################################
+  ### Classes
+  #####################################
+
+  ###
+  ### A mysql connection to the JSS database.
+  ###
+  ### This is a singleton class, only one can exist at a time, and it
+  ### is created, but not connected, automatically when the module loads.
+  ###
+  ### Use it via the JSS::DB_CNX constant (for connection metadata)
+  ### and the JSS::DB_CNX.db attribute (which contains the actual mysql
+  ### query interface) for making queries
+  ###
+  ### Direct MySQL access is minimal and discouraged, since it
+  ### bypasses the API, and can be very dangerous. However, it's necessary
+  ### to overcome some limitations of the API or to access custom tables.
+  ###
+  ### While a database connction isn't required for most things,
+  ### warnings will be sent to stderr when functionality is limited due to
+  ### a lack of a database connection i.e. when JSS::DB_CNX.connected? == false
+  ###
+  ### To make a connection with credentials, just call the #connect method thus:
+  ###    JSS::DB_CNX.connect :server => 'server.company.com', :user => "user", :pw => "pw"
+  ###
+  ### Other options include:
+  ###   :db_name => which database to connect to, defaults to 'jamfsoftware'
+  ###   :port => tcp port for connection to server, defaults to the standard mysql port.
+  ###   :connect_timeout => seconds to wait before giving up on connection, defaults to 120
+  ###   :read_timeout => seconds to wait before giving up on recieving data, defaults to 120
+  ###   :write_timeout => seconds to wait before giving up on sending data, defaults to 120
+  ###   :timeout => sets all three timeouts to the same value, defaults to 120
+  ###
+  ### Calling JSS::DB_CNX.connect again will re-use any values not provided.
+  ### but will create a new connection.
+  ###
+  class DBConnection
+
+    include Singleton
+
+    #####################################
+    ### Class Constants
+    #####################################
+
+    ### The name of the JSS database on the mysql server
+    DEFAULT_DB_NAME = "jamfsoftware"
+
+    ### give the connection a 120 second timeout, for really slow
+    ### net connections (like... from airplanes)
+    DFT_TIMEOUT = 120
+
+    ###
+    DFT_SOCKET = '/var/mysql/mysql.sock'
+
+    ### the strftime format for reading/writing dates in the db
+    SQL_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+
+
+    attr_reader :server
+    attr_reader :port
+    attr_reader :socket
+    attr_reader :user
+    attr_reader :db_name
+    attr_reader :connect_timeout
+    attr_reader :read_timeout
+    attr_reader :write_timeout
+    attr_reader :connected
+
+
+    def initialize ()
+      require 'mysql'
+      @mysql = Mysql.init
+      @connected = false
+    end #init
+
+    ###
+    ### Connect to the JSS MySQL database.
+    ###
+    ### @param args[Hash] the keyed arguments for connection.
+    ###
+    ### @option args :server[String] Required, the hostname of the JSS API server
+    ###
+    ### @option args :port[Integer] the port number to connect with, defaults to the default Mysql TCP port
+    ###
+    ### @option args :socket[String,Pathname] when the server is 'localhost', the path to the connection socket.
+    ###
+    ### @option args :db_name[String] the name of the database to use, defaults to 'jamfsoftware'
+    ###
+    ### @option args :user[String] Required, the mysql user to connect as
+    ###
+    ### @option args :pw[String,Symbol] Required, the password for that user, or :prompt, or :stdin
+    ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
+    ###   If :stdin, the password is read from stdin.
+    ###
+    ### @option args :stdin_line[Integer] If :pw is :stdin, which line of standard input contains our password?
+    ###   defaults to the second line (2)
+    ###
+    ### @option args :connect_timeout[Integer] the number of seconds to wait for an initial response, defaults to 120
+    ###
+    ### @option args :read_timeout[Integer] the number of seconds before read-request times out, defaults to 120
+    ###
+    ### @option args :write_timeout[Integer] the number of seconds before write-request times out, defaults to 120
+    ###
+    ### @option args :timeout[Integer] used for any of the timeouts that aren't explicitly set.
+    ###
+    ### @return [true] the connection was successfully made.
+    ###
+    def connect(args = {})
+
+      # settings from config if they aren't in the args
+      args[:server] ||= JSS::CONFIG.db_server_name
+      args[:port] ||= JSS::CONFIG.db_server_port
+      args[:socket] ||= JSS::CONFIG.db_server_socket
+      args[:db_name] ||= JSS::CONFIG.db_name
+      args[:user] ||= JSS::CONFIG.db_username
+      args[:connect_timeout] ||= JSS::CONFIG.db_connect_timeout
+      args[:read_timeout] ||= JSS::CONFIG.db_read_timeout
+      args[:write_timeout] ||= JSS::CONFIG.db_write_timeout
+      args[:stdin_line] ||= 2
+
+      ### if one timeout was given, use it for all three
+      args[:connect_timeout] ||= args[:timeout]
+      args[:read_timeout] ||= args[:timeout]
+      args[:write_timeout] ||= args[:timeout]
+
+      ### if these weren't given, use the defaults
+      args[:connect_timeout] ||= DFT_TIMEOUT
+      args[:read_timeout] ||= DFT_TIMEOUT
+      args[:write_timeout] ||= DFT_TIMEOUT
+      args[:port] ||= Mysql::MYSQL_TCP_PORT
+      args[:socket] ||= DFT_SOCKET
+      args[:db_name] ||= DEFAULT_DB_NAME
+
+      @mysql.close if connected?
+
+      @server = args[:server]
+      @port = args[:port]
+      @socket = args[:socket]
+      @mysql_name = args[:db_name]
+      @user = args[:user]
+      @connect_timeout = args[:connect_timeout]
+      @read_timeout = args[:read_timeout]
+      @write_timeout = args[:write_timeout]
+
+      # make sure we have a user
+      raise JSS::MissingDataError, "No JSS user specified, or listed in configuration." unless args[:user]
+
+      # passwd from prompt, stdin, or args?
+      @pw = case args[:pw]
+        when :prompt
+          JSS.prompt_for_password  "Enter the password for MySQL user '#{args[:user]}':"
+        when :stdin
+          JSS.stdin args[:stdin_line]
+        else
+          args[:pw]
+      end # case
+
+      raise JSS::MissingDataError, "Missing :pw for user '#{@user}'" unless args[:pw]
+
+      @mysql = Mysql.init
+
+      @mysql.options Mysql::OPT_CONNECT_TIMEOUT, @connect_timeout
+      @mysql.options Mysql::OPT_READ_TIMEOUT, @read_timeout
+      @mysql.options Mysql::OPT_WRITE_TIMEOUT, @write_timeout
+
+      @mysql.connect @server, @user , @pw , @mysql_name, @port, @socket
+
+      @connected = true
+    end # reconnect
+
+    ###
+    ### @return [Mysql] The mysql database connection itself
+    ###
+    def db
+      raise JSS::InvalidConnectionError, "No database connection. Please use JSS::DB_CNX.connect" unless JSS::DB_CNX.connected?
+      @mysql
+    end
+
+    ###
+    ### close the connection to the database
+    ### it'll have to be re-connected before using again
+    ###
+    def disconnect
+      @mysql.close if connected?
+      @connected = false
+      nil
+    end # disconnect
+
+    #### Aliases
+
+    alias connected? connected
+
+  end # class DBConnection
+
+  ### The single instance of the DBConnection
+  DB_CNX = DBConnection.instance
+
+  ###
+  ### @return [Mysql] The mysql database available through the DBConnection.instance
+  ###
+  def self.db
+    DB_CNX.db
+  end
+
+end # module
+
+

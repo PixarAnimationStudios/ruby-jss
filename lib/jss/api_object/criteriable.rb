@@ -1,6 +1,6 @@
 module JSS
-  
-  
+
+
 ### A mix-in module providing consistent access to JSS::Criteriable::Criteria and
 ### JSS::Criteriable::Criterion objects from within objects that contain Criteria.
 ###
@@ -10,67 +10,110 @@ module JSS
   #####################################
   ### Module Variables
   #####################################
- 
+
 
   #####################################
   ### Module Methods
   #####################################
-  
+
   #####################################
   ### Sub-Modules
   #####################################
-  
+
   ###
-  ### A mix-in module that allows objects to handle standardized Criteria.
+  ### A mix-in module that allows objects to handle standardized search Criteria.
   ###
   ### Some objects in the JSS, such as Advanced Searches and Smart Groups,
-  ### include a set of Criteria, conditions which, when met, signify inclusion
-  ### in some result set. 
+  ### include a set of Criteria. (i.e conditions which, when met, signify inclusion
+  ### in some result set.)
   ###
-  ### When a JSS::APIObject subclass includes this module, that subclass
-  ### will have a :criteria attribute, which holds a JSS::Criteriable::Criteria
-  ### instance, which itself is a container for JSS::Criteriable::Criterion 
-  ### instances.
-  ### 
+  ### A {JSS::Criteriable::Criteria} instance is a container for one or more
+  ### {JSS::Criteriable::Criterion} instances and provides methods for dealing with
+  ### them easily.
+  ###
+  ### When a {JSS::APIObject} subclass includes this module, that subclass
+  ### will have a :criteria attribute, which holds a {JSS::Criteriable::Criteria}
+  ### object and can be used to manipulate the Criterion objects inside.
+  ###
   ### The including subclass also gains some instance methods:
-  ### * #parse_critera - sets the :criteria attribute during initialization
+  ### * #parse_critera - sets up the :criteria attribute during initialization
   ### * #criteria= - allows the wholesale replacement of the criteria
-  ### * #need_to_update - allows the JSS::Criteriable::Criteria instance to 
+  ### * #need_to_update - allows the {JSS::Criteriable::Criteria} instance to
   ###   inform the subclass instance that it has changed and needs an #update
   ###
-  ### JSS::Criteriable::Criteria provides methods for dealing with the 
-  ### individual JSS::Criteriable::Criterion instances it contains, and can be
-  ### accessed via the :criteria attribute.
+  ### Classes mixing in this module *must*
+  ### *  call #parse_criteria during initialization.
+  ### *  If they are Updatable or Creatable, they must insert
+  ###    self.criteria.rest_xml into their own xml output.
+  ###
+  ###
+  ### @example Working with the criteria of an advanced search
+  ###   # create a couple of Criterion instances
+  ###   crtn_0 = JSS::Criteriable::Criterion.new :and_or => :or, :name => "Username", :search_type => "is", :value => "jeauxbleaux"
+  ###   crtn_1 = JSS::Criteriable::Criterion.new :and_or => :and, :name => "Last Check-in", :search_type => "less than x days ago", :value => 3
+  ###
+  ###   # use them to create a Criteria instance
+  ###   crta = JSS::Criteriable::Criteria.new [crtn_0, crtn_1]
+  ###
+  ###   # create a new Advanced Search
+  ###   srch = JSS::AdvancedComputerSearch.new :id => :new, :name => "my computer search"
+  ###   srch.display_fields = ["Computer Name"]
+  ###
+  ###   # add our Criteria to it
+  ###   srch.criteria = crta
+  ###
+  ###   # create it in the JSS
+  ###   srch.create # srch.search_results now contains the matching computers
+  ###
+  ###   # append a new criterion to the criteria, limiting the search results farther
+  ###   srch.criteria.append_criterion JSS::Criteriable::Criterion.new(:and_or => :or, :name => "Computer Name", :search_type => "like", :value => "o")
+  ###
+  ###   # save the change to the JSS
+  ###   srch.save  # srch.search_results  now contains the matching computers
+  ###
+  ###   # oops - that last one should have been :and, not :or
+  ###   srch.criteria.criteria[2].and_or = :and
+  ###
+  ###   # the above can also be achieved like this, by replacing the last criterion altogether:
+  ###   srch.criteria.set_criterion 2, JSS::Criteriable::Criterion.new(:and_or => :and, :name => "Computer Name", :search_type => "like", :value => "o")
+  ###
+  ###   # save the change to the JSS
+  ###   srch.save  # srch.search_results  now contains the matching computers
+  ###
+  ### @see JSS::Criteriable::Criteria
+  ### @see JSS::Criteriable::Criterion
   ###
   module Criteriable
-    
+
     #####################################
     ###  Constants
     #####################################
-    
+
     CRITERIABLE = true
-    
-    
+
+
     #####################################
     ###  Variables
     #####################################
-    
+
     #####################################
     ###  Mixed-in Attributes
     #####################################
-    
-    ### JSS::Criteriable::Criteria - the criteria for the instance into which we're mixed.
+
+    ### @return [JSS::Criteriable::Criteria] the criteria for the instance into which we're mixed.
     attr_reader :criteria
-    
+
     #####################################
     ###  Mixed-in Instance Methods
     #####################################
-    
+
     ###
     ### During initialization, convert the @init_data[:criteria] Hash into
     ### a JSS::Criteriable::Criteria instance stored in @criteria
     ###
     ### Classes mixing in this module must call this in #initialize
+    ###
+    ### @return [void]
     ###
     def parse_criteria
       @criteria = if @init_data[:criteria]
@@ -80,32 +123,41 @@ module JSS
       end
       @criteria.container = self if @criteria
     end
-    
+
     ###
-    ### change the criteria, it must be a JSS::Criteriable::Criteria instance
+    ### Change the criteria, it must be a JSS::Criteriable::Criteria instance
+    ###
+    ### @param new_criteria[JSS::Criteriable::Criteria] the new criteria
+    ###
+    ### @return [void]
     ###
     def criteria= (new_criteria)
       raise JSS::InvalidDataError, "JSS::Criteriable::Criteria instance required" unless new_criteria.kind_of?(JSS::Criteriable::Criteria)
       @criteria = new_criteria
+      @criteria.container = self
       @need_to_update = true
     end
-    
+
     ###
+    ###
+    ### @api private
     ### Allow our Criteria to tell us when there's been a change that needs
     ### to be updated.
     ###
-    def need_to_update
+    ### @return [void]
+    ###
+    def should_update
       @need_to_update = true if @in_jss
     end
-    
+
     #####################################
     ###  Mixed-in Class Methods
     #####################################
-    
-    
-  
+
+
+
   end # module Criteriable
-  
+
 end # module JSS
 
 require "jss/api_object/criteriable/criterion"

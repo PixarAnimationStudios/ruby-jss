@@ -1,26 +1,31 @@
 module JSS
-  
+
   #####################################
   ### Module Constants
   #####################################
-  
+
   #####################################
   ### Module Variables
   #####################################
-  
+
   #####################################
   ### Module Methods
   #####################################
-  
-  
+
+
   ###
-  ### A Computer in the JSS.
+  ### This class represents a Computer in the JSS.
   ###
-  ### Computers cannot be created in the JSS via this module. Please use other
+  ### ===Adding Computers to the JSS
+  ###
+  ### This class cannot be used to add new Computers to the JSS. Please use other
   ### Casper methods (like the Recon App or QuickAdd package)
   ###
-  ### Additionally, any data that arrives in the JSS via an "inventory update"
-  ### (a.k.a. 'recon') cannot be modified through the API.
+  ### ---
+  ### ===Editing values
+  ###
+  ### Any data that arrives in the JSS via an "inventory update"
+  ### (a.k.a. 'recon') cannot be modified through this class, or the API.
   ###
   ### Data that can be modified are:
   ### * Management Account (see #set_management_to)
@@ -35,85 +40,230 @@ module JSS
   ### After making any changes, you must call #update to send those
   ### changes to the server.
   ###
-  ### See also JSS::APIObject
+  ### ---
+  ### ===MDM Commands
+  ###
+  ### ==== MDM Commands are Not Yet Supported!
+  ### *Hopefully they will be soon*
+  ###
+  ### The following methods will be used to send an APNS command to the computer represented by an
+  ### instance of JSS::Computer, equivalent to clicking one of the buttons on
+  ### the Management Commands section of the Management tab of the Computer details page in the JSS UI.
+  ###
+  ### The methods supported will be:
+  ### - #blank_push  (aliases blank, noop, send_blank_push)
+  ### - #device_lock (aliases lock, lock_device)
+  ### - #erase_device (aliases wipe)
+  ###
+  ### To send an MDM command without making an instance, use the class method {.send_mdm_command}
+  ###
+  ### Each returns true if the command as sent.
+  ###
+  ### ---
+  ### ===Other Methods
+  ###
+  ### - {#set_management_to} change the management acct and passwd for this computer, aliased to #make_managed
+  ###   - requires calling #update to push changes to the server
+  ### - {#make_unmanaged} an shortcut method for {#set_management_to}(nil)
+  ###   - requires calling #update to push changes to the server
+  ### - {#apps} a shortcut to {#software} [:applications]
+  ### - {#licensed_sw} a shortcut to {#software} [:licensed_software]
+  ### - {#computer_groups} a shortcut to {#groups_accounts} [:computer_group_memberships]
+  ### - {#local_accounts} a shortcut to {#groups_accounts} [:local_accounts]
+  ### - {#drives} a shortcut to {#hardware} [:storage]
+  ### - {#printers} a shortcut to {#hardware} [:mapped_printers]
+  ###
+  ### @see APIObject
+  ### @see Locatable
+  ### @see Purchasable
+  ### @see Matchable
+  ### @see FileUpload
   ###
   class Computer  < JSS::APIObject
-    
+
     #####################################
     ### MixIns
     #####################################
-    
+
     include JSS::Updatable
     include JSS::Locatable
     include JSS::Purchasable
-    include JSS::FileUpload
-    
+    include JSS::Uploadable
+    include JSS::Extendable
+
     extend JSS::Matchable
 
+    #####################################
+    ### Class Variables
+    #####################################
+
+    @@all_computers = nil
 
     #####################################
     ### Class Methods
     #####################################
-    
+
+    ### A larger set of info about the computers in the JSS.
+    ###
+    ### Casper 9.4 introduced the API Resource /computers/subset/basic
+    ### that returns an array of hashes with more data than just /computers/
+    ### (which was just :name and :id). Similar to /mobildevices/, this new
+    ### list includes :udid, :serial_number, and :mac_address, as well as :model,
+    ### :managed, :building, :department, :username, and :report_date
+    ###
+    ### Because this requires a different, unusual, resource path, we're completely re-defining
+    ### {APIObject.all} for JSS::Computer.  Hopefully some day the original /computers/
+    ### resource will be updated to return this data.
+    ###
+    ### @param refresh[Boolean] should the data be re-queried from the API?
+    ###
+    ### @return [Array<Hash{:name=>String, :id=> Integer}>]
+    ###
+    def self.all(refresh = false)
+      @@all_computers = nil if refresh
+      return @@all_computers if @@all_computers
+      @@all_computers = JSS::API.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
+    end
+
+    ### @return [Array<String>] all computer serial numbers in the jss
+    def self.all_serial_numbers(refresh = false)
+      self.all(refresh).map{|i| i[:serial_number]}
+    end
+
+    ### @return [Array<String>] all computer mac_addresses in the jss
+    def self.all_mac_addresses(refresh = false)
+      self.all(refresh).map{|i| i[:mac_address]}
+    end
+
+    ### @return [Array<String>] all computer udids in the jss
+    def self.all_udids(refresh = false)
+      self.all(refresh).map{|i| i[:udid]}
+    end
+
+    ### @return [Array<Hash>] all managed computers in the jss
+    def self.all_managed(refresh = false)
+      self.all(refresh).select{|d| d[:managed] }
+    end
+
+    ### @return [Array<Hash>] all unmanaged computers in the jss
+    def self.all_unmanaged(refresh = false)
+      self.all(refresh).select{|d| not d[:managed] }
+    end
+
+    ### @return [Array<Hash>] all laptop computers in the jss
+    def self.all_laptops(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /book/i }
+    end
+
+    ### @return [Array<Hash>] all macbooks in the jss
+    def self.all_macbooks(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^macbook\d/i  }
+    end
+
+    ### @return [Array<Hash>] all macbookpros in the jss
+    def self.all_macbookpros(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^macbookpro\d/i  }
+    end
+
+    ### @return [Array<Hash>] all macbookairs in the jss
+    def self.all_macbookairs(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^macbookair\d/i  }
+    end
+
+    ### @return [Array<Hash>] all xserves in the jss
+    def self.all_xserves(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /serve/i  }
+    end
+
+    ### @return [Array<Hash>] all desktop macs in the jss
+    def self.all_desktops(refresh = false)
+      self.all(refresh).select{|d| d[:model] !~ /serve|book/i  }
+    end
+
+    ### @return [Array<Hash>] all imacs in the jss
+    def self.all_imacs(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^imac/i  }
+    end
+
+    ### @return [Array<Hash>] all mac minis in the jss
+    def self.all_minis(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^macmini/i  }
+    end
+
+    ### @return [Array<Hash>] all macpros in the jss
+    def self.all_macpros(refresh = false)
+      self.all(refresh).select{|d| d[:model] =~ /^macpro/i  }
+    end
+
     ###
     ### Send an MDM command to a managed computer by id or name
     ###
     ### @param computer[String,Integer] the name or id of the computer to recieve the command
-    ### @param command[Symbol] the command to send, one of the keys of API_MDM_COMMANDS
+    ### @param command[Symbol] the command to send, one of the keys of COMPUTER_MDM_COMMANDS
     ###
     ### @return [true] if the command was sent
     ###
-    def self.send_mdm_command(computer,command)
-      
-      raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless API_MDM_COMMANDS.keys.include? command
-      
-      command_xml ="#{JSS::APIConnection::XML_HEADER}<computer><command>#{API_MDM_COMMANDS[command]}</command></computer>"
-      the_id = nil
-      
-      if computer.to_s =~ /^\d+$/
-        the_id = computer
-      else
-        the_id = self.map_all_ids_to(:name).invert[computer]
-      end
-      
-      if the_id
-        response = JSS::API.put_rsrc("#{RSRC_BASE}/id/#{the_id}", command_xml) 
-        response =~ %r{<notification_sent>(.+)</notification_sent>}
-        return ($1 and $1 == "true")
-      end
-      raise JSS::UnmanagedError, "Cannot send command to unknown/unmanaged computer '#{computer}'"
-    end
-    
-    
+
+# Not functional until I get more docs from JAMF
+#
+#     def self.send_mdm_command(computer,command)
+#
+#       raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
+#
+#       command_xml ="#{JSS::APIConnection::XML_HEADER}<computer><command>#{COMPUTER_MDM_COMMANDS[command]}</command></computer>"
+#       the_id = nil
+#
+#       if computer.to_s =~ /^\d+$/
+#         the_id = computer
+#       else
+#         the_id = self.map_all_ids_to(:name).invert[computer]
+#       end
+#
+#       if the_id
+#         response = JSS::API.put_rsrc("#{RSRC_BASE}/id/#{the_id}", command_xml)
+#         response =~ %r{<notification_sent>(.+)</notification_sent>}
+#         return ($1 and $1 == "true")
+#       end
+#       raise JSS::UnmanagedError, "Cannot send command to unknown/unmanaged computer '#{computer}'"
+#     end
+
+
     #####################################
     ### Class Constants
     #####################################
-    
+
+
     ### The base for REST resources of this class
     RSRC_BASE = "computers"
-    
+
+    ### The (temporary?) list-resource
+    LIST_RSRC = "#{RSRC_BASE}/subset/basic"
+
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :computers
-    
+
     ### The hash key used for the JSON object output.
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :computer
-    
+
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address ]
-    
+
     ### This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedComputerSearch
-    
-    ### Boot partitions are noted with the string "(Boot Partition)" at the end 
+
+    ### This is the class for relevant Extension Attributes
+    EXT_ATTRIB_CLASS = JSS::ComputerExtensionAttribute
+
+    ### Boot partitions are noted with the string "(Boot Partition)" at the end
     BOOT_FLAG = " (Boot Partition)"
-    
+
     ### file uploads can send attachments to the JSS using :computers as the sub-resource.
     UPLOAD_TYPES = { :attachment => :computers}
-    
-    ### A mapping of Symbols available to the send_mdm_command class method, to 
+
+    ### A mapping of Symbols available to the send_mdm_command class method, to
     ### the String commands actuallly sent via the API.
-    API_MDM_COMMANDS = {
+    COMPUTER_MDM_COMMANDS = {
       :blank_push => "BlankPush",
       :send_blank_push => "BlankPush",
       :blank => "BlankPush",
@@ -127,106 +277,93 @@ module JSS
       :unmanage_device => "UnmanageDevice",
       :unmanage => "UnmanageDevice"
     }
-    
+
     #####################################
     ### Attributes
     #####################################
-    
+
     ### The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
     ### Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
     ### Here's General, in alphabetical order
-    
-    ### String - the secondary mac address
+
+    ### @return [String] the secondary mac address
     attr_reader :alt_mac_address
-    alias  alt_macaddress alt_mac_address
-    
-    ### String - the asset tag
+
+    ### @return [String] the asset tag
     attr_reader :asset_tag
-    
-    ### String - the barcodes
+
+    ### @return [String] the barcodes
     attr_reader :barcode_1, :barcode_2
-    alias bar_code_1 barcode_1
-    alias bar_code_2 barcode_2
     
-    ### String - The name of the distribution point for this computer
+
+    ### @return [String] The name of the distribution point for this computer
     attr_reader :distribution_point
-    
-    ### DateTime - when was it added to the JSS
+
+    ### @return [Time] when was it added to the JSS
     attr_reader :initial_entry_date
-    
-    ### IPAddr - the last known IP address
+
+    ### @return [IPAddr] the last known IP address
     attr_reader :ip_address
-    
-    ### String - the version of the jamf binary
+
+    ### @return [String] the version of the jamf binary
     attr_reader :jamf_version
-    
-    ### DateTime - the last contact time
+
+    ### @return [Time] the last contact time
     attr_reader :last_contact_time
-    
-    ### String - the primary macaddress
+
+    ### @return [String] the primary macaddress
     attr_reader :mac_address
-    
-    ### Boolean - is this machine "managed" by Casper?
+
+    ### @return [Boolean] is this machine "managed" by Casper?
     attr_reader :managed
-    alias managed? managed
-    
-    ### String - the name of the management account
+
+    ### @return [String] the name of the management account
     attr_reader :management_username
-    
-    ### Boolean - doesit support MDM?
+
+    ### @return [Boolean] doesit support MDM?
     attr_reader :mdm_capable
-    alias mdm? mdm_capable
-    
-    ### String - the name of the netboot server for this machine
+
+    ### @return [String] the name of the netboot server for this machine
     attr_reader :netboot_server
-    
-    ### String - what kind of computer?
+
+    ### @return [String] what kind of computer?
     attr_reader :platform
-    
-    ### DateTime - the last recon time
+
+    ### @return [Time] the last recon time
     attr_reader :report_date
-    alias last_recon report_date
-    
-    ### String - the serial number
+
+    ### @return [String] the serial number
     attr_reader :serial_number
-    alias sn serial_number
-    alias serialnumber serial_number
     
-    ### Hash - the :name and :id of the site for this machine
+
+    ### @return [Hash] the :name and :id of the site for this machine
     attr_reader :site
-    
-    ### String - the name of the Software Update Server assigned to this machine.
+
+    ### @return [String] the name of the Software Update Server assigned to this machine.
     attr_reader :sus
-    
-    ### String - the UDID of the computer
+
+    ### @return [String] the UDID of the computer
     attr_reader :udid
-    
-    
+
+
     ############
     ### The remaining subsets each go into an attribute of their own.
     ###
-    
-    ### configuration_profiles -  An Array of Hashes, one for each ConfigurationProfile on the computer
-    ### 
+
+    ### @return [Array<Hash>]
+    ###
+    ### A Hash for each ConfigurationProfile on the computer
+    ###
     ### The Hash keys are:
     ### * :id => the ConfigurationProfile id in the JSS
-    ### * :name => the username to whom this user-level profile has been applied
+    ### * :name => the username to whom this user-level profile has been applied (if it's a user-level profile)
     ### * :uuid => the ConfigurationProfile uuid
     ###
     attr_reader :configuration_profiles
-    
-    ### extension_attributes - An Array of Hashes, one for each ComputerExtentionAttribute
+
+    ### @return [Hash]
     ###
-    ### The Hash keys are:
-    ### * :id => the ExtAttrib id
-    ### * :name => the ExtAttrib name
-    ### * :type => the data type of the ExtAttrib value, one of JSS::ComputerExtentionAttribute::DATA_TYPES
-    ### * :value => the value for the ExtAttrib on this computer as of the last report.
-    ###
-    attr_reader :extension_attributes
-    
-    ### groups_accounts - A Hash containing info about the local accts and ComputerGroups to which
-    ### this machine beloings
+    ### Info about the local accts and ComputerGroups to which this machine beloings
     ###
     ### The Hash keys are:
     ### * :computer_group_memberships => An Array of names of ComputerGroups to which this computer belongs
@@ -241,9 +378,12 @@ module JSS
     ###   *   :filevault_enabled => Boolean
     ###
     attr_reader :groups_accounts
-    
-    ### hardware - A Hash with these keys & sample data
+
+    ### @return [Hash]
     ###
+    ### A Hash with info about the hardware of this cmoputer.
+    ###
+    ### These are the keys & sample data
     ### * :number_processors=>2,
     ### * :processor_speed_mhz=>2530,
     ### * :make=>"Apple",
@@ -298,13 +438,15 @@ module JSS
     ###     * :filevault_percent=>100
     ###
     attr_reader :hardware
-    
+
     ### DEPRECATED
-    ### attr_reader :iphones 
-    
-    ### peripherals - An Array of Hashes, one per periph
+    ### attr_reader :iphones
+
+    ### @return [Array<Hash>]
     ###
-    ### Each hash has keys & sample data:
+    ### A Hash per peripheral
+    ###
+    ### Each hash has these keys & sample data:
     ### *  :id=>286,
     ### *  :type=>"Display",
     ### *  :field_0=>"HP",
@@ -338,8 +480,10 @@ module JSS
     ###    * :purchasing_account=>""
     ###
     attr_reader :peripherals
-    
-    ### software - a Hash of softwar data
+
+    ### @return [Hash]
+    ###
+    ### A Hash of software data
     ###
     ### The Hash has these keys:
     ### * :running_services => An Array of services running on the computer (if gathered) TODO - is each item a hash?
@@ -358,79 +502,81 @@ module JSS
     ### * :unix_executables => DEPRECATED
     ###
     attr_reader :software
-    
+
     #####################################
     ### Instance Methods
     #####################################
-    
+
     ###
     ### @param (see APIObject#initialize)
+    ###
     ### As well as :id and :name, computers can be queried using :udid, :serialnumber, and :mac_address
     ###
     def initialize (args = {})
-      
+
       super args, [:udid, :serialnumber, :mac_address]
-      
+
       ### now we have raw @init_data with something in it, so fill out the instance vars
       @alt_mac_address = @init_data[:general][:alt_mac_address]
       @asset_tag = @init_data[:general][:asset_tag]
       @barcode_1 = @init_data[:general][:barcode_1]
       @barcode_2 = @init_data[:general][:barcode_2]
       @distribution_point = @init_data[:general][:distribution_point]
-      @initial_entry_date = JSS.parse_datetime @init_data[:general][:initial_entry_date_epoch]
+      @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
       @ip_address = @init_data[:general][:ip_address]
       @jamf_version = @init_data[:general][:jamf_version]
-      @last_contact_time = JSS.parse_datetime @init_data[:general][:last_contact_time_epoch]
+      @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
       @mac_address = @init_data[:general][:mac_address]
       @managed = @init_data[:general][:remote_management][:managed]
       @management_username = @init_data[:general][:remote_management][:management_username]
       @mdm_capable = @init_data[:general][:mdm_capable]
       @netboot_server = @init_data[:general][:netboot_server]
       @platform = @init_data[:general][:platform]
-      @report_date = JSS.parse_datetime @init_data[:general][:report_date_epoch]
+      @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
       @serial_number = @init_data[:general][:serial_number]
-      @site = @init_data[:general][:site]
+      @site =  JSS::APIObject.get_name( @init_data[:general][:site])
       @sus = @init_data[:general][:sus]
       @udid = @init_data[:general][:udid]
-      
+
       parse_location
       parse_purchasing
-      
+      parse_ext_attrs
+
       @configuration_profiles = @init_data[:configuration_profiles]
       @extension_attributes = @init_data[:extension_attributes]
       @groups_accounts = @init_data[:groups_accounts]
       @hardware = @init_data[:hardware]
       @peripherals = @init_data[:peripherals]
       @software = @init_data[:software]
-      
+
       @management_password = nil
-      
-    end # initialize  
-    
+
+    end # initialize
+
     ###
     ### @return [Array] the JSS groups to which thismachine belongs (smart and static)
     ###
     def computer_groups
       @groups_accounts[:computer_group_memberships]
     end
-    
+
     ###
-    ### @return [Array<Hash>] all the local accts on the machine. 
-    ###   Each item has keys :name, :realname, :uid, :home, :home_size, :administrator, :filevault_enabled
+    ### @return [Array<Hash>] all the local accts on the machine.
+    ###
+    ### Each item has keys :name, :realname, :uid, :home, :home_size, :administrator, :filevault_enabled
     ###
     def local_accounts
       @groups_accounts[:local_accounts]
     end
-    alias accounts local_accounts
-    alias accts local_accounts
     
+
     ###
     ### @return [Array<Hash>]  each storage device
-    ### 
+    ###
     def drives
       @hardware[:storage]
     end
-    
+
     ###
     ### @return [Array<Hash>]  each printer on this computer
     ###   Keys are :name, :uri, :type, :location
@@ -438,27 +584,30 @@ module JSS
     def printers
       @hardware[:mapped_printers]
     end
-    
+
     ###
     ### @return [Array<Hash>]  all apps installed on this machine.
     ###   Hash keys are :name, :path, and :version
     ###
     def apps ; @software[:applications] ; end
-    
+
     ###
     ### @return [Array<String>] the JSS-defined "licensed software" titles
     ###   installed on this machine.
     ###
     def licensed_sw ; @software[:licensed_software] ; end
-    
+
     ###
     ### Set or unset management acct and password for this computer
     ###
     ### @param name[String] the name of the management acct.
+    ###
     ### @param password[String] the password of the management acct
     ###
+    ### @return [void]
+    ###
     ### The changes will need to be pushed to the server with #update
-    ### before they take effect. 
+    ### before they take effect.
     ###
     ### CAUTION: this does nothing to confirm the name and password
     ### will work on the machine!
@@ -470,16 +619,18 @@ module JSS
       @managed = name ? true : false
       @need_to_update = true
     end
-    alias make_managed set_management_to
-    
+
     ###
     ### Make the machine unmanaged.
     ###
-    ### The same as 
+    ### The same as
     ###   #set_management_to nil, nil
     ### followed by
     ###   JSS::Computer.send_mdm_command @id, :unmanage_device
-    ### 
+    ### which currently isn't working
+    ###
+    ### @return [void]
+    ###
     def make_unmanaged
       return nil unless managed?
       set_management_to(nil, nil)
@@ -488,7 +639,7 @@ module JSS
       rescue
       end
     end
-    
+
     ###
     def asset_tag= (new_val)
       return nil if @asset_tag == new_val
@@ -496,7 +647,7 @@ module JSS
       @asset_tag = new_val
       @need_to_update = true
     end
-    
+
     ###
     def barcode_1= (new_val)
       return nil if @barcode_1 == new_val
@@ -504,7 +655,7 @@ module JSS
       @barcode_1 = new_val
       @need_to_update = true
     end
-    
+
     ###
     def barcode_2= (new_val)
       return nil if @barcode_2 == new_val
@@ -512,7 +663,7 @@ module JSS
       @barcode_2 = new_val
       @need_to_update = true
     end
-    
+
     ###
     def ip_address= (new_val)
       return nil if @ip_address == new_val
@@ -522,60 +673,22 @@ module JSS
       @ip_address = new_val
       @need_to_update = true
     end
-    
-    ###
-    def udid= (new_val)
-      return nil if @udid == new_val
-      new_val.strip!
-      ### make sure it isn't already there
-      begin
-        JSS::Computer.new :udid => new_val
-        raise JSS::AlreadyExistsError, "A computer with UDID #{new_val} already exists in the JSS"
-      rescue JSS::NoSuchItemError
-      end
-      @udid = new_val
-      @need_to_update = true
-    end
-    
-    ###
-    def mac_address= (new_val)
-      return nil if @mac_address == new_val
-      new_val.strip!
-      raise JSS::InvalidDataError, "Primary MAC Address can't be emtpy" if new_val.to_s.empty?
-      raise JSS::InvalidDataError, "Primary MAC Address can't be the same as the secondary" if new_val == @alt_mac_address
-      begin
-        other_id = JSS::Computer.new(:macaddress => new_val).id
-        raise JSS::AlreadyExistsError, "A computer with MAC Address #{new_val} already exists in the JSS" unless @id == other_id
-      rescue JSS::NoSuchItemError
-      end
-      @mac_address = new_val
-      @need_to_update = true
-    end
-    
-    ###
-    def alt_mac_address= (new_val)
-      return nil if @alt_mac_address == new_val
-      new_val.strip!
-      raise JSS::InvalidDataError, "Secondary MAC Address can't be the same as the primary" if new_val == @alt_mac_address
-      begin
-        other_id = JSS::Computer.new(:macaddress => new_val).id
-        raise JSS::AlreadyExistsError, "A computer with MAC Address #{new_val} already exists in the JSS" unless @id == other_id
-      rescue JSS::NoSuchItemError
-      end
-      @alt_mac_address = new_val
-      @need_to_update = true
-    end
-    
+
     ###
     ### Send changes to the API
     ###
-    def update
-      super
-      @management_password = nil
-    end
-    
+    ### @return [void]
     ###
-    ### Delete this computer from the JSS 
+    def update
+      id = super
+      @management_password = nil
+      id
+    end
+
+    ###
+    ### Delete this computer from the JSS
+    ###
+    ### @return [void]
     ###
     def delete
       super
@@ -599,7 +712,7 @@ module JSS
       @site = nil
       @sus = nil
       @udid = nil
-      
+
       @building = nil
       @department = nil
       @email_address = nil
@@ -608,7 +721,7 @@ module JSS
       @real_name = nil
       @room = nil
       @username = nil
-      
+
       @configuration_profiles = nil
       @extension_attributes = nil
       @groups_accounts = nil
@@ -618,39 +731,59 @@ module JSS
       @software = nil
     end #delete
     
-    ###
-    ### Send a blank_push MDM command
-    ###
-    def blank_push
-      self.class.send_mdm_command @id, :blank_push
-    end
-    alias noop blank_push
-    alias send_blank_push blank_push
     
-    ###
-    ### Send a device_lock MDM command
-    ###
-    def device_lock
-      self.class.send_mdm_command @id, :device_lock
-    end
-    alias lock device_lock
-    alias lock_device device_lock
+# Not Functional until I get more docs from JAMF
+#
+#     ###
+#     ### Send a blank_push MDM command
+#     ###
+#     def blank_push
+#       self.class.send_mdm_command @id, :blank_push
+#     end
+#     alias noop blank_push
+#     alias send_blank_push blank_push
+#
+#     ###
+#     ### Send a device_lock MDM command
+#     ###
+#     def device_lock
+#       self.class.send_mdm_command @id, :device_lock
+#     end
+#     alias lock device_lock
+#     alias lock_device device_lock
+#
+#     ###
+#     ### Send an erase_device MDM command
+#     ###
+#     def erase_device
+#       self.class.send_mdm_command @id, :erase_device
+#     end
+#     alias erase erase_device
+#     alias wipe erase_device
+
     
-    ###
-    ### Send an erase_device MDM command
-    ###
-    def erase_device
-      self.class.send_mdm_command @id, :erase_device
-    end
-    alias erase erase_device
-    alias wipe erase_device
-    
-    
+    ### aliases
+    alias alt_macaddress alt_mac_address
+    alias bar_code_1 barcode_1
+    alias bar_code_2 barcode_2
+    alias managed? managed
+    alias mdm? mdm_capable
+    alias last_recon report_date
+    alias sn serial_number
+    alias serialnumber serial_number
+    alias accounts local_accounts
+    alias accts local_accounts
+    alias make_managed set_management_to
+
+
+
+
+
     ##############################
      ### private methods
     ##############################
     private
-    
+
     ###
     ### Return a String with the XML Resource
     ### for submitting  changes to the JSS via
@@ -662,7 +795,7 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       computer = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
-      
+
       general = computer.add_element('general')
       general.add_element('name').text = @name
       general.add_element('alt_mac_address').text = @alt_mac_address
@@ -672,16 +805,23 @@ module JSS
       general.add_element('ip_address').text = @ip_address
       general.add_element('mac_address').text = @mac_address
       general.add_element('udid').text = @udid
-      
+
       rmgmt = general.add_element('remote_management')
       rmgmt.add_element('managed').text = @managed
       rmgmt.add_element('management_username').text = @management_username
       rmgmt.add_element('management_password').text = @management_password if @management_password
 
-      computer << location_xml
-      computer << purchasing_xml
+      computer << ext_attr_xml
+
+      if has_location?
+        computer << location_xml
+      end
+      if has_purchasing?
+        computer << purchasing_xml
+      end
+
       return doc.to_s
     end
-    
+
   end # class Computer
 end # module

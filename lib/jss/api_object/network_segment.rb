@@ -13,24 +13,9 @@ module JSS
   #####################################
 
   ###
-  ### A 'network segment' in the JSS
+  ### A Network Segment in the JSS
   ###
-  ### These are used in the JSS for scoping policies and other management activites.
-  ### This class will mostly be used by the scripts that keep the JSS network segments
-  ### in sync with the canonical document defining them in our wiki,
-  ### http://wiki.pixar.com/display/SYS/NetworkNetblocks
-  ###
-  ### For initialization, the args are a hash. If the hash has only one member, it must
-  ### be either :name (a string), :starting_addrees (a string containing an IP address) or :id (an integer).
-  ###
-  ### If more than one member of the hash is provided, all data must be present
-  ### and must include, minimally, :name, :starting_address & :ending_address or :cidr. The
-  ### instance is built from the provided data and the JSS is not queried.
-  ###
-  ### Optional keys are :building, :department, :distribution_point, :netboot_server,
-  ### :swu_server, :override_departments, :override_buildings
-  ###
-  ### See also JSS::APIObject
+  ### @see JSS::APIObject
   ###
   class NetworkSegment  < JSS::APIObject
 
@@ -69,11 +54,13 @@ module JSS
     #####################################
 
     ###
-    ### Return a hash of all NetworkSegments in the jss,
-    ### Key is jss ID, value is an IPAddr object representing the
+    ### All NetworkSegments in the jss as IPAddr objects representing the
     ### subnet as a masked IPv4 address.
+    ###
     ### Using the #include? and #to_range methods on those
     ### objects is very useful.
+    ###
+    ### @return [Hash{Integer => IPAddr}] the network segments as masked IPv4 addresses
     ###
     def self.network_ranges(refresh = false)
       @@network_ranges = nil if refresh
@@ -82,25 +69,37 @@ module JSS
       self.all.each{|ns| @@network_ranges[ns[:id]] =  IPAddr.masked_v4addr(ns[:starting_address], ns[:ending_address])}
       @@network_ranges
     end # def network_segments
+
+    ###
+    ### An alias for {NetworkSegment.network_ranges}
+    ###
     def self.subnets(refresh = false); self.network_ranges refresh; end
 
     ###
-    ### return the id of the network segment that contains the given IP address
-    ### or nil if none found.
+    ### Find the ids of the network segments that contain a given IP address.
+    ###
     ### Even tho IPAddr.include? will take a String or an IPAddr
     ### I convert the ip to an IPAddr so that an exception will be raised if
     ### the ip isn't a valid ip.
     ###
+    ### @param ip[String, IPAddr] the IP address to locate
+    ###
+    ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
+    ###
     def self.network_segment_for_ip(ip)
-      self.network_ranges.each{ |id, subnet| return id if subnet.include?(IPAddr.new(ip)) }
-      nil
+      ok_ip = IPAddr.new(ip)
+      matches = []
+      self.network_ranges.each{ |id, subnet| matches << id if subnet.include?(ok_ip) }
+      matches
     end
 
     ###
-    ### return the network segment id (or nil) for the machine running this code
+    ### Find the current network segment ids for the machine running this code
+    ###
+    ### @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
     ###
     def self.my_network_segment
-      net_segment_for_ip JSS.my_ip_address
+      network_segment_for_ip JSS.my_ip_address
     end
 
 
@@ -110,55 +109,47 @@ module JSS
     #####################################
 
 
-    ### IPAddr - starting IP adresss
+    ### @return [IPAddr] starting IP adresss
     attr_reader :starting_address
 
-    ### IPAddr - ending IP adresss
+    ### @return [IPAddr] ending IP adresss
     attr_reader :ending_address
 
-    ### Integer - the CIDR
+    ### @return [Integer] the CIDR
     attr_reader :cidr
 
-    ### String - building for this segment. Must be one of the buildings in the JSS
+    ### @return [String] building for this segment. Must be one of the buildings in the JSS
     attr_reader :building
 
-    ### String - department for this segment. Must be one of the depts in the JSS
+    ### @return [String] department for this segment. Must be one of the depts in the JSS
     attr_reader :department
 
-    ### String - the name of the distribution point to be used from this network segment
+    ### @return [String] the name of the distribution point to be used from this network segment
     attr_reader :distribution_point
 
-    ### String - the mount url for the distribution point
+    ### @return [String] the mount url for the distribution point
     attr_reader :url
 
-    ### String - the netboot server for this segment
+    ### @return [String] the netboot server for this segment
     attr_reader :netboot_server
 
-    ### String - the swupdate server for this segment.
+    ### @return [String] the swupdate server for this segment.
     attr_reader :swu_server
 
-    ### Boolean - should machines checking in from this segment update their dept
+    ### @return [Boolean] should machines checking in from this segment update their dept
     attr_reader :override_departments
 
-    ### Boolean - should machines checking in from this segment update their building
+    ### @return [Boolean] should machines checking in from this segment update their building
     attr_reader :override_buildings
 
-    ### String - the unique identifier for this subnet, regardless of the JSS id
+    ### @return [String] the unique identifier for this subnet, regardless of the JSS id
     attr_reader :uid
-    alias identifier uid
 
-    ### IPAddr - the IPAddr object representing this network segment
+    ### @return [IPAddr] the IPAddr object representing this network segment, created from the uid
     attr_reader :subnet
 
-
     ###
-    ### Initialization takes a hash requireing at least :name, :id, or :data
-    ### To look up an existing object, use :name or :id
-    ### If you have the JSON data from a previous API lookup (in a hash)
-    ### provide it with :data => <JSONdata>
-    ###
-    ### To create a new net segment in the JSS use :id => :new and also provide
-    ### :name, :starting_address, and either :ending_address or :cidr
+    ### @see APIObject#initialize
     ###
     def initialize(args = {} )
 
@@ -169,7 +160,7 @@ module JSS
         raise MissingDataError, "Missing :ending_address or :cidr." unless args[:ending_address] or args[:cidr]
         @init_data[:starting_address] = args[:starting_address]
         @init_data[:ending_address] = args[:ending_address]
-        @init_data[:cidr] = args[:cidr]
+        @init_data[:cidr] = args[:cidr].to_i
       end
 
       @building = @init_data[:building]
@@ -184,11 +175,11 @@ module JSS
 
       ### by now, we must have either an ending address or a cidr
       ### along with a starting address, so figure out the other one.
-      if data[:ending_address]
+      if @init_data[:ending_address]
         @ending_address = IPAddr.new @init_data[:ending_address]
         @cidr = IPAddr.cidr_from_ends(@starting_address,@ending_address)
       else
-        @cidr = data[:cidr].to_i if @init_data[:cidr]
+        @cidr = @init_data[:cidr].to_i if @init_data[:cidr]
         @ending_address = IPAddr.ending_address(@starting_address, @cidr)
       end # if args[:cidr]
 
@@ -201,64 +192,119 @@ module JSS
     end #init
 
     ###
-    ### Thanks to comparable, we can tell if we're equal or not.
+    ### Thanks to Comparable, we can tell if we're equal or not.
     ###
-    def <=>(other)
+    ### See Comparable#<=>
+    ###
+    ### @return [-1,0,1] ar we less than, equal or greater than the other?
+    ###
+    def <=> (other)
       self.subnet <=> other.subnet
     end
 
     ###
-    ### set the building, arg is a name or id of a building in the jss
+    ### Set the building
+    ###
+    ### @param newval[String, Integer] the new building by name or id, must be in the JSS
+    ###
+    ### @return [void]
     ###
     def building= (newval)
       new = JSS::Building.all.select{|b| b[:id] == newval or b[:name] == newval }[0]
       raise JSS::MissingDataError, "No building matching '#{newval}'" unless new
       @building = new[:name]
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### set the department, arg is a name or id of a department in the jss
+    ### set the override buildings option
+    ###
+    ### @param newval[Boolean] the new override buildings option
+    ###
+    ### @return [void]
+    ###
+    def override_buildings= (newval)
+      raise JSS::InvalidDataError, "New value must be boolean true or false" unless JSS::TRUE_FALSE.include? newval
+      @override_buildings = newval
+      @need_to_update = true
+    end
+
+    ###
+    ### set the department
+    ###
+    ### @param newval[String, Integer] the new dept by name or id, must be in the JSS
+    ###
+    ### @return [void]
     ###
     def department= (newval)
       new = JSS::Department.all.select{|b| b[:id] == newval or b[:name] == newval }[0]
       raise JSS::MissingDataError, "No department matching '#{newval}' in the JSS" unless new
       @department = new[:name]
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### set the distribution_point, arg is a name or id of a distribution_point in the jss
+    ### set the override depts option
+    ###
+    ### @param newval[Boolean] the new setting
+    ###
+    ### @return [void]
+    ###
+    ###
+    def override_departments= (newval)
+      raise JSS::InvalidDataError, "New value must be boolean true or false" unless JSS::TRUE_FALSE.include? newval
+      @override_departments = newval
+      @need_to_update = true
+    end
+
+    ###
+    ### set the distribution_point
+    ###
+    ### @param newval[String, Integer] the new dist. point by name or id, must be in the JSS
+    ###
+    ### @return [void]
     ###
     def distribution_point= (newval)
       new = JSS::DistributionPoint.all.select{|b| b[:id] == newval or b[:name] == newval }[0]
       raise JSS::MissingDataError, "No distribution_point matching '#{newval}' in the JSS" unless new
       @distribution_point = new[:name]
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### set the netboot_server, arg is a name or id of a netboot_server in the jss
+    ### set the netboot_server
+    ###
+    ### @param newval[String, Integer] the new netboot server by name or id, must be in the JSS
+    ###
+    ### @return [void]
     ###
     def netboot_server= (newval)
       new = JSS::NetbootServer.all.select{|b| b[:id] == newval or b[:name] == newval }[0]
       raise JSS::MissingDataError, "No netboot_server matching '#{newval}' in the JSS" unless new
       @netboot_server = new[:name]
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### set the netboot_server, arg is a name or id of a netboot_server in the jss
+    ### set the sw update server
+    ###
+    ### @param newval[String, Integer] the new server by name or id, must be in the JSS
+    ###
+    ### @return [void]
     ###
     def swu_server= (newval)
       new = JSS::SoftwareUpdateServer.all.select{|b| b[:id] == newval or b[:name] == newval }[0]
       raise JSS::MissingDataError, "No swu_server matching '#{newval}' in the JSS" unless new
       @swu_server = new[:name]
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### reset the starting address
+    ### set the starting address
+    ###
+    ### @param newval[String, IPAddr] the new starting address
+    ###
+    ### @return [void]
     ###
     def starting_address= (newval)
       @starting_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
@@ -266,11 +312,15 @@ module JSS
       @cidr = IPAddr.cidr_from_ends(@starting_address ,@ending_address)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### reset the ending address
+    ### set the ending address
+    ###
+    ### @param newval[String, IPAddr] the new ending address
+    ###
+    ### @return [void]
     ###
     def ending_address= (newval)
       @ending_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
@@ -278,27 +328,39 @@ module JSS
       @cidr = IPAddr.cidr_from_ends(@starting_address,@ending_address)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
-    ### reset the cidr
+    ### set the cidr
+    ###
+    ### @param newval[String, IPAddr] the new cidr
+    ###
+    ### @return [void]
     ###
     def cidr= (newval)
       @cidr = newval
       @ending_address = IPAddr.ending_address(@starting_address, @cidr)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
-      @needs_update = true
+      @need_to_update = true
     end
 
     ###
     ### is a given address in this network segment?
     ###
+    ### @param some_addr[IPAddr,String] the IP address to check
+    ###
+    ### @return [Boolean]
+    ###
     def include? (some_addr)
-      @subnet.include? some_addr
+      @subnet.include?  IPAddr.new(some_addr)
     end
 
+
+    ### aliases
+    alias identifier uid
+    alias range subnet
 
     ######################
     ### private methods

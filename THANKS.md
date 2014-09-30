@@ -1,5 +1,6 @@
 # With Thanks To...
 
-* Pixar Folks
+* The Pixar Mac Team
+* Pixar Systems Management
 * JAMF Folks
 * Alex

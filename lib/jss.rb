@@ -1,34 +1,35 @@
-### Author::    Chris Lasell, Pixar Animation Studios (mailto:chrisl@pixar.com)
+### @author   Chris Lasell, Pixar Animation Studios (mailto:chrisl@pixar.com)
 ### Copyright:: Copyright (c) 2014 Pixar Animation Studios
 
 ###
 ### JSS, A Ruby module for interacting with the JAMF Software Server via it's API.
-###
 ###
 module JSS
 
   #####################################
   ### Required Libraries, etc
   #####################################
-  
+
   ###################
   ### Standard Libraries
   require 'date'
   require 'singleton'
   require 'pathname'
   require 'fileutils'
-  require 'tempfile'
   require 'uri'
-  require 'cgi'
   require "ipaddr"
   require "rexml/document"
-  
+  require "base64"
+  require "shellwords"
+  require "digest"
+  require 'yaml'
+
   ###################
   ### Gems
-  require 'mysql'
   require 'rest-client'
   require 'json'
-  
+  require 'plist'
+
 
 
   #####################################
@@ -37,18 +38,20 @@ module JSS
 
   ### The minimum JSS version that works with this gem, as returned by the API
   ### in the deprecated 'jssuser' resource
-  MINIMUM_SERVER_VERSION = "9.32"
+  MINIMUM_SERVER_VERSION = "9.4"
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
   TIME_ZONE_OFFSET =  Rational(Time.now.utc_offset, 60*60*24)
 
-  ### This is the current local UTC offset
-  ### the default, non-site
-  NO_SITE = {:name=>"None", :id=>-1}
-
   ### These are handy for testing values without making new arrays, strings, etc every time.
   TRUE_FALSE = [true, false]
+
+  ### When parsing a date/time data into a Time object, these will return nil
+  NIL_DATES = [0, nil, '', '0']
+
+  ### The contents of anything piped to stdin, split into lines. See {JSS.stdin}
+  STDIN_LINES = $stdin.tty? ? [] : $stdin.read.lines.map{|line| line.chomp("\n") }
 
 
   #####################################
@@ -95,9 +98,13 @@ module JSS
   ### to get either form when given either form.
   ###
   ### @param somedata [String, Array] the data to parse, of either class,
-  ###   e.g. "foo, bar, baz" -or- ["foo", "bar", "baz"]
+  ###
   ### @return [Hash{:stringform => String, :arrayform => Array}] the data as both comma-separated String and Array
-  ###   e.g. :stringform => "foo, bar, baz", :arrayform => ["foo", "bar", "baz"]
+  ###
+  ### @example
+  ###   JSS.to_s_and_a "foo, bar, baz" # Hash => {:stringform => "foo, bar, baz", :arrayform => ["foo", "bar", "baz"]}
+  ###
+  ###   JSS.to_s_and_a ["foo", "bar", "baz"] # Hash => {:stringform => "foo, bar, baz", :arrayform => ["foo", "bar", "baz"]}
   ###
   def self.to_s_and_a (somedata)
     case somedata
@@ -120,9 +127,34 @@ module JSS
   ### Hopefully well before then JAMF will implement a "minimum OS" in the JSS itself.
   ###
   ### @param min_os [String] the mimimum OS version to expand, e.g. ">=10.6.7"  or "10.6.7"
-  ### @return [Array] Nearly all potential OS versions from the minimum to 10.19.x
-  ###   ["10.6.7", "10.6.8","10.6.9","10.6.10","10.6.11","10.6.12","10.6.13","10.6.14","10.6.15","10.7.x","10.8.x","10.9.x","10.10.x" ...]
-  ###   (up to "10.19.x")
+  ###
+  ### @return [Array] Nearly all potential OS versions from the minimum to 10.19.x.
+  ###
+  ### @example
+  ###   JSS.expand_min_os ">=10.6.7" # => returns this array
+  ###    # ["10.6.7",
+  ###    #  "10.6.8",
+  ###    #  "10.6.9",
+  ###    #  "10.6.10",
+  ###    #  "10.6.11",
+  ###    #  "10.6.12",
+  ###    #  "10.6.13",
+  ###    #  "10.6.14",
+  ###    #  "10.6.15",
+  ###    #  "10.7.x",
+  ###    #  "10.8.x",
+  ###    #  "10.9.x",
+  ###    #  "10.10.x",
+  ###    #  "10.11.x",
+  ###    #  "10.12.x",
+  ###    #  "10.13.x",
+  ###    #  "10.14.x",
+  ###    #  "10.15.x",
+  ###    #  "10.16.x",
+  ###    #  "10.17.x",
+  ###    #  "10.18.x",
+  ###    #  "10.19.x"]
+  ###
   ###
   def self.expand_min_os (min_os)
 
@@ -154,29 +186,52 @@ module JSS
   end
 
   ###
-  ### Converts a String, Integer or nil to a DateTime
-  ### (see String#to_jss_datetime)
+  ### Converts anything that responds to #to_s to a Time, or nil
   ###
-  ### @param a_datetime [String, Integer, nil]
-  ### @return [DateTime, nil]
-  ###   nil is returned if a_datetime is nil, 0 or an empty String.
+  ### Return nil if the item is nil, 0 or an empty String.
+  ###
+  ### Otherwise the item converted to a string, and parsed with DateTime.parse.
+  ### It is then examined to see if it has a UTC offset. If not, the local offset
+  ### is applied, then the DateTime is converted to a Time.
+  ###
+  ### @param a_datetime [#to_s] The thing to convert to a time.
+  ###
+  ### @return [Time, nil] nil is returned if a_datetime is nil, 0 or an empty String.
   ###
   def self.parse_datetime(a_datetime)
-    case a_datetime
-      when NilClass
-        nil
-      when 0
-        nil
-      when ""
-        nil
-      else
-        a_datetime.to_s.to_jss_datetime
+    return nil if NIL_DATES.include? a_datetime
+
+    the_dt = DateTime.parse(a_datetime.to_s)
+
+    ### The microseconds in DateTimes are stored as a fraction of a day.
+    ### Convert them to an integer of microseconds
+    usec = (the_dt.sec_fraction * 60 * 60 * 24 * (10**6)).to_i
+
+    ### if the UTC offset of the datetime is zero, make a new one with the correct local offset
+    ### (which might also be zero if we happen to be in GMT)
+    if the_dt.offset == 0
+      the_dt =  DateTime.new(the_dt.year, the_dt.month, the_dt.day, the_dt.hour, the_dt.min, the_dt.sec, JSS::TIME_ZONE_OFFSET)
     end
-  end #parse_date
+    # now convert it to a Time and return it
+    Time.at the_dt.strftime('%s').to_i, usec
+
+  end #parse_datetime
 
   ###
-  ### Given a string of xml element text, escape any characters that would make
-  ### XML unhappy.
+  ### Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object
+  ###
+  ### @param epoch[String, Integer, nil]
+  ###
+  ### @return [Time, nil] nil is returned if epoch is nil, 0 or an empty String.
+  ###
+  def self.epoch_to_time(epoch)
+    return nil if NIL_DATES.include? epoch
+    Time.at(epoch.to_i / 1000.0)
+  end #parse_date
+
+
+  ###
+  ### Given a string of xml element text, escape any characters that would make XML unhappy.
   ###   * & => &amp;
   ###   * " => &quot;
   ###   * < => &lt;
@@ -184,6 +239,7 @@ module JSS
   ###   * ' => &apos;
   ###
   ### @param string [String] the string to make xml-compliant.
+  ###
   ### @return [String] the xml-compliant string
   ###
   def self.escape_xml(string)
@@ -197,8 +253,10 @@ module JSS
   ###     <foo>bar</foo>
   ###     <foo>morefoo</foo>
   ###
-  ### @param element [#to_s] an element_name like :foo,
+  ### @param element [#to_s] an element_name like :foo
+  ###
   ### @param list [Array<#to_s>] an Array of element content such as ["bar", :morefoo]
+  ###
   ### @return [Array<REXML::Element>]
   ###
   def self.array_to_rexml_array(element,list)
@@ -225,6 +283,7 @@ module JSS
   ###   <baz>morefoo</baz>
   ###
   ### @param hash [Hash{#to_s => #to_s}] the Hash to convert
+  ###
   ### @return [Array<REXML::Element>] the Array of REXML elements.
   ###
   def self.hash_to_rexml_array(hash)
@@ -245,15 +304,16 @@ module JSS
   ### each of which contains a :name or :id element.
   ###
   ### @param list_element [#to_s] the name of the XML element that contains the list.
-  ###   e.g. :computers
-  ### @param item_element [#to_s] the name of each XML element in the list,
-  ###   e.g. :computer
-  ### @param item_list [Array<Hash>] an Array of Hashes each with a :name or :id key, e.g.
-  ###   [{:id=>2,:name=>'kimchi'},{:id=>5,:name=>'mantis'}]
-  ### @param content [Symbol] which hash key should be used as the content of if list item?
-  ###   :name or :id, defaults to :name
+  ### e.g. :computers
   ###
-  ### @return [REXML::Element]
+  ### @param item_element [#to_s] the name of each XML element in the list,
+  ### e.g. :computer
+  ###
+  ### @param item_list [Array<Hash>] an Array of Hashes each with a :name or :id key.
+  ###
+  ### @param content [Symbol] which hash key should be used as the content of if list item? Defaults to :name
+  ###
+  ### @return [REXML::Element] the item list as REXML
   ###
   ### @example
   ###   comps = [{:id=>2,:name=>'kimchi'},{:id=>5,:name=>'mantis'}]
@@ -339,6 +399,54 @@ module JSS
   end
 
   ###
+  ### @return [Boolean] is this code running as root?
+  ###
+  def self.superuser?
+    Process.euid == 0
+  end
+
+  ###
+  ### Retrive one or all lines from whatever was piped to standard input.
+  ###
+  ### Standard input is read completely when the module loads
+  ### and the lines are stored as an Array in the constant {STDIN_LINES}
+  ###
+  ### @param line[Integer] which line of stdin is being retrieved.
+  ###  The default is zero (0) which returns all of stdin as a single string.
+  ###
+  ### @return [String, nil] the requested ling of stdin, or nil if it doesn't exist.
+  ###
+  def self.stdin(line = 0)
+
+    return STDIN_LINES.join("\n") if line <= 0
+
+    idx = line - 1
+    return STDIN_LINES[idx]
+  end
+
+  ###
+  ### Prompt for a password in a terminal.
+  ###
+  ### @param message [String] the prompt message to display
+  ###
+  ### @return [String] the text typed by the user
+  ###
+  def self.prompt_for_password(message)
+
+    begin
+      $stdin.reopen '/dev/tty' unless $stdin.tty?
+      $stderr.print "#{message} "
+      system "/bin/stty -echo"
+      pw = $stdin.gets.chomp("\n")
+      puts
+    ensure
+      system "/bin/stty echo"
+    end # begin
+    return pw
+  end
+
+
+  ###
   ### Define classes and submodules here so that they don't
   ### generate errors when referenced during the loading of
   ### the library.
@@ -348,6 +456,8 @@ module JSS
   ### Sub Modules
   #####################################
 
+  module Composer ; end
+
   ### Mix-in Sub Modules
 
   module Creatable ; end
@@ -356,6 +466,7 @@ module JSS
   module Matchable ; end
   module Purchasable ; end
   module Updatable ; end
+  module Extendable ; end
 
   ### Mix-in Sub Modules with Classes
 
@@ -375,6 +486,7 @@ module JSS
   class Client ; end
   class DBConnection ; end
   class Server ; end
+  class Preferences ; end
 
   #####################################
   ### SubClasses
@@ -398,9 +510,6 @@ module JSS
   class MobileDeviceGroup < JSS::Group ; end
   class UserGroup < JSS::Group ; end
 
-  class Report < JSS::APIObject ; end
-  class ComputerReport < JSS::Report ; end
-
   ### APIObject Classes without SubClasses
 
   class Building < JSS::APIObject ; end
@@ -408,8 +517,9 @@ module JSS
   class Computer < JSS::APIObject ; end
   class Department < JSS::APIObject ; end
   class DistributionPoint < JSS::APIObject ; end
+  class LDAPServer < JSS::APIObject ; end
   class MobileDevice < JSS::APIObject ; end
-  class NetbootServer < JSS::APIObject ; end
+  class NetBootServer < JSS::APIObject ; end
   class NetworkSegment < JSS::APIObject ; end
   class Package < JSS::APIObject ; end
   class PeripheralType < JSS::APIObject ; end
@@ -417,6 +527,7 @@ module JSS
   class Policy < JSS::APIObject ; end
   class RemovableMacAddress < JSS::APIObject ; end
   class Script < JSS::APIObject ; end
+  class Site < JSS::APIObject ; end
   class SoftwareUpdateServer < JSS::APIObject ; end
   class User < JSS::APIObject ; end
 
@@ -428,11 +539,13 @@ end # module JSS
 ### Load the rest of the module
 $:.unshift File.dirname(__FILE__)
 
+require "jss/composer"
 require "jss/compatibility"
 require "jss/ruby_extensions"
 require "jss/exceptions"
-require "jss/api"
+require "jss/api_connection"
 require "jss/api_object"
 require "jss/server"
 require "jss/client"
-require "jss/db"
+require "jss/configuration"
+require "jss/db_connection"

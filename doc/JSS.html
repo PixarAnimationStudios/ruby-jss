@@ -6,7 +6,7 @@
 <title>
   Module: JSS
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -80,7 +80,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/jss.rb<span class="defines">,<br />
-  lib/jss/db.rb,<br /> lib/jss/api.rb,<br /> lib/jss/client.rb,<br /> lib/jss/server.rb,<br /> lib/jss/version.rb,<br /> lib/jss/composer.rb,<br /> lib/jss/api_object.rb,<br /> lib/jss/exceptions.rb,<br /> lib/jss/api_object/user.rb,<br /> lib/jss/api_object/group.rb,<br /> lib/jss/api_object/report.rb,<br /> lib/jss/api_object/policy.rb,<br /> lib/jss/api_object/script.rb,<br /> lib/jss/api_object/package.rb,<br /> lib/jss/api_object/building.rb,<br /> lib/jss/api_object/scopable.rb,<br /> lib/jss/api_object/category.rb,<br /> lib/jss/api_object/computer.rb,<br /> lib/jss/api_object/creatable.rb,<br /> lib/jss/api_object/matchable.rb,<br /> lib/jss/api_object/locatable.rb,<br /> lib/jss/api_object/updatable.rb,<br /> lib/jss/api_object/peripheral.rb,<br /> lib/jss/api_object/department.rb,<br /> lib/jss/api_object/criteriable.rb,<br /> lib/jss/api_object/purchasable.rb,<br /> lib/jss/api_object/file_upload.rb,<br /> lib/jss/api_object/mobile_device.rb,<br /> lib/jss/api_object/scopable/scope.rb,<br /> lib/jss/api_object/netboot_server.rb,<br /> lib/jss/api_object/advanced_search.rb,<br /> lib/jss/api_object/network_segment.rb,<br /> lib/jss/api_object/peripheral_type.rb,<br /> lib/jss/api_object/group/user_group.rb,<br /> lib/jss/api_object/removable_macaddr.rb,<br /> lib/jss/api_object/distribution_point.rb,<br /> lib/jss/api_object/extension_attribute.rb,<br /> lib/jss/api_object/criteriable/criteria.rb,<br /> lib/jss/api_object/group/computer_group.rb,<br /> lib/jss/api_object/criteriable/criterion.rb,<br /> lib/jss/api_object/software_update_server.rb,<br /> lib/jss/api_object/report/computer_report.rb,<br /> lib/jss/api_object/group/mobile_device_group.rb,<br /> lib/jss/api_object/advanced_search/advanced_user_search.rb,<br /> lib/jss/api_object/advanced_search/advanced_computer_search.rb,<br /> lib/jss/api_object/extension_attribute/user_extension_attribute.rb,<br /> lib/jss/api_object/advanced_search/advanced_mobile_device_search.rb,<br /> lib/jss/api_object/extension_attribute/computer_extension_attribute.rb,<br /> lib/jss/api_object/extension_attribute/mobile_device_extension_attribute.rb</span>
+  lib/jss/server.rb,<br /> lib/jss/client.rb,<br /> lib/jss/version.rb,<br /> lib/jss/composer.rb,<br /> lib/jss/exceptions.rb,<br /> lib/jss/api_object.rb,<br /> lib/jss/db_connection.rb,<br /> lib/jss/configuration.rb,<br /> lib/jss/api_connection.rb,<br /> lib/jss/api_object/user.rb,<br /> lib/jss/api_object/site.rb,<br /> lib/jss/api_object/group.rb,<br /> lib/jss/api_object/script.rb,<br /> lib/jss/api_object/policy.rb,<br /> lib/jss/api_object/package.rb,<br /> lib/jss/api_object/scopable.rb,<br /> lib/jss/api_object/building.rb,<br /> lib/jss/api_object/category.rb,<br /> lib/jss/api_object/computer.rb,<br /> lib/jss/api_object/locatable.rb,<br /> lib/jss/api_object/matchable.rb,<br /> lib/jss/api_object/updatable.rb,<br /> lib/jss/api_object/creatable.rb,<br /> lib/jss/api_object/uploadable.rb,<br /> lib/jss/api_object/department.rb,<br /> lib/jss/api_object/extendable.rb,<br /> lib/jss/api_object/peripheral.rb,<br /> lib/jss/api_object/purchasable.rb,<br /> lib/jss/api_object/ldap_server.rb,<br /> lib/jss/api_object/criteriable.rb,<br /> lib/jss/api_object/mobile_device.rb,<br /> lib/jss/api_object/scopable/scope.rb,<br /> lib/jss/api_object/netboot_server.rb,<br /> lib/jss/api_object/network_segment.rb,<br /> lib/jss/api_object/peripheral_type.rb,<br /> lib/jss/api_object/advanced_search.rb,<br /> lib/jss/api_object/group/user_group.rb,<br /> lib/jss/api_object/removable_macaddr.rb,<br /> lib/jss/api_object/distribution_point.rb,<br /> lib/jss/api_object/extension_attribute.rb,<br /> lib/jss/api_object/criteriable/criteria.rb,<br /> lib/jss/api_object/group/computer_group.rb,<br /> lib/jss/api_object/criteriable/criterion.rb,<br /> lib/jss/api_object/software_update_server.rb,<br /> lib/jss/api_object/group/mobile_device_group.rb,<br /> lib/jss/api_object/advanced_search/advanced_user_search.rb,<br /> lib/jss/api_object/advanced_search/advanced_computer_search.rb,<br /> lib/jss/api_object/extension_attribute/user_extension_attribute.rb,<br /> lib/jss/api_object/advanced_search/advanced_mobile_device_search.rb,<br /> lib/jss/api_object/extension_attribute/computer_extension_attribute.rb,<br /> lib/jss/api_object/extension_attribute/mobile_device_extension_attribute.rb</span>
 </dd>
   
 </dl>
@@ -102,11 +102,11 @@ API.</p>
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">Composer</a></span>, <span class='object_link'><a href="JSS/Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="JSS/Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span>, <span class='object_link'><a href="JSS/FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span>, <span class='object_link'><a href="JSS/Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="JSS/Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>, <span class='object_link'><a href="JSS/Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="JSS/Scopable.html" title="JSS::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="JSS/Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">Composer</a></span>, <span class='object_link'><a href="JSS/Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="JSS/Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span>, <span class='object_link'><a href="JSS/Extendable.html" title="JSS::Extendable (module)">Extendable</a></span>, <span class='object_link'><a href="JSS/FileUpload.html" title="JSS::FileUpload (module)">FileUpload</a></span>, <span class='object_link'><a href="JSS/Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="JSS/Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>, <span class='object_link'><a href="JSS/Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="JSS/Scopable.html" title="JSS::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="JSS/Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>, <span class='object_link'><a href="JSS/Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span>, <span class='object_link'><a href="JSS/APIObject.html" title="JSS::APIObject (class)">APIObject</a></span>, <span class='object_link'><a href="JSS/AdvancedComputerSearch.html" title="JSS::AdvancedComputerSearch (class)">AdvancedComputerSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedMobileDeviceSearch.html" title="JSS::AdvancedMobileDeviceSearch (class)">AdvancedMobileDeviceSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedUserSearch.html" title="JSS::AdvancedUserSearch (class)">AdvancedUserSearch</a></span>, <span class='object_link'><a href="JSS/AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span>, <span class='object_link'><a href="JSS/Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="JSS/Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">Client</a></span>, <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="JSS/ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/ComputerGroup.html" title="JSS::ComputerGroup (class)">ComputerGroup</a></span>, <span class='object_link'><a href="JSS/ComputerReport.html" title="JSS::ComputerReport (class)">ComputerReport</a></span>, <span class='object_link'><a href="JSS/DBConnection.html" title="JSS::DBConnection (class)">DBConnection</a></span>, <span class='object_link'><a href="JSS/Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="JSS/DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="JSS/ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/FileServiceError.html" title="JSS::FileServiceError (class)">FileServiceError</a></span>, <span class='object_link'><a href="JSS/Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="JSS/InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">InvalidConnectionError</a></span>, <span class='object_link'><a href="JSS/InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span>, <span class='object_link'><a href="JSS/MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span>, <span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="JSS/MobileDeviceExtensionAttribute.html" title="JSS::MobileDeviceExtensionAttribute (class)">MobileDeviceExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">MobileDeviceGroup</a></span>, <span class='object_link'><a href="JSS/NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="JSS/NetbootServer.html" title="JSS::NetbootServer (class)">NetbootServer</a></span>, <span class='object_link'><a href="JSS/NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="JSS/NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span>, <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="JSS/Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="JSS/PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="JSS/Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="JSS/RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="JSS/Report.html" title="JSS::Report (class)">Report</a></span>, <span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="JSS/Server.html" title="JSS::Server (class)">Server</a></span>, <span class='object_link'><a href="JSS/SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="JSS/UnmanagedError.html" title="JSS::UnmanagedError (class)">UnmanagedError</a></span>, <span class='object_link'><a href="JSS/UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span>, <span class='object_link'><a href="JSS/User.html" title="JSS::User (class)">User</a></span>, <span class='object_link'><a href="JSS/UserExtensionAttribute.html" title="JSS::UserExtensionAttribute (class)">UserExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/UserGroup.html" title="JSS::UserGroup (class)">UserGroup</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span>, <span class='object_link'><a href="JSS/APIObject.html" title="JSS::APIObject (class)">APIObject</a></span>, <span class='object_link'><a href="JSS/AdvancedComputerSearch.html" title="JSS::AdvancedComputerSearch (class)">AdvancedComputerSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedMobileDeviceSearch.html" title="JSS::AdvancedMobileDeviceSearch (class)">AdvancedMobileDeviceSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="JSS/AdvancedUserSearch.html" title="JSS::AdvancedUserSearch (class)">AdvancedUserSearch</a></span>, <span class='object_link'><a href="JSS/AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span>, <span class='object_link'><a href="JSS/Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="JSS/Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">Client</a></span>, <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="JSS/ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/ComputerGroup.html" title="JSS::ComputerGroup (class)">ComputerGroup</a></span>, <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="JSS/DBConnection.html" title="JSS::DBConnection (class)">DBConnection</a></span>, <span class='object_link'><a href="JSS/Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="JSS/DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="JSS/ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/FileServiceError.html" title="JSS::FileServiceError (class)">FileServiceError</a></span>, <span class='object_link'><a href="JSS/Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="JSS/InvalidConnectionError.html" title="JSS::InvalidConnectionError (class)">InvalidConnectionError</a></span>, <span class='object_link'><a href="JSS/InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span>, <span class='object_link'><a href="JSS/LDAPServer.html" title="JSS::LDAPServer (class)">LDAPServer</a></span>, <span class='object_link'><a href="JSS/MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span>, <span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="JSS/MobileDeviceExtensionAttribute.html" title="JSS::MobileDeviceExtensionAttribute (class)">MobileDeviceExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">MobileDeviceGroup</a></span>, <span class='object_link'><a href="JSS/NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="JSS/NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="JSS/NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span>, <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="JSS/Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="JSS/PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="JSS/Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="JSS/Preferences.html" title="JSS::Preferences (class)">Preferences</a></span>, <span class='object_link'><a href="JSS/RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="JSS/Server.html" title="JSS::Server (class)">Server</a></span>, <span class='object_link'><a href="JSS/Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="JSS/SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="JSS/UnmanagedError.html" title="JSS::UnmanagedError (class)">UnmanagedError</a></span>, <span class='object_link'><a href="JSS/UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span>, <span class='object_link'><a href="JSS/User.html" title="JSS::User (class)">User</a></span>, <span class='object_link'><a href="JSS/UserExtensionAttribute.html" title="JSS::UserExtensionAttribute (class)">UserExtensionAttribute</a></span>, <span class='object_link'><a href="JSS/UserGroup.html" title="JSS::UserGroup (class)">UserGroup</a></span>
     
   
 </p>
@@ -130,7 +130,7 @@ the deprecated ‘jssuser’ resource</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;9.32&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;9.4&quot;</span>
 </pre></dd>
       
         <dt id="TIME_ZONE_OFFSET-constant" class="">TIME_ZONE_OFFSET =
@@ -151,23 +151,6 @@ is the offset in seconds, 60*60*24 is the seconds in a day)</p>
         <dd><pre class="code"><span class='rubyid_Rational constant id'>Rational</span><span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_utc_offset identifier id'>utc_offset</span><span class='comma token'>,</span> <span class='integer val'>60</span><span class='mult op'>*</span><span class='integer val'>60</span><span class='mult op'>*</span><span class='integer val'>24</span><span class='rparen token'>)</span>
 </pre></dd>
       
-        <dt id="NO_SITE-constant" class="">NO_SITE =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>This is the current local UTC offset the default, non-site</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span><span class='symbol val'>:name=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;None&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id=</span><span class='gt op'>&gt;</span><span class='integer val'>-1</span><span class='rbrace token'>}</span>
-</pre></dd>
-      
         <dt id="TRUE_FALSE-constant" class="">TRUE_FALSE =
           <div class="docstring">
   <div class="discussion">
@@ -184,6 +167,57 @@ every time.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrack token'>[</span><span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="NIL_DATES-constant" class="">NIL_DATES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>When parsing a date/time data into a Time object, these will return nil</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='string val'>'0'</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="STDIN_LINES-constant" class="">STDIN_LINES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The contents of anything piped to stdin, split into lines. See <span class='object_link'><a href="#stdin-class_method" title="JSS.stdin (method)">stdin</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_$stdin gvar id'>$stdin</span><span class='dot token'>.</span><span class='rubyid_tty? fid id'>tty?</span> <span class='integer val'>? </span><span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_$stdin gvar id'>$stdin</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='dot token'>.</span><span class='rubyid_lines identifier id'>lines</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span>
+</pre></dd>
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The version of the JSS ruby gem</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;0.5.0&quot;</span>
 </pre></dd>
       
         <dt id="DB_CNX-constant" class="">DB_CNX =
@@ -203,12 +237,11 @@ every time.</p>
         <dd><pre class="code"><span class='rubyid_DBConnection constant id'>DBConnection</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span>
 </pre></dd>
       
-        <dt id="DB-constant" class="">DB =
+        <dt id="CONFIG-constant" class="">CONFIG =
           <div class="docstring">
   <div class="discussion">
     
-<p>The database itself, an attribute of the DBConnection, to which SQL queries
-are sent.</p>
+<p>The single instance of Configuration</p>
 
 
   </div>
@@ -218,7 +251,7 @@ are sent.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span>
+        <dd><pre class="code"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Configuration constant id'>Configuration</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span>
 </pre></dd>
       
         <dt id="API-constant" class="">API =
@@ -236,12 +269,6 @@ are sent.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='rubyid_APIConnection constant id'>APIConnection</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span>
-</pre></dd>
-      
-        <dt id="VERSION-constant" class="">VERSION =
-          
-        </dt>
-        <dd><pre class="code"><span class='string val'>&quot;1.0.0&quot;</span>
 </pre></dd>
       
         <dt id="master_distribution_point-classvariable" class="">@@master_distribution_point =
@@ -315,6 +342,54 @@ are sent.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Given an element name and an array of content, generate an Array of
 REXML::Element objects with that name, and matching content.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db-class_method" title="db (class method)">+ (Mysql) <strong>db</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The mysql database available through the DBConnection.instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#epoch_to_time-class_method" title="epoch_to_time (class method)">+ (Time<sup>?</sup>) <strong>epoch_to_time</strong>(epoch) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object.</p>
 </div></span>
   
 </li>
@@ -448,7 +523,7 @@ element with a sub-element for each item, each of which contains a :name or
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_datetime-class_method" title="parse_datetime (class method)">+ (DateTime<sup>?</sup>) <strong>parse_datetime</strong>(a_datetime) </a>
+      <a href="#parse_datetime-class_method" title="parse_datetime (class method)">+ (Time<sup>?</sup>) <strong>parse_datetime</strong>(a_datetime) </a>
     
 
     
@@ -463,8 +538,7 @@ element with a sub-element for each item, each of which contains a :name or
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Converts a String, Integer or nil to a DateTime (see
-String#to_jss_datetime).</p>
+<p>Converts anything that responds to #to_s to a Time, or nil.</p>
 </div></span>
   
 </li>
@@ -489,6 +563,78 @@ String#to_jss_datetime).</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Parse a JSS Version number into something comparable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prompt_for_password-class_method" title="prompt_for_password (class method)">+ (String) <strong>prompt_for_password</strong>(message) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Prompt for a password in a terminal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stdin-class_method" title="stdin (class method)">+ (String<sup>?</sup>) <strong>stdin</strong>(line = 0) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#superuser%3F-class_method" title="superuser? (class method)">+ (Boolean) <strong>superuser?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this code running as root?.</p>
 </div></span>
   
 </li>
@@ -565,7 +711,7 @@ REXML elements would render thus:</p>
       
         &mdash;
         <div class='inline'>
-<p>an element_name like :foo,</p>
+<p>an element_name like :foo</p>
 </div>
       
     </li>
@@ -621,18 +767,18 @@ REXML elements would render thus:</p>
       <pre class="lines">
 
 
-204
-205
-206
-207
-208
-209
-210
-211
-212</pre>
+262
+263
+264
+265
+266
+267
+268
+269
+270</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 262</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_array_to_rexml_array identifier id'>array_to_rexml_array</span><span class='lparen token'>(</span><span class='rubyid_element identifier id'>element</span><span class='comma token'>,</span><span class='rubyid_list identifier id'>list</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Arg. must be an Array.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_list identifier id'>list</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span>
@@ -642,6 +788,143 @@ REXML elements would render thus:</p>
     <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span>
     <span class='rubyid_e identifier id'>e</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="db-class_method">
+  
+    + (<tt>Mysql</tt>) <strong>db</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The mysql database available through the DBConnection.instance</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Mysql</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The mysql database available through the DBConnection.instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/db_connection.rb', line 210</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span>
+  <span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="epoch_to_time-class_method">
+  
+    + (<tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup>) <strong>epoch_to_time</strong>(epoch) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>epoch</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nil is returned if epoch is nil, 0 or an empty String.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229
+230</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 227</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_epoch_to_time identifier id'>epoch_to_time</span><span class='lparen token'>(</span><span class='rubyid_epoch identifier id'>epoch</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_NIL_DATES constant id'>NIL_DATES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_epoch identifier id'>epoch</span>
+  <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span><span class='lparen token'>(</span><span class='rubyid_epoch identifier id'>epoch</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='div op'>/</span> <span class='float val'>1000.0</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -664,12 +947,12 @@ REXML elements would render thus:</p>
 <p>Given a string of xml element text, escape any characters that would make
 XML unhappy.</p>
 
-<pre class="ruby">* &amp; =<span class="ruby-operator">&gt;</span> &amp;<span class="ruby-identifier">amp</span>;
-* <span class="ruby-string">&quot; =&gt; &amp;quot;
+<pre class="code ruby18"><code class="ruby18">* &amp; =&gt; &amp;amp;
+* &quot; =&gt; &amp;quot;
 * &lt; =&gt; &amp;lt;
 * &gt; =&gt; &amp;gt;
 * ' =&gt; &amp;apos;
-</span></pre>
+</code></pre>
 
 
   </div>
@@ -721,12 +1004,12 @@ XML unhappy.</p>
       <pre class="lines">
 
 
-189
-190
-191</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 189</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 245</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_escape_xml identifier id'>escape_xml</span><span class='lparen token'>(</span><span class='rubyid_string identifier id'>string</span><span class='rparen token'>)</span>
   <span class='rubyid_string identifier id'>string</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/&amp;/</span><span class='comma token'>,</span> <span class='string val'>'&amp;amp;'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\&quot;/</span><span class='comma token'>,</span> <span class='string val'>'&amp;quot;'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/&gt;/</span><span class='comma token'>,</span> <span class='string val'>'&amp;gt;'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;/</span><span class='comma token'>,</span> <span class='string val'>'&amp;lt;'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/'/</span><span class='comma token'>,</span> <span class='string val'>'&amp;apos;'</span><span class='rparen token'>)</span>
@@ -759,7 +1042,38 @@ of OS X 10.19.15. Hopefully well before then JAMF will implement a
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_expand_min_os identifier id'>expand_min_os</span> <span class='string val'>&quot;&gt;=10.6.7&quot;</span> <span class='comment val'># =&gt; returns this array</span>
+ <span class='comment val'># [&quot;10.6.7&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.8&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.9&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.10&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.11&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.12&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.13&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.14&quot;,</span>
+ <span class='comment val'>#  &quot;10.6.15&quot;,</span>
+ <span class='comment val'>#  &quot;10.7.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.8.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.9.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.10.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.11.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.12.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.13.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.14.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.15.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.16.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.17.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.18.x&quot;,</span>
+ <span class='comment val'>#  &quot;10.19.x&quot;]</span>
+</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -792,11 +1106,7 @@ of OS X 10.19.15. Hopefully well before then JAMF will implement a
       
         &mdash;
         <div class='inline'>
-<p>Nearly all potential OS versions from the minimum to 10.19.x</p>
-<dl class="rdoc-list label-list"><dt>“10.6.7”, “10.6.8”,“10.6.9”,“10.6.10”,“10.6.11”,“10.6.12”,“10.6.13”,“10.6.14”,“10.6.15”,“10.7.x”,“10.8.x”,“10.9.x”,“10.10.x” …
-<dd>
-<p>(up to “10.19.x”)</p>
-</dd></dl>
+<p>Nearly all potential OS versions from the minimum to 10.19.x.</p>
 </div>
       
     </li>
@@ -809,37 +1119,37 @@ of OS X 10.19.15. Hopefully well before then JAMF will implement a
       <pre class="lines">
 
 
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154</pre>
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 159</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expand_min_os identifier id'>expand_min_os</span> <span class='lparen token'>(</span><span class='rubyid_min_os identifier id'>min_os</span><span class='rparen token'>)</span>
 
@@ -968,19 +1278,19 @@ element</p>
       <pre class="lines">
 
 
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239</pre>
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 289</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_hash_to_rexml_array identifier id'>hash_to_rexml_array</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Arg. must be a Hash.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
@@ -1013,6 +1323,10 @@ element</p>
 <p>Given an Array of Hashes with :id and/or :name keys, return a single REXML
 element with a sub-element for each item, each of which contains a :name or
 :id element.</p>
+
+<p>e.g. :computers</p>
+
+<p>e.g. :computer</p>
 
 
   </div>
@@ -1054,7 +1368,7 @@ element with a sub-element for each item, each of which contains a :name or
       
         &mdash;
         <div class='inline'>
-<p>the name of the XML element that contains the list. e.g. :computers</p>
+<p>the name of the XML element that contains the list.</p>
 </div>
       
     </li>
@@ -1070,7 +1384,7 @@ element with a sub-element for each item, each of which contains a :name or
       
         &mdash;
         <div class='inline'>
-<p>the name of each XML element in the list, e.g. :computer</p>
+<p>the name of each XML element in the list,</p>
 </div>
       
     </li>
@@ -1086,9 +1400,7 @@ element with a sub-element for each item, each of which contains a :name or
       
         &mdash;
         <div class='inline'>
-<p>an Array of Hashes each with a :name or :id key, e.g.</p>
-<dl class="rdoc-list label-list"><dt>:id=&gt;2,:name=&gt;‘kimchi’,:id=&gt;5,:name=&gt;‘mantis’
-<dd></dd></dl>
+<p>an Array of Hashes each with a :name or :id key.</p>
 </div>
       
     </li>
@@ -1106,8 +1418,8 @@ element with a sub-element for each item, each of which contains a :name or
       
         &mdash;
         <div class='inline'>
-<p>which hash key should be used as the content of if list item? :name or :id,
-defaults to :name</p>
+<p>which hash key should be used as the content of if list item? Defaults to
+:name</p>
 </div>
       
     </li>
@@ -1124,6 +1436,11 @@ defaults to :name</p>
       
       
       
+        &mdash;
+        <div class='inline'>
+<p>the item list as REXML</p>
+</div>
+      
     </li>
   
 </ul>
@@ -1134,16 +1451,16 @@ defaults to :name</p>
       <pre class="lines">
 
 
-274
-275
-276
-277
-278
-279
-280</pre>
+334
+335
+336
+337
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 334</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_item_list_to_rexml_list identifier id'>item_list_to_rexml_list</span><span class='lparen token'>(</span><span class='rubyid_list_element identifier id'>list_element</span><span class='comma token'>,</span> <span class='rubyid_item_element identifier id'>item_element</span> <span class='comma token'>,</span> <span class='rubyid_item_list identifier id'>item_list</span><span class='comma token'>,</span> <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
   <span class='rubyid_xml_list identifier id'>xml_list</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>  <span class='rubyid_list_element identifier id'>list_element</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -1208,9 +1525,6 @@ href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr
       <pre class="lines">
 
 
-74
-75
-76
 77
 78
 79
@@ -1219,10 +1533,13 @@ href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr
 82
 83
 84
-85</pre>
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_my_ip_address identifier id'>my_ip_address</span>
   <span class='comment val'>### turn off reverse DNS resolution temporarily</span>
@@ -1245,7 +1562,7 @@ href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr
       <div class="method_details ">
   <h3 class="signature " id="parse_datetime-class_method">
   
-    + (<tt><span class='object_link'><a href="DateTime.html" title="DateTime (class)">DateTime</a></span></tt><sup>?</sup>) <strong>parse_datetime</strong>(a_datetime) 
+    + (<tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup>) <strong>parse_datetime</strong>(a_datetime) 
   
 
   
@@ -1254,8 +1571,13 @@ href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Converts a String, Integer or nil to a DateTime (see
-String#to_jss_datetime)</p>
+<p>Converts anything that responds to #to_s to a Time, or nil</p>
+
+<p>Return nil if the item is nil, 0 or an empty String.</p>
+
+<p>Otherwise the item converted to a string, and parsed with DateTime.parse.
+It is then examined to see if it has a UTC offset. If not, the local offset
+is applied, then the DateTime is converted to a Time.</p>
 
 
   </div>
@@ -1269,9 +1591,14 @@ String#to_jss_datetime)</p>
         <span class='name'>a_datetime</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
+        <span class='type'>(<tt>#to_s</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The thing to convert to a time.</p>
+</div>
       
     </li>
   
@@ -1283,7 +1610,7 @@ String#to_jss_datetime)</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="DateTime.html" title="DateTime (class)">DateTime</a></span></tt>, <tt>nil</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -1302,33 +1629,45 @@ String#to_jss_datetime)</p>
       <pre class="lines">
 
 
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175</pre>
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 201</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_a_datetime identifier id'>a_datetime</span><span class='rparen token'>)</span>
-  <span class='rubyid_case case kw'>case</span> <span class='rubyid_a_datetime identifier id'>a_datetime</span>
-    <span class='rubyid_when when kw'>when</span> <span class='rubyid_NilClass constant id'>NilClass</span>
-      <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_when when kw'>when</span> <span class='integer val'>0</span>
-      <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;&quot;</span>
-      <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_a_datetime identifier id'>a_datetime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_to_jss_datetime identifier id'>to_jss_datetime</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_NIL_DATES constant id'>NIL_DATES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_a_datetime identifier id'>a_datetime</span>
+
+  <span class='rubyid_the_dt identifier id'>the_dt</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_a_datetime identifier id'>a_datetime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+
+  <span class='comment val'>### The microseconds in DateTimes are stored as a fraction of a day.</span>
+  <span class='comment val'>### Convert them to an integer of microseconds</span>
+  <span class='rubyid_usec identifier id'>usec</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_sec_fraction identifier id'>sec_fraction</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>24</span> <span class='mult op'>*</span> <span class='lparen token'>(</span><span class='integer val'>10</span><span class='pow op'>**</span><span class='integer val'>6</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+
+  <span class='comment val'>### if the UTC offset of the datetime is zero, make a new one with the correct local offset</span>
+  <span class='comment val'>### (which might also be zero if we happen to be in GMT)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_offset identifier id'>offset</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+    <span class='rubyid_the_dt identifier id'>the_dt</span> <span class='assign token'>=</span>  <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_month identifier id'>month</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_day identifier id'>day</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_hour identifier id'>hour</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_sec identifier id'>sec</span><span class='comma token'>,</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_TIME_ZONE_OFFSET constant id'>TIME_ZONE_OFFSET</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='comment val'># now convert it to a Time and return it</span>
+  <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>'%s'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='rubyid_usec identifier id'>usec</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1427,36 +1766,36 @@ easily compared to others.</p>
       <pre class="lines">
 
 
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339</pre>
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 373</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_jss_version identifier id'>parse_jss_version</span><span class='lparen token'>(</span><span class='rubyid_version identifier id'>version</span><span class='rparen token'>)</span>
   <span class='rubyid_spl identifier id'>spl</span> <span class='assign token'>=</span> <span class='rubyid_version identifier id'>version</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'.'</span><span class='rparen token'>)</span>
@@ -1492,6 +1831,260 @@ easily compared to others.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="prompt_for_password-class_method">
+  
+    + (<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>) <strong>prompt_for_password</strong>(message) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Prompt for a password in a terminal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the prompt message to display</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the text typed by the user</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 434</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prompt_for_password identifier id'>prompt_for_password</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_$stdin gvar id'>$stdin</span><span class='dot token'>.</span><span class='rubyid_reopen identifier id'>reopen</span> <span class='string val'>'/dev/tty'</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_$stdin gvar id'>$stdin</span><span class='dot token'>.</span><span class='rubyid_tty? fid id'>tty?</span>
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_print identifier id'>print</span> <span class='dstring node'>&quot;#{message} &quot;</span>
+    <span class='rubyid_system identifier id'>system</span> <span class='string val'>&quot;/bin/stty -echo&quot;</span>
+    <span class='rubyid_pw identifier id'>pw</span> <span class='assign token'>=</span> <span class='rubyid_$stdin gvar id'>$stdin</span><span class='dot token'>.</span><span class='rubyid_gets identifier id'>gets</span><span class='dot token'>.</span><span class='rubyid_chomp identifier id'>chomp</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_puts identifier id'>puts</span>
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+    <span class='rubyid_system identifier id'>system</span> <span class='string val'>&quot;/bin/stty echo&quot;</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># begin</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_pw identifier id'>pw</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stdin-class_method">
+  
+    + (<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt><sup>?</sup>) <strong>stdin</strong>(line = 0) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+
+<p>Standard input is read completely when the module loads and the lines are
+stored as an Array in the constant <span class='object_link'><a href="#STDIN_LINES-constant" title="JSS::STDIN_LINES (constant)">STDIN_LINES</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>line</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which line of stdin is being retrieved. The default is zero (0) which
+returns all of stdin as a single string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the requested ling of stdin, or nil if it doesn’t exist.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+419
+420
+421
+422
+423
+424
+425</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 419</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_stdin identifier id'>stdin</span><span class='lparen token'>(</span><span class='rubyid_line identifier id'>line</span> <span class='assign token'>=</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_STDIN_LINES constant id'>STDIN_LINES</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_line identifier id'>line</span> <span class='leq op'>&lt;=</span> <span class='integer val'>0</span>
+
+  <span class='rubyid_idx identifier id'>idx</span> <span class='assign token'>=</span> <span class='rubyid_line identifier id'>line</span> <span class='minus op'>-</span> <span class='integer val'>1</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_STDIN_LINES constant id'>STDIN_LINES</span><span class='lbrack token'>[</span><span class='rubyid_idx identifier id'>idx</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="superuser?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>superuser?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this code running as root?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this code running as root?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+404
+405
+406</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 404</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_superuser? fid id'>superuser?</span>
+  <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_euid identifier id'>euid</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="to_s_and_a-class_method">
   
     + (<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{:stringform =&gt; <span class='object_link'><a href="String.html" title="String (class)">String</a></span>, :arrayform =&gt; <span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>}</tt>) <strong>to_s_and_a</strong>(somedata) 
@@ -1514,7 +2107,18 @@ get either form when given either form.</p>
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_to_s_and_a identifier id'>to_s_and_a</span> <span class='string val'>&quot;foo, bar, baz&quot;</span> <span class='comment val'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}</span>
+
+<span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_to_s_and_a identifier id'>to_s_and_a</span> <span class='lbrack token'>[</span><span class='string val'>&quot;foo&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;bar&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;baz&quot;</span><span class='rbrack token'>]</span> <span class='comment val'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}</span>
+</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1528,8 +2132,7 @@ get either form when given either form.</p>
       
         &mdash;
         <div class='inline'>
-<p>the data to parse, of either class, e.g. “foo, bar, baz” -or-
-[“foo”, “bar”, “baz”]</p>
+<p>the data to parse, of either class,</p>
 </div>
       
     </li>
@@ -1548,8 +2151,7 @@ get either form when given either form.</p>
       
         &mdash;
         <div class='inline'>
-<p>the data as both comma-separated String and Array e.g. :stringform =&gt;
-“foo, bar, baz”, :arrayform =&gt; [“foo”, “bar”, “baz”]</p>
+<p>the data as both comma-separated String and Array</p>
 </div>
       
     </li>
@@ -1562,22 +2164,22 @@ get either form when given either form.</p>
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
 109
 110
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/jss.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_s_and_a identifier id'>to_s_and_a</span> <span class='lparen token'>(</span><span class='rubyid_somedata identifier id'>somedata</span><span class='rparen token'>)</span>
   <span class='rubyid_case case kw'>case</span> <span class='rubyid_somedata identifier id'>somedata</span>
@@ -1603,7 +2205,7 @@ get either form when given either form.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:55 2014 by
+  Generated on Tue Sep 30 15:58:11 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

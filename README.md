@@ -1,15 +1,19 @@
-# JSS 
+# The JSS Ruby Gem - access to the CasperSuite API
 
 ## DESCRIPTION
 
-JSS is a Ruby gem providing access to the REST API of JAMF Software's Casper Suite. It abstracts API resources 
-as Ruby objects, and provides methods for interacting with those resources. It also provides some features that 
-aren't a part of the API, but come with other Casper-related tools, such as uploading .pkg and .dmg JSS::Package 
-data to the master distribution point, and the installation of JSS::Package objects on client machines.
+JSS is a Ruby gem providing access to the REST API of the JAMF Software Server (JSS) - the core of the Casper Suite
+from JAMF Software, LLC. It abstracts API resources as Ruby objects, and provides methods for interacting with those
+resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related 
+tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation 
+of {JSS::Package} objects on client machines. (See BEYOND THE API) 
 
-The gem is not a complete implementation of the Casper API. Only some API objects are modeled, and some of 
-those are read-only, some partially writable, some fully read-write. See OBJECTS IMPLEMENTED for a list.
+The gem is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
+those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
+See OBJECTS IMPLEMENTED for a list. 
 
+Basicially I've implemented the things we need in our environment, and as our needs grow, I'll add more. 
+Hopefully others will find it useful, and add more to it as well
 
 
 ## SYNOPSIS
@@ -51,14 +55,20 @@ ns.create
 
 Before you can work with JSS Objects via the API, you have to connect to it. 
 
-The constant JSS::API contains the connection to the API (a singleton instance of JSS::APIConnection). When the JSS Module is first loaded, it isn't 
+The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't 
 connected.  To remedy that, use JSS::API.connect, passing it values for :user, :pw, and :server:
 
 ```ruby
 JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
 ```
 
-Make sure the user has privileges to do things with JSS Objects. See the JSS::APIConnection class for more details about its methods.
+Make sure the user has privileges in the JSS to do things with API Objects. 
+
+The {JSS::API#connect} method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
+password from stdin, or prompt for it in the shell. See the JSS::APIConnection class for more connection options and details about its methods. 
+
+Also see {JSS::Configuration}, and the CONFIGURATION section below, for how to store
+server connection parameters in a simple config file.
 
 ### Working with JSS Objects (a.k.a REST Resources)
 
@@ -164,10 +174,7 @@ See JSS::APIObject, the parent class of all API resources, for general informati
 
 See the individual subclasses for any details specific to them.
 
-Other useful classes:
 
-* JSS::Server - An encapsulation of some info about the server, such as the JSS version and license. An instance is available as an attribute of the JSS::APIConnection singleton.
-* JSS::Client - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
 
 ## OBJECTS IMPLEMENTED
 
@@ -175,43 +182,43 @@ See each Class's documentation for details.
 
 ### Creatable and Updatable
 
-* AdvancedComputerSearch
-* AdvancedMobileDeviceSearch
-* AdvancedUserSearch
-* Building
-* Category
-* ComputerExtensionAttribute
-* ComputerGroup
-* Department
-* MobileDeviceExtensionAttribute
-* MobileDeviceGroup
-* NetworkSegment
-* Package
-* Peripheral
-* PeripheralType
-* RemovableMacAddress
-* Script
-* User
-* UserExtensionAttribute
-* UserGroup
+* {JSS::AdvancedComputerSearch}
+* {JSS::AdvancedMobileDeviceSearch}
+* {JSS::AdvancedUserSearch}
+* {JSS::Building}
+* {JSS::Category}
+* {JSS::ComputerExtensionAttribute}
+* {JSS::ComputerGroup}
+* {JSS::Department}
+* {JSS::MobileDeviceExtensionAttribute}
+* {JSS::MobileDeviceGroup}
+* {JSS::NetworkSegment}
+* {JSS::Package}
+* {JSS::Peripheral}
+* {JSS::PeripheralType}
+* {JSS::RemovableMacAddress}
+* {JSS::Script}
+* {JSS::User}
+* {JSS::UserExtensionAttribute}
+* {JSS::UserGroup}
 
 ### Updatable but not Creatable
 
-* Computer - limited to modifying
+* {JSS::Computer} - limited to modifying
   * name
-  * mac addresses
   * barcodes
   * asset tag
   * ip address
-  * udid
   * location data
   * purchasing data
-* MobileDevice - limited to modifying
+  * editable extension attributes
+* {JSS::MobileDevice} - limited to modifying
   * asset tag
   * location data
   * purchasing data
-* Policy - limited  to modifying
-  * Scope (see JSS::Scopable::Scope)
+  * editable extension attributes
+* {JSS::Policy} - limited  to modifying
+  * scope (see {JSS::Scopable::Scope})
   * name
   * enabled
   * category
@@ -224,28 +231,93 @@ See each Class's documentation for details.
 
 These must be created and edited via the JSS WebApp
 
-* DistribuitionPoint
-* NetbootServer
-* SoftwareUpdateServer
-
-* ComputerReport - these are defined by their matching AdvancedComputerSearch
+* {JSS::DistributionPoint}
+* {JSS::LDAPServer}
+* {JSS::NetBootServer}
+* {JSS::SoftwareUpdateServer}
 
 ### Deletable
 
 All supported API Objects can be deleted
 
 
+Other useful classes:
+
+* {JSS::Server} - An encapsulation of some info about the server, such as the JSS version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
+* {JSS::Client} - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
+
+## CONFIGURATION
+
+The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for using the JSS Gem. When the JSS module is loaded, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
+
+The values defined in those files are used as defaults throughout the Gem. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling JSS::API#connect.
+
+While the {JSS::Configuration} clss provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
+
+    attr_name: value
+
+Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.
+
+The currently known attributes are:
+
+* api_server_name [String] the hostname of the JSS API server
+* api_server_port [Integer] the port number for the API connection
+* api_verify_cert [Boolean] 'true' or 'false' - if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)
+* api_username [String] the JSS username for connecting to the API
+* api_timeout_open [Integer] the number of seconds for the open-connection timeout
+* api_timeout [Integer] the number of seconds for the response timeout
+
+To put a standard server & username on all client machines, and auto-accept the JSS's self-signed https certificate, create the file /etc/jss_gem.conf containing three lines like this:
+
+```
+api_server_name: casper.myschool.edu
+api_username: readonly-api-user
+api_verify_cert: false
+```
+
+and then any calls to {JSS::API.connect} will assume that server and username, and won't complain about the self-signed certificate.
+
+Note that the config files don't store passwords. You'll have to use your own methods for acquiring the password for the JSS::API.connect call. The {JSS::API#connect} method also accepts the symbols :stdin and :prompt, which will cause it to read the password from stdin, or prompt for it in 
+the shell.
+
+
+## BEYOND THE API
+
+While the Casper API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
+
+* Client Machine Access
+  * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts 
+* Package Installation 
+  * {JSS::Package} objects can be installed on the local machine, from the appropriate distribution point
+* Script Execution
+  * {JSS::Script} objects can be executed locally on demand
+* Package Creation
+  * The {JSS::Composer} module provides creation of very simple .pkg and .dmg packages
+  * {JSS::Package} objects can upload their .pkg or .dmg files to the master distribution point ({JSS::Script} objects can also if you store them there.)
+* Reporting/AdvancedSearch exporting
+  * {JSS::AdvancedSearch} subclasses can export their results to csv, tab, and xml files.
+* LDAP Access
+  * {JSS::LDAPServer} objects can query the LDAP servers for user, group, and membership data.
+* MDM Commands
+  * {JSS::MobileDevice}s (and eventually {JSS::Computer}s) can be sent MDM commands
+* Extension Attributes
+  * {JSS::ExtensionAttribute} work with {JSS::AdvancedSearch} subclasses to provide extra reporting about Ext. Attrib. values.
+
 ## REQUIREMENTS
 
-JSS was written for ruby 1.8.7 and 2.0.0, the two versions that come with OS X 10.9.
+the JSS gem was written for Mac OS X, and the Casper Suite version 9.4 or higher, and Ruby 1.8.7 and 2.0.0 (the two versions that come with OS X 10.9).
 
-It also requires these gems, which will be installed automatically if you install JSS with `gem install`
+It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
 
 * rest-client >=1.6.7 http://rubygems.org/gems/rest-client
 * json or json\_pure >= 1.6.5 http://rubygems.org/gems/json or http://rubygems.org/gems/json_pure
   * (only in ruby 1.8.7.  Ruby 2.0.0 has json in its standard library)
-* ruby-mysql >= 2.9.12
+* ruby-mysql >= 2.9.12 http://rubygems.org/gems/ruby-mysql
   * (only for a few things that still require direct SQL access to the JSS database)
+* plist =3.1.0 http://rubygems.org/gems/plist
+  * for creating .pkgs with the {JSS::Composer} module
+* net-ldap >= 0.3.1 http://rubygems.org/gems/net-ldap
+  * for accessing the LDAP servers defined in the JSS, to check for user and group info.
 
 ## INSTALL
 
@@ -253,11 +325,9 @@ It also requires these gems, which will be installed automatically if you instal
 
 ## RUNNING TESTS
 
-Totally automated tests are not really an option since you must connect to a JSS API, and once connected, it's impossible to assume what might be 
-defined there.
+Totally automated tests are not really an option since you must connect to a JSS API, and once connected, it's impossible to assume what might be defined there.
 
-There is a tiny stub of test that only check the ability to connect and to basic REST transactions. Eventually I may try to write more that are generally 
-runnable, interactively, on any JSS
+There is a tiny stub of test that only check the ability to connect and to basic REST transactions. Eventually I may try to write more that are generally runnable, interactively, on any JSS
 
 
 ## LICENSE

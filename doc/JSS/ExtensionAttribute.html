@@ -6,7 +6,7 @@
 <title>
   Class: JSS::ExtensionAttribute
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -110,24 +110,48 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The parent class of Extension attributes in the JSS</p>
+<p>The parent class of ExtensionAttribute objects in the JSS.</p>
 
-<p>Subclasses must define these constants:</p>
+<p>The API extension attribute objects work with the definitions of extension
+attributes, not the resulting values stored in the JSS with the inventory
+reports.</p>
+
+<p>This superclass, however, uses the <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> subclasses to provide
+access to the reported values in two ways:</p>
 <ul><li>
-<p>TARGET_CLASS - the JSS module class to which the extention attribute
-applies.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_g identifier id'>g</span><span class='dot token'>.</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span>
-</code></pre>
+<p>A list of  target objects with a certain value for the ExtensionAttribute
+instance. See the <span class='object_link'><a href="#all_with_result-instance_method" title="JSS::ExtensionAttribute#all_with_result (method)">#all_with_result</a></span> method for details</p>
+</li><li>
+<p>A list of the most recent value for this ExtensionAttribute in all targets
+in the JSS</p>
 </li></ul>
 
-<p>See also JSS::APIObject</p>
+<p>The <span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span> subclass offers a
+<span class='object_link'><a href="ComputerExtensionAttribute.html#history-instance_method" title="JSS::ComputerExtensionAttribute#history (method)">ComputerExtensionAttribute#history</a></span> method providing the history of values
+for the EA for one computer. This requires MySQL access to the JSS database
+since that history isn’t available via the API.</p>
+
+<p>Subclasses of ExtensionAttribute must define these constants:</p>
+<ul><li>
+<p>TARGET_CLASS - the <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass to which the extention attribute
+applies. e.g. <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></p>
+</li><li>
+<p>ALL_TARGETS_CRITERION - a <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criteriable::Criterion</a></span> instance that will
+be used in  an <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> to find all of members of the TARGET_CLASS</p>
+</li></ul>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
@@ -185,6 +209,23 @@ applies.</p>
         <dd><pre class="code"><span class='string val'>&quot;Text Field&quot;</span>
 </pre></dd>
       
+        <dt id="EDITABLE_INPUT_TYPES-constant" class="">EDITABLE_INPUT_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These input types can be modified, the others cannot.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;Text Field&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Pop-up Menu&quot;</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
         <dt id="WEB_DISPLAY_CHOICES-constant" class="">WEB_DISPLAY_CHOICES =
           <div class="docstring">
   <div class="discussion">
@@ -220,24 +261,6 @@ applies.</p>
 
 
 
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">Creatable::CREATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
-
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -245,7 +268,7 @@ applies.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#data_type-instance_method" title="#data_type (instance method)">- (Object) <strong>data_type</strong> </a>
+      <a href="#data_type-instance_method" title="#data_type (instance method)">- (String) <strong>data_type</strong> </a>
     
 
     
@@ -263,7 +286,7 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the type of data created by the EA.</p>
+<p>The type of data created by the EA.</p>
 </div></span>
   
 </li>
@@ -272,7 +295,7 @@ applies.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#description-instance_method" title="#description (instance method)">- (Object) <strong>description</strong> </a>
+      <a href="#description-instance_method" title="#description (instance method)">- (String) <strong>description</strong> </a>
     
 
     
@@ -292,7 +315,7 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - description of the ext attrib.</p>
+<p>Description of the ext attrib.</p>
 </div></span>
   
 </li>
@@ -301,7 +324,77 @@ applies.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#input_type-instance_method" title="#input_type (instance method)">- (Object) <strong>input_type</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS id number.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
+    
+
+    
+      (also: #in_jss?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is it in the JSS?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#input_type-instance_method" title="#input_type (instance method)">- (String) <strong>input_type</strong> </a>
     
 
     
@@ -319,7 +412,7 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - where does this data come from.</p>
+<p>Where does this data come from? Must be one of the INPUT_TYPES.</p>
 </div></span>
   
 </li>
@@ -328,7 +421,75 @@ applies.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#popup_choices-instance_method" title="#popup_choices (instance method)">- (Object) <strong>popup_choices</strong> </a>
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#popup_choices-instance_method" title="#popup_choices (instance method)">- (Array&lt;String&gt;) <strong>popup_choices</strong> </a>
     
 
     
@@ -346,8 +507,7 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Array of Strings - the choices available in the UI when the @input_type is
-“Pop-up Menu”.</p>
+<p>The choices available in the UI when the @input_type is “Pop-up Menu”.</p>
 </div></span>
   
 </li>
@@ -356,7 +516,41 @@ applies.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#web_display-instance_method" title="#web_display (instance method)">- (Object) <strong>web_display</strong> </a>
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#web_display-instance_method" title="#web_display (instance method)">- (String) <strong>web_display</strong> </a>
     
 
     
@@ -374,7 +568,7 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - In which part of the web UI does the data appear?.</p>
+<p>In which part of the web UI does the data appear?.</p>
 </div></span>
   
 </li>
@@ -383,11 +577,6 @@ applies.</p>
   </ul>
 
 
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -401,7 +590,7 @@ applies.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#all_with_result-instance_method" title="#all_with_result (instance method)">- (Object) <strong>all_with_result</strong>(search_type, result) </a>
+      <a href="#all_with_result-instance_method" title="#all_with_result (instance method)">- (Array&lt;Hash{:id=&gt;Integer,:name=&gt;String,:value=&gt;String,Integer,Time}&gt;) <strong>all_with_result</strong>(search_type, desired_value) </a>
     
 
     
@@ -416,8 +605,8 @@ applies.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an Array of hashes  with :id &amp; :name for all inventory objects
-with a desired result in their latest report for this EA.</p>
+<p>Get an Array of Hashes for all inventory objects with a desired result in
+their latest report for this EA.</p>
 </div></span>
   
 </li>
@@ -440,9 +629,29 @@ with a desired result in their latest report for this EA.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>create a new one in the JSS.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -467,7 +676,7 @@ with a desired result in their latest report for this EA.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>See JSS::APIObject.initialize.</p>
+<p>A new instance of ExtensionAttribute.</p>
 </div></span>
   
 </li>
@@ -476,7 +685,7 @@ with a desired result in their latest report for this EA.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#rest_rexml-instance_method" title="#rest_rexml (instance method)">- (Object) <strong>rest_rexml</strong> </a>
+      <a href="#latest_values-instance_method" title="#latest_values (instance method)">- (Array&lt;Hash{:id=&gt;Integer,:name=&gt;String,:value=&gt;String,Integer,Time}&gt;) <strong>latest_values</strong> </a>
     
 
     
@@ -491,8 +700,61 @@ with a desired result in their latest report for this EA.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML object for this ext attr, with the current values.</p>
+<p>Return an Array of Hashes showing the most recent value for this EA on all
+inventory objects in the JSS.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name%3D-instance_method" title="#name= (instance method)">- (void) <strong>name=</strong>(newname) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -506,29 +768,7 @@ with a desired result in their latest report for this EA.</p>
   
   
   
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -543,7 +783,7 @@ with a desired result in their latest report for this EA.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>See JSS::APIObject.initialize</p>
+<p>Returns a new instance of ExtensionAttribute</p>
 
 
   </div>
@@ -551,47 +791,70 @@ with a desired result in their latest report for this EA.</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">APIObject#initialize</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
 119
 120
-121</pre>
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_super super kw'>super</span> <span class='rubyid_args identifier id'>args</span>
-  
+
   <span class='comment val'>### @init_data now has the raw data</span>
   <span class='comment val'>### so fill in our attributes or set defaults</span>
-  
+
   <span class='rubyid_@description ivar id'>@description</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:description</span><span class='rbrack token'>]</span>
   <span class='rubyid_@data_type ivar id'>@data_type</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:data_type</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_DATA_TYPE constant id'>DEFAULT_DATA_TYPE</span>
   <span class='rubyid_@web_display ivar id'>@web_display</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:inventory_display</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_WEB_DISPLAY_CHOICE constant id'>DEFAULT_WEB_DISPLAY_CHOICE</span>
+
   
-  <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_INPUT_TYPE constant id'>DEFAULT_INPUT_TYPE</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@popup_choices ivar id'>@popup_choices</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:popup_choices</span><span class='rbrack token'>]</span> 
+    <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_INPUT_TYPE constant id'>DEFAULT_INPUT_TYPE</span>
+    <span class='rubyid_@popup_choices ivar id'>@popup_choices</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:popup_choices</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_INPUT_TYPE constant id'>DEFAULT_INPUT_TYPE</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'>### the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces</span>
+  <span class='comment val'>### as underscores, like this.</span>
+  <span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>' '</span><span class='comma token'>,</span><span class='string val'>'_'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -609,7 +872,7 @@ with a desired result in their latest report for this EA.</p>
       <div class="method_details first">
   <h3 class="signature first" id="data_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>data_type</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>data_type</strong> 
   
 
   
@@ -618,13 +881,31 @@ with a desired result in their latest report for this EA.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the type of data created by the EA. must be one of DATA_TYPES</p>
+<p>Returns the type of data created by the EA. Must be one of DATA_TYPES</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of data created by the EA. Must be one of DATA_TYPES</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -632,12 +913,12 @@ with a desired result in their latest report for this EA.</p>
       <pre class="lines">
 
 
-81
-82
-83</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_data_type identifier id'>data_type</span>
   <span class='rubyid_@data_type ivar id'>@data_type</span>
@@ -653,7 +934,7 @@ with a desired result in their latest report for this EA.</p>
       <div class="method_details ">
   <h3 class="signature " id="description-instance_method">
   
-    - (<tt>Object</tt>) <strong>description</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>description</strong> 
   
 
   
@@ -666,13 +947,31 @@ with a desired result in their latest report for this EA.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - description of the ext attrib</p>
+<p>Returns description of the ext attrib</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>description of the ext attrib</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -680,12 +979,12 @@ with a desired result in their latest report for this EA.</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_description identifier id'>description</span>
   <span class='rubyid_@description ivar id'>@description</span>
@@ -697,11 +996,111 @@ with a desired result in their latest report for this EA.</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="input_type=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="input_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>input_type</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>input_type</strong> 
   
 
   
@@ -710,14 +1109,31 @@ with a desired result in their latest report for this EA.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - where does this data come from. one of the INPUT_TYPES. Some other
-attributes are dependent on this one</p>
+<p>Returns where does this data come from? Must be one of the INPUT_TYPES.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>where does this data come from? Must be one of the INPUT_TYPES.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -725,12 +1141,12 @@ attributes are dependent on this one</p>
       <pre class="lines">
 
 
-86
-87
-88</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_input_type identifier id'>input_type</span>
   <span class='rubyid_@input_type ivar id'>@input_type</span>
@@ -742,11 +1158,107 @@ attributes are dependent on this one</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="popup_choices=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="popup_choices-instance_method">
   
-    - (<tt>Object</tt>) <strong>popup_choices</strong> 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>popup_choices</strong> 
   
 
   
@@ -755,14 +1267,32 @@ attributes are dependent on this one</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Array of Strings - the choices available in the UI when the @input_type is
-“Pop-up Menu”</p>
+<p>Returns the choices available in the UI when the @input_type is “Pop-up
+Menu”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the choices available in the UI when the @input_type is “Pop-up Menu”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -770,12 +1300,12 @@ attributes are dependent on this one</p>
       <pre class="lines">
 
 
-90
-91
-92</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_popup_choices identifier id'>popup_choices</span>
   <span class='rubyid_@popup_choices ivar id'>@popup_choices</span>
@@ -787,11 +1317,60 @@ attributes are dependent on this one</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="web_display=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="web_display-instance_method">
   
-    - (<tt>Object</tt>) <strong>web_display</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>web_display</strong> 
   
 
   
@@ -800,13 +1379,31 @@ attributes are dependent on this one</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - In which part of the web UI does the data appear?</p>
+<p>Returns In which part of the web UI does the data appear?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>In which part of the web UI does the data appear?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -814,12 +1411,12 @@ attributes are dependent on this one</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_web_display identifier id'>web_display</span>
   <span class='rubyid_@web_display ivar id'>@web_display</span>
@@ -840,7 +1437,7 @@ attributes are dependent on this one</p>
       <div class="method_details first">
   <h3 class="signature first" id="all_with_result-instance_method">
   
-    - (<tt>Object</tt>) <strong>all_with_result</strong>(search_type, result) 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:id=&gt;Integer,:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>) <strong>all_with_result</strong>(search_type, desired_value) 
   
 
   
@@ -849,18 +1446,83 @@ attributes are dependent on this one</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an Array of hashes  with :id &amp; :name for all inventory objects
-with a desired result in their latest report for this EA. search type must
-be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
+<p>Get an Array of Hashes for all inventory objects with a desired result in
+their latest report for this EA.</p>
 
-<p>This is done by creating a temprary AdvancedComputerSearch then getting the
-#computers hash from it, then deleting it.</p>
+<p>Each Hash is one inventory object (computer, mobile device, user), with
+these keys:</p>
+
+<pre class="code ruby18"><code class="ruby18">:id - the computer id
+:name - the computer name
+:value - the matching ext attr value for the objects latest report.</code></pre>
+
+<p>This is done by creating a temprary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for objects with
+matching values in the EA field, then getting the #search_results hash from
+it.</p>
+
+<p>The AdvancedSearch is then deleted.</p>
+
+<p>must be a member of JSS::Criterion::SEARCH_TYPES</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>search_type</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>how are we comparing the stored value with the desired value.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>desired_value</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to compare with the stored value to determine a match.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:id=&gt;Integer,:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the items that match the result.</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -881,37 +1543,63 @@ be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
       <pre class="lines">
 
 
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235</pre>
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 299</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_all_with_result identifier id'>all_with_result</span><span class='lparen token'>(</span><span class='rubyid_search_type identifier id'>search_type</span><span class='comma token'>,</span> <span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_all_with_result identifier id'>all_with_result</span><span class='lparen token'>(</span><span class='rubyid_search_type identifier id'>search_type</span><span class='comma token'>,</span> <span class='rubyid_desired_value identifier id'>desired_value</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;EA Not In JSS! Use #create to create this #{REST_OBJECT_KEY}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Invalid search_type, see JSS::Criteriable::Criterion::SEARCH_TYPES&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='colon2 op'>::</span><span class='rubyid_SEARCH_TYPES constant id'>SEARCH_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_search_type identifier id'>search_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
   <span class='rubyid_begin begin kw'>begin</span>
+
     <span class='rubyid_search_class identifier id'>search_class</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_TARGET_CLASS constant id'>TARGET_CLASS</span><span class='colon2 op'>::</span><span class='rubyid_SEARCH_CLASS constant id'>SEARCH_CLASS</span>
-    <span class='rubyid_acs identifier id'>acs</span> <span class='assign token'>=</span> <span class='rubyid_search_class identifier id'>search_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;JSSgem-EA-#{DateTime.now.to_jss_xml_epoch}-result-search&quot;</span>
-    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_display_fields identifier id'>display_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;Username&quot;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_crit_list identifier id'>crit_list</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:and_or</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;and&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@name ivar id'>@name</span><span class='comma token'>,</span> <span class='symbol val'>:search_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_search_type identifier id'>search_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='rubyid_acs identifier id'>acs</span> <span class='assign token'>=</span> <span class='rubyid_search_class identifier id'>search_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;JSSgem-EA-#{Time.now.to_jss_epoch}-result-search&quot;</span>
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_display_fields identifier id'>display_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@name ivar id'>@name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_crit_list identifier id'>crit_list</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:and_or</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;and&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@name ivar id'>@name</span><span class='comma token'>,</span> <span class='symbol val'>:search_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_search_type identifier id'>search_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_desired_value identifier id'>desired_value</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
     <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criteria constant id'>Criteria</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_crit_list identifier id'>crit_list</span>
-    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span>
-    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_search_results identifier id'>search_results</span>
+
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span> <span class='symbol val'>:get_results</span>
+
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_search_results identifier id'>search_results</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@data_type ivar id'>@data_type</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Date&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Integer&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+        <span class='rubyid_else else kw'>else</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
+      <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
   <span class='rubyid_ensure ensure kw'>ensure</span>
     <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_end end kw'>end</span>
@@ -935,13 +1623,18 @@ be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>create a new one in the JSS</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -949,20 +1642,20 @@ be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
       <pre class="lines">
 
 
-130
-131
-132
-133
-134
-135</pre>
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 151</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>      
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;Pop-up Menu&quot;</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No popup_choices set for Pop-up Menu input_type.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@popup_choices ivar id'>@popup_choices</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_not not kw'>not</span> <span class='rubyid_@popup_choices ivar id'>@popup_choices</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -972,9 +1665,9 @@ be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="rest_rexml-instance_method">
+  <h3 class="signature " id="delete-instance_method">
   
-    - (<tt>Object</tt>) <strong>rest_rexml</strong> 
+    - (<tt>Object</tt>) <strong>delete</strong> 
   
 
   
@@ -983,15 +1676,18 @@ be one of those listed in JSS::Criterion::SEARCH_TYPES</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a REXML object for this ext attr, with the current values.
-Subclasses should augment this in their rest_xml methods then return it
-.to_s, for saving or updating</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">APIObject#delete</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -999,39 +1695,305 @@ Subclasses should augment this in their rest_xml methods then return it
       <pre class="lines">
 
 
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 172</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_rexml identifier id'>rest_rexml</span>
-  <span class='rubyid_ea identifier id'>ea</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Element constant id'>Element</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_RSRC_OBJECT_KEY constant id'>RSRC_OBJECT_KEY</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-  <span class='rubyid_ea identifier id'>ea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span>      
-  <span class='rubyid_ea identifier id'>ea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'description'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@description ivar id'>@description</span>      
-  <span class='rubyid_ea identifier id'>ea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'data_type'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@data_type ivar id'>@data_type</span>      
-  <span class='rubyid_ea identifier id'>ea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'inventory_display'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@web_display ivar id'>@web_display</span>      
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_orig_open_timeout identifier id'>orig_open_timeout</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_cnx identifier id'>cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:open_timeout</span><span class='rbrack token'>]</span>
+  <span class='rubyid_orig_timeout identifier id'>orig_timeout</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_cnx identifier id'>cnx</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:timeout</span><span class='rbrack token'>]</span>
+  <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_timeout identifier id'>timeout</span> <span class='assign token'>=</span> <span class='rubyid_orig_timeout identifier id'>orig_timeout</span> <span class='plus op'>+</span> <span class='integer val'>1800</span>
+  <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_open_timeout identifier id'>open_timeout</span> <span class='assign token'>=</span> <span class='rubyid_orig_open_timeout identifier id'>orig_open_timeout</span> <span class='plus op'>+</span> <span class='integer val'>1800</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+    <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_timeout identifier id'>timeout</span> <span class='assign token'>=</span> <span class='rubyid_orig_timeout identifier id'>orig_timeout</span>
+    <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_open_timeout identifier id'>open_timeout</span> <span class='assign token'>=</span> <span class='rubyid_orig_open_timeout identifier id'>orig_open_timeout</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="latest_values-instance_method">
   
-  <span class='rubyid_it identifier id'>it</span> <span class='assign token'>=</span> <span class='rubyid_ea identifier id'>ea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'input_type'</span><span class='rparen token'>)</span>    
-  <span class='rubyid_it identifier id'>it</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'type'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@input_type ivar id'>@input_type</span>
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:id=&gt;Integer,:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>) <strong>latest_values</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return an Array of Hashes showing the most recent value for this EA on all
+inventory objects in the JSS.</p>
+
+<p>Each Hash is one inventory object (computer, mobile device, user), with
+these keys:</p>
+
+<pre class="code ruby18"><code class="ruby18">:id - the jss id
+:name - the object name
+:value - the most recent ext attr value for the object.</code></pre>
+
+<p>This is done by creating a temporary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for all objects, with
+the EA as a display field. The #search_result then contains the desired
+data.</p>
+
+<p>The AdvancedSearch is then deleted.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:id=&gt;Integer,:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span></li>
+    
+      <li><span class='object_link'><a href="AdvancedComputerSearch.html" title="JSS::AdvancedComputerSearch (class)">AdvancedComputerSearch</a></span></li>
+    
+      <li><span class='object_link'><a href="AdvancedMobileDeviceSearch.html" title="JSS::AdvancedMobileDeviceSearch (class)">AdvancedMobileDeviceSearch</a></span></li>
+    
+      <li><span class='object_link'><a href="AdvancedUserSearch.html" title="JSS::AdvancedUserSearch (class)">AdvancedUserSearch</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 356</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_latest_values identifier id'>latest_values</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;EA Not In JSS! Use #create to create this #{REST_OBJECT_KEY}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
+  <span class='rubyid_tmp_advsrch identifier id'>tmp_advsrch</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;JSSgem-EA-#{Time.now.to_jss_epoch}-latest-search&quot;</span>
+  
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_search_class identifier id'>search_class</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_TARGET_CLASS constant id'>TARGET_CLASS</span><span class='colon2 op'>::</span><span class='rubyid_SEARCH_CLASS constant id'>SEARCH_CLASS</span>
+    <span class='rubyid_acs identifier id'>acs</span> <span class='assign token'>=</span> <span class='rubyid_search_class identifier id'>search_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_tmp_advsrch identifier id'>tmp_advsrch</span>
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_display_fields identifier id'>display_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@name ivar id'>@name</span><span class='rbrack token'>]</span>
+
+    <span class='comment val'># search for 'Username like &quot;&quot; ' because all searchable object classes have a &quot;Username&quot; value</span>
+    <span class='comment val'>#crit_list = [JSS::Criteriable::Criterion.new(:and_or =&gt; &quot;and&quot;, :name =&gt; &quot;Username&quot;, :search_type =&gt; &quot;like&quot;, :value =&gt; '')]</span>
+
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criteria constant id'>Criteria</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrack token'>[</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_ALL_TARGETS_CRITERION constant id'>ALL_TARGETS_CRITERION</span><span class='rbrack token'>]</span>
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span> <span class='symbol val'>:get_results</span>
+
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_search_results identifier id'>search_results</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@data_type ivar id'>@data_type</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Date&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Integer&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+        <span class='rubyid_else else kw'>else</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='rubyid_@symbolized_name ivar id'>@symbolized_name</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
+      <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_i identifier id'>i</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_TARGET_CLASS constant id'>TARGET_CLASS</span><span class='colon2 op'>::</span><span class='rubyid_SEARCH_CLASS constant id'>SEARCH_CLASS</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_tmp_advsrch identifier id'>tmp_advsrch</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='label val'>class::</span><span class='rubyid_TARGET_CLASS constant id'>TARGET_CLASS</span><span class='colon2 op'>::</span><span class='rubyid_SEARCH_CLASS constant id'>SEARCH_CLASS</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span><span class='lparen token'>(</span><span class='symbol val'>:refresh</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_tmp_advsrch identifier id'>tmp_advsrch</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_results identifier id'>results</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    - (<tt>void</tt>) <strong>name=</strong>(newname) 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    - (<tt>Object</tt>) <strong>update</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable#update</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 161</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;Pop-up Menu&quot;</span>
-    <span class='rubyid_pcs identifier id'>pcs</span> <span class='assign token'>=</span> <span class='rubyid_it identifier id'>it</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'popup_choices'</span><span class='rparen token'>)</span>
-    <span class='rubyid_@popup_choices ivar id'>@popup_choices</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_pc identifier id'>pc</span><span class='bitor op'>|</span> <span class='rubyid_pcs identifier id'>pcs</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'choice'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_pc identifier id'>pc</span><span class='rbrace token'>}</span>
-  <span class='rubyid_end end kw'>end</span>     
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_ea identifier id'>ea</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No popup_choices set for Pop-up Menu input_type.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@popup_choices ivar id'>@popup_choices</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Array constant id'>Array</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_not not kw'>not</span> <span class='rubyid_@popup_choices ivar id'>@popup_choices</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1044,7 +2006,7 @@ Subclasses should augment this in their rest_xml methods then return it
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:01 2014 by
+  Generated on Tue Sep 30 15:58:21 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

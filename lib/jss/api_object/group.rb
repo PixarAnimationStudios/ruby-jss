@@ -1,55 +1,63 @@
 module JSS
-  
+
   #####################################
   ### Module Constants
-  #####################################  
-  
+  #####################################
+
   #####################################
   ### Module Variables
   #####################################
-  
+
   #####################################
   ### Module Methods
-  ##################################### 
-  
+  #####################################
+
   #####################################
   ### Classes
-  ##################################### 
-  
-  ### 
-  ### This class is the parent to ComputerGroup, MobileDeviceGroup, UserGroup
-  ### and other smart/static group objects in the JSS.
+  #####################################
+
   ###
-  ### Subclasses must define the constant MEMBER_CLASS which indicates Ruby class 
+  ### This is the parent class of the smart/static group objects in the JSS
+  ### namely, {ComputerGroup}, {MobileDeviceGroup}, and {UserGroup}
+  ###
+  ### It provides methods for working with the membership of static groups and, by
+  ### including {JSS::Criteriable}, the criteria for smart groups.
+  ###
+  ### When changing the criteria of a smart group, use the #criteria attribute,
+  ### which is a {JSS::Criteria} instance.
+  ###
+  ### Subclasses must define the constant MEMBER_CLASS which indicates Ruby class
   ### to which the group members belong (e.g. JSS::MobileDevice)
   ###
-  ### See also JSS::APIObject
+  ### @see JSS::APIObject
+  ###
+  ### @see JSS::Criteriable
   ###
   class Group < JSS::APIObject
-    
+
     #####################################
     ### Mix-Ins
     #####################################
     include JSS::Creatable
     include JSS::Updatable
     include JSS::Criteriable
-    
-        
+
+
     #####################################
     ### Class Constants
     #####################################
-    
+
     ### the types of groups allowed for creation
     GROUP_TYPES = [:smart, :static]
-    
+
     #####################################
     ### Class Variables
     #####################################
-    
+
     #####################################
     ### Class Methods
     #####################################
-    
+
     ###
     ### Returns an Array of all the smart
     ### groups.
@@ -57,7 +65,7 @@ module JSS
     def self.all_smart(refresh = false)
       self.all(refresh).select{|g| g[:is_smart] }
     end
-    
+
     ###
     ### Returns an Array of all the static
     ### groups.
@@ -65,66 +73,72 @@ module JSS
     def self.all_static(refresh = false)
       self.all(refresh).select{|g| not g[:is_smart] }
     end
-    
+
     #####################################
     ### Attributes
     #####################################
-    
-    ### :id, :name, :in_jss, :need_to_update, and :rest_rsrc come from JSS::APIObject
-    
-    ### Array of Hashes. Each hash contains the identifiers for
-    ### a member of the group, those being:
-    ### :id, :name, and possibly :udid, :serial_number, :mac_address,
-    ### :alt_mac_address,  and :wifi_mac_address
+
+    ### @return [Array<Hash>] the group membership
     ###
-    ### See Also: the instance methods #member_ids, #member_names, etc...
+    ### Each hash contains the identifiers for
+    ### a member of the group, those being:
+    ### - :id, :name, and possibly :udid, :serial_number, :mac_address, :alt_mac_address,  and :wifi_mac_address
+    ###
+    ### @see #member_ids
+    ###
+    ### @see #member_names
     ###
     attr_reader :members
-    
-    ### Boolean - is this a smart group
+
+    ### @return [Boolean] is this a smart group
     attr_reader :is_smart
-    alias smart? is_smart
-    
-    ### Boolean - does this group send notifications when it changes?
+
+    ### @return [Boolean] does this group send notifications when it changes?
     attr_reader :notify_on_change
-    alias notify_on_change? notify_on_change
-    alias notify? notify_on_change
     
-    ### Hash, the :name, and :id site for this group
+
+    ### @return [String] the :name of the site for this group
     attr_reader :site
-    
-    
+
+
     #####################################
     ### Constructor
     #####################################
-    
+
+    ###
+    ### When creating a new group in the JSS, you must call .new with a :type key
+    ### and a value of :smart or :static, as well as a :name and the :id => :new
+    ###
+    ### @see JSS::APIObject
+    ###
     def initialize(args = {})
-      
+
       if args[:id] == :new
-        raise JSS::InvalidDataError, "New group creation must specify a :type of :smart or :static" unless GROUP_TYPES.include? args[:type] 
+        raise JSS::InvalidDataError, "New group creation must specify a :type of :smart or :static" unless GROUP_TYPES.include? args[:type]
       end
 
       super args
-      
-      
+
       @is_smart = @init_data[:is_smart] || (args[:type] == :smart)
-      
+
       @members = if @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY]
-        @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY] 
-      else 
+        @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY]
+      else
         []
       end
-      
+
+      @site = JSS::APIObject.get_name(@init_data[:site])
+
       parse_criteria
-      
+
     end #init
-    
+
     #####################################
     ### Public Instance Methods
     #####################################
-    
+
     ###
-    ### create a new one in the JSS
+    ### @see Creatable#create
     ###
     def create
       if @is_smart
@@ -134,105 +148,124 @@ module JSS
       refresh_members
       return @id
     end
-    
-    
+
+
     ###
-    ### Save changes
+    ### @see Updatable#update
     ###
     def update
       super
       refresh_members
       true
     end
-    
+
     ###
-    ### delete this item from the JSS
+    ### @see APIObject#delete
     ###
     def delete
       super
       @is_smart = nil
       @criteria = nil
-      @site = JSS::NO_SITE
+      @site = nil
       @members = []
     end # delete
-    
+
     ###
-    ### Check for smart before calling super
+    ### Apply a new set of criteria to a smart group
+    ###
+    ### @param new_criteria[JSS::Criteria] the new criteria for the smart group
     ###
     def criteria= (new_criteria)
       raise InvalidDataError, "Only smart groups have criteria." unless @is_smart
       super
     end
-    
+
     ###
-    ### how many members of the group?
+    ### How many members of the group?
+    ###
+    ### @return [Integer] the number of members of the group
     ###
     def size
       @members.count
     end
-    alias count size
     
+
     ###
-    ### Return an array of the names of mobile_devices in this group
-    ### Note: there may be duplicate names!
+    ### @return [Array<String>] the names of the group members
     ###
     def member_names
       @members.map{|m| m[:name]}
     end
-    
+
     ###
-    ### Return an array of the ids of mobile_devices in this group
+    ### @return [Array<Integer>] the ids of the group members
     ###
     def member_ids
       @members.map{|m| m[:id]}
     end
-    
+
     ###
     ### Replace all @members with an array of uniq device identfiers (names, ids, serial numbers, etc)
     ### E.g: [ 'lambic', 1233, '2341', 'monkey']
     ###
-    ### They must all be in the JSS, and non-ambiguous or an error is raised
-    ### before doing anything. See #check_member
+    ### They must all be in the JSS or an error is raised
+    ### before doing anything. See {#check_member}
     ###
-    def members= (mds)
+    ### @param new_members[Array<Integer,String>] the new group members
+    ###
+    ### @return [void]
+    ###
+    def members= (new_members)
       raise UnsupportedError, "Smart group members can't be changed." if @is_smart
-      raise InvalidDataError, "Arg must be an array of names and/or ids" unless mds.kind_of? Array
-      new_members = []
-      mds.each do |m|
-        new_members << check_member(m)
+      raise InvalidDataError, "Arg must be an array of names and/or ids" unless new_members.kind_of? Array
+      ok_members = []
+      new_members.each do |m|
+        ok_members << check_member(m)
       end
-      
+
+      ok_members.uniq!
+
       ### make sure we've actually changed...
-      unless member_ids.sort == new_members.uniq.sort
-        @members = new_members
+      unless members.map{|m| m[:id]}.sort == ok_members.map{|m| m[:id]}.sort
+        @members = ok_members
         @need_to_update = true
       end
     end
-    
+
     ###
-    ### Add a member, by any identifier
+    ### Add a member, by name or id
+    ###
+    ### @param m[Integer,String] the id or name of the member to add
+    ###
+    ### @return [void]
     ###
     def add_member(m)
       raise UnsupportedError, "Smart group members can't be changed." if @is_smart
-      @members << {:id => check_member(m)}
+      @members << check_member(m)
       @need_to_update = true
     end
-    
+
     ###
     ### Remove a member by id, or name
     ###
+    ### @param m[Integer,String] the id or name of the member to remove
+    ###
+    ### @return [void]
+    ###
     def remove_member(m)
       raise InvalidDataError, "Smart group members can't be changed." if @is_smart
-      
+
       if @members.reject!{ |mm|  [mm[:id], mm[:name]].include? m  }
         @need_to_update = true
       else
         raise JSS::NoSuchItemError, "No member matches '#{m}'"
       end
     end
-    
+
     ###
     ### Remove all members
+    ###
+    ### @return [void]
     ###
     def clear
       raise InvalidDataError, "Smart group members can't be changed." if @is_smart
@@ -241,13 +274,35 @@ module JSS
       @need_to_update = true
     end
 
-    ### 
+    ###
     ### Refresh the membership from the API
+    ###
+    ### @return [Array<Hash>] the refresh membership
     ###
     def refresh_members
       @members = JSS::API.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
+
+    ###
+    ### Change the site for this group
+    ###
+    ### @param new_val[String] the name of the new site
+    ###
+    ### @return [void]
+    ###
+    def site= (new_val)
+      raise JSS::NoSuchItemError, "No site named #{new_val} in the JSS" unless JSS::Site.all_names.include? new_val
+      @site = new_val
+      @need_to_update = true
+    end
+
     
+    ### aliases
+    
+    alias smart? is_smart
+    alias notify_on_change? notify_on_change
+    alias notify? notify_on_change
+    alias count size
     
     #####################################
     ### Public Instance Methods
@@ -257,38 +312,41 @@ module JSS
     ###
     ### Check that a potential group member is valid in the JSS.
     ### Arg must be an id or name.
-    ### An error is raised if the device doesn't exist.
-    ### Returns the valid id
+    ### An exception is raised if the device doesn't exist.
+    ###
+    ### @return [Hash{:id=>Integer,:name=>String}] the valid id and name
     ###
     def check_member(m)
       potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name)
-      return m if potential_members.keys.include? m
-      return potential_members.invert[m] if potential_members.values.include? m
-      raise JSS::NoSuchItemError, "No potential member matching '#{m}' in the JSS."
+      if m.to_s =~ /\d+/ 
+        return {:id=>m.to_i, :name=> potential_members[m]} if potential_members.keys.include? m.to_i 
+      else
+        return {:name=>m, :id=> potential_members.invert[m]} if potential_members.values.include? m
+      end
+      raise JSS::NoSuchItemError, "No #{self.class::MEMBER_CLASS::RSRC_OBJECT_KEY} matching '#{m}' in the JSS."
     end
-    
+
     ###
     ### the xml formated data for adding or updating this in the JSS,
     ###
     def rest_xml
       doc = REXML::Document.new JSS::APIConnection::XML_HEADER
       group = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
-      group.add_element('id').text = @id
       group.add_element('name').text = @name
-      group.add_element('site').add_element('id').text = @site[:id]
+      group.add_element('site').add_element('name').text = @site if @site
       group.add_element('is_smart').text = @is_smart
       if @is_smart
-        group << @criteria.rest_xml 
+        group << @criteria.rest_xml if @criteria
       else
-        group << self.class::MEMBER_CLASS.xml_list(@members) 
+        group << self.class::MEMBER_CLASS.xml_list(@members, :id)
       end
-      
+
       return doc.to_s
-      
+
     end #rest_xml
-    
+
   end # class ComputerGroup
-  
+
 end # module JSS
 
 require "jss/api_object/group/computer_group"

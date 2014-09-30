@@ -28,20 +28,20 @@ module JSS
   ###
   ### If a subclass can be looked up by some key other than :name or :id, the subclass must
   ### pass the keys as an Array in the second argument when calling super from #initialize.
-  ### See JSS::Computer#initialize for an example of how to implement this feature.
+  ### See {JSS::Computer#initialize} for an example of how to implement this feature.
   ###
   ### === Object Creation
   ###
-  ### If a subclass should be able to be created in the JSS be sure to include JSS::Creatable
+  ### If a subclass should be able to be created in the JSS be sure to include {JSS::Creatable}
   ###
   ### The constructor should verify any extra required data (aside from :name) in the args before or after
   ### calling super.
   ###
-  ### See JSS::Creatable for more details.
+  ### See {JSS::Creatable} for more details.
   ###
   ### === Object Modification
   ###
-  ### If a subclass should be modifiable in the JSS, include JSS::Updatable, q.v. for details.
+  ### If a subclass should be modifiable in the JSS, include {JSS::Updatable}, q.v. for details.
   ###
   ### === Object Deletion
   ###
@@ -138,7 +138,7 @@ module JSS
     ### I usually use :refresh, so that it's obvious what I'm doing, but true, 1,
     ### or anything besides false or nil will work.
     ###
-    ### @param refresh[true,false] should the data be re-queried from the API?
+    ### @param refresh[Boolean] should the data be re-queried from the API?
     ###
     ### @return [Array<Hash{:name=>String, :id=> Integer}>]
     ###
@@ -156,7 +156,7 @@ module JSS
     ### e.g. When called from subclass JSS::Computer,
     ### returns the id's of all computers in the JSS
     ###
-    ### @param refresh[true,false] should the data be re-queried from the API?
+    ### @param refresh[Boolean] should the data be re-queried from the API?
     ###
     ### @return [Array<Integer>] the ids of all items of this subclass in the JSS
     ###
@@ -164,14 +164,14 @@ module JSS
       self.all(refresh).map{|i| i[:id]}
     end
 
-        ###
+    ###
     ### Returns an Array of the JSS names of all the members
     ### of the subclass.
     ###
     ### e.g. When called from subclass JSS::Computer,
     ### returns the names of all computers in the JSS
     ###
-    ### @param refresh[true,false] should the data be re-queried from the API?
+    ### @param refresh[Boolean] should the data be re-queried from the API?
     ###
     ### @return [Array<String>] the names of all item of this subclass in the JSS
     ###
@@ -201,7 +201,8 @@ module JSS
     ###   # Returns, eg {"kimchi" => 2, "mantis" => 5}
     ###
     ### @param other_key[Symbol] the other data key with which to associate each id
-    ### @param refresh[true,false] should the data  re-queried from the API?
+    ###
+    ### @param refresh[Boolean] should the data  re-queried from the API?
     ###
     ### @return [Hash{Integer => Oject}] the associated ids and data
     ###
@@ -249,6 +250,7 @@ module JSS
     ###   </computers>
     ###
     ### @param array[Array<Hash{:name=>String, :id =>Integer, Symbol=>#to_s}>] the Array of subclass data to convert
+    ###
     ### @param content[Symbol] the Hash key to use as the inner element for each member of the Array
     ###
     ### @return [REXML::Element] the XML element representing the data
@@ -257,11 +259,47 @@ module JSS
       JSS.item_list_to_rexml_list self::RSRC_LIST_KEY, self::RSRC_OBJECT_KEY, array, content
     end
 
+    ###
+    ### Some API objects contain references to other API objects. Usually those
+    ### references are a Hash containing the :id and :name of the target. Sometimes,
+    ### however the reference is just the name of the target.
+    ###
+    ### A Script has a property :category, which comes from the API as
+    ### a String, the name of the category for that script. e.g. "GoodStuff"
+    ###
+    ### A Policy also has a property :category, but it comes from the API as a Hash
+    ### with both the name and id, e.g.  !{:id => 8, :name => "GoodStuff"}
+    ###
+    ### When that reference is to a single thing (like the category to which something belongs)
+    ### APIObject subclasses usually store only the name, and use the name when
+    ### returning data to the API.
+    ###
+    ### When an object references a list of related objects
+    ### (like the computers assigned to a user) that list will be and Array of Hashes
+    ### as above, with both the :id and :name
+    ###
+    ###
+    ### This method is just a handy way to extract the name regardless of how it comes
+    ### from the API. Most APIObject subclasses use it in their #initialize method
+    ###
+    ### @param a_thing[String,Array] the api data from which we're extracting the name
+    ###
+    ### @return [String] the name extracted from a_thing
+    ###
+    def self.get_name(a_thing)
+      case a_thing
+        when String
+          a_thing
+        when Hash
+          a_thing[:name]
+        when nil
+          nil
+      end
+    end
+
     #####################################
     ### Class Constants
     #####################################
-
-
 
     ###
     ### These Symbols are added to VALID_DATA_KEYS for performing the
@@ -282,20 +320,16 @@ module JSS
     ### Attributes
     #####################################
 
-    ### Integer - the JSS id number
+    ### @return [Integer] the JSS id number
     attr_reader :id
 
-    ### String - the name
+    ### @return [String] the name
     attr_reader :name
 
-    ### Boolean - is it in the JSS?
+    ### @return [Boolean] is it in the JSS?
     attr_reader :in_jss
 
-    ### Boolean -  need to save any changes?
-    attr_reader :need_to_update
-
-    ### String - the Rest resource for API access
-    ### (the part after "JSSResource/" )
+    ### @return [String] the Rest resource for API access (the part after "JSSResource/" )
     attr_reader :rest_rsrc
 
     #####################################
@@ -303,18 +337,29 @@ module JSS
     #####################################
 
     ###
-    ### See the JSS::APIObject overview for more details.
+    ### The args hash must include :id, :name, or :data.
+    ### * :id or :name will be looked up via the API
+    ### * * if the subclass includes JSS::Creatable, :id can be :new, to create a new object in the JSS.
+    ###     and :name is required
+    ### * :data must be the JSON output of a separate {JSS::APIConnection} query (a Hash of valid object data)
+    ###
+    ### Some subclasses can accept other options, by pasing their keys in a final Array
     ###
     ### @param args[Hash] the data for looking up, or constructing, a new object.
-    ###   Must include :id, :name, or :data.
-    ###   * :id or :name will be looked up via the API
-    ###   * * if the subclass includes JSS::Creatable, :id can be :new, to create a new object in the JSS.
-    ###   * :data must be the JSON output of a separate API query (a Hash of valid object data)
-    ### @param other_lookup_keys[Array<Symbol>] Hash keys than :id and :name, by which an API
+    ###
+    ### @option args :id[Integer] the jss id to look up
+    ###
+    ### @option args :name[String] the name to look up
+    ###
+    ### @option args :data[Hash] the JSON output of a separate {JSS::APIConnection} query
+    ###
+    ### @param other_lookup_keys[Array<Symbol>] Hash keys other than :id and :name, by which an API
     ###   lookup may be performed.
     ###
     def initialize(args = {}, other_lookup_keys = [])
 
+      ################################
+      ################################
       ####### Previously looked-up JSON data
       if args[:data]
 
@@ -333,10 +378,12 @@ module JSS
         raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} with JSS id: #{@init_data[:id]}" unless  self.class.all_ids.include? hash_to_check[:id]
 
 
+      ################################
+      ################################
       ###### Make a new one in the JSS, but only if we've included the Creatable module
       elsif args[:id] == :new
 
-        raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless self.class::CREATABLE
+        raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless defined? self.class::CREATABLE
 
         raise JSS::MissingDataError, "You must provide a :name for a new #{self.class::RSRC_OBJECT_KEY}." unless args[:name]
 
@@ -345,10 +392,15 @@ module JSS
 
         ### NOTE: subclasses may want to pre-populate more keys in @init_data when :id == :new
         ### then parse them into attributes later.
-        @init_data = {
-          :name => args[:name]
-        }
+        @name = args[:name]
+        @init_data = {:name => args[:name]}
+        @in_jss = false
+        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
+        @need_to_update = true
+        return
 
+      ################################
+      ################################
       ###### Look up the data via the API
       else
         ### what lookup key are we using?
@@ -361,50 +413,69 @@ module JSS
 
         begin
           @init_data = JSS::API.get_rsrc(rsrc)[self.class::RSRC_OBJECT_KEY]
-          ### Does this data come in subsets?
-          @got_subsets = @init_data[:general].kind_of?(Hash)
+
+          ### If we're looking up by id or name and we're here,
+          ### then we have it regardless of which subset it's in
+          ### otherwise, first assume they are in the init hash
+          @id = lookup_key == :id ? args[lookup_key] : @init_data[:id]
+          @name = lookup_key == :name ? args[lookup_key] : @init_data[:name]
+
         rescue RestClient::ResourceNotFound
           raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{args[:name] ? args[:name] : args[:id]}"
         end
       end ## end arg parsing
 
-      ### set the name and id, and remove empty strings
-      if @got_subsets
-        @id = @init_data[:general][:id]
-        @name = @init_data[:general][:name]
-        @site = @init_data[:general][:site] || JSS::NO_SITE
-        @init_data.each_pair do |k,v|
-          if v.kind_of?(Hash)
-            v.delete_if{|kk,vv| vv == ''}
-          else
-            v = nil if v == ''
-          end
-        end
+      # Find the "main" subset which contains :id and :name
+      #
+      # If they aren't at the top-level of the init hash they are in a subset hash,
+      # usually :general, but sometimes someething else,
+      # like ldap servers, which have them in :connection
+      # Whereever both :id and :name are, that's the main subset
 
-      else # no subsets
-        @id = @init_data[:id]
-        @name = @init_data[:name]
-        @site = @init_data[:site] || JSS::NO_SITE
-        @init_data.delete_if{|k,v| v == ''}
-
+      @init_data.keys.each do |subset|
+        @main_subset = @init_data[subset] if @init_data[subset].kind_of? Hash and @init_data[subset][:id] and @init_data[subset][:name]
+        break if @main_subset
       end
+      @main_subset ||= @init_data
 
-      ### if we have a @id here, we're already in the JSS
-      if @id
-        @in_jss = true
-        @rest_rsrc =  "#{self.class::RSRC_BASE}/id/#{@id}"
-        @need_to_update = false
-      else
-        @in_jss = false
-        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
-        @need_to_update = true
-      end
+      @id ||= @main_subset[:id]
+      @name ||= @main_subset[:name]
 
+      # many things have  a :site
+      @site = JSS::APIObject.get_name( @main_subset[:site]) if @main_subset[:site]
+
+      # set empty strings to nil
+      @init_data.nillify! '', :recurse
+
+      @in_jss = true
+      @rest_rsrc =  "#{self.class::RSRC_BASE}/id/#{@id}"
+      @need_to_update = false
     end # init
 
     #####################################
     ### Public Instance Methods
     #####################################
+
+    ###
+    ### Either Create or Update this object in the JSS
+    ###
+    ### If this item is creatable or updatable, then
+    ### create it if needed, or update it if it already exists.
+    ###
+    ### @return [Integer] the id of the item created or updated
+    ###
+    def save
+      if @in_jss
+        raise JSS::UnsupportedError, "Updating this object in the JSS is currently not supported" \
+          unless defined? self.class::UPDATABLE
+        return self.update
+      else
+        raise JSS::UnsupportedError, "Creating this object in the JSS is currently not supported" \
+          unless defined? self.class::CREATABLE
+        return self.create
+      end
+    end
+
 
     ###
     ### Delete this item from the JSS.
@@ -413,13 +484,15 @@ module JSS
     ### first calling super, then setting other attributes to
     ### nil, false, empty, etc..
     ###
+    ### @return [void]
+    ###
     def delete
       return nil unless @in_jss
       JSS::API.delete_rsrc @rest_rsrc
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
       @id = nil
       @in_jss = false
-      @need_to_update = true
+      @need_to_update = false
     end # delete
 
     #####################################
@@ -430,7 +503,7 @@ module JSS
     ###
     ### Return a String with the XML Resource
     ### for submitting creation or changes to the JSS via
-    ### the API
+    ### the API via the Creatable or Updatable modules
     ###
     ### Most classes will redefine this method.
     ###
@@ -441,7 +514,11 @@ module JSS
       return doc.to_s
     end
 
-
+    
+    ### Aliases
+    
+    alias in_jss? in_jss
+    
   end # class APIObject
 
 
@@ -450,11 +527,12 @@ end # module JSS
 
 ### Mix-in Sub Modules
 require "jss/api_object/creatable"
-require "jss/api_object/file_upload"
+require "jss/api_object/uploadable"
 require "jss/api_object/locatable"
 require "jss/api_object/matchable"
 require "jss/api_object/purchasable"
 require "jss/api_object/updatable"
+require "jss/api_object/extendable"
 
 ### Mix-in Sub Modules with Classes
 require "jss/api_object/criteriable"
@@ -464,7 +542,6 @@ require "jss/api_object/scopable"
 require "jss/api_object/advanced_search"
 require "jss/api_object/extension_attribute"
 require "jss/api_object/group"
-require "jss/api_object/report"
 
 ### APIObject SubClasses without SubClasses
 require "jss/api_object/building"
@@ -472,6 +549,7 @@ require "jss/api_object/category"
 require "jss/api_object/computer"
 require "jss/api_object/department"
 require "jss/api_object/distribution_point"
+require "jss/api_object/ldap_server"
 require "jss/api_object/mobile_device"
 require "jss/api_object/netboot_server"
 require "jss/api_object/network_segment"
@@ -481,6 +559,7 @@ require "jss/api_object/peripheral"
 require "jss/api_object/policy"
 require "jss/api_object/removable_macaddr"
 require "jss/api_object/script"
+require "jss/api_object/site"
 require "jss/api_object/software_update_server"
 require "jss/api_object/user"
 

@@ -15,33 +15,9 @@ module JSS
 
   ###
   ### A mixin module providing file-upload capabilities to JSSAPIObject subclasses.
-  ### ----
-  ### Implementation Notes from
-  ### https://casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post
-  ###
-  ### POST /fileuploads/{resource}/{idType}/{id}
-  ###
-  ### You can POST different types of files by entering parameters for {resource}, {idType}, and {id},
-  ### for example /JSSResource/fileuploads/computers/id/2.
-  ###
-  ### Attachments can be uploaded by specifying computers, mobiledevices, enrollmentprofiles, or
-  ### peripherals as the resource.
-  ###
-  ### Icons can be uploaded by specifying policies, ebooks, or mobiledeviceapplicationsicon as the resource.
-  ###
-  ### A mobile device application can be uploaded by using mobiledeviceapplicationsipa as the resource.
-  ###
-  ### A disk encryption can be uploaded by specifying diskencryptionconfigurations as the resource.
-  ###
-  ### idTypes supported are "id" and "name", although peripheral names are not supported.
-  ###
-  ### A sample command is:
-  ### curl -k -u user:password https://my.jss:8443/JSSResource/fileuploads/computers/id/2 -F name=@/Users/admin/Documents/Sample.doc -X POST
-  ###
-  ### ----
   ###
   ### Classes mixing in this module are required to define a constant UPLOAD_TYPES
-  ### which is a hash of :type => :resource pairs, like this:
+  ### which is a Hash of :type => :resource pairs, like this:
   ###
   ###  UPLOAD_TYPES = {
   ###     :icon => :mobiledeviceapplicationsicon
@@ -57,13 +33,40 @@ module JSS
   ### Classes with only one upload type may want to redefine #upload to always call super with
   ### that one type.
   ###
-  module FileUpload
+  ### ----
+  ###
+  ### Implementation Notes from
+  ### https://casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post
+  ###
+  ###   POST ...JSSResource/fileuploads/<resource>/<idType>/<id>
+  ###
+  ### You can POST different types of files by entering parameters for <resource>, <idType>, and <id>.
+  ### For example /JSSResource/fileuploads/computers/id/2.
+  ###
+  ### Attachments can be uploaded by specifying computers, mobiledevices, enrollmentprofiles, or
+  ### peripherals as the resource.
+  ###
+  ### Icons can be uploaded by specifying policies, ebooks, or mobiledeviceapplicationsicon as the resource.
+  ###
+  ### A mobile device application can be uploaded by using mobiledeviceapplicationsipa as the resource.
+  ###
+  ### A disk encryption can be uploaded by specifying diskencryptionconfigurations as the resource.
+  ###
+  ### idTypes supported are "id" and "name", although peripheral names are not supported.
+  ###
+  ### A sample command is:
+  ###   curl -k -u user:password https://my.jss:8443/JSSResource/fileuploads/computers/id/2 -F name=@/Users/admin/Documents/Sample.doc -X POST
+  ###
+  ###
+  ###
+  ###
+  module Uploadable
 
     #####################################
     ###  Constants
     #####################################
 
-    RSRC_PREFIX = "fileuploads"
+    UPLOAD_RSRC_PREFIX = "fileuploads"
 
     #####################################
     ###  Variables
@@ -84,6 +87,8 @@ module JSS
     ### @param local_file[String, Pathname] String or Pathname pointing to the
     ###   locally-readable file to be uploaded.
     ###
+    ### @return [String] The xml response from the server.
+    ###
     def upload(type, local_file)
 
       ### the thing's gotta be in the JSS, and have an @id
@@ -92,8 +97,8 @@ module JSS
       ### the type has to be defined in the class of self.
       raise JSS::InvalidDataError, "#{self.class::RSRC_LIST_KEY} only take uploads of type: :#{self.class::UPLOAD_TYPES.keys.join(', :')}." unless self.class::UPLOAD_TYPES.keys.include? type
 
-      ### figure out the resource after the RSRC_PREFIX
-      upload_rsrc = "#{RSRC_PREFIX}/#{self.class::UPLOAD_TYPES[type]}/id/#{@id}"
+      ### figure out the resource after the UPLOAD_RSRC_PREFIX
+      upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self.class::UPLOAD_TYPES[type]}/id/#{@id}"
 
       ### make a File object to hand to REST.
       file = File.new local_file.to_s, 'rb'

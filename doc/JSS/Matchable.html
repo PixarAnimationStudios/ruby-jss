@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Matchable
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -93,7 +93,17 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Sub-Modules</p>
+<p>Simple match-based searches in the JSS.</p>
+
+<p>The API offers a simple match-based search for some objects, analagous to
+the search field at the top of the Computers, MobileDevices, and Users
+sections of the JSS WebApp.</p>
+
+<p>When a class extends itself with this module, it will acquire the .match
+Class Method which performs a match  and returns an Array of matching
+items.</p>
+
+<p>This module should be mixed in with #extend, not #include</p>
 
 
   </div>
@@ -149,7 +159,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#match-instance_method" title="#match (instance method)">- (Object) <strong>match</strong>(term) </a>
+      <a href="#match-instance_method" title="#match (instance method)">- (Array&lt;Hash&gt;) <strong>match</strong>(term) </a>
     
 
     
@@ -164,7 +174,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Perform a match, returning an Array of matching data.</p>
+<p>Perform a match, returning an Array of Hashes, one for each item matched.</p>
 </div></span>
   
 </li>
@@ -182,7 +192,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="match-instance_method">
   
-    - (<tt>Object</tt>) <strong>match</strong>(term) 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>) <strong>match</strong>(term) 
   
 
   
@@ -191,10 +201,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Perform a match, returning an Array of matching data.</p>
-
-<p>Each Array element is a simple Hash with identifier and location  data for
-a matching object..</p>
+<p>Perform a match, returning an Array of Hashes, one for each item matched</p>
 
 <p>At the moment, it appears the search is an “exact match” search
 regardless of the prefs of the user connected to the API.</p>
@@ -217,13 +224,31 @@ regardless of the prefs of the user connected to the API.</p>
       
         &mdash;
         <div class='inline'>
-<p>the term to match in the JSS.</p>
+<p>the term to match.</p>
 </div>
       
     </li>
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the item smatched.</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -244,14 +269,14 @@ regardless of the prefs of the user connected to the API.</p>
       <pre class="lines">
 
 
-54
-55
-56
-57
-58</pre>
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/matchable.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/matchable.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Match term may not be empty&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_term identifier id'>term</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -269,7 +294,7 @@ regardless of the prefs of the user connected to the API.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:55 2014 by
+  Generated on Tue Sep 30 15:58:12 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

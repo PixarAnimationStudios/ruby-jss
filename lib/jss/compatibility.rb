@@ -10,7 +10,9 @@
 ### in the hash
 ###
 unless {}.respond_to? :key
-  class Hash ; alias_method  :key, :index ; end
+  class Hash
+    alias_method  :key, :index
+  end
 end
 
 #############################################
@@ -21,5 +23,19 @@ end
 ### eg: [1, 2, 3].sample returns either 1, 2, or 3
 ###
 unless [].respond_to? :sample
-  class Array; alias_method :sample, :choice ; end
+  class Array
+    alias_method :sample, :choice
+  end
+end
+
+
+#############################################
+### String.force_encoding
+###
+### Ruby 1.8 doesn't do encodings...
+###
+unless "".respond_to? :force_encoding
+  class String
+    def force_encoding(args = nil); self; end
+  end
 end

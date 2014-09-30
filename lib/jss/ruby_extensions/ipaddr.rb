@@ -3,18 +3,33 @@
 ###
 class IPAddr
   
-  ### Return a Masked IPV4 IPAddr object from the 
-  ### starting and ending address of the subnet.
-  ### Addrs can be Strings or IPAddrs
-  ### e.g. '10.0.0.0', '10.0.0.255' => #<IPAddr: IPv4:10.0.0.0/255.255.255.0>
+  ### Convert starting and ending IPv4 IP addresses (either Strings or IPAddrs)
+  ### into a single masked IPv4 IPAddr
+  ###
+  ### @param starting[Strings, IPAddr] the starting IP address
+  ###
+  ### @param ending[Strings, IPAddr] the ending IP address
+  ###
+  ### @return [IPAddr] the IP address range represented as a masked IPv4 address
+  ###
+  ### @example
+  ###   IPAddr.masked_v4addr '10.0.0.0', '10.0.0.255' # => #<IPAddr: IPv4:10.0.0.0/255.255.255.0>
   ###
   def self.masked_v4addr(starting,ending)
     IPAddr.new "#{starting}/#{self.cidr_from_ends(starting,ending)}"
   end #self.masked_v4addr(starting,ending)
   
-  ### Return the Integer CIDR from the starting and ending addresses
-  ### for the subnet. Addrs can be Strings or IPAddrs.
-  ### eg  '10.0.0.0', '10.0.0.255' => 24
+  ### Given starting and ending IPv4 IP addresses (either Strings or IPAddrs)
+  ### return the CIDR notation routing prefix mask
+  ###
+  ### @param starting[Strings, IPAddr] the starting IP address
+  ###
+  ### @param ending[Strings, IPAddr] the ending IP address
+  ###
+  ### @return [FixNum] the CIDR notation routing prefix mask
+  ###
+  ### @example
+  ###   IPAddr.cidr_from_ends '10.0.0.0', '10.0.0.255' # => 24
   ###
   def self.cidr_from_ends(starting,ending)
     
@@ -32,8 +47,18 @@ class IPAddr
     
   end #self.get_cidr(starting,ending)
 
-  ### Return an ending IPAddr for a subnet
-  ### when given a starting address (IPAddr or String) and a CIDR
+  ### Convert a starting address (either String or IPAddr) and a 
+  ### CIDR notation routing prefix mask into the IPv4 address
+  ### of at the end of the range of addresses.
+  ###
+  ### @param starting[Strings, IPAddr] the starting IP address
+  ###
+  ### @param cidr[FixNum] the CIDR mask
+  ###
+  ### @return [IPAddr] the ending IP address of the range.
+  ###
+  ### @example
+  ###   IPAddr.ending_address '10.0.0.0', 24 # => #<IPAddr: IPv4:10.0.0.255>
   ###
   def self.ending_address(starting, cidr)
     IPAddr.new( "#{starting}/#{cidr}").to_range.max

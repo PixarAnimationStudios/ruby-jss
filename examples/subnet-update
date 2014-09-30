@@ -1,0 +1,377 @@
+#!/usr/bin/ruby
+##############################
+# == Synopsis
+#   Add, remove, or change the Network Segments in the JSS based on data from an input file
+#   in CSV, tab, or other delimited format.
+#
+# == Usage
+#   subnet-update [-t | -d delimiter] [-h] file
+#
+#
+# == Author
+#   Chris Lasell <chrisl@pixar.com>
+#
+# == Copyright
+#   Copyright (c) 2014 Pixar Animation Studios
+
+##############################
+# Libraries
+#require 'jss'
+
+# TESTING
+require 'pixar/pixar'
+require "/Users/chrisl/Box Sync/chrisl_WFH/jss/jssgem/lib/jss.rb"
+
+require 'getoptlong'
+
+##############################
+# The app object
+class App
+
+  ##############################
+  # Constants
+
+  USAGE = "Usage: #{File.basename($0)} [-d delim] [--header] [-c col1,col2,col3 ] [-m manual-prefix] [--help] /path/to/file"
+
+  POTENTIAL_COLUMNS = [:name, :starting, :ending, :cidr]
+
+  # Whenever we process a file, we store it here. The next time we
+  # run, if the input file is identical to this, we exit witout doing anything.
+  DEFAULT_CACHE_FILE = Pathname.new("~/.last_subnet_update").expand_path
+
+  DEFAULT_DELIMITER = "\t"
+  DEFAULT_COLUMNS =  [:name, :starting, :ending]
+  DEFAULT_MANUAL_PREFIX = "Manual-"
+
+
+  attr_reader :debug
+
+  ###############
+  # set up
+  def initialize(args)
+
+    # set defaults
+    @debug = false
+
+    @delim = DEFAULT_DELIMITER
+    @header = false
+    @columns = DEFAULT_COLUMNS
+    @cache_file = DEFAULT_CACHE_FILE
+    @manual_prefix =  DEFAULT_MANUAL_PREFIX
+
+
+    #define the cli opts
+    cli_opts = GetoptLong.new(
+      [ '--help', '-H', GetoptLong::NO_ARGUMENT ],
+      [ '--delimiter', '--delim', '-d', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--header', '-h', GetoptLong::NO_ARGUMENT],
+      [ '--columns', '-c', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--manual-prefix', '-m',  GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--cache', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--debug', GetoptLong::NO_ARGUMENT],
+      [ '--server', '-S', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--port', '-P', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--user', '-U', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--no-verify-cert', '-V', GetoptLong::NO_ARGUMENT],
+      [ '--timeout', '-T', GetoptLong::OPTIONAL_ARGUMENT]
+    )
+
+    # parse the cli opts
+    cli_opts.each do |opt, arg|
+      case opt
+        when '--help' then  show_help
+        when '--delimiter' then @delim = arg
+        when '--header' then @header = true
+        when '--columns' then @columns = arg.split(',').map{|c| c.to_sym}
+        when '--manual-prefix' then @manual_prefix = arg
+        when '--cache' then @cache_file = Pathname.new arg
+        when '--debug' then @debug = true
+        when '--server'
+          @server = arg
+
+        when '--port'
+          @port = arg
+
+        when '--user'
+          @user = arg
+
+        when '--no-verify-cert'
+          @verify_cert = false
+
+        when '--timeout'
+          @timeout = arg
+
+      end # case
+    end # each opt arg
+
+
+    @columns = nil if @columns and @columns.empty?
+
+    @file = args.shift
+
+
+  end # init
+
+  ###############
+  # Go!
+  def run
+
+    unless @file
+      puts "No input file specified."
+      puts USAGE
+      return
+    end
+
+    @file = Pathname.new @file
+
+    unless parse_file
+      puts "File hasn't changed since last time, no changes to make!"
+      return
+    end
+
+    # use any config settings defined....
+    @user ||= JSS::CONFIG.api_username
+    @server ||= JSS::CONFIG.api_server_name
+    @getpass =  $stdin.tty? ? :prompt : :stdin
+
+    raise JSS::MissingDataError, "No JSS Username provided or found in the JSS gem config." unless @user
+    raise JSS::MissingDataError, "No JSS Server provided or found in the JSS gem config." unless @server
+
+    JSS::API.connect( :server => @server,
+      :port => @port,
+      :verify_cert => @verify_cert,
+      :user => @user,
+      :pw => @getpass,
+      :stdin_line => 1,
+      :timeout => @timeout
+    )
+
+    update_network_segments
+
+  end # run
+
+  #####################################
+  ###
+  ### Show Help
+  ###
+  def show_help
+    puts <<-FULLHELP
+Update the JSS Network Segments from a delimited file of subnet information.
+
+#{USAGE}
+
+Options:
+ -d, --delimiter        - The field delimiter in the file, defaults to tab.
+ -c, --columns [col1,col2,col3]
+                        - The column order in file, must include 'name', 'starting',
+                            and either 'ending' or 'cidr'
+ -h, --header           - The first line of the file is a header line,
+                            possibly defining the columns
+ -m, --manual-prefix    - Network Segment names in the JSS with this prefix are ignored.
+                            Defaults to 'Manual-'
+ --cache /path/..       - Where read/save the input data for comparison between runs.
+                            Defaults to ~/.last_subnet_update
+ -S, --server srvr      - specify the JSS API server name
+ -P, --port portnum     - specify the JSS API port
+ -U, --user username    - specify the JSS API user
+ -V, --no-verify-cert   - Allow self-signed, unverified SSL certificate
+ -T, --timeout secs     - specify the JSS API timeout
+ -H, --help             - show this help
+ --debug                - show the ruby backtrace when errors occur
+
+This program parses the input file line by line (possibly accounting for a header line).
+Each line defines the name and IP-range of a subnet/network segment.
+
+- If a segment doesn't exist in the JSS, it is created.
+- If a segment's range has changed, it is updated in the JSS.
+- If a JSS segment doesn't exist in the file, it is deleted from the JSS
+  unless its name starts with the --manual-prefix
+
+Input File:
+  - The file must contain three columns, separated by the --delimiter,
+    with these names, in any order:
+    - 'name'  (the network segment name)
+    - 'starting' (the starting IP address of the network segment)
+    - EITHER of:
+      - 'ending' (the ending IP address of the network segment)
+      - 'cidr'  (the network range of the segment as a CIDR bitmask, e.g. '24')
+Notes:
+ - The --columns option is a comma-separted list of the three
+   column names aboveindicating the column-order in the file.
+
+ - If --columns are not provided, and --header is specified, the first line
+  is assumed to contain the column names, separated by the delimiter
+
+ - If --header is provided with --columns, the first line of the file is ignored.
+
+ - The raw data from the file is cached and compared to the input file at
+   the next run. If the data is identical, no JSS connection is made.
+
+ - If no API settings are provided, they will be read from /etc/jss_gem.conf
+   and ~/.jss_gem.conf. See the JSS Gem docs for details.
+
+ - The password for the connection will be read from STDIN or prompted if needed
+
+    FULLHELP
+    exit 0
+  end
+
+  ########################
+  # parse the incoming data file.
+  # If the file hasn't changed from the last time we processed it
+  # then return false
+  # otherwise parse it into @parsed_data and return true
+  # @parsed_data is an array of hashes, each with :name, :starting, and :ending
+  #
+  def parse_file
+
+    raise "'#{@file}' is not readable, or not a regular file" unless @file.readable? and @file.file?
+
+    # read in the file
+    @raw_data = @file.read
+
+    # compare it to the one we used last time
+    if @cache_file.readable?
+      return false if @raw_data == @cache_file.read
+    end
+
+    # split the data into an array by newlines
+    lines = @raw_data.split "\n"
+
+    # remove the first line if its a header, and parse it into the columns
+    # if needed
+    if @header
+      header = lines.shift
+      @columns ||= header.split(/\s*,\s*/).map{|c| c.to_sym}
+    end
+
+    # check some state
+    raise "Columns must include 'name' and 'starting'" unless @columns.include?(:name) and @columns.include?(:starting)
+    raise "Columns must include either 'ending' or 'cidr'" unless @columns.include?(:ending) or @columns.include?(:cidr)
+
+    @use_cidr = @columns.include? :cidr
+
+
+    # which columns are which in the file?
+    name = @columns.index :name
+    starting = @columns.index :starting
+    ending = @use_cidr ? @columns.index(:cidr) : @columns.index(:ending)
+
+    # split each line and convert it into a hash
+    @parsed_data = lines.map do |line|
+
+      parts = line.split(@delim).map{|f| f.strip }
+
+      unless parts[name] and parts[starting] and parts[ending]
+        puts "Skipping invalid line: #{line}"
+        next
+      end
+      {:name => parts[name], :starting => parts[starting], :ending => parts[ending]}
+    end
+
+    # parsed data is now an array of hashes
+    return true
+  end
+
+  #############################################
+  #############################################
+  # Update the JSS Network Segments from GIT_NETBLOCKS_URL, q.v.
+  def update_network_segments
+
+    # CREATE any that are in the parsed data but not yet in the JSS,
+    # and UPDATE any that exist but have modified ranges.
+    # While looping through, make a hash of JSS::NetworkSegment objects, keyed by their name.
+    segs_from_data = {}
+
+    @parsed_data.each do |pd|
+
+      # skip anthing with the manual prefix
+      next if pd[:name].start_with? @manual_prefix
+
+      ender =  @use_cidr ? :cidr : :ending_address
+
+      begin
+        this_seg =  JSS::NetworkSegment.new(:id => :new, :name => pd[:name], :starting_address => pd[:starting], ender => pd[:ending])
+
+        # If the new netsegment should have other settings (dist. point, netboot server, etc...)
+        # here's where you should apply those settings.
+
+        this_seg.create
+        puts "Added Network Segment '#{this_seg.name}' to the JSS"
+
+      # it already exists, so see if it needs any changes
+      rescue JSS::AlreadyExistsError
+
+        # there's already one with this name, so just grab it.
+        this_seg =  JSS::NetworkSegment.new( :name => pd[:name])
+
+        # does the startng addres need to be changed?
+        needs_update = this_seg.starting_address.to_s != pd[:starting].to_s
+
+        # even if we don't need to update the starting, we might need to update
+        # the ending...
+        unless needs_update
+          if @use_cidr
+            needs_update = this_seg.cidr.to_i != pd[:ending].to_i
+          else
+            needs_update = this_seg.ending_address.to_s != pd[:ending].to_s
+          end # if @use_cidr
+        end #unless needs update
+
+        # did we decide we need an update?
+        if needs_update
+          this_seg.starting_address = pd[:starting]
+          if @use_cidr
+            this_seg.cidr = pd[:ending].to_i
+          else
+            this_seg.ending_address = pd[:ending]
+          end # if @use_cidr
+          this_seg.update
+          puts "Updated IP range for Network Segment '#{this_seg.name}'"
+
+        else # doesn't need update
+          puts "Network Segment '#{this_seg.name}' doesn't have any changes."
+        end # if needs update
+
+      end # begin
+
+      segs_from_data[this_seg.name] = this_seg
+    end
+
+
+    # DELETE those in jss, but not in parsed data,
+    # unless the name starts with @manual_prefix
+    JSS::NetworkSegment.map_all_ids_to(:name).each do |id,name|
+
+      next if name.start_with? @manual_prefix
+
+      unless segs_from_data.keys.include? name
+        JSS::NetworkSegment.new(:id => id).delete
+        puts "Deleted Network Segment '#{name}' from the JSS"
+      end # unless
+
+    end # jss_uids.each seg
+
+    # save the data into a file for comparison next time
+    @cache_file.open('w'){|f| f.write @raw_data }
+
+    # all done
+    return true
+  end # update_network_segments
+
+end # app
+
+##############################
+# create the app and go
+begin
+  app = App.new(ARGV)
+  app.run
+rescue
+  # handle exceptions not handled elsewhere
+  puts "An error occurred: #{$!}"
+  puts "Backtrace:" if app.debug
+  puts $@ if app.debug
+
+ensure
+
+end

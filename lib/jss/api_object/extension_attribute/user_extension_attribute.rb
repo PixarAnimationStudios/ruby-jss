@@ -22,9 +22,8 @@ module JSS
   ### 
   ### A User extension attribute as defined in the JSS
   ###
-  ### See also the parent class JSS::ExtensionAttribute
-  ###
-  ### See also JSS::APIObject
+  ### @see JSS::ExtensionAttribute
+  ### @see JSS::APIObject
   ###
   class UserExtensionAttribute < JSS::ExtensionAttribute
     
@@ -56,6 +55,9 @@ module JSS
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::User
     
+    ### A criterion that will return all members of the TARGET_CLASS
+    ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Username", :search_type => "like", :value => '')
+    
     ######################
     ### Attributes
     ######################
@@ -78,7 +80,7 @@ module JSS
     ### for saving or updating
     ###
     def rest_xml
-      uea = self.rest_rexml  
+      uea = rest_rexml  
       doc = REXML::Document.new APIConnection::XML_HEADER
       doc << uea
       return doc.to_s

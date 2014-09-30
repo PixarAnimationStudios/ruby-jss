@@ -6,7 +6,7 @@
 <title>
   Class: String
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -94,71 +94,14 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/jss/ruby_extensions/string.rb</dd>
+    <dd class="r2 last">lib/jss/compatibility.rb<span class="defines">,<br />
+  lib/jss/ruby_extensions/string.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<p>Convert a string into a ruby DateTime object.</p>
 
-<p>The JSS API can take incoming timestamp data in three formats:</p>
-<ul><li>
-<p>plain date: YYYY-mm-dd HH:MM:SS, which is assumed to be in the local
-timezone</p>
-</li><li>
-<p>UTC date: <a href="http://+-">YYYY-mm-ddTHH:MM:SS.mmm</a>zzzz, the local
-time with milliseconds and the timezone offset</p>
-</li><li>
-<p>Unix epoch with milliseconds, nnnnnnnnnnnnn,  which like all epoch times,
-is UTC</p>
-</li></ul>
-
-<p>Here we extend String to parse the three formats into DateTime objects for
-use withing ruby.</p>
-
-<p>When reading from the API, all three formats are returned in different xml
-elements,  and the APIObjects in the gem will use the epoch format and the
-JSS.parse_datetime method (q.v.) to store  the data as a ruby DateTime. The
-real work of JSS.parse_datetime happens here in String#to_jss_datetime.</p>
-
-<p>If the string is all digits it is assumed to be a unix epoch timestamp must
-be 9, 10, 12, or 13 digits long.</p>
-<ul><li>
-<p>Nine or Ten digits is assumed to be a unix epoch without milliseconds.</p>
-</li><li>
-<p>Twelve or 13 digits is a unix epoch with milliseconds (as stored in the
-JSS).</p>
-</li></ul>
-
-<p>Any other length of pure digits will raise an error.</p>
-
-<p>Why?</p>
-<ul><li>
-<p>Less than 9, not using milliseconds, would be before Sat Mar 3 01:46:40 PST
-1973, which was before Casper existed.</p>
-</li><li>
-<p>Greater than 10, but not using milliseconds, would be around the year 2286</p>
-</li><li>
-<p>10 or 11, using milliseconds, would mean the non partial part would be
-before 1973</p>
-</li><li>
-<p>Greater than 13 would be beyond 2286 even with milliseconds.</p>
-</li></ul>
-
-<p>If not all digits, it is parsed with DateTime.parse, and if the resulting
-DateTime doesn’t  have timezone offset, the local offset is applied, to
-ensure all stored dates are known in relation to UTC.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -176,7 +119,7 @@ ensure all stored dates are known in relation to UTC.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_jss_datetime-instance_method" title="#to_jss_datetime (instance method)">- (Object) <strong>to_jss_datetime</strong> </a>
+      <a href="#force_encoding-instance_method" title="#force_encoding (instance method)">- (Object) <strong>force_encoding</strong>(args = nil) </a>
     
 
     
@@ -195,6 +138,31 @@ ensure all stored dates are known in relation to UTC.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_bool-instance_method" title="#to_bool (instance method)">- (Boolean<sup>?</sup>) <strong>to_bool</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert the strings “true” and “false”  (after stripping whitespace
+and downcasing) to TrueClass and FalseClass respectively.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -205,9 +173,9 @@ ensure all stored dates are known in relation to UTC.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="to_jss_datetime-instance_method">
+  <h3 class="signature first" id="force_encoding-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_jss_datetime</strong> 
+    - (<tt>Object</tt>) <strong>force_encoding</strong>(args = nil) 
   
 
   
@@ -219,75 +187,82 @@ ensure all stored dates are known in relation to UTC.</p>
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63</pre>
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/string.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/compatibility.rb', line 39</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_datetime identifier id'>to_jss_datetime</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span> <span class='match op'>=~</span> <span class='regexp val'>/^\d+$/</span>
-    <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
-      <span class='rubyid_when when kw'>when</span> <span class='float val'>9</span><span class='dot2 op'>..</span><span class='integer val'>10</span>
-        <span class='rubyid_return return kw'>return</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='string val'>'%s'</span><span class='rparen token'>)</span>
-      <span class='rubyid_when when kw'>when</span> <span class='float val'>12</span><span class='dot2 op'>..</span><span class='integer val'>13</span>
-        <span class='rubyid_return return kw'>return</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='string val'>'%Q'</span><span class='rparen token'>)</span>
-      <span class='rubyid_else else kw'>else</span> 
-        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Epoch times must have either 9-10 or 12-13 digits (without/with milliseconds)&quot;</span>
-    <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-  <span class='rubyid_end end kw'>end</span> <span class='comment val'># if digits</span>
-  
-  <span class='comment val'>### Parse the datetime from the string</span>
-  <span class='rubyid_the_dt identifier id'>the_dt</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
-  
-  <span class='comment val'>### if the UTC offset of the datetime is zero, make a new one with the correct local offset</span>
-  <span class='comment val'>### (which might also be zero if we happen to be in GMT)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_offset identifier id'>offset</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
-  
-    <span class='comment val'>### The milli/micro seconds are stored as a fraction of a day.</span>
-    <span class='comment val'>### Convert them to an integer of microseconds</span>
-    <span class='rubyid_usec identifier id'>usec</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_sec_fraction identifier id'>sec_fraction</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>24</span> <span class='mult op'>*</span> <span class='lparen token'>(</span><span class='integer val'>10</span><span class='pow op'>**</span><span class='integer val'>6</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_force_encoding identifier id'>force_encoding</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span> <span class='rubyid_self self kw'>self</span> <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
     
-    <span class='comment val'>### then add them to the secs to make a new fractional number of seconds</span>
-    <span class='rubyid_secs identifier id'>secs</span> <span class='assign token'>=</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_sec identifier id'>sec</span> <span class='plus op'>+</span> <span class='rubyid_Rational constant id'>Rational</span><span class='lparen token'>(</span><span class='rubyid_usec identifier id'>usec</span><span class='comma token'>,</span> <span class='integer val'>10</span><span class='pow op'>**</span><span class='integer val'>6</span><span class='rparen token'>)</span>
+      <div class="method_details ">
+  <h3 class="signature " id="to_bool-instance_method">
+  
+    - (<tt>Boolean</tt><sup>?</sup>) <strong>to_bool</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
     
-    <span class='rubyid_return return kw'>return</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_year identifier id'>year</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_month identifier id'>month</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_day identifier id'>day</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_hour identifier id'>hour</span><span class='comma token'>,</span> <span class='rubyid_the_dt identifier id'>the_dt</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span><span class='comma token'>,</span> <span class='rubyid_secs identifier id'>secs</span><span class='comma token'>,</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_TIME_ZONE_OFFSET constant id'>TIME_ZONE_OFFSET</span><span class='rparen token'>)</span>
+<p>Convert the strings “true” and “false”  (after stripping whitespace
+and downcasing) to TrueClass and FalseClass respectively</p>
+
+<p>Return nil if any other string.</p>
+
+
+  </div>
+</div>
+<div class="tags">
   
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_return return kw'>return</span> <span class='rubyid_the_dt identifier id'>the_dt</span>
-  <span class='rubyid_end end kw'>end</span>
+<p class="tag_title">Returns:</p>
+<ul class="return">
   
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the boolean value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/string.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_bool identifier id'>to_bool</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;true&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;false&quot;</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+    <span class='rubyid_else else kw'>else</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -300,7 +275,7 @@ ensure all stored dates are known in relation to UTC.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:12 2014 by
+  Generated on Tue Sep 30 15:58:44 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

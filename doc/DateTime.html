@@ -6,7 +6,7 @@
 <title>
   Class: DateTime
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -130,6 +130,13 @@ real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="String.html#to_jss_datetime-instance_method" title="String#to_jss_datetime (method)">String#to_jss_datetime</a></span></li>
+    
+  </ul>
+
 </div>
 
 
@@ -235,12 +242,12 @@ real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
       <pre class="lines">
 
 
-17
-18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span> <span class='string val'>'%Y-%m-%d %H:%M:%S'</span>
@@ -266,15 +273,15 @@ real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
       <pre class="lines">
 
 
-25
-26
-27</pre>
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_epoch identifier id'>to_jss_xml_epoch</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span> <span class='string val'>'%s%L'</span> <span class='comment val'># '%Q' - seems to be a bug in some calls to this.</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span> <span class='string val'>'%s%L'</span> <span class='comment val'># '%Q' - seems to be a bug in some calls to %Q.</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -297,12 +304,12 @@ real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_utc identifier id'>to_jss_xml_utc</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%dT%H:%M:%S.%L%z&quot;</span><span class='rparen token'>)</span>
@@ -318,7 +325,7 @@ real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:12 2014 by
+  Generated on Wed Aug 20 12:58:39 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

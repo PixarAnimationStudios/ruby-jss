@@ -1,89 +1,58 @@
 module JSS
-  
+
   #####################################
   ### Classes
   #####################################
-  
-  ### 
-  ### A peripheral_type in the JSS
+
   ###
-  ### See also JSS::APIObject
+  ### A peripheral_type in the JSS.
+  ###
+  ### A PeripheralType (as opposed to an individual {JSS::Peripheral}) is just an id, a name, and an Array of
+  ### Hashes describing the fields of data to be stored for peripherals of this type.
+  ###
+  ### See {#fields} for a desciption of how field definitions are stored.
+  ###
+  ### For manipulating the fields, see {#fields=}, {#set_field}, {#append_field}, {#prepend_field}, {#insert_field}, and {#delete_field}
+  ###
+  ### @see JSS::APIObject
   ###
   class PeripheralType  < JSS::APIObject
-    
+
     #####################################
     ### MixIns
     #####################################
 
     include JSS::Creatable
     include JSS::Updatable
-    
+
     #####################################
     ### Class Methods
     #####################################
-    
+
     #####################################
     ### Class Constants
     #####################################
-    
+
     ### The base for REST resources of this class
     RSRC_BASE = "peripheraltypes"
-    
+
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :peripheral_types
-    
+
     ### The hash key used for the JSON object output.
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :peripheral_type
-    
+
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:fields]
-    
+
     ### field types can be one of these, either String or Symbol
     FIELD_TYPES = [:text, :menu]
-    
+
     #####################################
     ### Attributes
     #####################################
-    
-    ### :fields - an Array of (mostly) Hashes 
-    ### The field definitions for this type of periph,
-    ### in the order in which the fields appear in the Periph UI
-    ### The first element of the hash is always nil, so that the one-based
-    ### :order of the field matches it's Array index.
-    ###
-    ### Each hash has these keys about the field it describes
-    ###   :name - String, the name of the field
-    ###   :type - String, the kind of data to be stored in the field, one of "text" or "menu"
-    ###   :choices - Array of Strings - if type is "menu" these are the menu choices.
-    ###   :order - the one-based number of this field amid it's peers.
-    ###
-    ### Fields come from the API as an array of hashes, with those keys.
-    ### Since Arrays are zero-based, and the field order is one-based, keeping 
-    ### a nil at the front of the Array will keep the order number in sync with the
-    ### Array index of each field.This is done automatically by the field-editing 
-    ### methods. #fields=, #set_field, #append_field, #prepend_field, #insert_field
-    ### and #delete_field.
-    ###
-    ### So the Array from the API comes like this:
-    ### [ {:type=>"text", :order=>1, :choices=>[], :name=>"make"},
-    ###   {:type=>"text", :order=>2, :choices=>[], :name=>"model"},
-    ###   {:type=>"text", :order=>3, :choices=>[], :name=>"family"},
-    ###   {:type=>"text", :order=>4, :choices=>[], :name=>"serialnum"} ]
-    ###
-    ### But will be stored in Ruby like this:
-    ### [ nil,
-    ###   {:type=>"text", :order=>1, :choices=>[], :name=>"make"},
-    ###   {:type=>"text", :order=>2, :choices=>[], :name=>"model"},
-    ###   {:type=>"text", :order=>3, :choices=>[], :name=>"family"},
-    ###   {:type=>"text", :order=>4, :choices=>[], :name=>"serialnum"} ]
-    ###
-    ### therefore @fields[2] will get you the second field, which has :order => 2.
-    ###
-    attr_reader :fields
-    
-  
-    
+
     #####################################
     ### Instance Methods
     #####################################
@@ -92,18 +61,59 @@ module JSS
     ### Initialize
     ###
     def initialize (args = {})
-      
+
       super
-      
+
       @fields = []
-      @init_data[:fields].each{ |f|  @fields[f[:order]] = f }
-      
+      if @init_data[:fields]
+        @init_data[:fields].each{ |f|  @fields[f[:order]] = f }
+      end
     end # initialize
-    
+
+    ### The definitions of the fields stored for this peripheral type.
     ###
-    ### provide a whole new Array of fields
-    ### The :order of each will be set based on the indexes of the 
+    ### Each Hash defines a field of data to store. The keys are:
+    ### - :name, String, the name of the field
+    ### - :type, String or Symbol, the kind of data to be stored in the field, either :text or :menu
+    ### - :choices, Array of Strings - if type is :menu, these are the menu choices.
+    ### - :order, the one-based index of this field amongst it's peers.
+    ###
+    ### Since Arrays are zero-based, and the field order is one-based, keeping
+    ### a nil at the front of the Array will keep the :order number in sync with the
+    ### Array index of each field definition. This is done automatically by the field-editing
+    ### methods: {#fields=}, {#set_field}, {#append_field}, {#prepend_field}, {#insert_field},
+    ### and {#delete_field}.
+    ###
+    ### So the Array from the API comes like this:
+    ###   [ {:type=>"text", :order=>1, :choices=>[], :name=>"make"},
+    ###     {:type=>"text", :order=>2, :choices=>[], :name=>"model"},
+    ###     {:type=>"text", :order=>3, :choices=>[], :name=>"family"},
+    ###     {:type=>"text", :order=>4, :choices=>[], :name=>"serialnum"} ]
+    ### But will be stored in a PeripheralType instance like this:
+    ###   [ nil,
+    ###     {:type=>"text", :order=>1, :choices=>[], :name=>"make"},
+    ###     {:type=>"text", :order=>2, :choices=>[], :name=>"model"},
+    ###     {:type=>"text", :order=>3, :choices=>[], :name=>"family"},
+    ###     {:type=>"text", :order=>4, :choices=>[], :name=>"serialnum"} ]
+    ###
+    ### therefore
+    ###   myPerifType.fields[2]
+    ### will get you the second field, which has :order => 2.
+    ###
+    ### @return [Array<Hash>] The field definitions
+    ###
+    def fields
+      @fields
+    end
+
+    ###
+    ### Replace the entire Array of field definitions.
+    ### The :order of each will be set based on the indexes of the
     ### Array provided.
+    ###
+    ### @param new_fields[Array<Hash>] the new field definitions
+    ###
+    ### @return [void]
     ###
     def fields= (new_fields)
       unless new_fields.kind_of? Array and  new_fields.reject{|c| c.kind_of? Hash }.empty?
@@ -111,74 +121,97 @@ module JSS
       end
       raise "A peripheral type can have a maximmum of 20 fields"  if new_fields.count > 20
       new_fields.each{ |f| field_ok? f }
-      @fields = new_fields  
+      @fields = new_fields
       order_fields
+      @need_to_update = true
     end
-     
+
     ###
-    ### Change the details of one specific field
-    ### The args are the fild number (:order) of the field being changed.
-    ### and the new field hash to put there.
-    ### The number must already exist. Otherwise use
-    ### #append_field, #prepend_field, or #insert_field
+    ### Replace the details of one specific field.
     ###
-    def set_field(order, field)
+    ### The order must already exist. Otherwise use
+    ### {#append_field}, {#prepend_field}, or {#insert_field}
+    ###
+    ### @param order[Integer] which field are we replacing?
+    ###
+    ### @param field[Hash] the new field data
+    ###
+    ### @return [void]
+    ###
+    def set_field(order, field = {})
       raise JSS::NoSuchItemError, "No field with number '#{order}'. Use #append_field, #prepend_field, or #insert_field" unless @fields[order]
       field_ok? field
       @fields[order] = field
+      @need_to_update = true
     end
-    
+
     ###
     ### Add a new field to the end of the field list
-    ### The arg is a Hash of the details of the field being added
     ###
-    def append_field(field)
+    ### @param field[Hash] the new field data
+    ###
+    ### @return [void]
+    ###
+    def append_field(field = {})
       field_ok? field
       @fields << field
       order_fields
+      @need_to_update = true
     end
-    
+
     ###
     ### Add a new field to the beginning of the field list
-    ### The arg is a Hash of the details of the field being added
     ###
-    def prepend_field(field)
+    ### @param field[Hash] the new field data
+    ###
+    ### @return [void]
+    ###
+    def prepend_field(field = {})
       field_ok? field
       @fields.unshift field
       order_fields
+      @need_to_update = true
     end
-    
+
     ###
-    ### Add a new field to the middle of the fields list
-    ### The args are the field number before which to insert the new one,
-    ### and then the hash of field data
+    ### Add a new field to the middle of the fields Array.
     ###
-    def insert_field(at,field)
+    ### @param order[Integer] where does the new field go?
+    ###
+    ### @param field[Hash] the new field data
+    ###
+    ### @return [void]
+    ###
+    def insert_field(order,field = {})
       field_ok? field
       @fields.insert((order -1), field)
       order_fields
+      @need_to_update = true
     end
-    
+
     ###
     ### Remove a field from the array of fields.
-    ### The arg is the field *order*, as it comes from the API, 
-    ### which will match the array index.
+    ###
+    ### @param order[Integer] which field to remove?
+    ###
+    ### @return [void]
     ###
     def delete_field(order)
       if @fields[order]
         raise JSS::MissingDataError, "Fields can't be empty" if @fields.count == 1
         @fields.delete_at index
         order_fields
+        @need_to_update = true
       end
     end
-    
-  
-    
+
+
+
     ##############################
     ### private methods
     ##############################
-    ###private
-    
+    private
+
     ###
     ### is a Hash of field data OK for use in the JSS?
     ### Return true or raise an exception
@@ -187,7 +220,7 @@ module JSS
       raise JSS::InvalidDataError, "Field elements must be hashes with :name, :type, and possibly :choices" unless field.kind_of? Hash
       raise JSS::InvalidDataError, "Fields require names" if field[:name].to_s.empty?
       raise JSS::InvalidDataError, "Fields :type must be one of: :#{FIELD_TYPES.join(', :')}" unless FIELD_TYPES.include? field[:type].to_sym
-      
+
       if field[:type].to_sym == :menu
         unless field[:choices].kind_of? Array and  field[:choices].reject{|c| c.kind_of? String}.empty?
           raise JSS::InvalidDataError, "Choices for menu fields must be an Array of Strings"
@@ -197,7 +230,7 @@ module JSS
       end # if type -- menu
       true
     end # def field ok?
-    
+
     ###
     ### Close up gaps in the field order, and make each field's :order match it's array index
     ###
@@ -206,8 +239,8 @@ module JSS
       @fields.each_index{|i| @fields[i][:order] = i+1}
       @fields.unshift nil
     end
-    
-    
+
+
     ###
     ###
     ###
@@ -232,6 +265,6 @@ module JSS
       end # each index do i
       return doc.to_s
     end # rest xml
-    
+
   end # class Peripheral
 end # module

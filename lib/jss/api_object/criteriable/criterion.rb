@@ -1,41 +1,42 @@
 module JSS
 
-
-
   module Criteriable
+
     #####################################
     ### Module Variables
     #####################################
-  
+
     #####################################
     ### Module Methods
     #####################################
-    
+
     #####################################
     ### Classes
     #####################################
-  
+
     ### This class defines a single criterion used in advanced searches and
-    ### smart groups throughout the JSS module. 
+    ### smart groups throughout the JSS module.
     ###
-    ### They are used within JSS::Criteriable::Criteria instances which store an 
+    ### They are used within {JSS::Criteriable::Criteria} instances which store an
     ### array of these objects and provides methods for working with them as a group.
     ###
-    ### The classes that mix-in JSS::Criteriable each have a :criteria attribute which
-    ### holds one JSS::Criteriable::Criteria
+    ### The classes that mix-in {JSS::Criteriable} each have a :criteria attribute which
+    ### holds one {JSS::Criteriable::Criteria}
+    ###
+    ### See {JSS::Criteriable} for examples
     ###
     class Criterion
-      
+
       #####################################
       ### Mix Ins
       #####################################
-      
+
       include Comparable  # this allows us compare instances using <=>
-      
+
       #####################################
       ### Class Constants
       #####################################
-      
+
       ### These are the available search-types for building criteria
       SEARCH_TYPES = [
         "is",
@@ -49,115 +50,143 @@ module JSS
         "before (yyyy-mm-dd)",
         "after (yyyy-mm-dd)",
         "more than x days ago",
-        "less than x days ago"
+        "less than x days ago",
+        "in more than x days",
+        "in less than x days",
+        "member of",
+        "not member of",
+        "current",
+        "not current"
       ]
-      
+
+      ### the acceptable symboles for and/or
       AND_OR = [:and, :or]
-      
+
       #####################################
       ### Attributes
       #####################################
-      
-      ### Integer - zero-based index of this criterion within an array of criteria
-      ### used for an advanced search or smart group. 
-      ### This is maintained automaticaly by the enclosing Criteria object
+
+      ### @return [Integer] zero-based index of this criterion within an array of criteria
+      ###  used for an advanced search or smart group.
+      ###  This is maintained automaticaly by the enclosing Criteria object
       attr_accessor :priority
-      
-      ### Symbol - the and_or value for associating this criterion with the previous one
-      ### in a set of criteria. Either :and or :or
+
+      ### @return [Symbol] :and or :or - the and_or value for associating this criterion with the previous one
       attr_reader :and_or
-      
-      ### String - the name of the field being searched
+
+      ### @return [String] the name of the field being searched
       attr_accessor :name
-      
-      ### String - the comparator between the field and the value, must be one of SEARCH_TYPES
-      ### See #criteria= for details
+
+      ### @return [String] the comparator between the field and the value, must be one of SEARCH_TYPES
+      ### @see #criteria=
       attr_reader :search_type
-      
-      ### String - the value being searched for in the field named by :name
-      attr_accessor :value
-      
+
+      ### @return [String] the value being searched for in the field named by :name
+      attr_reader :value
+
       ###
-      ### @param args[Hash] potential keys are
-      ###  * :and_or [String, Symbol] :and, or :or. How should this criterion be join with its predecessor
-      ###  * :name [String] the name of a Criterion as is visible in the JSS webapp.
-      ###  * :search_type [String] one of SEARCH_TYPES, the comparison between the stored value and :value
-      ###  * :value [String] the value to compare with that stored for :name
+      ### @param args[Hash] a hash of settings for the new criterion
+      ### @option args :and_or [String, Symbol] :and, or :or. How should this criterion be join with its predecessor?
+      ### @option args :name [String] the name of a Criterion as is visible in the JSS webapp.
+      ### @option args :search_type [String] one of SEARCH_TYPES, the comparison between the stored value and :value
+      ### @option args :value [String] the value to compare with that stored for :name
       ###
       ### @note :priority is maintained by the JSS::Criteriable::Criteria object holding this instance
       ###
       def initialize(args = {})
-        
+
         @priority = args[:priority]
-        
+
         if args[:and_or]
           @and_or = args[:and_or].to_sym
           raise JSS::InvalidDataError, ":and_or must be 'and' or 'or'." unless AND_OR.include? @and_or
-        end  
-        
+        end
+
         @name = args[:name]
-        
+
         if args[:search_type]
           raise JSS::InvalidDataError, "Invalid :search_type" unless SEARCH_TYPES.include? args[:search_type]
           @search_type = args[:search_type]
         end
-        
+
         @value = args[:value]
       end # init
-      
+
       ###
-      ### set a new and_or value
+      ### Set a new and_or for the criteron
+      ###
+      ### @param new_val[Symbol] the new and_or
+      ###
+      ### @return [void]
       ###
       def and_or= (new_val)
         @and_or = new_val.to_sym
         raise JSS::InvalidDataError, ":and_or must be 'and' or 'or'." unless AND_OR.include? @and_or.to_sym
       end
-      
+
       ###
-      ### set a new search type
+      ### Set a new search type for the criteron
+      ###
+      ### @param new_val[String] the new search type
+      ###
+      ### @return [void]
       ###
       def search_type= (new_val)
         raise JSS::InvalidDataError, "Invalid :search_type" unless SEARCH_TYPES.include? new_val
-        check_search_type(new_val)
         @search_type = new_val
       end
-      
+
       ###
-      ### check the format of the search type
-      ### raise an exception if there's a problem
+      ### Set a new value for the criteron
       ###
-      def check_search_type(new_val)
-        case new_val
-          
+      ### @param new_val[Integer,String] the new value
+      ###
+      ### @return [void]
+      ###
+      def value=(new_val)
+        case @search_type
+
           when *["more than", "less than", "more than x days ago", "less than x days ago"]
-            raise JSS::InvalidDataError, "Value must be an integer for search type '#{new_val}'" unless criterion[:value] =~ /^\d+$/
-          
+            raise JSS::InvalidDataError, "Value must be an integer for search type '#{new_val}'" unless new_val =~ /^\d+$/
+
           when *["before (yyyy-mm-dd)", "after (yyyy-mm-dd)"]
             raise JSS::InvalidDataError, "Value must be a a date in the format yyyy-mm-dd for search type '#{new_val}'"  unless new_val =~ /^\d\d\d\d-\d\d-\d\d$/
-        
+
         end # case
+
+        @value = new_val
+
       end
-      
+
       ###
-      ### Return a Array - all our values except priority, for comparing this
-      ### Criterion to another for equality
+      ### @return [String] All our values except priority joined together
+      ###   for comparing this Criterion to another for equality and order
+      ###
+      ### @see #<=>
       ###
       def signature
-        [@and_or, @name, @search_type, @value]
+        [@and_or, @name, @search_type, @value].join ","
       end
-      
-      
+
+
       ###
       ### Comparison - allows the Comparable module to do its work
+      ###
+      ### @return [Integer]  -1, 0, or 1
+      ###
+      ### @see Comparable
       ###
       def <=>(other)
         self.signature <=> other.signature
       end
-      
+
       ###
-      ### return the xml element for the criterion, to be embeded in that of 
-      ### a Criteria instance
-      ### NOTE: for this class, this can't be a private method.
+      ### @api private
+      ###
+      ### @return [REXML::Element] The xml element for the criterion, to be embeded in that of
+      ###   a Criteria instance
+      ###
+      ### @note For this class, rest_xml can't be a private method.
       ###
       def rest_xml
         crn = REXML::Element.new 'criterion'
@@ -167,8 +196,8 @@ module JSS
         crn.add_element('search_type').text = @search_type
         crn.add_element('value').text = @value
         return crn
-     end 
-      
+     end
+
     end # class criterion
-  end # module Criteriable  
+  end # module Criteriable
 end # module

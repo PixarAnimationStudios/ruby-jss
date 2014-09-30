@@ -6,7 +6,7 @@
 <title>
   Class: JSS::NetBootServer
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -96,7 +96,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/jss/api_object/netboot_server.rb</dd>
+    <dd class="r2 last">lib/jss/api_object/netboot_server.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -106,13 +108,20 @@
     
 <p>A NetBoot Server in the JSS</p>
 
-<p>See also JSS::APIObject</p>
+<p>Only minimally implemented, mostly for access to the APIObject list methods</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -194,12 +203,6 @@ for this class</p>
 
 
 
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
-
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -207,7 +210,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#boot_args-instance_method" title="#boot_args (instance method)">- (Object) <strong>boot_args</strong> </a>
+      <a href="#boot_args-instance_method" title="#boot_args (instance method)">- (String) <strong>boot_args</strong> </a>
     
 
     
@@ -227,7 +230,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Attributes.</p>
+<p>The nvram/bless args.</p>
 </div></span>
   
 </li>
@@ -236,7 +239,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#boot_device-instance_method" title="#boot_device (instance method)">- (Object) <strong>boot_device</strong> </a>
+      <a href="#boot_device-instance_method" title="#boot_device (instance method)">- (String) <strong>boot_device</strong> </a>
     
 
     
@@ -256,7 +259,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String, the nvram/bless args.</p>
+<p>The nvram/bless args.</p>
 </div></span>
   
 </li>
@@ -265,7 +268,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#boot_file-instance_method" title="#boot_file (instance method)">- (Object) <strong>boot_file</strong> </a>
+      <a href="#boot_file-instance_method" title="#boot_file (instance method)">- (String) <strong>boot_file</strong> </a>
     
 
     
@@ -285,7 +288,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String, the nvram/bless args.</p>
+<p>The nvram/bless args.</p>
 </div></span>
   
 </li>
@@ -294,7 +297,34 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#configure_manually-instance_method" title="#configure_manually (instance method)">- (Object) <strong>configure_manually</strong> </a>
+      <a href="#configure_manually-instance_method" title="#configure_manually (instance method)">- (Boolean) <strong>configure_manually</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_image-instance_method" title="#default_image (instance method)">- (boolean) <strong>default_image</strong> </a>
     
 
     
@@ -314,7 +344,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean.</p>
+<p>Is this one default?.</p>
 </div></span>
   
 </li>
@@ -323,11 +353,16 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#default_image-instance_method" title="#default_image (instance method)">- (Object) <strong>default_image</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
     
 
     
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -343,7 +378,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>boolean, is thisone default?.</p>
+<p>The JSS id number.</p>
 </div></span>
   
 </li>
@@ -352,7 +387,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#image-instance_method" title="#image (instance method)">- (Object) <strong>image</strong> </a>
+      <a href="#image-instance_method" title="#image (instance method)">- (String) <strong>image</strong> </a>
     
 
     
@@ -372,7 +407,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String, the actual dmg name , eg “NetBoot.dmg”.</p>
+<p>The actual dmg name , eg “NetBoot.dmg”.</p>
 </div></span>
   
 </li>
@@ -381,11 +416,18 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (Object) <strong>ip_address</strong> </a>
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
     
 
     
+      (also: #in_jss?)
+    
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -401,7 +443,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String.</p>
+<p>Is it in the JSS?.</p>
 </div></span>
   
 </li>
@@ -410,7 +452,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#protocol-instance_method" title="#protocol (instance method)">- (Object) <strong>protocol</strong> </a>
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (String) <strong>ip_address</strong> </a>
     
 
     
@@ -430,7 +472,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String “nfs” or “http”.</p>
+<p>The server’s IP address.</p>
 </div></span>
   
 </li>
@@ -439,11 +481,16 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set-instance_method" title="#set (instance method)">- (Object) <strong>set</strong> </a>
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
     
 
     
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -459,7 +506,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String, the nbi folder “MetroNB-dhoffman-10.9.3-1063.nbi”.</p>
+<p>The name.</p>
 </div></span>
   
 </li>
@@ -468,7 +515,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#share_point-instance_method" title="#share_point (instance method)">- (Object) <strong>share_point</strong> </a>
+      <a href="#protocol-instance_method" title="#protocol (instance method)">- (String) <strong>protocol</strong> </a>
     
 
     
@@ -488,7 +535,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String the tftp/protocol sharepoint name “NetBootSP0”.</p>
+<p>“nfs” or “http”.</p>
 </div></span>
   
 </li>
@@ -497,11 +544,16 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#specific_image-instance_method" title="#specific_image (instance method)">- (Object) <strong>specific_image</strong> </a>
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
     
 
     
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -517,7 +569,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean.</p>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
 </div></span>
   
 </li>
@@ -526,7 +578,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#target_platform-instance_method" title="#target_platform (instance method)">- (Object) <strong>target_platform</strong> </a>
+      <a href="#set-instance_method" title="#set (instance method)">- (String) <strong>set</strong> </a>
     
 
     
@@ -546,7 +598,92 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String e.g.“Intel/x86”,.</p>
+<p>The nbi folder “MetroNB-test-10.9.3-1063.nbi”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#share_point-instance_method" title="#share_point (instance method)">- (String) <strong>share_point</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The tftp/protocol sharepoint name, usually “NetBootSP0”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#specific_image-instance_method" title="#specific_image (instance method)">- (Boolean) <strong>specific_image</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#target_platform-instance_method" title="#target_platform (instance method)">- (String) <strong>target_platform</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>E.g.“Intel/x86”.</p>
 </div></span>
   
 </li>
@@ -555,11 +692,6 @@ for this class</p>
   </ul>
 
 
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -601,16 +733,7 @@ for this class</p>
 
 
   
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -639,25 +762,25 @@ for this class</p>
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87</pre>
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -691,7 +814,7 @@ for this class</p>
       <div class="method_details first">
   <h3 class="signature first" id="boot_args-instance_method">
   
-    - (<tt>Object</tt>) <strong>boot_args</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>boot_args</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -700,13 +823,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Attributes</p>
+<p>Returns the nvram/bless args</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the nvram/bless args</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -714,12 +855,12 @@ for this class</p>
       <pre class="lines">
 
 
-51
-52
-53</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_boot_args identifier id'>boot_args</span>
   <span class='rubyid_@boot_args ivar id'>@boot_args</span>
@@ -735,7 +876,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="boot_device-instance_method">
   
-    - (<tt>Object</tt>) <strong>boot_device</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>boot_device</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -744,13 +885,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String, the nvram/bless args</p>
+<p>Returns the nvram/bless args</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the nvram/bless args</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -758,12 +917,12 @@ for this class</p>
       <pre class="lines">
 
 
-52
-53
-54</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_boot_device identifier id'>boot_device</span>
   <span class='rubyid_@boot_device ivar id'>@boot_device</span>
@@ -779,7 +938,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="boot_file-instance_method">
   
-    - (<tt>Object</tt>) <strong>boot_file</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>boot_file</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -788,13 +947,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String, the nvram/bless args</p>
+<p>Returns the nvram/bless args</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the nvram/bless args</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -802,12 +979,12 @@ for this class</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_boot_file identifier id'>boot_file</span>
   <span class='rubyid_@boot_file ivar id'>@boot_file</span>
@@ -823,7 +1000,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="configure_manually-instance_method">
   
-    - (<tt>Object</tt>) <strong>configure_manually</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>configure_manually</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -832,13 +1009,24 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -846,12 +1034,12 @@ for this class</p>
       <pre class="lines">
 
 
-54
-55
-56</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_configure_manually identifier id'>configure_manually</span>
   <span class='rubyid_@configure_manually ivar id'>@configure_manually</span>
@@ -867,7 +1055,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="default_image-instance_method">
   
-    - (<tt>Object</tt>) <strong>default_image</strong>  <span class="extras">(readonly)</span>
+    - (<tt>boolean</tt>) <strong>default_image</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -876,13 +1064,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>boolean, is thisone default?</p>
+<p>Returns is this one default?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this one default?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -890,12 +1096,12 @@ for this class</p>
       <pre class="lines">
 
 
-55
-56
-57</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_image identifier id'>default_image</span>
   <span class='rubyid_@default_image ivar id'>@default_image</span>
@@ -909,9 +1115,57 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="image-instance_method">
   
-    - (<tt>Object</tt>) <strong>image</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>image</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -920,13 +1174,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String, the actual dmg name , eg “NetBoot.dmg”</p>
+<p>Returns the actual dmg name , eg “NetBoot.dmg”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the actual dmg name , eg “NetBoot.dmg”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -934,12 +1206,12 @@ for this class</p>
       <pre class="lines">
 
 
-56
-57
-58</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_image identifier id'>image</span>
   <span class='rubyid_@image ivar id'>@image</span>
@@ -953,9 +1225,61 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="ip_address-instance_method">
   
-    - (<tt>Object</tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -964,13 +1288,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String</p>
+<p>Returns the server’s IP address</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the server’s IP address</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -978,12 +1320,12 @@ for this class</p>
       <pre class="lines">
 
 
-57
-58
-59</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ip_address identifier id'>ip_address</span>
   <span class='rubyid_@ip_address ivar id'>@ip_address</span>
@@ -997,9 +1339,57 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="protocol-instance_method">
   
-    - (<tt>Object</tt>) <strong>protocol</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>protocol</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1008,13 +1398,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String “nfs” or “http”</p>
+<p>Returns “nfs” or “http”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>“nfs” or “http”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1022,12 +1430,12 @@ for this class</p>
       <pre class="lines">
 
 
-58
-59
-60</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 76</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_protocol identifier id'>protocol</span>
   <span class='rubyid_@protocol ivar id'>@protocol</span>
@@ -1041,9 +1449,58 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="set-instance_method">
   
-    - (<tt>Object</tt>) <strong>set</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>set</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1052,13 +1509,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String, the nbi folder “MetroNB-dhoffman-10.9.3-1063.nbi”</p>
+<p>Returns the nbi folder “MetroNB-test-10.9.3-1063.nbi”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the nbi folder “MetroNB-test-10.9.3-1063.nbi”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1066,12 +1541,12 @@ for this class</p>
       <pre class="lines">
 
 
-59
-60
-61</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span>
   <span class='rubyid_@set ivar id'>@set</span>
@@ -1087,7 +1562,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="share_point-instance_method">
   
-    - (<tt>Object</tt>) <strong>share_point</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>share_point</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1096,13 +1571,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String the tftp/protocol sharepoint name “NetBootSP0”</p>
+<p>Returns the tftp/protocol sharepoint name, usually “NetBootSP0”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the tftp/protocol sharepoint name, usually “NetBootSP0”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1110,12 +1603,12 @@ for this class</p>
       <pre class="lines">
 
 
-60
-61
-62</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_share_point identifier id'>share_point</span>
   <span class='rubyid_@share_point ivar id'>@share_point</span>
@@ -1131,7 +1624,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="specific_image-instance_method">
   
-    - (<tt>Object</tt>) <strong>specific_image</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>specific_image</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1140,13 +1633,24 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1154,12 +1658,12 @@ for this class</p>
       <pre class="lines">
 
 
-61
-62
-63</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_specific_image identifier id'>specific_image</span>
   <span class='rubyid_@specific_image ivar id'>@specific_image</span>
@@ -1175,7 +1679,7 @@ for this class</p>
       <div class="method_details ">
   <h3 class="signature " id="target_platform-instance_method">
   
-    - (<tt>Object</tt>) <strong>target_platform</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>target_platform</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1184,13 +1688,31 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String e.g.“Intel/x86”,</p>
+<p>Returns e.g.“Intel/x86”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>e.g.“Intel/x86”</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1198,12 +1720,12 @@ for this class</p>
       <pre class="lines">
 
 
-62
-63
-64</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/netboot_server.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_target_platform identifier id'>target_platform</span>
   <span class='rubyid_@target_platform ivar id'>@target_platform</span>
@@ -1220,7 +1742,7 @@ for this class</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:13 2014 by
+  Generated on Tue Sep 30 15:58:35 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

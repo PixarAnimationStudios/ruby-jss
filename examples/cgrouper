@@ -1,0 +1,467 @@
+#!/usr/bin/ruby
+
+# Create or change the membership of a computer group in the JSS
+
+
+# Load in the JSS library
+#require 'jss'
+
+# TESTING
+require 'pixar/pixar'
+#require "/Users/chrisl/Box Sync/chrisl_WFH/jss/jssgem/lib/jss.rb"
+require "/Users/chrisl/Dropbox/Workish/jssGem/jss/jssgem/lib/jss.rb"
+
+# Load other libs
+require 'getoptlong'
+require 'ostruct'
+
+class App
+
+  #####################################
+  ###
+  ### Constants
+  ###
+  USAGE = "Usage: #{File.basename($0)} [-LsmcdlarRC] [--help] [-n newname]
+       [-S server] [-U user] [-T timeout] [-V] [--debug]
+       group [-f /file/path ] [computer [computer ...]]"
+
+  ACTIONS_NEEDING_GROUP = [ :create_group, :rename_group, :delete_group, :add_members, :remove_members, :remove_all, :list_members]
+
+  ACTIONS_FOR_STATIC_GROUPS_ONLY = [:create_group, :add_members, :remove_members, :remove_all]
+
+  #####################################
+  ### Attributes
+
+  attr_reader :debug
+
+  #####################################
+  ###
+  ### set up
+  ###
+  def initialize(args)
+
+    @debug = false
+
+    # define the options
+    cli_opts = GetoptLong.new(
+      [ '--help', '-h', '-H', GetoptLong::NO_ARGUMENT ],
+      [ '--list-groups', '-L',  GetoptLong::NO_ARGUMENT ],
+      [ '--list-static', '-s',  GetoptLong::NO_ARGUMENT ],
+      [ '--list-smart', '-m',  GetoptLong::NO_ARGUMENT ],
+      [ '--create-group', '--create', '-c', GetoptLong::NO_ARGUMENT ],
+      [ '--rename-group', '--rename', '-n', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--delete-group', '--delete', '-d', GetoptLong::NO_ARGUMENT ],
+      [ '--list-members', '--list-computers', '-l', GetoptLong::NO_ARGUMENT ],
+      [ '--add-members', '--add', '-a', GetoptLong::NO_ARGUMENT ],
+      [ '--remove-members', '--remove', '-r', GetoptLong::NO_ARGUMENT ],
+      [ '--remove-all-members', '-R', GetoptLong::NO_ARGUMENT ],
+      [ '--file', '-f', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--server', '-S', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--port', '-P', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--user', '-U', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--no-verify-cert', '-V', GetoptLong::NO_ARGUMENT],
+      [ '--timeout', '-T', GetoptLong::OPTIONAL_ARGUMENT],
+      [ '--no-confirm', '-C', GetoptLong::NO_ARGUMENT],
+      [ '--debug', GetoptLong::NO_ARGUMENT]
+    )
+
+    # here's where we hold cmdline args and other user options
+    @options = OpenStruct.new
+
+    # set defaults
+    @options.action = :none
+
+    # if stdin is not a tty, then we must assume
+    # we're being passed a password
+    @options.getpass =  $stdin.tty? ? :prompt : :stdin
+
+    # parse the options
+    cli_opts.each do |opt, arg|
+      case opt
+        when '--help'
+          show_help
+
+        when '--list-groups'
+          @options.action = :list_groups
+
+        when '--list-static'
+          @options.action = :list_static
+
+        when '--list-smart'
+          @options.action = :list_smart
+
+        when '--list-members'
+          @options.action = :list_members
+
+        when '--create-group'
+          @options.action = :create_group
+
+        when '--rename-group'
+          @options.action = :rename_group
+          @options.new_name = arg
+
+        when '--delete-group'
+          @options.action = :delete_group
+
+        when '--add-members'
+          @options.action = :add_members
+
+        when '--remove-members'
+          @options.action = :remove_members
+
+        when '--remove-all-members'
+          @options.action = :remove_all
+
+        when '--file'
+          @options.input_file = Pathname.new arg
+
+        when '--server'
+          @options.server = arg
+
+        when '--port'
+          @options.port = arg
+
+        when '--user'
+          @options.user = arg
+
+        when '--no-verify-cert'
+          @options.verify_cert = false
+
+        when '--timeout'
+          @options.timeout = arg
+
+        when '--no-confirm'
+          @options.no_confirm = true
+
+        when '--debug'
+          @debug = true
+
+      end # case
+    end # opts.each
+
+    @options.group = ARGV.shift
+
+    # if we were given a file of computer names, read it in
+    @options.computers = @options.input_file ? get_computers_from_file : []
+
+    # and add any computers on the commandline
+    @options.computers += ARGV
+
+    # will we say anything when finished?
+    @done_msg = nil
+
+  end # init
+
+
+
+  #####################################
+  ###
+  ### Do It
+  ###
+  def run
+
+    if @options.action == :none
+      puts USAGE
+      return
+    end
+
+    # use any config settings defined....
+    @options.user ||= JSS::CONFIG.api_username
+    @options.server ||= JSS::CONFIG.api_server_name
+
+    raise JSS::MissingDataError, "No JSS Username provided or found in the JSS gem config." unless @options.user
+    raise JSS::MissingDataError, "No JSS Server provided or found in the JSS gem config." unless @options.server
+
+    JSS::API.connect( :server => @options.server,
+      :port => @options.port,
+      :verify_cert => @options.verify_cert,
+      :user => @options.user,
+      :pw => @options.getpass,
+      :stdin_line => 1,
+      :timeout => @options.timeout
+    )
+
+
+    if ACTIONS_NEEDING_GROUP.include? @options.action
+
+      raise JSS::MissingDataError, "Please specify a group name" unless @options.group
+
+     # get the group from the API
+      if @options.action == :create_group
+        @group = JSS::ComputerGroup.new :id => :new, :name => @options.group, :type => :static
+      else
+        @group = JSS::ComputerGroup.new :name => @options.group
+      end
+
+    end # if ACTIONS_NEEDING_GROUP
+
+    # smart groups can't have some things done to them
+    raise InvalidTypeError, "You can't do that to a smart group. Use the JSS WebApp if needed." if ACTIONS_FOR_STATIC_GROUPS_ONLY.include? @options.action and @group.smart?
+
+
+    case @options.action
+
+      when :list_groups
+        list_groups
+
+      when :list_static
+        list_groups :static
+
+      when :list_smart
+        list_groups :smart
+
+      when :list_members
+        list_members
+
+      when :create_group
+        create_group
+
+      when :rename_group
+        rename_group
+
+      when :delete_group
+        delete_group
+
+      when :add_members
+        add_members
+
+      when :remove_members
+        remove_members
+
+      when :remove_all
+        remove_all
+
+    end # case @options.action
+
+    puts "Done! #{@done_msg}" if @done_msg
+
+  end # run
+
+
+  #####################################
+  ###
+  ### Show Help
+  ###
+  def show_help
+    puts <<-FULLHELP
+A tool for working with computer groups in the JSS.
+
+#{USAGE}
+
+Options:
+ -L, --list-groups      - list all computer groups in the JSS
+ -s, --list-static      - list all static computer groups in the JSS
+ -m, --list-smart       - list all smart computer groups in the JSS
+ -c, --create-group     - create a new static computer group in the JSS
+ -n, --rename newname   - rename the specified computer group to newname
+ -d, --delete           - delete the specified computer group (static groups only)
+ -l, --list-members     - list all the computers in the group specified
+ -a, --add-members      - add the specified computer(s) to the specified group
+ -r, --remove-members   - remove the specified computer(s) from the specified group
+ -R, --remove-all       - remove all computers from the specified group
+ -f, --file /path/...   - read computer names/ids from the file at /path/...
+ -S, --server srvr      - specify the JSS API server name
+ -P, --port portnum     - specify the JSS API port
+ -U, --user username    - specify the JSS API user
+ -V, --no-verify-cert   - Allow self-signed, unverified SSL certificate
+ -T, --timeout secs     - specify the JSS API timeout
+ -C                     - don't ask for confirmation before acting
+ --debug                - show the ruby backtrace when errors occur
+ -H, --help             - show this help
+
+Notes:
+
+ - If no API settings are provided, they will be read from /etc/jss_gem.conf
+   and ~/.jss_gem.conf. See the JSS Gem docs for details.
+
+ - The password for the connection will be read from STDIN or prompted if needed
+
+ - Computers can be specified by name or JSS id number. If a name exists
+   more than once in the JSS, the machine is skipped. Use IDs to avoid this.
+
+ - Only static groups can be modified. Use the JSS WebUI for editing smart groups
+
+ - If a file is used to specify computers, they are combined with any
+   specified on the commandline.
+
+ - Files of computers must be whitespace-separated
+   (spaces, tabs, & returns in any number or combination)
+
+    FULLHELP
+    return
+  end
+
+  #####################################
+  ###
+  ### Spit out a list of all computer groups
+  ###
+  def list_groups(show = :all)
+    case show
+      when :all
+        label = "All"
+        groups_to_show = JSS::ComputerGroup.all
+      when :static
+        label = "Static"
+        groups_to_show = JSS::ComputerGroup.all_static
+      when :smart
+        label = "Smart"
+        groups_to_show = JSS::ComputerGroup.all_smart
+    end #case
+
+    puts "# #{label} computer groups in the JSS"
+    puts "#---------------------------------------------"
+
+    groups_to_show.sort{|a,b| a[:name].downcase <=> b[:name].downcase}.each do |grp|
+      puts grp[:name]
+    end
+  end
+
+  #####################################
+  ###
+  ### Spit out a list of all computers in a group
+  ###
+  def list_members
+    puts "# All members of JSS #{@group.smart? ? 'smart' : 'static'} computer group '#{@options.group}'"
+    puts "#--- name (id) ---------------------------------"
+
+    # put them into a tmp array, so that
+    # we can sort by computer name, remembering that
+    # there can be duplicate names.
+    list = []
+    @group.members.each{|mem| list << "#{mem[:name]} (#{mem[:id]})" }
+    puts list.sort #.join("\n")
+  end
+
+
+  #####################################
+  ###
+  ### Create a new group
+  ###
+  def create_group
+
+    return unless confirm "create a new static group named '#{@options.group}'"
+    @group.create
+
+    unless @options.computers.empty?
+      add_members
+    end
+
+  end
+
+  #####################################
+  ###
+  ### rename a group
+  ###
+  def rename_group
+    return unless confirm "rename group '#{@group.name}' to '#{@options.new_name}'"
+    @group.name = @options.new_name
+    @group.update
+  end
+
+
+  #####################################
+  ###
+  ### delete a group
+  ###
+  def delete_group
+    return unless confirm "DELETE group '#{@group.name}'"
+    @group.delete
+  end
+
+
+  #####################################
+  ###
+  ### add members to a group
+  ###
+  def add_members
+    raise JSS::MissingDataError, "No computer names provided" if @options.computers.empty?
+    raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
+    return unless @options.action == :create_group or confirm "add computers to group '#{@group.name}'"
+
+    @options.computers.each do |c|
+      begin
+        @group.add_member c
+      rescue JSS::NoSuchItemError
+        puts "#{$!} - skipping"
+      end # begin
+    end # each
+
+    @group.update
+  end
+
+  #####################################
+  ###
+  ### remove members from a group
+  ###
+  def remove_members
+    raise JSS::MissingDataError, "No computer names provided" if @options.computers.empty?
+    raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
+    return unless confirm "remove computers from group '#{@group.name}'"
+    @options.computers.each do |c|
+      begin
+        @group.remove_member c
+      rescue JSS::NoSuchItemError
+        puts "#{$!} - skipping"
+      end
+    end
+    @group.update
+  end
+
+  #####################################
+  ###
+  ### remove all members from a group
+  ###
+  def remove_all
+    raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
+    return unless confirm "remove ALL computers from group '#{@group.name}'"
+    @group.clear
+    @group.update
+  end
+
+
+  #####################################
+  ###
+  ### Read computer names from a file
+  ### Generally the names should be one per line, but
+  ### they can be separated by any whitespace.
+  ### Returns an array of computer names from the file.
+  ###
+  def get_computers_from_file
+    raise JSS::NoSuchItemError "File #{@options.input_file} isn't a file or isn't readable." unless \
+      @options.input_file.file? and @options.input_file.readable?
+    @options.input_file.read.split(/\s+/)
+  end
+
+  #####################################
+  ###
+  ### Get confirmation before doing something
+  ### Returns true or false
+  ###
+  def confirm (action)
+      return true if @options.no_confirm
+
+      print "Really #{action}? (y/n): "
+      $stdin.reopen '/dev/tty'
+      reply = $stdin.gets.strip
+      return true if reply =~ /^y/i
+      return false
+
+  end # confirm
+
+
+end # class App
+
+#######################################
+begin
+  app = App.new(ARGV)
+  app.run
+
+rescue
+  # handle exceptions not handled elsewhere
+  puts "An error occurred: #{$!}"
+  puts "Backtrace:" if app.debug
+  puts $@ if app.debug
+
+ensure
+
+end

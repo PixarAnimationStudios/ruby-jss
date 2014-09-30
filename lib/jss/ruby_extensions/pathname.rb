@@ -1,36 +1,47 @@
 #############################################
-### Some handy additions to Pathname
+### Some handy additions to the Pathname class.
 ### Why aren't they there already?
 ###
 class Pathname
   
-  ### see FileTest.real_file in pixar.rb
+  ### Is this a real file rather than a symlink?
+  ### @see FileTest.real_file
   def real_file?
     FileTest.real_file? self 
   end # real_file?
   
-  ### see FileUtils.cp
+  ### Copy a path to a destination
+  ### @see FileUtils.cp
   def cp(dest, options = {})
     FileUtils.cp @path, dest.to_s, options
   end # cp
   
-  ### see FileUtils.cp_r
+  ### Recursively copy this path to a destination
+  ### @see FileUtils.cp_r
   def cp_r(dest, options = {})
     FileUtils.cp_r @path, dest.to_s, options
   end # cp
   
-  ### simpler than always using the open(){write} block
-  ### CAUTION: this overwrites files!
+  ### Write some string content to a file.
+  ###
+  ### Simpler than always using an open('w') block 
+  ### *CAUTION* this overwrites files!
+  ###
   def save(content)
     self.open('w'){|f| f.write content.to_s}
   end
   
-  ### simpler than always using the open(){write} block
+  ### Append some string content to a file.
+  ###
+  ### Simpler than always using an open('a') block
+  ###
   def append(content)
     self.open('a'){|f| f.write content.to_s}
   end
 
-  ### touch
+  ### Touching can be good 
+  ###
+  ### @see FileUtils.touch
   def touch
     FileUtils.touch @path
   end

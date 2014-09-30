@@ -1,24 +1,5 @@
 module JSS
 
-### A mix-in module for handling location/user data for objects in the JSS.
-###
-### The JSS objects that have location data all have basically the same data,
-### a simple hash with these keys:
-### 
-###   :building => String,
-###   :department => String,
-###   :email_address => String,
-###   :phone => String
-###   :position => String
-###   :real_name => String,
-###   :room => String,
-###   :username => String
-###
-### 
-###
-
-
-  
   #####################################
   ### Module Variables
   #####################################
@@ -26,66 +7,90 @@ module JSS
   #####################################
   ### Module Methods
   #####################################
-  
+
   #####################################
   ### Sub-Modules
   #####################################
-  
+
+  ### A mix-in module for handling location/user data for objects in the JSS.
+  ###
+  ### The JSS objects that have location data return it in a :location subset,
+  ### which all have basically the same data,a simple hash with these keys:
+  ### - :building => String,
+  ### - :department => String,
+  ### - :email_address => String,
+  ### - :phone => String
+  ### - :position => String
+  ### - :real_name => String,
+  ### - :room => String,
+  ### - :username => String
+  ###
+  ### Including this module in an {APIObject} subclass will give it attributes
+  ### matching those keys, which are populated by calling {#parse_location} in the
+  ### subclass's constructor after calling super.
+  ###
+  ### If the subclass is creatable or updatable, calling {#location_xml} returns
+  ### a REXML element representing the location subset, to be included with the
+  ### #rest_xml output of the subclass.
+  ###
   module Locatable
-    
+
     #####################################
     ###  Constants
     #####################################
-    
+
     LOCATABLE = true
-    
+
     #####################################
     ###  Variables
     #####################################
     
+    
     #####################################
     ###  Attribtues
     #####################################
-    
-    ###
-    ### Objects with a Location subset have those values stored as 
+
+    ### 
+    ### Objects with a Location subset have those values stored as
     ### primary attributes here, not in a single Hash attribute
     ### as the other subsets
-    
-    ### String
+
+    ### @return [String]
     attr_reader :building
-    
-    ### String
+
+    ### @return [String]
     attr_reader :department
-    
-    ### String
+
+    ### @return [String]
     attr_reader :email_address
-    
-    ### String
+
+    ### @return [String]
     attr_reader :phone
-    
-    ### String
+
+    ### @return [String]
     attr_reader :position
-    
-    ### String
+
+    ### @return [String]
     attr_reader :real_name
-    
-    ### String 
+
+    ### @return [String]
     attr_reader :room
-    
-    ### String 
+
+    ### @return [String]
     attr_reader :username
-    alias user username
     
+
     #####################################
     ###  Mixed-in Instance Methods
     #####################################
 
     ###
-    ### Call this during initialization of 
+    ### Call this during initialization of
     ### objects that have a Location subset
     ### and the location attributes will be populated
     ### (as primary attributes) from @init_data
+    ###
+    ### @return [void]
     ###
     def parse_location
       @init_data[:location] ||= {}
@@ -98,12 +103,34 @@ module JSS
       @room = @init_data[:location][:room]
       @username = @init_data[:location][:username]
     end
+
+    
+    ###
+    ### All the location data in a Hash, as it comes from the API.
+    ###
+    ### The reason it isn't stored this way is to prevent editing of the hash directly.
+    ### 
+    ### @return [Hash<String>] the location data
+    ###
+    def location
+      {
+        :building => @building,
+        :department => @department,
+        :email_address => @email_address,
+        :phone => @phone,
+        :position => @position,
+        :real_name => @real_name,
+        :room => @room,
+        :username => @username,
+      }
+    end
     
     
     ###
-    ### Setters 
     ###
-    
+    ### Setters
+    ###
+
     ###
     def building= (new_val)
       return nil if @building == new_val
@@ -112,7 +139,7 @@ module JSS
       @building = new_val
       @need_to_update = true
     end
-    
+
     ###
     def department= (new_val)
       return nil if @department == new_val
@@ -121,7 +148,7 @@ module JSS
       @department = new_val
       @need_to_update = true
     end
-    
+
     ###
     def email_address= (new_val)
       return nil if @email_address == new_val
@@ -130,7 +157,7 @@ module JSS
       @email_address = new_val
       @need_to_update = true
     end
-    
+
     ###
     def position= (new_val)
       return nil if @position == new_val
@@ -138,7 +165,7 @@ module JSS
       @position = new_val
       @need_to_update = true
     end
-    
+
     ###
     def phone= (new_val)
       return nil if @phone == new_val
@@ -146,7 +173,7 @@ module JSS
       @phone = new_val
       @need_to_update = true
     end
-    
+
     ###
     def real_name= (new_val)
       return nil if @real_name == new_val
@@ -154,7 +181,7 @@ module JSS
       @real_name = new_val
       @need_to_update = true
     end
-    
+
     ###
     def room= (new_val)
       return nil if @room == new_val
@@ -162,7 +189,7 @@ module JSS
       @room = new_val
       @need_to_update = true
     end
-    
+
     ###
     def username= (new_val)
       return nil if @username == new_val
@@ -170,11 +197,33 @@ module JSS
       @username = new_val
       @need_to_update = true
     end
+
+    ###
+    ### @return [Boolean] Does this item have location data?
+    ###
+    def has_location?
+      @username or \
+      @real_name or \
+      @email_address or \
+      @position or \
+      @phone or \
+      @department or \
+      @building or \
+      @room
+    end
+
+    ### aliases
+    alias user username
+    
     
     ###
+    ### @api private
+    ###
     ### Return a REXML <location> element to be
-    ### included in the rest_xml of 
+    ### included in the rest_xml of
     ### objects that have a Location subset
+    ###
+    ### @return [REXML::Element]
     ###
     def location_xml
       location = REXML::Element.new('location')
@@ -188,7 +237,7 @@ module JSS
       location.add_element('username').text = @username
       return location
     end
-    
+
   end # module Locatable
-  
+
 end # module JSS

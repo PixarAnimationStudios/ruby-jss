@@ -1,64 +1,72 @@
 module JSS
+
+ ###
+ ### This module provides two methods for building very simple Casper-happy .pkg and .dmg packages for deployment.
+ ###
+ ### Unlike Composer.app from JAMF, this module currently doesn't offer a way to do a before/after disk scan
+ ### and use the differences to build the root folder from which the package is built. Nor does the module support
+ ### editing the pre/post install scripts in .pkgs.
+ ###
+ ### The 'root folder', a folder representing the root filesystem of the target machine where the package will be installed,
+ ### must already exist and be fully populated and with correct permissions.
+ ###
  module Composer
+
   
-  require 'plist'
-  
+
   #####################################
   ### Constants
   #####################################
-  
+
   ### the apple pkgutil tool
   PKG_UTIL = Pathname.new "/usr/sbin/pkgutil"
-  
+
   ### The location of the cli tool for making .pkgs
   PKGBUILD = Pathname.new "/usr/bin/pkgbuild"
-  
+
   ### the default bundle identifier prefix for pkgs
-  PKG_BUNDLE_ID_PFX = 'rubycomposer'
-  
+  PKG_BUNDLE_ID_PFX = 'jss_gem_composer'
+
   ### Apple's hdiutil for making dmgs
   HDI_UTIL= '/usr/bin/hdiutil'
-  
+
+  ### Where to save the output ?
+  DEFAULT_OUT_DIR = Pathname.new "/Users/Shared"
+
   ###
   ### Make a casper-happy .pkg out of a root folder, permissions are assumed to be correct.
-  ### 
-  ### All args are required except :bundle_id_prefix, :out_dir and :preserve_ownership
   ###
-  ### - :root => '/some/dir/path/'  - the path to the "root folder" representing the root file system of the target install drive
-  ### - :name => 'somename' the version-agnostic name of the item being pkgd, e.g. 'filemaker' or 'googlechrome'
-  ### - :bundle_id_prefix => 'some.string'  the pkg bundle identifier prefix. e.g. 'org.some.organization' or 'com.pixar.d3'
-  ###       defaults to 'rubycomposer'. see 'man pkgbuild' for more info
-  ### - :version => 'someversion' the version of the thing being installed
-  ### - :revision => someInt  the integer revision of this pkging of this version of the thing
-  ### - :out_dir => /some/dir/path  the folder in which the .pkg will be created. Defaults to /Users/Shared
-  ### - :preserve_ownership => boolean. If true, the owner/group of the rootpath are preserved. 
-  ###     By default, they become the pkgbuild/installer "recommended" (root/wheel or root/admin)
+  ### @param name[String] the name of the .pkg. The .pkg suffix will be added if not present
   ###
-  ### Returns: the local path to the new .pkg (string), or nil if there was an error running pkgbuild
+  ### @param version[String] the version of the .pkg, needed for building the .pkg
   ###
-  ### When creating the pkg, the name is used to make the pkg identifier "jss.name", which is how the OS
-  ### knows about versions of a thing
-  ### and the version-revision are used for the pkg version, eg "1.2-2" <br/>
-  ### The pkg filename will be name-version-revision.pkg, and the installer "title" will be name-version-revision
+  ### @param root[String, Pathname] the path to the "root folder" representing the root file system of the target install drive
   ###
-  def mk_pkg(args = {})
+  ### @param opts[Hash] the options for building the .pkg
+  ###
+  ### @option opts :bundle_id_prefix[String] the pkg bundle identifier prefix.
+  ###   e.g. 'org.some.organization' or 'com.pixar.d3'.
+  ###   Defaults to '{PKG_BUNDLE_ID_PFX}'. See 'man pkgbuild' for more info
+  ###
+  ### @option opts :out_dir[String,Pathname] he folder in which the .pkg will be created. Defaults to {DEFAULT_OUT_DIR}
+  ###
+  ### @option opts :preserve_ownership[Boolean] If true, the owner/group of the rootpath are preserved.
+  ###   Default is false: they become the pkgbuild/installer "recommended" (root/wheel or root/admin)
+  ###
+  ### @return [Pathname] the local path to the new .pkg
+  ###
+  def self.mk_pkg(name, version, root, opts = {})
     raise NoSuchItemError, "Missing pkgbuild tool. Please make sure you're running 10.8 or later." unless PKGBUILD.executable?
 
-    raise MissingDataError, "Missing :root path for building a .pkg" unless args[:root]
-    raise MissingDataError, "Missing :name for building a .pkg" unless args[:name]
-    raise MissingDataError, "Missing :version for building a .pkg" unless args[:version]
-    raise MissingDataError, "Missing :revision for building a .pkg" unless args[:revision]
-    
-    args[:out_dir] ||= "/Users/Shared"
-    args[:bundle_id_prefix] ||= PKG_BUNDLE_ID_PFX
-    
-    pkg_filename = "#{args[:name]}-#{args[:version]}-#{args[:revision]}.pkg"
-    pkg_vers = "#{args[:version]}-#{args[:revision]}"
-    pkg_id = args[:bundle_id_prefix] + "." + args[:name]
-    pkg_out = "#{args[:out_dir]}/#{pkg_filename}"
-    pkg_ownership = args[:preserve_ownership] ? "preserve" : "recommended"
-    
-    
+    opts[:out_dir] ||= DEFAULT_OUT_DIR
+    opts[:bundle_id_prefix] ||= PKG_BUNDLE_ID_PFX
+
+    pkg_filename = "#{name}.pkg"
+    pkg_id = opts[:bundle_id_prefix] + "." + name
+    pkg_out = "#{opts[:out_dir]}/#{pkg_filename}"
+    pkg_ownership = opts[:preserve_ownership] ? "preserve" : "recommended"
+
+
     ### first, run 'analyze' to get a 'component plist' in which we can change some settings
     ### for any bundles in the root (bundles like .apps, frameworks, plugins, etc..)
     ###
@@ -71,12 +79,11 @@ module JSS
     ### In other words, just install the thing!
     ### (see 'man pkgbuild' for more info)
     ###
-    ### If you need different settings, 
     ###
     comp_plist_out = Pathname.new "/tmp/#{PKG_BUNDLE_ID_PFX}-#{pkg_filename}.plist"
-    system "#{PKGBUILD} --analyze --root '#{args[:root]}' '#{comp_plist_out}'"
+    system "#{PKGBUILD} --analyze --root '#{root}' '#{comp_plist_out}'"
     comp_plist = Plist.parse_xml comp_plist_out.read
-    
+
     ### if the plist is empty, there are no bundles in the pkg
     if comp_plist[0].nil?
       comp_plist_arg = ''
@@ -93,57 +100,47 @@ module JSS
       comp_plist_out.open('w'){|f| f.write comp_plist.to_plist}
       comp_plist_arg = "--component-plist '#{comp_plist_out}'"
     end
-    
+
     ### now build the pkg
     begin
-      system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{pkg_vers}' --ownership #{pkg_ownership} --install-location / --root '#{args[:root]}' #{comp_plist_arg} '#{pkg_out}' "
-    
+      system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{comp_plist_arg} '#{pkg_out}' "
+
       raise RuntimeError, "There was an error building the .pkg" unless $?.exitstatus == 0
     ensure
       comp_plist_out.delete if comp_plist_out.exist?
     end
-    
-    return pkg_out
+
+    return Pathname.new pkg_out
   end # mk_dot_pkg
- 
- 
+
+
   ###
   ### Make a casper-happy .dmg out of a root folder, permissions are assumed to be correct.
-  ### All args are required except :out_dir.
   ###
-  ### - :root => '/some/dir/path/'  the path to the "root folder" representing the root file system of the target install drive
-  ### - :name => 'somename' the version-agnostic name of the item being pkgd, e.g. 'filemaker' or 'googlechrome'
-  ### - :version => 'someversion' the version of the thing being installed
-  ### - :revision => someInt  the integer revision of this pkging of this version of the thing
-  ### - :out_dir => /some/dir/path  the folder in which the .pkg will be created. Defaults to /Users/Shared
+  ### @param name[String] The name of the .dmg, the suffix will be added if needed
   ###
-  ### Returns: the local path to the new .dmg (string), nil if there was an error running hdiutil.
+  ### @param root[String, Pathname]  the path to the "root folder" representing the root file system of the target install drive
   ###
-  ### When creating the dmg, the dmg filename will be name-version-revision.dmg,
-  ### and the mounted volume name will be name-version-revision
+  ### @param out_dir[String, Pathname] the folder in which the .pkg will be created. Defaults to {DEFAULT_OUT_DIR}
   ###
-  
-  def mk_dmg(args = {})
-    raise MissingDataError, "Missing :root path for building a .dmg" unless args[:root]
-    raise MissingDataError, "Missing :name for building a .dmg" unless args[:name]
-    raise MissingDataError, "Missing :version for building a .dmg" unless args[:version]
-    raise MissingDataError, "Missing :revision for building a .dmg" unless args[:revision]
-    
-    args[:out_dir] = "/Users/Shared" unless args[:out_dir]
-     
-    dmg_filename = "#{args[:name]}-#{args[:version]}-#{args[:revision]}.dmg"
-    dmg_vol = "#{args[:name]}-#{args[:version]}-#{args[:revision]}"
-    dmg_out = "#{args[:out_dir]}/#{dmg_filename}"
-    
-    PixJSS.sudo_run "#{HDI_UTIL} create -volname '#{dmg_vol}' -srcfolder '#{args[:root]}' '#{dmg_out}'"
-    
+  ### @return [Pathname] the local path to the new .dmg
+  ###
+  ###
+  def self.mk_dmg(name, root, out_dir = DEFAULT_OUT_DIR)
+
+    dmg_filename = "#{name}.dmg"
+    dmg_vol = name
+    dmg_out = "#{out_dir}/#{dmg_filename}"
+
+    system "#{HDI_UTIL} create -volname '#{dmg_vol}' -srcfolder '#{root}' '#{dmg_out}'"
+
     raise RuntimeError, "There was an error building the .dmg" unless $?.exitstatus == 0
-    return dmg_out
-    
+    return Pathname.new dmg_out
+
   end # mk_dmg
-  
- 
+
+
  end # module Composer
 end # module JSS
-  
+
 

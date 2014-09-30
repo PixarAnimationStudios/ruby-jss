@@ -6,7 +6,7 @@
 <title>
   Class: Hash
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -94,7 +94,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/jss/compatibility.rb</dd>
+    <dd class="r2 last">lib/jss/compatibility.rb<span class="defines">,<br />
+  lib/jss/ruby_extensions/hash.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -106,12 +108,229 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#nillify%21-instance_method" title="#nillify! (instance method)">- (Hash) <strong>nillify!</strong>(to_nils = '', recurse = false) {|value| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert Hash values to nil.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="nillify!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Hash (class)">Hash</a></span></tt>) <strong>nillify!</strong>(to_nils = '', recurse = false) {|value| ... }
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert Hash values to nil.</p>
+
+<p>With no block, values equalling the String, or any member of the Array,
+given will be converted to nil. Equality is evaluated with == and
+Array#include?</p>
+
+<p>With a block, if the result of the block evaluates to true, the value is
+converted to nil.</p>
+
+<p>Subhashes are ignored unless recurse is true.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:foo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:baz</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span>  <span class='comment val'># {:foo =&gt; nil, :bar =&gt; {:baz =&gt; '' }}</span>
+
+<span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:foo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:baz</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:recurse</span>  <span class='comment val'># {:foo =&gt; nil, :bar =&gt; {:baz =&gt; nil }}</span>
+
+<span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:foo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>123</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:baz</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:bim</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;123&quot;</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span> <span class='lbrack token'>[</span><span class='string val'>''</span><span class='comma token'>,</span> <span class='integer val'>123</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:recurse</span> <span class='comment val'># {:foo =&gt; nil, :bar =&gt; {:baz =&gt; nil, :bim =&gt; &quot;123&quot; }}</span>
+
+<span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:foo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>123</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:baz</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='symbol val'>:bim</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;123&quot;</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span><span class='lparen token'>(</span><span class='symbol val'>:anything</span><span class='comma token'>,</span> <span class='symbol val'>:recurse</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='eq op'>==</span> <span class='integer val'>123</span> <span class='rbrace token'>}</span>  <span class='comment val'># {:foo =&gt; nil, :bar =&gt; {:baz =&gt; '', :bim =&gt; nil }}</span>
+</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>to_nils</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>''</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash values equal to (==) these become nil. Defaults to empty string</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>recurse</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should sub-Hashes be nillified?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>value</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash values for which the block returns true will become nil.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hash with the desired values converted to nil</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/hash.rb', line 34</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_nillify! fid id'>nillify!</span><span class='lparen token'>(</span><span class='rubyid_to_nils identifier id'>to_nils</span> <span class='assign token'>=</span> <span class='string val'>''</span><span class='comma token'>,</span> <span class='rubyid_recurse identifier id'>recurse</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span> <span class='rparen token'>)</span>
+
+  <span class='rubyid_nillify_these identifier id'>nillify_these</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_to_nils identifier id'>to_nils</span>
+  <span class='rubyid_nillify_these identifier id'>nillify_these</span><span class='dot token'>.</span><span class='rubyid_flatten! fid id'>flatten!</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_each_pair identifier id'>each_pair</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Hash constant id'>Hash</span>
+      <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nillify! fid id'>nillify!</span><span class='lparen token'>(</span><span class='rubyid_to_nils identifier id'>to_nils</span><span class='comma token'>,</span> <span class='rubyid_recurse identifier id'>recurse</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+      <span class='rubyid_next next kw'>next</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_do_it identifier id'>do_it</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_block_given? fid id'>block_given?</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_v identifier id'>v</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_nillify_these identifier id'>nillify_these</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_v identifier id'>v</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_do_it identifier id'>do_it</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each pair</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:12 2014 by
+  Generated on Tue Sep 30 15:58:44 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

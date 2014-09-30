@@ -6,7 +6,7 @@
 <title>
   Class: Pathname
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -102,7 +102,8 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Some handy additions to Pathname Why aren’t they there already?</p>
+<p>Some handy additions to the Pathname class. Why aren’t they there
+already?</p>
 
 
   </div>
@@ -143,7 +144,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>simpler than always using the open()write block.</p>
+<p>Append some string content to a file.</p>
 </div></span>
   
 </li>
@@ -191,7 +192,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>see FileUtils.cp.</p>
+<p>Copy a path to a destination.</p>
 </div></span>
   
 </li>
@@ -215,7 +216,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>see FileUtils.cp_r.</p>
+<p>Recursively copy this path to a destination.</p>
 </div></span>
   
 </li>
@@ -239,7 +240,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>see FileTest.real_file in pixar.rb.</p>
+<p>Is this a real file rather than a symlink?.</p>
 </div></span>
   
 </li>
@@ -263,8 +264,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>simpler than always using the open()write block CAUTION: this overwrites
-files!.</p>
+<p>Write some string content to a file.</p>
 </div></span>
   
 </li>
@@ -288,7 +288,7 @@ files!.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>touch.</p>
+<p>Touching can be good.</p>
 </div></span>
   
 </li>
@@ -315,7 +315,9 @@ files!.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>simpler than always using the open()write block</p>
+<p>Append some string content to a file.</p>
+
+<p>Simpler than always using an open(‘a’) block</p>
 
 
   </div>
@@ -329,12 +331,12 @@ files!.</p>
       <pre class="lines">
 
 
-29
-30
-31</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='string val'>'a'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrace token'>}</span>
@@ -371,12 +373,12 @@ files!.</p>
       <pre class="lines">
 
 
-39
-40
-41</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_chown identifier id'>chown</span><span class='lparen token'>(</span><span class='rubyid_u identifier id'>u</span><span class='comma token'>,</span><span class='rubyid_g identifier id'>g</span><span class='rparen token'>)</span>
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_chown identifier id'>chown</span> <span class='rubyid_u identifier id'>u</span><span class='comma token'>,</span> <span class='rubyid_g identifier id'>g</span><span class='comma token'>,</span> <span class='rubyid_@path ivar id'>@path</span>
@@ -399,7 +401,7 @@ files!.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>see FileUtils.cp</p>
+<p>Copy a path to a destination</p>
 
 
   </div>
@@ -407,18 +409,25 @@ files!.</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.cp</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-13
-14
-15</pre>
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cp identifier id'>cp</span><span class='lparen token'>(</span><span class='rubyid_dest identifier id'>dest</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_cp identifier id'>cp</span> <span class='rubyid_@path ivar id'>@path</span><span class='comma token'>,</span> <span class='rubyid_dest identifier id'>dest</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span>
@@ -441,7 +450,7 @@ files!.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>see FileUtils.cp_r</p>
+<p>Recursively copy this path to a destination</p>
 
 
   </div>
@@ -449,18 +458,25 @@ files!.</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.cp_r</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-18
-19
-20</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cp_r identifier id'>cp_r</span><span class='lparen token'>(</span><span class='rubyid_dest identifier id'>dest</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_cp_r identifier id'>cp_r</span> <span class='rubyid_@path ivar id'>@path</span><span class='comma token'>,</span> <span class='rubyid_dest identifier id'>dest</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span>
@@ -483,7 +499,7 @@ files!.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>see FileTest.real_file in pixar.rb</p>
+<p>Is this a real file rather than a symlink?</p>
 
 
   </div>
@@ -504,18 +520,25 @@ files!.</p>
   
 </ul>
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileTest.real_file</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_real_file? fid id'>real_file?</span>
   <span class='rubyid_FileTest constant id'>FileTest</span><span class='dot token'>.</span><span class='rubyid_real_file? fid id'>real_file?</span> <span class='rubyid_self self kw'>self</span> 
@@ -538,8 +561,10 @@ files!.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>simpler than always using the open()write block CAUTION: this overwrites
-files!</p>
+<p>Write some string content to a file.</p>
+
+<p>Simpler than always using an open(‘w’) block  <strong>CAUTION</strong>
+this overwrites files!</p>
 
 
   </div>
@@ -553,12 +578,12 @@ files!</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='string val'>'w'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrace token'>}</span>
@@ -581,7 +606,7 @@ files!</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>touch</p>
+<p>Touching can be good</p>
 
 
   </div>
@@ -589,18 +614,25 @@ files!</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.touch</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/pathname.rb', line 45</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_touch identifier id'>touch</span>
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_touch identifier id'>touch</span> <span class='rubyid_@path ivar id'>@path</span>
@@ -616,7 +648,7 @@ files!</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:12 2014 by
+  Generated on Tue Sep 30 15:58:45 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

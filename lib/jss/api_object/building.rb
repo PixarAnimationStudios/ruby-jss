@@ -14,10 +14,10 @@ module JSS
   #####################################
 
   ### 
-  ### A Building in the JSS
+  ### A Building in the JSS.
   ### These are simple, in that they only have an ID and a name.
   ###
-  ### See Also JSS::APIObject
+  ### @see JSS::APIObject
   ### 
   class Building < JSS::APIObject
     

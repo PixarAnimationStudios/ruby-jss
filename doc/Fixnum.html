@@ -6,7 +6,7 @@
 <title>
   Class: Fixnum
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -99,19 +99,7 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<p>Convert an integer “epoch” style timestamp from the JSS into a ruby
-DateTime object.</p>
 
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -143,7 +131,10 @@ DateTime object.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Convert an integer “epoch” style timestamp from the JSS into a ruby
+DateTime object.</p>
+</div></span>
   
 </li>
 
@@ -166,18 +157,37 @@ DateTime object.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert an integer “epoch” style timestamp from the JSS into a ruby
+DateTime object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="String.html#to_jss_datetime-instance_method" title="String#to_jss_datetime (method)">String#to_jss_datetime</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-6
-7
-8</pre>
+8
+9
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/fixnum.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/fixnum.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_datetime identifier id'>to_jss_datetime</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_to_jss_datetime identifier id'>to_jss_datetime</span>
@@ -193,7 +203,7 @@ DateTime object.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:12 2014 by
+  Generated on Wed Aug 20 12:58:39 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

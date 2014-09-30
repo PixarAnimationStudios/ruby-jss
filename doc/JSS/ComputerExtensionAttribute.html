@@ -6,7 +6,7 @@
 <title>
   Class: JSS::ComputerExtensionAttribute
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -108,17 +108,22 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>An extension attribute as defined in the JSS</p>
-
-<p>See also the parent class JSS::ExtensionAttribute</p>
-
-<p>See also JSS::APIObject</p>
+<p>The definition of a Computer extension attribute in the JSS</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span></li>
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -212,6 +217,23 @@ for this class</p>
         <dd><pre class="code"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span>
 </pre></dd>
       
+        <dt id="ALL_TARGETS_CRITERION-constant" class="">ALL_TARGETS_CRITERION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>A criterion that will return all members of the TARGET_CLASS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:and_or</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;and&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Username&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:search_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;like&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+</pre></dd>
+      
         <dt id="PLATFORMS-constant" class="">PLATFORMS =
           <div class="docstring">
   <div class="discussion">
@@ -279,30 +301,6 @@ for this class</p>
 
 
 
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExtensionAttribute.html#DATA_TYPES-constant" title="JSS::ExtensionAttribute::DATA_TYPES (constant)">ExtensionAttribute::DATA_TYPES</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#DEFAULT_DATA_TYPE-constant" title="JSS::ExtensionAttribute::DEFAULT_DATA_TYPE (constant)">ExtensionAttribute::DEFAULT_DATA_TYPE</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#DEFAULT_INPUT_TYPE-constant" title="JSS::ExtensionAttribute::DEFAULT_INPUT_TYPE (constant)">ExtensionAttribute::DEFAULT_INPUT_TYPE</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#DEFAULT_WEB_DISPLAY_CHOICE-constant" title="JSS::ExtensionAttribute::DEFAULT_WEB_DISPLAY_CHOICE (constant)">ExtensionAttribute::DEFAULT_WEB_DISPLAY_CHOICE</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#INPUT_TYPES-constant" title="JSS::ExtensionAttribute::INPUT_TYPES (constant)">ExtensionAttribute::INPUT_TYPES</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#WEB_DISPLAY_CHOICES-constant" title="JSS::ExtensionAttribute::WEB_DISPLAY_CHOICES (constant)">ExtensionAttribute::WEB_DISPLAY_CHOICES</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">JSS::Creatable::CREATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
-
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -310,7 +308,243 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#platform-instance_method" title="#platform (instance method)">- (Object) <strong>platform</strong> </a>
+      <a href="#data_type-instance_method" title="#data_type (instance method)">- (String) <strong>data_type</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="ExtensionAttribute.html#data_type-instance_method" title="JSS::ExtensionAttribute#data_type (method)">ExtensionAttribute</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The type of data created by the EA.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#description-instance_method" title="#description (instance method)">- (String) <strong>description</strong> </a>
+    
+
+    
+      (also: #desc)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="ExtensionAttribute.html#description-instance_method" title="JSS::ExtensionAttribute#description (method)">ExtensionAttribute</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Description of the ext attrib.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS id number.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
+    
+
+    
+      (also: #in_jss?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is it in the JSS?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#input_type-instance_method" title="#input_type (instance method)">- (String) <strong>input_type</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="ExtensionAttribute.html#input_type-instance_method" title="JSS::ExtensionAttribute#input_type (method)">ExtensionAttribute</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Where does this data come from? Must be one of the INPUT_TYPES.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#platform-instance_method" title="#platform (instance method)">- (String) <strong>platform</strong> </a>
     
 
     
@@ -338,7 +572,39 @@ run.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#recon_display-instance_method" title="#recon_display (instance method)">- (Object) <strong>recon_display</strong> </a>
+      <a href="#popup_choices-instance_method" title="#popup_choices (instance method)">- (Array&lt;String&gt;) <strong>popup_choices</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="ExtensionAttribute.html#popup_choices-instance_method" title="JSS::ExtensionAttribute#popup_choices (method)">ExtensionAttribute</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The choices available in the UI when the @input_type is “Pop-up Menu”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recon_display-instance_method" title="#recon_display (instance method)">- (String) <strong>recon_display</strong> </a>
     
 
     
@@ -356,8 +622,7 @@ run.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - In which part of the Recon App does the data appear? when this is
-a computer ext attr?.</p>
+<p>In which part of the Recon App does the data appear?.</p>
 </div></span>
   
 </li>
@@ -366,7 +631,41 @@ a computer ext attr?.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#script-instance_method" title="#script (instance method)">- (Object) <strong>script</strong> </a>
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script-instance_method" title="#script (instance method)">- (String) <strong>script</strong> </a>
     
 
     
@@ -386,8 +685,8 @@ a computer ext attr?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - when @input_type is “script”, the script code that will be
-executed when the.</p>
+<p>The script code that will be executed when the @input_type is
+“script”,.</p>
 </div></span>
   
 </li>
@@ -396,7 +695,7 @@ executed when the.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#scripting_language-instance_method" title="#scripting_language (instance method)">- (Object) <strong>scripting_language</strong> </a>
+      <a href="#scripting_language-instance_method" title="#scripting_language (instance method)">- (String) <strong>scripting_language</strong> </a>
     
 
     
@@ -414,9 +713,40 @@ executed when the.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String -  when @input_type is “script”,  and the @platform is
-“Windows” the scripting language of the @script, must be one of
-WINDOWS_SCRIPTING_LANGUAGES.</p>
+<p>The scripting language of the @script when @input_type is “script”, and
+the @platform is “Windows”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#web_display-instance_method" title="#web_display (instance method)">- (String) <strong>web_display</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="ExtensionAttribute.html#web_display-instance_method" title="JSS::ExtensionAttribute#web_display (method)">ExtensionAttribute</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>In which part of the web UI does the data appear?.</p>
 </div></span>
   
 </li>
@@ -425,16 +755,6 @@ WINDOWS_SCRIPTING_LANGUAGES.</p>
   </ul>
 
 
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExtensionAttribute.html#data_type-instance_method" title="JSS::ExtensionAttribute#data_type (method)">#data_type</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#description-instance_method" title="JSS::ExtensionAttribute#description (method)">#description</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#input_type-instance_method" title="JSS::ExtensionAttribute#input_type (method)">#input_type</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#popup_choices-instance_method" title="JSS::ExtensionAttribute#popup_choices (method)">#popup_choices</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#web_display-instance_method" title="JSS::ExtensionAttribute#web_display (method)">#web_display</a></span></p>
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -448,7 +768,7 @@ WINDOWS_SCRIPTING_LANGUAGES.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+      <a href="#create-instance_method" title="#create (instance method)">- (Integer) <strong>create</strong> </a>
     
 
     
@@ -463,7 +783,7 @@ WINDOWS_SCRIPTING_LANGUAGES.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>create a new one in the JSS.</p>
+<p>The JSS id of the newly created object.</p>
 </div></span>
   
 </li>
@@ -472,7 +792,7 @@ WINDOWS_SCRIPTING_LANGUAGES.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#history-instance_method" title="#history (instance method)">- (Object) <strong>history</strong>(computer) </a>
+      <a href="#history-instance_method" title="#history (instance method)">- (Array&lt;Hash{:timestamp=&gt;Time,:value=&gt;String,Integer,Time}&gt;) <strong>history</strong>(computer) </a>
     
 
     
@@ -487,8 +807,8 @@ WINDOWS_SCRIPTING_LANGUAGES.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an array of hashes showing the history of values for this EA on one
-computer.</p>
+<p>Return an Array of Hashes showing the history of reported values for this
+EA on one computer.</p>
 </div></span>
   
 </li>
@@ -514,7 +834,7 @@ computer.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>See JSS::APIObject.initialize.</p>
+<p>A new instance of ComputerExtensionAttribute.</p>
 </div></span>
   
 </li>
@@ -523,7 +843,7 @@ computer.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#input_type%3D-instance_method" title="#input_type= (instance method)">- (Object) <strong>input_type=</strong>(new_val) </a>
+      <a href="#input_type%3D-instance_method" title="#input_type= (instance method)">- (void) <strong>input_type=</strong>(new_val) </a>
     
 
     
@@ -547,7 +867,7 @@ computer.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#latest_values-instance_method" title="#latest_values (instance method)">- (Object) <strong>latest_values</strong> </a>
+      <a href="#popup_choices%3D-instance_method" title="#popup_choices= (instance method)">- (void) <strong>popup_choices=</strong>(new_val) </a>
     
 
     
@@ -562,32 +882,7 @@ computer.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an Array of Hashes showing the most recent value  for this EA on all
-computers in the JSS.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#popup_choices%3D-instance_method" title="#popup_choices= (instance method)">- (Object) <strong>popup_choices=</strong>(new_val) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Change the Popup Choices of this EA.</p>
+<p>This unsets any script-related attributes.</p>
 </div></span>
   
 </li>
@@ -629,38 +924,7 @@ updating.</p>
   
   
   
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExtensionAttribute.html#all_with_result-instance_method" title="JSS::ExtensionAttribute#all_with_result (method)">#all_with_result</a></span>, <span class='object_link'><a href="ExtensionAttribute.html#rest_rexml-instance_method" title="JSS::ExtensionAttribute#rest_rexml (method)">#rest_rexml</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">#name=</a></span>, <span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -675,7 +939,7 @@ updating.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>See JSS::APIObject.initialize</p>
+<p>Returns a new instance of ComputerExtensionAttribute</p>
 
 
   </div>
@@ -683,14 +947,19 @@ updating.</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">APIObject#initialize</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-109
-110
 111
 112
 113
@@ -700,17 +969,19 @@ updating.</p>
 117
 118
 119
-120</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_super super kw'>super</span> <span class='rubyid_args identifier id'>args</span>
-  
+
   <span class='rubyid_@recon_display ivar id'>@recon_display</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:recon_display</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_RECON_DISPLAY_CHOICE constant id'>DEFAULT_RECON_DISPLAY_CHOICE</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span>
     <span class='rubyid_@platform ivar id'>@platform</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:platform</span><span class='rbrack token'>]</span>
     <span class='rubyid_@script ivar id'>@script</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:input_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:script</span><span class='rbrack token'>]</span>
@@ -729,11 +1000,355 @@ updating.</p>
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="platform=-instance_method"></span>
+      <span id="data_type=-instance_method"></span>
       <div class="method_details first">
-  <h3 class="signature first" id="platform-instance_method">
+  <h3 class="signature first" id="data_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>platform</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>data_type</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="ExtensionAttribute.html#data_type-instance_method" title="JSS::ExtensionAttribute#data_type (method)">ExtensionAttribute</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the type of data created by the EA. Must be one of DATA_TYPES</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of data created by the EA. Must be one of DATA_TYPES</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="description-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>description</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='desc-instance_method'>desc</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="ExtensionAttribute.html#description-instance_method" title="JSS::ExtensionAttribute#description (method)">ExtensionAttribute</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns description of the ext attrib</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>description of the ext attrib</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="input_type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="input_type-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>input_type</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="ExtensionAttribute.html#input_type-instance_method" title="JSS::ExtensionAttribute#input_type (method)">ExtensionAttribute</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns where does this data come from? Must be one of the INPUT_TYPES.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>where does this data come from? Must be one of the INPUT_TYPES.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="platform=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="platform-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>platform</strong> 
   
 
   
@@ -743,109 +1358,30 @@ updating.</p>
   <div class="discussion">
     
 <p>When the  @input_type is “script”, The platform on which a script will
-run. NOTE: The web app seems to let you have both Mac and Windows scripts
+run.</p>
+
+<p>NOTE: The web app seems to let you have both Mac and Windows scripts
 defined when the type is “script”, however the API will only return the
-Mac script info if there is  one at all.</p>
+Mac script info if both are defined.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-84
-85
-86</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 84</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_platform identifier id'>platform</span>
-  <span class='rubyid_@platform ivar id'>@platform</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
       
-      <span id="recon_display=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="recon_display-instance_method">
-  
-    - (<tt>Object</tt>) <strong>recon_display</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>String - In which part of the Recon App does the data appear? when this is
-a computer ext attr?</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-100
-101
-102</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 100</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_recon_display identifier id'>recon_display</span>
-  <span class='rubyid_@recon_display ivar id'>@recon_display</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
       
-      <span id="script=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="script-instance_method">
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
   
-    - (<tt>Object</tt>) <strong>script</strong> 
-  
-
-  
-    <span class="aliases">Also known as:
-    <span class="names"><span id='code-instance_method'>code</span></span>
-    </span>
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>String - when @input_type is “script”, the script code that will be
-executed when the</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -859,6 +1395,233 @@ executed when the</p>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 89</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_platform identifier id'>platform</span>
+  <span class='rubyid_@platform ivar id'>@platform</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="popup_choices=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="popup_choices-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>popup_choices</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="ExtensionAttribute.html#popup_choices-instance_method" title="JSS::ExtensionAttribute#popup_choices (method)">ExtensionAttribute</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the choices available in the UI when the @input_type is “Pop-up
+Menu”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the choices available in the UI when the @input_type is “Pop-up Menu”</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="recon_display=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="recon_display-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>recon_display</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns In which part of the Recon App does the data appear?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>In which part of the Recon App does the data appear?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 102</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_recon_display identifier id'>recon_display</span>
+  <span class='rubyid_@recon_display ivar id'>@recon_display</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="script=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="script-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>script</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='code-instance_method'>code</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the script code that will be executed when the @input_type is
+“script”,</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the script code that will be executed when the @input_type is “script”,</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_script identifier id'>script</span>
   <span class='rubyid_@script ivar id'>@script</span>
@@ -874,7 +1637,7 @@ executed when the</p>
       <div class="method_details ">
   <h3 class="signature " id="scripting_language-instance_method">
   
-    - (<tt>Object</tt>) <strong>scripting_language</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>scripting_language</strong> 
   
 
   
@@ -883,15 +1646,27 @@ executed when the</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String -  when @input_type is “script”,  and the @platform is
-“Windows” the scripting language of the @script, must be one of
-WINDOWS_SCRIPTING_LANGUAGES</p>
+<p>The scripting language of the @script when @input_type is “script”, and
+the @platform is “Windows”</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -899,12 +1674,12 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
       <pre class="lines">
 
 
-96
-97
-98</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_scripting_language identifier id'>scripting_language</span>
   <span class='rubyid_@scripting_language ivar id'>@scripting_language</span>
@@ -913,6 +1688,54 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
     </td>
   </tr>
 </table>
+</div>
+    
+      
+      <span id="web_display=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="web_display-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>web_display</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="ExtensionAttribute.html#web_display-instance_method" title="JSS::ExtensionAttribute#web_display (method)">ExtensionAttribute</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns In which part of the web UI does the data appear?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>In which part of the web UI does the data appear?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 </div>
     
   </div>
@@ -925,7 +1748,7 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
       <div class="method_details first">
   <h3 class="signature first" id="create-instance_method">
   
-    - (<tt>Object</tt>) <strong>create</strong> 
+    - (<tt>Integer</tt>) <strong>create</strong> 
   
 
   
@@ -934,13 +1757,38 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>create a new one in the JSS</p>
+<p>Returns the JSS id of the newly created object</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">JSS::Creatable#create</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -948,22 +1796,22 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
       <pre class="lines">
 
 
-130
-131
-132
-133
 134
 135
 136
 137
 138
 139
-140</pre>
+140
+141
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 134</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>      
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='eq op'>==</span>  <span class='string val'>&quot;script&quot;</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No platform set for script input_type.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@platform ivar id'>@platform</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No script set for script input_type.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@script ivar id'>@script</span>
@@ -971,7 +1819,7 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
         <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No scripting_language set for Windows script input_type.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@scripting_language ivar id'>@scripting_language</span>
       <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-  
+
   <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -983,7 +1831,7 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
       <div class="method_details ">
   <h3 class="signature " id="history-instance_method">
   
-    - (<tt>Object</tt>) <strong>history</strong>(computer) 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:timestamp=&gt;<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>) <strong>history</strong>(computer) 
   
 
   
@@ -992,10 +1840,15 @@ WINDOWS_SCRIPTING_LANGUAGES</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an array of hashes showing the history of values for this EA on one
-computer. The computer must be specified as a computer name or ID in the
-JSS. Each hash contains these 2 keys: :value - String, Integer, or
-DateTime, depending on @data_type :timestamp  - DateTime</p>
+<p>Return an Array of Hashes showing the history of reported values for this
+EA on one computer.</p>
+
+<p>Each hash contains these 2 keys:</p>
+<ul><li>
+<p>:value - String, Integer, or Time, depending on @data_type</p>
+</li><li>
+<p>:timestamp  - Time</p>
+</li></ul>
 
 <p>This method requires a MySQL database connection established via
 JSS::DB_CNX.connect</p>
@@ -1004,7 +1857,40 @@ JSS::DB_CNX.connect</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>computer</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id or name of the Computer.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:timestamp=&gt;<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>,:value=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer,<span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span>}&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -1019,116 +1905,12 @@ JSS::DB_CNX.connect</p>
   
 </ul>
 
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 301</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_history identifier id'>history</span><span class='lparen token'>(</span><span class='rubyid_computer identifier id'>computer</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Database connection required for 'history' query.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_connected? fid id'>connected?</span>
-  
-  <span class='rubyid_computer_id identifier id'>computer_id</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_computer identifier id'>computer</span>
-    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span>
-      <span class='rubyid_computer identifier id'>computer</span>
-    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span>
-      <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_map_all_ids_to identifier id'>map_all_ids_to</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_invert identifier id'>invert</span><span class='lbrack token'>[</span><span class='rubyid_computer identifier id'>computer</span><span class='rbrack token'>]</span>
-    <span class='rubyid_else else kw'>else</span> <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-  
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No computer found matching '#{computer}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_computer_id identifier id'>computer_id</span>
-  
-  <span class='rubyid_the_query identifier id'>the_query</span> <span class='assign token'>=</span> <span class='string val'>&quot;SELECT eav.value_on_client AS value, r.date_entered_epoch AS timestamp_epoch\nFROM extension_attribute_values eav JOIN reports r ON eav.report_id = r.report_id\nWHERE r.computer_id = \#{computer_id}\nAND eav.extension_attribute_id = \#{@id}\nAND eav.value_on_client != ''\nAND eav.value_on_client IS NOT NULL\nAND eav.value_on_client != '(null)'\nORDER BY timestamp_epoch\n&quot;</span>
-  
-  <span class='rubyid_qrez identifier id'>qrez</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span> <span class='rubyid_the_query identifier id'>the_query</span>
-  <span class='rubyid_history identifier id'>history</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  
-  <span class='rubyid_qrez identifier id'>qrez</span><span class='dot token'>.</span><span class='rubyid_each_hash identifier id'>each_hash</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_entry identifier id'>entry</span><span class='bitor op'>|</span>
-    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@data_type ivar id'>@data_type</span>
-      <span class='rubyid_when when kw'>when</span> <span class='string val'>'String'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span>
-      <span class='rubyid_when when kw'>when</span> <span class='string val'>'Integer'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
-      <span class='rubyid_when when kw'>when</span> <span class='string val'>'Date'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-    <span class='rubyid_newhash identifier id'>newhash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='symbol val'>:timestamp</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'timestamp_epoch'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_history identifier id'>history</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_newhash identifier id'>newhash</span>
-  <span class='rubyid_end end kw'>end</span> <span class='comment val'># each hash</span>
-  
-  <span class='rubyid_history identifier id'>history</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
     
-      <div class="method_details ">
-  <h3 class="signature " id="input_type=-instance_method">
-  
-    - (<tt>Object</tt>) <strong>input_type=</strong>(new_val) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
+      <li><span class='object_link'><a href="DBConnection.html" title="JSS::DBConnection (class)">DBConnection</a></span></li>
     
-<p>Change the input type of this EA</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -1136,121 +1918,6 @@ JSS::DB_CNX.connect</p>
       <pre class="lines">
 
 
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 156</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_input_type= identifier id'>input_type=</span> <span class='lparen token'>(</span><span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;ComputerExtensionAttribute input_types cannot be 'LDAP Attribute Mapping'&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_new_val identifier id'>new_val</span> <span class='eq op'>==</span> <span class='string val'>'LDAP Attribute Mapping'</span>
-  
-  <span class='rubyid_super super kw'>super</span>
-  
-  <span class='rubyid_case case kw'>case</span> <span class='rubyid_@input_type ivar id'>@input_type</span>
-    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='lbrack token'>[</span><span class='string val'>&quot;Text Field&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;Pop-up Menu&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_@script ivar id'>@script</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-      <span class='rubyid_@scripting_language ivar id'>@scripting_language</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-      <span class='rubyid_@platform ivar id'>@platform</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;script&quot;</span>
-      <span class='rubyid_@popup_choices ivar id'>@popup_choices</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="latest_values-instance_method">
-  
-    - (<tt>Object</tt>) <strong>latest_values</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Return an Array of Hashes showing the most recent value  for this EA on all
-computers in the JSS. Each Hash is one computer, with these keys:</p>
-
-<pre class="code ruby18"><code class="ruby18">:id - the computer id
-:name - the computer name
-:value - the most recent ext attr value for the computer.</code></pre>
-
-<p>This is done by creating a temporary AdvancedComputerSearch for all
-computers with the EA as a display field, then  getting the matching
-ComputerReport with the data. The AdvancedComputerSearch is then deleted.</p>
-
-<p>NOTE: This is BROKEN until JAMF fixes the ComputerReports JSON bug.</p>
-
-<pre class="code ruby18"><code class="ruby18">it will only return one computer.</code></pre>
-
-<p>UNTIL THEN, we’ll do this via the MySQL database.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
 260
 261
 262
@@ -1274,57 +1941,132 @@ ComputerReport with the data. The AdvancedComputerSearch is then deleted.</p>
 280
 281
 282
-283</pre>
+283
+284
+285
+286
+287
+288
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 260</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_latest_values identifier id'>latest_values</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_history identifier id'>history</span><span class='lparen token'>(</span><span class='rubyid_computer identifier id'>computer</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
-  
-  <span class='comment val'>######## TEMPORARY - until bug is fixed.</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Database connection required for 'latest_values' query.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_connected? fid id'>connected?</span>
-  
-  <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='string val'>&quot;SELECT c.computer_id AS id, c.computer_name as name, eav.value_on_client AS value\nFROM computers_denormalized c\nJOIN extension_attribute_values eav ON c.last_report_id = eav.report_id\nWHERE eav.extension_attribute_id = \#{@id}\n&quot;</span>
-  
-  <span class='rubyid_qrez identifier id'>qrez</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span> <span class='rubyid_query identifier id'>query</span>
-  <span class='rubyid_the_values identifier id'>the_values</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConnectionError constant id'>InvalidConnectionError</span><span class='comma token'>,</span> <span class='string val'>&quot;Database connection required for 'history' query.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_connected? fid id'>connected?</span>
+
+  <span class='rubyid_computer_id identifier id'>computer_id</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_computer identifier id'>computer</span>
+    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span>
+      <span class='rubyid_computer identifier id'>computer</span>
+    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span>
+      <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_map_all_ids_to identifier id'>map_all_ids_to</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_invert identifier id'>invert</span><span class='lbrack token'>[</span><span class='rubyid_computer identifier id'>computer</span><span class='rbrack token'>]</span>
+    <span class='rubyid_else else kw'>else</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No computer found matching '#{computer}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_computer_id identifier id'>computer_id</span>
+
+  <span class='rubyid_the_query identifier id'>the_query</span> <span class='assign token'>=</span> <span class='string val'>&quot;SELECT eav.value_on_client AS value, r.date_entered_epoch AS timestamp_epoch\nFROM extension_attribute_values eav JOIN reports r ON eav.report_id = r.report_id\nWHERE r.computer_id = \#{computer_id}\nAND eav.extension_attribute_id = \#{@id}\nAND eav.value_on_client != ''\nAND eav.value_on_client IS NOT NULL\nAND eav.value_on_client != '(null)'\nORDER BY timestamp_epoch\n&quot;</span>
+
+  <span class='rubyid_qrez identifier id'>qrez</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DB_CNX constant id'>DB_CNX</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span> <span class='rubyid_the_query identifier id'>the_query</span>
+  <span class='rubyid_history identifier id'>history</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_qrez identifier id'>qrez</span><span class='dot token'>.</span><span class='rubyid_each_hash identifier id'>each_hash</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_entry identifier id'>entry</span><span class='bitor op'>|</span>
     <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@data_type ivar id'>@data_type</span>
       <span class='rubyid_when when kw'>when</span> <span class='string val'>'String'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span>
       <span class='rubyid_when when kw'>when</span> <span class='string val'>'Integer'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
       <span class='rubyid_when when kw'>when</span> <span class='string val'>'Date'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-    <span class='rubyid_the_values identifier id'>the_values</span> <span class='lshft op'>&lt;&lt;</span>  <span class='lbrace token'>{</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_newhash identifier id'>newhash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='symbol val'>:timestamp</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_epoch_to_time identifier id'>epoch_to_time</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'timestamp_epoch'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_history identifier id'>history</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_newhash identifier id'>newhash</span>
   <span class='rubyid_end end kw'>end</span> <span class='comment val'># each hash</span>
+
+  <span class='rubyid_history identifier id'>history</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="input_type=-instance_method">
   
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_the_values identifier id'>the_values</span>
-  <span class='comment val'>######## END TEMPORARY</span>
+    - (<tt>void</tt>) <strong>input_type=</strong>(new_val) 
   
-  <span class='comment val'>## Some day we'll do it like this:</span>
+
   
-  <span class='rubyid_acs identifier id'>acs</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AdvancedComputerSearch constant id'>AdvancedComputerSearch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;JSSgem-CEA-#{DateTime.now.to_jss_xml_epoch}-tmp-latest&quot;</span>
-  <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_display_fields identifier id'>display_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;JSS Computer ID&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Computer Name&quot;</span><span class='comma token'>,</span> <span class='rubyid_@name ivar id'>@name</span><span class='rbrack token'>]</span>
+
   
-  <span class='rubyid_crit_list identifier id'>crit_list</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criterion constant id'>Criterion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:and_or</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;and&quot;</span><span class='comma token'>,</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Computer Name&quot;</span><span class='comma token'>,</span><span class='symbol val'>:search_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;like&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-  <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Criteriable constant id'>Criteriable</span><span class='colon2 op'>::</span><span class='rubyid_Criteria constant id'>Criteria</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_crit_list identifier id'>crit_list</span>
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='assign token'>=</span> <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='dot token'>.</span><span class='rubyid_report identifier id'>report</span>
-    <span class='rubyid_the_values identifier id'>the_values</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-    <span class='rubyid_symbolized_name identifier id'>symbolized_name</span> <span class='assign token'>=</span> <span class='rubyid_@name ivar id'>@name</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[ -]/</span><span class='comma token'>,</span> <span class='string val'>'_'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span> <span class='comment val'># hopefully this'll be fixed too</span>
-    <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_comp identifier id'>comp</span><span class='bitor op'>|</span>
-      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_@data_type ivar id'>@data_type</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>'String'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_comp identifier id'>comp</span><span class='lbrack token'>[</span><span class='rubyid_symbolized_name identifier id'>symbolized_name</span><span class='rbrack token'>]</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>'Integer'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_comp identifier id'>comp</span><span class='lbrack token'>[</span><span class='rubyid_symbolized_name identifier id'>symbolized_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
-        <span class='rubyid_when when kw'>when</span> <span class='string val'>'Date'</span> <span class='rubyid_then then kw'>then</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_parse_datetime identifier id'>parse_datetime</span><span class='lparen token'>(</span><span class='rubyid_comp identifier id'>comp</span><span class='lbrack token'>[</span><span class='rubyid_symbolized_name identifier id'>symbolized_name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
-      <span class='rubyid_the_values identifier id'>the_values</span> <span class='lshft op'>&lt;&lt;</span>  <span class='lbrace token'>{</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ecomp identifier id'>ecomp</span><span class='lbrack token'>[</span><span class='symbol val'>:JSS_Computer_ID</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_comp identifier id'>comp</span><span class='lbrack token'>[</span><span class='symbol val'>:Computer_Name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_ensure ensure kw'>ensure</span>
-    <span class='rubyid_acs identifier id'>acs</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>      
-  <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_the_values identifier id'>the_values</span>
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the input type of this EA</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="ExtensionAttribute.html#input_type%3D-instance_method" title="JSS::ExtensionAttribute#input_type= (method)">ExtensionAttribute#input_type=</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 164</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_input_type= identifier id'>input_type=</span> <span class='lparen token'>(</span><span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;ComputerExtensionAttribute input_types cannot be 'LDAP Attribute Mapping'&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_new_val identifier id'>new_val</span> <span class='eq op'>==</span> <span class='string val'>'LDAP Attribute Mapping'</span>
+
+  <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_@input_type ivar id'>@input_type</span>
+    <span class='rubyid_when when kw'>when</span> <span class='mult op'>*</span><span class='lbrack token'>[</span><span class='string val'>&quot;Text Field&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;Pop-up Menu&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_@script ivar id'>@script</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_@scripting_language ivar id'>@scripting_language</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_@platform ivar id'>@platform</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;script&quot;</span>
+      <span class='rubyid_@popup_choices ivar id'>@popup_choices</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># case</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1335,7 +2077,7 @@ ComputerReport with the data. The AdvancedComputerSearch is then deleted.</p>
       <div class="method_details ">
   <h3 class="signature " id="popup_choices=-instance_method">
   
-    - (<tt>Object</tt>) <strong>popup_choices=</strong>(new_val) 
+    - (<tt>void</tt>) <strong>popup_choices=</strong>(new_val) 
   
 
   
@@ -1343,16 +2085,34 @@ ComputerReport with the data. The AdvancedComputerSearch is then deleted.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Change the Popup Choices of this EA</p>
-
-<p>This automatically unsets all script-related attributes</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>This unsets any script-related attributes</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;#to_s&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new values</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -1360,15 +2120,15 @@ ComputerReport with the data. The AdvancedComputerSearch is then deleted.</p>
       <pre class="lines">
 
 
-176
-177
-178
-179
-180
-181</pre>
+186
+187
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 186</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_popup_choices= identifier id'>popup_choices=</span> <span class='lparen token'>(</span><span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -1409,42 +2169,42 @@ updating</p>
       <pre class="lines">
 
 
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369</pre>
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 353</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute/computer_extension_attribute.rb', line 317</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
-  
-  <span class='rubyid_cea identifier id'>cea</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_rest_rexml identifier id'>rest_rexml</span>  
-  <span class='rubyid_cea identifier id'>cea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'recon_display'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@recon_display ivar id'>@recon_display</span> 
-  
+
+  <span class='rubyid_cea identifier id'>cea</span> <span class='assign token'>=</span> <span class='rubyid_rest_rexml identifier id'>rest_rexml</span> <span class='comment val'># See parent class</span>
+  <span class='rubyid_cea identifier id'>cea</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'recon_display'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@recon_display ivar id'>@recon_display</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@input_type ivar id'>@input_type</span> <span class='eq op'>==</span> <span class='string val'>'script'</span>
     <span class='rubyid_it identifier id'>it</span> <span class='assign token'>=</span> <span class='rubyid_cea identifier id'>cea</span><span class='dot token'>.</span><span class='rubyid_elements identifier id'>elements</span><span class='lbrack token'>[</span><span class='string val'>&quot;input_type&quot;</span><span class='rbrack token'>]</span>
     <span class='rubyid_it identifier id'>it</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'script'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@script ivar id'>@script</span>
     <span class='rubyid_it identifier id'>it</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'platform'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@platform ivar id'>@platform</span>
     <span class='rubyid_it identifier id'>it</span><span class='dot token'>.</span><span class='rubyid_add_element identifier id'>add_element</span><span class='lparen token'>(</span><span class='string val'>'scripting_language'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_@scripting_language ivar id'>@scripting_language</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@scripting_language ivar id'>@scripting_language</span>
-  <span class='rubyid_end end kw'>end</span> 
-  
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_APIConnection constant id'>APIConnection</span><span class='colon2 op'>::</span><span class='rubyid_XML_HEADER constant id'>XML_HEADER</span>
   <span class='rubyid_doc identifier id'>doc</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_cea identifier id'>cea</span>
-  
+
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1458,7 +2218,7 @@ updating</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:01 2014 by
+  Generated on Tue Sep 30 15:58:22 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

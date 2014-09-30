@@ -6,7 +6,7 @@
 <title>
   Class: JSS::Criteriable::Criteria
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -104,19 +104,23 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The JSS::Criteriable::Criteria class stores an array of
-JSS::Criteriable::Criterion instances  and provides methods for working
-with them as a group.</p>
+<p>This class stores an array of <span class='object_link'><a href="Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and
+provides methods for working with them as a group.</p>
 
-<p>JSS::APIObject subclasses that include JSS::Criteriable each have a
+<p><span class='object_link'><a href="../APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclasses that include <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> have a
 :criteria attribute which holds one Criteria object.</p>
 
-<p>Objects that contain Criteria objects need to  1 - call ‘#container =
-self’ on their Criteria object when its created. 2 - implement
-#need_to_update, which the Criteria object calls when it changes.</p>
+<p>Objects that contain Criteria objects need to</p>
+<ul><li>
+<p>call ‘#container = self’ on their Criteria object when its created.</p>
+</li><li>
+<p>implement #should_update, which the Criteria object calls when it changes.</p>
+</li></ul>
 
-<p>Both of those tasks are handled by the JSS::Criteriable module and are
-mixed in when  it’s included.</p>
+<p>Both of those tasks are handled by the <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> module and are
+mixed in when it’s included.</p>
+
+<p>See <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> for examples</p>
 
 
   </div>
@@ -158,7 +162,7 @@ mixed in when  it’s included.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#container-instance_method" title="#container (instance method)">- (Object) <strong>container</strong> </a>
+      <a href="#container-instance_method" title="#container (instance method)">- (JSS::APIObject subclass) <strong>container</strong> </a>
     
 
     
@@ -176,8 +180,7 @@ mixed in when  it’s included.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>JSS::APIObject subclass - a reference to the object containing these
-Criteria.</p>
+<p>A reference to the object containing these Criteria.</p>
 </div></span>
   
 </li>
@@ -186,7 +189,7 @@ Criteria.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#criteria-instance_method" title="#criteria (instance method)">- (Object) <strong>criteria</strong> </a>
+      <a href="#criteria-instance_method" title="#criteria (instance method)">- (Array) <strong>criteria</strong> </a>
     
 
     
@@ -204,7 +207,7 @@ Criteria.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Array - the group of JSS::Criteriable::Criterion instances making up these
+<p>The group of JSS::Criteriable::Criterion instances making up these
 Criteria.</p>
 </div></span>
   
@@ -227,7 +230,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#append_criterion-instance_method" title="#append_criterion (instance method)">- (Object) <strong>append_criterion</strong>(criterion) </a>
+      <a href="#append_criterion-instance_method" title="#append_criterion (instance method)">- (void) <strong>append_criterion</strong>(criterion) </a>
     
 
     
@@ -251,7 +254,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_criterion-instance_method" title="#delete_criterion (instance method)">- (Object) <strong>delete_criterion</strong>(priority) </a>
+      <a href="#delete_criterion-instance_method" title="#delete_criterion (instance method)">- (void) <strong>delete_criterion</strong>(priority) </a>
     
 
     
@@ -301,7 +304,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#insert_criterion-instance_method" title="#insert_criterion (instance method)">- (Object) <strong>insert_criterion</strong>(priority, criterion) </a>
+      <a href="#insert_criterion-instance_method" title="#insert_criterion (instance method)">- (void) <strong>insert_criterion</strong>(priority, criterion) </a>
     
 
     
@@ -325,7 +328,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#prepend_criterion-instance_method" title="#prepend_criterion (instance method)">- (Object) <strong>prepend_criterion</strong>(criterion) </a>
+      <a href="#prepend_criterion-instance_method" title="#prepend_criterion (instance method)">- (void) <strong>prepend_criterion</strong>(criterion) </a>
     
 
     
@@ -360,7 +363,7 @@ Criteria.</p>
   
   
   
-  
+  <span class="private note title">private</span>
 
   
     <span class="summary_desc"><div class='inline'>
@@ -373,7 +376,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_criterion-instance_method" title="#set_criterion (instance method)">- (Object) <strong>set_criterion</strong>(priority, criterion) </a>
+      <a href="#set_criterion-instance_method" title="#set_criterion (instance method)">- (void) <strong>set_criterion</strong>(priority, criterion) </a>
     
 
     
@@ -397,7 +400,7 @@ Criteria.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_priorities-instance_method" title="#set_priorities (instance method)">- (Object) <strong>set_priorities</strong> </a>
+      <a href="#set_priorities-instance_method" title="#set_priorities (instance method)">- (void) <strong>set_priorities</strong> </a>
     
 
     
@@ -450,7 +453,7 @@ Criteria.</p>
         <span class='name'>new_criteria</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;JSS:Criteriable::Criterion&gt;</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Criterion.html" title="JSS::Criteriable::Criterion (class)">JSS::Criteriable::Criterion</a></span>&gt;</tt>)</span>
       
       
       
@@ -465,13 +468,13 @@ Criteria.</p>
       <pre class="lines">
 
 
-51
-52
 53
-54</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_new_criteria identifier id'>new_criteria</span><span class='rparen token'>)</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -493,7 +496,7 @@ Criteria.</p>
       <div class="method_details first">
   <h3 class="signature first" id="container-instance_method">
   
-    - (<tt>Object</tt>) <strong>container</strong> 
+    - (<tt><span class='object_link'><a href="../APIObject.html" title="JSS::APIObject (class)">JSS::APIObject</a></span> subclass</tt>) <strong>container</strong> 
   
 
   
@@ -502,14 +505,31 @@ Criteria.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>JSS::APIObject subclass - a reference to the object containing these
-Criteria</p>
+<p>Returns a reference to the object containing these Criteria</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIObject.html" title="JSS::APIObject (class)">JSS::APIObject</a></span> subclass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a reference to the object containing these Criteria</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -517,12 +537,12 @@ Criteria</p>
       <pre class="lines">
 
 
-46
-47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_container identifier id'>container</span>
   <span class='rubyid_@container ivar id'>@container</span>
@@ -538,7 +558,7 @@ Criteria</p>
       <div class="method_details ">
   <h3 class="signature " id="criteria-instance_method">
   
-    - (<tt>Object</tt>) <strong>criteria</strong> 
+    - (<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>) <strong>criteria</strong> 
   
 
   
@@ -547,7 +567,7 @@ Criteria</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Array - the group of JSS::Criteriable::Criterion instances making up these
+<p>Returns the group of JSS::Criteriable::Criterion instances making up these
 Criteria</p>
 
 
@@ -555,6 +575,24 @@ Criteria</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the group of JSS::Criteriable::Criterion instances making up these Criteria</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -562,12 +600,12 @@ Criteria</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 45</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_criteria identifier id'>criteria</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span>
@@ -588,7 +626,7 @@ Criteria</p>
       <div class="method_details first">
   <h3 class="signature first" id="append_criterion-instance_method">
   
-    - (<tt>Object</tt>) <strong>append_criterion</strong>(criterion) 
+    - (<tt>void</tt>) <strong>append_criterion</strong>(criterion) 
   
 
   
@@ -596,7 +634,7 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a new criterion to the end of the criteria</p>
 
 
@@ -631,21 +669,21 @@ Criteria</p>
       <pre class="lines">
 
 
-98
-99
-100
-101
-102
-103</pre>
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 87</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_append_criterion identifier id'>append_criterion</span><span class='lparen token'>(</span><span class='rubyid_criterion identifier id'>criterion</span><span class='rparen token'>)</span>
   <span class='rubyid_criterion_ok? fid id'>criterion_ok?</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_criterion identifier id'>criterion</span><span class='dot token'>.</span><span class='rubyid_priority identifier id'>priority</span> <span class='assign token'>=</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_criterion identifier id'>criterion</span>
-  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_should_update identifier id'>should_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -656,7 +694,7 @@ Criteria</p>
       <div class="method_details ">
   <h3 class="signature " id="delete_criterion-instance_method">
   
-    - (<tt>Object</tt>) <strong>delete_criterion</strong>(priority) 
+    - (<tt>void</tt>) <strong>delete_criterion</strong>(priority) 
   
 
   
@@ -664,7 +702,7 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Remove a criterion from the criteria</p>
 
 
@@ -699,17 +737,17 @@ Criteria</p>
       <pre class="lines">
 
 
+131
+132
+133
+134
 135
 136
 137
-138
-139
-140
-141
-142</pre>
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_criterion identifier id'>delete_criterion</span><span class='lparen token'>(</span><span class='rubyid_priority identifier id'>priority</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='lbrack token'>[</span><span class='rubyid_priority identifier id'>priority</span><span class='rbrack token'>]</span>
@@ -717,7 +755,7 @@ Criteria</p>
     <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_delete_at identifier id'>delete_at</span> <span class='rubyid_priority identifier id'>priority</span>
     <span class='rubyid_set_priorities identifier id'>set_priorities</span>
   <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_should_update identifier id'>should_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -728,7 +766,7 @@ Criteria</p>
       <div class="method_details ">
   <h3 class="signature " id="insert_criterion-instance_method">
   
-    - (<tt>Object</tt>) <strong>insert_criterion</strong>(priority, criterion) 
+    - (<tt>void</tt>) <strong>insert_criterion</strong>(priority, criterion) 
   
 
   
@@ -736,7 +774,7 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a new criterion to the middle of the criteria</p>
 
 
@@ -787,21 +825,21 @@ Criteria</p>
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128</pre>
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_insert_criterion identifier id'>insert_criterion</span><span class='lparen token'>(</span><span class='rubyid_priority identifier id'>priority</span><span class='comma token'>,</span><span class='rubyid_criterion identifier id'>criterion</span><span class='rparen token'>)</span>
   <span class='rubyid_criterion_ok? fid id'>criterion_ok?</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span> <span class='rubyid_criterion identifier id'>criterion</span><span class='lbrack token'>[</span><span class='symbol val'>:priority</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_set_priorities identifier id'>set_priorities</span>
-  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_should_update identifier id'>should_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -812,7 +850,7 @@ Criteria</p>
       <div class="method_details ">
   <h3 class="signature " id="prepend_criterion-instance_method">
   
-    - (<tt>Object</tt>) <strong>prepend_criterion</strong>(criterion) 
+    - (<tt>void</tt>) <strong>prepend_criterion</strong>(criterion) 
   
 
   
@@ -820,7 +858,7 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a new criterion to the beginning of the criteria</p>
 
 
@@ -855,21 +893,21 @@ Criteria</p>
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115</pre>
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepend_criterion identifier id'>prepend_criterion</span><span class='lparen token'>(</span><span class='rubyid_criterion identifier id'>criterion</span><span class='rparen token'>)</span>
   <span class='rubyid_criterion_ok? fid id'>criterion_ok?</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_unshift identifier id'>unshift</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_set_priorities identifier id'>set_priorities</span>
-  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_should_update identifier id'>should_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -888,11 +926,16 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>This can’t be a private method for this class.</p>
+<p>This can’t be a private method for this class since container classes
+must call it</p>
 </div>
   </div>
 
@@ -942,15 +985,15 @@ Criteria</p>
       <pre class="lines">
 
 
-156
-157
-158
-159
-160
-161</pre>
+175
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rest_xml identifier id'>rest_xml</span>
    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Criteria can't be empty&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -967,7 +1010,7 @@ Criteria</p>
       <div class="method_details ">
   <h3 class="signature " id="set_criterion-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_criterion</strong>(priority, criterion) 
+    - (<tt>void</tt>) <strong>set_criterion</strong>(priority, criterion) 
   
 
   
@@ -975,7 +1018,7 @@ Criteria</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Change the details of one specific criterion</p>
 
 
@@ -1041,21 +1084,23 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
       <pre class="lines">
 
 
-86
-87
-88
-89
-90
-91</pre>
+151
+152
+153
+154
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 151</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_criterion identifier id'>set_criterion</span><span class='lparen token'>(</span><span class='rubyid_priority identifier id'>priority</span><span class='comma token'>,</span> <span class='rubyid_criterion identifier id'>criterion</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No current criterion with priority '#{priority}'&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='lbrack token'>[</span><span class='rubyid_priority identifier id'>priority</span><span class='rbrack token'>]</span>
   <span class='rubyid_criterion_ok? fid id'>criterion_ok?</span> <span class='rubyid_criterion identifier id'>criterion</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span><span class='lbrack token'>[</span><span class='rubyid_priority identifier id'>priority</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_criterion identifier id'>criterion</span>
-  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_need_to_update identifier id'>need_to_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
+  <span class='rubyid_set_priorities identifier id'>set_priorities</span>
+  <span class='rubyid_@container ivar id'>@container</span><span class='dot token'>.</span><span class='rubyid_should_update identifier id'>should_update</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@container ivar id'>@container</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1066,7 +1111,7 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
       <div class="method_details ">
   <h3 class="signature " id="set_priorities-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_priorities</strong> 
+    - (<tt>void</tt>) <strong>set_priorities</strong> 
   
 
   
@@ -1074,7 +1119,7 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Set the priorities of the @criteria to match their array indices</p>
 
 
@@ -1089,12 +1134,12 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
       <pre class="lines">
 
 
-147
-148
-149</pre>
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable/criteria.rb', line 164</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_priorities identifier id'>set_priorities</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span><span class='dot token'>.</span><span class='rubyid_each_index identifier id'>each_index</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_ci identifier id'>ci</span><span class='bitor op'>|</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='lbrack token'>[</span><span class='rubyid_ci identifier id'>ci</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_priority identifier id'>priority</span> <span class='assign token'>=</span> <span class='rubyid_ci identifier id'>ci</span> <span class='rbrace token'>}</span>
@@ -1110,7 +1155,7 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:57 2014 by
+  Generated on Tue Sep 30 15:58:14 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

@@ -6,7 +6,7 @@
 <title>
   Class: JSS::SoftwareUpdateServer
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -108,13 +108,20 @@
     
 <p>A Software Update Server in the JSS</p>
 
-<p>See also JSS::APIObject</p>
+<p>Only minimally implemented, for access to the APIObject list methods</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -196,12 +203,6 @@ for this class</p>
 
 
 
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
-
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -209,11 +210,16 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (Object) <strong>ip_address</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
     
 
     
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -229,7 +235,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Attributes.</p>
+<p>The JSS id number.</p>
 </div></span>
   
 </li>
@@ -238,11 +244,18 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#port-instance_method" title="#port (instance method)">- (Object) <strong>port</strong> </a>
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
     
 
     
+      (also: #in_jss?)
+    
   </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -258,7 +271,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Integer.</p>
+<p>Is it in the JSS?.</p>
 </div></span>
   
 </li>
@@ -267,7 +280,7 @@ for this class</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_system_wide-instance_method" title="#set_system_wide (instance method)">- (Object) <strong>set_system_wide</strong> </a>
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">- (String) <strong>ip_address</strong> </a>
     
 
     
@@ -286,9 +299,129 @@ for this class</p>
   
 
   
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
     <span class="summary_desc"><div class='inline'>
-<p>Boolean.</p>
+<p>The name.</p>
 </div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">- (Integer) <strong>port</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_system_wide-instance_method" title="#set_system_wide (instance method)">- (Boolean) <strong>set_system_wide</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -296,11 +429,6 @@ for this class</p>
   </ul>
 
 
-
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
 
 
   
@@ -331,7 +459,7 @@ for this class</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>See JSS::APIObject#initialize.</p>
+<p>A new instance of SoftwareUpdateServer.</p>
 </div></span>
   
 </li>
@@ -342,16 +470,7 @@ for this class</p>
 
 
   
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -366,7 +485,7 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>See JSS::APIObject#initialize</p>
+<p>Returns a new instance of SoftwareUpdateServer</p>
 
 
   </div>
@@ -374,21 +493,28 @@ for this class</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>SS::APIObject#initialize</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-64
-65
-66
-67
-68
-69</pre>
+70
+71
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -410,9 +536,109 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="ip_address-instance_method">
+  <h3 class="signature first" id="id-instance_method">
   
-    - (<tt>Object</tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>ip_address</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -421,13 +647,24 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Attributes</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -435,12 +672,12 @@ for this class</p>
       <pre class="lines">
 
 
-51
-52
-53</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ip_address identifier id'>ip_address</span>
   <span class='rubyid_@ip_address ivar id'>@ip_address</span>
@@ -454,9 +691,57 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="port-instance_method">
   
-    - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Integer</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -465,13 +750,24 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Integer</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -479,12 +775,12 @@ for this class</p>
       <pre class="lines">
 
 
-52
-53
-54</pre>
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_port identifier id'>port</span>
   <span class='rubyid_@port ivar id'>@port</span>
@@ -498,9 +794,58 @@ for this class</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
   <h3 class="signature " id="set_system_wide-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_system_wide</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>set_system_wide</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -509,13 +854,24 @@ for this class</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -523,12 +879,12 @@ for this class</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/software_update_server.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_system_wide identifier id'>set_system_wide</span>
   <span class='rubyid_@set_system_wide ivar id'>@set_system_wide</span>
@@ -545,7 +901,7 @@ for this class</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:11 2014 by
+  Generated on Tue Sep 30 15:58:43 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

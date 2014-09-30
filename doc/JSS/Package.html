@@ -6,7 +6,7 @@
 <title>
   Class: JSS::Package
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -112,53 +112,21 @@
     
 <p>A Package in the JSS</p>
 
-<p>When instantiating a package, :data, :name or :id must be provided.</p>
-
-<p>If only :id or :filename are provided, all the rest of the data to be
-queried from the JSS.</p>
-
-<p>If any other data is provided, it is assumed that ALL  the remaining data
-will be provided in the args. If that data didn’t come from the server
-via some other query (which you can indicate by providing
-:data_came_from_server) the data is checked for consistency during
-initialization, and an error is raised if  inconsistent.</p>
-
-<p>To create a package that doesn’t yet exist in the JSS, provide :create
-=&gt; true, in which case a :filename is required, (but obviously not an
-:id) The :filename given must not already exist in the JSS packages table.</p>
-
-<p>If you want to upload a local file to the master dist. point, provide a
-path to it with :local_file in the args, and also provide the :rw_passwd
-for the dist point. The :local_file need not have the same :filename, it
-will be set correctly on the  server when uploaded.</p>
-
-<p>The #save method will then cause a new package be added to the JSS. If a
-:local_file was provided, it will be uploaded to the master dist. point
-using the :rw_passwd. If not, the admin is responsible for uploading the
-file some other way</p>
-
-<p>Also the API provides no access to the package’s  file list (index), so
+<p>Also the API provides no access to the package’s file list (index), so
 indexing must be done separately (usually via Casper Admin)</p>
-
-<p>Here’s the JSON data for a package. :allow_uninstalled=&gt;true,
-:boot_volume_required=&gt;false, :category=&gt;“pkg-application”,
-:filename=&gt;“1keyboard-1.0-1.pkg” :fill_existing_users=&gt;false,
-:fill_user_template=&gt;false, :id=&gt;1858, :info=&gt;“”,
-:install_if_reported_available=&gt;“false”,
-:name=&gt;“1keyboard-1.0-1.pkg”, :notes=&gt;“Installer for
-1Keyboard”, :os_requirements=&gt;“”, :priority=&gt;10,
-:reboot_required=&gt;false, :reinstall_option=&gt;“Do Not Reinstall”,
-:required_processor=&gt;“x86”, :send_notification=&gt;false,
-:switch_with_package=&gt;“Do Not Install” :triggering_files=&gt;{}  #
-DEPRECATED</p>
-
-<p>See also JSS::APIObject</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -269,7 +237,7 @@ for this class</p>
         <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;None&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;x86&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ppc&quot;</span><span class='rbrack token'>]</span>
 </pre></dd>
       
-        <dt id="DEFAULT_REQ_CPU_TYPE-constant" class="">DEFAULT_REQ_CPU_TYPE =
+        <dt id="DEFAULT_CPU_TYPE-constant" class="">DEFAULT_CPU_TYPE =
           <div class="docstring">
   <div class="discussion">
     
@@ -284,41 +252,6 @@ for this class</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='string val'>&quot;None&quot;</span>
-</pre></dd>
-      
-        <dt id="SH_TRIGGER_FILE_COMPARISONS-constant" class="">SH_TRIGGER_FILE_COMPARISONS =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>the possible values for self-healing trigger-file comparisons</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;Permissions&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;File Exists&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Any Difference&quot;</span><span class='rbrack token'>]</span>
-</pre></dd>
-      
-        <dt id="SH_TRIGGER_FILE_HASH_KEYS-constant" class="">SH_TRIGGER_FILE_HASH_KEYS =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>the array of trigger files is full of hashes, each of which must have these
-keys</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='symbol val'>:compare</span><span class='comma token'>,</span> <span class='symbol val'>:name</span><span class='rbrack token'>]</span>
 </pre></dd>
       
         <dt id="PRIORITIES-constant" class="">PRIORITIES =
@@ -355,39 +288,7 @@ keys</p>
         <dd><pre class="code"><span class='integer val'>10</span>
 </pre></dd>
       
-        <dt id="PKG_ATTRS_TO_JSS_FIELDS-constant" class="">PKG_ATTRS_TO_JSS_FIELDS =
-          <div class="docstring">
-  <div class="discussion">
-    
-<p>The mapping of symbols used throughout this class (mostly as class
-attributes) to field names in the JSS packages table</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span>
-          <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'package_id'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:filename</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_name'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'package_name'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:feu</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'fill_existing_users'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:fut</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'fill_user_template'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:reboot</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'require_reboot'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:oses</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'os_requirements'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:cpu_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'required_processor'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:removable</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'allow_uninstall'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:info</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'info'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:notes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'notes'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:cat_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'category_id'</span><span class='comma token'>,</span>
-          <span class='symbol val'>:priority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'priority'</span><span class='comma token'>,</span>
-<span class='rbrace token'>}</span>
-</pre></dd>
-      
-        <dt id="DEFAULT_REQUIRED_PROCESSOR-constant" class="">DEFAULT_REQUIRED_PROCESSOR =
+        <dt id="DEFAULT_PROCESSOR-constant" class="">DEFAULT_PROCESSOR =
           <div class="docstring">
   <div class="discussion">
     
@@ -404,28 +305,27 @@ attributes) to field names in the JSS packages table</p>
         <dd><pre class="code"><span class='string val'>&quot;None&quot;</span>
 </pre></dd>
       
+        <dt id="DO_NOT_INSTALL-constant" class="">DO_NOT_INSTALL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>When we shouldn’t install anything (e.g. switch w/package)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='string val'>&quot;Do Not Install&quot;</span>
+</pre></dd>
+      
     </dl>
   
 
 
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#UPDATABLE-constant" title="JSS::Updatable::UPDATABLE (constant)">Updatable::UPDATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#CREATABLE-constant" title="JSS::Creatable::CREATABLE (constant)">Creatable::CREATABLE</a></span></p>
-
-  
-  
-  <h3 class="inherited">Constants inherited
-     from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#DEFAULT_LOOKUP_KEYS-constant" title="JSS::APIObject::DEFAULT_LOOKUP_KEYS (constant)">APIObject::DEFAULT_LOOKUP_KEYS</a></span>, <span class='object_link'><a href="APIObject.html#REQUIRED_DATA_KEYS-constant" title="JSS::APIObject::REQUIRED_DATA_KEYS (constant)">APIObject::REQUIRED_DATA_KEYS</a></span></p>
 
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
@@ -434,7 +334,7 @@ attributes) to field names in the JSS packages table</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#allow_uninstalled-instance_method" title="#allow_uninstalled (instance method)">- (Object) <strong>allow_uninstalled</strong> </a>
+      <a href="#allow_uninstalled-instance_method" title="#allow_uninstalled (instance method)">- (Boolean) <strong>allow_uninstalled</strong> </a>
     
 
     
@@ -454,7 +354,7 @@ attributes) to field names in the JSS packages table</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - can this item be uninstalled? Some, e.g.</p>
+<p>Can this item be uninstalled? Some, e.g.</p>
 </div></span>
   
 </li>
@@ -463,18 +363,16 @@ attributes) to field names in the JSS packages table</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#boot_volume_required-instance_method" title="#boot_volume_required (instance method)">- (Object) <strong>boot_volume_required</strong> </a>
+      <a href="#boot_volume_required-instance_method" title="#boot_volume_required (instance method)">- (Boolean) <strong>boot_volume_required</strong> </a>
     
 
     
-      (also: #boot)
+      (also: #boot?, #boot)
     
   </span>
   
   
   
-    
-      <span class="note title readonly">readonly</span>
     
     
   
@@ -485,7 +383,7 @@ attributes) to field names in the JSS packages table</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - should this pkg be installed on the boot volume during imaging.</p>
+<p>Should this pkg be installed on the boot volume during imaging.</p>
 </div></span>
   
 </li>
@@ -494,37 +392,7 @@ attributes) to field names in the JSS packages table</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#category-instance_method" title="#category (instance method)">- (Object) <strong>category</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>String - the category of this pkg, stored in the JSS as the id number from
-the categories table.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#filename-instance_method" title="#filename (instance method)">- (Object) <strong>filename</strong> </a>
+      <a href="#category-instance_method" title="#category (instance method)">- (String) <strong>category</strong> </a>
     
 
     
@@ -542,7 +410,8 @@ the categories table.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the filename of the .pkg, .mpkg, or .dmg on the Casper server.</p>
+<p>The category of this pkg, stored in the JSS as the id number from the
+categories table.</p>
 </div></span>
   
 </li>
@@ -551,7 +420,34 @@ the categories table.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fill_existing_users-instance_method" title="#fill_existing_users (instance method)">- (Object) <strong>fill_existing_users</strong> </a>
+      <a href="#filename-instance_method" title="#filename (instance method)">- (String) <strong>filename</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The filename of the .pkg, .mpkg, or .dmg on the Casper server.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill_existing_users-instance_method" title="#fill_existing_users (instance method)">- (Boolean) <strong>fill_existing_users</strong> </a>
     
 
     
@@ -571,7 +467,7 @@ the categories table.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - does this item ‘Fill Existing Users’ when jamf installs it?.</p>
+<p>Does this item ‘Fill Existing Users’ when jamf installs it?.</p>
 </div></span>
   
 </li>
@@ -580,13 +476,45 @@ the categories table.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fill_user_template-instance_method" title="#fill_user_template (instance method)">- (Object) <strong>fill_user_template</strong> </a>
+      <a href="#fill_user_template-instance_method" title="#fill_user_template (instance method)">- (Boolean) <strong>fill_user_template</strong> </a>
     
 
     
       (also: #fut?, #fut)
     
   </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this pkg also get install in the OS user homedir template.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">- (Integer) <strong>id</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
   
   
   
@@ -602,7 +530,7 @@ the categories table.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - does this pkg also get install in the OS user homedir template.</p>
+<p>The JSS id number.</p>
 </div></span>
   
 </li>
@@ -611,7 +539,43 @@ the categories table.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#info-instance_method" title="#info (instance method)">- (Object) <strong>info</strong> </a>
+      <a href="#in_jss-instance_method" title="#in_jss (instance method)">- (Boolean) <strong>in_jss</strong> </a>
+    
+
+    
+      (also: #in_jss?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is it in the JSS?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#info-instance_method" title="#info (instance method)">- (String) <strong>info</strong> </a>
     
 
     
@@ -629,8 +593,7 @@ the categories table.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the info field for this pkg - stores d3’s basename &amp;
-swupdate values.</p>
+<p>The info field for this pkg - stores d3’s basename &amp; swupdate values.</p>
 </div></span>
   
 </li>
@@ -639,7 +602,7 @@ swupdate values.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#install_if_reported_available-instance_method" title="#install_if_reported_available (instance method)">- (Object) <strong>install_if_reported_available</strong> </a>
+      <a href="#install_if_reported_available-instance_method" title="#install_if_reported_available (instance method)">- (Boolean) <strong>install_if_reported_available</strong> </a>
     
 
     
@@ -659,7 +622,7 @@ swupdate values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - only install this pkg if it’s available in the commandline
+<p>Only install this pkg if it’s available in the commandline
 softwareupdate.</p>
 </div></span>
   
@@ -669,7 +632,75 @@ softwareupdate.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#notes-instance_method" title="#notes (instance method)">- (Object) <strong>notes</strong> </a>
+      <a href="#name-instance_method" title="#name (instance method)">- (String) <strong>name</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">- (Boolean) <strong>need_to_update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notes-instance_method" title="#notes (instance method)">- (String) <strong>notes</strong> </a>
     
 
     
@@ -687,7 +718,7 @@ softwareupdate.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the notes field for this pkg.</p>
+<p>The notes field for this pkg.</p>
 </div></span>
   
 </li>
@@ -696,7 +727,7 @@ softwareupdate.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#os_requirements-instance_method" title="#os_requirements (instance method)">- (Object) <strong>os_requirements</strong> </a>
+      <a href="#os_requirements-instance_method" title="#os_requirements (instance method)">- (Array&lt;String&gt;) <strong>os_requirements</strong> </a>
     
 
     
@@ -707,7 +738,32 @@ softwareupdate.</p>
   
   
     
-      <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The OS versions this can be installed onto.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#priority-instance_method" title="#priority (instance method)">- (Integer) <strong>priority</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
     
     
   
@@ -718,7 +774,7 @@ softwareupdate.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Array of Strings - the OS versions this can be installed onto.</p>
+<p>Priority to use for deploying or uninstalling the package.</p>
 </div></span>
   
 </li>
@@ -727,7 +783,37 @@ softwareupdate.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#priority-instance_method" title="#priority (instance method)">- (Object) <strong>priority</strong> </a>
+      <a href="#reboot_required-instance_method" title="#reboot_required (instance method)">- (Boolean) <strong>reboot_required</strong> </a>
+    
+
+    
+      (also: #reboot?, #reboot)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this item require a reboot after installation? If so, it’ll be a
+puppy-install in d3.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#receipt-instance_method" title="#receipt (instance method)">- (Pathname) <strong>receipt</strong> </a>
     
 
     
@@ -747,9 +833,7 @@ softwareupdate.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Integer - Priority to use for deploying or uninstalling the package  (e.g.
-A package with a priority of “1” is deployed or uninstalled before
-other packages).</p>
+<p>The local receipt when this pkg is installed.</p>
 </div></span>
   
 </li>
@@ -758,39 +842,7 @@ other packages).</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reboot_required-instance_method" title="#reboot_required (instance method)">- (Object) <strong>reboot_required</strong> </a>
-    
-
-    
-      (also: #reboot, #reboot?)
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Boolean - does this item require a reboot after installation? If so,
-it’ll be a puppy-install in d3.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#required_processor-instance_method" title="#required_processor (instance method)">- (Object) <strong>required_processor</strong> </a>
+      <a href="#required_processor-instance_method" title="#required_processor (instance method)">- (String) <strong>required_processor</strong> </a>
     
 
     
@@ -801,6 +853,39 @@ it’ll be a puppy-install in d3.</p>
   
   
     
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Limit installation to these architectures: ‘x86’,  ‘ppc’,
+‘None’.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_rsrc-instance_method" title="#rest_rsrc (instance method)">- (String) <strong>rest_rsrc</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      inherited
+      from <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+  
+  
+    
       <span class="note title readonly">readonly</span>
     
     
@@ -812,8 +897,7 @@ it’ll be a puppy-install in d3.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the cpu type this item can be installed on: ‘x86’ or
-‘ppc’.</p>
+<p>The Rest resource for API access (the part after “JSSResource/” ).</p>
 </div></span>
   
 </li>
@@ -822,7 +906,7 @@ it’ll be a puppy-install in d3.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#send_notification-instance_method" title="#send_notification (instance method)">- (Object) <strong>send_notification</strong> </a>
+      <a href="#send_notification-instance_method" title="#send_notification (instance method)">- (Boolean) <strong>send_notification</strong> </a>
     
 
     
@@ -842,7 +926,7 @@ it’ll be a puppy-install in d3.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Boolean - does this pkg cause a notification to be sent on self-heal?.</p>
+<p>Does this pkg cause a notification to be sent on self-heal?.</p>
 </div></span>
   
 </li>
@@ -851,7 +935,7 @@ it’ll be a puppy-install in d3.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#switch_with_package-instance_method" title="#switch_with_package (instance method)">- (Object) <strong>switch_with_package</strong> </a>
+      <a href="#switch_with_package-instance_method" title="#switch_with_package (instance method)">- (String) <strong>switch_with_package</strong> </a>
     
 
     
@@ -859,8 +943,6 @@ it’ll be a puppy-install in d3.</p>
   
   
   
-    
-      <span class="note title readonly">readonly</span>
     
     
   
@@ -871,8 +953,8 @@ it’ll be a puppy-install in d3.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>String - the name of a pkg to install when this pkg can’t be installed
-due to cpu-type mismatch or the string “Do Not Install”.</p>
+<p>The name of a pkg to install (or “Do Not Install”) when this pkg
+can’t be installed.</p>
 </div></span>
   
 </li>
@@ -882,11 +964,6 @@ due to cpu-type mismatch or the string “Do Not Install”.</p>
 
 
 
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">#id</a></span>, <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">#in_jss</a></span>, <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">#name</a></span>, <span class='object_link'><a href="APIObject.html#need_to_update-instance_method" title="JSS::APIObject#need_to_update (method)">#need_to_update</a></span>, <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">#rest_rsrc</a></span></p>
-
 
   
     <h2>
@@ -895,6 +972,59 @@ due to cpu-type mismatch or the string “Do Not Install”.</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">- (Integer) <strong>create</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new object in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_master_file-instance_method" title="#delete_master_file (instance method)">- (Boolean) <strong>delete_master_file</strong>(rw_pw, unmount = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete the filename from the master distribution point, if it exists.</p>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -916,9 +1046,7 @@ due to cpu-type mismatch or the string “Do Not Install”.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initialization takes a hash requiring at least a :name, an :id, or :data To
-look up an existing pkg, use one of     :name =&gt; the name of a pkg in
-the JSS.</p>
+<p>A new instance of Package.</p>
 </div></span>
   
 </li>
@@ -927,7 +1055,7 @@ the JSS.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name%3D-instance_method" title="#name= (instance method)">- (Object) <strong>name=</strong>(new_val) </a>
+      <a href="#install-instance_method" title="#install (instance method)">- (Process::Status) <strong>install</strong>(args = {}) </a>
     
 
     
@@ -942,7 +1070,8 @@ the JSS.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the display name  new_val = string.</p>
+<p>Causes the pkg/dmg to be installed via the jamf binary ‘install’
+command from the distribution point for this machine.</p>
 </div></span>
   
 </li>
@@ -951,7 +1080,7 @@ the JSS.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#uninstall-instance_method" title="#uninstall (instance method)">- (Object) <strong>uninstall</strong>(*args) </a>
+      <a href="#installed%3F-instance_method" title="#installed? (instance method)">- (Boolean) <strong>installed?</strong> </a>
     
 
     
@@ -966,8 +1095,116 @@ the JSS.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This causes the pkg to be uninstalled in a JAMF-ish way, via the jamf
-command.</p>
+<p>Is this packaged installed on the current machine (via casper)? We just
+look for the receipt, which is the @filename less any possible .zip
+extension.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name%3D-instance_method" title="#name= (instance method)">- (void) <strong>name=</strong>(newname) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uninstall-instance_method" title="#uninstall (instance method)">- (Process::Status) <strong>uninstall</strong>(args = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Causes the pkg to be uninstalled via the jamf command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">- (Boolean) <strong>update</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_master_file-instance_method" title="#upload_master_file (instance method)">- (void) <strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upload a locally-readable file to the master distribution point.</p>
 </div></span>
   
 </li>
@@ -982,34 +1219,7 @@ command.</p>
   
   
   
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Updatable.html#save-instance_method" title="JSS::Updatable#save (method)">#save</a></span>, <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">#update</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">#create</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">all</a></span>, <span class='object_link'><a href="APIObject.html#all_ids-class_method" title="JSS::APIObject.all_ids (method)">all_ids</a></span>, <span class='object_link'><a href="APIObject.html#all_names-class_method" title="JSS::APIObject.all_names (method)">all_names</a></span>, <span class='object_link'><a href="APIObject.html#delete-instance_method" title="JSS::APIObject#delete (method)">#delete</a></span>, <span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span>, <span class='object_link'><a href="APIObject.html#xml_list-class_method" title="JSS::APIObject.xml_list (method)">xml_list</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -1024,25 +1234,7 @@ command.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Initialization takes a hash requiring at least a :name, an :id, or :data To
-look up an existing pkg, use one of</p>
-
-<pre class="ruby">:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">name</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">pkg</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">JSS</span>. <span class="ruby-constant">It</span> <span class="ruby-identifier">will</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">looked</span> <span class="ruby-identifier">up</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">create</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">Package</span> <span class="ruby-identifier">object</span>.
-:<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">JSS</span> <span class="ruby-identifier">id</span> <span class="ruby-identifier">nuumber</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">pkg</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">JSS</span>. <span class="ruby-constant">It</span> <span class="ruby-identifier">will</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">looked</span> <span class="ruby-identifier">up</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">create</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">Package</span> <span class="ruby-identifier">object</span>.
-</pre>
-
-<p>If you have the data from a previous API lookup:</p>
-
-<pre class="ruby">:<span class="ruby-identifier">data</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">parsed</span> <span class="ruby-constant">JSON</span> <span class="ruby-identifier">output</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">the</span> <span class="ruby-constant">API</span> (<span class="ruby-identifier">a</span> <span class="ruby-identifier">hash</span>) <span class="ruby-identifier">with</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">details</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">single</span> <span class="ruby-identifier">package</span>.
-</pre>
-
-<p>To create a new pkg in the JSS</p>
-
-<pre class="ruby">:<span class="ruby-identifier">id</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">new</span>
-:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-operator">&lt;</span><span class="ruby-identifier">newname</span><span class="ruby-operator">&gt;</span>
-</pre>
-
-<p>then be sure to call #create after setting the values with the setters</p>
+<p>Returns a new instance of Package</p>
 
 
   </div>
@@ -1050,58 +1242,71 @@ look up an existing pkg, use one of</p>
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">APIObject#initialize</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257</pre>
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
   <span class='rubyid_super super kw'>super</span>
-  
+
   <span class='comment val'>### now we have pkg_data with something in it, so fill out the instance vars</span>
   <span class='rubyid_@allow_uninstalled ivar id'>@allow_uninstalled</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_uninstalled</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@boot_volume_required ivar id'>@boot_volume_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:boot_volume_required</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@category ivar id'>@category</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:category</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@cat_id ivar id'>@cat_id</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Category constant id'>Category</span><span class='dot token'>.</span><span class='rubyid_map_all_ids_to identifier id'>map_all_ids_to</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_invert identifier id'>invert</span><span class='lbrack token'>[</span><span class='rubyid_@category ivar id'>@category</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@boot_volume_required ivar id'>@boot_volume_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:boot_volume_required</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@category ivar id'>@category</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_APIObject constant id'>APIObject</span><span class='dot token'>.</span><span class='rubyid_get_name identifier id'>get_name</span><span class='lparen token'>(</span><span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:category</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_@filename ivar id'>@filename</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:filename</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@fill_existing_users ivar id'>@fill_existing_users</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:fill_existing_users</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@fill_user_template ivar id'>@fill_user_template</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:fill_user_template</span><span class='rbrack token'>]</span> 
+  <span class='rubyid_@fill_existing_users ivar id'>@fill_existing_users</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:fill_existing_users</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@fill_user_template ivar id'>@fill_user_template</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:fill_user_template</span><span class='rbrack token'>]</span>
   <span class='rubyid_@info ivar id'>@info</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@install_if_reported_available ivar id'>@install_if_reported_available</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:install_if_reported_available</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:notes</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@os_requirements ivar id'>@os_requirements</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:os_requirements</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='regexp val'>/\s*,\s*/</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:os_requirements</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@install_if_reported_available ivar id'>@install_if_reported_available</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:install_if_reported_available</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:notes</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@os_requirements ivar id'>@os_requirements</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:os_requirements</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='regexp val'>/\s*,\s*/</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:os_requirements</span><span class='rbrack token'>]</span>
   <span class='rubyid_@priority ivar id'>@priority</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:priority</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_PRIORITY constant id'>DEFAULT_PRIORITY</span>
-  <span class='rubyid_@reboot_required ivar id'>@reboot_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:reboot_required</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@required_processor ivar id'>@required_processor</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:required_processor</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_REQ_CPU_TYPE constant id'>DEFAULT_REQ_CPU_TYPE</span>
-  <span class='rubyid_@send_notification ivar id'>@send_notification</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:send_notification</span><span class='rbrack token'>]</span> 
-  <span class='rubyid_@switch_with_package ivar id'>@switch_with_package</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:switch_with_package</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@reboot_required ivar id'>@reboot_required</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:reboot_required</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@required_processor ivar id'>@required_processor</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:required_processor</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DEFAULT_CPU_TYPE constant id'>DEFAULT_CPU_TYPE</span>
+  <span class='rubyid_@send_notification ivar id'>@send_notification</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:send_notification</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@switch_with_package ivar id'>@switch_with_package</span> <span class='assign token'>=</span> <span class='rubyid_@init_data ivar id'>@init_data</span><span class='lbrack token'>[</span><span class='symbol val'>:switch_with_package</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_DO_NOT_INSTALL constant id'>DO_NOT_INSTALL</span>
+  
+  <span class='comment val'># the receipt is the filename with any .zip extension removed.</span>
+  <span class='rubyid_@receipt ivar id'>@receipt</span> <span class='assign token'>=</span> <span class='rubyid_@filname ivar id'>@filname</span> <span class='question op'>?</span> <span class='lparen token'>(</span><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Client constant id'>Client</span><span class='colon2 op'>::</span><span class='rubyid_RECEIPTS_FOLDER constant id'>RECEIPTS_FOLDER</span> <span class='plus op'>+</span> <span class='rubyid_@filname ivar id'>@filname</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/.zip$/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
   
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1120,7 +1325,7 @@ look up an existing pkg, use one of</p>
       <div class="method_details first">
   <h3 class="signature first" id="allow_uninstalled-instance_method">
   
-    - (<tt>Object</tt>) <strong>allow_uninstalled</strong> 
+    - (<tt>Boolean</tt>) <strong>allow_uninstalled</strong> 
   
 
   
@@ -1133,13 +1338,31 @@ look up an existing pkg, use one of</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - can this item be uninstalled? Some, e.g. OS Updates, can’t</p>
+<p>Returns can this item be uninstalled? Some, e.g. OS Updates, can’t</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can this item be uninstalled? Some, e.g. OS Updates, can’t</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1147,12 +1370,12 @@ look up an existing pkg, use one of</p>
       <pre class="lines">
 
 
-191
-192
-193</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_allow_uninstalled identifier id'>allow_uninstalled</span>
   <span class='rubyid_@allow_uninstalled ivar id'>@allow_uninstalled</span>
@@ -1164,16 +1387,16 @@ look up an existing pkg, use one of</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="boot_volume_required=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="boot_volume_required-instance_method">
   
-    - (<tt>Object</tt>) <strong>boot_volume_required</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>boot_volume_required</strong> 
   
 
   
     <span class="aliases">Also known as:
-    <span class="names"><span id='boot-instance_method'>boot</span></span>
+    <span class="names"><span id='boot?-instance_method'>boot?</span>, <span id='boot-instance_method'>boot</span></span>
     </span>
   
 
@@ -1181,13 +1404,31 @@ look up an existing pkg, use one of</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - should this pkg be installed on the boot volume during imaging</p>
+<p>Returns should this pkg be installed on the boot volume during imaging</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should this pkg be installed on the boot volume during imaging</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1195,12 +1436,12 @@ look up an existing pkg, use one of</p>
       <pre class="lines">
 
 
-210
-211
-212</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_boot_volume_required identifier id'>boot_volume_required</span>
   <span class='rubyid_@boot_volume_required ivar id'>@boot_volume_required</span>
@@ -1212,11 +1453,11 @@ look up an existing pkg, use one of</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="category=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="category-instance_method">
   
-    - (<tt>Object</tt>) <strong>category</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>category</strong> 
   
 
   
@@ -1225,7 +1466,7 @@ look up an existing pkg, use one of</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the category of this pkg, stored in the JSS as the id number from
+<p>Returns the category of this pkg, stored in the JSS as the id number from
 the categories table</p>
 
 
@@ -1233,6 +1474,25 @@ the categories table</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the category of this pkg, stored in the JSS as the id number from the
+categories table</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1240,12 +1500,12 @@ the categories table</p>
       <pre class="lines">
 
 
-196
-197
-198</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_category identifier id'>category</span>
   <span class='rubyid_@category ivar id'>@category</span>
@@ -1261,7 +1521,7 @@ the categories table</p>
       <div class="method_details ">
   <h3 class="signature " id="filename-instance_method">
   
-    - (<tt>Object</tt>) <strong>filename</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>filename</strong> 
   
 
   
@@ -1270,13 +1530,31 @@ the categories table</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the filename of the .pkg, .mpkg, or .dmg on the Casper server</p>
+<p>Returns the filename of the .pkg, .mpkg, or .dmg on the Casper server</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the filename of the .pkg, .mpkg, or .dmg on the Casper server</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1284,12 +1562,12 @@ the categories table</p>
       <pre class="lines">
 
 
-161
-162
-163</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_filename identifier id'>filename</span>
   <span class='rubyid_@filename ivar id'>@filename</span>
@@ -1305,7 +1583,7 @@ the categories table</p>
       <div class="method_details ">
   <h3 class="signature " id="fill_existing_users-instance_method">
   
-    - (<tt>Object</tt>) <strong>fill_existing_users</strong> 
+    - (<tt>Boolean</tt>) <strong>fill_existing_users</strong> 
   
 
   
@@ -1318,13 +1596,31 @@ the categories table</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - does this item ‘Fill Existing Users’ when jamf installs it?</p>
+<p>Returns does this item ‘Fill Existing Users’ when jamf installs it?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this item ‘Fill Existing Users’ when jamf installs it?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1332,12 +1628,12 @@ the categories table</p>
       <pre class="lines">
 
 
-164
-165
-166</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 98</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fill_existing_users identifier id'>fill_existing_users</span>
   <span class='rubyid_@fill_existing_users ivar id'>@fill_existing_users</span>
@@ -1349,11 +1645,11 @@ the categories table</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="fill_user_template=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="fill_user_template-instance_method">
   
-    - (<tt>Object</tt>) <strong>fill_user_template</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>fill_user_template</strong> 
   
 
   
@@ -1366,13 +1662,31 @@ the categories table</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - does this pkg also get install in the OS user homedir template</p>
+<p>Returns does this pkg also get install in the OS user homedir template</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this pkg also get install in the OS user homedir template</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1380,12 +1694,12 @@ the categories table</p>
       <pre class="lines">
 
 
-169
-170
-171</pre>
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fill_user_template identifier id'>fill_user_template</span>
   <span class='rubyid_@fill_user_template ivar id'>@fill_user_template</span>
@@ -1397,11 +1711,111 @@ the categories table</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>id</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#id-instance_method" title="JSS::APIObject#id (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the JSS id number</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS id number</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_jss-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>in_jss</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_jss?-instance_method'>in_jss?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#in_jss-instance_method" title="JSS::APIObject#in_jss (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is it in the JSS?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is it in the JSS?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="info=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="info-instance_method">
   
-    - (<tt>Object</tt>) <strong>info</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>info</strong> 
   
 
   
@@ -1410,14 +1824,32 @@ the categories table</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the info field for this pkg - stores d3’s basename &amp;
-swupdate values</p>
+<p>Returns the info field for this pkg - stores d3’s basename &amp; swupdate
+values</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the info field for this pkg - stores d3’s basename &amp; swupdate values</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1425,12 +1857,12 @@ swupdate values</p>
       <pre class="lines">
 
 
-199
-200
-201</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_info identifier id'>info</span>
   <span class='rubyid_@info ivar id'>@info</span>
@@ -1446,7 +1878,7 @@ swupdate values</p>
       <div class="method_details ">
   <h3 class="signature " id="install_if_reported_available-instance_method">
   
-    - (<tt>Object</tt>) <strong>install_if_reported_available</strong> 
+    - (<tt>Boolean</tt>) <strong>install_if_reported_available</strong> 
   
 
   
@@ -1459,7 +1891,7 @@ swupdate values</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - only install this pkg if it’s available in the commandline
+<p>Returns only install this pkg if it’s available in the commandline
 softwareupdate.</p>
 
 
@@ -1467,6 +1899,25 @@ softwareupdate.</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>only install this pkg if it’s available in the commandline
+softwareupdate.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1474,12 +1925,12 @@ softwareupdate.</p>
       <pre class="lines">
 
 
-205
-206
-207</pre>
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 128</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_install_if_reported_available identifier id'>install_if_reported_available</span>
   <span class='rubyid_@install_if_reported_available ivar id'>@install_if_reported_available</span>
@@ -1491,11 +1942,107 @@ softwareupdate.</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#name-instance_method" title="JSS::APIObject#name (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>need_to_update</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="notes=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="notes-instance_method">
   
-    - (<tt>Object</tt>) <strong>notes</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>notes</strong> 
   
 
   
@@ -1504,13 +2051,31 @@ softwareupdate.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the notes field for this pkg</p>
+<p>Returns the notes field for this pkg</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the notes field for this pkg</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1518,12 +2083,12 @@ softwareupdate.</p>
       <pre class="lines">
 
 
-202
-203
-204</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_notes identifier id'>notes</span>
   <span class='rubyid_@notes ivar id'>@notes</span>
@@ -1535,11 +2100,11 @@ softwareupdate.</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="os_requirements=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="os_requirements-instance_method">
   
-    - (<tt>Object</tt>) <strong>os_requirements</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>os_requirements</strong> 
   
 
   
@@ -1552,14 +2117,33 @@ softwareupdate.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Array of Strings - the OS versions this can be installed onto. For all
-minor versions, the format is 10.5.x</p>
+<p>Returns the OS versions this can be installed onto. For all minor versions,
+the format is 10.5.x</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the OS versions this can be installed onto. For all minor versions, the
+format is 10.5.x</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1567,12 +2151,12 @@ minor versions, the format is 10.5.x</p>
       <pre class="lines">
 
 
-179
-180
-181</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_os_requirements identifier id'>os_requirements</span>
   <span class='rubyid_@os_requirements ivar id'>@os_requirements</span>
@@ -1584,11 +2168,11 @@ minor versions, the format is 10.5.x</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="priority=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="priority-instance_method">
   
-    - (<tt>Object</tt>) <strong>priority</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Integer</tt>) <strong>priority</strong> 
   
 
   
@@ -1597,15 +2181,31 @@ minor versions, the format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Integer - Priority to use for deploying or uninstalling the package  (e.g.
-A package with a priority of “1” is deployed or uninstalled before
-other packages)</p>
+<p>Returns Priority to use for deploying or uninstalling the package</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Priority to use for deploying or uninstalling the package</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1613,12 +2213,12 @@ other packages)</p>
       <pre class="lines">
 
 
-216
-217
-218</pre>
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_priority identifier id'>priority</span>
   <span class='rubyid_@priority ivar id'>@priority</span>
@@ -1630,16 +2230,16 @@ other packages)</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="reboot_required=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="reboot_required-instance_method">
   
-    - (<tt>Object</tt>) <strong>reboot_required</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Boolean</tt>) <strong>reboot_required</strong> 
   
 
   
     <span class="aliases">Also known as:
-    <span class="names"><span id='reboot-instance_method'>reboot</span>, <span id='reboot?-instance_method'>reboot?</span></span>
+    <span class="names"><span id='reboot?-instance_method'>reboot?</span>, <span id='reboot-instance_method'>reboot</span></span>
     </span>
   
 
@@ -1647,14 +2247,33 @@ other packages)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - does this item require a reboot after installation? If so,
-it’ll be a puppy-install in d3</p>
+<p>Returns does this item require a reboot after installation? If so, it’ll
+be a puppy-install in d3</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this item require a reboot after installation? If so, it’ll be a
+puppy-install in d3</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1662,12 +2281,12 @@ it’ll be a puppy-install in d3</p>
       <pre class="lines">
 
 
-174
-175
-176</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reboot_required identifier id'>reboot_required</span>
   <span class='rubyid_@reboot_required ivar id'>@reboot_required</span>
@@ -1681,9 +2300,71 @@ it’ll be a puppy-install in d3</p>
       
       <span id=""></span>
       <div class="method_details ">
+  <h3 class="signature " id="receipt-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>) <strong>receipt</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the local receipt when this pkg is installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local receipt when this pkg is installed</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 95</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_receipt identifier id'>receipt</span>
+  <span class='rubyid_@receipt ivar id'>@receipt</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="required_processor=-instance_method"></span>
+      <div class="method_details ">
   <h3 class="signature " id="required_processor-instance_method">
   
-    - (<tt>Object</tt>) <strong>required_processor</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>required_processor</strong> 
   
 
   
@@ -1696,14 +2377,33 @@ it’ll be a puppy-install in d3</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the cpu type this item can be installed on: ‘x86’ or
-‘ppc’. The JSS stores “None” but this should be nil if so.</p>
+<p>Returns limit installation to these architectures: ‘x86’,  ‘ppc’,
+‘None’</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>limit installation to these architectures: ‘x86’,  ‘ppc’,
+‘None’</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1711,12 +2411,12 @@ it’ll be a puppy-install in d3</p>
       <pre class="lines">
 
 
-183
-184
-185</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_required_processor identifier id'>required_processor</span>
   <span class='rubyid_@required_processor ivar id'>@required_processor</span>
@@ -1728,11 +2428,60 @@ it’ll be a puppy-install in d3</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_rsrc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>rest_rsrc</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in class
+        <span class='object_link'><a href="APIObject.html#rest_rsrc-instance_method" title="JSS::APIObject#rest_rsrc (method)">APIObject</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the Rest resource for API access (the part after “JSSResource/”
+)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Rest resource for API access (the part after “JSSResource/” )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
       <span id="send_notification=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="send_notification-instance_method">
   
-    - (<tt>Object</tt>) <strong>send_notification</strong> 
+    - (<tt>Boolean</tt>) <strong>send_notification</strong> 
   
 
   
@@ -1745,13 +2494,31 @@ it’ll be a puppy-install in d3</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Boolean - does this pkg cause a notification to be sent on self-heal?</p>
+<p>Returns does this pkg cause a notification to be sent on self-heal?</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this pkg cause a notification to be sent on self-heal?</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1759,12 +2526,12 @@ it’ll be a puppy-install in d3</p>
       <pre class="lines">
 
 
-219
-220
-221</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_send_notification identifier id'>send_notification</span>
   <span class='rubyid_@send_notification ivar id'>@send_notification</span>
@@ -1776,11 +2543,11 @@ it’ll be a puppy-install in d3</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="switch_with_package=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="switch_with_package-instance_method">
   
-    - (<tt>Object</tt>) <strong>switch_with_package</strong>  <span class="extras">(readonly)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>switch_with_package</strong> 
   
 
   
@@ -1789,14 +2556,33 @@ it’ll be a puppy-install in d3</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>String - the name of a pkg to install when this pkg can’t be installed
-due to cpu-type mismatch or the string “Do Not Install”</p>
+<p>Returns the name of a pkg to install (or “Do Not Install”) when this
+pkg can’t be installed</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of a pkg to install (or “Do Not Install”) when this pkg
+can’t be installed</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1804,12 +2590,12 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
       <pre class="lines">
 
 
-188
-189
-190</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 113</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_switch_with_package identifier id'>switch_with_package</span>
   <span class='rubyid_@switch_with_package ivar id'>@switch_with_package</span>
@@ -1828,9 +2614,68 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="name=-instance_method">
+  <h3 class="signature first" id="create-instance_method">
   
-    - (<tt>Object</tt>) <strong>name=</strong>(new_val) 
+    - (<tt>Integer</tt>) <strong>create</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new object in the JSS.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jss ID of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_master_file-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>delete_master_file</strong>(rw_pw, unmount = true) 
   
 
   
@@ -1839,20 +2684,79 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Change the display name  new_val = string</p>
+<p>Delete the filename from the master distribution point, if it exists.</p>
+
+<p>If you’ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>rw_pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password for the read/write account on the master Distribution Point</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>unmount</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>was the file deleted?</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+        <span class='type'>(<tt>JSS::InvaldDatatError</tt>)</span>
       
       
       
@@ -1866,27 +2770,37 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
       <pre class="lines">
 
 
-277
-278
-279
-280
-281
-282
-283
-284
-285</pre>
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 533</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_name= identifier id'>name=</span> <span class='lparen token'>(</span><span class='rubyid_new_val identifier id'>new_val</span><span class='rparen token'>)</span>
-  <span class='rubyid_new_val identifier id'>new_val</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_new_val identifier id'>new_val</span> <span class='eq op'>==</span> <span class='string val'>''</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Name cannot be empty&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_new_val identifier id'>new_val</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_AlreadyExistsError constant id'>AlreadyExistsError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;A #{RSRC_OBJECT_KEY} already exists with the name '#{new_val}'&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_LIST_METHOD constant id'>LIST_METHOD</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_new_val identifier id'>new_val</span> <span class='eq op'>==</span> <span class='rubyid_@name ivar id'>@name</span>
-  <span class='rubyid_@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='rubyid_new_val identifier id'>new_val</span>
-  <span class='rubyid_@need_to_update ivar id'>@need_to_update</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-  <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{RSRC_BASE}/name/#{URI.escape @name}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@rest_rsrc ivar id'>@rest_rsrc</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='string val'>'/name/'</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_master_file identifier id'>delete_master_file</span> <span class='lparen token'>(</span><span class='rubyid_rw_pw identifier id'>rw_pw</span><span class='comma token'>,</span> <span class='rubyid_unmount identifier id'>unmount</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_mdp identifier id'>mdp</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DistributionPoint constant id'>DistributionPoint</span><span class='dot token'>.</span><span class='rubyid_master_distribution_point identifier id'>master_distribution_point</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvaldDatatError constant id'>InvaldDatatError</span><span class='comma token'>,</span> <span class='string val'>&quot;Incorrect password for read-write access to master distribution point.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_check_pw identifier id'>check_pw</span> <span class='symbol val'>:rw</span><span class='comma token'>,</span> <span class='rubyid_rw_pw identifier id'>rw_pw</span>
+
+  <span class='rubyid_file identifier id'>file</span> <span class='assign token'>=</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_mount identifier id'>mount</span><span class='lparen token'>(</span><span class='rubyid_rw_pw identifier id'>rw_pw</span><span class='comma token'>,</span> <span class='symbol val'>:rw</span><span class='rparen token'>)</span> <span class='plus op'>+</span><span class='dstring node'>&quot;#{DIST_POINT_PKGS_FOLDER}/#{@filename}&quot;</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span>
+    <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_did_it identifier id'>did_it</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_did_it identifier id'>did_it</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># if exists</span>
+  <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_unmount identifier id'>unmount</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_unmount identifier id'>unmount</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_did_it identifier id'>did_it</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1895,9 +2809,9 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="uninstall-instance_method">
+  <h3 class="signature " id="install-instance_method">
   
-    - (<tt>Object</tt>) <strong>uninstall</strong>(*args) 
+    - (<tt>Process::Status</tt>) <strong>install</strong>(args = {}) 
   
 
   
@@ -1906,24 +2820,189 @@ due to cpu-type mismatch or the string “Do Not Install”</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This causes the pkg to be uninstalled in a JAMF-ish way, via the jamf
-command. valid args are:</p>
+  <div class="note todo">
+    <strong>TODO:</strong>
+    <div class='inline'>
+<p>deal with cert-based https authentication</p>
+</div>
+  </div>
 
-<pre class="code ruby18"><code class="ruby18">:verbose  - be verbose to stdout
-:feu      - fill existing users, if the pkg supports it
-:fut      - fill user template, if the pkg supports it</code></pre>
 
-<p>If verbose=true, stderr and stdout go to stdout, otherwise to devnull</p>
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>This code must be run as root to install packages</p>
+</div>
+  </div>
 
-<p>Returns the Process::Status of the finished ‘jamf uninstall’ command.</p>
 
-<p>NOTE: the jamf binary must be run as root to uninstall pkgs.</p>
+<p>Causes the pkg/dmg to be installed via the jamf binary ‘install’
+command from the distribution point for this machine. See
+<span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
+
+<p>The read-only or http passwd for the dist. point must be provided, except
+for non-authenticated http downloads)</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the arguments for installation</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:ro_pw</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the read-only or http password for the distribution point for the local
+machine (http will be used if available, and may not need a pw)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:target</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The drive on which to install the package, defaults to ‘/’</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verbose</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>be verbose to stdout, defaults to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:feu</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>fill existing users, defaults to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:fut</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>fill user template, defaults to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:unmount</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>unmount the distribution point when finished?(if we mounted it), defaults
+to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:no_http</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>don’t use http downloads even if they are enabled for the dist. point.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Process::Status</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the final status of the jamf binary command</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1931,37 +3010,686 @@ command. valid args are:</p>
       <pre class="lines">
 
 
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570</pre>
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 557</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 580</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_uninstall identifier id'>uninstall</span> <span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
-  
-  <span class='comment val'>### are we verbose?</span>
-  <span class='rubyid_redirect identifier id'>redirect</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:verbose</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>&quot;2&gt;&amp;1&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&amp;&gt; /dev/null&quot;</span>
-  
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_install identifier id'>install</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='string val'>&quot;You must have root privileges to install packages&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_superuser? fid id'>superuser?</span>
+
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:target</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'/'</span>
+
+  <span class='rubyid_ro_pw identifier id'>ro_pw</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:ro_pw</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_mdp identifier id'>mdp</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DistributionPoint constant id'>DistributionPoint</span><span class='dot token'>.</span><span class='rubyid_my_distribution_point identifier id'>my_distribution_point</span>
+
+  <span class='comment val'>### how do we access our dist. point? with http?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_http_downloads_enabled identifier id'>http_downloads_enabled</span> <span class='rubyid_and and kw'>and</span> <span class='lparen token'>(</span><span class='rubyid_not not kw'>not</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:no_http</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_using_http identifier id'>using_http</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_src_path identifier id'>src_path</span> <span class='assign token'>=</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_http_url identifier id'>http_url</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_username_password_required identifier id'>username_password_required</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_MissingDataError constant id'>MissingDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;No password provided for http download&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ro_pw identifier id'>ro_pw</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvaldDatatError constant id'>InvaldDatatError</span><span class='comma token'>,</span> <span class='string val'>&quot;Incorrect password for http access to distribution point.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_check_pw identifier id'>check_pw</span><span class='lparen token'>(</span><span class='symbol val'>:http</span><span class='comma token'>,</span> <span class='rubyid_ro_pw identifier id'>ro_pw</span><span class='rparen token'>)</span>
+      <span class='comment val'># insert the name and pw into the uri</span>
+      <span class='rubyid_reserved_chars identifier id'>reserved_chars</span> <span class='assign token'>=</span> <span class='rubyid_Regexp constant id'>Regexp</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;[^#{URI::REGEXP::PATTERN::UNRESERVED}]&quot;</span><span class='rparen token'>)</span> <span class='comment val'># we'll escape all the chars that aren't unreserved</span>
+      <span class='rubyid_src_path identifier id'>src_path</span> <span class='assign token'>=</span> <span class='rubyid_src_path identifier id'>src_path</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>%r{(https?://)(\S)}</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># or with filesharing?</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_using_http identifier id'>using_http</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+    <span class='rubyid_src_path identifier id'>src_path</span> <span class='assign token'>=</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_mount identifier id'>mount</span><span class='lparen token'>(</span><span class='rubyid_ro_pw identifier id'>ro_pw</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># look at the pkgs folder</span>
+  <span class='rubyid_src_path identifier id'>src_path</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot;/#{DIST_POINT_PKGS_FOLDER}&quot;</span>
+
   <span class='comment val'>### are we doing &quot;fill existing users&quot; or &quot;fill user template&quot;?</span>
-  <span class='rubyid_do_feu identifier id'>do_feu</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='symbol val'>:feu</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_feu? fid id'>feu?</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>&quot;-feu&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
-  <span class='rubyid_do_fut identifier id'>do_fut</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='symbol val'>:fut</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fut? fid id'>fut?</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>&quot;-fut&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_do_feu identifier id'>do_feu</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:feu</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;-feu&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_do_fut identifier id'>do_fut</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:fut</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;-fut&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+
+  <span class='comment val'>### the install args for jamf</span>
+  <span class='rubyid_command_args identifier id'>command_args</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose ; echo jamfexit $?&quot;</span>
+
+  <span class='comment val'>### run it via a client</span>
+  <span class='rubyid_install_out identifier id'>install_out</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Client constant id'>Client</span><span class='dot token'>.</span><span class='rubyid_run_jamf identifier id'>run_jamf</span> <span class='symbol val'>:install</span><span class='comma token'>,</span> <span class='rubyid_command_args identifier id'>command_args</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verbose</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_install_exit identifier id'>install_exit</span> <span class='assign token'>=</span> <span class='rubyid_$? gvar id'>$?</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='colon op'>:</span><span class='rubyid_unmount identifier id'>unmount</span><span class='rparen token'>)</span>
+    <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_unmount identifier id'>unmount</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_using_http identifier id'>using_http</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_install_exit identifier id'>install_exit</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed?-instance_method">
   
+    - (<tt>Boolean</tt>) <strong>installed?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is this packaged installed on the current machine (via casper)? We just
+look for the receipt, which is the @filename less any possible .zip
+extension.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+452
+453
+454</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 452</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_installed? fid id'>installed?</span>
+  <span class='rubyid_@receipt ivar id'>@receipt</span><span class='dot token'>.</span><span class='rubyid_file? fid id'>file?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    - (<tt>void</tt>) <strong>name=</strong>(newname) 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name%3D-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="uninstall-instance_method">
+  
+    - (<tt>Process::Status</tt>) <strong>uninstall</strong>(args = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>This code must be run as root to uninstall packages</p>
+</div>
+  </div>
+
+
+<p>Causes the pkg to be uninstalled via the jamf command.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the arguments for installation</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:target</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The drive from which to uninstall the package, defaults to ‘/’</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verbose</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>be verbose to stdout, defaults to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:feu</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>fill existing users, defaults to false</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:fut</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>fill user template, defaults to false</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Process::Status</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of the ‘jamf uninstall’ command</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 647</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_uninstall identifier id'>uninstall</span> <span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> \
+    <span class='string val'>&quot;This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_removable? fid id'>removable?</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='string val'>&quot;You must have root privileges to uninstall packages&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_JSS constant id'>JSS</span><span class='dot token'>.</span><span class='rubyid_superuser? fid id'>superuser?</span>
+  <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:target</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'/'</span>
+
+  <span class='comment val'>### are we doing &quot;fill existing users&quot; or &quot;fill user template&quot;?</span>
+  <span class='rubyid_do_feu identifier id'>do_feu</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:feu</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;-feu&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_do_fut identifier id'>do_fut</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:fut</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&quot;-fut&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+
   <span class='comment val'>### use jamf binary to uninstall the pkg</span>
-  <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;#{JSS::Client::JAMF_BINARY}  uninstall -target / -id '#{@id}' #{do_feu} #{do_fut} #{redirect}&quot;</span>
-  
+  <span class='rubyid_jamf_opts identifier id'>jamf_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-target '#{args[:target]}' -id '#{@id}' #{do_feu} #{do_fut}&quot;</span>
+
+  <span class='comment val'>### run it via a client</span>
+  <span class='rubyid_uninstall_out identifier id'>uninstall_out</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Client constant id'>Client</span><span class='dot token'>.</span><span class='rubyid_run_jamf identifier id'>run_jamf</span> <span class='string val'>&quot;uninstall&quot;</span><span class='comma token'>,</span> <span class='rubyid_jamf_opts identifier id'>jamf_opts</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='symbol val'>:verbose</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_$? gvar id'>$?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>update</strong> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_master_file-instance_method">
+  
+    - (<tt>void</tt>) <strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Upload a locally-readable file to the master distribution point. If the
+file is a directory (like a bundle .pk/.mpkg) it will be zipped before
+uploading and the @filename will be adjusted accordingly</p>
+
+<p>If you’ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished with
+JSS::DistributionPoint.master_distribution_point.unmount</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>local_file_path</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local path to the file to be uploaded</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rw_pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password for the read/write account on the master Distribution Point</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>unmount</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 472</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_upload_master_file identifier id'>upload_master_file</span> <span class='lparen token'>(</span><span class='rubyid_local_file_path identifier id'>local_file_path</span><span class='comma token'>,</span> <span class='rubyid_rw_pw identifier id'>rw_pw</span><span class='comma token'>,</span> <span class='rubyid_unmount identifier id'>unmount</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='string val'>&quot;Please create this package in the JSS before uploading it.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@in_jss ivar id'>@in_jss</span>
+
+  <span class='rubyid_mdp identifier id'>mdp</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_DistributionPoint constant id'>DistributionPoint</span><span class='dot token'>.</span><span class='rubyid_master_distribution_point identifier id'>master_distribution_point</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_InvalidDataError constant id'>InvalidDataError</span><span class='comma token'>,</span> <span class='string val'>&quot;Incorrect password for read-write access to master distribution point.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_check_pw identifier id'>check_pw</span> <span class='symbol val'>:rw</span><span class='comma token'>,</span> <span class='rubyid_rw_pw identifier id'>rw_pw</span>
+
+
+  <span class='rubyid_local_path identifier id'>local_path</span> <span class='assign token'>=</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_local_file_path identifier id'>local_file_path</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NoSuchItemError constant id'>NoSuchItemError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Local file '#{@local_file}' doesn't exist&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span>
+
+  <span class='comment val'>### should we zip it?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_directory? fid id'>directory?</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_zipdir identifier id'>zipdir</span> <span class='assign token'>=</span> <span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='dstring node'>&quot;/tmp/jssgemtmp-#{Time.new.strftime &quot;%Y%m%d%H%M%S&quot;}-#{$$}&quot;</span>
+      <span class='rubyid_zipdir identifier id'>zipdir</span><span class='dot token'>.</span><span class='rubyid_mkpath identifier id'>mkpath</span>
+      <span class='rubyid_zipdir identifier id'>zipdir</span><span class='dot token'>.</span><span class='rubyid_chmod identifier id'>chmod</span> <span class='integer val'>0700</span>
+      <span class='rubyid_zipfile identifier id'>zipfile</span> <span class='assign token'>=</span> <span class='rubyid_zipdir identifier id'>zipdir</span> <span class='plus op'>+</span> <span class='lparen token'>(</span><span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_basename identifier id'>basename</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='plus op'>+</span> <span class='string val'>&quot;.zip&quot;</span><span class='rparen token'>)</span>
+
+      <span class='comment val'>### go to the same dir as the local file</span>
+      <span class='rubyid_wd identifier id'>wd</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_pwd identifier id'>pwd</span>
+      <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_chdir identifier id'>chdir</span> <span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span>
+
+      <span class='comment val'>### the contents of the zip file have to have the same  name as the zip file itself (minus the .zip)</span>
+      <span class='comment val'>### so temporarily rename the source</span>
+      <span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_rename identifier id'>rename</span><span class='lparen token'>(</span><span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='plus op'>+</span> <span class='rubyid_@filename ivar id'>@filename</span><span class='rparen token'>)</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;There was a problem zipping the pkg bundle&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_system identifier id'>system</span> <span class='dstring node'>&quot;/usr/bin/zip -qr '#{zipfile}' '#{@filename}'&quot;</span>
+
+    <span class='rubyid_ensure ensure kw'>ensure</span>
+      <span class='comment val'>### rename the source to the original name</span>
+      <span class='lparen token'>(</span><span class='rubyid_local_path identifier id'>local_path</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='plus op'>+</span> <span class='rubyid_@filename ivar id'>@filename</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_rename identifier id'>rename</span> <span class='rubyid_local_path identifier id'>local_path</span>
+      <span class='comment val'>### go back where we started</span>
+      <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_chdir identifier id'>chdir</span> <span class='rubyid_wd identifier id'>wd</span>
+    <span class='rubyid_end end kw'>end</span> <span class='comment val'># begin</span>
+
+    <span class='comment val'>### update our info</span>
+    <span class='rubyid_local_path identifier id'>local_path</span> <span class='assign token'>=</span> <span class='rubyid_zipfile identifier id'>zipfile</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filename identifier id'>filename</span> <span class='assign token'>=</span> <span class='rubyid_zipfile identifier id'>zipfile</span><span class='dot token'>.</span><span class='rubyid_basename identifier id'>basename</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span>
+  <span class='rubyid_end end kw'>end</span> <span class='comment val'># if directory</span>
+
+  <span class='rubyid_destination identifier id'>destination</span> <span class='assign token'>=</span> <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_mount identifier id'>mount</span><span class='lparen token'>(</span><span class='rubyid_rw_pw identifier id'>rw_pw</span><span class='comma token'>,</span> <span class='symbol val'>:rw</span><span class='rparen token'>)</span> <span class='plus op'>+</span><span class='dstring node'>&quot;#{DIST_POINT_PKGS_FOLDER}/#{@filename}&quot;</span>
+
+  <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_copy_entry identifier id'>copy_entry</span> <span class='rubyid_local_path identifier id'>local_path</span><span class='comma token'>,</span> <span class='rubyid_destination identifier id'>destination</span>
+
+  <span class='rubyid_mdp identifier id'>mdp</span><span class='dot token'>.</span><span class='rubyid_unmount identifier id'>unmount</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_unmount identifier id'>unmount</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1974,7 +3702,7 @@ command. valid args are:</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:11:08 2014 by
+  Generated on Tue Sep 30 15:58:37 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>

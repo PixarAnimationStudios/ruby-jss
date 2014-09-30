@@ -6,7 +6,7 @@
 <title>
   Module: JSS::Creatable
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
   
 </title>
 
@@ -78,7 +78,7 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></dd>
     
   
   
@@ -98,14 +98,14 @@
 <p>When a JSS::APIObject subclass includes this module, that subclass can be
 instantiated with :id =&gt; :new, and :name =&gt; “some_new_name”.</p>
 
-<p>The instance can be used to set desired values for the new object, and 
-once everything’s good, use #create to create it in the JSS.</p>
+<p>The instance can be used to set desired values for the new object, and once
+everything’s good, use #create to create it in the JSS.</p>
 
 <p>If a Creatable object requires more data than just a :name for creation,
 the subclass may want to redefine #initialize to require those data before
 calling super.</p>
 
-<p>Some subclasses may want to redefine #create to check  the data for
+<p>Some subclasses may want to redefine #create to check the data for
 consistency, and then call super (or they may have the individual setter
 methods do the checks)</p>
 
@@ -118,6 +118,13 @@ object creation.</p>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span></li>
+    
+  </ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -161,7 +168,7 @@ object creation.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+      <a href="#create-instance_method" title="#create (instance method)">- (Integer) <strong>create</strong> </a>
     
 
     
@@ -194,7 +201,7 @@ object creation.</p>
       <div class="method_details first">
   <h3 class="signature first" id="create-instance_method">
   
-    - (<tt>Object</tt>) <strong>create</strong> 
+    - (<tt>Integer</tt>) <strong>create</strong> 
   
 
   
@@ -210,6 +217,24 @@ object creation.</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jss ID of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
@@ -230,19 +255,19 @@ object creation.</p>
       <pre class="lines">
 
 
-56
-57
-58
-59
 60
 61
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/creatable.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/creatable.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_UnsupportedError constant id'>UnsupportedError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows.&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_CREATABLE constant id'>CREATABLE</span>
@@ -265,7 +290,7 @@ object creation.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 18 15:10:55 2014 by
+  Generated on Tue Sep 30 15:58:11 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.8.7).
 </div>
