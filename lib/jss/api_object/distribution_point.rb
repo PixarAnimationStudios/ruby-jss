@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
   #####################################
@@ -323,32 +348,33 @@ module JSS
     ###
     ### Mount this distribution point locally.
     ###
-    ### @param password[String,Symbol] the read-only or read-write password for this DistributionPoint
+    ### @param pw[String,Symbol] the read-only or read-write password for this DistributionPoint
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin, the password is read from a line of std in, defaults to line 0, see {JSS.stdin}
+    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, 
+    ###   if no digit is supplied. see {JSS.stdin}
     ###
     ### @param access[Symbol] how to mount the DistributionPoint, and which password to expect.
     ###  :ro = read-only, :rw (or anything else) = read-write
     ###
-    ### @param stdin_line[Integer] which line of stdin contains the :stdin password
-    ###
     ### @return [Pathname] the mountpoint.
     ###
-    def mount(password = nil, access = :ro, stdin_line = 1)
+    def mount(pw = nil, access = :ro1)
       return @mountpoint if mounted?
       access = :rw unless access == :ro
       
-      # how do we get the password?
-      pw = case password
-        when :prompt
-          JSS.prompt_for_password "Enter the password for the #{access} user '#{access == :ro ? @read_only_username : @read_write_username }':"
-        when :stdin
-          JSS.stdin stdin_line 
-        else
-          password
-      end # case
+      password = if pw == :prompt
+        JSS.prompt_for_password "Enter the password for the #{access} user '#{access == :ro ? @read_only_username : @read_write_username }':"
+      elsif pw.is_a?(Symbol) and pw.to_s.start_with?('stdin')
+        pw.to_s =~ /^stdin(\d+)$/
+        line = $1
+        line ||= 2
+        JSS.stdin line
+      else
+        pw
+      end
       
-      pwok = check_pw(access, pw)
+      pwok = check_pw(access, password)
       unless pwok
         msg = pwok.nil? ? "No #{access} password set in the JSS" : "Incorrect password for #{access} account"
         raise JSS::InvalidDataError, msg
@@ -356,7 +382,7 @@ module JSS
 
       username = access == :ro ? @read_only_username : @read_write_username
 
-      safe_pw = URI.escape pw, /[^a-zA-Z\d]/
+      safe_pw = URI.escape password, /[^a-zA-Z\d]/
 
       @mount_url = "#{@connection_type.downcase}://#{username}:#{safe_pw}@#{@ip_address}/#{@share_name}"
       @mnt_cmd = case @connection_type.downcase
@@ -367,7 +393,8 @@ module JSS
 
       @mountpoint.mkpath
 
-      if system "#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}'"
+      #if system "#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}'"
+      if system @mnt_cmd.to_s, *['-o', MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
         @mounted = access
       else
         @mountpoint.rmdir if @mountpoint.directory?

@@ -19,7 +19,8 @@ Hopefully others will find it useful, and add more to it as well
 ## SYNOPSIS
 
 ```ruby
-require 'jss'
+# you may need to require 'rubygems' first if you're using Ruby 1.8
+require 'jss'   
 
 JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
 
@@ -250,13 +251,15 @@ Other useful classes:
 
 The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for using the JSS Gem. When the JSS module is loaded, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
 
-The values defined in those files are used as defaults throughout the Gem. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling JSS::API#connect.
+The values defined in those files are used as defaults throughout the Gem. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}.
 
 While the {JSS::Configuration} clss provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
 
     attr_name: value
 
 Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.
+
+Lines starting with a # are comments and will be preserved when using #save.
 
 The currently known attributes are:
 
@@ -305,7 +308,11 @@ While the Casper API provides access to object data in the JSS, this gem tries t
 
 ## REQUIREMENTS
 
-the JSS gem was written for Mac OS X, and the Casper Suite version 9.4 or higher, and Ruby 1.8.7 and 2.0.0 (the two versions that come with OS X 10.9).
+the JSS gem was written for:
+
+* Mac OS X 10.8 and higher
+* Casper Suite version 9.4 or higher
+* Ruby 1.8.7 and 2.0.0 (the two versions that come with OS X 10.9).
 
 It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
 
@@ -315,21 +322,47 @@ It also requires these gems, which will be installed automatically if you instal
 * ruby-mysql >= 2.9.12 http://rubygems.org/gems/ruby-mysql
   * (only for a few things that still require direct SQL access to the JSS database)
 * plist =3.1.0 http://rubygems.org/gems/plist
-  * for creating .pkgs with the {JSS::Composer} module
+  * for the {JSS::Composer} module and {JSS::Client} class
 * net-ldap >= 0.3.1 http://rubygems.org/gems/net-ldap
   * for accessing the LDAP servers defined in the JSS, to check for user and group info.
 
 ## INSTALL
 
+NOTE: You may need to install XCode, and it's CLI tools, in order to install the required gems.
+
+In general, you can install the JSS Gem with this command: 
+
 `gem install jss`
 
-## RUNNING TESTS
+If you're using Ruby 1.8.7, install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
 
-Totally automated tests are not really an option since you must connect to a JSS API, and once connected, it's impossible to assume what might be defined there.
+`gem install json -v 1.6.5`
 
-There is a tiny stub of test that only check the ability to connect and to basic REST transactions. Eventually I may try to write more that are generally runnable, interactively, on any JSS
+`gem install mime-types -v 1.25.1`
 
+`gem install rest-client -v 1.6.8`
 
 ## LICENSE
 
-I have yet to chat with Legal about getting this thing opensourced.
+Copyright 2014 Pixar
+
+Licensed under the Apache License, Version 2.0 (the "Apache License")
+with the following modification; you may not use this file except in
+compliance with the Apache License and the following modification to it:
+
+Section 6. Trademarks. is deleted and replaced with:
+
+  6\. Trademarks. This License does not grant permission to use the trade
+  names, trademarks, service marks, or product names of the Licensor
+  and its affiliates, except as required to comply with Section 4(c) of
+  the License and to reproduce the content of the NOTICE file.
+
+You may obtain a copy of the Apache License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the Apache License with the above modification is
+distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied. See the Apache License for the specific
+language governing permissions and limitations under the Apache License.

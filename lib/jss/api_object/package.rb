@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
   #####################################
@@ -463,7 +488,8 @@ module JSS
     ###
     ### @param local_file_path[String,Pathname] the local path to the file to be uploaded
     ###
-    ### @param rw_pw[String] the password for the read/write account on the master Distribution Point
+    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point, 
+    ###   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
     ###
     ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     ###
@@ -472,10 +498,9 @@ module JSS
     def upload_master_file (local_file_path, rw_pw, unmount = true)
 
       raise JSS::NoSuchItemError, "Please create this package in the JSS before uploading it." unless @in_jss
-
+      
       mdp = JSS::DistributionPoint.master_distribution_point
-      raise JSS::InvalidDataError, "Incorrect password for read-write access to master distribution point." unless mdp.check_pw :rw, rw_pw
-
+      destination = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
       local_path = Pathname.new local_file_path
       raise JSS::NoSuchItemError, "Local file '#{@local_file}' doesn't exist" unless local_path.exist?
@@ -511,7 +536,7 @@ module JSS
         self.update
       end # if directory
 
-      destination = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+      
 
       FileUtils.copy_entry local_path, destination
 
@@ -525,6 +550,7 @@ module JSS
     ### are finished.
     ###
     ### @param rw_pw[String] the password for the read/write account on the master Distribution Point
+    ###   or :prompt, or :stdin# where # is the line of stdin containing the password. See {JSS::DistributionPoint#mount}
     ###
     ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     ###
@@ -532,8 +558,6 @@ module JSS
     ###
     def delete_master_file (rw_pw, unmount = true)
       mdp = JSS::DistributionPoint.master_distribution_point
-      raise JSS::InvaldDatatError, "Incorrect password for read-write access to master distribution point." unless mdp.check_pw :rw, rw_pw
-
       file = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
         file.delete

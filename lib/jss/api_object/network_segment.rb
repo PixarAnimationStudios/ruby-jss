@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
   #####################################
@@ -66,7 +91,7 @@ module JSS
       @@network_ranges = nil if refresh
       return @@network_ranges if @@network_ranges
       @@network_ranges = {}
-      self.all.each{|ns| @@network_ranges[ns[:id]] =  IPAddr.masked_v4addr(ns[:starting_address], ns[:ending_address])}
+      self.all.each{|ns| @@network_ranges[ns[:id]] =  IPAddr.jss_masked_v4addr(ns[:starting_address], ns[:ending_address])}
       @@network_ranges
     end # def network_segments
 
@@ -99,7 +124,7 @@ module JSS
     ### @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
     ###
     def self.my_network_segment
-      network_segment_for_ip JSS.my_ip_address
+      network_segment_for_ip JSS::Client.my_ip_address
     end
 
 
@@ -177,10 +202,10 @@ module JSS
       ### along with a starting address, so figure out the other one.
       if @init_data[:ending_address]
         @ending_address = IPAddr.new @init_data[:ending_address]
-        @cidr = IPAddr.cidr_from_ends(@starting_address,@ending_address)
+        @cidr = IPAddr.jss_cidr_from_ends(@starting_address,@ending_address)
       else
         @cidr = @init_data[:cidr].to_i if @init_data[:cidr]
-        @ending_address = IPAddr.ending_address(@starting_address, @cidr)
+        @ending_address = IPAddr.jss_ending_address(@starting_address, @cidr)
       end # if args[:cidr]
 
       ### we now have all our data, make our unique identifier, the startingaddr/cidr
@@ -309,7 +334,7 @@ module JSS
     def starting_address= (newval)
       @starting_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
       raise JSS::InvalidDataError, "New starting address #{@starting_address} is higher than ending address #{@ending_address}" if @starting_address > @ending_address
-      @cidr = IPAddr.cidr_from_ends(@starting_address ,@ending_address)
+      @cidr = IPAddr.jss_cidr_from_ends(@starting_address ,@ending_address)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
       @need_to_update = true
@@ -325,7 +350,7 @@ module JSS
     def ending_address= (newval)
       @ending_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
       raise JSS::InvalidDataError, "New ending address #{@ending_address} is lower than starting address #{@starting_address}" if @ending_address < @starting_address
-      @cidr = IPAddr.cidr_from_ends(@starting_address,@ending_address)
+      @cidr = IPAddr.jss_cidr_from_ends(@starting_address,@ending_address)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
       @need_to_update = true
@@ -340,7 +365,7 @@ module JSS
     ###
     def cidr= (newval)
       @cidr = newval
-      @ending_address = IPAddr.ending_address(@starting_address, @cidr)
+      @ending_address = IPAddr.jss_ending_address(@starting_address, @cidr)
       @uid = "#{@starting_address}/#{@cidr}"
       @subnet = IPAddr.new @uid
       @need_to_update = true

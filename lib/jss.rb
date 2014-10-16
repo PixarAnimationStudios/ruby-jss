@@ -1,8 +1,29 @@
-### @author   Chris Lasell, Pixar Animation Studios (mailto:chrisl@pixar.com)
-### Copyright:: Copyright (c) 2014 Pixar Animation Studios
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
 
 ###
-### JSS, A Ruby module for interacting with the JAMF Software Server via it's API.
+### JSS, A Ruby module for interacting with the JAMF Software Server via it's REST API.
 ###
 module JSS
 
@@ -62,30 +83,6 @@ module JSS
   ### Module Methods
   #####################################
 
-  ###
-  ### Get the current IP address as a String.
-  ###
-  ### This handy code doesn't acutally make a UDP connection,
-  ### it just starts to set up the connection, then uses that to get
-  ### the local IP.
-  ###
-  ### Lifted gratefully from
-  ### http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address/
-  ###
-  ### @return [String] the current IP address.
-  ###
-  def self.my_ip_address
-    ### turn off reverse DNS resolution temporarily
-    ### @note the 'socket' library has already been required by 'rest-client'
-    orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true
-
-    UDPSocket.open do |s|
-      s.connect '192.168.0.0', 1
-      s.addr.last
-    end
-  ensure
-    Socket.do_not_reverse_lookup = orig
-  end
 
 
 
