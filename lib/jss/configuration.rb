@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
 
@@ -81,14 +106,11 @@ module JSS
     ### The Pathname to the user-specific preferences plist
     USER_CONF = Pathname.new("~/.#{CONF_FILE}").expand_path
 
-    ### Put this above the attributes, below the comments when saving files.
-    COMMENT_WARNING = "#--- Comments below here will be moved above when saved with JSS::CONFIG.save ---\n"
-
     ### The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
       :api_server_name => :to_s,
       :api_server_port => :to_i,
-      :api_verify_cert => :to_bool,
+      :api_verify_cert => :jss_to_bool,
       :api_username => :to_s,
       :api_timeout_open => :to_i,
       :api_timeout => :to_i,
@@ -196,20 +218,34 @@ module JSS
         when :user then USER_CONF
         else Pathname.new(file)
       end
-
-      # if the file exists and has any comment lines
-      # extract them and put them back at the top of the new file.
-      data = ""
+      
+      # file already exists? read it in and update the values.
       if path.readable?
-        path.read.each_line do |line|
-          next if line == COMMENT_WARNING
-          data << line if line =~ /^\s*(#|$)/
+        data = path.read
+        
+        # go thru the known attributes/keys
+        CONF_KEYS.keys.sort.each do |k| 
+          
+          # if the key exists, update it.
+          if data =~ /^#{k}:/ 
+            data.sub!(/^#{k}:.*$/, "#{k}: #{self.send k}") 
+          
+          # if not, add it to the end unless it's nil
+          else
+            data += "\n#{k}: #{self.send k}" unless self.send(k).nil?
+          end # if data =~ /^#{k}:/ 
+        end #each do |k| 
+        
+      else # not readable, make a new file
+        data = ""
+        CONF_KEYS.keys.sort.each do |k| 
+          data << "#{k}: #{self.send k}\n" unless self.send(k).nil? 
         end
-      end
-      data << COMMENT_WARNING
-
-      CONF_KEYS.keys.sort.each{|k| data << "#{k}: #{self.send k}\n"}
-      path.save data
+      end # if path readable
+      
+      # make sure we end with a newline, the save it.
+      data << "\n" unless data.end_with?("\n")
+      path.jss_save data
     end # read file
 
 

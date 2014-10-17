@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
   #####################################
@@ -463,33 +488,36 @@ module JSS
     ### The connect to this LDAP server for subsequent use of the {#find_user}, {#find_group}
     ### and {#check_membership} methods
     ###
-    ### @param password[String,Symbol] the LDAP connection password for this server. Can be nil if
+    ### @param pw[String,Symbol] the LDAP connection password for this server. Can be nil if
     ###   authentication type is 'none'.
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin, the password is read from a line of std in, defaults to line 0, see {JSS.stdin}
+    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, 
+    ###   if no digit is supplied. see {JSS.stdin}
     ###
-    ### @param stdin_line[Integer] which line of stdin contains the :stdin password, defaults to 1, 
-    ###  but if stdin is used for the API connection, will probably be higher
     ###
     ### @return [Boolean] did we connect to the LDAP server with the defined credentials
     ###
-    def connect(password = nil, stdin_line = 1)
+    def connect(pw = nil)
       
       unless @authentication_type == :anonymous
         # how do we get the password?
-        pw = case password
-          when :prompt
-            JSS.prompt_for_password "Enter the password for the LDAP connection account '#{@lookup_dn}':"
-          when :stdin
-            JSS.stdin stdin_line 
-          else
-            password
-        end # case
-      
-        raise JSS::InvalidDataError, "Incorrect password for LDAP connection account '#{@lookup_dn}'" unless @lookup_pw_sha256 == Digest::SHA2.new(256).update(pw.to_s).to_s
+        password = if pw == :prompt
+          JSS.prompt_for_password "Enter the password for the LDAP connection account '#{@lookup_dn}':"
+        elsif pw.is_a?(Symbol) and pw.to_s.start_with?('stdin')
+          pw.to_s =~ /^stdin(\d+)$/
+          line = $1
+          line ||= 2
+          JSS.stdin line
+        else
+          pw
+        end
+        
+        
+        raise JSS::InvalidDataError, "Incorrect password for LDAP connection account '#{@lookup_dn}'" unless @lookup_pw_sha256 == Digest::SHA2.new(256).update(password.to_s).to_s
       end # unless 
 
-      @connection = Net::LDAP.new :host => @hostname, :port => @port, :auth => {:method => @authentication_type, :username => @lookup_dn, :password => pw }
+      @connection = Net::LDAP.new :host => @hostname, :port => @port, :auth => {:method => @authentication_type, :username => @lookup_dn, :password => password }
       
       @connected = true
     end # connect

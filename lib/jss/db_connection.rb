@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
 
@@ -99,10 +124,9 @@ module JSS
     ###
     ### @option args :pw[String,Symbol] Required, the password for that user, or :prompt, or :stdin
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin, the password is read from stdin.
-    ###
-    ### @option args :stdin_line[Integer] If :pw is :stdin, which line of standard input contains our password?
-    ###   defaults to the second line (2)
+    ###   If :stdin#, the password is read from a line of std in represented by the digit at #,
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2,
+    ###   if no digit is supplied. see {JSS.stdin}
     ###
     ### @option args :connect_timeout[Integer] the number of seconds to wait for an initial response, defaults to 120
     ###
@@ -125,7 +149,6 @@ module JSS
       args[:connect_timeout] ||= JSS::CONFIG.db_connect_timeout
       args[:read_timeout] ||= JSS::CONFIG.db_read_timeout
       args[:write_timeout] ||= JSS::CONFIG.db_write_timeout
-      args[:stdin_line] ||= 2
 
       ### if one timeout was given, use it for all three
       args[:connect_timeout] ||= args[:timeout]
@@ -155,16 +178,20 @@ module JSS
       raise JSS::MissingDataError, "No JSS user specified, or listed in configuration." unless args[:user]
 
       # passwd from prompt, stdin, or args?
-      @pw = case args[:pw]
-        when :prompt
-          JSS.prompt_for_password  "Enter the password for MySQL user '#{args[:user]}':"
-        when :stdin
-          JSS.stdin args[:stdin_line]
-        else
-          args[:pw]
-      end # case
+      raise JSS::MissingDataError, "Missing :pw (or :prompt/:stdin) for user '#{@user}'" unless args[:pw]
 
-      raise JSS::MissingDataError, "Missing :pw for user '#{@user}'" unless args[:pw]
+      @pw = if args[:pw] == :prompt
+        JSS.prompt_for_password "Enter the password for the MySQL user '#{@user}':"
+      elsif  args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
+        args[:pw].to_s =~ /^stdin(\d+)$/
+        line = $1
+        line ||= 2
+        JSS.stdin line
+      else
+        args[:pw]
+      end
+
+
 
       @mysql = Mysql.init
 

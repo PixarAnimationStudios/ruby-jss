@@ -1,3 +1,28 @@
+### Copyright 2014 Pixar
+###  
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###  
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###  
+###    You may obtain a copy of the Apache License at
+###  
+###        http://www.apache.org/licenses/LICENSE-2.0
+###  
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+### 
+###
+
+###
 module JSS
 
   #####################################
@@ -102,11 +127,9 @@ module JSS
     ###
     ### @option args :pw[String,Symbol] Required, the password for that user, or :prompt, or :stdin
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin, the password is read from the first line of stdin. If you use stdin to pass multiple
-    ###   passwords, the others must come after this one.
-    ###
-    ### @option args :stdin_line[Integer] If :pw is :stdin, which line of standard input contains our password?
-    ###   defaults to the first line (1)
+    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 1, 
+    ###   if no digit is supplied. see {JSS.stdin}
     ###
     ### @option args :open_timeout[Integer] the number of seconds to wait for an initial response, defaults to 60
     ###
@@ -122,7 +145,6 @@ module JSS
       args[:user] ||= JSS::CONFIG.api_username
       args[:timeout] ||= JSS::CONFIG.api_timeout
       args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
-      args[:stdin_line] ||= 1
 
       # if verify cert given was NOT in the args....
       if args[:verify_cert].nil?
@@ -150,15 +172,16 @@ module JSS
       # make sure we have a user
       raise JSS::MissingDataError, "No JSS user specified, or listed in configuration." unless args[:user]
       
-      # passwd from prompt, stdin, or args?
-      args[:password] = case args[:pw]
-        when :prompt
-          JSS.prompt_for_password  "Enter the password for JSS user '#{args[:user]}':"
-        when :stdin
-          JSS.stdin args[:stdin_line]
-        else
-          args[:pw]
-      end # case
+      args[:password] = if args[:pw] == :prompt
+        JSS.prompt_for_password "Enter the password for JSS user '#{args[:user]}':"
+      elsif args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
+        args[:pw].to_s =~ /^stdin(\d+)$/
+        line = $1
+        line ||= 1
+        JSS.stdin line
+      else
+        args[:pw]
+      end
       
       # heres our connection
       @cnx = RestClient::Resource.new("#{@rest_url}", args)
