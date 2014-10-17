@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DateTime
+  
+    &mdash; The JSS Ruby Gem - access to the CasperSuite API
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!DateTime.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (D)</a> &raquo;
+    
+    
+    <span class="title">DateTime</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DateTime
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">DateTime</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jss/ruby_extensions/datetime.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS API can take incoming timestamp data in three formats:</p>
+<ul><li>
+<p>plain date: YYYY-mm-dd HH:MM:SS, which is assumed to be in the local
+timezone</p>
+</li><li>
+<p>UTC date: YYYY-mm-ddTHH:MM:SS.mmm [+-]zzzz, the local time with
+milliseconds and the timezone offset</p>
+</li><li>
+<p>Unix epoch with milliseconds, nnnnnnnnnnnnn,  which like all epoch times,
+is UTC</p>
+</li></ul>
+
+<p>Here we extend DateTime to return the three formats for use in XML data to
+pass back to the API. The API xml works with any of the formats, in
+appropriate elements. Generally we use  the epoch format for passing values
+back to the API but any should work.</p>
+
+<p>When reading from the API, all three formats are returned in different xml
+elements,  and the APIObjects in the gem will use the epoch format and the
+JSS.parse_datetime method (q.v.) to store  the data as a ruby DateTime. The
+real work of JSS.parse_datetime happens in String.to_jss_datetime.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="String.html#to_jss_datetime-instance_method" title="String#to_jss_datetime (method)">String#to_jss_datetime</a></span></li>
+    
+  </ul>
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jss_xml_date-instance_method" title="#to_jss_xml_date (instance method)">- (Object) <strong>to_jss_xml_date</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jss_xml_epoch-instance_method" title="#to_jss_xml_epoch (instance method)">- (Object) <strong>to_jss_xml_epoch</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jss_xml_utc-instance_method" title="#to_jss_xml_utc (instance method)">- (Object) <strong>to_jss_xml_utc</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="to_jss_xml_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_jss_xml_date</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_date identifier id'>to_jss_xml_date</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span> <span class='string val'>'%Y-%m-%d %H:%M:%S'</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jss_xml_epoch-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_jss_xml_epoch</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_epoch identifier id'>to_jss_xml_epoch</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span> <span class='string val'>'%s%L'</span> <span class='comment val'># '%Q' - seems to be a bug in some calls to %Q.</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jss_xml_utc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_jss_xml_utc</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/ruby_extensions/datetime.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jss_xml_utc identifier id'>to_jss_xml_utc</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%dT%H:%M:%S.%L%z&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 20 12:58:39 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
