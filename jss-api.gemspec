@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Lasell"]
   s.email       = 'chrisl@pixar.com'
   s.files       = Dir['lib/**/*.rb']
-  s.homepage    = 'http://oss.pixar.com/jssgem/'
+  s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/index.html'
 
   # Dependencies
   
