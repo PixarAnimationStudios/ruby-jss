@@ -27,9 +27,9 @@
 ###
 
 ###
-require "jss/ruby_extensions/filetest.rb"
-require "jss/ruby_extensions/hash.rb"
-require "jss/ruby_extensions/ipaddr.rb"
-require "jss/ruby_extensions/pathname.rb"
-require "jss/ruby_extensions/time.rb"
-require "jss/ruby_extensions/string.rb"
+require "jss-api/ruby_extensions/filetest.rb"
+require "jss-api/ruby_extensions/hash.rb"
+require "jss-api/ruby_extensions/ipaddr.rb"
+require "jss-api/ruby_extensions/pathname.rb"
+require "jss-api/ruby_extensions/time.rb"
+require "jss-api/ruby_extensions/string.rb"

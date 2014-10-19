@@ -27,7 +27,7 @@
 
 
 # Load in the JSS library
-require 'jss'
+require 'jss-api'
 
 # Load other libs
 require 'getoptlong'

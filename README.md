@@ -20,7 +20,7 @@ Hopefully others will find it useful, and add more to it as well
 
 ```ruby
 # you may need to require 'rubygems' first if you're using Ruby 1.8
-require 'jss'   
+require 'jss-api'   
 
 JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
 
@@ -332,7 +332,7 @@ NOTE: You may need to install XCode, and it's CLI tools, in order to install the
 
 In general, you can install the JSS Gem with this command: 
 
-`gem install jss`
+`gem install jss-api`
 
 If you're using Ruby 1.8.7, install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
 

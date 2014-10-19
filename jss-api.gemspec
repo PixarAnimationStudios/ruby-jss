@@ -23,7 +23,7 @@
 
 proj_name = 'jss-api'
 
-require "./lib/jss/version"
+require "./lib/#{proj_name}/version"
 
 Gem::Specification.new do |s|
 

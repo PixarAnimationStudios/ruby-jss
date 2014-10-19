@@ -534,15 +534,15 @@ end # module JSS
 
 ##################
 ### Load the rest of the module
-$:.unshift File.dirname(__FILE__)
+# $:.unshift File.dirname(__FILE__)
 
-require "jss/composer"
-require "jss/compatibility"
-require "jss/ruby_extensions"
-require "jss/exceptions"
-require "jss/api_connection"
-require "jss/api_object"
-require "jss/server"
-require "jss/client"
-require "jss/configuration"
-require "jss/db_connection"
+require "jss-api/composer"
+require "jss-api/compatibility"
+require "jss-api/ruby_extensions"
+require "jss-api/exceptions"
+require "jss-api/api_connection"
+require "jss-api/api_object"
+require "jss-api/server"
+require "jss-api/client"
+require "jss-api/configuration"
+require "jss-api/db_connection"

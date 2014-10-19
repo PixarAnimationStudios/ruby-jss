@@ -39,7 +39,7 @@
 
 ##############################
 # Libraries
-require 'jss'
+require 'jss-api'
 require 'getoptlong'
 
 ##############################

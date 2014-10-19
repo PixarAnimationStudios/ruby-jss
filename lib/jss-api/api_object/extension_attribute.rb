@@ -452,6 +452,6 @@ module JSS
 
 end # module JSS
 
-require "jss/api_object/extension_attribute/computer_extension_attribute"
-require "jss/api_object/extension_attribute/mobile_device_extension_attribute"
-require "jss/api_object/extension_attribute/user_extension_attribute"
+require "jss-api/api_object/extension_attribute/computer_extension_attribute"
+require "jss-api/api_object/extension_attribute/mobile_device_extension_attribute"
+require "jss-api/api_object/extension_attribute/user_extension_attribute"
