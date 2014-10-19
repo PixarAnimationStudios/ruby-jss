@@ -12,7 +12,7 @@ The gem is not a complete implementation of the Casper API. Only some API object
 those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
 See OBJECTS IMPLEMENTED for a list. 
 
-Basicially I've implemented the things we need in our environment, and as our needs grow, I'll add more. 
+We've implemented the things we need in our environment, and as our needs grow, we'll add more. 
 Hopefully others will find it useful, and add more to it as well
 
 
