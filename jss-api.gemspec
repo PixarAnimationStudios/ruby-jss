@@ -21,9 +21,9 @@
 ###    language governing permissions and limitations under the Apache License.
 ### 
 
-proj_name = 'jss'
+proj_name = 'jss-api'
 
-require "./lib/#{proj_name}/version"
+require "./lib/jss/version"
 
 Gem::Specification.new do |s|
 
@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.summary     = "A Ruby interface to the Casper Suite's JSS API"
   s.description = <<-EOD
     The JSS Gem is a framework for interacting with the REST API of the
-    JAMF Software Server (JSS), the core of the Casper Suite from JAMF Software, Inc.
+    JAMF Software Server (JSS), the core of the Casper Suite from JAMF Software, LLC.
     JSS API objects are implemented as Ruby classes, and interact with each oher to
     allow simpler automation of Casper-related tasks. For details see README.md."
   EOD
