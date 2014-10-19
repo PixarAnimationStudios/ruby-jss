@@ -1,0 +1,7 @@
+--title "The JSS API Ruby Gem - access to the Casper Suite API"
+--readme README.md
+--embed-mixins
+-
+LICENSE.txt
+CHANGES.md
+THANKS.md
