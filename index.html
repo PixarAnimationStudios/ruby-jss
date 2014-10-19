@@ -1,488 +1,102 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>
-  File: README
-  
-    &mdash; The JSS Ruby Gem - access to the CasperSuite API
-  
-</title>
-
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
-
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
-
-<script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
-  relpath = '';
-  framesUrl = "frames.html#!file.README.html";
-</script>
-
-
-  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-
-  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
-
-
-  </head>
-  <body>
-    <div id="header">
-      <div id="menu">
-  
-    <a href="_index.html">Index</a> &raquo; 
-    <span class="title">File: README</span>
-  
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>The JSS Ruby Gem</title>
+</head>
+<body
+ style="background-color: rgb(25, 0, 0); font-family: Arial,Helvetica,sans-serif; color: rgb(207, 207, 207);"
+ alink="Fuchsia" link="Fuchsia" vlink="Teal">
+<div
+ style="border: 15px solid rgb(102, 0, 0); background-color: rgb(67, 0, 0); width: 900px; text-align: center; margin-right: auto; margin-left: auto;"
+ id="header">
+<h1
+ style="font-family: Helvetica,Arial,sans-serif; color: rgb(207, 207, 207);">Objects
+to Objects</h1>
+<table
+ style="width: 800px; margin-left: auto; margin-right: auto; text-align: left;">
+  <tbody>
+    <tr style="text-align: center;" http:="" jamfsoftware.com="">
+      <td> <img
+ style="border: 0px solid ; width: 130px; height: 130px;" alt=""
+ src="images/jss-logo.png"></td>
+      <td><img style="border: 0px solid ; width: 110px; height: 72px;"
+ alt="" src="images/arrow.png"></td>
+      <td><span style="text-decoration: underline;"><img
+ style="width: 130px; height: 113px;" alt=""
+ src="images/rubygemicon.png"></span></td>
+    </tr>
+  </tbody>
+</table>
+<h1>
+The JSS Ruby Gem</h1>
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+JSS is a Ruby Gem providing access to the REST API of the JAMF Software
+Server (JSS) - the core of the Casper Suite from <a
+ href="http://jamfsoftware.com/">JAMF Software, LLC</a>. <br>
+<br>
+The Gem abstracts API resources as Ruby objects, and provides methods
+for interacting with those resources. It also provides some features
+that aren't a part of the API itself, but come with other
+Casper-related tools, such as uploading .pkg and .dmg JSS::Package data
+to the master distribution point, and the installation of Package
+objects on client machines. <br>
+<br>
+The Gem is not a complete implementation of the Casper API. Only some
+API objects are modeled, some only minimally. Of those, some are
+read-only, some partially writable, some fully read-write (all
+implemented objects can be deleted). See the README or the front page
+of the Documentation for a list.<br>
+<br>
+We've implemented the things we need in our environment, and as our
+needs grow, we'll add more. Hopefully others will find it useful, and
+add more to it as well<br>
+<br>
+<br>
 </div>
-
-      <div id="search">
-  
-    <a class="full_list_link" id="class_list_link"
-        href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-</div>
-      <div class="clear"></div>
-    </div>
-
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><div id='filecontents'><h1>The JSS Ruby Gem - access to the CasperSuite API</h1>
-
-<h2>DESCRIPTION</h2>
-
-<p>JSS is a Ruby gem providing access to the REST API of the JAMF Software Server (JSS) - the core of the Casper Suite
-from JAMF Software, LLC. It abstracts API resources as Ruby objects, and provides methods for interacting with those
-resources. It also provides some features that aren&#39;t a part of the API itself, but come with other Casper-related 
-tools, such as uploading .pkg and .dmg <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> data to the master distribution point, and the installation 
-of <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects on client machines. (See BEYOND THE API) </p>
-
-<p>The gem is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
-those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
-See OBJECTS IMPLEMENTED for a list. </p>
-
-<p>Basicially I&#39;ve implemented the things we need in our environment, and as our needs grow, I&#39;ll add more. 
-Hopefully others will find it useful, and add more to it as well</p>
-
-<h2>SYNOPSIS</h2>
-
-<pre class="code ruby"><code class="ruby"><span class='comment val'># you may need to require 'rubygems' first if you're using Ruby 1.8</span>
-<span class='rubyid_require identifier id'>require</span> <span class='string val'>'jss'</span>   
-
-<span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span> <span class='symbol val'>:user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_user identifier id'>jss_user</span><span class='comma token'>,</span> <span class='symbol val'>:pw</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_user_pw identifier id'>jss_user_pw</span><span class='comma token'>,</span> <span class='symbol val'>:server</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_server_hostname identifier id'>jss_server_hostname</span>
-
-<span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Package constant id'>Package</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span> <span class='comment val'># returns an array of data about all JSS::Package objects in the JSS</span>
-<span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Package constant id'>Package</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span> <span class='comment val'># returns an array of names of all JSS::Package objects in the JSS</span>
-
-<span class='comment val'># Get a static computer group</span>
-<span class='rubyid_mg identifier id'>mg</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_ComputerGroup constant id'>ComputerGroup</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Macs of interest&quot;</span>
-
-<span class='comment val'># Add a computer to the group</span>
-<span class='rubyid_mg identifier id'>mg</span><span class='dot token'>.</span><span class='rubyid_add_member identifier id'>add_member</span> <span class='string val'>&quot;pricklepants&quot;</span>
-
-<span class='comment val'># save my changes</span>
-<span class='rubyid_mg identifier id'>mg</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span>
-
-<span class='comment val'># Create a new network segment to store in the JSS</span>
-<span class='rubyid_ns identifier id'>ns</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_NetworkSegment constant id'>NetworkSegment</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'Private Class C'</span><span class='comma token'>,</span> <span class='symbol val'>:starting_address</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'192.168.0.0'</span><span class='comma token'>,</span> <span class='symbol val'>:ending_address</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'192.168.0.255'</span>
-
-<span class='comment val'># Associate this network segment with a specific building, which must exist in the JSS, and be listed in JSS::Building.all_names</span>
-<span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_building identifier id'>building</span> <span class='assign token'>=</span> <span class='string val'>&quot;Main Office&quot;</span> 
-
-<span class='comment val'># Associate this network segment with a specific software update server, which must exist in the JSS, </span>
-<span class='comment val'># and be listed in JSS::SoftwareUpdateServer.all_names</span>
-<span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_swu_server identifier id'>swu_server</span> <span class='assign token'>=</span> <span class='string val'>&quot;Main SWU Server&quot;</span> 
-
-<span class='comment val'># Store the new network segment in the JSS</span>
-<span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span> 
-</code></pre>
-
-<h2>USAGE</h2>
-
-<h3>Connecting to the API</h3>
-
-<p>Before you can work with JSS Objects via the API, you have to connect to it. </p>
-
-<p>The constant <span class='object_link'><a href="JSS.html#API-constant" title="JSS::API (constant)">JSS::API</a></span> contains the connection to the API (a singleton instance of <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span>). When the JSS Module is first loaded, it isn&#39;t 
-connected.  To remedy that, use JSS::API.connect, passing it values for :user, :pw, and :server:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span> <span class='symbol val'>:user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_user identifier id'>jss_user</span><span class='comma token'>,</span> <span class='symbol val'>:pw</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_user_pw identifier id'>jss_user_pw</span><span class='comma token'>,</span> <span class='symbol val'>:server</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_jss_server_hostname identifier id'>jss_server_hostname</span>
-</code></pre>
-
-<p>Make sure the user has privileges in the JSS to do things with API Objects. </p>
-
-<p>The APIConnection.instance.connect method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
-password from stdin, or prompt for it in the shell. See the JSS::APIConnection class for more connection options and details about its methods. </p>
-
-<p>Also see <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span>, and the CONFIGURATION section below, for how to store
-server connection parameters in a simple config file.</p>
-
-<h3>Working with JSS Objects (a.k.a REST Resources)</h3>
-
-<p>All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. Those classes do so by mixing in the JSS::Creatable and/or JSS::Updateable modules. See below for the level of implementation of each class. </p>
-
-<hr>
-
-<h4>Listing Objects</h4>
-
-<p>To get an Array of every object in the JSS of some Class, call that Class&#39;s .all method:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span> <span class='comment val'># =&gt; [{:name=&gt;&quot;cephei&quot;, :id=&gt;62},{:name=&gt;&quot;peterparker&quot;, :id=&gt;218}, {:name=&gt;&quot;rowdy&quot;, :id=&gt;901}, ...]</span>
-</code></pre>
-
-<p>The Array will contain a Hash for each item, with at least a :name and an :id.  Some classes provide more data for each item.
-To get just the names or just the ids in an Array, use the .all_names or .all_ids Class method</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_names identifier id'>all_names</span> <span class='comment val'># =&gt;  [&quot;cephei&quot;, &quot;peterparker&quot;, &quot;rowdy&quot;, ...]</span>
-<span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Computer constant id'>Computer</span><span class='dot token'>.</span><span class='rubyid_all_ids identifier id'>all_ids</span> <span class='comment val'># =&gt;  [62, 218, 901, ...]</span>
-</code></pre>
-
-<p>Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all_udids</p>
-
-<hr>
-
-<h4>Retrieving Objects</h4>
-
-<p>To retrieve a single object call the object&#39;s constructor (.new) and provide either :name or :id or :data.</p>
-
-<ul>
-<li>:name or :id will be looked up via the API</li>
-</ul>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_a_dept identifier id'>a_dept</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Department constant id'>Department</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Payroll&quot;</span> <span class='comment val'># =&gt;  #&lt;JSS::Department:0x10b4c0818...</span>
-</code></pre>
-
-<ul>
-<li>:data must be the parsed JSON output of a separate API query (a hash with symbolized keys)</li>
-</ul>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_dept_data identifier id'>dept_data</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_API constant id'>API</span><span class='dot token'>.</span><span class='rubyid_get_rsrc identifier id'>get_rsrc</span><span class='lparen token'>(</span><span class='string val'>&quot;departments/name/Payroll&quot;</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:department</span><span class='rbrack token'>]</span> <span class='comment val'># =&gt; {:name=&gt;&quot;Payroll&quot;, :id=&gt;42}</span>
-<span class='rubyid_a_dept identifier id'>a_dept</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Department constant id'>Department</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_dept_data identifier id'>dept_data</span>  <span class='comment val'># =&gt;  #&lt;JSS::Department:0x10b4a83f8...</span>
-</code></pre>
-
-<p>Some subclasses can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.</p>
-
-<hr>
-
-<h4>Creating Objects</h4>
-
-<p>Some Objects can be created anew in the JSS. To make a new object, first instantiate one using :id =&gt; :new, and provide a unique :name.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_new_pkg identifier id'>new_pkg</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Package constant id'>Package</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;transmogrifier-2.3-1.pkg&quot;</span>
-</code></pre>
-
-<p>Then set the attributes of the new object as needed</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_new_pkg identifier id'>new_pkg</span><span class='dot token'>.</span><span class='rubyid_reboot_required identifier id'>reboot_required</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-<span class='rubyid_new_pkg identifier id'>new_pkg</span><span class='dot token'>.</span><span class='rubyid_category identifier id'>category</span> <span class='assign token'>=</span> <span class='string val'>&quot;CoolTools&quot;</span>
-<span class='comment val'># etc..</span>
-</code></pre>
-
-<p>Then use the #create method to create it in the JSS.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_new_pkg identifier id'>new_pkg</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span> <span class='comment val'># =&gt; 453 # the id number of the object just created</span>
-</code></pre>
-
-<p><em>NOTE</em> some subclasses require more data than just a :name when instantiating with :id =&gt; :new.</p>
-
-<hr>
-
-<h4>Updating Objects</h4>
-
-<p>Some objects can be modified in the JSS.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_existing_script identifier id'>existing_script</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Script constant id'>Script</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>321</span>
-<span class='rubyid_existing_script identifier id'>existing_script</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='string val'>&quot;transmogrifier-2.3-1.post-install&quot;</span>
-</code></pre>
-
-<p>After changing any attributes, use the #update method (also aliased to #save) to push the changes to the JSS.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_existing_script identifier id'>existing_script</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='comment val'># or existing_script.save  =&gt; true # the update was successful</span>
-</code></pre>
-
-<hr>
-
-<h4>Deleting Objects</h4>
-
-<p>To delete an object, just call its #delete method</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_existing_script identifier id'>existing_script</span> <span class='assign token'>=</span> <span class='rubyid_JSS constant id'>JSS</span><span class='colon2 op'>::</span><span class='rubyid_Script constant id'>Script</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>321</span>
-<span class='rubyid_existing_script identifier id'>existing_script</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> <span class='comment val'># =&gt; true # the delete was successful</span>
-</code></pre>
-
-<p>See JSS::APIObject, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.</p>
-
-<p>See the individual subclasses for any details specific to them.</p>
-
-<h2>OBJECTS IMPLEMENTED</h2>
-
-<p>See each Class&#39;s documentation for details.</p>
-
-<h3>Creatable and Updatable</h3>
-
-<ul>
-<li><span class='object_link'><a href="JSS/AdvancedComputerSearch.html" title="JSS::AdvancedComputerSearch (class)">JSS::AdvancedComputerSearch</a></span></li>
-<li><span class='object_link'><a href="JSS/AdvancedMobileDeviceSearch.html" title="JSS::AdvancedMobileDeviceSearch (class)">JSS::AdvancedMobileDeviceSearch</a></span></li>
-<li><span class='object_link'><a href="JSS/AdvancedUserSearch.html" title="JSS::AdvancedUserSearch (class)">JSS::AdvancedUserSearch</a></span></li>
-<li><span class='object_link'><a href="JSS/Building.html" title="JSS::Building (class)">JSS::Building</a></span></li>
-<li><span class='object_link'><a href="JSS/Category.html" title="JSS::Category (class)">JSS::Category</a></span></li>
-<li><span class='object_link'><a href="JSS/ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">JSS::ComputerExtensionAttribute</a></span></li>
-<li><span class='object_link'><a href="JSS/ComputerGroup.html" title="JSS::ComputerGroup (class)">JSS::ComputerGroup</a></span></li>
-<li><span class='object_link'><a href="JSS/Department.html" title="JSS::Department (class)">JSS::Department</a></span></li>
-<li><span class='object_link'><a href="JSS/MobileDeviceExtensionAttribute.html" title="JSS::MobileDeviceExtensionAttribute (class)">JSS::MobileDeviceExtensionAttribute</a></span></li>
-<li><span class='object_link'><a href="JSS/MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">JSS::MobileDeviceGroup</a></span></li>
-<li><span class='object_link'><a href="JSS/NetworkSegment.html" title="JSS::NetworkSegment (class)">JSS::NetworkSegment</a></span></li>
-<li><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span></li>
-<li><span class='object_link'><a href="JSS/Peripheral.html" title="JSS::Peripheral (class)">JSS::Peripheral</a></span></li>
-<li><span class='object_link'><a href="JSS/PeripheralType.html" title="JSS::PeripheralType (class)">JSS::PeripheralType</a></span></li>
-<li><span class='object_link'><a href="JSS/RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">JSS::RemovableMacAddress</a></span></li>
-<li><span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">JSS::Script</a></span></li>
-<li><span class='object_link'><a href="JSS/User.html" title="JSS::User (class)">JSS::User</a></span></li>
-<li><span class='object_link'><a href="JSS/UserExtensionAttribute.html" title="JSS::UserExtensionAttribute (class)">JSS::UserExtensionAttribute</a></span></li>
-<li><span class='object_link'><a href="JSS/UserGroup.html" title="JSS::UserGroup (class)">JSS::UserGroup</a></span></li>
-</ul>
-
-<h3>Updatable but not Creatable</h3>
-
-<ul>
-<li><span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span> - limited to modifying
-
-<ul>
-<li>name</li>
-<li>barcodes</li>
-<li>asset tag</li>
-<li>ip address</li>
-<li>location data</li>
-<li>purchasing data</li>
-<li>editable extension attributes</li>
-</ul></li>
-<li><span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span> - limited to modifying
-
-<ul>
-<li>asset tag</li>
-<li>location data</li>
-<li>purchasing data</li>
-<li>editable extension attributes</li>
-</ul></li>
-<li><span class='object_link'><a href="JSS/Policy.html" title="JSS::Policy (class)">JSS::Policy</a></span> - limited  to modifying
-
-<ul>
-<li>scope (see <span class='object_link'><a href="JSS/Scopable/Scope.html" title="JSS::Scopable::Scope (class)">JSS::Scopable::Scope</a></span>)</li>
-<li>name</li>
-<li>enabled</li>
-<li>category</li>
-<li>triggers</li>
-<li>file &amp; process actions</li>
-</ul></li>
-</ul>
-
-<p><strong>NOTE</strong> Even in the API and the WebApp, Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. &#39;recon&#39;) is not editable.</p>
-
-<h3>Read-Only</h3>
-
-<p>These must be created and edited via the JSS WebApp</p>
-
-<ul>
-<li><span class='object_link'><a href="JSS/DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></li>
-<li><span class='object_link'><a href="JSS/LDAPServer.html" title="JSS::LDAPServer (class)">JSS::LDAPServer</a></span></li>
-<li><span class='object_link'><a href="JSS/NetBootServer.html" title="JSS::NetBootServer (class)">JSS::NetBootServer</a></span></li>
-<li><span class='object_link'><a href="JSS/SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">JSS::SoftwareUpdateServer</a></span></li>
-</ul>
-
-<h3>Deletable</h3>
-
-<p>All supported API Objects can be deleted</p>
-
-<p>Other useful classes:</p>
-
-<ul>
-<li><span class='object_link'><a href="JSS/Server.html" title="JSS::Server (class)">JSS::Server</a></span> - An encapsulation of some info about the server, such as the JSS version and license. An instance is available as an attribute of the <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> singleton.</li>
-<li><span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods</li>
-</ul>
-
-<h2>CONFIGURATION</h2>
-
-<p>The <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> singleton class is used to read, write, and use site-specific defaults for using the JSS Gem. When the JSS module is loaded, the single instance of <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> is created and stored in the constant <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.</p>
-
-<p>The values defined in those files are used as defaults throughout the Gem. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling APIConnection.instance.connect.</p>
-
-<p>While the <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> clss provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='label val'>attr_name:</span> <span class='rubyid_value identifier id'>value</span>
-</code></pre>
-
-<p>Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.</p>
-
-<p>Lines starting with a # are comments and will be preserved when using #save.</p>
-
-<p>The currently known attributes are:</p>
-
-<ul>
-<li>api_server_name [String] the hostname of the JSS API server</li>
-<li>api_server_port [Integer] the port number for the API connection</li>
-<li>api_verify_cert [Boolean] &#39;true&#39; or &#39;false&#39; - if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)</li>
-<li>api_username [String] the JSS username for connecting to the API</li>
-<li>api_timeout_open [Integer] the number of seconds for the open-connection timeout</li>
-<li>api_timeout [Integer] the number of seconds for the response timeout</li>
-</ul>
-
-<p>To put a standard server &amp; username on all client machines, and auto-accept the JSS&#39;s self-signed https certificate, create the file /etc/jss_gem.conf containing three lines like this:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='label val'>api_server_name:</span> <span class='rubyid_casper identifier id'>casper</span><span class='dot token'>.</span><span class='rubyid_myschool identifier id'>myschool</span><span class='dot token'>.</span><span class='rubyid_edu identifier id'>edu</span>
-<span class='label val'>api_username:</span> <span class='rubyid_readonly identifier id'>readonly</span><span class='minus op'>-</span><span class='rubyid_api identifier id'>api</span><span class='minus op'>-</span><span class='rubyid_user identifier id'>user</span>
-<span class='label val'>api_verify_cert:</span> <span class='rubyid_false false kw'>false</span>
-</code></pre>
-
-<p>and then any calls to APIConnection.instance.connect will assume that server and username, and won&#39;t complain about the self-signed certificate.</p>
-
-<p>Note that the config files don&#39;t store passwords. You&#39;ll have to use your own methods for acquiring the password for the JSS::API.connect call. The APIConnection.instance.connect method also accepts the symbols :stdin and :prompt, which will cause it to read the password from stdin, or prompt for it in 
-the shell.</p>
-
-<h2>BEYOND THE API</h2>
-
-<p>While the Casper API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:</p>
-
-<ul>
-<li>Client Machine Access
-
-<ul>
-<li>The <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> module provides the ability to run jamf binary commands, and access the local cache of package receipts </li>
-</ul></li>
-<li>Package Installation 
-
-<ul>
-<li><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can be installed on the local machine, from the appropriate distribution point</li>
-</ul></li>
-<li>Script Execution
-
-<ul>
-<li><span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">JSS::Script</a></span> objects can be executed locally on demand</li>
-</ul></li>
-<li>Package Creation
-
-<ul>
-<li>The <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">JSS::Composer</a></span> module provides creation of very simple .pkg and .dmg packages</li>
-<li><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can upload their .pkg or .dmg files to the master distribution point (<span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">JSS::Script</a></span> objects can also if you store them there.)</li>
-</ul></li>
-<li>Reporting/AdvancedSearch exporting
-
-<ul>
-<li><span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses can export their results to csv, tab, and xml files.</li>
-</ul></li>
-<li>LDAP Access
-
-<ul>
-<li><span class='object_link'><a href="JSS/LDAPServer.html" title="JSS::LDAPServer (class)">JSS::LDAPServer</a></span> objects can query the LDAP servers for user, group, and membership data.</li>
-</ul></li>
-<li>MDM Commands
-
-<ul>
-<li><span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span>s (and eventually <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span>s) can be sent MDM commands</li>
-</ul></li>
-<li>Extension Attributes
-
-<ul>
-<li><span class='object_link'><a href="JSS/ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">JSS::ExtensionAttribute</a></span> work with <span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses to provide extra reporting about Ext. Attrib. values.</li>
-</ul></li>
-</ul>
-
-<h2>REQUIREMENTS</h2>
-
-<p>the JSS gem was written for:</p>
-
-<ul>
-<li>Mac OS X 10.8 and higher</li>
-<li>Casper Suite version 9.4 or higher</li>
-<li>Ruby 1.8.7 and 2.0.0 (the two versions that come with OS X 10.9).</li>
-</ul>
-
-<p>It also requires these gems, which will be installed automatically if you install JSS with <code>gem install jss</code></p>
-
-<ul>
-<li>rest-client &gt;=1.6.7 <a href="http://rubygems.org/gems/rest-client">http://rubygems.org/gems/rest-client</a></li>
-<li>json or json_pure &gt;= 1.6.5 <a href="http://rubygems.org/gems/json">http://rubygems.org/gems/json</a> or <a href="http://rubygems.org/gems/json_pure">http://rubygems.org/gems/json_pure</a>
-
-<ul>
-<li>(only in ruby 1.8.7.  Ruby 2.0.0 has json in its standard library)</li>
-</ul></li>
-<li>ruby-mysql &gt;= 2.9.12 <a href="http://rubygems.org/gems/ruby-mysql">http://rubygems.org/gems/ruby-mysql</a>
-
-<ul>
-<li>(only for a few things that still require direct SQL access to the JSS database)</li>
-</ul></li>
-<li>plist =3.1.0 <a href="http://rubygems.org/gems/plist">http://rubygems.org/gems/plist</a>
-
-<ul>
-<li>for the <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">JSS::Composer</a></span> module and <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> class</li>
-</ul></li>
-<li>net-ldap &gt;= 0.3.1 <a href="http://rubygems.org/gems/net-ldap">http://rubygems.org/gems/net-ldap</a>
-
-<ul>
-<li>for accessing the LDAP servers defined in the JSS, to check for user and group info.</li>
-</ul></li>
-</ul>
-
-<h2>INSTALL</h2>
-
-<p>NOTE: You may need to install XCode, and it&#39;s CLI tools, in order to install the required gems.</p>
-
-<p>In general, you can install the JSS Gem with this command: </p>
-
-<p><code>gem install jss</code></p>
-
-<p>If you&#39;re using Ruby 1.8.7, install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren&#39;t pre-installed.</p>
-
-<p><code>gem install json -v 1.6.5</code></p>
-
-<p><code>gem install mime-types -v 1.25.1</code></p>
-
-<p><code>gem install rest-client -v 1.6.8</code></p>
-
-<h2>LICENSE</h2>
-
-<p>Copyright 2014 Pixar</p>
-
-<p>Licensed under the Apache License, Version 2.0 (the &quot;Apache License&quot;)
-with the following modification; you may not use this file except in
-compliance with the Apache License and the following modification to it:</p>
-
-<p>Section 6. Trademarks. is deleted and replaced with:</p>
-
-<p>6. Trademarks. This License does not grant permission to use the trade
-  names, trademarks, service marks, or product names of the Licensor
-  and its affiliates, except as required to comply with Section 4(c) of
-  the License and to reproduce the content of the NOTICE file.</p>
-
-<p>You may obtain a copy of the Apache License at</p>
-
-<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
-
-<p>Unless required by applicable law or agreed to in writing, software
-distributed under the Apache License with the above modification is
-distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied. See the Apache License for the specific
-language governing permissions and limitations under the Apache License.</p>
-</div></div>
-
-    <div id="footer">
-  Generated on Fri Oct 17 10:16:58 2014 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.8.7).
-</div>
-
-  </body>
+<table
+ style="text-align: left; width: 930px; background-color: rgb(67, 0, 0); margin-right: auto; margin-left: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td
+ style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 33%;">
+      <div style="text-align: center;">Install from RubyGems.org<br>
+      </div>
+      <br>
+      <br>
+      <div
+ style="width: 50%; text-align: center; background-color: rgb(0, 0, 0); color: white; margin-right: auto; margin-left: auto;"><a
+ href="https://rubygems.org/gems/jss-api">&gt; gem install jss-api</a><br>
+      </div>
+      <br>
+      </td>
+      <td
+ style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 34%;">
+      <div style="text-align: center;">Documentation at RubyDoc.info<br>
+      </div>
+      <br>
+      <br>
+      <div style="text-align: center;"><a
+ href="http://www.rubydoc.info/github/PixarAnimationStudios/jss-api-gem/master/file/README.md">README</a><br>
+      </div>
+      </td>
+      <td
+ style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 33%;">
+      <div style="text-align: center;">Contribute at GitHub.com<br>
+      </div>
+      <br>
+      <div style="text-align: center;"><a
+ href="https://github.com/PixarAnimationStudios/jss-api-gem"><img
+ style="border: 0px solid ; width: 64px; height: 64px;" alt=""
+ src="images/GitHub-Mark-Light-64px.png"></a><br>
+      </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</body>
 </html>
