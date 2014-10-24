@@ -35,15 +35,15 @@ Gem::Specification.new do |s|
   s.date        = Time.now.utc.strftime("%Y-%m-%d")
   s.summary     = "A Ruby interface to the Casper Suite's JSS API"
   s.description = <<-EOD
-    The JSS Gem is a framework for interacting with the REST API of the
+    The jss-api gem provides the JSS module, a framework for interacting with the REST API of the
     JAMF Software Server (JSS), the core of the Casper Suite from JAMF Software, LLC.
     JSS API objects are implemented as Ruby classes, and interact with each oher to
-    allow simpler automation of Casper-related tasks. For details see README.md."
+    allow simpler automation of Casper-related tasks. For details see the README file."
   EOD
   s.authors     = ["Chris Lasell"]
   s.email       = 'chrisl@pixar.com'
   s.files       = Dir['lib/**/*.rb']
-  s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/index.html'
+  s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/'
 
   # Dependencies
   

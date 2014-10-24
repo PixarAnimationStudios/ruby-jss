@@ -2,18 +2,14 @@
 
 ## DESCRIPTION
 
-jss-api is a Ruby Gem providing access to the REST API of the JAMF Software Server (JSS) - the core of the Casper Suite
-from JAMF Software, LLC. It defines the JSS module, which abstracts API resources as Ruby objects, and provides methods for interacting with those
-resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related 
-tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation 
-of {JSS::Package} objects on client machines. (See BEYOND THE API) 
+The jss-api gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS) - the core of the Casper Suite from JAMF Software, LLC. The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API) 
 
-The gem is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
+The module is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
 those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
 See OBJECTS IMPLEMENTED for a list. 
 
 We've implemented the things we need in our environment, and as our needs grow, we'll add more. 
-Hopefully others will find it useful, and add more to it as well
+Hopefully others will find it useful, and add more to it as well.
 
 
 ## SYNOPSIS
@@ -22,10 +18,17 @@ Hopefully others will find it useful, and add more to it as well
 # you may need to require 'rubygems' first if you're using Ruby 1.8
 require 'jss-api'   
 
-JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
+JSS::API.connect(
+  :user => jss_user, 
+  :pw => jss_user_pw, 
+  :server => jss_server_hostname
+)
 
-JSS::Package.all # returns an array of data about all JSS::Package objects in the JSS
-JSS::Package.all_names # returns an array of names of all JSS::Package objects in the JSS
+# get an array of data about all JSS::Package objects in the JSS:
+JSS::Package.all
+
+# get an array of names of all JSS::Package objects in the JSS:
+JSS::Package.all_names 
 
 # Get a static computer group
 mg = JSS::ComputerGroup.new :name => "Macs of interest"
@@ -37,16 +40,22 @@ mg.add_member "pricklepants"
 mg.update
 
 # Create a new network segment to store in the JSS
-ns = JSS::NetworkSegment.new :id => :new, :name => 'Private Class C', :starting_address => '192.168.0.0', :ending_address => '192.168.0.255'
+ns = JSS::NetworkSegment.new(
+  :id => :new, 
+  :name => 'Private Class C', 
+  :starting_address => '192.168.0.0', 
+  :ending_address => '192.168.0.255'
+)
 
-# Associate this network segment with a specific building, which must exist in the JSS, and be listed in JSS::Building.all_names
+# Associate this network segment with a specific building,
+# which must exist in the JSS, and be listed in JSS::Building.all_names
 ns.building = "Main Office" 
 
-# Associate this network segment with a specific software update server, which must exist in the JSS, 
-# and be listed in JSS::SoftwareUpdateServer.all_names
+# Associate this network segment with a specific software update server,
+#  which must exist in the JSS, and be listed in JSS::SoftwareUpdateServer.all_names
 ns.swu_server = "Main SWU Server" 
 
-# Store the new network segment in the JSS
+# Create the new network segment in the JSS
 ns.create 
 ```
 
@@ -82,7 +91,7 @@ All API Object classes are subclasses of JSS::APIObject and share methods for li
 To get an Array of every object in the JSS of some Class, call that Class's .all method:
 
 ```ruby
-JSS::Computer.all # => [{:name=>"cephei", :id=>62},{:name=>"peterparker", :id=>218}, {:name=>"rowdy", :id=>901}, ...]
+JSS::Computer.all # => [{:name=>"cephei", :id=>1122},{:name=>"peterparker", :id=>1218}, {:name=>"rowdy", :id=>931}, ...]
 ```
 
 The Array will contain a Hash for each item, with at least a :name and an :id.  Some classes provide more data for each item.
@@ -90,7 +99,7 @@ To get just the names or just the ids in an Array, use the .all\_names or .all\_
 
 ```ruby
 JSS::Computer.all_names # =>  ["cephei", "peterparker", "rowdy", ...]
-JSS::Computer.all_ids # =>  [62, 218, 901, ...]
+JSS::Computer.all_ids # =>  [1122, 1218, 931, ...]
 ```    
 
 Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all\_udids
@@ -170,12 +179,9 @@ existing_script = JSS::Script.new :id => 321
 existing_script.delete # => true # the delete was successful
 ```
 
-
 See JSS::APIObject, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.
 
 See the individual subclasses for any details specific to them.
-
-
 
 ## OBJECTS IMPLEMENTED
 
@@ -241,7 +247,6 @@ These must be created and edited via the JSS WebApp
 
 All supported API Objects can be deleted
 
-
 Other useful classes:
 
 * {JSS::Server} - An encapsulation of some info about the server, such as the JSS version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
@@ -249,23 +254,21 @@ Other useful classes:
 
 ## CONFIGURATION
 
-The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for using the JSS Gem. When the JSS module is loaded, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
+The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for the JSS module. When the Module is required, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
 
-The values defined in those files are used as defaults throughout the Gem. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}.
+The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}. Values provided explicitly when calling JSS::API.connect will override the config values.
 
-While the {JSS::Configuration} clss provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
+While the {JSS::Configuration} class provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
 
     attr_name: value
 
 Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.
 
-Lines starting with a # are comments and will be preserved when using #save.
-
 The currently known attributes are:
 
 * api_server_name [String] the hostname of the JSS API server
 * api_server_port [Integer] the port number for the API connection
-* api_verify_cert [Boolean] 'true' or 'false' - if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)
+* api_verify_cert [Boolean] 'true' or 'false' - if SSL is used, should the certificate be verified? (usually false for a self-signed cert)
 * api_username [String] the JSS username for connecting to the API
 * api_timeout_open [Integer] the number of seconds for the open-connection timeout
 * api_timeout [Integer] the number of seconds for the response timeout
@@ -280,9 +283,28 @@ api_verify_cert: false
 
 and then any calls to {JSS::API.connect} will assume that server and username, and won't complain about the self-signed certificate.
 
-Note that the config files don't store passwords. You'll have to use your own methods for acquiring the password for the JSS::API.connect call. The {JSS::API#connect} method also accepts the symbols :stdin and :prompt, which will cause it to read the password from stdin, or prompt for it in 
-the shell.
+### Passwords
 
+The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS::API.connect call. 
+
+The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell. 
+
+If you must store a password in a file, or retrieve it from the network, make sure it's stored securely, and that the JSS user has limited permissions.  
+
+Here's an example of how to use a password stored in a file:
+
+```ruby
+password = File.read "/path/to/secure/password/file" # read the password from a file
+JSS::API.connect :pw => password   # other arguments used from the config settings
+```
+
+And here's an example of how to read a password from a web server and use it.
+
+```ruby
+require 'open-uri'
+password =  open('http://server.org.org/path/to/password').read
+JSS::API.connect :pw => password   # other arguments used from the config settings
+```
 
 ## BEYOND THE API
 
