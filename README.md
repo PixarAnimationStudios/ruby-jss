@@ -13,6 +13,8 @@ See OBJECTS IMPLEMENTED for a list.
 We've implemented the things we need in our environment, and as our needs grow, we'll add more. 
 Hopefully others will find it useful, and add more to it as well.
 
+[Full technical documentation can be found here.](http://www.rubydoc.info/gems/jss-api/)
+
 
 ## SYNOPSIS
 
