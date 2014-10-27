@@ -1,83 +1,199 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html><head>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>The JSS Ruby Gem</title></head><body style="background-color: rgb(25, 0, 0); font-family: Arial,Helvetica,sans-serif; color: rgb(207, 207, 207);" alink="Fuchsia" link="Fuchsia" vlink="Teal">
-<div style="border: 15px solid rgb(102, 0, 0); background-color: rgb(67, 0, 0); width: 900px; text-align: center; margin-right: auto; margin-left: auto;" id="header">
-<h1 style="font-family: Helvetica,Arial,sans-serif; color: rgb(207, 207, 207);">Objects
-to Objects</h1>
-<table style="width: 800px; margin-left: auto; margin-right: auto; text-align: left;">
-  <tbody>
-    <tr style="text-align: center;" http:="" jamfsoftware.com="">
-      <td> <img style="border: 0px solid ; width: 130px; height: 130px;" alt="" src="images/jss-logo.png"></td>
-      <td><img style="border: 0px solid ; width: 110px; height: 72px;" alt="" src="images/arrow.png"></td>
-      <td><span style="text-decoration: underline;"><img style="width: 130px; height: 113px;" alt="" src="images/rubygemicon.png"></span></td>
-    </tr>
-  </tbody>
-</table>
-<h1>
-The JSS Ruby Module</h1>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="jss ruby gem">
+  <meta name="author" content="stoked@pixar.com">
 
-<hr style="width: 100%; height: 2px;"><br>
-JSS is a Ruby module providing access to the REST API of the JAMF
-Software
-Server (JSS), the core of the Casper Suite from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>. <br>
-<br>
-The module abstracts API resources as Ruby objects, and provides methods
-for interacting with those resources. It also provides some features
-that aren't a part of the API itself, but come with other
-Casper-related tools, such as uploading .pkg and .dmg JSS::Package data
-to the master distribution point, and the installation of Package
-objects on client machines. <br>
-<br>
-The module is not a complete implementation of the Casper API. Only some
-API objects are modeled, some only minimally. Of those, some are
-read-only, some partially writable, some fully read-write (all
-implemented objects can be deleted). See the README or the front page
-of the Documentation for a list.<br>
-<br>
-We've implemented the things we need in our environment, and as our
-needs grow, we'll add more. Hopefully others will find it useful, and
-add more to it as well.<br>
-<br>
-<small><small>The module is released under a modified Apache License v2.0. Please see the LICENSE.txt file for details.</small></small><br>
-<hr style="width: 100%; height: 2px;"><br>
-Contact:<br>
-<a href="mailto:jss-api-gem@pixar.com">jss-api-gem@pixar.com</a><br>
-<br>
-<br>
-</div>
-<table style="border-style: solid; border-color: black; text-align: left; width: 930px; background-color: rgb(67, 0, 0); margin-right: auto; margin-left: auto;" border="1" cellpadding="2" cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 33%;">
-      <div style="text-align: center;">Install from RubyGems.org<br>
-      </div>
-      <br>
-      <div style="text-align: center;"><a href="https://rubygems.org/gems/jss-api"><img style="border: 0px solid ; width: 64px; height: 64px;" alt="" src="images/rubygemsorg.png" align="middle"></a><br>
-      </div>
-      <br>
-      <div style="text-align: center;">gem install jss-api<br>
-      </div>
-      </td>
-      <td style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 34%;">
-      <div style="text-align: center;">Documentation at RubyDoc.info<br>
-      </div>
-      <br>
-      <div style="text-align: center;"><a href="http://www.rubydoc.info/gems/jss-api/"><img style="border: 0px solid ; width: 64px; height: 64px;" alt="" src="images/rubydoc.png"></a><br>
-      </div>
-      </td>
-      <td style="border: 5px solid rgb(102, 0, 0); vertical-align: top; width: 33%;">
-      <div style="text-align: center;">Contribute at GitHub.com<br>
-      </div>
-      <br>
-      <div style="text-align: center;"><a href="https://github.com/PixarAnimationStudios/jss-api-gem"><img style="border: 0px solid ; width: 64px; height: 64px;" alt="" src="images/GitHub-Mark-Light-64px.png"></a><br>
-      </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<br>
+  <title>JSS Ruby Module</title>
 
-</body></html>
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Scrolling nav CSS -->
+  <link href="css/scrolling-nav.css" rel="stylesheet">
+
+  <!-- Font Awesome CSS -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,700,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  
+  <!-- Main CSS -->
+  <link href="css/main.css" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="#page-top">JSS Ruby Module</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+          <li class="hidden">
+            <a class="page-scroll" href="#page-top"></a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#about"> <i class="fa fa-gears"></i> About</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#contact"><i class="fa fa-envelope-o"></i> Contact</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+  <!-- Intro Section -->
+  <section id="intro" class="intro-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <h1>JSS Ruby Module</h1>
+          <p>
+            Providing access to the REST API of the JAMF Software Server (JSS), the core of the Casper Suite from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <hr />
+
+        <div class="col-sm-4">
+          <a class="homePanelLink" href="https://rubygems.org/gems/jss-api">
+            <div class="panel panel-default homePanel">
+              <div class="panel-body">
+                <h2>Installation</h2>
+                <img class="homeIcon" src="images/rubygemsorg.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a class="homePanelLink" href="https://github.com/PixarAnimationStudios/jss-api-gem">
+            <div class="panel panel-default homePanel">
+              <div class="panel-body">
+                <h2>Source</h2>
+                <img class="homeIcon" src="images/Octocat.png">
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <div class="col-sm-4">
+          <a class="homePanelLink" href="http://www.rubydoc.info/gems/jss-api/">
+            <div class="panel panel-default homePanel">
+              <div class="panel-body">
+                <h2>Documentation</h2>
+                <img class="homeIcon" src="images/rubydoc.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <h1><i class="fa fa-gears"></i> About</h1>
+
+          <div id="aboutText">
+
+            <p>
+              JSS is a Ruby module providing access to the REST API of the JAMF Software
+              Server (JSS), the core of the Casper Suite from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>. <br>
+            </p>
+
+            <p>
+              The module abstracts API resources as Ruby objects, and provides methods
+              for interacting with those resources. It also provides some features
+              that aren't a part of the API itself, but come with other
+              Casper-related tools, such as uploading .pkg and .dmg JSS::Package data
+              to the master distribution point, and the installation of Package
+              objects on client machines.
+            </p>
+
+            <p>
+              The module is not a complete implementation of the Casper API. Only some
+              API objects are modeled, some only minimally. Of those, some are
+              read-only, some partially writable, some fully read-write (all
+              implemented objects can be deleted). See the README or the front page
+              of the Documentation for a list.
+            </p>
+
+            <p>
+              We've implemented the things we need in our environment, and as our
+              needs grow, we'll add more. Hopefully others will find it useful, and
+              add more to it as well.
+            </p>
+
+            <p>
+              The module is released under a modified Apache License v2.0. Please see the LICENSE.txt file for details.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1><i class="fa fa-envelope-o"></i> Contact</h1>
+          <p><a href="mailto:jss-api-gem@pixar.com">&raquo; jss-api-gem@pixar.com</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- jQuery Version 1.11.0 -->
+  <script src="js/jquery-1.11.0.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Scrolling Nav JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>

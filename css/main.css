@@ -1,0 +1,79 @@
+img.homeIcon {
+  width: 200px;
+  height: 200px;
+}
+
+h1 {
+  font-size: 70px;
+  padding-bottom: 25px;
+}
+
+p {
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+hr {
+  padding-bottom: 20px;
+}
+
+h1, h2, h3 {
+  font-family: 'Roboto Slab', serif;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+}
+
+.homePanel:hover {
+  background-color: whiteSmoke;
+}
+
+.homePanel {
+  padding-bottom: 20px;
+}
+
+.homePanel > .panel-body > h2 {
+  padding-bottom: 15px;
+}
+
+#aboutText > p {
+  text-align: left;
+}
+
+@media all and (max-width: 1200px) {
+
+  section#about {
+    height: 960px;
+  }
+
+}
+
+@media all and (max-width: 995px) {
+
+  h1 {
+    font-size: 55px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  img.homeIcon {
+    width: 160px;
+    height: 160px;
+  }
+  section#about {
+    height: 1060px;
+  }
+
+
+}
+
+@media all and (max-width: 768px) {
+
+  section#intro {
+    height: 1500px;
+  }
+
+}
