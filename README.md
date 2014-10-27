@@ -1,5 +1,11 @@
-# JSS Ruby Module
+# jss-api-gem gh-pages branch
 
-This library forms a part of the codebase we use to manage OSX and iPhone software remotely.
+This branch contains the website that acts as a simple homepage for the jss-api-gem github project.
 
-[Technical docs can be found here](https://github.com/PixarAnimationStudios/jss-api-gem/blob/master/README.md)
+[The website is available here](http://pixaranimationstudios.github.io/jss-api-gem/index.html)
+
+Please do not merge it with the master branch.
+
+[See the project README here](https://github.com/PixarAnimationStudios/jss-api-gem/blob/master/README.md)
+
+[See the full technical documentation here](http://www.rubydoc.info/gems/jss-api/)
