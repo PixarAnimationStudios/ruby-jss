@@ -2,7 +2,9 @@
 
 ## DESCRIPTION
 
-The jss-api gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS) - the core of the Casper Suite from JAMF Software, LLC. The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API) 
+The jss-api gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS), the core of the Casper Suite from [JAMF Software, LLC](http://www.jamfsoftware.com/). The Casper Suite is an enterprise-level management tool for Apple devices.
+
+The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API) 
 
 The module is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
 those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
