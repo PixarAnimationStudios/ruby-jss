@@ -42,8 +42,11 @@ Gem::Specification.new do |s|
   EOD
   s.authors     = ["Chris Lasell"]
   s.email       = 'chrisl@pixar.com'
-  s.files       = Dir['lib/**/*.rb']
   s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/'
+  
+  s.files       = Dir['lib/**/*.rb']
+  s.files << '.yardopts'
+  
 
   # Dependencies
   
@@ -58,6 +61,6 @@ Gem::Specification.new do |s|
   # Rdoc
   
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
+  s.extra_rdoc_files = [ 'README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
 end
