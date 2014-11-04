@@ -146,7 +146,7 @@ module JSS
         :position => @position,
         :real_name => @real_name,
         :room => @room,
-        :username => @username,
+        :username => @username
       }
     end
     
