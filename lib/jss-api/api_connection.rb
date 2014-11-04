@@ -77,7 +77,10 @@ module JSS
     ### Default timeouts in seconds
     DFT_OPEN_TIMEOUT = 60
     DFT_TIMEOUT = 60
-
+    
+    ### The Default SSL Version
+    DFT_SSL_VERSION = 'TLSv1'
+    
     #####################################
     ### Attributes
     #####################################
@@ -115,15 +118,15 @@ module JSS
     ###
     ### @param args[Hash] the keyed arguments for connection.
     ###
-    ### @option args :server[String] Required, the hostname of the JSS API server
+    ### @option args :server[String] the hostname of the JSS API server, required if not defined in JSS::CONFIG
     ###
     ### @option args :port[Integer] the port number to connect with, defaults to 8443
     ###
-    ### @option args :verify_cert[Boolean]should HTTPS SSL certificates be verified. Defaults to true.
+    ### @option args :verify_cert[Boolean] should HTTPS SSL certificates be verified. Defaults to true.
     ###   If your connection raises RestClient::SSLCertificateNotVerified, and you don't care about the
     ###   validity of the SSL cert. just set this explicitly to false.
     ###
-    ### @option args :user[String] Required, a JSS user who as API privs
+    ### @option args :user[String] a JSS user who has API privs, required if not defined in JSS::CONFIG
     ###
     ### @option args :pw[String,Symbol] Required, the password for that user, or :prompt, or :stdin
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
@@ -145,6 +148,7 @@ module JSS
       args[:user] ||= JSS::CONFIG.api_username
       args[:timeout] ||= JSS::CONFIG.api_timeout
       args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
+      args[:ssl_version] ||= JSS::CONFIG.api_ssl_version
 
       # if verify cert given was NOT in the args....
       if args[:verify_cert].nil?
@@ -156,21 +160,26 @@ module JSS
       args[:port] ||= SSL_PORT
       args[:timeout] ||= DFT_TIMEOUT
       args[:open_timeout] ||= DFT_OPEN_TIMEOUT
-
+      
+      # As of Casper 9.61 we can't use SSL, must use TLS, since SSLv3 was susceptible to poodles.
+      # NOTE - this requires rest-client v 1.7.0 or higher
+      # which requires mime-types 2.0 or higher, which requires ruby 1.9.2 or higher!
+      # That means that support for ruby 1.8.7 stops with Casper 9.6
+      args[:ssl_version] ||= DFT_SSL_VERSION
+      
+      
       # must have server, user, and pw
-      raise JSS::MissingDataError, "Missing :server" unless args[:server]
-      raise JSS::MissingDataError, "Missing :user" unless args[:user]
+      raise JSS::MissingDataError, "No JSS :server specified, or in configuration." unless args[:server]
+      raise JSS::MissingDataError, "No JSS :user specified, or in configuration." unless args[:user]
       raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
-
+      
+      # ssl or not?
       ssl = SSL_PORT == args[:port].to_i ? "s" : ''
       @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}"
 
       # prep the args for passing to RestClient::Resource
       # if verify_cert is nil (unset) or non-false, then we will verify
       args[:verify_ssl] =  (args[:verify_cert].nil? or args[:verify_cert]) ? OpenSSL::SSL::VERIFY_PEER :  OpenSSL::SSL::VERIFY_NONE
-      
-      # make sure we have a user
-      raise JSS::MissingDataError, "No JSS user specified, or listed in configuration." unless args[:user]
       
       args[:password] = if args[:pw] == :prompt
         JSS.prompt_for_password "Enter the password for JSS user '#{args[:user]}':"
@@ -182,6 +191,8 @@ module JSS
       else
         args[:pw]
       end
+      
+      
       
       # heres our connection
       @cnx = RestClient::Resource.new("#{@rest_url}", args)

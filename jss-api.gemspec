@@ -36,26 +36,28 @@ Gem::Specification.new do |s|
   s.summary     = "A Ruby interface to the Casper Suite's JSS API"
   s.description = <<-EOD
     The jss-api gem provides the JSS module, a framework for interacting with the REST API of the
-    JAMF Software Server (JSS), the core of the Casper Suite from JAMF Software, LLC.
+    JAMF Software Server (JSS), the core of the Casper Suite, an enterprise/education
+    tool for managing Apple devices, from JAMF Software LLC.
     JSS API objects are implemented as Ruby classes, and interact with each oher to
     allow simpler automation of Casper-related tasks. For details see the README file."
   EOD
   s.authors     = ["Chris Lasell"]
-  s.email       = 'chrisl@pixar.com'
+  s.email       = 'jss-api-gem@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/'
   
   s.files       = Dir['lib/**/*.rb']
   s.files << '.yardopts'
   
+  s.executables << "cgrouper"
+  s.executables << "subnet-update"
 
   # Dependencies
+  s.required_ruby_version = '>= 1.9.3'
   
-  s.add_runtime_dependency 'plist' #, '~> 3.1.0'
-  s.add_runtime_dependency 'ruby-mysql' #, '~> 2.9.12'
-  s.add_runtime_dependency 'mime-types' #, '~> 1.25.1'
-  s.add_runtime_dependency 'rest-client' #, '~> 1.6.8'
-  s.add_runtime_dependency 'json'  #, '~> 1.6.5' 
-  s.add_runtime_dependency 'net-ldap' #, '~> 0.3.1'
+  s.add_runtime_dependency 'plist' #, '>= 3.1.0'
+  s.add_runtime_dependency 'ruby-mysql' 
+  s.add_runtime_dependency 'rest-client', '>= 1.7.0'
+  s.add_runtime_dependency 'net-ldap'
 
 
   # Rdoc

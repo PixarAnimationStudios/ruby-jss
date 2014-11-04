@@ -62,6 +62,7 @@ module JSS
   ### The known attributes are:
   ### - api_server_name [String] the hostname of the JSS API server
   ### - api_server_port [Integer] the port number for the API connection
+  ### - api_ssl_version [String] the SSL version (from the open_ssl module) to use for the connection.
   ### - api_verify_cert [Boolean] if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)
   ### - api_username [String] the JSS username for connecting to the API
   ### - api_timeout_open [Integer] the number of seconds for the open-connection timeout
@@ -110,6 +111,7 @@ module JSS
     CONF_KEYS = {
       :api_server_name => :to_s,
       :api_server_port => :to_i,
+      :api_ssl_version => :to_s,
       :api_verify_cert => :jss_to_bool,
       :api_username => :to_s,
       :api_timeout_open => :to_i,
