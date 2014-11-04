@@ -338,13 +338,14 @@ the JSS gem was written for:
 
 * Mac OS X 10.8 and higher
 * Casper Suite version 9.4 or higher
-* Ruby 1.8.7 and 2.0.0 (the two versions that come with OS X 10.9).
+* Casper 9.4 - 9.6 require Ruby 1.8.7 and higher
+* Casper >= 9.61 require Ruby 1.9.3 and higher
 
 It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
 
-* rest-client >=1.6.7 http://rubygems.org/gems/rest-client
+* rest-client >=1.6.7  ( >= 1.7.0 with Casper >= 9.6.1) http://rubygems.org/gems/rest-client 
 * json or json\_pure >= 1.6.5 http://rubygems.org/gems/json or http://rubygems.org/gems/json_pure
-  * (only in ruby 1.8.7.  Ruby 2.0.0 has json in its standard library)
+  * (only in ruby 1.8.7.  Ruby >= 1.9 has json in its standard library)
 * ruby-mysql >= 2.9.12 http://rubygems.org/gems/ruby-mysql
   * (only for a few things that still require direct SQL access to the JSS database)
 * plist =3.1.0 http://rubygems.org/gems/plist
@@ -360,7 +361,7 @@ In general, you can install the JSS Gem with this command:
 
 `gem install jss-api`
 
-If you're using Ruby 1.8.7, install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
+If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
 
 `gem install json -v 1.6.5`
 
