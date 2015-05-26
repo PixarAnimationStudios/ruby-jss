@@ -105,6 +105,9 @@ module JSS
   ###
   def self.to_s_and_a (somedata)
     case somedata
+      when nil
+        valstr = ""
+        valarr = []
       when String
         valstr = somedata
         valarr = somedata.split(/,\s*/)
