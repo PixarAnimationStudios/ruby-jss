@@ -425,7 +425,6 @@ module JSS
     ###
     def required_processor= (new_val)
       return nil if new_val == @required_processor
-      new_val = validate_for_server(:required_processor => new_val)[:required_processor]
 
       new_val = DEFAULT_PROCESSOR if new_val.to_s.empty?
       raise JSS::InvalidDataError, "Required_processor must be one of: #{CPU_TYPES.join ', '}" unless CPU_TYPES.include? new_val
