@@ -534,13 +534,11 @@ module JSS
         local_path = zipfile
 
         self.filename = zipfile.basename.to_s
-        self.update
+        
       end # if directory
-
-      
-
+      self.update
       FileUtils.copy_entry local_path, destination
-
+      
       mdp.unmount if unmount
     end # upload
 
