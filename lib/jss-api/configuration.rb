@@ -105,7 +105,7 @@ module JSS
     GLOBAL_CONF = Pathname.new "/etc/#{CONF_FILE}"
 
     ### The Pathname to the user-specific preferences plist
-    USER_CONF = Pathname.new("~/.#{CONF_FILE}").expand_path
+    USER_CONF = ENV["HOME"] ? Pathname.new("~/.#{CONF_FILE}").expand_path : nil
 
     ### The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
@@ -184,6 +184,7 @@ module JSS
     ### @return [void]
     ###
     def read_user
+      return unless USER_CONF
       read USER_CONF if USER_CONF.file? and USER_CONF.readable?
     end
 
@@ -220,6 +221,8 @@ module JSS
         when :user then USER_CONF
         else Pathname.new(file)
       end
+      
+      raise JSS::MissingDataError, "No HOME environment variable, can't write to user conf file." if path.nil?
       
       # file already exists? read it in and update the values.
       if path.readable?
