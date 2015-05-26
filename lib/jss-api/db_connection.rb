@@ -163,7 +163,11 @@ module JSS
       args[:socket] ||= DFT_SOCKET
       args[:db_name] ||= DEFAULT_DB_NAME
 
-      @mysql.close if connected?
+      begin
+        @mysql.close if connected?
+      rescue Mysql::ClientError::ServerGoneError
+        @connected = false
+      end
 
       @server = args[:server]
       @port = args[:port]
