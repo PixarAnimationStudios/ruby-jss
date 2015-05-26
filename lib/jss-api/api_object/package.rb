@@ -180,6 +180,8 @@ module JSS
       @install_if_reported_available = @init_data[:install_if_reported_available]
       @notes = @init_data[:notes]
       @os_requirements = @init_data[:os_requirements].split(/\s*,\s*/) if @init_data[:os_requirements]
+      @os_requirements ||= []
+
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
       @required_processor = @init_data[:required_processor] || DEFAULT_CPU_TYPE
