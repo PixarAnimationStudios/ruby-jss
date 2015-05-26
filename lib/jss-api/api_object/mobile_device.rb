@@ -507,7 +507,7 @@ module JSS
     ### @return [Boolean]
     ###
     def unmanage_device
-      @managed = false if send_mdm_command(:unmanage_device)
+      @managed = false if self.class.send_mdm_command(@id, :unmanage_device)
     end
     
     
