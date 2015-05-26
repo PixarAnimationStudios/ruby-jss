@@ -185,7 +185,7 @@ module JSS
       raise JSS::MissingDataError, "Missing :pw (or :prompt/:stdin) for user '#{@user}'" unless args[:pw]
 
       @pw = if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for the MySQL user '#{@user}':"
+        JSS.prompt_for_password "Enter the password for the MySQL user #{@user}@#{args[:server]}:"
       elsif  args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
         args[:pw].to_s =~ /^stdin(\d+)$/
         line = $1
