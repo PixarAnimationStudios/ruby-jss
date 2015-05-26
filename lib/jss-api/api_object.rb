@@ -467,8 +467,15 @@ module JSS
       @name ||= @main_subset[:name]
 
       # many things have  a :site
-      @site = JSS::APIObject.get_name( @main_subset[:site]) if @main_subset[:site]
-
+      if @main_subset[:site]
+        @site = JSS::APIObject.get_name( @main_subset[:site])
+      end 
+      
+      # many things have a :category
+      if @main_subset[:category]
+        @category = JSS::APIObject.get_name( @main_subset[:category]) 
+      end
+      
       # set empty strings to nil
       @init_data.jss_nillify! '', :recurse
 
