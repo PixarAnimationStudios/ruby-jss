@@ -182,7 +182,7 @@ module JSS
       args[:verify_ssl] =  (args[:verify_cert].nil? or args[:verify_cert]) ? OpenSSL::SSL::VERIFY_PEER :  OpenSSL::SSL::VERIFY_NONE
       
       args[:password] = if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for JSS user '#{args[:user]}':"
+        JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
       elsif args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
         args[:pw].to_s =~ /^stdin(\d+)$/
         line = $1
