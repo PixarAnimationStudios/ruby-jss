@@ -80,4 +80,10 @@ module JSS
   ###
   class UnsupportedError <  RuntimeError; end
   
+  ###
+  ### TimeoutError - raise this when we 
+  ### try to do and it times out
+  ###
+  class TimeoutError <  RuntimeError; end
+  
 end # module JSS
