@@ -159,8 +159,8 @@ module JSS
     ###
     def building= (new_val)
       return nil if @building == new_val
-      new_val.strip!
-      raise JSS::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless JSS::Building.all_names.include? new_val
+      new_val = new_val.to_s.strip!
+      raise JSS::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Building.all_names.include? new_val
       @building = new_val
       @need_to_update = true
     end
@@ -168,8 +168,8 @@ module JSS
     ###
     def department= (new_val)
       return nil if @department == new_val
-      new_val.strip!
-      raise JSS::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless JSS::Department.all_names.include? new_val
+      new_val = new_val.to_s.strip!
+      raise JSS::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Department.all_names.include? new_val
       @department = new_val
       @need_to_update = true
     end
@@ -177,8 +177,8 @@ module JSS
     ###
     def email_address= (new_val)
       return nil if @email_address == new_val
-      new_val.strip!
-      raise JSS::InvalidDataError, "Invalid Email Address" unless new_val =~ /^[^\s@]+@[^\s@]+$/
+      new_val = new_val.to_s.strip!
+      raise JSS::InvalidDataError, "Invalid Email Address" unless new_val.empty? or  new_val =~ /^[^\s@]+@[^\s@]+$/
       @email_address = new_val
       @need_to_update = true
     end
@@ -186,7 +186,7 @@ module JSS
     ###
     def position= (new_val)
       return nil if @position == new_val
-      new_val.strip!
+      new_val = new_val.to_s.strip!
       @position = new_val
       @need_to_update = true
     end
@@ -194,7 +194,7 @@ module JSS
     ###
     def phone= (new_val)
       return nil if @phone == new_val
-      new_val.strip!
+      new_val = new_val.to_s.strip!
       @phone = new_val
       @need_to_update = true
     end
@@ -202,7 +202,7 @@ module JSS
     ###
     def real_name= (new_val)
       return nil if @real_name == new_val
-      new_val.strip!
+      new_val = new_val.to_s.strip!
       @real_name = new_val
       @need_to_update = true
     end
@@ -210,7 +210,7 @@ module JSS
     ###
     def room= (new_val)
       return nil if @room == new_val
-      new_val.strip!
+      new_val = new_val.to_s.strip!
       @room = new_val
       @need_to_update = true
     end
@@ -218,7 +218,7 @@ module JSS
     ###
     def username= (new_val)
       return nil if @username == new_val
-      new_val.strip!
+      new_val = new_val.to_s.strip!
       @username = new_val
       @need_to_update = true
     end
