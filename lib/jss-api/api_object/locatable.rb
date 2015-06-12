@@ -237,6 +237,24 @@ module JSS
       @room
     end
 
+    ###
+    ### Clear all location data
+    ###
+    ### @return [void]
+    ###
+    def clear_location
+      @username = ''
+      @real_name = ''
+      @email_address = ''
+      @position = ''
+      @phone = ''
+      @department  = ''
+      @building = ''
+      @room = ''
+      @need_to_update = true
+    end
+    
+    
     ### aliases
     alias user username
     
