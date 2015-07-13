@@ -122,6 +122,8 @@ module JSS
     ###
     ### @option args :port[Integer] the port number to connect with, defaults to 8443
     ###
+    ### @option args :use_ssl[Boolean] should the connection be made over SSL? Defaults to true.
+    ###
     ### @option args :verify_cert[Boolean] should HTTPS SSL certificates be verified. Defaults to true.
     ###   If your connection raises RestClient::SSLCertificateNotVerified, and you don't care about the
     ###   validity of the SSL cert. just set this explicitly to false.
@@ -173,9 +175,14 @@ module JSS
       raise JSS::MissingDataError, "No JSS :user specified, or in configuration." unless args[:user]
       raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
       
-      # ssl or not?
-      ssl = SSL_PORT == args[:port].to_i ? "s" : ''
+      # we're using ssl if 1) args[:use_ssl] is anything but false
+      # or 2) the port is the default casper ssl port.
+      args[:use_ssl] = true if args[:use_ssl].nil? or args[:port] == SSL_PORT
+      
+      # and here's the URL
+      ssl = args[:use_ssl] ? "s" : ''
       @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}"
+
 
       # prep the args for passing to RestClient::Resource
       # if verify_cert is nil (unset) or non-false, then we will verify
