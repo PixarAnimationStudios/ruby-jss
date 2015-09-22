@@ -93,7 +93,7 @@ module JSS
         @version = parsed[:version]
 
       rescue RestClient::Request::Unauthorized
-        raise JSS::InvalidConnectionError, "Incorrect JSS username or password for '#{JSS::API.jss_user}'."
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{JSS::API.jss_user}@#{JSS::API.server_host}'."
       end
 
     end

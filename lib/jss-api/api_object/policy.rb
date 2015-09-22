@@ -843,12 +843,28 @@ module JSS
     ### @return [Boolean] is this policy available in SelfService?
     def self_service?; @self_service[:use_for_self_service] ; end
     
+    ### Try to execute this policy on this machine.
+    ###
+    ### @param show_output[Boolean] should the stdout and stderr of the 
+    ###  'jamf policy' command be sent to stdout in realtime?
+    ###
+    ### @return [Boolean, nil] The success of the 'jamf policy' command, or nil
+    ###   if the policy couldn't be executed (out of scope, policy disabled, etc)
+    ###
+    def run (show_output = false)
+      return nil unless enabled?
+      output = JSS::Client.run_jamf("policy", "-id #{id}", show_output)
+      return nil if output.include? 'No policies were found for the ID'
+      return $?.exitstatus == 0 ? true : false
+    end
+    
     ### Aliases
     alias enabled? enabled
     alias pkgs packages
     alias command_to_run run_command
     alias delete_path? delete_file?
-
+    alias execute run
+    
     #####################################
     ### Private Instance Methods
     #####################################

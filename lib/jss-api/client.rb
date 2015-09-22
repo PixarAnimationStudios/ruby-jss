@@ -54,7 +54,10 @@ module JSS
     #####################################
 
     ### The Pathname to the jamf binary executable
-    JAMF_BINARY = Pathname.new "/usr/sbin/jamf"
+    ### As of El Capitan (OS X 10.11) the location has moved.
+    ORIG_JAMF_BINARY = Pathname.new "/usr/sbin/jamf"
+    ELCAP_JAMF_BINARY = Pathname.new "/usr/local/sbin/jamf"
+    JAMF_BINARY = ELCAP_JAMF_BINARY.executable? ? ELCAP_JAMF_BINARY : ORIG_JAMF_BINARY
 
     ### The Pathname to the jamfHelper executable
     JAMF_HELPER = Pathname.new "/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper"
