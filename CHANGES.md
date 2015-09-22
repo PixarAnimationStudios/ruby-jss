@@ -1,4 +1,14 @@
 # Change History
+v0.5.8 2015-09-22
+bugfixes & cleanup
+- location.rb: location value setters are now properly converted to strings
+- api_connection.rb: #connect now takes :use_ssl option (defaults to true)
+
+additions & features
+- client.rb: looks for the new ElCap+ location for the jamf binary, falls back to old location if not found.
+- Locatable#clear_location public instance method added
+- TimeoutError and AuthenticationError have been added to exceptions
+- Policy objects now have a #run method - attempts to execute the policy locally.
 
 v0.5.7 2015-05-26
 bugfixes & cleanup
