@@ -4,7 +4,8 @@ v0.5.8 2015-09-22
 
 bugfixes & cleanup
 - location.rb: location value setters are now properly converted to strings
-- api_connection.rb: #connect now takes :use_ssl option (defaults to true)
+- api_connection.rb: #connect now takes :use_ssl option (defaults to true) 
+- api_connection.rb: #connect will accept arbitrary ports when :use_ssl is true
 
 additions & features
 - client.rb: looks for the new ElCap+ location for the jamf binary, falls back to old location if not found.
