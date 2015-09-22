@@ -86,4 +86,10 @@ module JSS
   ###
   class TimeoutError <  RuntimeError; end
   
+  ###
+  ### AuthenticationError - raise this when 
+  ### a name/pw are wrong
+  ###
+  class AuthenticationError <  RuntimeError; end
+  
 end # module JSS
