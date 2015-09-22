@@ -371,7 +371,7 @@ If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems m
 
 ## LICENSE
 
-Copyright 2014 Pixar
+Copyright 2015 Pixar
 
 Licensed under the Apache License, Version 2.0 (the "Apache License")
 with the following modification; you may not use this file except in
