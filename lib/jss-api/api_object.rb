@@ -121,7 +121,6 @@ module JSS
     ### Class Variables
     #####################################
 
-    ###
     ### This Hash holds the most recent API query for a list of all items in any subclass,
     ### keyed by the subclass's RSRC_LIST_KEY. See the self.all class method.
     ###
@@ -236,7 +235,27 @@ module JSS
       self.all(refresh).each{|i| h[i[:id]] = i[other_key]}
       h
     end
-
+    
+    
+    ### Return an Array of JSS::APIObject subclass instances
+    ### e.g when called on JSS::Package, return all JSS::Package
+    ### objects in the JSS. 
+    ###
+    ### NOTE: This may be slow as it has to look up each object individually!
+    ### use it wisely.
+    ###
+    ### @param refresh[Boolean] should the data  re-queried from the API?
+    ###
+    ### @return [Hash{Integer => Object}] the objects requested
+    def self.all_objects(refresh = false)
+      objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
+      @@all_items[objects_key] = nil if refresh
+      return @@all_items[objects_key] if @@all_items[objects_key]
+      @@all_items[objects_key] = self.all(refresh = false).map{|o| self.new :id => o[:id]}      
+    end
+    
+    
+    
     ###
     ### Convert an Array of Hashes of API object data to a
     ### REXML element.
