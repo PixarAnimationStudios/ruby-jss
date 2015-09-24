@@ -1,4 +1,5 @@
 # The JSS API Ruby Gem - access to the Casper Suite from Ruby
+[![Gem Version](https://badge.fury.io/rb/jss-api.svg)](http://badge.fury.io/rb/jss-api)
 
 ## DESCRIPTION
 
