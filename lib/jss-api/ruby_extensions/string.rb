@@ -40,4 +40,20 @@ class String
       else return nil
     end # case
   end # to bool
+  
+  ### Convert a string to a Time object
+  ###
+  ### returns nil if not parsable by JSS::parse_datetime
+  ###
+  ### @return [Time] the time represented by the string.
+  ###
+  def jss_to_time
+    begin
+      JSS.parse_time self
+    rescue
+      return nil
+    end
+  end
+
+  
 end # class
