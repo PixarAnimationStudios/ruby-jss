@@ -120,7 +120,7 @@ module JSS
         when 1
           self.new :id => self.all_ids[0]
         else
-          self.new :master
+          self.new :id => :master
         end
     end
 
@@ -244,7 +244,7 @@ module JSS
     ###
     ### You can also do this more easily by calling JSS.master_distribution_point
     ###
-    def initialize(args)
+    def initialize(args = {})
 
       @init_data = nil
 
