@@ -84,7 +84,10 @@ module JSS
 
     ###
     DFT_SOCKET = '/var/mysql/mysql.sock'
-
+    
+    ### the default MySQL port
+    DFT_PORT = 3306
+    
     ### the strftime format for reading/writing dates in the db
     SQL_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
