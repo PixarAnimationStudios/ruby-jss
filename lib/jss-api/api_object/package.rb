@@ -173,6 +173,7 @@ module JSS
       @allow_uninstalled = @init_data[:allow_uninstalled]
       @boot_volume_required = @init_data[:boot_volume_required]
       @category = JSS::APIObject.get_name(@init_data[:category])
+      @category = nil if @category.to_s.casecmp("No category assigned") == 0 
       @filename = @init_data[:filename] || @init_data[:name]
       @fill_existing_users = @init_data[:fill_existing_users]
       @fill_user_template = @init_data[:fill_user_template]
@@ -185,12 +186,12 @@ module JSS
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
       @required_processor = @init_data[:required_processor] || DEFAULT_CPU_TYPE
+      @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
       
       # the receipt is the filename with any .zip extension removed.
-      @receipt = @filname ? (JSS::Client::RECEIPTS_FOLDER + @filname.to_s.sub(/.zip$/, '')) : nil
-      
+      @receipt = @filename ? (JSS::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
     end # init
 
 
@@ -706,7 +707,7 @@ module JSS
       pkg = doc.add_element "package"
       pkg.add_element('allow_uninstalled').text = @allow_uninstalled
       pkg.add_element('boot_volume_required').text = @boot_volume_required
-      pkg.add_element('category').text = @category
+      pkg.add_element('category').text = @category.to_s.casecmp("No category assigned") == 0 ? "" : @category
       pkg.add_element('filename').text = @filename
       pkg.add_element('fill_existing_users').text = @fill_existing_users
       pkg.add_element('fill_user_template').text = @fill_user_template
@@ -717,7 +718,7 @@ module JSS
       pkg.add_element('os_requirements').text = JSS.to_s_and_a(@os_requirements)[:stringform]
       pkg.add_element('priority').text = @priority
       pkg.add_element('reboot_required').text = @reboot_required
-      pkg.add_element('required_processor').text = @required_processor
+      pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? "None" : @required_processor
       pkg.add_element('send_notification').text = @send_notification
       pkg.add_element('switch_with_package').text = @switch_with_package
       return doc.to_s
