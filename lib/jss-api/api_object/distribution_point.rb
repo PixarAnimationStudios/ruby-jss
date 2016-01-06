@@ -350,19 +350,19 @@ module JSS
     ###
     ### @param pw[String,Symbol] the read-only or read-write password for this DistributionPoint
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
-    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, 
+    ###   If :stdin#, the password is read from a line of std in represented by the digits at #,
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2,
     ###   if no digit is supplied. see {JSS.stdin}
     ###
     ### @param access[Symbol] how to mount the DistributionPoint, and which password to expect.
-    ###  :ro = read-only, :rw (or anything else) = read-write
+    ###  :ro (or anything else) = read-only, :rw = read-write
     ###
     ### @return [Pathname] the mountpoint.
     ###
-    def mount(pw = nil, access = :ro1)
+    def mount(pw = nil, access = :ro)
       return @mountpoint if mounted?
-      access = :rw unless access == :ro
-      
+      access = :ro unless access == :rw
+
       password = if pw == :prompt
         JSS.prompt_for_password "Enter the password for the #{access} user '#{access == :ro ? @read_only_username : @read_write_username }':"
       elsif pw.is_a?(Symbol) and pw.to_s.start_with?('stdin')
@@ -373,7 +373,7 @@ module JSS
       else
         pw
       end
-      
+
       pwok = check_pw(access, password)
       unless pwok
         msg = pwok.nil? ? "No #{access} password set in the JSS" : "Incorrect password for #{access} account"
