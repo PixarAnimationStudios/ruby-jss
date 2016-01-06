@@ -690,6 +690,18 @@ module JSS
 
 
 
+    ### What type of package is this? 
+    ###
+    ### @return [Symbol] :pkg or :dmg or:unknown
+    ###
+    def type
+      case @filename
+      when /\.m?pkg(\.zip)?$/ then :pkg
+      when /\.dmg$/ then :dmg
+      else :unknown
+      end
+    end
+
 
     ################################
     ### Private Instance Methods
