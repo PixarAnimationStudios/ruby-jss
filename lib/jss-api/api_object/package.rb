@@ -597,7 +597,7 @@ module JSS
     ###
     ### @option args :no_http[Boolean] don't use http downloads even if they are enabled for the dist. point.
     ###
-    ### @return [Process::Status] the final status of the jamf binary command
+    ### @return [Boolean] did the jamf install succeed?
     ###
     ### @todo deal with cert-based https authentication
     ###
@@ -622,7 +622,14 @@ module JSS
           reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
           src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
         end
-
+        
+        # as of casper 9.72, with http downloads, the filename must be at the  
+        # end of the -path url, but before that version, it can't be.
+        append_at_vers = JSS.parse_jss_version("9.72")[:version]
+        our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
+        append_filename = (our_vers >= append_at_vers)
+        
+        
       # or with filesharing?
       else
         using_http = false
@@ -630,25 +637,29 @@ module JSS
       end
 
       # look at the pkgs folder
-      src_path += "/#{DIST_POINT_PKGS_FOLDER}"
-
+      src_path += "#{DIST_POINT_PKGS_FOLDER}"
+      src_path += "/#{@filename}" if append_filename
+      
       ### are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? "-feu" : ""
       do_fut = args[:fut] ? "-fut" : ""
 
       ### the install args for jamf
-      command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose ; echo jamfexit $?"
-
-      ### run it via a client
+      command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose"
+      
+      ### run it via a client cmd
       install_out = JSS::Client.run_jamf :install, command_args, args[:verbose]
-
-      install_exit = $?
+      
+      install_out =~ %r{<exitCode>(\d+)</exitCode>}
+      install_exit = $1 ? $1.to_i : nil
+      install_exit ||= $?.exitstatus
+      
 
       if (args.include? :unmount)
         mdp.unmount unless using_http
       end
 
-      return install_exit
+      return install_exit == 0 ? true : false
     end
 
     ###
