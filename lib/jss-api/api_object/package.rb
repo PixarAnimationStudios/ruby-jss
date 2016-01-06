@@ -85,7 +85,9 @@ module JSS
 
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
-
+    
+    # TO DO - this is redundant with DEFAULT_PROCESSOR, but both are in use
+    # clean them up!
     ### which is default?  there must be one to make a new pkg
     DEFAULT_CPU_TYPE = "None"
 
@@ -100,7 +102,7 @@ module JSS
 
     ### When we shouldn't install anything (e.g. switch w/package)
     DO_NOT_INSTALL = "Do Not Install"
-
+    
     #####################################
     ### Class Variables
     #####################################
@@ -775,7 +777,9 @@ module JSS
     alias reboot= reboot_required=
     alias cpu_type= required_processor=
     alias notify= send_notification=
+    
 
+    
 
 
   end # class Package
