@@ -173,13 +173,18 @@ module JSS
       raise JSS::MissingDataError, "No JSS :user specified, or in configuration." unless args[:user]
       raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
       
-      # ssl or not?
-      ssl = SSL_PORT == args[:port].to_i ? "s" : ''
-      @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}"
+      # we're using ssl if 1) args[:use_ssl] is anything but false
+      # or 2) the port is the default casper ssl port.
+      args[:use_ssl] = (not args[:use_ssl] == false) or (args[:port] == SSL_PORT)
+      
+      # and here's the URL
+      ssl = args[:use_ssl] ? "s" : ''
+      @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC_BASE}"
+
 
       # prep the args for passing to RestClient::Resource
-      # if verify_cert is nil (unset) or non-false, then we will verify
-      args[:verify_ssl] =  (args[:verify_cert].nil? or args[:verify_cert]) ? OpenSSL::SSL::VERIFY_PEER :  OpenSSL::SSL::VERIFY_NONE
+      # if verify_cert is anything but false, we will verify
+      args[:verify_ssl] =  (args[:verify_cert] == false) ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
       
       args[:password] = if args[:pw] == :prompt
         JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
@@ -192,12 +197,11 @@ module JSS
         args[:pw]
       end
       
-      
-      
       # heres our connection
       @cnx = RestClient::Resource.new("#{@rest_url}", args)
 
       @jss_user = args[:user]
+      @server_host = args[:server]
       @connected = true
       @server = JSS::Server.new
 
@@ -205,7 +209,7 @@ module JSS
         raise JSS::UnsupportedError, "Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher."
       end
 
-      return true
+      return @connected ? @server_host : nil
     end # connect
 
     ###
