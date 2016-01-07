@@ -572,21 +572,23 @@ module JSS
     end # delete master file
 
 
+    ### Install this package via the jamf binary 'install' command from the
+    ### distribution point for this machine.
+    ### See {JSS::DistributionPoint.my_distribution_point}
     ###
     ### @note This code must be run as root to install packages
     ###
-    ### Causes the pkg/dmg to be installed via the jamf binary 'install' command from the
-    ### distribution point for this machine. See {JSS::DistributionPoint.my_distribution_point}
-    ###
-    ### The read-only or http passwd for the dist. point must be provided, except for
-    ### non-authenticated http downloads)
+    ### The read-only or http passwd for the dist. point must be provided,
+    ### except for non-authenticated http downloads)
     ###
     ### @param args[Hash] the arguments for installation
     ###
-    ### @option args :ro_pw[String] the read-only or http password for the distribution point for the
-    ###  local machine (http will be used if available, and may not need a pw)
+    ### @option args :ro_pw[String] the read-only or http password for the
+    ###   distribution point for the local machine
+    ###   (http will be used if available, and may not need a pw)
     ###
-    ### @option args :target[String,Pathname] The drive on which to install the package, defaults to '/'
+    ### @option args :target[String,Pathname] The drive on which to install
+    ###  the package, defaults to '/'
     ###
     ### @option args :verbose [Boolean] be verbose to stdout, defaults to false
     ###
@@ -594,14 +596,21 @@ module JSS
     ###
     ### @option args :fut[Boolean] fill user template, defaults to false
     ###
-    ### @option args :unmount[Boolean] unmount the distribution point when finished?(if we mounted it),
-    ###   defaults to false
+    ### @option args :unmount[Boolean] unmount the distribution point when
+    ###   finished?(if we mounted it), defaults to false
     ###
-    ### @option args :no_http[Boolean] don't use http downloads even if they are enabled for the dist. point.
+    ### @option args :no_http[Boolean] don't use http downloads even if they
+    ###   are enabled for the dist. point.
+    ###
+    ### @option args :alt_download_url [String] Use this url for an http
+    ###   download, regardless of distribution point settings. This can be used
+    ###   to access Cloud Distribution Points if the fileshare isn't available.
+    ###   The URL should already be ur
+    ###   The package filename will be removed or appended as needed.
     ###
     ### @return [Boolean] did the jamf install succeed?
     ###
-    ### @todo deal with cert-based https authentication
+    ### @todo deal with cert-based https authentication in dist points
     ###
     def install (args = {})
 
@@ -611,51 +620,67 @@ module JSS
 
       ro_pw = args[:ro_pw]
 
-      mdp = JSS::DistributionPoint.my_distribution_point
+      # as of Casper 9.72, with http downloads, the jamf binary requires
+      # the filename must be at the  end of the -path url, but before 9.72
+      # it can't be.
+      # e.g.
+      #    in  <9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages
+      # but
+      #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
+      #
+      append_at_vers = JSS.parse_jss_version("9.72")[:version]
+      our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
+      no_filename_in_url = (our_vers < append_at_vers)
 
-      ### how do we access our dist. point? with http?
-      if mdp.http_downloads_enabled and (not args[:no_http])
-        using_http = true
-        src_path = mdp.http_url
-        if mdp.username_password_required
-          raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
-          raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
-          # insert the name and pw into the uri
-          reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-          src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
-        end
-        
-        # as of casper 9.72, with http downloads, the filename must be at the  
-        # end of the -path url, but before that version, it can't be.
-        append_at_vers = JSS.parse_jss_version("9.72")[:version]
-        our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
-        append_filename = (our_vers >= append_at_vers)
-        
-        
-      # or with filesharing?
+      # use a provided alternative url for an http download
+      if args[:alt_download_url]
+
+        # we'll re-add the filename below if needed.
+        src_path = args[:alt_download_url].chomp "/#{@filename}"
+
+      # use our appropriate dist. point for download
       else
-        using_http = false
-        src_path = mdp.mount(ro_pw)
-      end
+        mdp = JSS::DistributionPoint.my_distribution_point
 
-      # look at the pkgs folder
-      src_path += "#{DIST_POINT_PKGS_FOLDER}"
-      src_path += "/#{@filename}" if append_filename
-      
+        ### how do we access our dist. point? with http?
+        if mdp.http_downloads_enabled and (not args[:no_http])
+          using_http = true
+          src_path = mdp.http_url
+          if mdp.username_password_required
+            raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
+            raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
+            # insert the name and pw into the uri
+            reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
+          end
+
+        # or with filesharing?
+        else
+          using_http = false
+          src_path = mdp.mount(ro_pw)
+        end
+
+        # look at the pkgs folder
+        src_path += "#{DIST_POINT_PKGS_FOLDER}"
+      end # if args[:alt_download_url]
+
+      src_path += "/#{@filename}" unless no_filename_in_url
+
+
       ### are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? "-feu" : ""
       do_fut = args[:fut] ? "-fut" : ""
 
       ### the install args for jamf
       command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose"
-      
+
       ### run it via a client cmd
       install_out = JSS::Client.run_jamf :install, command_args, args[:verbose]
-      
+
       install_out =~ %r{<exitCode>(\d+)</exitCode>}
       install_exit = $1 ? $1.to_i : nil
       install_exit ||= $?.exitstatus
-      
+
 
       if (args.include? :unmount)
         mdp.unmount unless using_http
