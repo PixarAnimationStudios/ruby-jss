@@ -343,6 +343,75 @@ module JSS
       sha256 == Digest::SHA2.new(256).update(pw).to_s
     end
 
+    ### Check to see if this dist point is reachable for downloads (read-only)
+    ### via either http, if available, or filesharing.
+    ###
+    ### @param pw[String] the read-only password to use for checking the connection
+    ###   If http downloads are enabled, and no http password is required
+    ###   this can be omitted.
+    ###
+    ### @param check_http[Boolean] should we try the http download first, if enabled?
+    ###   If you're intentionally using the ro password for filesharing, and want to check
+    ###   only filesharing, then set this to false.
+    ###
+    ### @return [FalseClass, Symbol] false if not reachable, otherwise :http or :mountable
+    ###
+    def reachable_for_download? (pw = '', check_http = true)
+      pw ||= ''
+      http_checked = ""
+      if check_http && http_downloads_enabled
+        if @username_password_required
+          # we don't check the pw here, because if the connection fails, we'll
+          # drop down below to try the password for mounting.
+          # we'll escape all the chars that aren't unreserved
+          reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
+          user_pass = "#{URI.escape @http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@"
+          url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
+        else
+          url = @http_url
+        end
+
+        begin
+          open(url).read
+          return :http
+        rescue
+          http_checked = "http and "
+        end
+      end # if  check_http && http_downloads_enabled
+
+      return :mountable if mounted?
+
+      return false unless check_pw :ro , pw
+
+      begin
+        mount pw, :ro
+        return :mountable
+      rescue
+        return false
+      ensure
+        unmount
+      end
+    end
+
+    ### Check to see if this dist point is reachable for uploads (read-write)
+    ### via filesharing.
+    ###
+    ### @param pw[String] the read-write password to use for checking the connection
+    ###
+    ### @return [FalseClass, Symbol] false if not reachable, otherwise :mountable
+    ###
+    def reachable_for_upload? (pw)
+      return :mountable if mounted?
+      return false unless check_pw :rw , pw
+      begin
+        mount pw, :rw
+        return :mountable
+      rescue
+        return false
+      ensure
+        unmount
+      end
+    end
 
 
     ###
@@ -393,13 +462,14 @@ module JSS
 
       @mountpoint.mkpath
 
-      #if system "#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}'"
-      if system @mnt_cmd.to_s, *['-o', MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
+      mount_out = `#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}' 2>&1`
+      if $?.exitstatus == 0 and @mountpoint.mountpoint?
+      #if system @mnt_cmd.to_s, *['-o', MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
         @mounted = access
       else
         @mountpoint.rmdir if @mountpoint.directory?
         @mounted = nil
-        raise JSS::FileServiceError, "There was a problem mounting #{@ip_address}"
+        raise JSS::FileServiceError, "Can't mount #{@ip_address}: #{mount_out}"
       end
       return @mountpoint
     end # mount
