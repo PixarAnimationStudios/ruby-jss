@@ -1,25 +1,25 @@
 ### Copyright 2014 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -85,7 +85,7 @@ module JSS
 
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
-    
+
     # TO DO - this is redundant with DEFAULT_PROCESSOR, but both are in use
     # clean them up!
     ### which is default?  there must be one to make a new pkg
@@ -102,7 +102,7 @@ module JSS
 
     ### When we shouldn't install anything (e.g. switch w/package)
     DO_NOT_INSTALL = "Do Not Install"
-    
+
     #####################################
     ### Class Variables
     #####################################
@@ -117,10 +117,10 @@ module JSS
 
     ### @return [String] the filename of the .pkg, .mpkg, or .dmg on the Casper server
     attr_reader :filename
-    
-    ### @return [Pathname] the local receipt when this pkg is installed 
+
+    ### @return [Pathname] the local receipt when this pkg is installed
     attr_reader :receipt
-    
+
     ### @return [Boolean] does this item 'Fill Existing Users' when jamf installs it?
     attr_reader :fill_existing_users
 
@@ -132,16 +132,16 @@ module JSS
 
     ### @return [Array<String>] the OS versions this can be installed onto. For all minor versions, the format is 10.5.x
     attr_reader :os_requirements
-    
+
     ### @return [String] limit installation to these architectures: 'x86',  'ppc', 'None'
     attr_reader :required_processor
-    
+
     ### @return [String] the name of a pkg to install (or "Do Not Install") when this pkg can't be installed
     attr_reader :switch_with_package
 
     ### @return [Boolean] can this item be uninstalled? Some, e.g. OS Updates, can't
     attr_reader :allow_uninstalled
-    
+
     ### @return [String] the category of this pkg, stored in the JSS as the id number from the categories table
     attr_reader :category
 
@@ -153,16 +153,16 @@ module JSS
 
     ### @return [Boolean] only install this pkg if it's available in the commandline softwareupdate.
     attr_reader :install_if_reported_available
-    
+
     ### @return [Boolean] should this pkg be installed on the boot volume during imaging
     attr_reader :boot_volume_required
-    
+
     ### @return [Integer] Priority to use for deploying or uninstalling the package
     attr_reader :priority
 
     ### @return [Boolean] does this pkg cause a notification to be sent on self-heal?
     attr_reader :send_notification
-    
+
 
     ###
     ### @see JSS::APIObject#initialize
@@ -175,7 +175,7 @@ module JSS
       @allow_uninstalled = @init_data[:allow_uninstalled]
       @boot_volume_required = @init_data[:boot_volume_required]
       @category = JSS::APIObject.get_name(@init_data[:category])
-      @category = nil if @category.to_s.casecmp("No category assigned") == 0 
+      @category = nil if @category.to_s.casecmp("No category assigned") == 0
       @filename = @init_data[:filename] || @init_data[:name]
       @fill_existing_users = @init_data[:fill_existing_users]
       @fill_user_template = @init_data[:fill_user_template]
@@ -191,7 +191,7 @@ module JSS
       @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
-      
+
       # the receipt is the filename with any .zip extension removed.
       @receipt = @filename ? (JSS::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
     end # init
@@ -481,7 +481,7 @@ module JSS
     def installed?
       @receipt.file?
     end
-    
+
     ###
     ### Upload a locally-readable file to the master distribution point.
     ### If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before
@@ -492,7 +492,7 @@ module JSS
     ###
     ### @param local_file_path[String,Pathname] the local path to the file to be uploaded
     ###
-    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point, 
+    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point,
     ###   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
     ###
     ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
@@ -502,7 +502,7 @@ module JSS
     def upload_master_file (local_file_path, rw_pw, unmount = true)
 
       raise JSS::NoSuchItemError, "Please create this package in the JSS before uploading it." unless @in_jss
-      
+
       mdp = JSS::DistributionPoint.master_distribution_point
       destination = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
@@ -537,11 +537,11 @@ module JSS
         local_path = zipfile
 
         self.filename = zipfile.basename.to_s
-        
+
       end # if directory
       self.update
       FileUtils.copy_entry local_path, destination
-      
+
       mdp.unmount if unmount
     end # upload
 
@@ -682,7 +682,7 @@ module JSS
     ### @return [Process::Status] the result of the 'jamf uninstall' command
     ###
     def uninstall (args = {})
-      
+
       raise JSS::UnsupportedError, \
         "This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls" unless removable?
       raise JSS::UnsupportedError, "You must have root privileges to uninstall packages" unless JSS.superuser?
@@ -703,7 +703,7 @@ module JSS
 
 
 
-    ### What type of package is this? 
+    ### What type of package is this?
     ###
     ### @return [Symbol] :pkg or :dmg or:unknown
     ###
@@ -767,7 +767,7 @@ module JSS
     alias boot boot_volume_required
     alias boot? boot_volume_required
     alias notify send_notification
-    
+
     alias removable= allow_uninstalled=
     alias boot= boot_volume_required=
     alias feu= fill_existing_users=
@@ -777,9 +777,9 @@ module JSS
     alias reboot= reboot_required=
     alias cpu_type= required_processor=
     alias notify= send_notification=
-    
 
-    
+
+
 
 
   end # class Package
