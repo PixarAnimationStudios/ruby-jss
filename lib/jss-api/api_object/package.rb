@@ -1,25 +1,25 @@
-### Copyright 2014 Pixar
-###  
+### Copyright 2016 Pixar
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -86,6 +86,8 @@ module JSS
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
 
+    # TO DO - this is redundant with DEFAULT_PROCESSOR, but both are in use
+    # clean them up!
     ### which is default?  there must be one to make a new pkg
     DEFAULT_CPU_TYPE = "None"
 
@@ -115,10 +117,10 @@ module JSS
 
     ### @return [String] the filename of the .pkg, .mpkg, or .dmg on the Casper server
     attr_reader :filename
-    
-    ### @return [Pathname] the local receipt when this pkg is installed 
+
+    ### @return [Pathname] the local receipt when this pkg is installed
     attr_reader :receipt
-    
+
     ### @return [Boolean] does this item 'Fill Existing Users' when jamf installs it?
     attr_reader :fill_existing_users
 
@@ -130,16 +132,16 @@ module JSS
 
     ### @return [Array<String>] the OS versions this can be installed onto. For all minor versions, the format is 10.5.x
     attr_reader :os_requirements
-    
+
     ### @return [String] limit installation to these architectures: 'x86',  'ppc', 'None'
     attr_reader :required_processor
-    
+
     ### @return [String] the name of a pkg to install (or "Do Not Install") when this pkg can't be installed
     attr_reader :switch_with_package
 
     ### @return [Boolean] can this item be uninstalled? Some, e.g. OS Updates, can't
     attr_reader :allow_uninstalled
-    
+
     ### @return [String] the category of this pkg, stored in the JSS as the id number from the categories table
     attr_reader :category
 
@@ -151,16 +153,16 @@ module JSS
 
     ### @return [Boolean] only install this pkg if it's available in the commandline softwareupdate.
     attr_reader :install_if_reported_available
-    
+
     ### @return [Boolean] should this pkg be installed on the boot volume during imaging
     attr_reader :boot_volume_required
-    
+
     ### @return [Integer] Priority to use for deploying or uninstalling the package
     attr_reader :priority
 
     ### @return [Boolean] does this pkg cause a notification to be sent on self-heal?
     attr_reader :send_notification
-    
+
 
     ###
     ### @see JSS::APIObject#initialize
@@ -173,6 +175,7 @@ module JSS
       @allow_uninstalled = @init_data[:allow_uninstalled]
       @boot_volume_required = @init_data[:boot_volume_required]
       @category = JSS::APIObject.get_name(@init_data[:category])
+      @category = nil if @category.to_s.casecmp("No category assigned") == 0
       @filename = @init_data[:filename] || @init_data[:name]
       @fill_existing_users = @init_data[:fill_existing_users]
       @fill_user_template = @init_data[:fill_user_template]
@@ -185,12 +188,12 @@ module JSS
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
       @required_processor = @init_data[:required_processor] || DEFAULT_CPU_TYPE
+      @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
-      
+
       # the receipt is the filename with any .zip extension removed.
-      @receipt = @filname ? (JSS::Client::RECEIPTS_FOLDER + @filname.to_s.sub(/.zip$/, '')) : nil
-      
+      @receipt = @filename ? (JSS::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
     end # init
 
 
@@ -478,7 +481,7 @@ module JSS
     def installed?
       @receipt.file?
     end
-    
+
     ###
     ### Upload a locally-readable file to the master distribution point.
     ### If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before
@@ -489,7 +492,7 @@ module JSS
     ###
     ### @param local_file_path[String,Pathname] the local path to the file to be uploaded
     ###
-    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point, 
+    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point,
     ###   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
     ###
     ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
@@ -499,7 +502,7 @@ module JSS
     def upload_master_file (local_file_path, rw_pw, unmount = true)
 
       raise JSS::NoSuchItemError, "Please create this package in the JSS before uploading it." unless @in_jss
-      
+
       mdp = JSS::DistributionPoint.master_distribution_point
       destination = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
@@ -534,11 +537,11 @@ module JSS
         local_path = zipfile
 
         self.filename = zipfile.basename.to_s
-        
+
       end # if directory
       self.update
       FileUtils.copy_entry local_path, destination
-      
+
       mdp.unmount if unmount
     end # upload
 
@@ -569,21 +572,23 @@ module JSS
     end # delete master file
 
 
+    ### Install this package via the jamf binary 'install' command from the
+    ### distribution point for this machine.
+    ### See {JSS::DistributionPoint.my_distribution_point}
     ###
     ### @note This code must be run as root to install packages
     ###
-    ### Causes the pkg/dmg to be installed via the jamf binary 'install' command from the
-    ### distribution point for this machine. See {JSS::DistributionPoint.my_distribution_point}
-    ###
-    ### The read-only or http passwd for the dist. point must be provided, except for
-    ### non-authenticated http downloads)
+    ### The read-only or http passwd for the dist. point must be provided,
+    ### except for non-authenticated http downloads)
     ###
     ### @param args[Hash] the arguments for installation
     ###
-    ### @option args :ro_pw[String] the read-only or http password for the distribution point for the
-    ###  local machine (http will be used if available, and may not need a pw)
+    ### @option args :ro_pw[String] the read-only or http password for the
+    ###   distribution point for the local machine
+    ###   (http will be used if available, and may not need a pw)
     ###
-    ### @option args :target[String,Pathname] The drive on which to install the package, defaults to '/'
+    ### @option args :target[String,Pathname] The drive on which to install
+    ###  the package, defaults to '/'
     ###
     ### @option args :verbose [Boolean] be verbose to stdout, defaults to false
     ###
@@ -591,14 +596,21 @@ module JSS
     ###
     ### @option args :fut[Boolean] fill user template, defaults to false
     ###
-    ### @option args :unmount[Boolean] unmount the distribution point when finished?(if we mounted it),
-    ###   defaults to false
+    ### @option args :unmount[Boolean] unmount the distribution point when
+    ###   finished?(if we mounted it), defaults to false
     ###
-    ### @option args :no_http[Boolean] don't use http downloads even if they are enabled for the dist. point.
+    ### @option args :no_http[Boolean] don't use http downloads even if they
+    ###   are enabled for the dist. point.
     ###
-    ### @return [Process::Status] the final status of the jamf binary command
+    ### @option args :alt_download_url [String] Use this url for an http
+    ###   download, regardless of distribution point settings. This can be used
+    ###   to access Cloud Distribution Points if the fileshare isn't available.
+    ###   The URL should already be ur
+    ###   The package filename will be removed or appended as needed.
     ###
-    ### @todo deal with cert-based https authentication
+    ### @return [Boolean] did the jamf install succeed?
+    ###
+    ### @todo deal with cert-based https authentication in dist points
     ###
     def install (args = {})
 
@@ -608,46 +620,73 @@ module JSS
 
       ro_pw = args[:ro_pw]
 
-      mdp = JSS::DistributionPoint.my_distribution_point
+      # as of Casper 9.72, with http downloads, the jamf binary requires
+      # the filename must be at the  end of the -path url, but before 9.72
+      # it can't be.
+      # e.g.
+      #    in  <9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages
+      # but
+      #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
+      #
+      append_at_vers = JSS.parse_jss_version("9.72")[:version]
+      our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
+      no_filename_in_url = (our_vers < append_at_vers)
 
-      ### how do we access our dist. point? with http?
-      if mdp.http_downloads_enabled and (not args[:no_http])
-        using_http = true
-        src_path = mdp.http_url
-        if mdp.username_password_required
-          raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
-          raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
-          # insert the name and pw into the uri
-          reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-          src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
+      # use a provided alternative url for an http download
+      if args[:alt_download_url]
+
+        # we'll re-add the filename below if needed.
+        src_path = args[:alt_download_url].chomp "/#{@filename}"
+
+      # use our appropriate dist. point for download
+      else
+        mdp = JSS::DistributionPoint.my_distribution_point
+
+        ### how do we access our dist. point? with http?
+        if mdp.http_downloads_enabled and (not args[:no_http])
+          using_http = true
+          src_path = mdp.http_url
+          if mdp.username_password_required
+            raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
+            raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
+            # insert the name and pw into the uri
+            reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
+          end
+
+        # or with filesharing?
+        else
+          using_http = false
+          src_path = mdp.mount(ro_pw)
         end
 
-      # or with filesharing?
-      else
-        using_http = false
-        src_path = mdp.mount(ro_pw)
-      end
+        # look at the pkgs folder
+        src_path += "#{DIST_POINT_PKGS_FOLDER}"
+      end # if args[:alt_download_url]
 
-      # look at the pkgs folder
-      src_path += "/#{DIST_POINT_PKGS_FOLDER}"
+      src_path += "/#{@filename}" unless no_filename_in_url
+
 
       ### are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? "-feu" : ""
       do_fut = args[:fut] ? "-fut" : ""
 
       ### the install args for jamf
-      command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose ; echo jamfexit $?"
+      command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose"
 
-      ### run it via a client
+      ### run it via a client cmd
       install_out = JSS::Client.run_jamf :install, command_args, args[:verbose]
 
-      install_exit = $?
+      install_out =~ %r{<exitCode>(\d+)</exitCode>}
+      install_exit = $1 ? $1.to_i : nil
+      install_exit ||= $?.exitstatus
+
 
       if (args.include? :unmount)
         mdp.unmount unless using_http
       end
 
-      return install_exit
+      return install_exit == 0 ? true : false
     end
 
     ###
@@ -668,7 +707,7 @@ module JSS
     ### @return [Process::Status] the result of the 'jamf uninstall' command
     ###
     def uninstall (args = {})
-      
+
       raise JSS::UnsupportedError, \
         "This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls" unless removable?
       raise JSS::UnsupportedError, "You must have root privileges to uninstall packages" unless JSS.superuser?
@@ -689,6 +728,18 @@ module JSS
 
 
 
+    ### What type of package is this?
+    ###
+    ### @return [Symbol] :pkg or :dmg or:unknown
+    ###
+    def type
+      case @filename
+      when /\.m?pkg(\.zip)?$/ then :pkg
+      when /\.dmg$/ then :dmg
+      else :unknown
+      end
+    end
+
 
     ################################
     ### Private Instance Methods
@@ -706,7 +757,7 @@ module JSS
       pkg = doc.add_element "package"
       pkg.add_element('allow_uninstalled').text = @allow_uninstalled
       pkg.add_element('boot_volume_required').text = @boot_volume_required
-      pkg.add_element('category').text = @category
+      pkg.add_element('category').text = @category.to_s.casecmp("No category assigned") == 0 ? "" : @category
       pkg.add_element('filename').text = @filename
       pkg.add_element('fill_existing_users').text = @fill_existing_users
       pkg.add_element('fill_user_template').text = @fill_user_template
@@ -717,7 +768,7 @@ module JSS
       pkg.add_element('os_requirements').text = JSS.to_s_and_a(@os_requirements)[:stringform]
       pkg.add_element('priority').text = @priority
       pkg.add_element('reboot_required').text = @reboot_required
-      pkg.add_element('required_processor').text = @required_processor
+      pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? "None" : @required_processor
       pkg.add_element('send_notification').text = @send_notification
       pkg.add_element('switch_with_package').text = @switch_with_package
       return doc.to_s
@@ -741,7 +792,7 @@ module JSS
     alias boot boot_volume_required
     alias boot? boot_volume_required
     alias notify send_notification
-    
+
     alias removable= allow_uninstalled=
     alias boot= boot_volume_required=
     alias feu= fill_existing_users=
@@ -751,6 +802,8 @@ module JSS
     alias reboot= reboot_required=
     alias cpu_type= required_processor=
     alias notify= send_notification=
+
+
 
 
 

@@ -1,4 +1,4 @@
-### Copyright 2014 Pixar
+### Copyright 2016 Pixar
 ###  
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -84,7 +84,10 @@ module JSS
 
     ###
     DFT_SOCKET = '/var/mysql/mysql.sock'
-
+    
+    ### the default MySQL port
+    DFT_PORT = 3306
+    
     ### the strftime format for reading/writing dates in the db
     SQL_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -140,8 +143,12 @@ module JSS
     ###
     def connect(args = {})
 
+      # server might come frome several places
+      # if not given in the args, use #hostname to figure out
+      # which
+      @server = args[:server] ?  args[:server] : hostname
+      
       # settings from config if they aren't in the args
-      args[:server] ||= JSS::CONFIG.db_server_name
       args[:port] ||= JSS::CONFIG.db_server_port
       args[:socket] ||= JSS::CONFIG.db_server_socket
       args[:db_name] ||= JSS::CONFIG.db_name
@@ -169,7 +176,6 @@ module JSS
         @connected = false
       end
 
-      @server = args[:server]
       @port = args[:port]
       @socket = args[:socket]
       @mysql_name = args[:db_name]
@@ -178,14 +184,13 @@ module JSS
       @read_timeout = args[:read_timeout]
       @write_timeout = args[:write_timeout]
 
-      # make sure we have a user
-      raise JSS::MissingDataError, "No JSS user specified, or listed in configuration." unless args[:user]
-
-      # passwd from prompt, stdin, or args?
+      # make sure we have a user, pw, server
+      raise JSS::MissingDataError, "No MySQL user specified, or listed in configuration." unless args[:user]
       raise JSS::MissingDataError, "Missing :pw (or :prompt/:stdin) for user '#{@user}'" unless args[:pw]
+      raise JSS::MissingDataError, "No MySQL Server hostname specified, or listed in configuration." unless @server
 
       @pw = if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for the MySQL user #{@user}@#{args[:server]}:"
+        JSS.prompt_for_password "Enter the password for the MySQL user #{@user}@#{@server}:"
       elsif  args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
         args[:pw].to_s =~ /^stdin(\d+)$/
         line = $1
@@ -194,8 +199,6 @@ module JSS
       else
         args[:pw]
       end
-
-
 
       @mysql = Mysql.init
 
@@ -222,10 +225,58 @@ module JSS
     ###
     def disconnect
       @mysql.close if connected?
+      @server = nil
+      @port = nil
+      @socket = nil
+      @user = nil
+      @connection_timeout = DFT_TIMEOUT
+      @read_timeout = DFT_TIMEOUT
+      @write_timeout = DFT_TIMEOUT
       @connected = false
       nil
     end # disconnect
-
+    
+    ### Test that a given hostname is a MySQL server
+    ###
+    ### @param server[String] The hostname to test
+    ###
+    ### @return [Boolean] does the server host a MySQL server?
+    ###
+    def valid_server? (server, port = DFT_PORT)
+      mysql = Mysql.init
+      mysql.options Mysql::OPT_CONNECT_TIMEOUT, 5
+      
+      begin
+        # this connection should get an access denied error if there is
+        # a mysql server there. I'm assuming no one will use this username
+        # and pw for anything real
+        mysql.connect server, "notArealUser", "definatelyNotA#{$$}password", "not_a_db", port
+        
+      rescue Mysql::ServerError::AccessDeniedError
+        return true
+      rescue
+        return false
+      end
+      return false
+    end
+    
+    ### The server to which we are connected, or will 
+    ### try connecting to if none is specified with the
+    ### call to #connect
+    ###
+    ### @return [String] the hostname of the server
+    ###
+    def hostname
+      # return it if already set
+      return @server if @server
+      # otherwise, from the config
+      srvr = JSS::CONFIG.db_server_name
+      # otherwise, assume its on the JSS server to which this client talks
+      srvr ||= JSS::Client.jss_server
+      return srvr
+    end
+    
+    
     #### Aliases
 
     alias connected? connected

@@ -1,4 +1,4 @@
-### Copyright 2014 Pixar
+### Copyright 2016 Pixar
 ###  
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -86,7 +86,7 @@ module JSS
     opts[:out_dir] ||= DEFAULT_OUT_DIR
     opts[:bundle_id_prefix] ||= PKG_BUNDLE_ID_PFX
 
-    pkg_filename = "#{name}.pkg"
+    pkg_filename = name.end_with?(".pkg") ? name : name+".pkg" 
     pkg_id = opts[:bundle_id_prefix] + "." + name
     pkg_out = "#{opts[:out_dir]}/#{pkg_filename}"
     pkg_ownership = opts[:preserve_ownership] ? "preserve" : "recommended"

@@ -1,4 +1,4 @@
-### Copyright 2014 Pixar
+### Copyright 2016 Pixar
 ###  
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -63,8 +63,16 @@ module JSS
     #####################################
 
     ### The base API path in the jss URL
-    RSRC = "JSSResource"
-
+    RSRC_BASE = "JSSResource"
+    
+    ### A url path to load to see if there's an API available at a host.
+    ### This just loads the API resource docs page
+    TEST_PATH = "api"
+    
+    ### If the test path loads correctly from a casper server, it'll contain
+    ### this text
+    TEST_CONTENT = "<title>JSS REST API Resource Documentation</title>"
+    
     ### The Default port
     HTTP_PORT = 9006
 
@@ -97,6 +105,9 @@ module JSS
     ### @return [JSS::Server] the details of the JSS to which we're connected.
     attr_reader :server
 
+    ### @return [String] the hostname of the JSS to which we're connected.
+    attr_reader :server_host
+    
     #####################################
     ### Constructor
     #####################################
@@ -143,7 +154,11 @@ module JSS
     ### @return [true]
     ###
     def connect (args = {})
-
+      
+      # the server, if not specified, might come from a couple places.
+      # see #hostname
+      args[:server] ||= hostname
+      
       # settings from config if they aren't in the args
       args[:server] ||= JSS::CONFIG.api_server_name
       args[:port] ||= JSS::CONFIG.api_server_port
@@ -157,7 +172,10 @@ module JSS
         # set it from the prefs
         args[:verify_cert] = JSS::CONFIG.api_verify_cert
       end
-
+      
+      # settings from client jamf plist if needed
+      args[:port] ||=  JSS::Client.jss_port
+      
       # default settings if needed
       args[:port] ||= SSL_PORT
       args[:timeout] ||= DFT_TIMEOUT
@@ -177,16 +195,16 @@ module JSS
       
       # we're using ssl if 1) args[:use_ssl] is anything but false
       # or 2) the port is the default casper ssl port.
-      args[:use_ssl] = true if args[:use_ssl].nil? or args[:port] == SSL_PORT
+      args[:use_ssl] = (not args[:use_ssl] == false) or (args[:port] == SSL_PORT)
       
       # and here's the URL
       ssl = args[:use_ssl] ? "s" : ''
-      @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC}"
+      @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC_BASE}"
 
 
       # prep the args for passing to RestClient::Resource
-      # if verify_cert is nil (unset) or non-false, then we will verify
-      args[:verify_ssl] =  (args[:verify_cert].nil? or args[:verify_cert]) ? OpenSSL::SSL::VERIFY_PEER :  OpenSSL::SSL::VERIFY_NONE
+      # if verify_cert is anything but false, we will verify
+      args[:verify_ssl] =  (args[:verify_cert] == false) ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
       
       args[:password] = if args[:pw] == :prompt
         JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
@@ -199,12 +217,11 @@ module JSS
         args[:pw]
       end
       
-      
-      
       # heres our connection
       @cnx = RestClient::Resource.new("#{@rest_url}", args)
 
       @jss_user = args[:user]
+      @server_host = args[:server]
       @connected = true
       @server = JSS::Server.new
 
@@ -212,7 +229,7 @@ module JSS
         raise JSS::UnsupportedError, "Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher."
       end
 
-      return true
+      return @connected ? @server_host : nil
     end # connect
 
     ###
@@ -247,6 +264,7 @@ module JSS
     def disconnect
       @jss_user = nil
       @rest_url = nil
+      @server_host = nil
       @cnx = nil
       @connected = false
     end # disconnect
@@ -315,7 +333,6 @@ module JSS
       @cnx[rsrc].post xml, :content_type => 'text/xml', :accept => :json
     end #post_rsrc
 
-    ###
     ### Delete a resource from the JSS
     ###
     ### @param rsrc[String] the resource to create, the URL part after 'JSSResource/'
@@ -330,7 +347,46 @@ module JSS
       @cnx[rsrc].delete
 
     end #delete_rsrc
-
+    
+    
+    ### Test that a given hostname & port is a JSS API server
+    ###
+    ### @param server[String] The hostname to test, 
+    ###
+    ### @param port[Integer] The port to try connecting on
+    ###
+    ### @return [Boolean] does the server host a JSS API?
+    ###
+    def valid_server? (server, port = SSL_PORT)
+      # try ssl first
+      begin
+        return true if open("https://#{server}:#{port}/#{TEST_PATH}", ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE).read.include? TEST_CONTENT
+      rescue
+        # then regular http
+        begin 
+          return true if open("http://#{server}:#{port}/#{TEST_PATH}").read.include? TEST_CONTENT
+        rescue
+          # any errors = no API
+          return false
+        end # begin
+      end #begin
+      # if we're here, no API
+      return false
+    end
+    
+    ### The server to which we are connected, or will 
+    ### try connecting to if none is specified with the
+    ### call to #connect
+    ###
+    ### @return [String] the hostname of the server
+    ###
+    def hostname
+      return @server_host if @server_host
+      srvr = JSS::CONFIG.api_server_name
+      srvr ||= JSS::Client.jss_server
+      return srvr
+    end
+    
     ### aliases
     alias connected? connected
 

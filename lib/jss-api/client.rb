@@ -1,25 +1,25 @@
-### Copyright 2014 Pixar
-###  
+### Copyright 2016 Pixar
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -109,7 +109,7 @@ module JSS
     #####################################
     ### Class Methods
     #####################################
-    
+
     ###
     ### Get the current IP address as a String.
     ###
@@ -126,7 +126,7 @@ module JSS
       ### turn off reverse DNS resolution temporarily
       ### @note the 'socket' library has already been required by 'rest-client'
       orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true
-  
+
       UDPSocket.open do |s|
         s.connect '192.168.0.0', 1
         s.addr.last
@@ -243,15 +243,14 @@ module JSS
     ### @return [Hash] the HardwareDataType data from the system_profiler command
     ###
     def self.hardware_data
-       Plist.parse_xml(`system_profiler SPHardwareDataType -xml`)[0]["_items"][0]
+      raw = `/usr/sbin/system_profiler SPHardwareDataType -xml 2>/dev/null`
+      Plist.parse_xml(raw)[0]["_items"][0]
     end
 
 
-
+    ### Run an arbitrary jamf binary command.
     ###
     ### @note Most jamf commands require superuser/root privileges.
-    ###
-    ### Run an arbitrary jamf binary command.
     ###
     ### @param command[String,Symbol] the jamf binary command to run
     ###   The command is the single jamf command that comes after the/usr/bin/jamf.
@@ -260,7 +259,7 @@ module JSS
     ###   This is to be passed to Kernel.` (backtick), after being combined with the
     ###   jamf binary and the jamf command
     ###
-    ### @param show_output[Boolean] Should the stdout & stderr of the jamf binary be sent to
+    ### @param verbose[Boolean] Should the stdout & stderr of the jamf binary be sent to
     ###  the current stdout in realtime, as well as returned as a string?
     ###
     ### @return [String] the stdout & stderr of the jamf binary.
@@ -276,8 +275,7 @@ module JSS
     ### The details of the Process::Status for the jamf binary process can be captured from $?
     ### immediately after calling. (See Process::Status)
     ###
-    ###
-    def self.run_jamf(command, args = nil, show_output  = false)
+    def self.run_jamf(command, args = nil, verbose  = false)
       raise JSS::UnmanagedError, "The jamf binary is not installed on this computer." unless self.installed?
       raise JSS::UnsupportedError, "You must have root privileges to run that jamf binary command" unless ROOTLESS_JAMF_COMMANDS.include? command.to_sym or JSS.superuser?
 
@@ -292,16 +290,19 @@ module JSS
           raise JSS::InvalidDataError, "args must be a String or Array of Strings"
       end # case
 
+      cmd += " -verbose" if verbose and (not cmd.include? " -verbose")
+      puts "Running: #{cmd}" if verbose
+
       output = []
       IO.popen("#{cmd} 2>&1") do |proc|
         while line = proc.gets
           output << line
-          puts line if show_output
+          puts line if verbose
         end
       end
-
-      return output.join('')
-
+      install_out = output.join('')
+      install_out.force_encoding("UTF-8") if install_out.respond_to? :force_encoding
+      return install_out
     end # run_jamf
 
 

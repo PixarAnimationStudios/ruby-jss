@@ -1,4 +1,4 @@
-### Copyright 2014 Pixar
+### Copyright 2016 Pixar
 ###  
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -26,6 +26,6 @@
 module JSS
 
   ### The version of the JSS ruby gem
-  VERSION = "0.5.8"
+  VERSION = "0.6.0"
 
 end # module

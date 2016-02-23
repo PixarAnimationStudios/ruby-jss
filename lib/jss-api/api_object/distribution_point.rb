@@ -1,25 +1,25 @@
-### Copyright 2014 Pixar
-###  
+### Copyright 2016 Pixar
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -120,7 +120,7 @@ module JSS
         when 1
           self.new :id => self.all_ids[0]
         else
-          self.new :master
+          self.new :id => :master
         end
     end
 
@@ -244,7 +244,7 @@ module JSS
     ###
     ### You can also do this more easily by calling JSS.master_distribution_point
     ###
-    def initialize(args)
+    def initialize(args = {})
 
       @init_data = nil
 
@@ -343,6 +343,75 @@ module JSS
       sha256 == Digest::SHA2.new(256).update(pw).to_s
     end
 
+    ### Check to see if this dist point is reachable for downloads (read-only)
+    ### via either http, if available, or filesharing.
+    ###
+    ### @param pw[String] the read-only password to use for checking the connection
+    ###   If http downloads are enabled, and no http password is required
+    ###   this can be omitted.
+    ###
+    ### @param check_http[Boolean] should we try the http download first, if enabled?
+    ###   If you're intentionally using the ro password for filesharing, and want to check
+    ###   only filesharing, then set this to false.
+    ###
+    ### @return [FalseClass, Symbol] false if not reachable, otherwise :http or :mountable
+    ###
+    def reachable_for_download? (pw = '', check_http = true)
+      pw ||= ''
+      http_checked = ""
+      if check_http && http_downloads_enabled
+        if @username_password_required
+          # we don't check the pw here, because if the connection fails, we'll
+          # drop down below to try the password for mounting.
+          # we'll escape all the chars that aren't unreserved
+          reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
+          user_pass = "#{URI.escape @http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@"
+          url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
+        else
+          url = @http_url
+        end
+
+        begin
+          open(url).read
+          return :http
+        rescue
+          http_checked = "http and "
+        end
+      end # if  check_http && http_downloads_enabled
+
+      return :mountable if mounted?
+
+      return false unless check_pw :ro , pw
+
+      begin
+        mount pw, :ro
+        return :mountable
+      rescue
+        return false
+      ensure
+        unmount
+      end
+    end
+
+    ### Check to see if this dist point is reachable for uploads (read-write)
+    ### via filesharing.
+    ###
+    ### @param pw[String] the read-write password to use for checking the connection
+    ###
+    ### @return [FalseClass, Symbol] false if not reachable, otherwise :mountable
+    ###
+    def reachable_for_upload? (pw)
+      return :mountable if mounted?
+      return false unless check_pw :rw , pw
+      begin
+        mount pw, :rw
+        return :mountable
+      rescue
+        return false
+      ensure
+        unmount
+      end
+    end
 
 
     ###
@@ -350,19 +419,19 @@ module JSS
     ###
     ### @param pw[String,Symbol] the read-only or read-write password for this DistributionPoint
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
-    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, 
+    ###   If :stdin#, the password is read from a line of std in represented by the digits at #,
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2,
     ###   if no digit is supplied. see {JSS.stdin}
     ###
     ### @param access[Symbol] how to mount the DistributionPoint, and which password to expect.
-    ###  :ro = read-only, :rw (or anything else) = read-write
+    ###  :ro (or anything else) = read-only, :rw = read-write
     ###
     ### @return [Pathname] the mountpoint.
     ###
-    def mount(pw = nil, access = :ro1)
+    def mount(pw = nil, access = :ro)
       return @mountpoint if mounted?
-      access = :rw unless access == :ro
-      
+      access = :ro unless access == :rw
+
       password = if pw == :prompt
         JSS.prompt_for_password "Enter the password for the #{access} user '#{access == :ro ? @read_only_username : @read_write_username }':"
       elsif pw.is_a?(Symbol) and pw.to_s.start_with?('stdin')
@@ -373,7 +442,7 @@ module JSS
       else
         pw
       end
-      
+
       pwok = check_pw(access, password)
       unless pwok
         msg = pwok.nil? ? "No #{access} password set in the JSS" : "Incorrect password for #{access} account"
@@ -393,13 +462,14 @@ module JSS
 
       @mountpoint.mkpath
 
-      #if system "#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}'"
-      if system @mnt_cmd.to_s, *['-o', MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
+      mount_out = `#{@mnt_cmd} -o '#{MOUNT_OPTIONS}' '#{@mount_url}' '#{@mountpoint}' 2>&1`
+      if $?.exitstatus == 0 and @mountpoint.mountpoint?
+      #if system @mnt_cmd.to_s, *['-o', MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
         @mounted = access
       else
         @mountpoint.rmdir if @mountpoint.directory?
         @mounted = nil
-        raise JSS::FileServiceError, "There was a problem mounting #{@ip_address}"
+        raise JSS::FileServiceError, "Can't mount #{@ip_address}: #{mount_out}"
       end
       return @mountpoint
     end # mount
@@ -421,7 +491,7 @@ module JSS
       end
       nil
     end # unmount
-    
+
 
     ###
     ### Is this thing mounted right now?
@@ -431,8 +501,8 @@ module JSS
     def mounted?
       @mountpoint.directory? and  @mountpoint.mountpoint?
     end
-    
-    
+
+
     #### aliases
     alias hostname ip_address
     alias umount unmount
