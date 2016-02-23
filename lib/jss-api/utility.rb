@@ -126,17 +126,15 @@ module JSS
     return {:stringform => valstr, :arrayform => valarr}
   end # to_s_and_a
 
-  ### parse a plist file, regardless of format, and return
-  ### a Ruby data structure.
-  ### This enhances Plist.parse_xml by duplicating and converting
-  ### binary plists to xml first.
+  ### Parse a plist into a Ruby data structure.
+  ### This enhances Plist::parse_xml taking file paths, as well as XML Strings
+  ### and reading the files regardless of binary/XML format.
   ###
-  ### @param plist[Pathname, String] the plist to parse, or the path to one
+  ### @param plist[Pathname, String] the plist XML, or the path to a plist file
   ###
-  ### @return [Object] the parsed plist as a riby hash,array, etc.
+  ### @return [Object] the parsed plist as a ruby hash,array, etc.
   ###
   def self.parse_plist (plist)
-    require "plist"
 
     # did we get a string of xml, or a string pathname?
     case plist
@@ -145,24 +143,18 @@ module JSS
         return Plist.parse_xml plist
       else
         plist = Pathname.new plist
-        raw_data = plist.read
       end
     when Pathname
-      raw_data = plist.read
-    else raise JSS::InvalidDataError, "Argument must be a path (as a Pathname or String) or a String of XML"
-    end # case
-
-    if raw_data.start_with? "bplist00"
-      temp_plist = Pathname.new "/tmp/#{plist.basename}-tmp.plist"
-      plist.cp temp_plist
-      system "/usr/bin/plutil -convert xml1 '#{temp_plist}'"
-      parsed = Plist.parse_xml temp_plist.read
-      temp_plist.delete
+      true
     else
-      parsed = Plist.parse_xml raw_data
-    end
+      raise ArgumentError, "Argument must be a path (as a Pathname or String) or a String of XML"
+    end # case plist
 
-    return parsed
+    # if we're here, its a Pathname
+    raise JSS::MissingDataError, "No such file: #{plist}" unless plist.file?
+
+    return Plist.parse_xml `/usr/libexec/PlistBuddy -x -c print #{Shellwords.escape(plist.to_s)}`
+
   end # parse_plist
 
 
