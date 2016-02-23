@@ -1,17 +1,41 @@
 # The JSS API Ruby Gem - access to the Casper Suite from Ruby
 [![Gem Version](https://badge.fury.io/rb/jss-api.svg)](http://badge.fury.io/rb/jss-api)
 
+### Table of contents
+* [DESCRIPTION](#DESCRIPTION)
+* [SYNOPSIS](#SYNOPSIS)
+* [USAGE](#USAGE)
+  * [Connecting to the API](#connecting-to-the-api)
+  * [Working with JSS Objects (a.k.a REST Resources)](#working-with-jss-objects-aka-rest-resources)
+  * [Listing Objects](#listing-objects)
+  * [Retrieving Objects](#retrieving-objects)
+  * [Updating Objects](#updating-objects)
+  * [Deleting Objects](#deleting-objects)
+* [OBJECTS IMPLEMENTED](#objects-implemented)
+  * [Creatable and Updatable](#creatable-and-updatable)
+  * [Updatable but not Creatable](#updatable-but-not-creatable)
+  * [Read-Only](#read-only)
+  * [Creatable and Updatable](#creatable-and-updatable)
+  * [Deletable](#deletable)
+* [CONFIGURATION](#CONFIGURATION)
+  * [Passwords](#passwords)
+* [BEYOND THE API](#beyond-the-api)
+* [REQUIREMENTS](#requirements)
+* [INSTALL](#install)
+* [HELP](#help)
+* [LICENSE](#license)
+
 ## DESCRIPTION
 
 The jss-api gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise-level management tool for Apple devices from [JAMF Software, LLC](http://www.jamfsoftware.com/).
 
-The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API) 
+The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API)
 
 The module is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
 those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
-See OBJECTS IMPLEMENTED for a list. 
+See OBJECTS IMPLEMENTED for a list.
 
-We've implemented the things we need in our environment, and as our needs grow, we'll add more. 
+We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
 
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/jss-api/)
@@ -21,11 +45,11 @@ Hopefully others will find it useful, and add more to it as well.
 
 ```ruby
 # you may need to require 'rubygems' first if you're using Ruby 1.8
-require 'jss-api'   
+require 'jss-api'
 
 JSS::API.connect(
-  :user => jss_user, 
-  :pw => jss_user_pw, 
+  :user => jss_user,
+  :pw => jss_user_pw,
   :server => jss_server_hostname
 )
 
@@ -33,7 +57,7 @@ JSS::API.connect(
 JSS::Package.all
 
 # get an array of names of all JSS::Package objects in the JSS:
-JSS::Package.all_names 
+JSS::Package.all_names
 
 # Get a static computer group
 mg = JSS::ComputerGroup.new :name => "Macs of interest"
@@ -46,48 +70,48 @@ mg.update
 
 # Create a new network segment to store in the JSS
 ns = JSS::NetworkSegment.new(
-  :id => :new, 
-  :name => 'Private Class C', 
-  :starting_address => '192.168.0.0', 
+  :id => :new,
+  :name => 'Private Class C',
+  :starting_address => '192.168.0.0',
   :ending_address => '192.168.0.255'
 )
 
 # Associate this network segment with a specific building,
 # which must exist in the JSS, and be listed in JSS::Building.all_names
-ns.building = "Main Office" 
+ns.building = "Main Office"
 
 # Associate this network segment with a specific software update server,
 #  which must exist in the JSS, and be listed in JSS::SoftwareUpdateServer.all_names
-ns.swu_server = "Main SWU Server" 
+ns.swu_server = "Main SWU Server"
 
 # Create the new network segment in the JSS
-ns.create 
+ns.create
 ```
 
 ## USAGE
 
 ### Connecting to the API
 
-Before you can work with JSS Objects via the API, you have to connect to it. 
+Before you can work with JSS Objects via the API, you have to connect to it.
 
-The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't 
+The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't
 connected.  To remedy that, use JSS::API.connect, passing it values for :user, :pw, and :server:
 
 ```ruby
 JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
 ```
 
-Make sure the user has privileges in the JSS to do things with API Objects. 
+Make sure the user has privileges in the JSS to do things with API Objects.
 
 The {JSS::API#connect} method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
-password from stdin, or prompt for it in the shell. See the JSS::APIConnection class for more connection options and details about its methods. 
+password from stdin, or prompt for it in the shell. See the JSS::APIConnection class for more connection options and details about its methods.
 
 Also see {JSS::Configuration}, and the CONFIGURATION section below, for how to store
 server connection parameters in a simple config file.
 
 ### Working with JSS Objects (a.k.a REST Resources)
 
-All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. Those classes do so by mixing in the JSS::Creatable and/or JSS::Updateable modules. See below for the level of implementation of each class. 
+All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. Those classes do so by mixing in the JSS::Creatable and/or JSS::Updateable modules. See below for the level of implementation of each class.
 
 --------
 
@@ -105,7 +129,7 @@ To get just the names or just the ids in an Array, use the .all\_names or .all\_
 ```ruby
 JSS::Computer.all_names # =>  ["cephei", "peterparker", "rowdy", ...]
 JSS::Computer.all_ids # =>  [1122, 1218, 931, ...]
-```    
+```
 
 Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all\_udids
 
@@ -236,7 +260,7 @@ See each Class's documentation for details.
   * category
   * triggers
   * file & process actions
-  
+
 **NOTE** Even in the API and the WebApp, Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
 ### Read-Only
@@ -290,11 +314,11 @@ and then any calls to {JSS::API.connect} will assume that server and username, a
 
 ### Passwords
 
-The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS::API.connect call. 
+The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS::API.connect call.
 
-The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell. 
+The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
 
-If you must store a password in a file, or retrieve it from the network, make sure it's stored securely, and that the JSS user has limited permissions.  
+If you must store a password in a file, or retrieve it from the network, make sure it's stored securely, and that the JSS user has limited permissions.
 
 Here's an example of how to use a password stored in a file:
 
@@ -316,8 +340,8 @@ JSS::API.connect :pw => password   # other arguments used from the config settin
 While the Casper API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
 
 * Client Machine Access
-  * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts 
-* Package Installation 
+  * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts
+* Package Installation
   * {JSS::Package} objects can be installed on the local machine, from the appropriate distribution point
 * Script Execution
   * {JSS::Script} objects can be executed locally on demand
@@ -344,7 +368,7 @@ the JSS gem was written for:
 
 It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
 
-* rest-client >=1.6.7  ( >= 1.7.0 with Casper >= 9.6.1) http://rubygems.org/gems/rest-client 
+* rest-client >=1.6.7  ( >= 1.7.0 with Casper >= 9.6.1) http://rubygems.org/gems/rest-client
 * json or json\_pure >= 1.6.5 http://rubygems.org/gems/json or http://rubygems.org/gems/json_pure
   * (only in ruby 1.8.7.  Ruby >= 1.9 has json in its standard library)
 * ruby-mysql >= 2.9.12 http://rubygems.org/gems/ruby-mysql
@@ -358,7 +382,7 @@ It also requires these gems, which will be installed automatically if you instal
 
 NOTE: You may need to install XCode, and it's CLI tools, in order to install the required gems.
 
-In general, you can install the JSS Gem with this command: 
+In general, you can install the JSS Gem with this command:
 
 `gem install jss-api`
 
@@ -369,6 +393,13 @@ If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems m
 `gem install mime-types -v 1.25.1`
 
 `gem install rest-client -v 1.6.8`
+
+
+## HELP
+
+[Email the developer](mailto:jss-api-gem@pixar.com)
+
+[Macadmins Slack Channel](https://macadmins.slack.com/messages/#jss-api/)
 
 ## LICENSE
 
