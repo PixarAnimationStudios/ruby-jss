@@ -2,9 +2,9 @@
 [![Gem Version](https://badge.fury.io/rb/jss-api.svg)](http://badge.fury.io/rb/jss-api)
 
 ### Table of contents
-* [DESCRIPTION](#DESCRIPTION)
-* [SYNOPSIS](#SYNOPSIS)
-* [USAGE](#USAGE)
+* [DESCRIPTION](#description)
+* [SYNOPSIS](#synopsis)
+* [USAGE](#usage)
   * [Connecting to the API](#connecting-to-the-api)
   * [Working with JSS Objects (a.k.a REST Resources)](#working-with-jss-objects-aka-rest-resources)
   * [Listing Objects](#listing-objects)
@@ -17,7 +17,7 @@
   * [Read-Only](#read-only)
   * [Creatable and Updatable](#creatable-and-updatable)
   * [Deletable](#deletable)
-* [CONFIGURATION](#CONFIGURATION)
+* [CONFIGURATION](#configuration)
   * [Passwords](#passwords)
 * [BEYOND THE API](#beyond-the-api)
 * [REQUIREMENTS](#requirements)
