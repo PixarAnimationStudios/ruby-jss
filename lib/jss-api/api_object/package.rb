@@ -399,7 +399,7 @@ module JSS
     ###   given?
     ###
     def os_ok? (os = nil)
-      JSS.os_ok? (@os_requirements, os)
+      JSS.os_ok? @os_requirements, os
     end
     
 
@@ -462,7 +462,7 @@ module JSS
     ###   given?
     ###
     def processor_ok? (processor = nil)
-      JSS.processor_ok? (@required_processor, processor)
+      JSS.processor_ok? @required_processor, processor
     end
     
     
