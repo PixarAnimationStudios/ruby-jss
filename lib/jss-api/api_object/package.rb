@@ -102,7 +102,10 @@ module JSS
 
     ### When we shouldn't install anything (e.g. switch w/package)
     DO_NOT_INSTALL = "Do Not Install"
-
+    
+    ### The table in the database for this object
+    DB_TABLE = "packages"
+    
     #####################################
     ### Class Variables
     #####################################
