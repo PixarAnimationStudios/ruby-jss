@@ -388,7 +388,20 @@ module JSS
       @os_requirements = JSS.to_s_and_a(new_val)[:arrayform]
       @need_to_update = true
     end
-
+    
+    ### Is a given OS OK for this package based on its
+    ### @os_requirements?
+    ###
+    ### @param os[String] the os to check, defaults to
+    ###  the os of the current machine.
+    ###
+    ### @return [Boolean] can this pkg be installed with the os 
+    ###   given?
+    ###
+    def os_ok? (os = nil)
+      JSS.os_ok? (@os_requirements, os)
+    end
+    
 
     ###
     ### Change the priority field in the JSS
@@ -439,8 +452,21 @@ module JSS
       @need_to_update = true
     end
 
-
+    ### Is a given processor OK for this package based on its
+    ### @required_processor?
     ###
+    ### @param processor[String] the processor to check, defaults to
+    ###  the processor of the current machine.
+    ###
+    ### @return [Boolean] can this pkg be installed with the processor 
+    ###   given?
+    ###
+    def processor_ok? (processor = nil)
+      JSS.processor_ok? (@required_processor, processor)
+    end
+    
+    
+
     ### Change the notify field in the JSS
     ###
     ### @param new_val[Boolean]
@@ -456,8 +482,6 @@ module JSS
     end
 
 
-
-    ###
     ### Change which pkg should be installed if this one can't.
     ###
     ### @param new_val[String] the name of an existing package or "Do Not Install"
@@ -729,8 +753,8 @@ module JSS
       return $?
     end
 
-
-
+    
+    
     ### What type of package is this?
     ###
     ### @return [Symbol] :pkg or :dmg or:unknown
