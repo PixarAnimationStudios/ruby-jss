@@ -92,69 +92,69 @@ module JSS
     end # each v
     return ok_oses
   end
-  
+
   ### Scripts and packages can have processor limitations.
   ### This method tests a given processor, against a requirement
   ### to see if the requirement is met.
   ###
-  ### @param requirement[String] The processor requirement. 
+  ### @param requirement[String] The processor requirement.
   ###   either 'ppc', 'x86', or some variation on "none", nil, or empty
   ###
   ### @param processor[String] the processor to check, defaults to
   ###  the processor of the current machine. Any flavor of intel
   ##   is (i486, i386, x86-64, etc) is treated as "x86"
   ###
-  ### @return [Boolean] can this pkg be installed with the processor 
+  ### @return [Boolean] can this pkg be installed with the processor
   ###   given?
   ###
   def self.processor_ok? (requirement, processor = nil)
-    
+
     return true if requirement.to_s.empty? or requirement =~ /none/i
     processor ||= `/usr/bin/uname -p`
     return requirement == (processor.to_s.include?("86") ? "x86" : "ppc")
   end
-    
+
   ### Scripts and packages can have OS limitations.
   ### This method tests a given OS, against a requirement list
   ### to see if the requirement is met.
   ###
-  ### @param requirement[String] The os requirement list, a comma-seprated string 
+  ### @param requirement[String] The os requirement list, a comma-seprated string
   ###   or array of strings of allows OSes. e.g. 10.7, 10.8.5 or 10.9.x
   ###
   ### @param processor[String] the os to check, defaults to
   ###  the os of the current machine.
   ###
-  ### @return [Boolean] can this pkg be installed with the processor 
+  ### @return [Boolean] can this pkg be installed with the processor
   ###   given?
   ###
-  def self.os_ok? (requirement, os = nil)
+  def self.os_ok? (requirement, os_to_check = nil)
+    return true if requirement.to_s.empty? or requirement.to_s =~ /none/i
     requirement = JSS.to_s_and_a(requirement)[:arrayform]
-    return true if requirement.to_s.empty? or requirement =~ /none/i
-    
-    os ||= `/usr/bin/sw_vers -productVersion`.chomp
-    
+
+    os_to_check ||= `/usr/bin/sw_vers -productVersion`.chomp
+
     # convert the requirement array into an array of regexps.
-    # examples: 
-    #   "10.8.5" becomes  /^10\.8\.5$/  
-    #   "10.8" becomes /^10.8(.0)?$/ 
+    # examples:
+    #   "10.8.5" becomes  /^10\.8\.5$/
+    #   "10.8" becomes /^10.8(.0)?$/
     #   "10.8.x" /^10\.8\.?\d*$/
-    req_regexps = requirement.map do |r| 
-      if r.end_with?('.x') 
-        /^#{r.chomp('.x').gsub('.','\.')}\.?\d*$/ 
-      
+    req_regexps = requirement.map do |r|
+      if r.end_with?('.x')
+        /^#{r.chomp('.x').gsub('.','\.')}\.?\d*$/
+
       elsif r =~ /^\d+\.\d+$/
-        /^#{r.gsub('.','\.')}(.0)?$/ 
-      
+        /^#{r.gsub('.','\.')}(.0)?$/
+
       else
-        /^#{r.gsub('.','\.')}$/ 
+        /^#{r.gsub('.','\.')}$/
       end
     end
-    
-    req_regexps.each{|re| return true if os =~ re  }
+
+    req_regexps.each{|re| return true if os_to_check =~ re  }
     return false
   end
-  
-  
+
+
   ### Given a list of data as a comma-separated string, or an Array of strings,
   ### return a Hash with both versions.
   ###
