@@ -66,7 +66,7 @@ module JSS
   ###
   def self.expand_min_os (min_os)
 
-    min_os.delete! ">="
+    min_os = min_os.delete ">="
 
     ### split the version into major, minor and maintenance release numbers
     (maj,min,maint) = min_os.split(".")
