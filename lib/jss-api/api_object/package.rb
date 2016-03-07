@@ -102,10 +102,10 @@ module JSS
 
     ### When we shouldn't install anything (e.g. switch w/package)
     DO_NOT_INSTALL = "Do Not Install"
-    
+
     ### The table in the database for this object
     DB_TABLE = "packages"
-    
+
     #####################################
     ### Class Variables
     #####################################
@@ -388,20 +388,20 @@ module JSS
       @os_requirements = JSS.to_s_and_a(new_val)[:arrayform]
       @need_to_update = true
     end
-    
+
     ### Is a given OS OK for this package based on its
     ### @os_requirements?
     ###
     ### @param os[String] the os to check, defaults to
     ###  the os of the current machine.
     ###
-    ### @return [Boolean] can this pkg be installed with the os 
+    ### @return [Boolean] can this pkg be installed with the os
     ###   given?
     ###
     def os_ok? (os = nil)
       JSS.os_ok? @os_requirements, os
     end
-    
+
 
     ###
     ### Change the priority field in the JSS
@@ -458,14 +458,14 @@ module JSS
     ### @param processor[String] the processor to check, defaults to
     ###  the processor of the current machine.
     ###
-    ### @return [Boolean] can this pkg be installed with the processor 
+    ### @return [Boolean] can this pkg be installed with the processor
     ###   given?
     ###
     def processor_ok? (processor = nil)
       JSS.processor_ok? @required_processor, processor
     end
-    
-    
+
+
 
     ### Change the notify field in the JSS
     ###
@@ -548,14 +548,14 @@ module JSS
           wd = Dir.pwd
           Dir.chdir local_path.parent
 
-          ### the contents of the zip file have to have the same  name as the zip file itself (minus the .zip)
+          ### the contents of the zip file have to have the same name as the zip file itself (minus the .zip)
           ### so temporarily rename the source
           local_path.rename(local_path.parent + @filename)
           raise "There was a problem zipping the pkg bundle" unless system "/usr/bin/zip -qr '#{zipfile}' '#{@filename}'"
 
         ensure
           ### rename the source to the original name
-          (local_path.parent + @filename).rename local_path
+          (local_path.parent + @filename).rename local_path if  (local_path.parent + @filename).exist?
           ### go back where we started
           Dir.chdir wd
         end # begin
@@ -753,8 +753,8 @@ module JSS
       return $?
     end
 
-    
-    
+
+
     ### What type of package is this?
     ###
     ### @return [Symbol] :pkg or :dmg or:unknown

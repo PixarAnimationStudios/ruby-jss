@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -65,7 +65,7 @@ module JSS
   ### * TARGET_CLASS - the {APIObject} subclass to which the extention attribute applies.
   ###   e.g. {JSS::Computer}
   ###
-  ### * ALL_TARGETS_CRITERION - a {JSS::Criteriable::Criterion} instance that will be used in 
+  ### * ALL_TARGETS_CRITERION - a {JSS::Criteriable::Criterion} instance that will be used in
   ###   an {AdvancedSearch} to find all of members of the TARGET_CLASS
   ###
   ### @see JSS::APIObject
@@ -110,6 +110,11 @@ module JSS
     ]
     DEFAULT_WEB_DISPLAY_CHOICE = "Extension Attributes"
 
+    LAST_RECON_FIELD = 'Last Inventory Update'
+    LAST_RECON_FIELD_SYM = LAST_RECON_FIELD.gsub(' ', '_').to_sym
+
+    USERNAME_FIELD = "Username"
+    USERNAME_FIELD_SYM = USERNAME_FIELD.to_sym
 
     ######################
     ### Attributes
@@ -152,7 +157,7 @@ module JSS
       @data_type = @init_data[:data_type] || DEFAULT_DATA_TYPE
       @web_display = @init_data[:inventory_display] || DEFAULT_WEB_DISPLAY_CHOICE
 
-      
+
       if @init_data[:input_type]
         @input_type = @init_data[:input_type][:type] || DEFAULT_INPUT_TYPE
         @popup_choices = @init_data[:input_type][:popup_choices]
@@ -189,8 +194,8 @@ module JSS
       end
       super
     end
-    
-    
+
+
     ###
     ### @see JSS::APIObject#delete
     ###
@@ -206,7 +211,7 @@ module JSS
         JSS::API.open_timeout = orig_open_timeout
       end
     end
-    
+
     ###
     ### Change the description of this EA
     ###
@@ -353,14 +358,15 @@ module JSS
 
 
 
-    ###
     ### Return an Array of Hashes showing the most recent value
     ### for this EA on all inventory objects in the JSS.
     ###
     ### Each Hash is one inventory object (computer, mobile device, user), with these keys:
     ###   :id - the jss id
-    ###   :name - the object name
+    ###   :name - the object (computer, user, mobiledevice) name
     ###   :value - the most recent ext attr value for the object.
+    ###   :as_of - the timestamp of when the value was collected (nil for User EAs)
+    ###   :username - the username associated with the object
     ###
     ### This is done by creating a temporary {AdvancedSearch}
     ### for all objects, with the EA as a display field. The #search_result
@@ -368,7 +374,7 @@ module JSS
     ###
     ### The AdvancedSearch is then deleted.
     ###
-    ### @return [Array<Hash{:id=>Integer,:name=>String,:value=>String,Integer,Time}>]
+    ### @return [Array<Hash{:id=>Integer,:name=>String,:value=>String,Integer,Time,:as_of=>Time}>]
     ###
     ### @see JSS::AdvancedSearch
     ###
@@ -381,28 +387,31 @@ module JSS
     def latest_values
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY}." unless @in_jss
       tmp_advsrch = "JSSgem-EA-#{Time.now.to_jss_epoch}-latest-search"
-      
+
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
         acs = search_class.new :id => :new, :name => tmp_advsrch
-        acs.display_fields = [@name]
+        acs.display_fields = self.class::TARGET_CLASS == JSS::User ?  [@name, USERNAME_FIELD] : [@name, USERNAME_FIELD, LAST_RECON_FIELD]
 
         # search for 'Username like "" ' because all searchable object classes have a "Username" value
-        #crit_list = [JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Username", :search_type => "like", :value => '')]
-
-        acs.criteria = JSS::Criteriable::Criteria.new [ self.class::ALL_TARGETS_CRITERION]
+        crit =  JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Username", :search_type => "like", :value => '')
+        # crit = self.class::ALL_TARGETS_CRITERION
+        acs.criteria = JSS::Criteriable::Criteria.new [crit]
         acs.create :get_results
 
         results = []
 
-        acs.search_results.each{ |i|
+        acs.search_results.each do |i|
           value = case @data_type
             when "Date" then JSS.parse_datetime i[@symbolized_name]
             when "Integer" then i[@symbolized_name].to_i
             else i[@symbolized_name]
           end # case
-          results << {:id => i[:id], :name => i[:name], :value => value}
-        }
+
+          as_of = Time.parse(i[LAST_RECON_FIELD_SYM]) if i[LAST_RECON_FIELD_SYM]
+
+          results << {:id => i[:id], :name => i[:name], :username => i[USERNAME_FIELD_SYM] , :value => value, :as_of => as_of }
+        end #acs.search_results.each
 
       ensure
         acs.delete
@@ -412,10 +421,10 @@ module JSS
       results
 
     end
-    
-    
+
+
     ### aliases
-    
+
     alias desc description
 
 
