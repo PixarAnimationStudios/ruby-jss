@@ -548,14 +548,14 @@ module JSS
           wd = Dir.pwd
           Dir.chdir local_path.parent
 
-          ### the contents of the zip file have to have the same  name as the zip file itself (minus the .zip)
+          ### the contents of the zip file have to have the same name as the zip file itself (minus the .zip)
           ### so temporarily rename the source
           local_path.rename(local_path.parent + @filename)
           raise "There was a problem zipping the pkg bundle" unless system "/usr/bin/zip -qr '#{zipfile}' '#{@filename}'"
 
         ensure
           ### rename the source to the original name
-          (local_path.parent + @filename).rename local_path
+          (local_path.parent + @filename).rename local_path if  (local_path.parent + @filename).exist?
           ### go back where we started
           Dir.chdir wd
         end # begin
