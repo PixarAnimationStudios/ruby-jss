@@ -65,18 +65,26 @@ module JSS
   ###
   ### @param version[String] the version of the .pkg, needed for building the .pkg
   ###
-  ### @param root[String, Pathname] the path to the "root folder" representing the root file system of the target install drive
+  ### @param root[String, Pathname] the path to the "root folder" representing
+  ###   the root file system of the target install drive
   ###
   ### @param opts[Hash] the options for building the .pkg
   ###
+  ### @options opts :pkg_id[String] the full package if for the new pkg. 
+  ###   e.g. 'com.mycompany.myapp'
+  ###
   ### @option opts :bundle_id_prefix[String] the pkg bundle identifier prefix.
-  ###   e.g. 'org.some.organization' or 'com.pixar.d3'.
+  ###   If no :pkg_id is provided, one is made using this prefix and 
+  ###   the name provided. e.g. 'com.mycompany' 
   ###   Defaults to '{PKG_BUNDLE_ID_PFX}'. See 'man pkgbuild' for more info
   ###
-  ### @option opts :out_dir[String,Pathname] he folder in which the .pkg will be created. Defaults to {DEFAULT_OUT_DIR}
+  ### @option opts :out_dir[String,Pathname] he folder in which the .pkg will be 
+  ###   created. Defaults to {DEFAULT_OUT_DIR}
   ###
-  ### @option opts :preserve_ownership[Boolean] If true, the owner/group of the rootpath are preserved.
-  ###   Default is false: they become the pkgbuild/installer "recommended" (root/wheel or root/admin)
+  ### @option opts :preserve_ownership[Boolean] If true, the owner/group of the 
+  ###   rootpath are preserved.
+  ###   Default is false: they become the pkgbuild/installer "recommended" 
+  ###   (root/wheel or root/admin)
   ###
   ### @return [Pathname] the local path to the new .pkg
   ###
@@ -87,7 +95,8 @@ module JSS
     opts[:bundle_id_prefix] ||= PKG_BUNDLE_ID_PFX
 
     pkg_filename = name.end_with?(".pkg") ? name : name+".pkg"
-    pkg_id = opts[:bundle_id_prefix] + "." + name
+    pkg_id = opts[:pkg_id]
+    pkg_id ||= opts[:bundle_id_prefix] + "." + name
     pkg_out = "#{opts[:out_dir]}/#{pkg_filename}"
     pkg_ownership = opts[:preserve_ownership] ? "preserve" : "recommended"
 
