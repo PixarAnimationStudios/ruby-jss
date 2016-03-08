@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -71,13 +71,13 @@ module JSS
   ### When parsing a date/time data into a Time object, these will return nil
   NIL_DATES = [0, nil, '', '0']
 
-  ### The contents of anything piped to stdin, split into lines. See {JSS.stdin}
-  STDIN_LINES = $stdin.tty? ? [] : $stdin.read.lines.map{|line| line.chomp("\n") }
-
 
   #####################################
   ### Module Variables
   #####################################
+
+  ### The contents of anything piped to stdin, split into lines. See {JSS.stdin}
+  @@stdin_lines = nil
 
   #####################################
   ### Module Methods

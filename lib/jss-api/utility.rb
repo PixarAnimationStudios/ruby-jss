@@ -438,8 +438,8 @@ module JSS
 
   ### Retrive one or all lines from whatever was piped to standard input.
   ###
-  ### Standard input is read completely when the module loads
-  ### and the lines are stored as an Array in the constant {STDIN_LINES}
+  ### Standard input is read completely the first time this method is called
+  ### and the lines are stored as an Array in the module var @@stdin_lines
   ###
   ### @param line[Integer] which line of stdin is being retrieved.
   ###  The default is zero (0) which returns all of stdin as a single string.
@@ -447,11 +447,11 @@ module JSS
   ### @return [String, nil] the requested ling of stdin, or nil if it doesn't exist.
   ###
   def self.stdin(line = 0)
+    @@stdin_lines ||= ($stdin.tty? ? [] : $stdin.read.lines.map{|line| line.chomp("\n") })
 
-    return STDIN_LINES.join("\n") if line <= 0
-
+    return @@stdin_lines.join("\n") if line <= 0
     idx = line - 1
-    return STDIN_LINES[idx]
+    return @@stdin_lines[idx]
   end
 
   ### Prompt for a password in a terminal.
