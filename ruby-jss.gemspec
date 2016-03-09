@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
   s.name        = proj_name
   s.version     = JSS::VERSION
-  s.license     = 'Modified Apache-2.0'
+  s.license     = 'Apache-2.0 WITH Modifications'
   s.date        = Time.now.utc.strftime("%Y-%m-%d")
   s.summary     = "A Ruby interface to the Casper Suite's JSS API"
   s.description = <<-EOD
