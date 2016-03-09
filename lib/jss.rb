@@ -27,6 +27,13 @@
 ###
 module JSS
 
+  ### The minimum Ruby version that works with this gem
+  MINIMUM_RUBY_VERSION = "2.0.0"
+
+  if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY_VERSION)
+    raise "Can't use the JSS module, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater."
+  end
+
   #####################################
   ### Required Libraries, etc
   #####################################
@@ -60,6 +67,8 @@ module JSS
   ### The minimum JSS version that works with this gem, as returned by the API
   ### in the deprecated 'jssuser' resource
   MINIMUM_SERVER_VERSION = "9.4"
+
+
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
