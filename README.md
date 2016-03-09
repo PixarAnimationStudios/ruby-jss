@@ -1,5 +1,5 @@
-# The JSS API Ruby Gem - access to the Casper Suite from Ruby
-[![Gem Version](https://badge.fury.io/rb/jss-api.svg)](http://badge.fury.io/rb/jss-api)
+# ruby-jss - access to the Casper Suite from Ruby
+[![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
 ### Table of contents
 * [DESCRIPTION](#description)
@@ -27,7 +27,7 @@
 
 ## DESCRIPTION
 
-The jss-api gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise-level management tool for Apple devices from [JAMF Software, LLC](http://www.jamfsoftware.com/).
+The ruby-jss gem provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise-level management tool for Apple devices from [JAMF Software, LLC](http://www.jamfsoftware.com/).
 
 The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API)
 
@@ -38,14 +38,13 @@ See OBJECTS IMPLEMENTED for a list.
 We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
 
-[Full technical documentation can be found here.](http://www.rubydoc.info/gems/jss-api/)
+[Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
 
 
 ## SYNOPSIS
 
 ```ruby
-# you may need to require 'rubygems' first if you're using Ruby 1.8
-require 'jss-api'
+require 'jss'
 
 JSS::API.connect(
   :user => jss_user,
@@ -89,6 +88,9 @@ ns.create
 ```
 
 ## USAGE
+
+### Loading the module
+As with all ruby modules, use require: `require 'jss'`
 
 ### Connecting to the API
 
@@ -384,7 +386,7 @@ NOTE: You may need to install XCode, and it's CLI tools, in order to install the
 
 In general, you can install the JSS Gem with this command:
 
-`gem install jss-api`
+`gem install ruby-jss`
 
 If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
 
@@ -397,7 +399,7 @@ If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems m
 
 ## HELP
 
-[Email the developer](mailto:jss-api-gem@pixar.com)
+[Email the developer](mailto:ruby-jss@pixar.com)
 
 [Macadmins Slack Channel](https://macadmins.slack.com/messages/#jss-api/)
 
