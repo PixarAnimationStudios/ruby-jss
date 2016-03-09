@@ -133,4 +133,4 @@ module JSS
   end # module Scopable
 end # module JSS
 
-require "jss-api/api_object/scopable/scope"
+require "jss/api_object/scopable/scope"

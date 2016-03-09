@@ -21,9 +21,10 @@
 ###    language governing permissions and limitations under the Apache License.
 ###
 
-proj_name = 'jss-api'
+proj_name = 'ruby-jss'
+lib_dir = "jss"
 
-require "./lib/#{proj_name}/version"
+require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
 
@@ -42,8 +43,8 @@ Gem::Specification.new do |s|
     allow simpler automation of Casper-related tasks. For details see the README file."
   EOD
   s.authors     = ["Chris Lasell"]
-  s.email       = 'jss-api-gem@pixar.com'
-  s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/'
+  s.email       = 'ruby-jss@pixar.com'
+  s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
   s.files       = Dir['lib/**/*.rb']
   s.files << '.yardopts'
