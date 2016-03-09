@@ -56,13 +56,13 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   # http://plist.rubyforge.org/  MIT License (no dependencies)
-  s.add_runtime_dependency 'plist'
+  s.add_runtime_dependency 'plist', '~> 3.1'
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
-  s.add_runtime_dependency 'ruby-mysql'
+  s.add_runtime_dependency 'ruby-mysql' '~> 2.9', '>= 2.9.12'
   # https://github.com/rest-client/rest-client & dependencies: MIT License
-  s.add_runtime_dependency 'rest-client', '>= 1.7.0'
+  s.add_runtime_dependency 'rest-client', '~> 1.7', '>= 1.7.2'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
-  s.add_runtime_dependency 'net-ldap'
+  s.add_runtime_dependency 'net-ldap', '~> 0.8'
 
   # Rdoc
 
