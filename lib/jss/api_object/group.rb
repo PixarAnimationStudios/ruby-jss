@@ -374,7 +374,7 @@ module JSS
 
 end # module JSS
 
-require "jss-api/api_object/group/computer_group"
-require "jss-api/api_object/group/mobile_device_group"
-require "jss-api/api_object/group/user_group"
+require "jss/api_object/group/computer_group"
+require "jss/api_object/group/mobile_device_group"
+require "jss/api_object/group/user_group"
 

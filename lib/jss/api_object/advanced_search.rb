@@ -383,7 +383,7 @@ module JSS
 
 end # module JSS
 
-require "jss-api/api_object/advanced_search/advanced_computer_search"
-require "jss-api/api_object/advanced_search/advanced_mobile_device_search"
-require "jss-api/api_object/advanced_search/advanced_user_search"
+require "jss/api_object/advanced_search/advanced_computer_search"
+require "jss/api_object/advanced_search/advanced_mobile_device_search"
+require "jss/api_object/advanced_search/advanced_user_search"
 

@@ -21,9 +21,10 @@
 ###    language governing permissions and limitations under the Apache License.
 ###
 
-proj_name = 'jss-api'
+proj_name = 'ruby-jss'
+lib_dir = "jss"
 
-require "./lib/#{proj_name}/version"
+require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
 
@@ -35,15 +36,15 @@ Gem::Specification.new do |s|
   s.date        = Time.now.utc.strftime("%Y-%m-%d")
   s.summary     = "A Ruby interface to the Casper Suite's JSS API"
   s.description = <<-EOD
-    The jss-api gem provides the JSS module, a framework for interacting with the REST API of the
-    JAMF Software Server (JSS), the core of the Casper Suite, an enterprise/education
+    The ruby-jss gem provides the JSS module, a framework for interacting with the REST API
+    of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise/education
     tool for managing Apple devices, from JAMF Software LLC.
     JSS API objects are implemented as Ruby classes, and interact with each oher to
     allow simpler automation of Casper-related tasks. For details see the README file."
   EOD
   s.authors     = ["Chris Lasell"]
-  s.email       = 'jss-api-gem@pixar.com'
-  s.homepage    = 'http://pixaranimationstudios.github.io/jss-api-gem/'
+  s.email       = 'ruby-jss@pixar.com'
+  s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
   s.files       = Dir['lib/**/*.rb']
   s.files << '.yardopts'

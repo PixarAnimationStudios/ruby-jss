@@ -66,7 +66,7 @@ module JSS
   ###
   def self.expand_min_os (min_os)
 
-    min_os.delete! ">="
+    min_os = min_os.delete ">="
 
     ### split the version into major, minor and maintenance release numbers
     (maj,min,maint) = min_os.split(".")
@@ -92,6 +92,68 @@ module JSS
     end # each v
     return ok_oses
   end
+
+  ### Scripts and packages can have processor limitations.
+  ### This method tests a given processor, against a requirement
+  ### to see if the requirement is met.
+  ###
+  ### @param requirement[String] The processor requirement.
+  ###   either 'ppc', 'x86', or some variation on "none", nil, or empty
+  ###
+  ### @param processor[String] the processor to check, defaults to
+  ###  the processor of the current machine. Any flavor of intel
+  ##   is (i486, i386, x86-64, etc) is treated as "x86"
+  ###
+  ### @return [Boolean] can this pkg be installed with the processor
+  ###   given?
+  ###
+  def self.processor_ok? (requirement, processor = nil)
+
+    return true if requirement.to_s.empty? or requirement =~ /none/i
+    processor ||= `/usr/bin/uname -p`
+    return requirement == (processor.to_s.include?("86") ? "x86" : "ppc")
+  end
+
+  ### Scripts and packages can have OS limitations.
+  ### This method tests a given OS, against a requirement list
+  ### to see if the requirement is met.
+  ###
+  ### @param requirement[String] The os requirement list, a comma-seprated string
+  ###   or array of strings of allows OSes. e.g. 10.7, 10.8.5 or 10.9.x
+  ###
+  ### @param processor[String] the os to check, defaults to
+  ###  the os of the current machine.
+  ###
+  ### @return [Boolean] can this pkg be installed with the processor
+  ###   given?
+  ###
+  def self.os_ok? (requirement, os_to_check = nil)
+    return true if requirement.to_s.empty? or requirement.to_s =~ /none/i
+    requirement = JSS.to_s_and_a(requirement)[:arrayform]
+
+    os_to_check ||= `/usr/bin/sw_vers -productVersion`.chomp
+
+    # convert the requirement array into an array of regexps.
+    # examples:
+    #   "10.8.5" becomes  /^10\.8\.5$/
+    #   "10.8" becomes /^10.8(.0)?$/
+    #   "10.8.x" /^10\.8\.?\d*$/
+    req_regexps = requirement.map do |r|
+      if r.end_with?('.x')
+        /^#{r.chomp('.x').gsub('.','\.')}\.?\d*$/
+
+      elsif r =~ /^\d+\.\d+$/
+        /^#{r.gsub('.','\.')}(.0)?$/
+
+      else
+        /^#{r.gsub('.','\.')}$/
+      end
+    end
+
+    req_regexps.each{|re| return true if os_to_check =~ re  }
+    return false
+  end
+
 
   ### Given a list of data as a comma-separated string, or an Array of strings,
   ### return a Hash with both versions.
@@ -376,8 +438,8 @@ module JSS
 
   ### Retrive one or all lines from whatever was piped to standard input.
   ###
-  ### Standard input is read completely when the module loads
-  ### and the lines are stored as an Array in the constant {STDIN_LINES}
+  ### Standard input is read completely the first time this method is called
+  ### and the lines are stored as an Array in the module var @@stdin_lines
   ###
   ### @param line[Integer] which line of stdin is being retrieved.
   ###  The default is zero (0) which returns all of stdin as a single string.
@@ -385,11 +447,11 @@ module JSS
   ### @return [String, nil] the requested ling of stdin, or nil if it doesn't exist.
   ###
   def self.stdin(line = 0)
+    @@stdin_lines ||= ($stdin.tty? ? [] : $stdin.read.lines.map{|line| line.chomp("\n") })
 
-    return STDIN_LINES.join("\n") if line <= 0
-
+    return @@stdin_lines.join("\n") if line <= 0
     idx = line - 1
-    return STDIN_LINES[idx]
+    return @@stdin_lines[idx]
   end
 
   ### Prompt for a password in a terminal.

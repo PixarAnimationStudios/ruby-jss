@@ -185,5 +185,5 @@ module JSS
 
 end # module JSS
 
-require "jss-api/api_object/criteriable/criterion"
-require "jss-api/api_object/criteriable/criteria"
+require "jss/api_object/criteriable/criterion"
+require "jss/api_object/criteriable/criteria"
