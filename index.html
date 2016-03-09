@@ -9,7 +9,7 @@
   <meta name="description" content="jss ruby gem">
   <meta name="author" content="stoked@pixar.com">
 
-  <title>JSS Ruby Module</title>
+  <title>ruby-jss</title>
 
   <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand page-scroll" href="#page-top">JSS Ruby Module</a>
+        <a class="navbar-brand page-scroll" href="#page-top">ruby-jss</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -78,9 +78,9 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
-          <h1>JSS Ruby Module</h1>
+          <h1>ruby-jss</h1>
           <p>
-            The JSS module is a Ruby framework for interacting with the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise-level management tool for Apple devices from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>. The module abstracts API objects as Ruby classes, which interact to allow simpler automation of Casper-related tasks.
+            The ruby-jss project provides the JSS module, a Ruby framework for interacting with the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>. The module abstracts API objects as Ruby classes, which interact to allow simpler automation of Casper-related tasks.
           </p>
         </div>
       </div>
@@ -89,7 +89,7 @@
         <hr />
 
         <div class="col-sm-4">
-          <a class="homePanelLink" href="https://rubygems.org/gems/jss-api">
+          <a class="homePanelLink" href="https://rubygems.org/gems/ruby-jss">
             <div class="panel panel-default homePanel">
               <div class="panel-body">
                 <h2>Installation</h2>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="col-sm-4">
-          <a class="homePanelLink" href="https://github.com/PixarAnimationStudios/jss-api-gem">
+          <a class="homePanelLink" href="https://github.com/PixarAnimationStudios/ruby-jss">
             <div class="panel panel-default homePanel">
               <div class="panel-body">
                 <h2>Source</h2>
@@ -111,7 +111,7 @@
         </div>
         
         <div class="col-sm-4">
-          <a class="homePanelLink" href="http://www.rubydoc.info/gems/jss-api/">
+          <a class="homePanelLink" href="http://www.rubydoc.info/gems/ruby-jss/">
             <div class="panel panel-default homePanel">
               <div class="panel-body">
                 <h2>Documentation</h2>
@@ -135,17 +135,20 @@
           <div id="aboutText">
 
             <p>
-              JSS is a Ruby module providing access to the REST API of the JAMF Software
-              Server (JSS), the core of the Casper Suite from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>. <br>
+              ruby-jss is a github project and Ruby gem which provide the JSS Ruby module.
+              The module simplifies access to the REST API of the JAMF Software Server (JSS),
+              the core of the Casper Suite from <a href="http://jamfsoftware.com/">JAMF Software, LLC</a>,
+              an enterprise-level management tool for Apple devices<br>
             </p>
 
             <p>
-              The module abstracts API resources as Ruby objects, and provides methods
-              for interacting with those resources. It also provides some features
-              that aren't a part of the API itself, but come with other
-              Casper-related tools, such as uploading .pkg and .dmg JSS::Package data
-              to the master distribution point, and the installation of Package
-              objects on client machines.
+              The module abstracts API resources such as computers, packages, mobile devices, 
+              policies, and distribution points as Ruby objects. It provides methods
+              for creating, manipulating, and interacting with those resources and making them
+              interact with each other. It also provides some features that aren't a part of
+              the API itself, but come with other Casper-related tools, such as uploading .pkg 
+              and .dmg JSS::Package data to the master distribution point, and the installation
+              of Package objects on client machines.
             </p>
 
             <p>
@@ -156,6 +159,13 @@
               of the Documentation for a list.
             </p>
 
+            <p>
+             The ruby-jss project is the first part, indeed the foundation of, 'd3', a package/patch 
+             deployemnt and management tool based on Casper's package handling backend. Ruby-jss grew 
+             out of d3, and while it provides API access beyond just packages, that was it's 
+             initial purpose. (link to d3 coming soon!)
+            </p>
+            
             <p>
               We've implemented the things we need in our environment, and as our
               needs grow, we'll add more. Hopefully others will find it useful, and
@@ -178,7 +188,7 @@
       <div class="row">
         <div class="col-sm-12">
           <h1><i class="fa fa-envelope-o"></i> Contact</h1>
-          <p><a href="mailto:jss-api-gem@pixar.com">&raquo; jss-api-gem@pixar.com</a></p>
+          <p><a href="mailto:ruby-jss@pixar.com">&raquo; ruby-jss@pixar.com</a></p>
         </div>
       </div>
     </div>
