@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -98,14 +98,17 @@ module JSS
     ### Class Constants
     #####################################
 
-    ### The filename for storing the prefs, globally or user-level
-    CONF_FILE = "jss_gem.conf"
+    ### The filename for storing the config, globally or user-level.
+    ### The first matching file is used - the array provides
+    ### backward compatibility with earlier versions.
+    ### Saving will always happen to the first filename
+    CONF_FILES = [ "ruby-jss.conf", "jss_gem.conf"]
 
     ### The Pathname to the machine-wide preferences plist
-    GLOBAL_CONF = Pathname.new "/etc/#{CONF_FILE}"
+    GLOBAL_CONFS =  CONF_FILES.map{|cf| Pathname.new "/etc/#{cf}"}
 
     ### The Pathname to the user-specific preferences plist
-    USER_CONF = ENV["HOME"] ? Pathname.new("~/.#{CONF_FILE}").expand_path : nil
+    USER_CONFS =  CONF_FILES.map{|cf| ENV["HOME"] ? Pathname.new("~/.#{cf}").expand_path : nil }.compact
 
     ### The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
@@ -175,7 +178,12 @@ module JSS
     ### @return [void]
     ###
     def read_global
-      read GLOBAL_CONF if GLOBAL_CONF.file? and GLOBAL_CONF.readable?
+      GLOBAL_CONFS.each { |gcf|
+        if gcf.file? and gcf.readable?
+          read gcf
+          return
+        end
+      }
     end
 
     ###
@@ -184,8 +192,12 @@ module JSS
     ### @return [void]
     ###
     def read_user
-      return unless USER_CONF
-      read USER_CONF if USER_CONF.file? and USER_CONF.readable?
+      USER_CONFS.each { |ucf|
+        if ucf.file? and ucf.readable?
+          read ucf
+          return
+        end
+      }
     end
 
 
@@ -217,37 +229,37 @@ module JSS
     ###
     def save(file)
       path = case file
-        when :global then GLOBAL_CONF
-        when :user then USER_CONF
+        when :global then GLOBAL_CONFS.first
+        when :user then USER_CONFS.first
         else Pathname.new(file)
       end
-      
+
       raise JSS::MissingDataError, "No HOME environment variable, can't write to user conf file." if path.nil?
-      
+
       # file already exists? read it in and update the values.
       if path.readable?
         data = path.read
-        
+
         # go thru the known attributes/keys
-        CONF_KEYS.keys.sort.each do |k| 
-          
+        CONF_KEYS.keys.sort.each do |k|
+
           # if the key exists, update it.
-          if data =~ /^#{k}:/ 
-            data.sub!(/^#{k}:.*$/, "#{k}: #{self.send k}") 
-          
+          if data =~ /^#{k}:/
+            data.sub!(/^#{k}:.*$/, "#{k}: #{self.send k}")
+
           # if not, add it to the end unless it's nil
           else
             data += "\n#{k}: #{self.send k}" unless self.send(k).nil?
-          end # if data =~ /^#{k}:/ 
-        end #each do |k| 
-        
+          end # if data =~ /^#{k}:/
+        end #each do |k|
+
       else # not readable, make a new file
         data = ""
-        CONF_KEYS.keys.sort.each do |k| 
-          data << "#{k}: #{self.send k}\n" unless self.send(k).nil? 
+        CONF_KEYS.keys.sort.each do |k|
+          data << "#{k}: #{self.send k}\n" unless self.send(k).nil?
         end
       end # if path readable
-      
+
       # make sure we end with a newline, the save it.
       data << "\n" unless data.end_with?("\n")
       path.jss_save data
