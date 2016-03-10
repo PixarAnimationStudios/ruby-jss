@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -84,10 +84,13 @@ module JSS
 
     ###
     DFT_SOCKET = '/var/mysql/mysql.sock'
-    
+
     ### the default MySQL port
     DFT_PORT = 3306
-    
+
+    ### The default encoding in the tables - JAMF wisely uses UTF-8
+    DFT_CHARSET = "utf8"
+
     ### the strftime format for reading/writing dates in the db
     SQL_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -147,7 +150,7 @@ module JSS
       # if not given in the args, use #hostname to figure out
       # which
       @server = args[:server] ?  args[:server] : hostname
-      
+
       # settings from config if they aren't in the args
       args[:port] ||= JSS::CONFIG.db_server_port
       args[:socket] ||= JSS::CONFIG.db_server_socket
@@ -169,6 +172,7 @@ module JSS
       args[:port] ||= Mysql::MYSQL_TCP_PORT
       args[:socket] ||= DFT_SOCKET
       args[:db_name] ||= DEFAULT_DB_NAME
+      args[:charset] ||= DFT_CHARSET
 
       begin
         @mysql.close if connected?
@@ -205,7 +209,7 @@ module JSS
       @mysql.options Mysql::OPT_CONNECT_TIMEOUT, @connect_timeout
       @mysql.options Mysql::OPT_READ_TIMEOUT, @read_timeout
       @mysql.options Mysql::OPT_WRITE_TIMEOUT, @write_timeout
-
+      @mysql.charset = args[:charset]
       @mysql.connect @server, @user , @pw , @mysql_name, @port, @socket
 
       @connected = true
@@ -235,7 +239,7 @@ module JSS
       @connected = false
       nil
     end # disconnect
-    
+
     ### Test that a given hostname is a MySQL server
     ###
     ### @param server[String] The hostname to test
@@ -245,13 +249,13 @@ module JSS
     def valid_server? (server, port = DFT_PORT)
       mysql = Mysql.init
       mysql.options Mysql::OPT_CONNECT_TIMEOUT, 5
-      
+
       begin
         # this connection should get an access denied error if there is
         # a mysql server there. I'm assuming no one will use this username
         # and pw for anything real
         mysql.connect server, "notArealUser", "definatelyNotA#{$$}password", "not_a_db", port
-        
+
       rescue Mysql::ServerError::AccessDeniedError
         return true
       rescue
@@ -259,8 +263,8 @@ module JSS
       end
       return false
     end
-    
-    ### The server to which we are connected, or will 
+
+    ### The server to which we are connected, or will
     ### try connecting to if none is specified with the
     ### call to #connect
     ###
@@ -275,8 +279,8 @@ module JSS
       srvr ||= JSS::Client.jss_server
       return srvr
     end
-    
-    
+
+
     #### Aliases
 
     alias connected? connected
