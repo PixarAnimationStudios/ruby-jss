@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   # http://plist.rubyforge.org/  MIT License (no dependencies)
   s.add_runtime_dependency 'plist', '~> 3.1'
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
-  s.add_runtime_dependency 'ruby-mysql' '~> 2.9', '>= 2.9.12'
+  s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
   # https://github.com/rest-client/rest-client & dependencies: MIT License
   s.add_runtime_dependency 'rest-client', '~> 1.7', '>= 1.7.2'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
