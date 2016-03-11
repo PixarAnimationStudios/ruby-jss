@@ -1,0 +1,125 @@
+#####################
+#
+#     ruby-jss configuration.
+#
+# This file should be stored at /etc/ruby-jss.conf
+# on all machines that use ruby-jss
+#
+# A personal copy can also be stored in your home folder as
+# ~/.ruby-jss.conf  and the settings there will override those
+# from the system-wide file in /etc.
+#
+# When the JSS module is loaded, the conf files are read into
+# an instance of JSS::Configuration, and stored in the constant JSS::CONFIG
+#
+# The values loaded are used by default for making API and database connections.
+# However, they can be overridden per-connection by specifying values when
+# calling the #connect methods.
+#
+# The file format is one attribute per line, thus:
+#
+#     attr_name: value
+#
+# Lines that don't start with a known attribute name followed by a colon
+# are ignored. If an attribute is defined more than once, the last one wins.
+#
+# Known attributes are listed and defined in the ruby-jss.conf.default file
+# in the rubygem folder's data folder
+# (e.g. /Library/Ruby/Gems/2.0.0/gems/ruby-jss-0.6.3/data/ruby-jss.conf.default )
+#
+# The conf file may be edited with any text editor, however developers should
+# look at the manipulation methods in the JSS::Configuration class.
+#
+
+### - api_server_name
+###   The hostname of the server for JSS REST API connections.
+###
+api_server_name:
+
+### - api_server_port
+###   The port for connecting to the JSS REST API
+###   Defaults to 8443
+###
+api_server_port:
+
+### - api_ssl_version
+###   The SSL version to use for the API connection
+###   Defaults to 'TLSv1'
+###
+api_ssl_version:
+
+### - api_verify_cert
+###   Should the API connections require a verifiable/trusted certificate?
+###   If you are using a self-signed cert. for your JSS, and have not
+###   deployed it as a trusted cert on all your clients, you should
+###   set this to 'false', and be aware of the risks.
+###   Defaults to true
+###
+api_verify_cert:
+
+### - api_username
+###   The username to use when making an API connection.
+###   Note that the passwords are not storeable here!!
+###     see https://github.com/PixarAnimationStudios/ruby-jss/blob/master/README.md#passwords
+###
+api_username:
+
+### - api_timeout_open
+###   The timeout (in seconds) for connecting to the API
+###   Defaults to 60
+###
+api_timeout_open:
+
+### - api_timeout
+###   The response timeout (in seconds) for API requests
+###   Defaults to 60
+###
+api_timeout:
+
+### - db_server_name
+###   The hostname of the server for JSS MySQL connections.
+###   Note: if you aren't accessing the database directly,
+###   you don't need this.  However, if you're using d3
+###   you will need this.
+db_server_name:
+
+### - db_server_port
+###   The port for MySQL connections
+###   Defaults defaults to 3306
+###
+db_server_port:
+
+### - db_server_socket
+###   The MySQL socket path, if needed for local connections
+###   Defaults to '/var/mysql/mysql.sock'
+###
+db_server_socket:
+
+### - db_username
+###   The username for MySQL connections
+###
+db_username:
+
+### - db_name
+###   The name of the MySQL database that holds JSS data
+###   Defaults to 'jamfsoftware'
+###
+db_name:
+
+### - db_connect_timeout
+###   The timeout (in seconds) for connecting to the database
+###   Defaults to 60
+###
+db_connect_timeout:
+
+### - db_read_timeout
+###   The timeout (in seconds) for reading results from the database
+###   Defaults to 60
+###
+db_read_timeout:
+
+### - db_write_timeout
+###   The timeout (in seconds) for writing to the database
+###   Defaults to 60
+###
+db_write_timeout:
