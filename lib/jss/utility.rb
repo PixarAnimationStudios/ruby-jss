@@ -118,7 +118,7 @@ module JSS
   ### This method tests a given OS, against a requirement list
   ### to see if the requirement is met.
   ###
-  ### @param requirement[String] The os requirement list, a comma-seprated string
+  ### @param requirement[String,Array] The os requirement list, a comma-seprated string
   ###   or array of strings of allows OSes. e.g. 10.7, 10.8.5 or 10.9.x
   ###
   ### @param processor[String] the os to check, defaults to
@@ -128,8 +128,9 @@ module JSS
   ###   given?
   ###
   def self.os_ok? (requirement, os_to_check = nil)
-    return true if requirement.to_s.empty? or requirement.to_s =~ /none/i
+    return true if requirement.to_s =~ /none/i
     requirement = JSS.to_s_and_a(requirement)[:arrayform]
+    return true if requirement.empty?
 
     os_to_check ||= `/usr/bin/sw_vers -productVersion`.chomp
 
