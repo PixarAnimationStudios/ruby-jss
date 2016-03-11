@@ -78,9 +78,9 @@ module JSS
     ### The name of the JSS database on the mysql server
     DEFAULT_DB_NAME = "jamfsoftware"
 
-    ### give the connection a 120 second timeout, for really slow
+    ### give the connection a 60 second timeout, for really slow
     ### net connections (like... from airplanes)
-    DFT_TIMEOUT = 120
+    DFT_TIMEOUT = 60
 
     ###
     DFT_SOCKET = '/var/mysql/mysql.sock'
