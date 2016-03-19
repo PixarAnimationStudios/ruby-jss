@@ -39,16 +39,24 @@
 ###   NOTE, this is the (fully-qualified) hostname, e.g.
 ###   'casper.myorg.org'. Don't use a URL.
 ###
+###   If you leave this blank:
+###   d3 will not work, nor any other code that expects a
+###   configured hostname
+###
 api_server_name:
 
 ### - api_server_port
 ###   The port for connecting to the JSS REST API
+###
+###   If you leave this blank:
 ###   Defaults to 8443
 ###
 api_server_port:
 
 ### - api_ssl_version
 ###   The SSL version to use for the API connection
+###
+###   If you leave this blank:
 ###   Defaults to 'TLSv1'
 ###
 api_ssl_version:
@@ -58,6 +66,8 @@ api_ssl_version:
 ###   If you are using a self-signed cert. for your JSS, and have not
 ###   deployed it as a trusted cert on all your clients, you should
 ###   set this to 'false', and be aware of the risks.
+###
+###   If you leave this blank:
 ###   Defaults to true
 ###
 api_verify_cert:
@@ -70,16 +80,24 @@ api_verify_cert:
 ###   Note that the passwords are not storeable here!!
 ###     see https://github.com/PixarAnimationStudios/ruby-jss/blob/master/README.md#passwords
 ###
+###   If you leave this blank:
+###   d3 may break, as well as any other code that
+###   expects a configured api user name
+###
 api_username:
 
 ### - api_timeout_open
 ###   The timeout (in seconds) for connecting to the API
+###
+###   If you leave this blank:
 ###   Defaults to 60
 ###
 api_timeout_open:
 
 ### - api_timeout
 ###   The response timeout (in seconds) for API requests
+###
+###   If you leave this blank:
 ###   Defaults to 60
 ###
 api_timeout:
@@ -97,16 +115,24 @@ api_timeout:
 ###   NOTE, this is the (fully-qualified) hostname, e.g.
 ###   'casper.myorg.org'. Don't provide a URL.
 ###
+###   If you leave this blank:
+###   d3 will break, and any other code that expects a
+###   configured database server name
+###
 db_server_name:
 
 ### - db_server_port
 ###   The port for MySQL connections
+###
+###   If you leave this blank:
 ###   Defaults defaults to 3306
 ###
 db_server_port:
 
 ### - db_server_socket
 ###   The MySQL socket path, if needed for local connections
+###
+###   If you leave this blank:
 ###   Defaults to '/var/mysql/mysql.sock'
 ###
 db_server_socket:
@@ -114,31 +140,42 @@ db_server_socket:
 ### - db_username
 ###   The username for MySQL connections
 ###
+###   If you leave this blank:
+###   d3 might break, as well as any other code that expiects
+###   a configured db user name
+###
 db_username:
 
 ### - db_name
 ###
-###   *** REQUIRED for d3 ***
 ###
 ###   The name of the MySQL database that holds JSS data
+###
+###   If you leave this blank:
 ###   Defaults to 'jamfsoftware'
 ###
 db_name:
 
 ### - db_connect_timeout
 ###   The timeout (in seconds) for connecting to the database
+###
+###   If you leave this blank:
 ###   Defaults to 60
 ###
 db_connect_timeout:
 
 ### - db_read_timeout
 ###   The timeout (in seconds) for reading results from the database
+###
+###   If you leave this blank:
 ###   Defaults to 60
 ###
 db_read_timeout:
 
 ### - db_write_timeout
 ###   The timeout (in seconds) for writing to the database
+###
+###   If you leave this blank:
 ###   Defaults to 60
 ###
 db_write_timeout:
