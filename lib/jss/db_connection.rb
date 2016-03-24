@@ -228,7 +228,7 @@ module JSS
     ### it'll have to be re-connected before using again
     ###
     def disconnect
-      @mysql.close if connected?
+      @mysql.close if @mysql.protocol
       @server = nil
       @port = nil
       @socket = nil
