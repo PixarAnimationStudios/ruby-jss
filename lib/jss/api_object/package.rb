@@ -572,7 +572,7 @@ module JSS
       mdp.unmount if unmount
     end # upload
 
-    ###
+
     ### Delete the filename from the master distribution point, if it exists.
     ###
     ### If you'll be uploading several files you can specify unmount as false, and do it manually when all
@@ -587,7 +587,7 @@ module JSS
     ###
     def delete_master_file (rw_pw, unmount = true)
       mdp = JSS::DistributionPoint.master_distribution_point
-      file = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+      file = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
         file.delete
         did_it = true
@@ -598,6 +598,21 @@ module JSS
       return did_it
     end # delete master file
 
+
+    ### Delete this package from the JSS, optionally
+    ### deleting the master dist point file also.
+    ###
+    ### @param delete_file[Boolean] should the master dist point file be deleted?
+    ###
+    ### @param rw_pw[String] the password for the read/write account on the master Distribution Point
+    ###   or :prompt, or :stdin# where # is the line of stdin containing the password. See {JSS::DistributionPoint#mount}
+    ###
+    ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
+    ###
+    def delete  (delete_file: false, rw_pw: nil, unmount: true)
+      super()
+      delete_master_file(rw_pw,  unmount) if delete_file
+    end
 
     ### Install this package via the jamf binary 'install' command from the
     ### distribution point for this machine.
