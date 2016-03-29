@@ -129,6 +129,7 @@ module JSS
   ###
   def self.os_ok? (requirement, os_to_check = nil)
     return true if requirement.to_s =~ /none/i
+    return true if requirement.to_s == 'n'
     requirement = JSS.to_s_and_a(requirement)[:arrayform]
     return true if requirement.empty?
 
