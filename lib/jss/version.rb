@@ -26,6 +26,6 @@
 module JSS
 
   ### The version of the JSS ruby gem
-  VERSION = "0.6.3"
+  VERSION = '0.6.4'
 
 end # module
