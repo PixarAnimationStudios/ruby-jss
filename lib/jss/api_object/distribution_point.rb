@@ -483,7 +483,7 @@ module JSS
     ###
     def unmount
       return nil unless mounted?
-      if system "umount '#{@mountpoint}'"
+      if system "/sbin/umount '#{@mountpoint}'"
         @mountpoint.rmdir if @mountpoint.directory? and (not @mountpoint.mountpoint?)
         @mounted = false
       else
