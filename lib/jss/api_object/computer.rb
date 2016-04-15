@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -319,7 +319,7 @@ module JSS
 
     ### @return [String] the barcodes
     attr_reader :barcode_1, :barcode_2
-    
+
 
     ### @return [String] The name of the distribution point for this computer
     attr_reader :distribution_point
@@ -359,7 +359,7 @@ module JSS
 
     ### @return [String] the serial number
     attr_reader :serial_number
-    
+
 
     ### @return [Hash] the :name and :id of the site for this machine
     attr_reader :site
@@ -593,16 +593,34 @@ module JSS
     def local_accounts
       @groups_accounts[:local_accounts]
     end
-    
 
+
+    ### @return [Boolean] is FileVault2 enabled?
     ###
+    def filevault2_enabled?
+      boot_drive[:partition][:filevault2_status] != "Not Encrypted"
+    end
+
+    ### @return [Array<Hash>] The local_accounts Array that have Legacy FV enabled
+    ###
+    def filevault1_accounts
+      return [] if filevault2_enabled?
+      local_accounts.select{ |a| a[:filevault_enabled] }
+    end
+
     ### @return [Array<Hash>]  each storage device
     ###
     def drives
       @hardware[:storage]
     end
 
+    ### @return [Hash, nil] The hardware[:storage] hash of the boot drive
     ###
+    def boot_drive
+      drives.each{ |d| return d if d[:partition][:type] == "boot" }
+      return nil
+    end
+
     ### @return [Array<Hash>]  each printer on this computer
     ###   Keys are :name, :uri, :type, :location
     ###
@@ -755,8 +773,8 @@ module JSS
       @purchasing = nil
       @software = nil
     end #delete
-    
-    
+
+
 # Not Functional until I get more docs from JAMF
 #
 #     ###
@@ -786,7 +804,7 @@ module JSS
 #     alias erase erase_device
 #     alias wipe erase_device
 
-    
+
     ### aliases
     alias alt_macaddress alt_mac_address
     alias bar_code_1 barcode_1
