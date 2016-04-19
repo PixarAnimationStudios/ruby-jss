@@ -118,10 +118,11 @@ module JSS
         when 0
           raise JSS::NoSuchItemError, "No distribution points defined"
         when 1
-          self.new :id => self.all_ids[0]
+          @@master_distribution_point = self.new :id => self.all_ids[0]
         else
-          self.new :id => :master
+          @@master_distribution_point = self.new :id => :master
         end
+        @@master_distribution_point
     end
 
     ### Get the DistributionPoint instance for the machine running
@@ -142,7 +143,8 @@ module JSS
       else
         nil
       end
-      return specific ? self.new(:name => specific) : self.master_distribution_point
+      @@my_distribution_point = specific ? self.new(:name => specific) : self.master_distribution_point
+      @@my_distribution_point
     end
 
     #####################################
@@ -413,7 +415,9 @@ module JSS
       end
     end
 
-
+    
+    
+    
     ###
     ### Mount this distribution point locally.
     ###
