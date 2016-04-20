@@ -489,7 +489,7 @@ module JSS
             args << opts[opt].to_s
 
           when :lock_hud
-            args << " -lockHUD "
+            args << "-lockHUD"
         end # case opt
       end # each do opt
 
