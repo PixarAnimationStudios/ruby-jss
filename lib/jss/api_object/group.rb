@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -120,7 +120,7 @@ module JSS
 
     ### @return [Boolean] does this group send notifications when it changes?
     attr_reader :notify_on_change
-    
+
 
     ### @return [String] the :name of the site for this group
     attr_reader :site
@@ -213,7 +213,7 @@ module JSS
     def size
       @members.count
     end
-    
+
 
     ###
     ### @return [Array<String>] the names of the group members
@@ -321,14 +321,14 @@ module JSS
       @need_to_update = true
     end
 
-    
+
     ### aliases
-    
+
     alias smart? is_smart
     alias notify_on_change? notify_on_change
     alias notify? notify_on_change
     alias count size
-    
+
     #####################################
     ### Public Instance Methods
     #####################################
@@ -343,8 +343,8 @@ module JSS
     ###
     def check_member(m)
       potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name)
-      if m.to_s =~ /\d+/ 
-        return {:id=>m.to_i, :name=> potential_members[m]} if potential_members.keys.include? m.to_i 
+      if m.to_s =~ /^\d+$/
+        return {:id=>m.to_i, :name=> potential_members[m]} if potential_members.keys.include? m.to_i
       else
         return {:name=>m, :id=> potential_members.invert[m]} if potential_members.values.include? m
       end
