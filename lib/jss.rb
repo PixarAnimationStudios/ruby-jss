@@ -168,6 +168,7 @@ module JSS
   class MobileDevice < JSS::APIObject ; end
   class NetBootServer < JSS::APIObject ; end
   class NetworkSegment < JSS::APIObject ; end
+  class OSXConfigurationProfile < JSS::APIObject ; end
   class Package < JSS::APIObject ; end
   class PeripheralType < JSS::APIObject ; end
   class Peripheral < JSS::APIObject ; end
