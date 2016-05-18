@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -235,11 +235,11 @@ module JSS
       self.all(refresh).each{|i| h[i[:id]] = i[other_key]}
       h
     end
-    
-    
+
+
     ### Return an Array of JSS::APIObject subclass instances
     ### e.g when called on JSS::Package, return all JSS::Package
-    ### objects in the JSS. 
+    ### objects in the JSS.
     ###
     ### NOTE: This may be slow as it has to look up each object individually!
     ### use it wisely.
@@ -251,11 +251,11 @@ module JSS
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
       @@all_items[objects_key] = nil if refresh
       return @@all_items[objects_key] if @@all_items[objects_key]
-      @@all_items[objects_key] = self.all(refresh = false).map{|o| self.new :id => o[:id]}      
+      @@all_items[objects_key] = self.all(refresh = false).map{|o| self.new :id => o[:id]}
     end
-    
-    
-    
+
+
+
     ###
     ### Convert an Array of Hashes of API object data to a
     ### REXML element.
@@ -488,13 +488,13 @@ module JSS
       # many things have  a :site
       if @main_subset[:site]
         @site = JSS::APIObject.get_name( @main_subset[:site])
-      end 
-      
+      end
+
       # many things have a :category
       if @main_subset[:category]
-        @category = JSS::APIObject.get_name( @main_subset[:category]) 
+        @category = JSS::APIObject.get_name( @main_subset[:category])
       end
-      
+
       # set empty strings to nil
       @init_data.jss_nillify! '', :recurse
 
@@ -565,11 +565,11 @@ module JSS
       return doc.to_s
     end
 
-    
+
     ### Aliases
-    
+
     alias in_jss? in_jss
-    
+
   end # class APIObject
 
 
@@ -604,6 +604,7 @@ require "jss/api_object/ldap_server"
 require "jss/api_object/mobile_device"
 require "jss/api_object/netboot_server"
 require "jss/api_object/network_segment"
+require "jss/api_object/osx_configuration_profile"
 require "jss/api_object/package"
 require "jss/api_object/peripheral_type"
 require "jss/api_object/peripheral"
@@ -613,4 +614,3 @@ require "jss/api_object/script"
 require "jss/api_object/site"
 require "jss/api_object/software_update_server"
 require "jss/api_object/user"
-
