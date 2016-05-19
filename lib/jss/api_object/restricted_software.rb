@@ -26,7 +26,7 @@ module JSS
     RSRC_BASE = "restrictedsoftware"
 
     ### the hash key used for the JSON list output of all objects in the JSS
-    RSRC_LIST_KEY = :restricted_softwares
+    RSRC_LIST_KEY = :restricted_software
 
     ### The hash key used for the JSON object output.
     ### It's also used in various error messages
