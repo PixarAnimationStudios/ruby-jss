@@ -171,7 +171,6 @@ module JSS
 
       @self_service_feature_on_main_page = ss_data[:feature_on_main_page]
 
-      # TEMPORARY - until JAMF fixes the category data in JSON
       @self_service_categories = ss_data[:self_service_categories]
 
       # make this an empty hash if needed
