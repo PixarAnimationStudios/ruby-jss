@@ -59,20 +59,9 @@ module JSS
     ### Class Variables
     #####################################
 
-    @@all_osx_configuration_profiles = nil
-
     #####################################
     ### Class Methods
     #####################################
-    def self.all(refresh = false)
-      @@all_osx_configuration_profiles = nil if refresh
-      return @@all_osx_configuration_profiles if @@all_osx_configuration_profiles
-      @@all_osx_configuration_profiles = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
-    end
-
-    def self.xml_list(array, content = :name)
-      JSS.item_list_to_rexml_list self::RSRC_LIST_KEY, self::RSRC_OBJECT_KEY, array, content
-    end
 
     #####################################
     ### Class Constants
