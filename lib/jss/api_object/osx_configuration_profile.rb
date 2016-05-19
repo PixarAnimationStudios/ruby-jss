@@ -56,6 +56,12 @@ module JSS
     # include JSS::SelfServable
 
     #####################################
+    ### Class Variables
+    #####################################
+
+    @@all_osx_configuration_profiles = nil
+
+    #####################################
     ### Class Methods
     #####################################
     def self.all(refresh = false)
