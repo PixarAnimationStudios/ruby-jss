@@ -161,9 +161,7 @@ module JSS
       @payloads = @main_subset[:payloads]
 
       self.parse_scope
-      # self.parse_self_service <- this wasn't working because we didn't include
-      # the self-service gem
-
+      self.parse_self_service
     end
 
     #####################################

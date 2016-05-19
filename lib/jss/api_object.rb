@@ -584,6 +584,7 @@ require "jss/api_object/matchable"
 require "jss/api_object/purchasable"
 require "jss/api_object/updatable"
 require "jss/api_object/extendable"
+require "jss/api_object/self_servable"
 
 ### Mix-in Sub Modules with Classes
 require "jss/api_object/criteriable"
