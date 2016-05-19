@@ -53,7 +53,7 @@ module JSS
     #####################################
     include JSS::Updatable
     include JSS::Scopable
-    # include JSS::SelfServable
+    # include JSS::SelfServable <- This was creating an error with loading.
 
     #####################################
     ### Class Variables
@@ -65,10 +65,9 @@ module JSS
     ### Class Methods
     #####################################
     def self.all(refresh = false)
-      raise JSS::UnsupportedError, ".all can only be called on subclasses of JSS::APIObject" if self == JSS::APIObject
-      @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] = nil if refresh
-      return @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] if @@all_osx_configuration_profiles
-      @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
+      @@all_osx_configuration_profiles = nil if refresh
+      return @@all_osx_configuration_profiles if @@all_osx_configuration_profiles
+      @@all_osx_configuration_profiles = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
     def self.all_objects(refresh = false)
