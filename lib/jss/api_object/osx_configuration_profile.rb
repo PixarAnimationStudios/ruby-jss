@@ -53,7 +53,7 @@ module JSS
     #####################################
     include JSS::Updatable
     include JSS::Scopable
-    include JSS::SelfServable
+    # include JSS::SelfServable
 
     #####################################
     ### Class Methods
