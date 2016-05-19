@@ -70,13 +70,6 @@ module JSS
       @@all_osx_configuration_profiles = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
-    def self.all_objects(refresh = false)
-      objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
-      @@all_osx_configuration_profiles[objects_key] = nil if refresh
-      return @@all_osx_configuration_profiles[objects_key] if @@all_osx_configuration_profiles[objects_key]
-      @@all_osx_configuration_profiles[objects_key] = self.all(refresh = false).map{|o| self.new :id => o[:id]}
-    end
-
     def self.xml_list(array, content = :name)
       JSS.item_list_to_rexml_list self::RSRC_LIST_KEY, self::RSRC_OBJECT_KEY, array, content
     end
