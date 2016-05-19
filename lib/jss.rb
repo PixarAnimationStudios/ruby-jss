@@ -174,6 +174,7 @@ module JSS
   class Peripheral < JSS::APIObject ; end
   class Policy < JSS::APIObject ; end
   class RemovableMacAddress < JSS::APIObject ; end
+  class RestrictedSoftware < JSS::APIObject ; end
   class Script < JSS::APIObject ; end
   class Site < JSS::APIObject ; end
   class SoftwareUpdateServer < JSS::APIObject ; end
