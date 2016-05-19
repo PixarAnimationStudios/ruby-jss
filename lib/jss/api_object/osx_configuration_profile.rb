@@ -53,7 +53,7 @@ module JSS
     #####################################
     include JSS::Updatable
     include JSS::Scopable
-    # include JSS::SelfServable <- This was creating an error with loading.
+    include JSS::SelfServable
 
     #####################################
     ### Class Variables
