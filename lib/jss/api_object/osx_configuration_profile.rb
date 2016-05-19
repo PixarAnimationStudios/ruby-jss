@@ -67,7 +67,7 @@ module JSS
     def self.all(refresh = false)
       raise JSS::UnsupportedError, ".all can only be called on subclasses of JSS::APIObject" if self == JSS::APIObject
       @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] = nil if refresh
-      return @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] if @@all_osx_configuration_profiles[self::RSRC_LIST_KEY]
+      return @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] if @@all_osx_configuration_profiles
       @@all_osx_configuration_profiles[self::RSRC_LIST_KEY] = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
