@@ -596,6 +596,7 @@ require "jss/api_object/extension_attribute"
 require "jss/api_object/group"
 
 ### APIObject SubClasses without SubClasses
+require "jss/api_object/account"
 require "jss/api_object/building"
 require "jss/api_object/category"
 require "jss/api_object/computer"
