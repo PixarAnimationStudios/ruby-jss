@@ -25,89 +25,89 @@
 ###
 module JSS
 
+  #####################################
+  ### Module Constants
+  #####################################
+
+  #####################################
+  ### Module Variables
+  #####################################
+
+  #####################################
+  ### Module Methods
+  #####################################
+
+  ###
+  ### This class represents a Computer Invitation in the JSS.
+  ###
+  ### ===Adding Computer Invitations to the JSS
+  ###
+  ### This class is meant only to generate and hold the response of creating
+  ### an invitation.
+  ###
+  ### @see APIObject
+  ### @see Creatable
+  ###
+
+  class ComputerInvitation < JSS::APIObject
+
     #####################################
-    ### Module Constants
+    ### MixIns
+    #####################################
+
+    include JSS::Creatable
+
+    #####################################
+    ### Class Variables
     #####################################
 
     #####################################
-    ### Module Variables
+    ### Class Methods
     #####################################
 
     #####################################
-    ### Module Methods
+    ### Class Constants
+    #####################################
+
+    ### The base for REST resources of this class
+    RSRC_BASE = "computerinvitations"
+
+    ### the hash key used for the JSON list output of all objects in the JSS
+    RSRC_LIST_KEY = :computer_invitations
+
+    ### The hash key used for the JSON object output.
+    ### It's also used in various error messages
+    RSRC_OBJECT_KEY = :computer_invitation
+
+    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    VALID_DATA_KEYS = [:invitation]
+
+    #####################################
+    ### Public Instance Methods
     #####################################
 
     ###
-    ### This class represents a Computer Invitation in the JSS.
+    ### @see APIObject#initialize
     ###
-    ### ===Adding Computer Invitations to the JSS
-    ###
-    ### This class is meant only to generate and hold the response of creating
-    ### an invitation.
-    ###
-    ### @see APIObject
-    ### @see Creatable
-    ###
+    def initialize(args = {})
 
-    class ComputerInvitation < JSS::APIObject
+      super
 
-      #####################################
-      ### MixIns
-      #####################################
-
-      include JSS::Creatable
-
-      #####################################
-      ### Class Variables
-      #####################################
-
-      #####################################
-      ### Class Methods
-      #####################################
-
-      #####################################
-      ### Class Constants
-      #####################################
-
-      ### The base for REST resources of this class
-      RSRC_BASE = "computerinvitations"
-
-      ### the hash key used for the JSON list output of all objects in the JSS
-      RSRC_LIST_KEY = :computer_invitations
-
-      ### The hash key used for the JSON object output.
-      ### It's also used in various error messages
-      RSRC_OBJECT_KEY = :computer_invitation
-
-      ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-      VALID_DATA_KEYS = [:invitation]
-
-      #####################################
-      ### Public Instance Methods
-      #####################################
-
-      ###
-      ### @see APIObject#initialize
-      ###
-      def initialize(args = {})
-
-        super
-
-        ### We need to generate the name uniquely for each instance, so we're
-        ### doing a create straight off the bat.
-        @name = create
-      end
-
-      #####################################
-      ### Private Instance Methods
-      #####################################
-      private
-
-      def rest_xml
-        doc = REXML::Document.new APIConnection::XML_HEADER
-        obj = doc.add_element RSRC_OBJECT_KEY.to_s
-
-        return doc.to_s
-      end
+      ### We need to generate the name uniquely for each instance, so we're
+      ### doing a create straight off the bat.
+      @name = create
     end
+
+    #####################################
+    ### Private Instance Methods
+    #####################################
+    private
+
+    def rest_xml
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+
+      return doc.to_s
+    end
+  end
 end
