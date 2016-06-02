@@ -81,5 +81,33 @@ module JSS
 
       ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
       VALID_DATA_KEYS = [:invitation]
+
+      #####################################
+      ### Public Instance Methods
+      #####################################
+
+      ###
+      ### @see APIObject#initialize
+      ###
+      def initialize(args = {})
+
+        super
+
+        ### We need to generate the name uniquely for each instance, so we're
+        ### doing a create straight off the bat.
+        @name = create
+      end
+
+      #####################################
+      ### Private Instance Methods
+      #####################################
+      private
+
+      def rest_xml
+        doc = REXML::Document.new APIConnection::XML_HEADER
+        obj = doc.add_element RSRC_OBJECT_KEY.to_s
+
+        return doc.to_s
+      end
     end
 end
