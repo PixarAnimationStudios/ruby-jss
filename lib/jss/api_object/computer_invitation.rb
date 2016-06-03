@@ -117,7 +117,7 @@ module JSS
     ###
     ### @see APIObject#initialize
     ###
-    def initialize(args = {id: :new, name: "some_new_name")
+    def initialize(args = {id: :new, name: "some_new_name"})
 
       super args, []
 
