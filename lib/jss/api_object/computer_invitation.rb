@@ -93,6 +93,23 @@ module JSS
     ### @return [String] the invitation name
     attr_reader :name
 
+    ### @return [String] the invitation type
+    ###
+    ### Valid values are: URL and EMAIL. Will default to DEFAULT.
+    attr_accessor :invitation_type
+
+    ### @return [String] whether or not to create the account if required
+    ###
+    ### "true" or "false" are valid values.
+    attr_accessor :create_account_if_does_not_exist
+
+    ### @return [String]
+    ###
+    ### Time since epoch that the invitation will expire at.
+    ###
+    ### Note: defaults to "Unlimited", so only set if it should expire.
+    attr_accessor :expiration_date_epoch
+
     #####################################
     ### Public Instance Methods
     #####################################
@@ -100,19 +117,14 @@ module JSS
     ###
     ### @see APIObject#initialize
     ###
-    def initialize(args = {id: :new,
-                           name: "some_new_name",
-                           invitation_type: "URL",
-                           create_account_if_does_not_exist: "true")
+    def initialize(args = {id: :new, name: "some_new_name")
 
       super args, []
 
-      ### We need to generate the name uniquely for each instance, so we're
-      ### doing a create straight off the bat.
       @name = @init_data[:invitation]
-      @invitation_type = @init_data[:invitation_type] || args[:invitation_type]
-      @create_account_if_does_not_exist = @init_data[:create_account_if_does_not_exist] || args[:create_account_if_does_not_exist]
-      @expiration_date_epoch = @init_data[:expiration_date_epoch] || args[:expiration_date_epoch]
+      @invitation_type = @init_data[:invitation_type]
+      @create_account_if_does_not_exist = @init_data[:create_account_if_does_not_exist]
+      @expiration_date_epoch = @init_data[:expiration_date_epoch]
     end
 
     #####################################
@@ -142,10 +154,10 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
-      obj.add_element('invitation_type').text = @invitation_type
-      obj.add_element('create_account_if_does_not_exist').text = @create_account_if_does_not_exist
-      if @expiration_date_epoch
-        obj.add_element('expiration_date_epoch').text = @expiration_date_epoch
+      obj.add_element('invitation_type').text = invitation_type
+      obj.add_element('create_account_if_does_not_exist').text = create_account_if_does_not_exist
+      if expiration_date_epoch
+        obj.add_element('expiration_date_epoch').text = expiration_date_epoch
       end
 
       return doc.to_s
