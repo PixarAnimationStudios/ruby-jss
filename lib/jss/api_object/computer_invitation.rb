@@ -100,13 +100,29 @@ module JSS
     ###
     ### @see APIObject#initialize
     ###
-    def initialize(args = {})
+    def initialize(args = {id: :new, name: "some_new_name"})
 
       super args, []
 
       ### We need to generate the name uniquely for each instance, so we're
       ### doing a create straight off the bat.
       @name = @init_data[:invitation]
+    end
+
+    #####################################
+    ### Public Class Methods
+    #####################################
+
+    ###
+    ### Needed to support creation of new Computer Invitations to set their name.
+    ###
+    ### @return [JSS::ComputerInvitation]
+    ###
+    def create
+      new_invitation_id = super
+
+      jss_me = ComputerInvitation.new(id: new_invitation_id, name: 'set_by_request')
+      @name = jss_me.name
     end
 
     #####################################
@@ -117,7 +133,7 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
-      obj.add_element('invitation_type').text = 'EMAIL'
+      obj.add_element('invitation_type').text = 'URL'
       obj.add_element('create_account_if_does_not_exist').text = 'true'
 
       return doc.to_s
