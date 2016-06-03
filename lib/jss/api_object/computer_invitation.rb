@@ -106,6 +106,9 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
+      obj.add_element('invitation_type').text = 'EMAIL'
+      obj.add_element('create_account_if_does_not_exist').text = 'true'
+      obj.add_element('invitation_status').text = 'Email Sent'
 
       return doc.to_s
     end
