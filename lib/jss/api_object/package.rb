@@ -703,10 +703,10 @@ module JSS
         end
 
         # look at the pkgs folder
-        src_path += "#{DIST_POINT_PKGS_FOLDER}"
+        src_path += "#{DIST_POINT_PKGS_FOLDER}/"
       end # if args[:alt_download_url]
 
-      src_path += "/#{@filename}" unless no_filename_in_url
+      src_path += "#{@filename}" unless no_filename_in_url
 
 
       ### are we doing "fill existing users" or "fill user template"?
