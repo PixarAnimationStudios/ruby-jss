@@ -91,7 +91,7 @@ module JSS
     ###
     def initialize(args = {})
 
-      super
+      super args, []
 
       ### We need to generate the name uniquely for each instance, so we're
       ### doing a create straight off the bat.
