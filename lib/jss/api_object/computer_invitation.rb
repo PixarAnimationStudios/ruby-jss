@@ -130,11 +130,15 @@ module JSS
     #####################################
     private
 
+    ###
+    ### Sets invitation expiration 4 hours after request.
+    ###
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
       obj.add_element('invitation_type').text = 'URL'
       obj.add_element('create_account_if_does_not_exist').text = 'true'
+      obj.add_element('expiration_date_epoch').text = DateTime.now.advance(hours: 4).strftime('%Q')
 
       return doc.to_s
     end
