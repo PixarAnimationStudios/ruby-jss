@@ -95,7 +95,7 @@ module JSS
 
       ### We need to generate the name uniquely for each instance, so we're
       ### doing a create straight off the bat.
-      @name = create(id: :new)
+      @name = create
     end
 
     #####################################
