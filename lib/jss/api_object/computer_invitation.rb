@@ -83,6 +83,17 @@ module JSS
     VALID_DATA_KEYS = [:invitation]
 
     #####################################
+    ### Attributes
+    #####################################
+
+    ### The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
+    ### Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
+    ### Here's General, in alphabetical order
+
+    ### @return [String] the invitation name
+    attr_reader :name
+
+    #####################################
     ### Public Instance Methods
     #####################################
 
@@ -95,7 +106,7 @@ module JSS
 
       ### We need to generate the name uniquely for each instance, so we're
       ### doing a create straight off the bat.
-      @name = create
+      @name = @init_data[:invitation]
     end
 
     #####################################
@@ -108,7 +119,6 @@ module JSS
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
       obj.add_element('invitation_type').text = 'EMAIL'
       obj.add_element('create_account_if_does_not_exist').text = 'true'
-      obj.add_element('invitation_status').text = 'Email Sent'
 
       return doc.to_s
     end
