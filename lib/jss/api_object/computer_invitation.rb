@@ -104,7 +104,7 @@ module JSS
                            name: "some_new_name",
                            invitation_type: "URL",
                            create_account_if_does_not_exist: "true",
-                           expiration_date_epoch: "Unlimited"})
+                           expiration_date_epoch: "1465036088731"})
 
       super args, []
 
@@ -145,7 +145,7 @@ module JSS
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
       obj.add_element('invitation_type').text = @invitation_type
       obj.add_element('create_account_if_does_not_exist').text = @create_account_if_does_not_exist
-      #obj.add_element('expiration_date_epoch').text = @expiration_date_epoch
+      obj.add_element('expiration_date_epoch').text = @expiration_date_epoch
 
       return doc.to_s
     end
