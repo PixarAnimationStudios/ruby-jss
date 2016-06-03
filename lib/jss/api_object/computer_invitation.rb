@@ -100,13 +100,20 @@ module JSS
     ###
     ### @see APIObject#initialize
     ###
-    def initialize(args = {id: :new, name: "some_new_name"})
+    def initialize(args = {id: :new,
+                           name: "some_new_name",
+                           invitation_type: "URL",
+                           create_account_if_does_not_exist: "true",
+                           expiration_date_epoch: "Unlimited"})
 
       super args, []
 
       ### We need to generate the name uniquely for each instance, so we're
       ### doing a create straight off the bat.
       @name = @init_data[:invitation]
+      @invitation_type = @init_data[:invitation_type] || args[:invitation_type]
+      @create_account_if_does_not_exist = @init_data[:create_account_if_does_not_exist] || args[:create_account_if_does_not_exist]
+      @expiration_date_epoch = @init_data[:expiration_date_epoch] || args[:expiration_date_epoch]
     end
 
     #####################################
@@ -136,9 +143,9 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
-      obj.add_element('invitation_type').text = 'URL'
-      obj.add_element('create_account_if_does_not_exist').text = 'true'
-      obj.add_element('expiration_date_epoch').text = DateTime.now.advance(hours: 4).strftime('%Q')
+      obj.add_element('invitation_type').text = @invitation_type
+      obj.add_element('create_account_if_does_not_exist').text = @create_account_if_does_not_exist
+      obj.add_element('expiration_date_epoch').text = @expiration_date_epoch
 
       return doc.to_s
     end
