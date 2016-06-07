@@ -110,6 +110,13 @@ module JSS
     ### Note: defaults to "Unlimited", so only set if it should expire.
     attr_accessor :expiration_date_epoch
 
+    ### @return [String]
+    ###
+    ### The username of the ssh user to be created.
+    ###
+    ### REQUIRED for valid setup.
+    attr_accessor :ssh_username
+
     #####################################
     ### Public Instance Methods
     #####################################
@@ -117,14 +124,20 @@ module JSS
     ###
     ### @see APIObject#initialize
     ###
-    def initialize(args = {id: :new, name: "some_new_name"})
+    def initialize(args = {
+      id: :new,
+      name: "some_new_name",
+      ssh_username: "casper_remote",
+      hide_account: "true" } )
 
       super args, []
 
       @name = @init_data[:invitation]
       @invitation_type = @init_data[:invitation_type]
       @create_account_if_does_not_exist = @init_data[:create_account_if_does_not_exist]
-      @expiration_date_epoch = @init_data[:expiration_date_epoch]
+      @expiration_date_epoch = @init_data[:expiration_date_epoch] || args[:expiration_date_epoch]
+      @ssh_username = @init_data[:ssh_username] || args[:ssh_username]
+      @hide_account = @init_data[:hide_account] || args[:hide_account]
     end
 
     #####################################
@@ -144,6 +157,8 @@ module JSS
       @invitation_type = jss_me.invitation_type
       @create_account_if_does_not_exist = jss_me.create_account_if_does_not_exist
       @expiration_date_epoch = jss_me.expiration_date_epoch
+      @ssh_username = jss_me.ssh_username
+      @hide_account = jss_me.hide_account
     end
 
     #####################################
@@ -162,7 +177,8 @@ module JSS
       if expiration_date_epoch
         obj.add_element('expiration_date_epoch').text = expiration_date_epoch
       end
-
+      obj.add_element('ssh_username').text = ssh_username
+      obj.add_element('hide_account').text = hide_account
       return doc.to_s
     end
   end
