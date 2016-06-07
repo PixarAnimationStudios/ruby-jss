@@ -117,6 +117,11 @@ module JSS
     ### REQUIRED for valid setup.
     attr_accessor :ssh_username
 
+    ### @return [String]
+    ###
+    ### The whether or not to hide the ssh user.
+    attr_accessor :hide_account
+
     #####################################
     ### Public Instance Methods
     #####################################
