@@ -122,6 +122,11 @@ module JSS
     ### The whether or not to hide the ssh user.
     attr_accessor :hide_account
 
+    ### @return [String]
+    ###
+    ### The ssh password hash. A required field.
+    attr_accessor :ssh_password_sha256
+
     #####################################
     ### Public Instance Methods
     #####################################
@@ -143,6 +148,7 @@ module JSS
       @expiration_date_epoch = @init_data[:expiration_date_epoch] || args[:expiration_date_epoch]
       @ssh_username = @init_data[:ssh_username] || args[:ssh_username]
       @hide_account = @init_data[:hide_account] || args[:hide_account]
+      @ssh_password_sha256 = @init_data[:ssh_password_sha256] || args[:ssh_password_sha256]
     end
 
     #####################################
@@ -164,6 +170,7 @@ module JSS
       @expiration_date_epoch = jss_me.expiration_date_epoch
       @ssh_username = jss_me.ssh_username
       @hide_account = jss_me.hide_account
+      @ssh_password_sha256 = jss_me.ssh_password_sha256
     end
 
     #####################################
@@ -184,6 +191,7 @@ module JSS
       end
       obj.add_element('ssh_username').text = ssh_username
       obj.add_element('hide_account').text = hide_account
+      obj.add_element('ssh_password_sha256').text = ssh_password_sha256
       return doc.to_s
     end
   end
