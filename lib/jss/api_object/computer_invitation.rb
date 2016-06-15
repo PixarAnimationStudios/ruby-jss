@@ -124,8 +124,13 @@ module JSS
 
     ### @return [String]
     ###
-    ### The invitation_status, a required field.
+    ### The invitation_status.
     attr_accessor :invitation_status
+
+    ### @return [String]
+    ###
+    ### Whether the invitation can be used multiple times (boolean).
+    attr_accessor :multiple_uses_allowed
 
     #####################################
     ### Public Instance Methods
@@ -149,6 +154,7 @@ module JSS
       @ssh_username = @init_data[:ssh_username] || args[:ssh_username]
       @hide_account = @init_data[:hide_account] || args[:hide_account]
       @invitation_status = @init_data[:invitation_status] || args[:invitation_status]
+      @multiple_uses_allowed = @init_data[:multiple_uses_allowed] || args[:multiple_uses_allowed]
     end
 
     #####################################
@@ -171,6 +177,7 @@ module JSS
       @ssh_username = jss_me.ssh_username
       @hide_account = jss_me.hide_account
       @invitation_status = jss_me.invitation_status
+      @multiple_uses_allowed = jss_me.multiple_uses_allowed
     end
 
     #####################################
@@ -192,6 +199,7 @@ module JSS
       obj.add_element('ssh_username').text = ssh_username
       obj.add_element('hide_account').text = hide_account
       obj.add_element('invitation_status').text = invitation_status
+      obj.add_element('multiple_uses_allowed').text = multiple_uses_allowed
       return doc.to_s
     end
   end
