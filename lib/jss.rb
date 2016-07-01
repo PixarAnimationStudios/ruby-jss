@@ -159,6 +159,7 @@ module JSS
 
   ### APIObject Classes without SubClasses
 
+  class Account < JSS::APIObject ; end
   class Building < JSS::APIObject ; end
   class Category < JSS::APIObject ; end
   class Computer < JSS::APIObject ; end

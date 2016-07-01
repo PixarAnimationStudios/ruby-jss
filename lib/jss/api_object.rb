@@ -596,9 +596,11 @@ require "jss/api_object/extension_attribute"
 require "jss/api_object/group"
 
 ### APIObject SubClasses without SubClasses
+require "jss/api_object/account"
 require "jss/api_object/building"
 require "jss/api_object/category"
 require "jss/api_object/computer"
+require "jss/api_object/computer_invitation"
 require "jss/api_object/department"
 require "jss/api_object/distribution_point"
 require "jss/api_object/ldap_server"
