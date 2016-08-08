@@ -270,7 +270,7 @@ module JSS
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      $stderr.puts "WARNING: you must manualy change the filename on the Distribution Point(s)" if @in_jss
+      $stderr.puts "WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename." if @in_jss
       @filename = new_val
       @need_to_update = true
     end
@@ -571,6 +571,39 @@ module JSS
 
       mdp.unmount if unmount
     end # upload
+
+
+    ### Change the name of a package file on the master distribution point.
+    ###
+    ### @param new_file_name[String]
+    ###
+    ### @param old_file_name[default: @filename, String]
+    ###
+    ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
+    ###
+    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point,
+    ###   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
+    ###
+    ### @return [nil]
+    ###
+    def update_master_filename(old_file_name, new_file_name, rw_pw , unmount = true )
+      raise JSS::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
+      mdp = JSS::DistributionPoint.master_distribution_point
+      pkgs_dir =  mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}"
+      old_file = pkgs_dir + old_file_name
+      new_file = pkgs_dir + new_file_name
+      if new_file.extname.empty? 
+      ### use the extension of the original file.
+        new_file = pkgs_dir + (new_file_name + old_file.extname)
+      end
+      if old_file.exist?
+        old_file.rename new_file
+      else
+        raise JSS::NoSuchItemError, "Original file not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}."
+      end # if exist
+      mdp.unmount if unmount
+      return nil
+    end # update_master_filename
 
 
     ### Delete the filename from the master distribution point, if it exists.
