@@ -86,10 +86,8 @@ module JSS
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
 
-    # TO DO - this is redundant with DEFAULT_PROCESSOR, but both are in use
-    # clean them up!
     ### which is default?  there must be one to make a new pkg
-    DEFAULT_CPU_TYPE = "None"
+    DEFAULT_PROCESSOR = "None"
 
     ### the possible priorities
     PRIORITIES = (1..20)
@@ -190,7 +188,7 @@ module JSS
 
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
-      @required_processor = @init_data[:required_processor] || DEFAULT_CPU_TYPE
+      @required_processor = @init_data[:required_processor] || DEFAULT_PROCESSOR
       @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
