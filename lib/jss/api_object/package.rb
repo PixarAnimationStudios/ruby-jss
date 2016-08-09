@@ -86,9 +86,6 @@ module JSS
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
 
-    ### which is default?  there must be one to make a new pkg
-    DEFAULT_PROCESSOR = "None"
-
     ### the possible priorities
     PRIORITIES = (1..20)
 
