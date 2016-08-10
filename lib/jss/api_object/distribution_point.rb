@@ -366,8 +366,8 @@ module JSS
           # we don't check the pw here, because if the connection fails, we'll
           # drop down below to try the password for mounting.
           # we'll escape all the chars that aren't unreserved
-          reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
-          user_pass = "#{URI.escape @http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@"
+          #reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
+          user_pass = "#{CGI.escape @http_username}:#{CGI.escape ro_pw}@"
           url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
         else
           url = @http_url
@@ -415,9 +415,9 @@ module JSS
       end
     end
 
-    
-    
-    
+
+
+
     ###
     ### Mount this distribution point locally.
     ###
@@ -455,7 +455,7 @@ module JSS
 
       username = access == :ro ? @read_only_username : @read_write_username
 
-      safe_pw = URI.escape password, /[^a-zA-Z\d]/
+      safe_pw = CGI.escape password
 
       @mount_url = "#{@connection_type.downcase}://#{username}:#{safe_pw}@#{@ip_address}/#{@share_name}"
       @mnt_cmd = case @connection_type.downcase

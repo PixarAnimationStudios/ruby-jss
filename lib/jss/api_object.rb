@@ -439,7 +439,7 @@ module JSS
         @name = args[:name]
         @init_data = {:name => args[:name]}
         @in_jss = false
-        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
+        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
         @need_to_update = true
         return
 
@@ -540,7 +540,7 @@ module JSS
     def delete
       return nil unless @in_jss
       JSS::API.delete_rsrc @rest_rsrc
-      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
       @id = nil
       @in_jss = false
       @need_to_update = false

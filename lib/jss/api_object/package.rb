@@ -692,8 +692,8 @@ module JSS
             raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
             raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
             # insert the name and pw into the uri
-            reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
+            # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{CGI.escape mdp.http_username}:#{CGI.escape ro_pw}@#{$2}")
           end
 
         # or with filesharing?
@@ -706,8 +706,9 @@ module JSS
         src_path += "#{DIST_POINT_PKGS_FOLDER}/"
       end # if args[:alt_download_url]
 
-      src_path += "#{@filename}" unless no_filename_in_url
-
+      if using_http
+        src_path += "#{@filename}" unless no_filename_in_url
+      end
 
       ### are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? "-feu" : ""

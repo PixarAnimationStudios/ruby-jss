@@ -193,7 +193,7 @@ module JSS
       @name = new_val
 
       ### if our REST resource is based on the name, update that too
-      @rest_rsrc = "#{RSRC_BASE}/name/#{URI.escape @name}" if @rest_rsrc.include? '/name/'
+      @rest_rsrc = "#{RSRC_BASE}/name/#{CGI.escape @name}" if @rest_rsrc.include? '/name/'
       @need_to_update = true
     end #name=
 
