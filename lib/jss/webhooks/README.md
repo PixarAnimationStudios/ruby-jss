@@ -148,7 +148,7 @@ require 'jss/webhooks'
 posted_json = JSSWebHooks.sample_jsons[:ComputerAdded]
 
 # Create JSSWebHooks::Event::<subclass> instance for the event
-event = JSSWebHooks.parse_event posted_json
+event = JSSWebHooks::Event.parse_event posted_json
 
 # Call the events #handle method, which will execute any ComputerAdded
 # handlers that were in the Handler directory when the framework was loaded.
