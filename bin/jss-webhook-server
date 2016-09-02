@@ -1,0 +1,3 @@
+#!/usr/bin/ruby
+require 'jss/webhooks/server_app'
+JSSWebHooks::Server.run!
