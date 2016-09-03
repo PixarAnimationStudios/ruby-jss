@@ -23,6 +23,10 @@ JSSWebHooks is a sub-module of ruby-jss which implements both a framework for
 working with JSS Webhook events, and a simple http server, based on Sinatra and
 Webrick, for handling those events.
 
+You do not need to be a Ruby programmer to make use of this framework! "Event Handlers"
+can be written in any language and used by the web server included with the module.
+See _Event Handlers_ and _The Server_  below for more info.
+
 JSSWebHooks is still in early development. While the basics seem to work,
 there's much to do before it can be released in the ruby-jss gem.
 
@@ -31,12 +35,13 @@ For details about the JSS Webhooks API, and the JSON data it passes, please see
 documentation.](https://unofficial-jss-api-docs.atlassian.net/wiki/display/JRA/Webhooks+API)
 
 **Note:** when creating WebHooks in your JSS to be handled by the framework, you must
-specify JSON in the 'Content Type' section. XML will cause errors.
+specify JSON in the 'Content Type' section. This framework doesn't support XML
+formated WebHook data.
 
 ## The Framework
 
 The JSSWebHooks framework abstracts WebHook events and their parts as Ruby
-classes. When the JSON payload of a webhook POST request is passed into the
+classes. When the JSON payload of a JSS WebHook POST request is passed into the
 `JSSWebHooks::Event.parse_event` method, an instance of the appropriate subclass
 of `JSSWebHooks::Event` is returned, for example
 `JSSWebHooks::ComputerInventoryCompletedEvent`
@@ -60,29 +65,29 @@ Each event instance contains these important attributes:
   framework makes no attempt to use the event object to create a `JSS::Computer`
   instance but the handlers written for the event could easily do so if needed.
 
-  Note: Not all WebHook event objects have matching REST API objects.
-
 * **event_json:** The JSON content from the POST request, parsed into
   a Ruby hash with symbolized keys (meaning the JSON key "deviceName" becomes
   the symbol :deviceName)
 
 * **raw_json:** A String containing the raw JSON from the POST
-  request. * **handlers:** An Array of custom plugins for working with the
-  event. See Event Handlers, below.
+  request.
+
+* **handlers:** An Array of custom plugins for working with the
+  event. See _Event Handlers_, below.
 
 
 ### Event Handlers
 
 A handler is a file containing code to run when a webhook event occurs. These
-file are located in a specified directory, /Library/Application
-Support/JSSWebHooks by default, and are loaded at runtime. It's up to the Casper
+files are located in a specified directory, /Library/Application
+Support/JSSWebHooks/ by default, and are loaded at runtime. It's up to the Casper
 administrator to create these handlers to perform desired tasks. Each class of
-event can have as many handlers as desired, all will executed when the event's
+event can have as many handlers as desired, all will be executed when the event's
 `handle` method is called.
 
 Handler files must begin with the name of the event they handle, e.g.
-ComputerAdded, followed by: nothing, a dot, a dash, or an underscore. Case
-doesn't matter.
+ComputerAdded, followed by: nothing, a dot, a dash, or an underscore. Hander
+filenames are case-insensitive.
 
 All of these filenames work as handlers for ComputerAdded events:
 
@@ -101,8 +106,8 @@ called by an event.
 
 Internal handlers must be defined as a [ruby code block](http://rubylearning.com/satishtalim/ruby_blocks.html) passed to the
 `JSSWebHooks.event_handler` method. The block must take one parameter, the
-JSSWebHooks::Event subclass instance being handled. Here's a simple example for
-handling a JSSWebHooks::ComputerAddedEvent:
+JSSWebHooks::Event subclass instance being handled. Here's a simple example of
+a handler for a JSSWebHooks::ComputerAddedEvent
 
 ```ruby
 JSSWebHooks.event_handler do |event|
@@ -111,6 +116,14 @@ JSSWebHooks.event_handler do |event|
   puts "Computer '#{cname}' was just added to the JSS for user #{uname}."
 end
 ```
+
+In this example, the codeblock takes one parameter, which it expects to be
+a JSSWebHooks::ComputerAddedEvent instance, and uses it in the variable "event".
+It then extracts the "deviceName" and "realName" values from the event_object
+contained in the event, and uses them to send a message to stdout.
+
+Internal handlers **must not** be executable files. Executability is how the
+framework determines if a handler is internal or external.
 
 #### External Handlers
 
@@ -125,13 +138,17 @@ do the same as the ruby example above:
 
 ```bash
 #!/bin/bash
+JQ="/usr/local/bin/jq"
 while read line ; do JSON="$JSON $line" ; done
-devname=`echo $JSON | "$JQ" -r '.event.deviceName'`
-realname=`echo $JSON | "$JQ" -r '.event.realName'`
-echo "Computer '${devname}' was just added to the JSS for user ${realname}."
+cname=`echo $JSON | "$JQ" -r '.event.deviceName'`
+uname=`echo $JSON | "$JQ" -r '.event.realName'`
+echo "Computer '${cname}' was just added to the JSS for user ${uname}."
 ```
 
-See $GEM_HOME/gems/ruby-jss-_version_/lib/jss/webhooks/data/sample_handlers/RestAPIOperation-executable
+External handlers **must** be executable files. Executability is how the
+framework determines if a handler is internal or external.
+
+See ruby-jss/lib/jss/webhooks/data/sample_handlers/RestAPIOperation-executable
 for a more detailed bash example that handles RestAPIOperation events.
 
 ### Putting it together
@@ -147,7 +164,7 @@ require 'jss/webhooks'
 # In reality, a webserver would extract this from the data POSTed from the JSS
 posted_json = JSSWebHooks.sample_jsons[:ComputerAdded]
 
-# Create JSSWebHooks::Event::<subclass> instance for the event
+# Create JSSWebHooks::Event::ComputerAddedEvent instance for the event
 event = JSSWebHooks::Event.parse_event posted_json
 
 # Call the events #handle method, which will execute any ComputerAdded
@@ -158,15 +175,20 @@ event.handle
 Of course, you can use the framework without using the built-in #handle method,
 and if you don't have any handlers in the directory, it won't do anything
 anyway. Instead you are welcome to use the Event objects as desired in your own
-code.
+Ruby code.
 
 ### Events and Event objects
 
-Here are the Event and related EventObject classes supported by the framework. For details, see [The Unofficial JSS API Docs](https://unofficial-jss-api-docs.atlassian.net/wiki/display/JRA/Webhooks+API)
+Here are the Event classes supported by the framework and the  EventObject classes
+they contain.
+For details about the attributes of each EventObject, see [The Unofficial JSS API
+Docs](https://unofficial-jss-api-docs.atlassian.net/wiki/display/JRA/Webhooks+API)
 
 Each Event class is a subclass of `JSSWebHooks::Event`, where all of their
-functionality is defined. The Event Object classes aren't suclasses, but are dynamically-defined members
-of the `JSSWebHooks::EventObjects` module.
+functionality is defined.
+
+The EventObject classes aren't suclasses, but are dynamically-defined members of
+the `JSSWebHooks::EventObjects` module.
 
 | Event Classes | Event Object Classes |
 | -------------- | ------------ |
@@ -188,42 +210,60 @@ of the `JSSWebHooks::EventObjects` module.
 | JSSWebHooks::SCEPChallengeEvent | JSSWebHooks::EventObjects::SCEPChallenge |
 | JSSWebHooks::SmartGroupComputerMembershipChangeEvent | JSSWebHooks::EventObjects::SmartGroup |
 | JSSWebHooks::SmartGroupMobileDeviveMembershipChangeEvent | JSSWebHooks::EventObjects::SmartGroup |
-| JSSWebHooks::Event | JSSWebHooks::EventObjects:: |
 
 
 ## The Server
 
-JSSWebHooks comes with a simple http server that uses the framework to handle
-any incoming webhook POST request from the JSS via a single URL.
+JSSWebHooks comes with a simple http server that uses the JSSWebHooks framework
+to handle all incoming webhook POST requests from the JSS via a single URL.
 
-To use it you'll need to install the 'sinatra' ruby gem (`sudo gem install sinatra`).
+To use it you'll need to install the [sinatra](http://www.sinatrarb.com/
+) ruby gem (`sudo gem install sinatra`).
 
-After that, just run the `jss-webhook-server` command located in the bin directory for
-ruby-jss and then point your WebHooks at: http://_my_hostname_/handle_webhook_event
+After that, just run the `jss-webhook-server` command located in the bin
+directory for ruby-jss and then point your WebHooks at:
+http://_my_hostname_/handle_webhook_event
 
 It will then process all incoming webhook POST requests using whatever handlers
 you have installed.
 
-To automate it on a dedicated machine, just make a LaunchDaemon plist to run that command and keep it running.
+To automate it on a dedicated machine, just make a LaunchDaemon plist to run
+that command and keep it running.
 
 ## Installing JSSWebHooks into ruby-jss
 
 Until JSSWebHooks is officially released as part of ruby-jss, here's how to get
 it up and running:
 
-0. Clone ruby-jss from github
-1. Install the ruby-jss gem if you haven't already `sudo gem install ruby-jss`
-2. Install sinata `sudo gem install sinatra`
-3. Install immutable-struct `sudo gem install immutable-struct`
-4. From /path/to/github/clone/lib/jss/ copy the webhooks folder and webhooks.rb
+0. Write a handler or two (see _Handlers_ above) and put them into
+   /Library/Application Support/JSSWebHooks/
+0. Clone ruby-jss from github into some path like /path/to/github/clone/
+1. If you don't already have it, install the ruby-jss gem `sudo gem install ruby-jss`
+2. Install sinata: `sudo gem install sinatra`
+3. Install immutable-struct: `sudo gem install immutable-struct`
+4. From /path/to/github/clone/lib/jss/ copy the webhooks folder **and** webhooks.rb
    and into /Library/Ruby/Gems/2.0.0/gems/ruby-jss-_version_/lib/jss/ or
-   whereever your gems are installed.
+   where-ever your gems are installed.
+5. From /path/to/github/clone/bin/ copy 'jss-webhook-server' into
+   /Library/Ruby/Gems/2.0.0/gems/ruby-jss-_version_/bin/
 
-Then fire up `irb` and `require jss/webhooks` to start playing around.
+Then fire up `irb` and `require jss/webhooks` to start playing around. (remember
+the sample JSON strings available in `JSSWebHooks.sample_jsons`)
+
+OR
+
+run /Library/Ruby/Gems/2.0.0/gems/ruby-jss-_version_/bin/jss-webhook-server  and
+point some WebHooks at your machine.
+
 
 ## TODOs
 
 - Add SSL support to the server
-- Better thread management for handlers
+- Better (any!) thread management for handlers
 - Logging and Debug options
+- handler reloading for individual, or all, Event subclasses
 - Generate the YARD docs
+- better namespace protection for internal handlers
+- Use and improve the configuration stuff.
+- write proper documentation beyond this README
+- I'm sure there's more to do...
