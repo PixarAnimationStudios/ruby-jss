@@ -46,7 +46,6 @@ module JSSWebHooks
     # as the event subclasses are required.
     @event_to_class_names ||= {}
 
-
     # Getter for @event_to_class_names
     #
     # @return [Hash{String => Class} a mapping of Event names as they come from
@@ -55,8 +54,6 @@ module JSSWebHooks
     def self.event_to_class_names
       @event_to_class_names
     end
-
-
 
     # Given the raw json from the JSS webhook,
     # create an object of the correct Event subclass
@@ -70,7 +67,6 @@ module JSSWebHooks
       event_name = event_json[:webhook][:webhookEvent]
       JSSWebHooks::Event.event_to_class_names[event_name].new event_json, raw_event_json
     end
-
 
     # @return [String] the raw JSON recieved from the JSS
     attr_reader :raw_json
@@ -101,7 +97,6 @@ module JSSWebHooks
       # An array of handlers for this event type.
       @handlers = JSSWebHooks::Event::Handlers.event_handlers[self.class::EVENT_NAME]
       @handlers ||= []
-
     end # init
 
     def handle
@@ -113,7 +108,6 @@ module JSSWebHooks
           handle_with_proc handler
         end # case
       end # @handlers.each do |handler|
-
     end # def handle
 
     # TODO: have something here that
