@@ -108,6 +108,12 @@ module JSSWebHooks
           handle_with_proc handler
         end # case
       end # @handlers.each do |handler|
+
+      # the handle method should return a string, since
+      # it's what gets called by the Post processor
+      # and it's output it returned as the HTTP Result
+      # body.
+      "Processed by #{@handlers.count} handlers"
     end # def handle
 
     # TODO: have something here that
