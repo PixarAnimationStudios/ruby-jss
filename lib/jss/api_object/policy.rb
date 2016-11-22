@@ -1,25 +1,25 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -816,6 +816,73 @@ module JSS
     ### @return [Array] the names of the packages handled by the policy
     def package_names; @packages.map{|p| p[:name]} ; end
 
+
+    # Add a package to the list of pkgs handled by this policy.
+    # If the pkg already exists in the policy, nil is returned and
+    # no changes are made.
+    #
+    # @param [String,Integer] identifier the name or id of the package to add to this policy
+    #
+    # @param [Symbol, Integer] position: :end where to add this pkg among the list of
+    #   pkgs. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end
+    #
+    # @param [String] action: 'Install' One of the values of PACKAGE_ACTIONS
+    #
+    # @param [Boolean] feu: false Overrides the setting for the pkg itself
+    #
+    # @param [Boolean] fut: false Overrides the setting for the pkg itself
+    #
+    # @param [Boolean] update_autorun: false
+    #
+    # @return [Integer, nil] the id of the added pkg, nil if it was already in the policy
+    #
+    def add_package(identifier, position: -1, action: :install, feu: false, fut: false, update_autorun: false)
+      raise JSS::NoSuchItemError, "No package matches '#{identifier}'" unless (id = JSS::Package.valid_id(identifier))
+
+      return nil if @packages.map { |p| p[:id] }.include? id
+
+      name = JSS::Package.map_all_ids_to(:name)[id]
+
+      position = case position
+                 when :start then 0
+                 when :end then -1
+                 else position
+                 end
+
+      raise JSS::InvalidDataError, "action must be one of: :#{PACKAGE_ACTIONS.keys.join ', :'}" unless \
+        PACKAGE_ACTIONS.include? action
+      raise JSS::InvalidDataError, "feu must be true or false" unless \
+        JSS::TRUE_FALSE.include? feu
+      raise JSS::InvalidDataError, "fut must be true or false" unless \
+        JSS::TRUE_FALSE.include? fut
+      raise JSS::InvalidDataError, "update_autorun must be true or false" unless \
+        JSS::TRUE_FALSE.include? update_autorun
+
+      @packages.insert(position, {id: id, name: name, action: PACKAGE_ACTIONS[action], feu: feu, fut: fut, update_autorun: update_autorun })
+
+      # if the user gave a large number, it created nil entries in the array, they need
+      # to be removed.
+      @packages.compact!
+
+      @need_to_update = true
+      return id
+    end
+
+    # Remove a package from this policy by name or id
+    #
+    # @param identfier [String,Integer] the name or id of the package to remove
+    #
+    # @return [Fixnum, nil] the id of the pkg removed, or nil if it wasn't there.
+    #
+    def remove_package(identifier)
+      idx = @packages.find_index { |p| p[:id] == identifier || p[:name] == identifier }
+      return nil unless idx
+      id = @packages[idx][:id]
+      @packages.delete_if { |p| p[:id] == id }
+      @need_to_update = true
+      id
+    end
+
     ### @return [Array] the id's of the scripts handled by the policy
     def script_ids; @scripts.map{|p| p[:id]} ; end
 
@@ -842,29 +909,29 @@ module JSS
 
     ### @return [Boolean] is this policy available in SelfService?
     def self_service?; @self_service[:use_for_self_service] ; end
-    
+
     ### Try to execute this policy on this machine.
     ###
-    ### @param show_output[Boolean] should the stdout and stderr of the 
+    ### @param show_output[Boolean] should the stdout and stderr of the
     ###  'jamf policy' command be sent to stdout in realtime?
     ###
     ### @return [Boolean, nil] The success of the 'jamf policy' command, or nil
     ###   if the policy couldn't be executed (out of scope, policy disabled, etc)
     ###
-    def run (show_output = false)
+    def run(show_output = false)
       return nil unless enabled?
       output = JSS::Client.run_jamf("policy", "-id #{id}", show_output)
       return nil if output.include? 'No policies were found for the ID'
       return $?.exitstatus == 0 ? true : false
     end
-    
+
     ### Aliases
     alias enabled? enabled
     alias pkgs packages
     alias command_to_run run_command
     alias delete_path? delete_file?
     alias execute run
-    
+
     #####################################
     ### Private Instance Methods
     #####################################
@@ -895,4 +962,3 @@ module JSS
   end # class policy
 
 end # module
-
