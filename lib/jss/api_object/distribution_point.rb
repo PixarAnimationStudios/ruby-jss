@@ -90,7 +90,10 @@ module JSS
     ### An empty SHA256 digest
     EMPTY_PW_256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
+    ### Set default local mount for distribution point
+    DEFAULT_MOUNTPOINT_DIR = Pathname.new "/tmp"
 
+    DEFAULT_MOUNTPOINT_PREFIX = "CasperDistribution-id"
 
     #####################################
     ### Class Variables
@@ -317,7 +320,7 @@ module JSS
 
 
       ### if we mount for fileservice, where's the mountpoint?
-      @mountpoint = Pathname.new "/Volumes/CasperDistribution-id-#{@id}"
+      @mountpoint = Pathname.new "/#{DEFAULT_MOUNTPOINT_DIR}/#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
 
     end #init
 
