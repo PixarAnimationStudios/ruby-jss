@@ -84,9 +84,8 @@ module JSS
     ### Class Constants
     #####################################
 
-
     ### The base for REST resources of this class
-    RSRC_BASE = "policies"
+    RSRC_BASE = 'policies'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :policies
@@ -96,17 +95,16 @@ module JSS
     RSRC_OBJECT_KEY = :policy
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:scope, :user_interaction, :files_processes ]
+    VALID_DATA_KEYS = [:scope, :user_interaction, :files_processes].freeze
 
     ### policies can take uploaded icons
-    UPLOAD_TYPES = {:icon => :policies}
+    UPLOAD_TYPES = { icon: :policies }.freeze
 
     ### policies are available in macOS self Serviec
     SELF_SERVICE_TARGET = :macos
 
     ### policies via self services are still polcies
     SELF_SERVICE_PAYLOAD = :policy
-
 
     SECTIONS = [
       :general,
@@ -122,89 +120,89 @@ module JSS
       :dock_items,
       :disk_encryption,
       :printers
-    ]
+    ].freeze
 
     FREQUENCIES = {
-      :ongoing => "Ongoing",
-      :once_per_computer => "Once per computer",
-      :once_per_user =>"Once per user",
-      :daily => "Once every day",
-      :weekly => "Once every week",
-      :monthly => "Once every month"
-    }
+      ongoing: 'Ongoing',
+      once_per_computer: 'Once per computer',
+      once_per_user: 'Once per user',
+      daily: 'Once every day',
+      weekly: 'Once every week',
+      monthly: 'Once every month'
+    }.freeze
 
     RESTART_WHEN = {
-      :if_pkg_requires => "Restart if a package or update requires it",
-      :now => "Restart immediately",
-      :delayed => "Restart",
-      :dont => "Do not restart"
-    }
+      if_pkg_requires: 'Restart if a package or update requires it',
+      now: 'Restart immediately',
+      delayed: 'Restart',
+      dont: 'Do not restart'
+    }.freeze
 
     RESTART_DISKS = {
-      :current => "Current Startup Disk",
-      :selected => "Currently Selected Startup Disk (No Bless)",
-      :netboot => "NetBoot",
-      :os_installer => "inPlaceOSUpgradeDirectory"
-    } # Note: any other value in :specify_startup is a path to some other drive to boot from, e.g. /Volumes/Foo
+      current: 'Current Startup Disk',
+      selected: 'Currently Selected Startup Disk (No Bless)',
+      netboot: 'NetBoot',
+      os_installer: 'inPlaceOSUpgradeDirectory'
+    }.freeze # Note: any other value in :specify_startup is a path to some other drive to boot from, e.g. /Volumes/Foo
 
     ACCOUNT_ACTIONS = {
-      :create => "Create",
-      :change_pw => "Reset",
-      :delete => "Delete",
-      :disable_fv2 => "DisableFileVault"
-    }
+      create: 'Create',
+      change_pw: 'Reset',
+      delete: 'Delete',
+      disable_fv2: 'DisableFileVault'
+    }.freeze
 
     MGMT_ACCOUNT_ACTIONS = {
-      :no_change => "doNotChange",
-      :change_pw => "specified",
-      :generate_pw => "random",
-      :enable_fv2 => "fileVaultEnable",
-      :disable_fv2 => "fileVaultDisable"
-    }
+      no_change: 'doNotChange',
+      change_pw: 'specified',
+      generate_pw: 'random',
+      enable_fv2: 'fileVaultEnable',
+      disable_fv2: 'fileVaultDisable'
+    }.freeze
 
     PACKAGE_ACTIONS = {
-      :install => "Install",
-      :remove => "Uninstall",
-      :cache =>"Cache",
-      :install_cache => "Install Cached"
-    }
+      install: 'Install',
+      remove: 'Uninstall',
+      cache: 'Cache',
+      install_cache: 'Install Cached'
+    }.freeze
 
     SCRIPT_PRIORITIES = {
-      :pre => "Before",
-      :before => "Before",
-      :post => "After",
-      :after => "After"
-    }
+      pre: 'Before',
+      before: 'Before',
+      post: 'After',
+      after: 'After'
+    }.freeze
 
     PRINTER_ACTIIONS = {
-      :map => "install",
-      :unmap => "uninstall"
-    }
+      map: 'install',
+      unmap: 'uninstall'
+    }.freeze
 
     DOCK_ITEM_ACTIONS = {
-      :add_start => "Add To Beginning",
-      :add_end => "Add To End", :remove => "Remove"
-    }
+      add_start: 'Add To Beginning',
+      add_end: 'Add To End', remove: 'Remove'
+    }.freeze
 
     NETWORK_REQUIREMENTS = {
-      :any => "Any",
-      :ethernet => "EtherNet"
-    }
+      any: 'Any',
+      ethernet: 'EtherNet'
+    }.freeze
 
     TRIGGER_TYPES = {
-      :event => "EVENT",
-      :user => "USER_INITIATED"
-    }
+      event: 'EVENT',
+      user: 'USER_INITIATED'
+    }.freeze
 
     TRIGGER_EVENTS = {
-       :startup => :trigger_startup,
-       :login => :trigger_login,
-       :logout => :trigger_logout,
-       :checkin => :trigger_checkin,
-       :network_state => :trigger_network_state_changed ,
-       :enrollment => :trigger_enrollment_complete ,
-       :custom => :trigger_other
-      }
+      startup: :trigger_startup,
+      login: :trigger_login,
+      logout: :trigger_logout,
+      checkin: :trigger_checkin,
+      network_state: :trigger_network_state_changed,
+      enrollment: :trigger_enrollment_complete,
+      custom: :trigger_other
+    }.freeze
 
     SCOPE_TARGET_KEY = :computers
 
@@ -530,11 +528,10 @@ module JSS
     ### @see APIObject#initialize
     ###
     def initialize(args = {})
-
       super
 
       if @in_jss
-        gen =  @init_data[:general]
+        gen = @init_data[:general]
         @category = JSS::APIObject.get_name(gen[:category])
         @frequency = gen[:frequency]
         @target_drive = gen[:target_drive]
@@ -542,29 +539,29 @@ module JSS
         @enabled = gen[:enabled]
         @site = JSS::APIObject.get_name(gen[:site][:name])
         @override_default_settings = gen[:override_default_settings]
-        @trigger = gen[:trigger ]
+        @trigger = gen[:trigger]
         @trigger_events = {
-         :trigger_startup => gen[:trigger_startup ],
-         :trigger_login => gen[:trigger_login ],
-         :trigger_logout => gen[:trigger_logout ],
-         :trigger_checkin => gen[:trigger_checkin ],
-         :trigger_network_state_changed => gen[:trigger_network_state_changed ],
-         :trigger_enrollment_complete => gen[:trigger_enrollment_complete ],
-         :trigger_other => gen[:trigger_other ]
+          trigger_startup: gen[:trigger_startup],
+          trigger_login: gen[:trigger_login],
+          trigger_logout: gen[:trigger_logout],
+          trigger_checkin: gen[:trigger_checkin],
+          trigger_network_state_changed: gen[:trigger_network_state_changed],
+          trigger_enrollment_complete: gen[:trigger_enrollment_complete],
+          trigger_other: gen[:trigger_other]
         }
 
         dtl = gen[:date_time_limitations]
 
         @server_side_limitations = {
-          :activation => JSS.epoch_to_time(dtl[:activation_date_epoch]),
-          :expiration => JSS.epoch_to_time(dtl[:expiration_date_epoch])
+          activation: JSS.epoch_to_time(dtl[:activation_date_epoch]),
+          expiration: JSS.epoch_to_time(dtl[:expiration_date_epoch])
         }
 
         @client_side_limitations = {
-          :no_execute_on => dtl[:no_execute_on], # NOTE- there's a bug in the JSON output, it's been reported to JAMF.
-          :no_execute_start => dtl[:no_execute_start], # String like "1:01 AM"
-          :no_execute_end => dtl[:no_execute_end], # String like "2:02 PM"
-          :network_requirements => gen[:network_requirements]
+          no_execute_on: dtl[:no_execute_on], # NOTE- there's a bug in the JSON output, it's been reported to JAMF.
+          no_execute_start: dtl[:no_execute_start], # String like "1:01 AM"
+          no_execute_end: dtl[:no_execute_end], # String like "2:02 PM"
+          network_requirements: gen[:network_requirements]
         }
 
         maint = @init_data[:maintenance]
@@ -587,8 +584,6 @@ module JSS
 
         @scripts = @init_data[:scripts]
 
-
-
         uint = @init_data[:user_interaction]
         @user_may_defer = uint[:allow_users_to_defer]
         @user_may_defer_until = JSS.parse_datetime uint[:allow_deferral_until_utc]
@@ -609,22 +604,22 @@ module JSS
         parse_self_service
         @in_self_service = @init_data[:self_service][:use_for_self_service]
 
-      ### Not in jss yet
-      else
-
+        ### Not in jss yet
       end
+
+      # set non-nil defaults
       @enabled ||= false
-      @frequency ||= "Once per computer"
+      @frequency ||= 'Once per computer'
       @target_drive ||= '/'
       @offline ||= false
       @override_default_settings ||= {}
       @scripts ||= []
-      @server_side_limitations  ||= {}
-      @client_side_limitiations  ||= {}
-      @trigger_events  ||= {}
-      @directory_bindings  ||= []
-      @open_firmware_efi_password  ||= {}
-      @management_account  ||= {}
+      @server_side_limitations ||= {}
+      @client_side_limitiations ||= {}
+      @trigger_events ||= {}
+      @directory_bindings ||= []
+      @open_firmware_efi_password ||= {}
+      @management_account ||= {}
       @accounts  ||= []
       @packages  ||= []
       @scripts ||= []
@@ -633,15 +628,14 @@ module JSS
       @disk_encryption ||= {}
       @printers ||= []
       @files_processes ||= {}
-      @scope ||= JSS::Scopable::Scope.new(:computers, all_computers: false)
-
       unless @reboot_options
         @reboot_options = {}
-        @reboot_options[:user_logged_in] = "Do not restart"
-        @reboot_options[:no_user_logged_in] = "Do not restart"
+        @reboot_options[:user_logged_in] = 'Do not restart'
+        @reboot_options[:no_user_logged_in] = 'Do not restart'
       end
 
-    end  # init
+      @scope ||= JSS::Scopable::Scope.new(:computers, all_computers: false)
+    end # init
 
     ###### General
 
@@ -651,21 +645,21 @@ module JSS
     ###
     ### @return [void]
     ###
-    def enabled= (new_val)
+    def enabled=(new_val)
       return nil if @enabled == new_val
-      raise JSS::InvalidDataError, "New value must be true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'New value must be true or false' unless JSS::TRUE_FALSE.include? new_val
       @enabled = new_val
       @need_to_update = true
     end
 
     ### Shortcut for enabled = true
     def enable
-      enabled = true
+      self.enabled = true
     end
 
     ### Shortcut for endabled = false
     def disable
-      enabled = false
+      self.enabled = false
     end
 
     ### Set a new frequency for this policy.
@@ -674,8 +668,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def frequency= (freq)
-      raise JSS::InvalidDataError, "New frequency must be one of :#{FREQUENCIES.keys.join ", :"}" unless FREQUENCIES.keys.include? freq
+    def frequency=(freq)
+      raise JSS::InvalidDataError, "New frequency must be one of :#{FREQUENCIES.keys.join ', :'}" unless FREQUENCIES.keys.include? freq
       @frequency = FREQUENCIES[freq]
       @need_to_update = true
     end
@@ -686,8 +680,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def target_drive= (path_to_drive)
-      raise JSS::InvalidDataError, "Path to target drive must be absolute" unless path_to_drive.to_s.start_with? '/'
+    def target_drive=(path_to_drive)
+      raise JSS::InvalidDataError, 'Path to target drive must be absolute' unless path_to_drive.to_s.start_with? '/'
       @target_drive = path_to_drive.to_s
       @need_to_update = true
     end
@@ -698,8 +692,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def offline= (new_val)
-      raise JSS::InvalidDataError, "New value must be boolean true or false" unless JSS::TRUE_FALSE.include? new_val
+    def offline=(new_val)
+      raise JSS::InvalidDataError, 'New value must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @offline = new_val
       @need_to_update = true
     end
@@ -710,7 +704,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def category= (new_val = JSS::Category::DEFAULT_CATEGORY)
+    def category=(new_val = JSS::Category::DEFAULT_CATEGORY)
       return nil if @category == new_val
       new_val = nil if new_val == ''
       new_val ||= JSS::Category::DEFAULT_CATEGORY
@@ -727,12 +721,12 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_trigger_event (type, new_val)
+    def set_trigger_event(type, new_val)
       raise JSS::InvalidDataError, "Trigger type must be one of #{TRIGGER_EVENTS.keys.join(', ')}" unless TRIGGER_EVENTS.keys.include? type
       if type == :custom
-        raise JSS::InvalidDataError, "Custom triggers must be Strings" unless new_val.kind_of? String
+        raise JSS::InvalidDataError, 'Custom triggers must be Strings' unless new_val.is_a? String
       else
-        raise JSS::InvalidDataError, "Non-custom triggers must be true or false" unless JSS::TRUE_FALSE.include? new_val
+        raise JSS::InvalidDataError, 'Non-custom triggers must be true or false' unless JSS::TRUE_FALSE.include? new_val
       end
       @trigger_events[TRIGGER_EVENTS[type]] = new_val
       @need_to_update = true
@@ -752,8 +746,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def run_command= (command)
-      raise JSS::InvalidDataError, "Command to run must be a String" unless command.is_a? String
+    def run_command=(command)
+      raise JSS::InvalidDataError, 'Command to run must be a String' unless command.is_a? String
       @files_processes[:run_command] = command
       @need_to_update = true
     end
@@ -770,7 +764,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def update_locate_database= (tf)
+    def update_locate_database=(tf)
       @files_processes[:update_locate_database] = tf ? true : false
       @need_to_update = true
     end
@@ -799,7 +793,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_search_for_process (process, kill = false)
+    def set_search_for_process(process, kill = false)
       @files_processes[:search_for_process] = process.to_s
       @files_processes[:kill_process] = kill ? true : false
       @need_to_update = true
@@ -829,8 +823,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_search_by_path (path, delete = false)
-      raise JSS::InvalidDataError, "Path to search for must be a String or a Pathname" unless path.is_a? String or path.is_a? Pathname
+    def set_search_by_path(path, delete = false)
+      raise JSS::InvalidDataError, 'Path to search for must be a String or a Pathname' unless path.is_a?(String) || path.is_a?(Pathname)
       @files_processes[:search_by_path] = path.to_s
       @files_processes[:delete_file] = delete ? true : false
       @need_to_update = true
@@ -848,8 +842,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def spotlight_search= (term)
-      raise JSS::InvalidDataError, "Spotlight search term must be a String" unless term.is_a? String
+    def spotlight_search=(term)
+      raise JSS::InvalidDataError, 'Spotlight search term must be a String' unless term.is_a? String
       @files_processes[:spotlight_search] = term
       @need_to_update = true
     end
@@ -866,8 +860,8 @@ module JSS
     ###
     ### @return [void]
     ###
-    def locate_file= (term)
-      raise JSS::InvalidDataError, "Term to locate must be a String" unless term.is_a? String
+    def locate_file=(term)
+      raise JSS::InvalidDataError, 'Term to locate must be a String' unless term.is_a? String
       @files_processes[:locate_file] = term
       @need_to_update = true
     end
@@ -880,12 +874,12 @@ module JSS
 
     ### @return [Array] the id's of the packages handled by the policy
     def package_ids
-      @packages.map{|p| p[:id]}
+      @packages.map { |p| p[:id] }
     end
 
     ### @return [Array] the names of the packages handled by the policy
     def package_names
-      @packages.map{|p| p[:name]}
+      @packages.map { |p| p[:name] }
     end
 
     ### Add a package to the list of pkgs handled by this policy.
@@ -909,7 +903,7 @@ module JSS
     ###
     ### @return [Array, nil]  the new @packages array, nil if pkg was already in the policy
     ###
-    def add_package(identifier, opts = {} )
+    def add_package(identifier, opts = {})
       opts[:position] ||= -1
       opts[:action] ||= :install
       opts[:feu] = false if opts[:feu].nil?
@@ -931,11 +925,11 @@ module JSS
 
       raise JSS::InvalidDataError, "action must be one of: :#{PACKAGE_ACTIONS.keys.join ', :'}" unless \
         PACKAGE_ACTIONS.include? opts[:action]
-      raise JSS::InvalidDataError, "feu must be true or false" unless \
+      raise JSS::InvalidDataError, 'feu must be true or false' unless \
         JSS::TRUE_FALSE.include? opts[:feu]
-      raise JSS::InvalidDataError, "fut must be true or false" unless \
+      raise JSS::InvalidDataError, 'fut must be true or false' unless \
         JSS::TRUE_FALSE.include? opts[:fut]
-      raise JSS::InvalidDataError, "update_autorun must be true or false" unless \
+      raise JSS::InvalidDataError, 'update_autorun must be true or false' unless \
         JSS::TRUE_FALSE.include? opts[:update_autorun]
 
       pkg_data = {
@@ -973,12 +967,12 @@ module JSS
 
     ### @return [Array] the id's of the scripts handled by the policy
     def script_ids
-      @scripts.map{|p| p[:id]}
-     end
+      @scripts.map { |p| p[:id] }
+    end
 
     ### @return [Array] the names of the scripts handled by the policy
     def script_names
-       @scripts.map{|p| p[:name]}
+      @scripts.map { |p| p[:name] }
     end
 
     ### Add a script to the list of SCRIPT_PRIORITIESipts run by this policy.
@@ -1020,7 +1014,7 @@ module JSS
     ###
     ### @return [Array, nil]  the new @scripts array, nil if script was already in the policy
     ###
-    def add_script(identifier, opts = {} )
+    def add_script(identifier, opts = {})
       opts[:position] ||= -1
       opts[:priority] ||= :after
 
@@ -1079,36 +1073,36 @@ module JSS
 
     ### @return [Array] the id's of the directory_bindings handled by the policy
     def directory_binding_ids
-      @directory_bindings.map{|p| p[:id]}
+      @directory_bindings.map { |p| p[:id] }
     end
 
     ### @return [Array] the names of the directory_bindings handled by the policy
     def directory_binding_names
-      @directory_bindings.map{|p| p[:name]}
+      @directory_bindings.map { |p| p[:name] }
     end
 
     ###### Dock items
 
     ### @return [Array] the id's of the dock_items handled by the policy
     def dock_item_ids
-      @dock_items.map{|p| p[:id]}
+      @dock_items.map { |p| p[:id] }
     end
 
     ### @return [Array] the names of the dock_items handled by the policy
     def dock_item_names
-      @dock_items.map{|p| p[:name]}
+      @dock_items.map { |p| p[:name] }
     end
 
     ###### Printers
 
     ### @return [Array] the id's of the printers handled by the policy
     def printer_ids
-      @printers.map{|p| p[:id]}
+      @printers.map { |p| p[:id] }
     end
 
     ### @return [Array] the names of the printers handled by the policy
     def printer_names
-      @printers.map{|p| p[:name]}
+      @printers.map { |p| p[:name] }
     end
 
     ###### SelfService
@@ -1158,9 +1152,9 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_icon_to(icon)
+    def assign_icon(icon)
       if icon.is_a? Integer
-        @self_service_icon = {id: icon}
+        @self_service_icon = { id: icon }
         @need_to_update = true
         return
       end
@@ -1179,9 +1173,9 @@ module JSS
     ###
     def run(show_output = false)
       return nil unless enabled?
-      output = JSS::Client.run_jamf("policy", "-id #{id}", show_output)
+      output = JSS::Client.run_jamf('policy', "-id #{id}", show_output)
       return nil if output.include? 'No policies were found for the ID'
-      return $?.exitstatus == 0 ? true : false
+      $CHILD_STATUS.exitstatus.zero? ? true : false
     end
 
     ###### Aliases
@@ -1201,7 +1195,7 @@ module JSS
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
 
-      general = obj.add_element "general"
+      general = obj.add_element 'general'
       general.add_element('name').text = @name
       general.add_element('enabled').text = @enabled
       general.add_element('frequency').text = @frequency
@@ -1209,35 +1203,33 @@ module JSS
       general.add_element('offline').text = @offline
       general.add_element('category').add_element('name').text = @category if @category
 
-      JSS.hash_to_rexml_array(@trigger_events).each{|t| general << t}
+      JSS.hash_to_rexml_array(@trigger_events).each { |t| general << t }
 
       obj << @scope.scope_xml
 
-      files_processes = obj.add_element "files_processes"
-      JSS.hash_to_rexml_array(@files_processes).each{|f| files_processes << f}
+      files_processes = obj.add_element 'files_processes'
+      JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
 
-      pkg_conf = obj.add_element "package_configuration"
-      pkgs = pkg_conf.add_element "packages"
+      pkg_conf = obj.add_element 'package_configuration'
+      pkgs = pkg_conf.add_element 'packages'
       @packages.each do |p|
         pkg = pkgs.add_element 'package'
         pdeets = JSS.hash_to_rexml_array p
-        pdeets.each {|d| pkg << d }
+        pdeets.each { |d| pkg << d }
       end
 
-      scripts = obj.add_element "scripts"
+      scripts = obj.add_element 'scripts'
       @scripts.each do |s|
-        script = scripts.add_element "script"
+        script = scripts.add_element 'script'
         sdeets = JSS.hash_to_rexml_array s
-        sdeets.each {|d| script << d }
+        sdeets.each { |d| script << d }
       end
 
-      self_svc =  self_service_xml
+      self_svc = self_service_xml
       self_svc.add_element('use_for_self_service').text = @in_self_service
       obj << self_svc
 
-
-
-      return doc.to_s
+      doc.to_s
     end
 
   end # class policy
