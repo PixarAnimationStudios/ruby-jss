@@ -51,6 +51,8 @@ module JSS
   require "shellwords"
   require "digest"
   require 'yaml'
+  require 'open3'
+
 
   ###################
   ### Gems

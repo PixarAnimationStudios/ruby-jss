@@ -25,19 +25,19 @@
 ###
 module JSS
 
-  #####################################
+
   ### Module Variables
   #####################################
 
-  #####################################
+
   ### Module Methods
   #####################################
 
-  #####################################
+
   ### Classes
   #####################################
 
-  ###
+
   ### This class represents a Casper/JSS Client computer, on which
   ### this code is running.
   ###
@@ -110,7 +110,6 @@ module JSS
     ### Class Methods
     #####################################
 
-    ###
     ### Get the current IP address as a String.
     ###
     ### This handy code doesn't acutally make a UDP connection,
@@ -135,8 +134,23 @@ module JSS
       Socket.do_not_reverse_lookup = orig
     end
 
+    ### Who's logged in to the console right now?
+    ###
+    ### @return [String, nil] the username of the current console user, or nil if none.
+    ###
+    def self.console_user
+      cmd = '/usr/sbin/scutil'
+      qry = 'show State:/Users/ConsoleUser'
+      Open3.popen2e(cmd) do |cmdin, cmdouterr, wait_thr|
+        cmdin.puts qry
+        cmdin.close
+        out = cmdouterr.read
+        user = out.lines.select{|l| l =~ /^\s+Name\s*:/}.first.to_s.split(/\s*:\s*/).last
+        return user.nil? ? user : user.chomp
+      end # do
+    end
 
-
+    ### Is the jamf binary installed?
     ###
     ### @return [Boolean] is the jamf binary installed?
     ###
@@ -144,6 +158,7 @@ module JSS
       JAMF_BINARY.executable?
     end
 
+    ### What version of the jamf binary is installed?
     ###
     ### @return [String,nil] the version of the jamf binary installed on this client, nil if not installed
     ###
@@ -151,6 +166,7 @@ module JSS
       self.installed? ?  self.run_jamf(:version).chomp.split('=')[1] : nil
     end
 
+    ### the URL to the jss for this client
     ###
     ### @return [String] the url to the JSS for this client
     ###
@@ -164,6 +180,7 @@ module JSS
       return @url
     end
 
+    ### The JSS server hostname for this client
     ###
     ### @return [String] the JSS server for this client
     ###
@@ -172,6 +189,7 @@ module JSS
       return @server
     end
 
+    ### The protocol for JSS connections for this client
     ###
     ### @return [String] the protocol to the JSS for this client, "http" or "https"
     ###
@@ -180,6 +198,7 @@ module JSS
       return @protocol
     end
 
+    ### The port number for JSS connections for this client
     ###
     ### @return [Integer] the port to the JSS for this client
     ###
@@ -188,6 +207,7 @@ module JSS
       @port  ? @port.to_i : 80
     end
 
+    ### The contents of the JAMF plist
     ###
     ### @return [Hash] the parsed contents of the JAMF_PLIST if it exists, an empty hash if not
     ###
@@ -197,6 +217,7 @@ module JSS
     end
 
 
+    ### All the JAMF receipts on this client
     ###
     ### @return [Array<Pathname>] an array of Pathnames for all regular files in the jamf receipts folder
     ###
@@ -205,6 +226,7 @@ module JSS
       RECEIPTS_FOLDER.children.select{|c| c.file?}
     end
 
+    ### Is the JSS available right now?
     ###
     ### @return [Boolean] is the JSS available now?
     ###
@@ -214,17 +236,19 @@ module JSS
     end
 
 
+    ### The JSS::Computer object for this computer
     ###
-    ### @return [JSS::Computer] The JSS record for this computer
+    ### @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
     ###
     def self.jss_record
       begin
         JSS::Computer.new :udid => self.udid
       rescue JSS::NoSuchItemError
-        JSS::Computer.new :serial_number => self.serial_number
+        nil
       end
     end
 
+    ### The UUID for this computer via system_profiler
     ###
     ### @return [String] the UUID/UDID for this computer
     ###
@@ -232,6 +256,7 @@ module JSS
       self.hardware_data["platform_UUID"]
     end
 
+    ### The serial number for this computer via system_profiler
     ###
     ### @return [String] the serial number for this computer
     ###
@@ -239,6 +264,7 @@ module JSS
       self.hardware_data["serial_number"]
     end
 
+    ### The parsed HardwareDataType output from system_profiler
     ###
     ### @return [Hash] the HardwareDataType data from the system_profiler command
     ###
