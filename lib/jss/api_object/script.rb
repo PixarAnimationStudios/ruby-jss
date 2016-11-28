@@ -1,47 +1,42 @@
 ### Copyright 2016 Pixar
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
 module JSS
 
-  #####################################
   ### Module Constants
   #####################################
 
-  #####################################
   ### Module Variables
   #####################################
 
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
   ### Classes
   #####################################
 
-  ###
   ### A Script in the JSS.
   ###
   ### As of Casper 9.4, the script contents as stored in the database are
@@ -60,23 +55,20 @@ module JSS
   ###
   class Script < JSS::APIObject
 
-    #####################################
     ### Mix-Ins
     #####################################
 
     include JSS::Creatable
     include JSS::Updatable
 
-    #####################################
     ### Class Methods
     #####################################
 
-    #####################################
     ### Class Constants
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "scripts"
+    RSRC_BASE = 'scripts'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :scripts
@@ -86,21 +78,20 @@ module JSS
     RSRC_OBJECT_KEY = :script
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:parameters, :filename, :os_requirements ]
+    VALID_DATA_KEYS = [:parameters, :filename, :os_requirements].freeze
 
     ### The script storage folder on the distribution point, if used
-    DIST_POINT_SCRIPTS_FOLDER = "Scripts"
+    DIST_POINT_SCRIPTS_FOLDER = 'Scripts'.freeze
 
     ### Priority to use for running the script in relation to other actions during imaging
-    PRIORITIES = [ 'Before', 'After','At Reboot']
+    PRIORITIES = ['Before', 'After', 'At Reboot'].freeze
 
     ### which is default?
-    DEFAULT_PRIORITY = "After"
+    DEFAULT_PRIORITY = 'After'.freeze
 
     ### The keys used in the @parameters Hash
-    PARAMETER_KEYS = [:parameter4, :parameter5, :parameter6,:parameter7, :parameter8, :parameter9, :parameter10, :parameter11]
+    PARAMETER_KEYS = [:parameter4, :parameter5, :parameter6, :parameter7, :parameter8, :parameter9, :parameter10, :parameter11].freeze
 
-    #####################################
     ### Attributes
     #####################################
 
@@ -128,29 +119,23 @@ module JSS
     ### @return {String] the actual code for this script, if it's stored in the database.
     attr_reader :script_contents
 
-
-    #####################################
     ### Constructor
     #####################################
 
     ###
-    ###
-    ###
-    def initialize (args = {})
+    def initialize(args = {})
       super
 
       @category = JSS::APIObject.get_name(@init_data[:category])
       @filename = @init_data[:filename] || @name
       @info = @init_data[:info]
       @notes = @init_data[:notes]
-      @os_requirements = @init_data[:os_requirements] ? JSS.to_s_and_a(@init_data[:os_requirements] )[:arrayform] : []
+      @os_requirements = @init_data[:os_requirements] ? JSS.to_s_and_a(@init_data[:os_requirements])[:arrayform] : []
       @parameters = @init_data[:parameters] ? @init_data[:parameters] : {}
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
-      @script_contents =  @init_data[:script_contents]
-
+      @script_contents = @init_data[:script_contents]
     end # initialize
 
-    ###
     ### Change the script filename
     ###
     ### Setting it to nil will make it match the script name
@@ -162,8 +147,7 @@ module JSS
     ### @note This method does NOT change the filename on the distribution point
     ###   if that's where you store your scripts.
     ###
-    def filename= (new_val)
-
+    def filename=(new_val)
       new_val = nil if new_val == ''
       new_val = @name unless new_val
 
@@ -171,9 +155,8 @@ module JSS
 
       @filename = new_val
       @need_to_update = true
-    end #filename=
+    end # filename=
 
-    ###
     ### Change the script's display name
     ###
     ### If the filename is the same as the name, the filename  will be changed also
@@ -182,7 +165,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def name= (new_val)
+    def name=(new_val)
       return nil if new_val == @name
       new_val = nil if new_val == ''
       raise JSS::MissingDataError, "Name can't be empty" unless new_val
@@ -195,9 +178,8 @@ module JSS
       ### if our REST resource is based on the name, update that too
       @rest_rsrc = "#{RSRC_BASE}/name/#{CGI.escape @name}" if @rest_rsrc.include? '/name/'
       @need_to_update = true
-    end #name=
+    end # name=
 
-    ###
     ### Change the os_requirements
     ###
     ### Minumum OS's can be specified as a string using the notation ">=10.6.7"
@@ -217,90 +199,84 @@ module JSS
     ### @example Minimum OS
     ###   myscript.os_requirements ">=10.7.5"
     ###
-    def os_requirements= (new_val)
+    def os_requirements=(new_val)
       ### nil should be an empty array
       new_val = [] if new_val.to_s.empty?
 
       ### if any value starts with >=, expand it
       case new_val
-        when String
-          new_val = JSS.expand_min_os(new_val) if new_val =~ /^>=/
-        when Array
-          new_val.map!{|a|  a =~ /^>=/ ? JSS.expand_min_os(a) : a }
-          new_val.flatten!
-          new_val.uniq!
-        else
-          raise JSS::InvalidDataError, "os_requirements must be a String or an Array of strings"
+      when String
+        new_val = JSS.expand_min_os(new_val) if new_val =~ /^>=/
+      when Array
+        new_val.map! { |a| a =~ /^>=/ ? JSS.expand_min_os(a) : a }
+        new_val.flatten!
+        new_val.uniq!
+      else
+        raise JSS::InvalidDataError, 'os_requirements must be a String or an Array of strings'
       end # case
 
       ### get the array version
       @os_requirements = JSS.to_s_and_a(new_val)[:arrayform]
       @need_to_update = true
+    end # os_requirements=
 
-    end #os_requirements=
-
-    ###
     ### Change the priority of this script
     ###
     ### @param new_val[Integer] the new priority, which must be one of {PRIORITIES}
     ###
     ### @return [void]
     ###
-    def priority= (new_val)
+    def priority=(new_val)
       return nil if new_val == @priority
-      new_val = DEFAULT_PRIORITY if new_val.nil? or new_val == ""
+      new_val = DEFAULT_PRIORITY if new_val.nil? || (new_val == '')
       raise JSS::InvalidDataError, ":priority must be one of: #{PRIORITIES.join ', '}" unless PRIORITIES.include? new_val
       @priority = new_val
       @need_to_update = true
-    end #priority=
+    end # priority=
 
-    ###
     ### Change the info field
     ###
     ### @param new_val[String] the new info
     ###
     ### @return [void]
     ###
-    def info= (new_val)
+    def info=(new_val)
       return nil if new_val == @info
       ### line breaks should be \r
-      new_val = new_val.to_s.gsub(/\n/, "\r")
+      new_val = new_val.to_s.tr("\n", "\r")
       @info = new_val
       @need_to_update = true
-    end #info=
+    end # info=
 
-    ###
     ### Change the notes field
     ###
     ### @param new_val[String] the new notes
     ###
     ### @return [void]
     ###
-    def notes= (new_val)
+    def notes=(new_val)
       return nil if new_val == @notes
       ### line breaks should be \r
-      new_val = new_val.to_s.gsub(/\n/, "\r")
+      new_val = new_val.to_s.tr("\n", "\r")
       @notes = new_val
       @need_to_update = true
-    end #notes=
+    end # notes=
 
-    ###
     ### Change the category
     ###
     ### @param new_val[String] the name of the new category, which must be in {JSS::Category.all_names}
     ###
     ### @return [void]
     ###
-    def category= (new_val)
+    def category=(new_val)
       return nil if new_val == @category
       new_val = nil if new_val == ''
       new_val ||= JSS::Category::DEFAULT_CATEGORY
       raise JSS::InvalidDataError, "Category #{new_val} is not known to the JSS" unless JSS::Category.all_names.include? new_val
       @need_to_update = true
       @category = new_val
-    end #category=
+    end # category=
 
-    ###
     ### Replace all the script parameters at once.
     ###
     ### This will replace the entire set with the hash provided.
@@ -309,21 +285,21 @@ module JSS
     ###
     ### @return [void]
     ###
-    def parameters= (new_val)
+    def parameters=(new_val)
       return nil if new_val == @parameters
-      new_val = {} if new_val.nil? or new_val== ''
+      new_val = {} if new_val.nil? || (new_val == '')
 
       ### check the values
-      raise JSS::InvalidDataError, ":parameters must be a Hash with keys :parameter4 thru :parameter11" unless new_val.kind_of? Hash and (new_val.keys & PARAMETER_KEYS) == new_val.keys
-      new_val.each do |k,v|
-            raise JSS::InvalidDataError, ":parameter values must be strings or nil" unless v.nil? or v.kind_of? String
+      raise JSS::InvalidDataError, ':parameters must be a Hash with keys :parameter4 thru :parameter11' unless \
+        new_val.is_a?(Hash) && ((new_val.keys & PARAMETER_KEYS) == new_val.keys)
+      new_val.each do |_k, v|
+        raise JSS::InvalidDataError, ':parameter values must be strings or nil' unless v.nil? || v.is_a?(String)
       end
 
       @parameters = new_val
       @need_to_update = true
     end # parameters=
 
-    ###
     ### Change one of the stored parameters
     ###
     ### @param param_num[Integer] which param are we setting? must be 4..11
@@ -332,16 +308,15 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_parameter (param_num, new_val)
-      raise JSS::NoSuchItemError, "Parameter numbers must be from 4-11" unless (4..11).include? param_num
+    def set_parameter(param_num, new_val)
+      raise JSS::NoSuchItemError, 'Parameter numbers must be from 4-11' unless (4..11).cover? param_num
       pkey = "parameter#{param_num}".to_sym
-      raise JSS::InvalidDataError, "parameter values must be strings or nil" unless new_val.nil? or new_val.kind_of? String
+      raise JSS::InvalidDataError, 'parameter values must be strings or nil' unless new_val.nil? || new_val.is_a?(String)
       return nil if new_val == @parameters[pkey]
       @parameters[pkey] = new_val
       @need_to_update = true
     end
 
-    ###
     ### Change the executable code of this script.
     ###
     ### If the arg is a Pathname instance, or a String starting with "/"
@@ -356,20 +331,19 @@ module JSS
     ###
     ### @return [void]
     ###
-    def script_contents= (new_val)
-
+    def script_contents=(new_val)
       new_code = case new_val
-        when String
-          if new_val.start_with? '/'
-            Pathname.new(new_val).read
-          else
-            new_val
-          end #if
-        when Pathname
-          new_val.read
-        else
-          raise JSS::InvalidDataError, "New code must be a String (path or code) or Pathname instance"
-      end # case
+                 when String
+                   if new_val.start_with? '/'
+                     Pathname.new(new_val).read
+                   else
+                     new_val
+                   end # if
+                 when Pathname
+                   new_val.read
+                 else
+                   raise JSS::InvalidDataError, 'New code must be a String (path or code) or Pathname instance'
+                 end # case
 
       raise JSS::InvalidDataError, "Script contents must start with '#!'" unless new_code.start_with? '#!'
 
@@ -377,7 +351,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Save the @script_contents for this script to a file on the Master Distribution point.
     ###
     ### If you'll be uploading several files you can specify unmount as false, and do it manually when all
@@ -391,18 +364,17 @@ module JSS
     ###
     ### @return [void]
     ###
-    def upload_master_file( rw_pw, unmount = true)
-      raise JSS::MissingDataError, "No code specified. Use #code= first." if @script_contents.nil? or @script_contents.empty?
+    def upload_master_file(rw_pw, unmount = true)
+      raise JSS::MissingDataError, 'No code specified. Use #code= first.' if @script_contents.nil? || @script_contents.empty?
 
       mdp = JSS::DistributionPoint.master_distribution_point
-      raise JSS::InvaldDatatError, "Incorrect password for read-write access to master distribution point." unless mdp.check_pw :rw, rw_pw
+      raise JSS::InvaldDatatError, 'Incorrect password for read-write access to master distribution point.' unless mdp.check_pw :rw, rw_pw
 
       destination = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_SCRIPTS_FOLDER}/#{@filename}"
       destination.save @script_contents
       mdp.unmount if unmount
     end # upload
 
-    ###
     ### Delete the filename from the master distribution point, if it exists.
     ###
     ### If you'll be uploading several files you can specify unmount as false, and do it manually when all
@@ -423,11 +395,9 @@ module JSS
         did_it = false
       end # if exists
       JSS::DistributionPoint.master_distribution_point.unmount if unmount
-      return did_it
+      did_it
     end
 
-
-    ###
     ### Run this script on the current machine using the "jamf runScript" command.
     ###
     ### If the script code is available in the {#script_contents} attribute, then that
@@ -482,9 +452,8 @@ module JSS
     ### p1-p8, and that's how they are expected as options to #run. So if :p1=> "new param" is given as an
     ### aption to #run, it will override any value that the API provided in @parameters[:parameter4]
     ###
-    def run( opts = {} )
-
-      opts[:target] ||= "/"
+    def run(opts = {})
+      opts[:target] ||= '/'
       opts[:p1] ||= @parameters[:parameter4]
       opts[:p2] ||= @parameters[:parameter5]
       opts[:p3] ||= @parameters[:parameter6]
@@ -500,14 +469,14 @@ module JSS
       begin
 
         # do we have the code already? if so, save it out and make it executable
-        if @script_contents and (not @script_contents.empty?)
+        if @script_contents && !@script_contents.empty?
 
           script_path = JSS::Client::DOWNLOADS_FOLDER
 
           executable = script_path + @filename
 
           executable.jss_touch
-          executable.chmod 0700
+          executable.chmod 0o700
           executable.jss_save @script_contents
           delete_exec = true
 
@@ -528,62 +497,59 @@ module JSS
 
         end # if @script_contents and (not @script_contents.empty?)
 
-
         # build the command as an array.
-        command_arry = ["-script", @filename, '-path', script_path.to_s]
+        command_arry = ['-script', @filename, '-path', script_path.to_s]
 
-        command_arry << "-target"
+        command_arry << '-target'
         command_arry << opts[:target].to_s
 
-        command_arry << "-computerName" if opts[:computer_name]
+        command_arry << '-computerName' if opts[:computer_name]
         command_arry << opts[:computer_name] if opts[:computer_name]
 
-        command_arry << "-username" if opts[:username]
+        command_arry << '-username' if opts[:username]
         command_arry << opts[:username] if opts[:username]
 
-        command_arry << "-p1" if opts[:p1]
+        command_arry << '-p1' if opts[:p1]
         command_arry << opts[:p1] if opts[:p1]
 
-        command_arry << "-p2" if opts[:p2]
+        command_arry << '-p2' if opts[:p2]
         command_arry << opts[:p2] if opts[:p2]
 
-        command_arry << "-p3" if opts[:p3]
+        command_arry << '-p3' if opts[:p3]
         command_arry << opts[:p3] if opts[:p3]
 
-        command_arry << "-p4" if opts[:p4]
+        command_arry << '-p4' if opts[:p4]
         command_arry << opts[:p4] if opts[:p4]
 
-        command_arry << "-p5" if opts[:p5]
+        command_arry << '-p5' if opts[:p5]
         command_arry << opts[:p5] if opts[:p5]
 
-        command_arry << "-p6" if opts[:p6]
+        command_arry << '-p6' if opts[:p6]
         command_arry << opts[:p6] if opts[:p6]
 
-        command_arry << "-p7" if opts[:p7]
+        command_arry << '-p7' if opts[:p7]
         command_arry << opts[:p7] if opts[:p7]
 
-        command_arry << "-p8" if opts[:p8]
+        command_arry << '-p8' if opts[:p8]
         command_arry << opts[:p8] if opts[:p8]
 
-        command_arry << "-verbose" if opts[:verbose]
+        command_arry << '-verbose' if opts[:verbose]
 
         command = command_arry.shelljoin
 
-        jamf_output =  JSS::Client.run_jamf "runScript", command, opts[:show_output]
+        jamf_output =  JSS::Client.run_jamf 'runScript', command, opts[:show_output]
 
         jamf_output =~ /^.*Script exit code: (\d+)(\D|$)/
 
-        script_exitstatus = $1.to_i
+        script_exitstatus = Regexp.last_match(1).to_i
 
       ensure
-        executable.delete if delete_exec and executable.exist?
-        dist_point.unmount if (dp_mount_pt and dp_mount_pt.mountpoint? and opts[:unmount])
+        executable.delete if delete_exec && executable.exist?
+        dist_point.unmount if dp_mount_pt && dp_mount_pt.mountpoint? && opts[:unmount]
       end # begin/ensure
 
-      return [script_exitstatus, jamf_output]
-
+      [script_exitstatus, jamf_output]
     end # def run
-
 
     # aliases under their methods seem to confuse the YARD documenter, so I'm putting them all here.
     alias oses os_requirements
@@ -593,19 +559,16 @@ module JSS
     alias contents script_contents
     alias contents= script_contents=
 
-
-    #####################################
     ### Private Instance Methods
     #####################################
 
     private
 
-    ###
     ### Return the xml for creating or updating this script in the JSS
     ###
     def rest_xml
       doc = REXML::Document.new
-      scpt = doc.add_element "script"
+      scpt = doc.add_element 'script'
       scpt.add_element('category').text = @category
       scpt.add_element('filename').text = @filename
       scpt.add_element('id').text = @id
@@ -619,13 +582,14 @@ module JSS
         scpt.add_element('parameters').text = nil
       else
         pars = scpt.add_element('parameters')
-        PARAMETER_KEYS.each {|p| pars.add_element(p.to_s).text = @parameters[p]}
+        PARAMETER_KEYS.each { |p| pars.add_element(p.to_s).text = @parameters[p] }
       end
 
       scpt.add_element('script_contents_encoded').text = Base64.encode64(@script_contents)
 
-      return doc.to_s
+      doc.to_s
     end # rest xml
 
   end # class Script
-end # midule
+
+end # module
