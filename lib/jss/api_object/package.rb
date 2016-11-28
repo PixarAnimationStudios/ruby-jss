@@ -25,50 +25,39 @@
 ###
 module JSS
 
-  #####################################
   ### Module Constants
   #####################################
 
-  #####################################
   ### Module Variables
   #####################################
 
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
   ### Classes
   #####################################
 
-  ###
   ### A Package in the JSS
   ###
   ### Also the API provides no access to the package's
   ### file list (index), so indexing must be done separately (usually via Casper Admin)
   ###
-  ###
-  ### @see JSS::APIObject
-  ###
-  class Package  < JSS::APIObject
+  class Package < JSS::APIObject
 
-    #####################################
     ### Mix-Ins
     #####################################
 
     include JSS::Creatable
     include JSS::Updatable
 
-    #####################################
     ### Class Methods
     #####################################
 
-    #####################################
     ### Class Constants
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "packages"
+    RSRC_BASE = 'packages'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :packages
@@ -78,13 +67,13 @@ module JSS
     RSRC_OBJECT_KEY = :package
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:fill_existing_users, :fill_user_template, :reboot_required ]
+    VALID_DATA_KEYS = [:fill_existing_users, :fill_user_template, :reboot_required].freeze
 
     ### The pkg storage folder on the distribution point
-    DIST_POINT_PKGS_FOLDER = "Packages"
+    DIST_POINT_PKGS_FOLDER = 'Packages'.freeze
 
     ### The possible values for cpu_type (required_processor) in a JSS package
-    CPU_TYPES = ["None", "x86", "ppc"]
+    CPU_TYPES = %w(None x86 ppc).freeze
 
     ### the possible priorities
     PRIORITIES = (1..20)
@@ -93,23 +82,20 @@ module JSS
     DEFAULT_PRIORITY = 10
 
     ### by default, no processor requirement
-    DEFAULT_PROCESSOR = "None"
+    DEFAULT_PROCESSOR = 'None'.freeze
 
     ### When we shouldn't install anything (e.g. switch w/package)
-    DO_NOT_INSTALL = "Do Not Install"
+    DO_NOT_INSTALL = 'Do Not Install'.freeze
 
     ### The table in the database for this object
-    DB_TABLE = "packages"
+    DB_TABLE = 'packages'.freeze
 
-    #####################################
     ### Class Variables
     #####################################
 
-    #####################################
     ### Class Methods
     #####################################
 
-    #####################################
     ### Attributes
     #####################################
 
@@ -161,19 +147,16 @@ module JSS
     ### @return [Boolean] does this pkg cause a notification to be sent on self-heal?
     attr_reader :send_notification
 
-
-    ###
     ### @see JSS::APIObject#initialize
     ###
-    def initialize (args = {})
-
+    def initialize(args = {})
       super
 
       ### now we have pkg_data with something in it, so fill out the instance vars
       @allow_uninstalled = @init_data[:allow_uninstalled]
       @boot_volume_required = @init_data[:boot_volume_required]
       @category = JSS::APIObject.get_name(@init_data[:category])
-      @category = nil if @category.to_s.casecmp("No category assigned") == 0
+      @category = nil if @category.to_s.casecmp('No category assigned').zero?
       @filename = @init_data[:filename] || @init_data[:name]
       @fill_existing_users = @init_data[:fill_existing_users]
       @fill_user_template = @init_data[:fill_user_template]
@@ -186,7 +169,7 @@ module JSS
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
       @required_processor = @init_data[:required_processor] || DEFAULT_PROCESSOR
-      @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
+      @required_processor = nil if @required_processor.to_s.casecmp('none').zero?
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
 
@@ -194,9 +177,6 @@ module JSS
       @receipt = @filename ? (JSS::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
     end # init
 
-
-
-    ###
     ### Change the 'allow to be uninstalled' field in the JSS
     ### NOTE The package must be indexed before this works. Right now, that means
     ### using CasperAdmin.app
@@ -205,7 +185,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def allow_uninstalled= (new_val)
+    def allow_uninstalled=(new_val)
       return nil if new_val == @allow_uninstalled
 
       ### removable? defaults to false
@@ -215,13 +195,10 @@ module JSS
       new_val = false if new_val.to_s.empty?
       raise JSS::InvalidDataError, "allow_uninstalled must be boolean 'true' or 'false'" unless JSS::TRUE_FALSE.include? new_val
 
-      @allow_uninstalled= new_val
+      @allow_uninstalled = new_val
       @need_to_update = true
-
     end
 
-
-    ###
     ### Change the boot volume required field in the JSS
     ###
     ### @param new_val[Boolean]
@@ -231,20 +208,18 @@ module JSS
     def boot_volume_required=(new_val)
       return nil if new_val == @boot_volume_required
       new_val = false if new_val.to_s.empty?
-      raise JSS::InvalidDataError, "install_if_reported_available must be boolean true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'install_if_reported_available must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @boot_volume_required = new_val
       @need_to_update = true
     end
 
-
-    ###
     ### Change the category in the JSS
     ###
     ### @param new_val[String]  must be one listed by 'JSS::Category.all_names'
     ###
     ### @return [void]
     ###
-    def category= (new_val)
+    def category=(new_val)
       return nil if new_val == @category
       new_val = nil if new_val == ''
       new_val ||= JSS::Category::DEFAULT_CATEGORY
@@ -253,7 +228,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Change the package filename.
     ### Setting it to nil or empty will make it match the display name
     ###
@@ -261,24 +235,22 @@ module JSS
     ###
     ### @return [void]
     ###
-    def filename= (new_val)
+    def filename=(new_val)
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      $stderr.puts "WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename." if @in_jss
+      $stderr.puts 'WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename.' if @in_jss
       @filename = new_val
       @need_to_update = true
     end
 
-
-    ###
     ### Change the Fill Existing Users value
     ###
     ### @param new_val[Boolean]
     ###
     ### @return [void]
     ###
-    def fill_existing_users= (new_val)
+    def fill_existing_users=(new_val)
       return nil if new_val == @fill_existing_users
       new_val = false if new_val.to_s.empty?
       raise JSS::InvalidDataError, "fill_existing_users must be boolean 'true' or 'false'" unless JSS::TRUE_FALSE.include? new_val
@@ -286,14 +258,13 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Change the fill_user_template value
     ###
     ### @param new_val[Boolean]
     ###
     ### @return [void]
     ###
-    def fill_user_template= (new_val)
+    def fill_user_template=(new_val)
       return nil if new_val == @fill_user_template
       new_val = false if new_val.to_s.empty?
       raise JSS::InvalidDataError, "fill_user_template must be boolean 'true' or 'false'" unless JSS::TRUE_FALSE.include? new_val
@@ -301,57 +272,48 @@ module JSS
       @need_to_update = true
     end
 
-
-
-    ###
     ### Change the info field in the JSS.
     ###
     ### @param new_val[String]
     ###
     ### @return [void]
     ###
-    def info= (new_val)
+    def info=(new_val)
       return nil if new_val == @info
       ### line breaks should be \r
-      new_val = new_val.to_s.gsub(/\n/, "\r")
+      new_val = new_val.to_s.tr("\n", "\r")
       @info = new_val
       @need_to_update = true
     end
 
-
-    ###
     ### Change the if_in_swupdate field in the JSS
     ###
     ### @param new_val[Boolean]
     ###
     ### @return [void]
     ###
-    def install_if_reported_available= (new_val)
+    def install_if_reported_available=(new_val)
       return nil if new_val == @install_if_reported_available
       new_val = false if new_val.to_s.empty?
-      raise JSS::InvalidDataError, "install_if_reported_available must be boolean true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'install_if_reported_available must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @install_if_reported_available = new_val
       @need_to_update = true
     end
 
-
-
-    ###
     ### Change the notes field in the JSS.NewLines are converted \r.
     ###
     ### @param new_val[String]
     ###
     ### @return [void]
     ###
-    def notes= (new_val)
+    def notes=(new_val)
       return nil if new_val == @notes
       ### line breaks should be \r
-      new_val = new_val.to_s.gsub(/\n/, "\r")
+      new_val = new_val.to_s.tr("\n", "\r")
       @notes = new_val
       @need_to_update = true
     end
 
-    ###
     ### Change the os_requirements field in the JSS
     ### E.g. 10.5, 10.5.3, 10.6.x
     ###
@@ -364,20 +326,20 @@ module JSS
     ###
     ### @see JSS.expand_min_os
     ###
-    def os_requirements= (new_val)
+    def os_requirements=(new_val)
       ### nil should be an empty array
       new_val = [] if new_val.to_s.empty?
 
       ### if any value starts with >=, expand it
       case new_val
-        when String
-          new_val = JSS.expand_min_os(new_val) if new_val =~ /^>=/
-        when Array
-          new_val.map!{|a|  a =~ /^>=/ ? JSS.expand_min_os(a) : a }
-          new_val.flatten!
-          new_val.uniq!
-        else
-          raise JSS::InvalidDataError, "os_requirements must be a String or an Array of strings"
+      when String
+        new_val = JSS.expand_min_os(new_val) if new_val =~ /^>=/
+      when Array
+        new_val.map! { |a| a =~ /^>=/ ? JSS.expand_min_os(a) : a }
+        new_val.flatten!
+        new_val.uniq!
+      else
+        raise JSS::InvalidDataError, 'os_requirements must be a String or an Array of strings'
       end
       ### get the array version
       @os_requirements = JSS.to_s_and_a(new_val)[:arrayform]
@@ -393,34 +355,31 @@ module JSS
     ### @return [Boolean] can this pkg be installed with the os
     ###   given?
     ###
-    def os_ok? (os = nil)
+    def os_ok?(os = nil)
       JSS.os_ok? @os_requirements, os
     end
 
-
-    ###
     ### Change the priority field in the JSS
     ###
     ### @param new_val[Integer] one of PRIORITIES
     ###
     ### @return [void]
     ###
-    def priority= (new_val)
+    def priority=(new_val)
       return nil if new_val == @priority
       new_val = DEFAULT_PRIORITY if new_val.to_s.empty?
-      raise JSS::InvalidDataError, ":priority must be an integer from 1-20" unless PRIORITIES.include? new_val
+      raise JSS::InvalidDataError, ':priority must be an integer from 1-20' unless PRIORITIES.include? new_val
       @priority = new_val
       @need_to_update = true
     end
 
-    ###
     ### Change the reboot-required field in the JSS
     ###
     ### @param new_val[Boolean]
     ###
     ### @return [void]
     ###
-    def reboot_required= (new_val)
+    def reboot_required=(new_val)
       return nil if new_val == @reboot_required
       new_val = false if new_val.to_s.empty?
       raise JSS::InvalidDataError, "reboot must be boolean 'true' or 'false'" unless JSS::TRUE_FALSE.include? new_val
@@ -428,16 +387,13 @@ module JSS
       @need_to_update = true
     end
 
-
-
-    ###
     ### Change the required processor field in the JSS
     ###
     ### @param new_val[String] one of {CPU_TYPES}
     ###
     ### @return [void]
     ###
-    def required_processor= (new_val)
+    def required_processor=(new_val)
       return nil if new_val == @required_processor
 
       new_val = DEFAULT_PROCESSOR if new_val.to_s.empty?
@@ -456,11 +412,9 @@ module JSS
     ### @return [Boolean] can this pkg be installed with the processor
     ###   given?
     ###
-    def processor_ok? (processor = nil)
+    def processor_ok?(processor = nil)
       JSS.processor_ok? @required_processor, processor
     end
-
-
 
     ### Change the notify field in the JSS
     ###
@@ -468,14 +422,13 @@ module JSS
     ###
     ### @return [void]
     ###
-    def send_notification= (new_val)
+    def send_notification=(new_val)
       return nil if new_val == @send_notification
       new_val = false if new_val.to_s.empty?
-      raise JSS::InvalidDataError, "send_notification must be boolean true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'send_notification must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @send_notification = new_val
       @need_to_update = true
     end
-
 
     ### Change which pkg should be installed if this one can't.
     ###
@@ -483,18 +436,17 @@ module JSS
     ###
     ### @return [void]
     ###
-    def switch_with_package= (new_val)
+    def switch_with_package=(new_val)
       return nil if new_val == @switch_with_package
       new_val = nil if new_val.to_s.empty?
 
-      raise JSS::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val and not self.class.all_names.include? new_val
+      raise JSS::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names.include? new_val)
 
       new_val ||= DO_NOT_INSTALL
       @switch_with_package = new_val
       @need_to_update = true
     end
 
-    ###
     ### Is this packaged installed on the current machine (via casper)?
     ### We just look for the receipt, which is the @filename less any possible .zip extension.
     ###
@@ -504,7 +456,6 @@ module JSS
       @receipt.file?
     end
 
-    ###
     ### Upload a locally-readable file to the master distribution point.
     ### If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before
     ### uploading and the @filename will be adjusted accordingly
@@ -521,12 +472,11 @@ module JSS
     ###
     ### @return [void]
     ###
-    def upload_master_file (local_file_path, rw_pw, unmount = true)
-
-      raise JSS::NoSuchItemError, "Please create this package in the JSS before uploading it." unless @in_jss
+    def upload_master_file(local_file_path, rw_pw, unmount = true)
+      raise JSS::NoSuchItemError, 'Please create this package in the JSS before uploading it.' unless @in_jss
 
       mdp = JSS::DistributionPoint.master_distribution_point
-      destination = mdp.mount(rw_pw, :rw) +"#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+      destination = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
       local_path = Pathname.new local_file_path
       raise JSS::NoSuchItemError, "Local file '#{@local_file}' doesn't exist" unless local_path.exist?
@@ -534,10 +484,10 @@ module JSS
       ### should we zip it?
       if local_path.directory?
         begin
-          zipdir = Pathname.new "/tmp/jssgemtmp-#{Time.new.strftime "%Y%m%d%H%M%S"}-#{$$}"
+          zipdir = Pathname.new "/tmp/jssgemtmp-#{Time.new.strftime '%Y%m%d%H%M%S'}-#{$PROCESS_ID}"
           zipdir.mkpath
-          zipdir.chmod 0700
-          zipfile = zipdir + (local_path.basename.to_s + ".zip")
+          zipdir.chmod 0o700
+          zipfile = zipdir + (local_path.basename.to_s + '.zip')
 
           ### go to the same dir as the local file
           wd = Dir.pwd
@@ -546,11 +496,11 @@ module JSS
           ### the contents of the zip file have to have the same name as the zip file itself (minus the .zip)
           ### so temporarily rename the source
           local_path.rename(local_path.parent + @filename)
-          raise "There was a problem zipping the pkg bundle" unless system "/usr/bin/zip -qr '#{zipfile}' '#{@filename}'"
+          raise 'There was a problem zipping the pkg bundle' unless system "/usr/bin/zip -qr '#{zipfile}' '#{@filename}'"
 
         ensure
           ### rename the source to the original name
-          (local_path.parent + @filename).rename local_path if  (local_path.parent + @filename).exist?
+          (local_path.parent + @filename).rename local_path if (local_path.parent + @filename).exist?
           ### go back where we started
           Dir.chdir wd
         end # begin
@@ -561,12 +511,11 @@ module JSS
         self.filename = zipfile.basename.to_s
 
       end # if directory
-      self.update
+      update
       FileUtils.copy_entry local_path, destination
 
       mdp.unmount if unmount
     end # upload
-
 
     ### Change the name of a package file on the master distribution point.
     ###
@@ -581,25 +530,22 @@ module JSS
     ###
     ### @return [nil]
     ###
-    def update_master_filename(old_file_name, new_file_name, rw_pw , unmount = true )
+    def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true)
       raise JSS::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
       mdp = JSS::DistributionPoint.master_distribution_point
-      pkgs_dir =  mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}"
+      pkgs_dir = mdp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
       old_file = pkgs_dir + old_file_name
-      new_file = pkgs_dir + new_file_name
-      if new_file.extname.empty? 
-      ### use the extension of the original file.
-        new_file = pkgs_dir + (new_file_name + old_file.extname)
-      end
-      if old_file.exist?
-        old_file.rename new_file
-      else
-        raise JSS::NoSuchItemError, "Original file not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}."
-      end # if exist
-      mdp.unmount if unmount
-      return nil
-    end # update_master_filename
+      raise JSS::NoSuchItemError, "File not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}." unless \
+        old_file.exist?
 
+      new_file = pkgs_dir + new_file_name
+      ### use the extension of the original file.
+      new_file = pkgs_dir + (new_file_name + old_file.extname) if new_file.extname.empty?
+
+      old_file.rename new_file
+      mdp.unmount if unmount
+      nil
+    end # update_master_filename
 
     ### Delete the filename from the master distribution point, if it exists.
     ###
@@ -613,7 +559,7 @@ module JSS
     ###
     ### @return [Boolean] was the file deleted?
     ###
-    def delete_master_file (rw_pw, unmount = true)
+    def delete_master_file(rw_pw, unmount = true)
       mdp = JSS::DistributionPoint.master_distribution_point
       file = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
@@ -623,9 +569,8 @@ module JSS
         did_it = false
       end # if exists
       mdp.unmount if unmount
-      return did_it
+      did_it
     end # delete master file
-
 
     ### Delete this package from the JSS, optionally
     ### deleting the master dist point file also.
@@ -637,9 +582,9 @@ module JSS
     ###
     ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     ###
-    def delete  (delete_file: false, rw_pw: nil, unmount: true)
+    def delete(delete_file: false, rw_pw: nil, unmount: true)
       super()
-      delete_master_file(rw_pw,  unmount) if delete_file
+      delete_master_file(rw_pw, unmount) if delete_file
     end
 
     ### Install this package via the jamf binary 'install' command from the
@@ -682,9 +627,8 @@ module JSS
     ###
     ### @todo deal with cert-based https authentication in dist points
     ###
-    def install (args = {})
-
-      raise JSS::UnsupportedError, "You must have root privileges to install packages" unless JSS.superuser?
+    def install(args = {})
+      raise JSS::UnsupportedError, 'You must have root privileges to install packages' unless JSS.superuser?
 
       args[:target] ||= '/'
 
@@ -698,7 +642,7 @@ module JSS
       # but
       #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
       #
-      append_at_vers = JSS.parse_jss_version("9.72")[:version]
+      append_at_vers = JSS.parse_jss_version('9.72')[:version]
       our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
       no_filename_in_url = (our_vers < append_at_vers)
 
@@ -713,15 +657,15 @@ module JSS
         mdp = JSS::DistributionPoint.my_distribution_point
 
         ### how do we access our dist. point? with http?
-        if mdp.http_downloads_enabled and (not args[:no_http])
+        if mdp.http_downloads_enabled && !(args[:no_http])
           using_http = true
           src_path = mdp.http_url
           if mdp.username_password_required
-            raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
-            raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
+            raise JSS::MissingDataError, 'No password provided for http download' unless ro_pw
+            raise JSS::InvaldDatatError, 'Incorrect password for http access to distribution point.' unless mdp.check_pw(:http, ro_pw)
             # insert the name and pw into the uri
             # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{CGI.escape mdp.http_username}:#{CGI.escape ro_pw}@#{$2}")
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username}:#{CGI.escape ro_pw}@#{Regexp.last_match(2)}")
           end
 
         # or with filesharing?
@@ -735,12 +679,12 @@ module JSS
       end # if args[:alt_download_url]
 
       if using_http
-        src_path += "#{@filename}" unless no_filename_in_url
+        src_path += @filename.to_s unless no_filename_in_url
       end
 
       ### are we doing "fill existing users" or "fill user template"?
-      do_feu = args[:feu] ? "-feu" : ""
-      do_fut = args[:fut] ? "-fut" : ""
+      do_feu = args[:feu] ? '-feu' : ''
+      do_fut = args[:fut] ? '-fut' : ''
 
       ### the install args for jamf
       command_args = "-package '#{@filename}' -path '#{src_path}'  -target '#{args[:target]}' #{do_feu} #{do_fut} -showProgress -verbose"
@@ -749,21 +693,17 @@ module JSS
       install_out = JSS::Client.run_jamf :install, command_args, args[:verbose]
 
       install_out =~ %r{<exitCode>(\d+)</exitCode>}
-      install_exit = $1 ? $1.to_i : nil
-      install_exit ||= $?.exitstatus
+      install_exit = Regexp.last_match(1) ? Regexp.last_match(1).to_i : nil
+      install_exit ||= $CHILD_STATUS.exitstatus
 
-
-      if (args.include? :unmount)
+      if args.include? :unmount
         mdp.unmount unless using_http
       end
 
-      return install_exit == 0 ? true : false
+      install_exit.zero? ? true : false
     end
 
-    ###
-    ### @note This code must be run as root to uninstall packages
-    ###
-    ### Causes the pkg to be uninstalled via the jamf command.
+    ### Uninstall this pkg via the jamf command.
     ###
     ### @param args[Hash] the arguments for installation
     ###
@@ -777,27 +717,28 @@ module JSS
     ###
     ### @return [Process::Status] the result of the 'jamf uninstall' command
     ###
-    def uninstall (args = {})
-
-      raise JSS::UnsupportedError, \
-        "This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls" unless removable?
-      raise JSS::UnsupportedError, "You must have root privileges to uninstall packages" unless JSS.superuser?
+    ### @note This code must be run as root to uninstall packages
+    ###
+    def uninstall(args = {})
+      unless removable?
+        raise JSS::UnsupportedError, \
+              'This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls'
+      end
+      raise JSS::UnsupportedError, 'You must have root privileges to uninstall packages' unless JSS.superuser?
       args[:target] ||= '/'
 
       ### are we doing "fill existing users" or "fill user template"?
-      do_feu = args[:feu] ? "-feu" : ""
-      do_fut = args[:fut] ? "-fut" : ""
+      do_feu = args[:feu] ? '-feu' : ''
+      do_fut = args[:fut] ? '-fut' : ''
 
       ### use jamf binary to uninstall the pkg
       jamf_opts = "-target '#{args[:target]}' -id '#{@id}' #{do_feu} #{do_fut}"
 
       ### run it via a client
-      uninstall_out = JSS::Client.run_jamf "uninstall", jamf_opts, args[:verbose]
+      JSS::Client.run_jamf 'uninstall', jamf_opts, args[:verbose]
 
-      return $?
+      $CHILD_STATUS
     end
-
-
 
     ### What type of package is this?
     ###
@@ -811,41 +752,8 @@ module JSS
       end
     end
 
-
+    ### Aliases
     ################################
-    ### Private Instance Methods
-    ################################
-
-    private
-
-
-    ###
-    ### Return the REST XML for this pkg, with the current values,
-    ### for saving or updating
-    ###
-    def rest_xml
-      doc = REXML::Document.new APIConnection::XML_HEADER
-      pkg = doc.add_element "package"
-      pkg.add_element('allow_uninstalled').text = @allow_uninstalled
-      pkg.add_element('boot_volume_required').text = @boot_volume_required
-      pkg.add_element('category').text = @category.to_s.casecmp("No category assigned") == 0 ? "" : @category
-      pkg.add_element('filename').text = @filename
-      pkg.add_element('fill_existing_users').text = @fill_existing_users
-      pkg.add_element('fill_user_template').text = @fill_user_template
-      pkg.add_element('info').text = @info
-      pkg.add_element('install_if_reported_available').text = @install_if_reported_available
-      pkg.add_element('name').text = @name
-      pkg.add_element('notes').text = @notes
-      pkg.add_element('os_requirements').text = JSS.to_s_and_a(@os_requirements)[:stringform]
-      pkg.add_element('priority').text = @priority
-      pkg.add_element('reboot_required').text = @reboot_required
-      pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? "None" : @required_processor
-      pkg.add_element('send_notification').text = @send_notification
-      pkg.add_element('switch_with_package').text = @switch_with_package
-      return doc.to_s
-    end # rest xml
-
-    public
 
     # aliases under their methods seem to confuse the YARD documenter, so I'm putting them all here.
     alias feu fill_existing_users
@@ -874,9 +782,35 @@ module JSS
     alias cpu_type= required_processor=
     alias notify= send_notification=
 
+    ### Private Instance Methods
+    ################################
 
+    private
 
-
+    ### Return the REST XML for this pkg, with the current values,
+    ### for saving or updating
+    ###
+    def rest_xml
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      pkg = doc.add_element 'package'
+      pkg.add_element('allow_uninstalled').text = @allow_uninstalled
+      pkg.add_element('boot_volume_required').text = @boot_volume_required
+      pkg.add_element('category').text = @category.to_s.casecmp('No category assigned').zero? ? '' : @category
+      pkg.add_element('filename').text = @filename
+      pkg.add_element('fill_existing_users').text = @fill_existing_users
+      pkg.add_element('fill_user_template').text = @fill_user_template
+      pkg.add_element('info').text = @info
+      pkg.add_element('install_if_reported_available').text = @install_if_reported_available
+      pkg.add_element('name').text = @name
+      pkg.add_element('notes').text = @notes
+      pkg.add_element('os_requirements').text = JSS.to_s_and_a(@os_requirements)[:stringform]
+      pkg.add_element('priority').text = @priority
+      pkg.add_element('reboot_required').text = @reboot_required
+      pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? 'None' : @required_processor
+      pkg.add_element('send_notification').text = @send_notification
+      pkg.add_element('switch_with_package').text = @switch_with_package
+      doc.to_s
+    end # rest xml
 
   end # class Package
 
