@@ -25,20 +25,15 @@
 ###
 module JSS
 
-  #####################################
   ### Module Variables
   #####################################
 
-
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
   ### Sub-Modules
   #####################################
 
-  ###
   ### A mix-in module that allows objects to be created in the JSS
   ### via the API.
   ###
@@ -63,21 +58,17 @@ module JSS
   ###
   module Creatable
 
-    #####################################
     ###  Constants
     #####################################
 
     CREATABLE = true
 
-    #####################################
     ###  Variables
     #####################################
 
-    #####################################
     ###  Mixed-in Instance Methods
     #####################################
 
-    ###
     ### Create a new object in the JSS.
     ###
     ### @return [Integer] the jss ID of the newly created object
@@ -85,13 +76,12 @@ module JSS
     def create
       raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless CREATABLE
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
-      JSS::API.post_rsrc( @rest_rsrc, rest_xml) =~ /><id>(\d+)<\/id></
-
-      @id = $1.to_i
+      JSS::API.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
-      @rest_rsrc =  "#{self.class::RSRC_BASE}/id/#{@id}"
-      return @id
+      @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
+      @id
     end
 
   end # module Creatable
