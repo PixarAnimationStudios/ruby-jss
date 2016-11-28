@@ -1,0 +1,26 @@
+{
+  "webhook": {
+    "id": 12,
+    "name": "MobilePush Webhook",
+    "webhookEvent": "MobileDevicePushSent"
+  },
+  "event": {
+    "udid": "0d12c74062dxyxyxb4b234f4ac1yxyxyx1efccd0",
+    "deviceName": "tipple",
+    "version": "4.71.00",
+    "model": "iPhone7,2",
+    "bluetoothMacAddress": "xx:xx:37:yy:78:xx",
+    "wifiMacAddress": "yy:yy:37:xx:78:yy",
+    "imei": "xx yyyyyy zzzzzz 0",
+    "icciID": "aaaa bbbb cccc dddd eeee",
+    "product": null,
+    "serialNumber": "C8EM25KSG5PT",
+    "userDirectoryID": "-1",
+    "room": "s167",
+    "osVersion": "9.3.4",
+    "osBuild": "13G35",
+    "modelDisplay": "iPhone 6",
+    "username": "username",
+    "jssID": 158
+  }
+}

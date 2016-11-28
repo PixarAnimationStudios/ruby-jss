@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
-
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
-
-end # module
+JSSWebHooks::EventObjects.object_definitions[:patch_software_title_update] = {
+  class_name: 'PatchSoftwareTitleUpdate',
+  attributes: [
+    :name,
+    :latestVersion,
+    :lastUpdate,
+    :reportUrl,
+    :jssID
+  ],
+  methods: [
+    { name: :timestamp, proc: proc { Time.strptime lastUpdate.to_s[0..-4], '%s' } }
+  ]
+}

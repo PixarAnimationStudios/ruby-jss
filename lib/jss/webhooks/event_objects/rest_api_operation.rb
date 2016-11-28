@@ -22,10 +22,15 @@
 ###
 ###
 
-###
-module JSS
-
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
-
-end # module
+JSSWebHooks::EventObjects.object_definitions[:rest_api_operation] = {
+  class_name: 'RestAPIOperation',
+  attributes: [
+    :operationSuccessful,
+    :objectID,
+    :objectName,
+    :objectTypeName,
+    :authorizedUsername,
+    :restAPIOperationType
+  ],
+  methods: []
+}

@@ -22,10 +22,15 @@
 ###
 ###
 
-###
-module JSS
+require 'jss/webhooks'
+require 'sinatra/base'
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+module JSSWebHooks
+
+  # the class has to be defined first for some reason
+  class Server < Sinatra::Base ; end
 
 end # module
+
+require 'jss/webhooks/server_app/server'
+require 'jss/webhooks/server_app/routes'

@@ -1,0 +1,15 @@
+{
+  "webhook": {
+    "id": 16,
+    "name": "RestAPIOperation Webhook",
+    "webhookEvent": "RestAPIOperation"
+  },
+  "event": {
+    "operationSuccessful": true,
+    "objectID": 1233,
+    "objectName": "wanderer",
+    "objectTypeName": "computer",
+    "authorizedUsername": "username",
+    "restAPIOperationType": "POST"
+  }
+}

@@ -22,10 +22,23 @@
 ###
 ###
 
-###
-module JSS
+JSSWebHooks.event_handler do |event|
+  eobject = event.event_object
+  whook = event.webhook
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  REPORT_ACTIONS = {
+    'PUT' => 'update',
+    'POST' => 'create',
+    'DELETE' => 'delete'
+  }.freeze unless defined? REPORT_ACTIONS
 
-end # module
+  action = REPORT_ACTIONS[eobject.restAPIOperationType]
+
+  return nil unless action
+
+  puts <<-ENDMSG
+The JSS WebHook named '#{whook.name}' was just triggered.
+It indicates that Casper user '#{eobject.authorizedUsername}' just used the JSS API to #{action}
+the JSS #{eobject.objectTypeName} named '#{eobject.objectName}' (id #{eobject.objectID})
+ENDMSG
+end

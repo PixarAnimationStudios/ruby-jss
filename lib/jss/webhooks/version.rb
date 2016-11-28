@@ -23,9 +23,9 @@
 ###
 
 ###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  ### The version of the JSS WebHooks framework
+  VERSION = '0.0.1'
 
 end # module

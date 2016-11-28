@@ -1,0 +1,13 @@
+{
+  "webhook": {
+    "id": 18,
+    "name": "SmartGroupComputerMembershipChange Webhook",
+    "webhookEvent": "SmartGroupComputerMembershipChange"
+  },
+  "event": {
+    "name": "OddComputers",
+    "smartGroup": true,
+    "jssid": 95,
+    "computer": true
+  }
+}

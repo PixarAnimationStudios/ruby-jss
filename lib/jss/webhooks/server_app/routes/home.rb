@@ -22,10 +22,15 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  # see server.rb
+  class Server < Sinatra::Base
+
+    get '/' do
+      body 'Hello, - this is the JSS WebHook handling service'
+    end # get /
+
+  end # class
 
 end # module

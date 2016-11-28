@@ -22,10 +22,17 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  # see server.rb
+  class Server < Sinatra::Base
+
+    post '/handle_webhook_event' do
+      request.body.rewind # in case someone already read it
+      event = JSSWebHooks::Event.parse_event request.body.read
+      event.handle
+    end # post
+
+  end # class
 
 end # module

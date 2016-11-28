@@ -22,10 +22,13 @@
 ###
 ###
 
-###
-module JSS
-
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
-
-end # module
+JSSWebHooks::EventObjects.object_definitions[:smart_group] = {
+  class_name: 'SmartGroup',
+  attributes: [
+    :name,
+    :smartGroup,
+    :jssid,
+    :computer
+  ],
+  methods: []
+}

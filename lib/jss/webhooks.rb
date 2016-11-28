@@ -22,10 +22,31 @@
 ###
 ###
 
-###
-module JSS
+require 'ruby-jss'
+require 'immutable-struct'
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+
+# The JSSWebHooks module
+#
+module JSSWebHooks
+
+  # load in some sample JSON files, one per event type
+  @sample_jsons = {}
+
+  sample_json_dir = Pathname.new(__FILE__).parent + 'webhooks/data/sample_jsons'
+  sample_json_dir.children.each do |jf|
+    event = jf.basename.to_s.chomp(jf.extname).to_sym
+    @sample_jsons[event] = jf.read
+  end
+
+  def self.sample_jsons
+    @sample_jsons
+  end
 
 end # module
+
+require 'jss/webhooks/configuration'
+require 'jss/webhooks/event_objects'
+require 'jss/webhooks/event'
+
+JSSWebHooks::Event::Handlers.load_handlers

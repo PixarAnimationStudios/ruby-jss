@@ -22,10 +22,43 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  ### An on-the-fly generated, self-signed ssl certificate with
+  ### matching private key.
+  ###
+  class SelfSignedCert
+    require 'openssl'
+    DFT_C = "US"
+    DFT_ST = "California"
+    DFT_L = "Emeryville"
+    DFT_O = "Pixar"
+    DFT_OU = "MacTeam"
+    DFT_CN = "localhost"
 
-end # module
+    attr_reader :private_key, :certificate
+
+    def initialize (args = {})
+      args[:c] ||= DFT_C
+      args[:st] ||= DFT_ST
+      args[:l] ||= DFT_L
+      args[:o] ||= DFT_O
+      args[:ou] ||= DFT_OU
+      args[:cn] ||= DFT_CN
+
+      name = "/C=#{args[:c]}/ST=#{args[:st]}/L=#{args[:l]}/O=#{args[:o]}/OU=#{args[:ou]}/CN=#{args[:cn]}"
+      ca   = OpenSSL::X509::Name.parse(name)
+      key = OpenSSL::PKey::RSA.new(1024)
+      crt = OpenSSL::X509::Certificate.new
+      crt.version = 2
+      crt.serial  = 1
+      crt.subject = ca
+      crt.issuer = ca
+      crt.public_key = key.public_key
+      crt.not_before = Time.now
+      crt.not_after  = Time.now + 1 * 365 * 24 * 60 * 60 # 1 year
+      @certificate = crt
+      @private_key = key
+    end # init
+  end # class
+end # module JSSWebHooks

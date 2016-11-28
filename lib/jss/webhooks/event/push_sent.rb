@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class PushSentEvent < Event
+
+    EVENT_NAME = 'PushSent'.freeze
+    OBJECT_CLASS = JSSWebHooks::EventObjects::Push
+
+  end # class
+
+  # map the EVENT_NAME (which comes from the JSS) with this class
+  JSSWebHooks::Event.event_to_class_names[PushSentEvent::EVENT_NAME] = PushSentEvent
 
 end # module

@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class ComputerPushCapabilityChangedEvent < Event
+
+    EVENT_NAME = 'ComputerPushCapabilityChanged'.freeze
+    OBJECT_CLASS = JSSWebHooks::EventObjects::Computer
+
+  end # class
+
+  # map the EVENT_NAME (which comes from the JSS) with this class
+  JSSWebHooks::Event.event_to_class_names[ComputerPushCapabilityChangedEvent::EVENT_NAME] = ComputerPushCapabilityChangedEvent
 
 end # module

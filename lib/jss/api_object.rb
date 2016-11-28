@@ -254,7 +254,48 @@ module JSS
       @@all_items[objects_key] = self.all(refresh = false).map{|o| self.new :id => o[:id]}
     end
 
+    ### Return true or false if an object of this subclass
+    ### with the given name or id exists on the server
+    ###
+    ### @param identfier [String,Integer] The name or id of object to check for
+    ###
+    ### @param refresh [Boolean] Should the data be re-read from the server
+    ###
+    ### @return [Boolean] does an object with the given name or id exist?
+    ###
+    def self.exist? (identfier, refresh = false )
+      case identfier
+      when Integer
+        self.all_ids(refresh).include? identfier
+      when String
+        self.all_names(refresh).include? identfier
+      else
+        raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
+      end
+    end
 
+    ### Return an id or nil if an object of this subclass
+    ### with the given name or id exists on the server
+    ###
+    ### Subclasses may want to override this method to support more
+    ### identifiers than name and id.
+    ###
+    ### @param identfier [String,Integer] The name or id of object to check for
+    ###
+    ### @param refresh [Boolean] Should the data be re-read from the server
+    ###
+    ### @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
+    ###
+    def self.valid_id(identfier, refresh = false)
+      case identfier
+      when Integer
+        return identfier if all_ids(refresh).include? identfier
+      when String
+        return map_all_ids_to(:name).invert[identfier] if all_names(refresh).include? identfier
+      else
+        raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
+      end
+    end
 
     ###
     ### Convert an Array of Hashes of API object data to a
@@ -439,7 +480,7 @@ module JSS
         @name = args[:name]
         @init_data = {:name => args[:name]}
         @in_jss = false
-        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
+        @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
         @need_to_update = true
         return
 
@@ -540,7 +581,7 @@ module JSS
     def delete
       return nil unless @in_jss
       JSS::API.delete_rsrc @rest_rsrc
-      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}"
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
       @id = nil
       @in_jss = false
       @need_to_update = false

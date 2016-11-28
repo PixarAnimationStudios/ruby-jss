@@ -22,10 +22,5 @@
 ###
 ###
 
-###
-module JSS
-
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
-
-end # module
+require 'jss/webhooks/server_app/routes/home'
+require 'jss/webhooks/server_app/routes/handle_webhook_event'

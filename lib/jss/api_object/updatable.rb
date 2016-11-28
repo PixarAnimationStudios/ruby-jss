@@ -94,7 +94,7 @@ module JSS
       raise JSS::InvalidDataError, "Names can't be empty!" if newname.to_s.empty?
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS" if self.class.all_names(:refresh).include? newname
       @name = newname
-      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{URI.escape @name}" if @rest_rsrc.include? '/name/'
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}" if @rest_rsrc.include? '/name/'
       @need_to_update = true
     end #  name=(newname)
 

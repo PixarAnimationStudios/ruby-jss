@@ -86,11 +86,6 @@ module JSS
     ### The possible values for cpu_type (required_processor) in a JSS package
     CPU_TYPES = ["None", "x86", "ppc"]
 
-    # TO DO - this is redundant with DEFAULT_PROCESSOR, but both are in use
-    # clean them up!
-    ### which is default?  there must be one to make a new pkg
-    DEFAULT_CPU_TYPE = "None"
-
     ### the possible priorities
     PRIORITIES = (1..20)
 
@@ -190,7 +185,7 @@ module JSS
 
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @reboot_required = @init_data[:reboot_required]
-      @required_processor = @init_data[:required_processor] || DEFAULT_CPU_TYPE
+      @required_processor = @init_data[:required_processor] || DEFAULT_PROCESSOR
       @required_processor = nil if @required_processor.to_s.casecmp('none') == 0
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
@@ -270,7 +265,7 @@ module JSS
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      $stderr.puts "WARNING: you must manualy change the filename on the Distribution Point(s)" if @in_jss
+      $stderr.puts "WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename." if @in_jss
       @filename = new_val
       @need_to_update = true
     end
@@ -573,6 +568,39 @@ module JSS
     end # upload
 
 
+    ### Change the name of a package file on the master distribution point.
+    ###
+    ### @param new_file_name[String]
+    ###
+    ### @param old_file_name[default: @filename, String]
+    ###
+    ### @param unmount[Boolean] whether or not ot unount the distribution point when finished.
+    ###
+    ### @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point,
+    ###   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
+    ###
+    ### @return [nil]
+    ###
+    def update_master_filename(old_file_name, new_file_name, rw_pw , unmount = true )
+      raise JSS::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
+      mdp = JSS::DistributionPoint.master_distribution_point
+      pkgs_dir =  mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}"
+      old_file = pkgs_dir + old_file_name
+      new_file = pkgs_dir + new_file_name
+      if new_file.extname.empty? 
+      ### use the extension of the original file.
+        new_file = pkgs_dir + (new_file_name + old_file.extname)
+      end
+      if old_file.exist?
+        old_file.rename new_file
+      else
+        raise JSS::NoSuchItemError, "Original file not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}."
+      end # if exist
+      mdp.unmount if unmount
+      return nil
+    end # update_master_filename
+
+
     ### Delete the filename from the master distribution point, if it exists.
     ###
     ### If you'll be uploading several files you can specify unmount as false, and do it manually when all
@@ -692,8 +720,8 @@ module JSS
             raise JSS::MissingDataError, "No password provided for http download" unless ro_pw
             raise JSS::InvaldDatatError, "Incorrect password for http access to distribution point." unless mdp.check_pw(:http, ro_pw)
             # insert the name and pw into the uri
-            reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{URI.escape mdp.http_username,reserved_chars}:#{URI.escape ro_pw, reserved_chars}@#{$2}")
+            # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{$1}#{CGI.escape mdp.http_username}:#{CGI.escape ro_pw}@#{$2}")
           end
 
         # or with filesharing?
@@ -706,8 +734,9 @@ module JSS
         src_path += "#{DIST_POINT_PKGS_FOLDER}/"
       end # if args[:alt_download_url]
 
-      src_path += "#{@filename}" unless no_filename_in_url
-
+      if using_http
+        src_path += "#{@filename}" unless no_filename_in_url
+      end
 
       ### are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? "-feu" : ""

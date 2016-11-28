@@ -167,7 +167,7 @@ module JSS
 
       ### the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
       ### as underscores, like this.
-      @symbolized_name = @name.gsub(' ','_').to_sym
+      @symbolized_name = @name.gsub(/-| /,'_').to_sym
 
     end # init
 

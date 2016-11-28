@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class JSSStartupEvent < Event
+
+    EVENT_NAME = 'JSSStartup'.freeze
+    OBJECT_CLASS = JSSWebHooks::EventObjects::JSS
+
+  end # class
+
+  # map the EVENT_NAME (which comes from the JSS) with this class
+  JSSWebHooks::Event.event_to_class_names[JSSStartupEvent::EVENT_NAME] = JSSStartupEvent
 
 end # module

@@ -22,10 +22,18 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class Event
+
+    WEBHOOK_ATTRIBUTES = [
+      :id,
+      :name,
+      :webhookEvent
+    ].freeze
+
+    WebHook = ImmutableStruct.new(*WEBHOOK_ATTRIBUTES)
+
+  end # class event
 
 end # module

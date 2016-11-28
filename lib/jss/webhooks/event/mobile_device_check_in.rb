@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class MobileDeviceCheckInEvent < Event
+
+    EVENT_NAME = 'MobileDeviceCheckIn'.freeze
+    OBJECT_CLASS = JSSWebHooks::EventObjects::MobileDevice
+
+  end # class
+
+  # map the EVENT_NAME (which comes from the JSS) with this class
+  JSSWebHooks::Event.event_to_class_names[MobileDeviceCheckInEvent::EVENT_NAME] = MobileDeviceCheckInEvent
 
 end # module

@@ -22,10 +22,27 @@
 ###
 ###
 
-###
-module JSS
-
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
-
-end # module
+JSSWebHooks::EventObjects.object_definitions[:computer] = {
+  class_name: 'Computer',
+  attributes: [
+    :udid,
+    :deviceName,
+    :model,
+    :macAddress,
+    :alternateMacAddress,
+    :serialNumber,
+    :osVersion,
+    :osBuild,
+    :userDirectoryID,
+    :username,
+    :realName,
+    :emailAddress,
+    :phone,
+    :position,
+    :department,
+    :building,
+    :room,
+    :jssID
+  ],
+  methods: []
+}

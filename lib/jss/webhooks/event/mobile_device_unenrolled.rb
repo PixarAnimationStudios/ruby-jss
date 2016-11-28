@@ -22,10 +22,16 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  class MobileDeviceUnEnrolledEvent < Event
+
+    EVENT_NAME = 'MobileDeviceUnEnrolled'.freeze
+    OBJECT_CLASS = JSSWebHooks::EventObjects::MobileDevice
+
+  end # class
+
+  # map the EVENT_NAME (which comes from the JSS) with this class
+  JSSWebHooks::Event.event_to_class_names[MobileDeviceUnEnrolledEvent::EVENT_NAME] = MobileDeviceUnEnrolledEvent
 
 end # module

@@ -22,10 +22,38 @@
 ###
 ###
 
-###
-module JSS
+module JSSWebHooks
 
-  ### The version of the JSS ruby gem
-  VERSION = '0.6.5'
+  # Sinatra Server
+  class Server < Sinatra::Base
+
+    DEFAULT_SERVER_ENGINE = :webrick
+    DEFAULT_PORT = 8443
+
+    configure do
+      server_engine = JSSWebHooks::CONFIG.server_engine || DEFAULT_SERVER_ENGINE
+      server_port = JSSWebHooks::CONFIG.server_port || DEFAULT_PORT
+
+      set :bind, '0.0.0.0'
+      set :server, server_engine
+      set :port, server_port
+    end
+
+    # run the server doing any engine-based config along the way
+    def self.run!
+      super do |server|
+        case server
+        when WEBrick::HTTPServer
+          webrick_ssl_config server
+        end # case
+      end # do server
+    end # run!
+
+    def self.webrick_ssl_config(_server)
+      # TODO: add ssl config
+      true
+    end
+
+  end # class
 
 end # module

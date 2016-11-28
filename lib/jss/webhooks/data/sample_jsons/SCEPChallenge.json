@@ -1,0 +1,10 @@
+{
+  "webhook": {
+    "id": 17,
+    "name": "SCEPChallenge Webhook",
+    "webhookEvent": "SCEPChallenge"
+  },
+  "event": {
+    "targetDevice": "computer"
+  }
+}
