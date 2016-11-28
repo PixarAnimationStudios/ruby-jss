@@ -74,7 +74,7 @@ module JSS
     ### @return [Integer] the jss ID of the newly created object
     ###
     def create
-      raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless CREATABLE
+      raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless respond_to? :create
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
       JSS::API.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
@@ -82,6 +82,34 @@ module JSS
       @need_to_update = false
       @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
       @id
+    end
+
+    ### make a clone of this API object, with a new name. The class must be creatable
+    ###
+    ### @param name [String] the name for the new object
+    ###
+    ### @return [APIObject] An uncreated clone of this APIObject with the given name
+    ###
+    def clone(new_name)
+      raise JSS::UnsupportedError, 'This class is not creatable in via ruby-jss' unless respond_to? :create
+      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with that name" if \
+        self.class.all_names.include? new_name
+
+      orig_in_jss = @in_jss
+      @in_jss = false
+      orig_id = @id
+      @id = nil
+      orig_rsrc = @rest_rsrc
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name}"
+
+      new_obj = dup
+
+      @in_jss = orig_in_jss
+      @id = orig_id
+      @rest_rsrc = orig_rsrc
+      new_obj.name = new_name
+
+      new_obj
     end
 
   end # module Creatable

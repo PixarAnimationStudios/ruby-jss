@@ -25,19 +25,15 @@
 ###
 module JSS
 
-  #####################################
   ### Module Variables
   #####################################
 
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
   ### Classes
   #####################################
 
-  ###
   ### This class is the parent to all JSS API objects. It provides standard methods and structures
   ### that apply to all API resouces.
   ###
@@ -113,11 +109,9 @@ module JSS
   ###
   class APIObject
 
-    #####################################
     ### Mix-Ins
     #####################################
 
-    #####################################
     ### Class Variables
     #####################################
 
@@ -131,11 +125,9 @@ module JSS
     ###
     @@all_items = {}
 
-    #####################################
     ### Class Methods
     #####################################
 
-    ###
     ### Return an Array of Hashes for all objects of this subclass in the JSS.
     ###
     ### This method is only valid in subclasses of JSS::APIObject, and is
@@ -173,7 +165,6 @@ module JSS
       @@all_items[self::RSRC_LIST_KEY] = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
-    ###
     ### Returns an Array of the JSS id numbers of all the members
     ### of the subclass.
     ###
@@ -188,7 +179,6 @@ module JSS
       all(refresh).map { |i| i[:id] }
     end
 
-    ###
     ### Returns an Array of the JSS names of all the members
     ### of the subclass.
     ###
@@ -203,7 +193,6 @@ module JSS
       all(refresh).map { |i| i[:name] }
     end
 
-    ###
     ### Return a hash of all objects of this subclass
     ### in the JSS where the key is the id, and the value
     ### is some other key in the data items returned by the JSS::APIObject.all.
@@ -296,7 +285,6 @@ module JSS
       end
     end
 
-    ###
     ### Convert an Array of Hashes of API object data to a
     ### REXML element.
     ###
@@ -343,7 +331,6 @@ module JSS
       JSS.item_list_to_rexml_list self::RSRC_LIST_KEY, self::RSRC_OBJECT_KEY, array, content
     end
 
-    ###
     ### Some API objects contain references to other API objects. Usually those
     ### references are a Hash containing the :id and :name of the target. Sometimes,
     ### however the reference is just the name of the target.
@@ -381,17 +368,14 @@ module JSS
       end
     end
 
-    #####################################
     ### Class Constants
     #####################################
 
-    ###
     ### These Symbols are added to VALID_DATA_KEYS for performing the
     ### :data validity test described above.
     ###
     REQUIRED_DATA_KEYS = [:id, :name].freeze
 
-    ###
     ### By default, these keys are available for object lookups
     ### Others can be added by subclasses using an array of them
     ### as the second argument to super(initialize)
@@ -400,7 +384,6 @@ module JSS
     ###
     DEFAULT_LOOKUP_KEYS = [:id, :name].freeze
 
-    #####################################
     ### Attributes
     #####################################
 
@@ -416,11 +399,9 @@ module JSS
     ### @return [String] the Rest resource for API access (the part after "JSSResource/" )
     attr_reader :rest_rsrc
 
-    #####################################
     ### Constructor
     #####################################
 
-    ###
     ### The args hash must include :id, :name, or :data.
     ### * :id or :name will be looked up via the API
     ### * * if the subclass includes JSS::Creatable, :id can be :new, to create a new object in the JSS.
@@ -441,6 +422,7 @@ module JSS
     ###   lookup may be performed.
     ###
     def initialize(args = {}, other_lookup_keys = [])
+
       ####### Previously looked-up JSON data
       if args[:data]
 
@@ -485,8 +467,6 @@ module JSS
         @need_to_update = true
         return
 
-      ################################
-      ################################
       ###### Look up the data via the API
       else
         ### what lookup key are we using?
@@ -595,7 +575,6 @@ module JSS
       new_obj
     end
 
-    ###
     ### Delete this item from the JSS.
     ###
     ### Subclasses may want to redefine this method,
@@ -611,14 +590,13 @@ module JSS
       @id = nil
       @in_jss = false
       @need_to_update = false
+      :deleted
     end # delete
 
-    #####################################
     ### Private Instance Methods
     #####################################
     private
 
-    ###
     ### Return a String with the XML Resource
     ### for submitting creation or changes to the JSS via
     ### the API via the Creatable or Updatable modules
