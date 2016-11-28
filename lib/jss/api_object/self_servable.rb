@@ -101,15 +101,13 @@ module JSS
 
     SELF_SERVABLE = true
 
-    IOS_PROFILE_REMOVAL_OPTIONS = ["Always", "With Authorization", "Never"]
+    IOS_PROFILE_REMOVAL_OPTIONS = ['Always', 'With Authorization', 'Never'].freeze
 
     ###  Variables
     #####################################
 
-
     ###  Attribtues
     #####################################
-
 
     ### @return [String] The verbage that appears in SelfSvc for this item
     attr_reader :self_service_description
@@ -153,13 +151,11 @@ module JSS
     ###
     attr_reader :self_service_user_removable
 
-
     ### @return [String] The text label on the install button in SSvc (OSX SSvc only)
     attr_reader :self_service_install_button_text
 
     ### @return [Boolean] Should an extra window appear before the user can install the item? (OSX SSvc only)
     attr_reader :self_service_force_users_to_view_description
-
 
     #####################################
     ###  Mixed-in Instance Methods
@@ -197,7 +193,6 @@ module JSS
       @self_service_force_users_to_view_description ||= false
     end # parse
 
-
     ### Setters
     ###
 
@@ -205,7 +200,7 @@ module JSS
     ###
     ### @return [void]
     ###
-    def self_service_description= (new_val)
+    def self_service_description=(new_val)
       new_val.strip!
       return if @self_service_description == new_val
       @self_service_description = new_val
@@ -216,9 +211,9 @@ module JSS
     ###
     ### @return [void]
     ###
-    def self_service_install_button_text= (new_val)
+    def self_service_install_button_text=(new_val)
       return nil if @self_service_install_button_text == new_val
-      raise JSS::InvalidDataError, "Only OS X Self Service Items can have custom button text" unless self.class::SELF_SERVICE_TARGET == :macos
+      raise JSS::InvalidDataError, 'Only OS X Self Service Items can have custom button text' unless self.class::SELF_SERVICE_TARGET == :macos
       @self_service_install_button_text = new_val.strip
       @need_to_update = true
     end
@@ -227,9 +222,9 @@ module JSS
     ###
     ### @return [void]
     ###
-    def self_service_feature_on_main_page= (new_val)
+    def self_service_feature_on_main_page=(new_val)
       return nil if @self_service_feature_on_main_page == new_val
-      raise JSS::InvalidDataError, "New value must be true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'New value must be true or false' unless JSS::TRUE_FALSE.include? new_val
       @self_service_feature_on_main_page = new_val
       @need_to_update = true
     end
@@ -238,10 +233,10 @@ module JSS
     ###
     ### @return [void]
     ###
-    def self_service_force_users_to_view_description= (new_val)
+    def self_service_force_users_to_view_description=(new_val)
       return nil if @self_service_force_users_to_view_description == new_val
-      raise JSS::InvalidDataError, "Only OS X Self Service Items can force users to view description" unless self.class::SELF_SERVICE_TARGET == :macos
-      raise JSS::InvalidDataError, "New value must be true or false" unless JSS::TRUE_FALSE.include? new_val
+      raise JSS::InvalidDataError, 'Only OS X Self Service Items can force users to view description' unless self.class::SELF_SERVICE_TARGET == :macos
+      raise JSS::InvalidDataError, 'New value must be true or false' unless JSS::TRUE_FALSE.include? new_val
       @self_service_force_users_to_view_description = new_val
       @need_to_update = true
     end
@@ -256,16 +251,16 @@ module JSS
     ###
     ### @return [void]
     ###
-    def add_self_service_category (new_cat, display_in: true, feature_in: false)
+    def add_self_service_category(new_cat, display_in: true, feature_in: false)
       new_cat.strip!
       raise JSS::NoSuchItemError, "No category '#{new_cat}' in the JSS" unless JSS::Category.all_names(:refresh).include? new_cat
-      raise JSS::InvalidDataError, "display_in must be true or false" unless JSS::TRUE_FALSE.include? display_in
-      raise JSS::InvalidDataError, "feature_in must be true or false" unless JSS::TRUE_FALSE.include? feature_in
+      raise JSS::InvalidDataError, 'display_in must be true or false' unless JSS::TRUE_FALSE.include? display_in
+      raise JSS::InvalidDataError, 'feature_in must be true or false' unless JSS::TRUE_FALSE.include? feature_in
 
-      new_data = {:name => new_cat, :display_in => display_in, :feature_in => feature_in }
+      new_data = { name: new_cat, display_in: display_in, feature_in: feature_in }
 
       # see if this category is already among our categories.
-      idx = @self_service_categories.index{|c| c[:name] == new_cat}
+      idx = @self_service_categories.index { |c| c[:name] == new_cat }
 
       if idx
         @self_service_categories[idx] = new_data
@@ -283,7 +278,7 @@ module JSS
     ### @return [void]
     ###
     def remove_self_service_category(cat)
-      @self_service_categories.reject!{|c| c[:name] == cat }
+      @self_service_categories.reject! { |c| c[:name] == cat }
       @need_to_update = true
     end
 
@@ -296,7 +291,6 @@ module JSS
     ### @return [REXML::Element]
     ###
     def self_service_xml
-
       ssvc = REXML::Element.new('self_service')
 
       ssvc.add_element('self_service_description').text = @self_service_description
@@ -328,8 +322,6 @@ module JSS
 
     ### aliases
     alias change_self_service_category add_self_service_category
-
-
 
   end # module SelfServable
 
