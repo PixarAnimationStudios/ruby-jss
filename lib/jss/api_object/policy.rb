@@ -25,25 +25,18 @@
 ###
 module JSS
 
-  ######################
   ### Module Constants
   ######################
 
-
-  ######################
   ### Module Variables
   ######################
 
-  ######################
   ### Module Methods
   ######################
 
-
-  #####################################
   ### Classes
   #####################################
 
-  ###
   ### A class implementing a JSS Policy.
   ###
   ### Like many API objects, the data comes from the API in sections, and
@@ -52,8 +45,8 @@ module JSS
   ###
   ###
   ### Policy instances are partially read-only:
-  ### - New policies cannot be created via this class, please use the WebApp.
-  ### - Only a few attributes can be changed and updated via the Policy class:
+  ### - Due to limitations in the API implementation of policies, as well as the complexity
+  ###   of policy objects, only these attributes can be set and updated via the Policy class:
   ### - - name
   ### - - frequency
   ### - - target_drive
@@ -63,11 +56,13 @@ module JSS
   ### - - triggers
   ### - - scope, see {JSS::Scopable} and {JSS::Scopable::Scope}
   ### - - files and processes
+  ### - - packages, see {#add_package} and {#remove_package}
+  ### - - scripts see {#add_script} and {#remove_script}
+  ### - - self service, see {JSS::SelfServable}
+  ###
   ### All other values and sections must be edited via the Web App.
   ###
   ### Policies may be deleted via this class
-  ###
-  ### @see JSS::APIObject
   ###
   class Policy < JSS::APIObject
 
@@ -75,9 +70,11 @@ module JSS
     ### Mix-Ins
     #####################################
 
+    include JSS::Creatable
     include JSS::Updatable
     include JSS::Scopable
     include JSS::Uploadable
+    include JSS::SelfServable
 
     #####################################
     ### Class Methods
@@ -100,6 +97,15 @@ module JSS
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:scope, :user_interaction, :files_processes ]
+
+    ### policies can take uploaded icons
+    UPLOAD_TYPES = {:icon => :policies}
+
+    ### policies are available in macOS self Serviec
+    SELF_SERVICE_TARGET = :macos
+
+    ### policies via self services are still polcies
+    SELF_SERVICE_PAYLOAD = :policy
 
 
     SECTIONS = [
@@ -163,13 +169,32 @@ module JSS
       :install_cache => "Install Cached"
     }
 
-    SCRIPT_PRIORITIES = {:pre => "Before", :post => "After"}
+    SCRIPT_PRIORITIES = {
+      :pre => "Before",
+      :before => "Before",
+      :post => "After",
+      :after => "After"
+    }
 
-    PRINTER_ACTIIONS = {:map => "install", :unmap => "uninstall"}
+    PRINTER_ACTIIONS = {
+      :map => "install",
+      :unmap => "uninstall"
+    }
 
-    DOCK_ITEM_ACTIONS = {:add_start => "Add To Beginning", :add_end => "Add To End", :remove => "Remove"}
+    DOCK_ITEM_ACTIONS = {
+      :add_start => "Add To Beginning",
+      :add_end => "Add To End", :remove => "Remove"
+    }
 
-    NETWORK_REQUIREMENTS = {:any => "Any", :ethernet => "EtherNet"}
+    NETWORK_REQUIREMENTS = {
+      :any => "Any",
+      :ethernet => "EtherNet"
+    }
+
+    TRIGGER_TYPES = {
+      :event => "EVENT",
+      :user => "USER_INITIATED"
+    }
 
     TRIGGER_EVENTS = {
        :startup => :trigger_startup,
@@ -180,8 +205,6 @@ module JSS
        :enrollment => :trigger_enrollment_complete ,
        :custom => :trigger_other
       }
-
-    TRIGGER_TYPES = {:event => "EVENT", :user => "USER_INITIATED"}
 
     SCOPE_TARGET_KEY = :computers
 
@@ -213,12 +236,27 @@ module JSS
     ### @return [String] a string with the site name
     attr_reader :site
 
-
     ### @return [Hash]
     ###
     ### Overrides for various defaults
     ###
-    ### The hash looks like: !{ :distribution_point => "", :force_afp_smb => false, :netboot_server => "current", :target_drive => "default", :sus => "default"}
+    ### NOTE: There's an API bug in both XML and JSON with the
+    ###   :distribution_point and :target_drive values.
+    ###   First off, it's not clear what the :target_drive value here
+    ###   is overriding, since there's a :target_drive value in the
+    ###   main General hash.
+    ###   Second off - when you set a non-default dist.point in the
+    ###   packages section of the UI, that value shows up in both
+    ###   this :target_drive and the general one, but the :distribution_point
+    ###   value here stays empty.
+    ###
+    ### The hash looks like:
+    ### :distribution_point => "",
+    ### :force_afp_smb => false,
+    ### :netboot_server => "current",
+    ### :target_drive => "default",
+    ### :sus => "default"
+    ###
     attr_reader :override_default_settings
 
     ### The API has a :network_requirements key in the general section, but
@@ -304,10 +342,11 @@ module JSS
     ###
     attr_reader :trigger_events
 
-    ##### client machine maintenence
+    ###### client machine maintenence
     ### These are the computer maint. tasks
     ### that might be performed by this policy
     ### All are boolean
+    ### TODO: make individial getters/setters as for @files_processes
 
     ### @return [Boolean] client maintenance task
     attr_reader :verify_startup_disk
@@ -333,19 +372,13 @@ module JSS
     ### @return [Boolean] client maintenance task
     attr_reader :flush_user_cache
 
-    ### attr_reader :heal # deprecated
-    ### attr_reader :prebinding # deprecated
-
-    ##### client account maint
-    ### acct related maintenence performed by this policy
-
     ### @return [Array<Hash>]
     ###
     ### The directory bindings applied
     ###
     ### each hash is like: !{:name => "LDAP", :id => 4}
+    ### TODO: handle as for packages & scripts
     attr_reader :directory_bindings
-
 
     ### @return [Hash] the open firmware mode and password
     attr_reader :open_firmware_efi_password
@@ -361,6 +394,7 @@ module JSS
     ### - :managed_password_sha256
     ### - :managed_password_length  # for random generating pws
     ###
+    ### TODO: make individial getters/setters as for @files_processes
     attr_reader :management_account
 
     ### @return [Array<Hash>]
@@ -377,9 +411,10 @@ module JSS
     ### - :filevault_enabled => true,
     ### - :username => "chrisltest",
     ### - :password_md5 => "3858f62230ac3c915f300c664312c63f",
-    ### - : password => "foobar",
+    ### - :password => "foobar",
     ### - :password_sha256=> "c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2"
     ###
+    ### TODO: make individial getters/setters as for @files_processes
     attr_reader :accounts
 
     ### @return [Array<Hash>]
@@ -414,23 +449,7 @@ module JSS
     ###
     attr_reader :scripts
 
-
-    ### @return [Hash]
-    ###
-    ### Self-service-related data for this policy
-    ###
-    ### The hash keys are:
-    ### - :self_service_icon => !{:uri => String,:id => Integer, :filename => String}
-    ### - :use_for_self_service => true,
-    ### - :install_button_text => "Install",
-    ### - :self_service_description => "Descriptive text",
-    ### - :force_users_to_view_description => false
-    ###
-    ### Note: we'll add a ruby-std convenience method below "self_service?"
-    ###   which returns the :use_for_self_service key.
-    attr_reader :self_service
-
-    #### user interaction
+    ###### user interaction
     ### These are extracted from the :user_interaction hash
     ### in the JSON output, which looks like this:
     ###   :message_start => "",
@@ -438,6 +457,7 @@ module JSS
     ###   :allow_deferral_until_utc => "",
     ###   :message_finish => ""
     ###
+    ### TODO: make individial getters/setters as for @files_processes
 
     ### @return [Boolean] can the user defer the policy?
     attr_reader :user_may_defer
@@ -458,11 +478,13 @@ module JSS
     ### The hash keys are:
     ### - :user_logged_in => "Do not restart",
     ### - :minutes_until_reboot => 5,
-    ### - :message=> "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
+    ### - :message=> "This computer will restart in 5 minutes. yaddayadda.",
     ### - :startup_disk => "Current Startup Disk",
     ### - :specify_startup => "",
     ### - :no_user_logged_in => "Do not restart"
+    ### - :file_vault_2_reboot => false
     ###
+    ### TODO: make individial getters/setters as for @files_processes
     attr_reader :reboot_options
 
     ##### files & processes
@@ -479,7 +501,6 @@ module JSS
     ### NOTE, since these items are editable, they have custom getters/setters
     ### so that the hash isn't directly changable without @need_to_update.
     ### attr_reader :files_processes
-
 
     ### @return [Array<Hash>]
     ###
@@ -506,90 +527,124 @@ module JSS
     ### Public Instance Methods
     #####################################
 
-    ###
     ### @see APIObject#initialize
     ###
     def initialize(args = {})
 
       super
 
+      if @in_jss
+        gen =  @init_data[:general]
+        @category = JSS::APIObject.get_name(gen[:category])
+        @frequency = gen[:frequency]
+        @target_drive = gen[:target_drive]
+        @offline = gen[:offline]
+        @enabled = gen[:enabled]
+        @site = JSS::APIObject.get_name(gen[:site][:name])
+        @override_default_settings = gen[:override_default_settings]
+        @trigger = gen[:trigger ]
+        @trigger_events = {
+         :trigger_startup => gen[:trigger_startup ],
+         :trigger_login => gen[:trigger_login ],
+         :trigger_logout => gen[:trigger_logout ],
+         :trigger_checkin => gen[:trigger_checkin ],
+         :trigger_network_state_changed => gen[:trigger_network_state_changed ],
+         :trigger_enrollment_complete => gen[:trigger_enrollment_complete ],
+         :trigger_other => gen[:trigger_other ]
+        }
 
-      gen =  @init_data[:general]
-      @category = JSS::APIObject.get_name(gen[:category])
-      @frequency = gen[:frequency]
-      @target_drive = gen[:target_drive]
-      @offline = gen[:offline]
-      @enabled = gen[:enabled]
-      @site = JSS::APIObject.get_name(gen[:site][:name])
-      @override_default_settings = gen[:override_default_settings]
-      @trigger = gen[:trigger ]
-      @trigger_events = {
-       :trigger_startup => gen[:trigger_startup ],
-       :trigger_login => gen[:trigger_login ],
-       :trigger_logout => gen[:trigger_logout ],
-       :trigger_checkin => gen[:trigger_checkin ],
-       :trigger_network_state_changed => gen[:trigger_network_state_changed ],
-       :trigger_enrollment_complete => gen[:trigger_enrollment_complete ],
-       :trigger_other => gen[:trigger_other ]
-      }
+        dtl = gen[:date_time_limitations]
 
-      dtl = gen[:date_time_limitations]
+        @server_side_limitations = {
+          :activation => JSS.epoch_to_time(dtl[:activation_date_epoch]),
+          :expiration => JSS.epoch_to_time(dtl[:expiration_date_epoch])
+        }
 
-      @server_side_limitations = {
-        :activation => JSS.epoch_to_time(dtl[:activation_date_epoch]),
-        :expiration => JSS.epoch_to_time(dtl[:expiration_date_epoch])
-      }
+        @client_side_limitations = {
+          :no_execute_on => dtl[:no_execute_on], # NOTE- there's a bug in the JSON output, it's been reported to JAMF.
+          :no_execute_start => dtl[:no_execute_start], # String like "1:01 AM"
+          :no_execute_end => dtl[:no_execute_end], # String like "2:02 PM"
+          :network_requirements => gen[:network_requirements]
+        }
 
-      @client_side_limitations = {
-        :no_execute_on => dtl[:no_execute_on], # NOTE- there's a bug in the JSON output, it's been reported to JAMF.
-        :no_execute_start => dtl[:no_execute_start], # String like "1:01 AM"
-        :no_execute_end => dtl[:no_execute_end], # String like "2:02 PM"
-        :network_requirements => gen[:network_requirements]
-      }
+        maint = @init_data[:maintenance]
+        @verify_startup_disk = maint[:verify]
+        @permissions_repair = maint[:permissions]
+        @recon = maint[:recon]
+        @fix_byhost = maint[:byhost]
+        @reset_name = maint[:reset_name]
+        @flush_system_cache = maint[:system_cache]
+        @install_cached_pkgs = maint[:install_all_cached_packages]
+        @flush_user_cache = maint[:user_cache]
 
-      maint = @init_data[:maintenance]
-      @verify_startup_disk = maint[:verify]
-      @permissions_repair = maint[:permissions]
-      @recon = maint[:recon]
-      @fix_byhost = maint[:byhost]
-      @reset_name = maint[:reset_name]
-      @flush_system_cache = maint[:system_cache]
-      @install_cached_pkgs = maint[:install_all_cached_packages]
-      @flush_user_cache = maint[:user_cache]
+        amaint = @init_data[:account_maintenance]
+        @directory_bindings = amaint[:directory_bindings]
+        @open_firmware_efi_password = amaint[:open_firmware_efi_password]
+        @management_account = amaint[:management_account]
+        @accounts = amaint[:accounts]
 
-      amaint = @init_data[:account_maintenance]
-      @directory_bindings = amaint[:directory_bindings]
-      @open_firmware_efi_password = amaint[:open_firmware_efi_password]
-      @management_account = amaint[:management_account]
-      @accounts = amaint[:accounts]
+        @packages = @init_data[:package_configuration][:packages] ? @init_data[:package_configuration][:packages] : []
 
-      @packages = @init_data[:package_configuration][:packages] ? @init_data[:package_configuration][:packages] : []
+        @scripts = @init_data[:scripts]
 
-      @scripts = @init_data[:scripts]
 
-      @self_service = @init_data[:self_service]
 
-      uint = @init_data[:user_interaction]
-      @user_may_defer = uint[:allow_users_to_defer]
-      @user_may_defer_until = JSS.parse_datetime uint[:allow_deferral_until_utc]
-      @user_message_start =  uint[:message_start]
-      @user_message_finish = uint[:message_finish]
+        uint = @init_data[:user_interaction]
+        @user_may_defer = uint[:allow_users_to_defer]
+        @user_may_defer_until = JSS.parse_datetime uint[:allow_deferral_until_utc]
+        @user_message_start =  uint[:message_start]
+        @user_message_finish = uint[:message_finish]
 
-      @reboot_options = @init_data[:reboot]
+        @reboot_options = @init_data[:reboot]
 
-      @files_processes = @init_data[:files_processes]
+        @files_processes = @init_data[:files_processes]
 
-      @dock_items = @init_data[:dock_items]
+        @dock_items = @init_data[:dock_items]
 
-      @disk_encryption = @init_data[:disk_encryption]
+        @disk_encryption = @init_data[:disk_encryption]
 
-      @printers = @init_data[:printers]
+        @printers = @init_data[:printers]
 
-      parse_scope
+        parse_scope
+        parse_self_service
+        @in_self_service = @init_data[:self_service][:use_for_self_service]
+
+      ### Not in jss yet
+      else
+
+      end
+      @enabled ||= false
+      @frequency ||= "Once per computer"
+      @target_drive ||= '/'
+      @offline ||= false
+      @override_default_settings ||= {}
+      @scripts ||= []
+      @server_side_limitations  ||= {}
+      @client_side_limitiations  ||= {}
+      @trigger_events  ||= {}
+      @directory_bindings  ||= []
+      @open_firmware_efi_password  ||= {}
+      @management_account  ||= {}
+      @accounts  ||= []
+      @packages  ||= []
+      @scripts ||= []
+      @self_service ||= {}
+      @dock_items ||= []
+      @disk_encryption ||= {}
+      @printers ||= []
+      @files_processes ||= {}
+      @scope ||= JSS::Scopable::Scope.new(:computers, all_computers: false)
+
+      unless @reboot_options
+        @reboot_options = {}
+        @reboot_options[:user_logged_in] = "Do not restart"
+        @reboot_options[:no_user_logged_in] = "Do not restart"
+      end
 
     end  # init
 
-    ###
+    ###### General
+
     ### Change the enabled state of this item
     ###
     ### @param new_val[Boolean]  the new state.
@@ -603,7 +658,16 @@ module JSS
       @need_to_update = true
     end
 
-    ###
+    ### Shortcut for enabled = true
+    def enable
+      enabled = true
+    end
+
+    ### Shortcut for endabled = false
+    def disable
+      enabled = false
+    end
+
     ### Set a new frequency for this policy.
     ###
     ### @param freq[Symbol] the desired frequency, must be one of the keys of {FREQUENCIES}
@@ -616,7 +680,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Set a new target drive for this policy.
     ###
     ### @param path_to_drive[String,Pathname] the full path to the target drive, must start with a '/'
@@ -629,7 +692,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Set whether this policy is available offline.
     ###
     ### @param new_val[Boolean]
@@ -642,8 +704,7 @@ module JSS
       @need_to_update = true
     end
 
-    ###
-    ### Change the category of this item, arg is a category name
+    ### Change the category of this policy, arg is a category name
     ###
     ### @param new_val[String] the name of the new category
     ###
@@ -658,7 +719,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### Change a trigger event
     ###
     ### @param type[Symbol] the type of trigger, one of the keys of {TRIGGER_EVENTS}
@@ -678,12 +738,14 @@ module JSS
       @need_to_update = true
     end
 
-    ###
+    ###### Files & Processes
+
     ### @return [String] The unix shell command to run on ths client.
     ###
-    def run_command ; @files_processes[:run_command] ; end
+    def run_command
+      @files_processes[:run_command]
+    end
 
-    ###
     ### Set the unix shell command to be run on the client
     ###
     ### @param command[String] the unix shell command to be run on the client
@@ -696,12 +758,12 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### @return [Boolean] Should we update the database used by the locate command?
     ###
-    def update_locate_database? ; @files_processes[:update_locate_database] ; end
+    def update_locate_database?
+      @files_processes[:update_locate_database]
+    end
 
-    ###
     ### Set whether or not to update the database used by the locate command.
     ###
     ### @param tf[Boolean] whether or not to update the database used by the locate command.
@@ -713,21 +775,18 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### @return [String] The process name to search for on the client
     ###
     def search_for_process
       @files_processes[:search_for_process]
     end
 
-    ###
     ### @return [Boolean] Should the searched-for process be killed if found.
     ###
     def kill_process?
       @files_processes[:kill_process]
     end
 
-    ###
     ### Set the process name to search for, and if it should be killed if found.
     ###
     ### Setter methods (which end with =) can't easily take
@@ -746,17 +805,18 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### @return [Pathname] The path to search for
     ###
-    def search_by_path ; Pathname.new @files_processes[:search_by_path] ; end
+    def search_by_path
+      Pathname.new @files_processes[:search_by_path]
+    end
 
-    ###
     ### @return [Boolean] Should the searched-for path be deleted if found?
     ###
-    def delete_file? ; @files_processes[:delete_file] ; end
+    def delete_file?
+      @files_processes[:delete_file]
+    end
 
-    ###
     ### Set the path to search for, a String or Pathname, and whether or not to delete it if found.
     ###
     ### Setter methods (which end with =) can't easily take
@@ -776,10 +836,11 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### @return [String] The term to search for using spotlight
     ###
-    def spotlight_search ; @files_processes[:spotlight_search] ; end
+    def spotlight_search
+      @files_processes[:spotlight_search]
+    end
 
     ### Set the term to seach for using spotlight
     ###
@@ -793,10 +854,11 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### @return [String] The term to seach for using the locate command
     ###
-    def locate_file ; @files_processes[:locate_file] ; end
+    def locate_file
+      @files_processes[:locate_file]
+    end
 
     ### Set the term to seach for using the locate command
     ###
@@ -810,105 +872,302 @@ module JSS
       @need_to_update = true
     end
 
+    ###### Client maintenance
+
+    ### Set the
+
+    ###### Packages
+
     ### @return [Array] the id's of the packages handled by the policy
-    def package_ids; @packages.map{|p| p[:id]} ; end
+    def package_ids
+      @packages.map{|p| p[:id]}
+    end
 
     ### @return [Array] the names of the packages handled by the policy
-    def package_names; @packages.map{|p| p[:name]} ; end
+    def package_names
+      @packages.map{|p| p[:name]}
+    end
 
+    ### Add a package to the list of pkgs handled by this policy.
+    ### If the pkg already exists in the policy, nil is returned and
+    ### no changes are made.
+    ###
+    ### @param [String,Integer] identifier the name or id of the package to add to this policy
+    ###
+    ### @param [Hash] opts the options for this pkg
+    ###
+    ### @option [Symbol, Integer] position: :end where to add this pkg among the list of
+    ###   pkgs. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end
+    ###
+    ### @option [String] action: 'Install' One of the values of PACKAGE_ACTIONS
+    ###
+    ### @option [Boolean] feu: false Overrides the setting for the pkg itself
+    ###
+    ### @option [Boolean] fut: false Overrides the setting for the pkg itself
+    ###
+    ### @option [Boolean] update_autorun: false
+    ###
+    ### @return [Array, nil]  the new @packages array, nil if pkg was already in the policy
+    ###
+    def add_package(identifier, opts = {} )
+      opts[:position] ||= -1
+      opts[:action] ||= :install
+      opts[:feu] = false if opts[:feu].nil?
+      opts[:fut] = false if opts[:fut].nil?
+      opts[:update_autorun] = false if opts[:update_autorun].nil?
 
-    # Add a package to the list of pkgs handled by this policy.
-    # If the pkg already exists in the policy, nil is returned and
-    # no changes are made.
-    #
-    # @param [String,Integer] identifier the name or id of the package to add to this policy
-    #
-    # @param [Symbol, Integer] position: :end where to add this pkg among the list of
-    #   pkgs. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end
-    #
-    # @param [String] action: 'Install' One of the values of PACKAGE_ACTIONS
-    #
-    # @param [Boolean] feu: false Overrides the setting for the pkg itself
-    #
-    # @param [Boolean] fut: false Overrides the setting for the pkg itself
-    #
-    # @param [Boolean] update_autorun: false
-    #
-    # @return [Integer, nil] the id of the added pkg, nil if it was already in the policy
-    #
-    def add_package(identifier, position: -1, action: :install, feu: false, fut: false, update_autorun: false)
-      raise JSS::NoSuchItemError, "No package matches '#{identifier}'" unless (id = JSS::Package.valid_id(identifier))
+      id = JSS::Package.valid_id identifier
+      raise JSS::NoSuchItemError, "No package matches '#{identifier}'" unless id
 
       return nil if @packages.map { |p| p[:id] }.include? id
 
       name = JSS::Package.map_all_ids_to(:name)[id]
 
-      position = case position
+      position = case opts[:position]
                  when :start then 0
                  when :end then -1
-                 else position
+                 else opts[:position]
                  end
 
       raise JSS::InvalidDataError, "action must be one of: :#{PACKAGE_ACTIONS.keys.join ', :'}" unless \
-        PACKAGE_ACTIONS.include? action
+        PACKAGE_ACTIONS.include? opts[:action]
       raise JSS::InvalidDataError, "feu must be true or false" unless \
-        JSS::TRUE_FALSE.include? feu
+        JSS::TRUE_FALSE.include? opts[:feu]
       raise JSS::InvalidDataError, "fut must be true or false" unless \
-        JSS::TRUE_FALSE.include? fut
+        JSS::TRUE_FALSE.include? opts[:fut]
       raise JSS::InvalidDataError, "update_autorun must be true or false" unless \
-        JSS::TRUE_FALSE.include? update_autorun
+        JSS::TRUE_FALSE.include? opts[:update_autorun]
 
-      @packages.insert(position, {id: id, name: name, action: PACKAGE_ACTIONS[action], feu: feu, fut: fut, update_autorun: update_autorun })
+      pkg_data = {
+        id: id,
+        name: name,
+        action: PACKAGE_ACTIONS[opts[:action]],
+        feu: opts[:feu],
+        fut: opts[:feu],
+        update_autorun: opts[:update_autorun]
+      }
 
-      # if the user gave a large number, it created nil entries in the array, they need
-      # to be removed.
+      @packages.insert position, pkg_data
+
+      ### if the user gave a large number for position, it created nil entries in the array, they need
+      ### to be removed.
       @packages.compact!
 
       @need_to_update = true
-      return id
+      @packages
     end
 
-    # Remove a package from this policy by name or id
-    #
-    # @param identfier [String,Integer] the name or id of the package to remove
-    #
-    # @return [Fixnum, nil] the id of the pkg removed, or nil if it wasn't there.
-    #
+    ### Remove a package from this policy by name or id
+    ###
+    ### @param identfier [String,Integer] the name or id of the package to remove
+    ###
+    ### @return [Array, nil] the new packages array or nil if no change
+    ###
     def remove_package(identifier)
-      idx = @packages.find_index { |p| p[:id] == identifier || p[:name] == identifier }
-      return nil unless idx
-      id = @packages[idx][:id]
-      @packages.delete_if { |p| p[:id] == id }
-      @need_to_update = true
-      id
+      removed = @packages.delete_if { |p| p[:id] == identifier || p[:name] == identifier }
+      @need_to_update = true if removed
+      removed
     end
+
+    ###### Scripts
 
     ### @return [Array] the id's of the scripts handled by the policy
-    def script_ids; @scripts.map{|p| p[:id]} ; end
+    def script_ids
+      @scripts.map{|p| p[:id]}
+     end
 
     ### @return [Array] the names of the scripts handled by the policy
-    def script_names; @scripts.map{|p| p[:name]} ; end
+    def script_names
+       @scripts.map{|p| p[:name]}
+    end
+
+    ### Add a script to the list of SCRIPT_PRIORITIESipts run by this policy.
+    ### If the script already exists in the policy, nil is returned and
+    ### no changes are made.
+    ###
+    ### @param [String,Integer] identifier the name or id of the script to add to this policy
+    ###
+    ### @param [Hash] opts the options for this script
+    ###
+    ### @option [Symbol, Integer] position: where to add this script among the list of
+    ###   scripts. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end
+    ###
+    ### @option [Symbol] priority: either :before or :after
+    ###
+    ### @option [String] parameter4: the value of the 4th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter5: the value of the 5th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter6: the value of the 6th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter7: the value of the 7th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter8: the value of the 8th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter9: the value of the 9th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter10: the value of the 10th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @option [String] parameter11: the value of the 11th parameter passed to the script. this
+    ###   overrides the same parameter in the script object itself.
+    ###
+    ### @return [Array, nil]  the new @scripts array, nil if script was already in the policy
+    ###
+    def add_script(identifier, opts = {} )
+      opts[:position] ||= -1
+      opts[:priority] ||= :after
+
+      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless (id = JSS::Script.valid_id(identifier))
+
+      return nil if @scripts.map { |s| s[:id] }.include? id
+
+      name = JSS::Script.map_all_ids_to(:name)[id]
+
+      position = case opts[:position]
+                 when :start then 0
+                 when :end then -1
+                 else opts[:position]
+                 end
+
+      raise JSS::InvalidDataError, "priority must be one of: :#{SCRIPT_PRIORITIES.keys.join ', :'}" unless \
+        SCRIPT_PRIORITIES.include? opts[:priority]
+
+      script_data = {
+        id: id,
+        name: name,
+        priority: SCRIPT_PRIORITIES[opts[:priority]],
+        parameter4: opts[:parameter4],
+        parameter5: opts[:parameter5],
+        parameter6: opts[:parameter6],
+        parameter7: opts[:parameter7],
+        parameter8: opts[:parameter8],
+        parameter9: opts[:parameter9],
+        parameter10: opts[:parameter10],
+        parameter11: opts[:parameter11]
+      }
+
+      @scripts.insert position, script_data
+
+      ### if the user gave a large number for position, it created nil entries in the array, they need
+      ### to be removed.
+      @scripts.compact!
+
+      @need_to_update = true
+      @scripts
+    end
+
+    ### Remove a script from this policy by name or id
+    ###
+    ### @param identfier [String,Integer] the name or id of the script to remove
+    ###
+    ### @return [Array, nil] the new scripts array or nil if no change
+    ###
+    def remove_script(identifier)
+      removed = @scripts.delete_if { |s| s[:id] == identifier || s[:name] == identifier }
+      @need_to_update = true if removed
+      removed
+    end
+
+    ###### Directory Bindings
 
     ### @return [Array] the id's of the directory_bindings handled by the policy
-    def directory_binding_ids; @directory_bindings.map{|p| p[:id]} ; end
+    def directory_binding_ids
+      @directory_bindings.map{|p| p[:id]}
+    end
 
     ### @return [Array] the names of the directory_bindings handled by the policy
-    def directory_binding_names; @directory_bindings.map{|p| p[:name]} ; end
+    def directory_binding_names
+      @directory_bindings.map{|p| p[:name]}
+    end
+
+    ###### Dock items
 
     ### @return [Array] the id's of the dock_items handled by the policy
-    def dock_item_ids; @dock_items.map{|p| p[:id]} ; end
+    def dock_item_ids
+      @dock_items.map{|p| p[:id]}
+    end
 
     ### @return [Array] the names of the dock_items handled by the policy
-    def dock_item_names; @dock_items.map{|p| p[:name]} ; end
+    def dock_item_names
+      @dock_items.map{|p| p[:name]}
+    end
+
+    ###### Printers
 
     ### @return [Array] the id's of the printers handled by the policy
-    def printer_ids; @printers.map{|p| p[:id]} ; end
+    def printer_ids
+      @printers.map{|p| p[:id]}
+    end
 
     ### @return [Array] the names of the printers handled by the policy
-    def printer_names; @printers.map{|p| p[:name]} ; end
+    def printer_names
+      @printers.map{|p| p[:name]}
+    end
 
-    ### @return [Boolean] is this policy available in SelfService?
-    def self_service?; @self_service[:use_for_self_service] ; end
+    ###### SelfService
+    ### Is this policy in self service?
+    ###
+    ### @return [Boolean] Is this policy in self service?
+    ###
+    def in_self_service?
+      @in_self_service
+    end
+
+    ### policies in self service aren't 'removable'
+    ###
+    ### @return [FalseClass]
+    ###
+    def user_removable?
+      false
+    end
+    alias user_removable= user_removable?
+
+    ### Add this policy to Self Service
+    ###
+    ### @return [void]
+    def add_to_self_service
+      @need_to_update = (@in_self_service == false)
+      @in_self_service = true
+    end
+
+    ### Remove this policy from Self Service
+    ###
+    ### @return [void]
+    def remove_from_self_service
+      @need_to_update = (@in_self_service == true)
+      @in_self_service = false
+    end
+
+    ### Select or upload an image file to be the self service icon.
+    ### The policy must already exist in the JSS to upload an image.
+    ###
+    ### NOTE: There is no way to verify the validity of an icon id, as they are not
+    ###   available via the API. Caveat Emptor.
+    ###
+    ### NOTE: When setting by id, {#update} or #{save} must be used to save the change.
+    ###
+    ### @param icon [String, Pathname, Integer] the path to the local image file, to upload
+    ###   or the id of a previously uploaded one.
+    ###
+    ### @return [void]
+    ###
+    def set_icon_to(icon)
+      if icon.is_a? Integer
+        @self_service_icon = {id: icon}
+        @need_to_update = true
+        return
+      end
+      upload(:icon, icon)
+    end
+
+    ###### Actions
 
     ### Try to execute this policy on this machine.
     ###
@@ -925,14 +1184,15 @@ module JSS
       return $?.exitstatus == 0 ? true : false
     end
 
-    ### Aliases
+    ###### Aliases
+
     alias enabled? enabled
     alias pkgs packages
     alias command_to_run run_command
     alias delete_path? delete_file?
     alias execute run
+    alias self_service? in_self_service?
 
-    #####################################
     ### Private Instance Methods
     #####################################
     private
@@ -947,7 +1207,7 @@ module JSS
       general.add_element('frequency').text = @frequency
       general.add_element('target_drive').text = @target_drive
       general.add_element('offline').text = @offline
-      general.add_element('category').add_element('name').text = @category
+      general.add_element('category').add_element('name').text = @category if @category
 
       JSS.hash_to_rexml_array(@trigger_events).each{|t| general << t}
 
@@ -955,6 +1215,27 @@ module JSS
 
       files_processes = obj.add_element "files_processes"
       JSS.hash_to_rexml_array(@files_processes).each{|f| files_processes << f}
+
+      pkg_conf = obj.add_element "package_configuration"
+      pkgs = pkg_conf.add_element "packages"
+      @packages.each do |p|
+        pkg = pkgs.add_element 'package'
+        pdeets = JSS.hash_to_rexml_array p
+        pdeets.each {|d| pkg << d }
+      end
+
+      scripts = obj.add_element "scripts"
+      @scripts.each do |s|
+        script = scripts.add_element "script"
+        sdeets = JSS.hash_to_rexml_array s
+        sdeets.each {|d| script << d }
+      end
+
+      self_svc =  self_service_xml
+      self_svc.add_element('use_for_self_service').text = @in_self_service
+      obj << self_svc
+
+
 
       return doc.to_s
     end
