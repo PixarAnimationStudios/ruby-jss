@@ -382,6 +382,8 @@ module JSS
       end
     end
 
+
+
     #####################################
     ### Class Constants
     #####################################
@@ -443,8 +445,6 @@ module JSS
     ###
     def initialize(args = {}, other_lookup_keys = [])
 
-      ################################
-      ################################
       ####### Previously looked-up JSON data
       if args[:data]
 
@@ -462,9 +462,6 @@ module JSS
         ### and the id must be in the jss
         raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} with JSS id: #{@init_data[:id]}" unless  self.class.all_ids.include? hash_to_check[:id]
 
-
-      ################################
-      ################################
       ###### Make a new one in the JSS, but only if we've included the Creatable module
       elsif args[:id] == :new
 
@@ -492,7 +489,7 @@ module JSS
         combined_lookup_keys = self.class::DEFAULT_LOOKUP_KEYS + other_lookup_keys
         lookup_key = (combined_lookup_keys & args.keys)[0]
 
-        raise JSS::MissingDataError, "Args must include :#{combined_lookup_keys.join(', :')}, or :data"  unless lookup_key
+        raise JSS::MissingDataError, "Args must include :#{combined_lookup_keys.join(', :')}, or :data" unless lookup_key
 
         rsrc = "#{self.class::RSRC_BASE}/#{lookup_key}/#{args[lookup_key]}"
 
@@ -542,13 +539,12 @@ module JSS
       @in_jss = true
       @rest_rsrc =  "#{self.class::RSRC_BASE}/id/#{@id}"
       @need_to_update = false
+
     end # init
 
-    #####################################
     ### Public Instance Methods
     #####################################
 
-    ###
     ### Either Create or Update this object in the JSS
     ###
     ### If this item is creatable or updatable, then
@@ -567,6 +563,35 @@ module JSS
         return self.create
       end
     end
+
+    ### make a clone of this API object, with a new name. The class must be creatable
+    ###
+    ### @param name [String] the name for the new object
+    ###
+    ### @return [APIObject] An uncreated clone of this APIObject with the given name
+    ###
+    def clone(new_name)
+      raise JSS::UnsupportedError, 'This class is not creatable in via ruby-jss' unless respond_to? :create
+      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with that name" if \
+        self.class.all_names.include? new_name
+
+      orig_in_jss = @in_jss
+      @in_jss = false
+      orig_id = @id
+      @id = nil
+      orig_rsrc = @rest_rsrc
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name}"
+
+      new_obj = self.dup
+
+      @in_jss = orig_in_jss
+      @id = orig_id
+      @rest_rsrc = orig_rsrc
+      new_obj.name = new_name
+
+      new_obj
+    end
+
 
 
     ###
