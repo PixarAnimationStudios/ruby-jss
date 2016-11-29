@@ -25,8 +25,6 @@
 ###
 module JSS
 
-
-
   #####################################
   ### Module Variables
   #####################################
@@ -76,25 +74,23 @@ module JSS
     #####################################
 
     ### The name of the JSS database on the mysql server
-    DEFAULT_DB_NAME = "jamfsoftware"
+    DEFAULT_DB_NAME = 'jamfsoftware'.freeze
 
     ### give the connection a 60 second timeout, for really slow
     ### net connections (like... from airplanes)
     DFT_TIMEOUT = 60
 
     ###
-    DFT_SOCKET = '/var/mysql/mysql.sock'
+    DFT_SOCKET = '/var/mysql/mysql.sock'.freeze
 
     ### the default MySQL port
     DFT_PORT = 3306
 
     ### The default encoding in the tables - JAMF wisely uses UTF-8
-    DFT_CHARSET = "utf8"
+    DFT_CHARSET = 'utf8'.freeze
 
     ### the strftime format for reading/writing dates in the db
-    SQL_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-
+    SQL_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'.freeze
 
     attr_reader :server
     attr_reader :port
@@ -106,12 +102,11 @@ module JSS
     attr_reader :write_timeout
     attr_reader :connected
 
-
-    def initialize ()
+    def initialize
       require 'mysql'
       @mysql = Mysql.init
       @connected = false
-    end #init
+    end # init
 
     ###
     ### Connect to the JSS MySQL database.
@@ -145,34 +140,25 @@ module JSS
     ### @return [true] the connection was successfully made.
     ###
     def connect(args = {})
-
       # server might come frome several places
       # if not given in the args, use #hostname to figure out
       # which
-      @server = args[:server] ?  args[:server] : hostname
+      @server = args[:server] ? args[:server] : hostname
 
       # settings from config if they aren't in the args
-      args[:port] ||= JSS::CONFIG.db_server_port
-      args[:socket] ||= JSS::CONFIG.db_server_socket
-      args[:db_name] ||= JSS::CONFIG.db_name
+      args[:port] ||= JSS::CONFIG.db_server_port ? JSS::CONFIG.db_server_port : Mysql::MYSQL_TCP_PORT
+      args[:socket] ||= JSS::CONFIG.db_server_socket ? JSS::CONFIG.db_server_socket : DFT_SOCKET
+      args[:db_name] ||= JSS::CONFIG.db_name ? JSS::CONFIG.db_name : DEFAULT_DB_NAME
       args[:user] ||= JSS::CONFIG.db_username
       args[:connect_timeout] ||= JSS::CONFIG.db_connect_timeout
       args[:read_timeout] ||= JSS::CONFIG.db_read_timeout
       args[:write_timeout] ||= JSS::CONFIG.db_write_timeout
+      args[:charset] ||= DFT_CHARSET
 
       ### if one timeout was given, use it for all three
-      args[:connect_timeout] ||= args[:timeout]
-      args[:read_timeout] ||= args[:timeout]
-      args[:write_timeout] ||= args[:timeout]
-
-      ### if these weren't given, use the defaults
-      args[:connect_timeout] ||= DFT_TIMEOUT
-      args[:read_timeout] ||= DFT_TIMEOUT
-      args[:write_timeout] ||= DFT_TIMEOUT
-      args[:port] ||= Mysql::MYSQL_TCP_PORT
-      args[:socket] ||= DFT_SOCKET
-      args[:db_name] ||= DEFAULT_DB_NAME
-      args[:charset] ||= DFT_CHARSET
+      args[:connect_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
+      args[:read_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
+      args[:write_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
 
       begin
         @mysql.close if connected?
@@ -189,20 +175,20 @@ module JSS
       @write_timeout = args[:write_timeout]
 
       # make sure we have a user, pw, server
-      raise JSS::MissingDataError, "No MySQL user specified, or listed in configuration." unless args[:user]
+      raise JSS::MissingDataError, 'No MySQL user specified, or listed in configuration.' unless args[:user]
       raise JSS::MissingDataError, "Missing :pw (or :prompt/:stdin) for user '#{@user}'" unless args[:pw]
-      raise JSS::MissingDataError, "No MySQL Server hostname specified, or listed in configuration." unless @server
+      raise JSS::MissingDataError, 'No MySQL Server hostname specified, or listed in configuration.' unless @server
 
       @pw = if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for the MySQL user #{@user}@#{@server}:"
-      elsif  args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
-        args[:pw].to_s =~ /^stdin(\d+)$/
-        line = $1
-        line ||= 2
-        JSS.stdin line
-      else
-        args[:pw]
-      end
+              JSS.prompt_for_password "Enter the password for the MySQL user #{@user}@#{@server}:"
+            elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
+              args[:pw].to_s =~ /^stdin(\d+)$/
+              line = Regexp.last_match(1)
+              line ||= 2
+              JSS.stdin line
+            else
+              args[:pw]
+            end
 
       @mysql = Mysql.init
 
@@ -210,16 +196,18 @@ module JSS
       @mysql.options Mysql::OPT_READ_TIMEOUT, @read_timeout
       @mysql.options Mysql::OPT_WRITE_TIMEOUT, @write_timeout
       @mysql.charset = args[:charset]
-      @mysql.connect @server, @user , @pw , @mysql_name, @port, @socket
+      @mysql.connect @server, @user, @pw, @mysql_name, @port, @socket
 
       @connected = true
-    end # reconnect
+
+      @server
+    end # connect
 
     ###
     ### @return [Mysql] The mysql database connection itself
     ###
     def db
-      raise JSS::InvalidConnectionError, "No database connection. Please use JSS::DB_CNX.connect" unless JSS::DB_CNX.connected?
+      raise JSS::InvalidConnectionError, 'No database connection. Please use JSS::DB_CNX.connect' unless JSS::DB_CNX.connected?
       @mysql
     end
 
@@ -246,7 +234,7 @@ module JSS
     ###
     ### @return [Boolean] does the server host a MySQL server?
     ###
-    def valid_server? (server, port = DFT_PORT)
+    def valid_server?(server, port = DFT_PORT)
       mysql = Mysql.init
       mysql.options Mysql::OPT_CONNECT_TIMEOUT, 5
 
@@ -254,14 +242,14 @@ module JSS
         # this connection should get an access denied error if there is
         # a mysql server there. I'm assuming no one will use this username
         # and pw for anything real
-        mysql.connect server, "notArealUser", "definatelyNotA#{$$}password", "not_a_db", port
+        mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port
 
       rescue Mysql::ServerError::AccessDeniedError
         return true
       rescue
         return false
       end
-      return false
+      false
     end
 
     ### The server to which we are connected, or will
@@ -277,9 +265,8 @@ module JSS
       srvr = JSS::CONFIG.db_server_name
       # otherwise, assume its on the JSS server to which this client talks
       srvr ||= JSS::Client.jss_server
-      return srvr
+      srvr
     end
-
 
     #### Aliases
 
@@ -298,5 +285,3 @@ module JSS
   end
 
 end # module
-
-
