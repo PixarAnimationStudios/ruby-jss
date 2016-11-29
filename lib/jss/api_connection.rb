@@ -233,6 +233,14 @@ module JSS
       return @connected ? @server_host : nil
     end # connect
 
+    ### A useful string about this connection
+    ###
+    ### @return [String]
+    ###
+    def to_s
+      @connected ? "Using #{@rest_url} as user #{@jss_user}" : "not connected"
+    end
+
     ###
     ### Reset the response timeout for the rest connection
     ###

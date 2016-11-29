@@ -565,6 +565,16 @@ module JSS
       :deleted
     end # delete
 
+
+    ### A meaningful string representation of this object
+    ###
+    ### @return [String]
+    ###
+    def to_s
+      "#{self.class}, name: #{@name}, id: #{@id}"
+    end
+
+
     ### Private Instance Methods
     #####################################
     private
