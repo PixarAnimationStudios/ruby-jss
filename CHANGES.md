@@ -1,5 +1,57 @@
 # Change History
 
+## v0.6.6 2016-11-30
+
+- Added String#jss_to_pathname to convert Strings to Pathname instances in JSS::Configuration.
+
+- JSS::DBConnection#connect now returns the server hostname, to match the behavior of JSS::APIConnection#connect
+
+- JSS::Client: added .console_user method
+
+- JSS::Policy, now creatable, and self-servable, and more attributes are updatable
+
+- JSS::SelfServable, finally getting this module functional, at least for policies
+
+- JSS::Creatable, added #clone method - all creatable objects can be cloned easily.
+
+- JSS::APIObject, added .exist? and .valid_id class methods and #to_s instance method
+
+- Change the mountpoint directory for JSS::DistributionPoint#mount to /tmp, because Sierra doesn't allow mounting in /Volumes except by root. (Thanks @LM2807! )
+
+- Starting cleaning up code to better adhere to [RuboCop](http://rubocop.readthedocs.io/en/latest/) standards
+
+- Added alpha version of a JSS WebHooks framwork
+
+## v0.6.5 2016-08-10
+
+- Cleanup of redundant constants (Thanks @aurica!)
+
+- Added JSS::ComputerInvitation class (Thanks @tostart-pickagreatname!)
+
+- Added JSS::Account class (Thanks @JonPulsifer!)
+
+- Added JSS::OSXConfigurationProfile class (Thanks @tostart-pickagreatname!)
+
+- JSS::Computer: added methods #boot_drive, #filevault2_enabled?, and #filevault1_accounts
+
+- Various small bugfixes & improvements
+
+## v0.6.4 2016-03-24
+
+- JSS::Package#dlete can optionally delete the master file at the same time
+
+- Added an example ruby-jss.conf file with internal documentation
+
+- Various small bugfixes & improvements
+
+- Updated the config file name to match the new gem name, maintaining backwards compatibility
+
+- Improved error messages
+
+## v0.6.3 2016-03-09
+
+Maintenence version bump to fix an issue uploading to rubygems.org
+
 ## v0.6.2 2016-03-08
 
 As of v0.6.2, the github project, and rubygem have been renamed to 'ruby-jss'. The 'require' name is now 'jss'.
@@ -19,7 +71,7 @@ The 'jss-api' gem has been updated one last time, also to v0.6.2. That gem has a
 #### bugfixes
 
 - JSS::stdin_lines no longer uses a constant to store incoming stdin data at load time, which causes hangs when there's no terminal on stdin. Now stdin is only read when the method is called, and data stored in a module variable.
- 
+
 - JSS::Composer::mk_dmg fix for building/indexing dmg's, no longer creates an unreadable .Trashes folder.
 
 - Several small typos and other tiny bugs.
@@ -33,10 +85,10 @@ The 'jss-api' gem has been updated one last time, also to v0.6.2. That gem has a
 
 ## v0.6.0 2016-01-06
 
-This version of the jss-api gem incorporates changes needed for the upcoming release of d3 (a.k.a. depot3), 
+This version of the jss-api gem incorporates changes needed for the upcoming release of d3 (a.k.a. depot3),
 a package/patch management system for Casper, which was the reason for the jss-api gem to begin with.
 
-As such, while the JSS module will continue to be a separate git repo, specific commits of it will be 
+As such, while the JSS module will continue to be a separate git repo, specific commits of it will be
 submodules of the depot3 git repo, starting with this one, or one shortly hereafter.
 
 
@@ -74,7 +126,7 @@ Also: As of casper 9.72, the argument requirements havechanged for 'jamf install
 #### bugfixes & cleanup
 
 - location.rb: location value setters are now properly converted to strings
-- api_connection.rb: #connect now takes :use_ssl option (defaults to true) 
+- api_connection.rb: #connect now takes :use_ssl option (defaults to true)
 - api_connection.rb: #connect will accept arbitrary ports when :use_ssl is true
 
 #### additions & features
@@ -107,6 +159,6 @@ Also: As of casper 9.72, the argument requirements havechanged for 'jamf install
 - many documentation updates as we adjust to being live
 - minor bugfixes
 
-## v0.5.0 2014-10-23 
+## v0.5.0 2014-10-23
 
 - first opensource release
