@@ -49,6 +49,8 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/**/*.rb']
   s.files << '.yardopts'
   s.files      += Dir['data/**/*']
+  s.files      += Dir['lib/jss/webhooks/**/*']
+
 
   s.executables << "cgrouper"
   s.executables << "subnet-update"
