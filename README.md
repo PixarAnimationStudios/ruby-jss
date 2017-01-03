@@ -233,9 +233,11 @@ See each Class's documentation for details.
 * {JSS::PeripheralType}
 * {JSS::RemovableMacAddress}
 * {JSS::Script}
+* {JSS::Site}
 * {JSS::User}
 * {JSS::UserExtensionAttribute}
 * {JSS::UserGroup}
+* {JSS::WebHook}
 
 ### Updatable but not Creatable
 
@@ -258,9 +260,16 @@ See each Class's documentation for details.
   * enabled
   * category
   * triggers
+  * packages
+  * scripts
   * file & process actions
+* {JSS::OSXConfigurationProfile}
 
 **NOTE** Even in the API and the WebApp, Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
+
+### Creatable only
+
+* {JSS::ComputerInvitation}
 
 ### Read-Only
 
@@ -277,8 +286,11 @@ All supported API Objects can be deleted
 
 Other useful classes:
 
-* {JSS::Server} - An encapsulation of some info about the server, such as the JSS version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
+* {JSS::APIConnect} - An object representing the connection to the REST API
+* {JSS::DBConnection} - An object representing the connection to MySQL database, if used
+* {JSS::Server} - An encapsulation of some info about the JamfPro server, such as the version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
 * {JSS::Client} - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
+
 
 ## CONFIGURATION
 
