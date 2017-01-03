@@ -1,5 +1,10 @@
 # Change History
 
+## v0.6.7 2017-01-03
+
+- Added class JSS::WebHook, which requires Jamf Pro 9.97 or higher.
+  - NOTE: This is access to the WebHooks themselves as defined in Jamf Pro, and is separate from the  WebHook-handling framework included in the previous release for testing.
+
 ## v0.6.6 2016-11-30
 
 - Added String#jss_to_pathname to convert Strings to Pathname instances in JSS::Configuration.
