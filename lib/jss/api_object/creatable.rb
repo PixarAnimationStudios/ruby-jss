@@ -1,4 +1,5 @@
-### Copyright 2016 Pixar
+### Copyright 2017 Pixar
+
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -40,19 +41,18 @@ module JSS
   ### When a JSS::APIObject subclass includes this module, that subclass
   ### can be instantiated with :id => :new, and :name => "some_new_name".
   ###
+  ###
+  ### Classes mixing this module *must* provide a #rest_xml instance method that returns the XML
+  ### String to be submitted to the API for object creation.
+  ###
   ### The instance can be used to set desired values for the new object, and
   ### once everything's good, use #create to create it in the JSS.
   ###
   ### If a Creatable object requires more data than just a :name for creation,
   ### the subclass may want to redefine #initialize to require those data before
-  ### calling super.
-  ###
-  ### Some subclasses may want to redefine #create to check
+  ### calling super, or may want to redefine #create or #rest_xml to check
   ### the data for consistency, and then call super
-  ### (or they may have the individual setter methods do the checks)
-  ###
-  ### Classes mixing this module *must* provide a #rest_xml instance method that returns the XML
-  ### String to be submitted to the API for object creation.
+  ### It is also wise to have the individual setter methods do data validation
   ###
   ### @see APIObject#save
   ###

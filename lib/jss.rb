@@ -1,4 +1,5 @@
-### Copyright 2016 Pixar
+### Copyright 2017 Pixar
+
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -167,6 +168,7 @@ module JSS
   class Site < JSS::APIObject; end
   class SoftwareUpdateServer < JSS::APIObject; end
   class User < JSS::APIObject; end
+  class WebHook < JSS::APIObject; end
 
 end # module JSS
 

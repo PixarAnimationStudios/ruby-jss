@@ -1,4 +1,5 @@
-### Copyright 2016 Pixar
+### Copyright 2017 Pixar
+
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -427,6 +428,7 @@ module JSS
       if args[:data]
 
         @init_data = args[:data]
+
         ### Does this data come in subsets?
         @got_subsets = @init_data[:general].is_a?(Hash)
 
@@ -642,3 +644,4 @@ require 'jss/api_object/script'
 require 'jss/api_object/site'
 require 'jss/api_object/software_update_server'
 require 'jss/api_object/user'
+require 'jss/api_object/webhook'
