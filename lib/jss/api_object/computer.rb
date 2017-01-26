@@ -60,8 +60,13 @@ module JSS
   ### * ip_address
   ### * udid
   ### * mac_addresses
-  ### * location data from the Locatable module
-  ### * purchasing data from the Purchasable module
+  ### * location data via the Locatable module
+  ### * purchasing data via the Purchasable module
+  ### * Extension Attribute values via the Extendable module
+  ###   Note: as with other 'recon' generated values, Ext. Attrs.
+  ###   populated by scripts cannot be modified via the API.
+  ###   (the change would be overwritten the next time the machine
+  ###   did a recon)
   ###
   ### After making any changes, you must call #update to send those
   ### changes to the server.
