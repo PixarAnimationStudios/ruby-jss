@@ -64,7 +64,6 @@ module JSS
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:distribution_point, :starting_address, :override_departments].freeze
 
-
     ### Class Methods
     #####################################
 
@@ -75,23 +74,25 @@ module JSS
     ###
     ### Using the #include? method on those Ranges is very useful.
     ###
-    ### @return [Hash{Integer => IPAddr}] the network segments as masked IPv4 addresses
+    ### @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
     ###
     def self.network_ranges(refresh = false)
       @network_ranges = nil if refresh
       return @network_ranges if @network_ranges
       @network_ranges = {}
-      all.each { |ns| @network_ranges[ns[:id]] = IPAddr.jss_masked_v4addr(ns[:starting_address], ns[:ending_address]) }
+      all(refresh).each { |ns| @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address]) }
       @network_ranges
     end # def network_segments
 
-
     ### An alias for {NetworkSegment.network_ranges}
+    ###
+    ### DEPRECATED. This will be going away in a future release.
+    ###
+    ### @see {NetworkSegment::network_ranges}
     ###
     def self.subnets(refresh = false)
       network_ranges refresh
     end
-
 
     ### Find the ids of the network segments that contain a given IP address.
     ###
@@ -103,23 +104,29 @@ module JSS
     ###
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
-    def self.network_segment_for_ip(ip)
+    def self.network_segments_for_ip(ip)
       ok_ip = IPAddr.new(ip)
       matches = []
       network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
       matches
     end
 
+    def self.network_segment_for_ip(ip)
+      network_segments_for_ip(ip)
+    end
 
     ### Find the current network segment ids for the machine running this code
     ###
     ### @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
     ###
-    def self.my_network_segment
+    def self.my_network_segments
       network_segment_for_ip JSS::Client.my_ip_address
     end
 
-    #####################################
+    def self.my_network_segment
+      my_network_segments
+    end
+
     ### Attributes
     #####################################
 
@@ -128,9 +135,6 @@ module JSS
 
     ### @return [IPAddr] ending IP adresss
     attr_reader :ending_address
-
-    ### @return [Integer] the CIDR
-    attr_reader :cidr
 
     ### @return [String] building for this segment. Must be one of the buildings in the JSS
     attr_reader :building
@@ -156,13 +160,6 @@ module JSS
     ### @return [Boolean] should machines checking in from this segment update their building
     attr_reader :override_buildings
 
-    ### @return [String] the unique identifier for this subnet, regardless of the JSS id
-    attr_reader :uid
-
-    ### @return [IPAddr] the IPAddr object representing this network segment, created from the uid
-    attr_reader :subnet
-
-
     ### @see APIObject#initialize
     ###
     def initialize(args = {})
@@ -170,10 +167,11 @@ module JSS
 
       if args[:id] == :new
         raise MissingDataError, 'Missing :starting_address.' unless args[:starting_address]
-        raise MissingDataError, 'Missing :ending_address or :cidr.' unless args[:ending_address] || args[:cidr]
+        raise MissingDataError, 'Missing :ending_address, :mask, or :cidr.' unless args[:ending_address] || args[:cidr] || args[:mask]
         @init_data[:starting_address] = args[:starting_address]
         @init_data[:ending_address] = args[:ending_address]
-        @init_data[:cidr] = args[:cidr].to_i
+        @init_data[:cidr_mask] = args[:cidr]
+        @init_data[:cidr_mask] ||= args[:mask]
       end
 
       @building = @init_data[:building]
@@ -182,38 +180,70 @@ module JSS
       @netboot_server = @init_data[:netboot_server]
       @override_buildings = @init_data[:override_buildings]
       @override_departments = @init_data[:override_departments]
-      @starting_address = IPAddr.new @init_data[:starting_address]
       @swu_server = @init_data[:swu_server]
       @url = @init_data[:url]
 
+      @starting_address = IPAddr.new @init_data[:starting_address]
+
       ### by now, we must have either an ending address or a cidr
       ### along with a starting address, so figure out the other one.
-      if @init_data[:ending_address]
-        @ending_address = IPAddr.new @init_data[:ending_address]
-        @cidr = IPAddr.jss_cidr_from_ends(@starting_address, @ending_address)
-      else
-        @cidr = @init_data[:cidr].to_i if @init_data[:cidr]
-        @ending_address = IPAddr.jss_ending_address(@starting_address, @cidr)
-      end # if args[:cidr]
-
-      ### we now have all our data, make our unique identifier, the startingaddr/cidr
-      @uid = "#{@starting_address}/#{@cidr}"
-
-      ### the IPAddr object for this whole net segment
-      @subnet = IPAddr.new @uid
+      @ending_address = if @init_data[:ending_address]
+                          IPAddr.new @init_data[:ending_address]
+                        else
+                          IPAddr.new("#{@init_data[:starting_address]}/#{@init_data[:cidr_mask]}").to_range.end.mask 32
+                        end # if @init_data[:ending_address]
     end # init
 
-
-    ### Thanks to Comparable, we can tell if we're equal or not.
+    ### a Range built from the start and end addresses.
+    ### To be used for finding inclusion and overlaps.
     ###
-    ### See Comparable#<=>
+    ### @return [Range<IPAddr>] the range of IPAddrs for this segment.
     ###
-    ### @return [-1,0,1] ar we less than, equal or greater than the other?
-    ###
-    def <=>(other)
-      subnet <=> other.subnet
+    def range
+      @starting_address..@ending_address
     end
 
+    ### Does this network segment overlap with another?
+    ###
+    ### @param other_segment[JSS::NetworkSegment] the other segment to check
+    ###
+    ### @return [Boolean] Does the other segment overlap this one?
+    ###
+    def overlap?(other_segment)
+      raise ArgumentError, 'Argument must be a JSS::NetworkSegment' unless \
+        other_segment.is_a? JSS::NetworkSegment
+      other_range = other_segment.range
+      range.include?(other_range.begin) || range.include?(other_range.end)
+    end
+
+    ### Does this network segment include an address or another segment
+    ### Inclusion means the other is completely inside this one.
+    ###
+    ### @param thing[JSS::NetworkSegment, String, IPAddr] the other thing to check
+    ###
+    ### @return [Boolean] Does this segment include the other?
+    ###
+    def include?(thing)
+      if thing.is_a? JSS::NetworkSegment
+        thing = other_segment.range
+        @starting_address <= other_range.begin && @ending_address >= other_range.end
+      else
+        thing = IPAddr.new thing.to_s
+        range.include? thing
+      end
+    end
+
+    ### Does this network segment equal another?
+    ### equality means the ranges are equal
+    ###
+    ### @param other_segment[JSS::NetworkSegment] the other segment to check
+    ###
+    ### @return [Boolean] Does this segment include the other?
+    ###
+    def ==(other)
+      return false unless other.is_a? JSS::NetworkSegment
+      range == other.range
+    end
 
     ### Set the building
     ###
@@ -228,7 +258,6 @@ module JSS
       @need_to_update = true
     end
 
-
     ### set the override buildings option
     ###
     ### @param newval[Boolean] the new override buildings option
@@ -240,7 +269,6 @@ module JSS
       @override_buildings = newval
       @need_to_update = true
     end
-
 
     ### set the department
     ###
@@ -255,7 +283,6 @@ module JSS
       @need_to_update = true
     end
 
-
     ### set the override depts option
     ###
     ### @param newval[Boolean] the new setting
@@ -268,7 +295,6 @@ module JSS
       @override_departments = newval
       @need_to_update = true
     end
-
 
     ### set the distribution_point
     ###
@@ -283,7 +309,6 @@ module JSS
       @need_to_update = true
     end
 
-
     ### set the netboot_server
     ###
     ### @param newval[String, Integer] the new netboot server by name or id, must be in the JSS
@@ -296,7 +321,6 @@ module JSS
       @netboot_server = new[:name]
       @need_to_update = true
     end
-
 
     ### set the sw update server
     ###
@@ -311,7 +335,6 @@ module JSS
       @need_to_update = true
     end
 
-
     ### set the starting address
     ###
     ### @param newval[String, IPAddr] the new starting address
@@ -319,14 +342,10 @@ module JSS
     ### @return [void]
     ###
     def starting_address=(newval)
-      @starting_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
-      raise JSS::InvalidDataError, "New starting address #{@starting_address} is higher than ending address #{@ending_address}" if @starting_address > @ending_address
-      @cidr = IPAddr.jss_cidr_from_ends(@starting_address, @ending_address)
-      @uid = "#{@starting_address}/#{@cidr}"
-      @subnet = IPAddr.new @uid
+      validate_ip_range(newval, @ending_address)
+      @starting_address = IPAddr.new newval.to_s
       @need_to_update = true
     end
-
 
     ### set the ending address
     ###
@@ -335,46 +354,91 @@ module JSS
     ### @return [void]
     ###
     def ending_address=(newval)
-      @ending_address = IPAddr.new newval # this will raise an error if the IP addr isn't valid
-      raise JSS::InvalidDataError, "New ending address #{@ending_address} is lower than starting address #{@starting_address}" if @ending_address < @starting_address
-      @cidr = IPAddr.jss_cidr_from_ends(@starting_address, @ending_address)
-      @uid = "#{@starting_address}/#{@cidr}"
-      @subnet = IPAddr.new @uid
+      validate_ip_range(@starting_address, newval)
+      @ending_address = IPAddr.new newval.to_s
       @need_to_update = true
     end
 
-
-    ### set the cidr
+    ### set the ending address by applying a new cidr (e.g. 24)
+    ### or mask (e.g. 255.255.255.0)
     ###
-    ### @param newval[String, IPAddr] the new cidr
+    ### @param newval[String, Integer] the new cidr or mask
     ###
     ### @return [void]
     ###
     def cidr=(newval)
-      @cidr = newval
-      @ending_address = IPAddr.jss_ending_address(@starting_address, @cidr)
-      @uid = "#{@starting_address}/#{@cidr}"
-      @subnet = IPAddr.new @uid
+      new_end = IPAddr.new("#{@starting_address}/#{newval}").to_range.end.mask 32
+      validate_ip_range(@starting_address, new_end)
+      @ending_address = new_end
       @need_to_update = true
     end
 
+    ### set a new starting and ending addr at the same time.
+    ###
+    ### The starting address must be provided, and may be a masked address
+    ### in which case nothing else is needed.
+    ###
+    ### If starting: is an unmasked address, then one of ending:
+    ### cidr: or mask: must be provided.
+    ###
+    ### All these have the same effect:
+    ###
+    ### set_ip_range starting: '192.168.1.0', ending: '192.168.1.255'
+    ### set_ip_rangestarting: '192.168.1.0', mask: '255.255.255.0'
+    ### set_ip_range starting: '192.168.1.0', cidr: 24
+    ### set_ip_range starting: '192.168.1.0/24'
+    ### set_ip_range starting: '192.168.1.0/255.255.255.0'
+    ###
+    ### @param starting[String] The starting address, possibly masked
+    ###
+    ### @param ending[String] The ending address
+    ###
+    ### @param mask[String] The subnet mask to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @param cidr[String, Integer] he cidr value to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @return [void]
+    ###
+    def set_ip_range(starting: nil, ending: nil, mask: nil, cidr: nil)
+      raise JSS::MissingDataError, 'starting: address must be provided' unless starting
+      starting = "#{starting}/#{mask}" if mask
+      starting = "#{starting}/#{cidr}" if cidr
+      if starting.include? '/'
+        subnet = IPAddr.new starting
+        new_start = subnet.to_range.first.mask 32
+        new_end = subnet.to_range.last.mask 32
+      else
+        raise ArgumentError, 'Must provide ending:, mask:, cidr: or a masked starting address' unless ending
+        new_start = IPAddr.new starting
+        new_end = IPAddr.new ending
+      end
+      validate_ip_range(new_start, new_end)
+      @starting_address = new_start
+      @ending_address = new_end
+    end
 
-    ### is a given address in this network segment?
-    ###
-    ### @param some_addr[IPAddr,String] the IP address to check
-    ###
-    ### @return [Boolean]
-    ###
-    def include?(some_addr)
-      @subnet.include?  IPAddr.new(some_addr)
+    # Raise an exception if a given ending ip is lower than a given starting ip
+    #
+    # @param startip[String] The starting ip
+    #
+    # @param endip[String] The ending ip
+    #
+    # @return [void]
+    #
+    def validate_ip_range(startip, endip)
+      return nil if IPAddr.new(startip.to_s) <= IPAddr.new(endip.to_s)
+      raise JSS::InvalidDataError, "Starting IP #{startip} is higher than ending ip #{endip} "
     end
 
     ### aliases
-    alias identifier uid
-    alias range subnet
-
     ######################
+    alias mask= cidr=
+
+
     ### private methods
+    ######################
     private
 
     ### the xml formated data for adding or updating this in the JSS
@@ -385,12 +449,12 @@ module JSS
       ns.add_element('building').text = @building
       ns.add_element('department').text = @department
       ns.add_element('distribution_point').text = @distribution_point
-      ns.add_element('ending_address').text = @ending_address
+      ns.add_element('ending_address').text = @ending_address.to_s
       ns.add_element('name').text = @name
       ns.add_element('netboot_server').text = @netboot_server
       ns.add_element('override_buildings').text = @override_buildings
       ns.add_element('override_departments').text = @override_departments
-      ns.add_element('starting_address').text = @starting_address
+      ns.add_element('starting_address').text = @starting_address.to_s
       ns.add_element('swu_server').text = @swu_server
       doc.to_s
     end # rest_xml
