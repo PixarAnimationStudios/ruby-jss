@@ -1,5 +1,11 @@
 # Change History
 
+## v0.7.0 2017-02-01
+
+- JSS::NetworkSegment - many bugfixes and cleanup. I didn't really have a proper grasp of IP CIDR masks before and how the (don't) related to the IP ranges used by Network Segments in the JSS. They CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn't match subnet-ranges.
+- subnect-update, the example command in the bin directory, has been renamed to negseg-update. It's also been cleaned up and uses the new functionality of JSS::NetworkSegment.
+- JSS::DBConnection - fixed a bug where meaningless IO 'stream closed' errors would appear when closing the DB connection.
+
 ## v0.6.7 2017-01-03
 
 - Added class JSS::WebHook, which requires Jamf Pro 9.97 or higher.
