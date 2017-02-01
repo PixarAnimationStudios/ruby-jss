@@ -35,10 +35,8 @@ module JSS
   ### Classes
   #####################################
 
-  ###
   ### A Network Segment in the JSS
   ###
-  ### @see JSS::APIObject
   ###
   class NetworkSegment < JSS::APIObject
 
@@ -86,12 +84,98 @@ module JSS
 
     ### An alias for {NetworkSegment.network_ranges}
     ###
-    ### DEPRECATED. This will be going away in a future release.
+    ### DEPRECATED: This will be going away in a future release.
     ###
     ### @see {NetworkSegment::network_ranges}
     ###
     def self.subnets(refresh = false)
       network_ranges refresh
+    end
+
+    ### Given a starting address & ending address, mask, or cidr,
+    ### return a Range object of IPAddr objects.
+    ###
+    ### starting_address: must be provided, and may be a masked address,
+    ### in which case nothing else is needed.
+    ###
+    ### If starting_address: is an unmasked address, then one of ending_address:
+    ### cidr: or mask: must be provided.
+    ###
+    ### If given, ending_address: overrides mask:, cidr:, and a masked starting_address:
+    ###
+    ### These give the same result:
+    ###
+    ### ip_range starting_address: '192.168.1.0', ending_address: '192.168.1.255'
+    ### ip_range starting_address: '192.168.1.0', mask: '255.255.255.0'
+    ### ip_range starting_address: '192.168.1.0', cidr: 24
+    ### ip_range starting_address: '192.168.1.0/24'
+    ### ip_range starting_address: '192.168.1.0/255.255.255.0'
+    ###
+    ### All the above will produce:
+    ###    #<IPAddr: IPv4:192.168.1.0/255.255.255.255>..#<IPAddr: IPv4:192.168.1.255/255.255.255.255>
+    ###
+    ### An exception is raised if the starting address is above the ending address.
+    ###
+    ### @param starting_address[String] The starting address, possibly masked
+    ###
+    ### @param ending_address[String] The ending address. If given, it overrides mask:,
+    ###  cidr: and a masked starting_address:
+    ###
+    ### @param mask[String] The subnet mask to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @param cidr[String, Integer] he cidr value to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @return [Range<IPAddr>] the valid Range
+    ###
+    def self.ip_range(starting_address: nil, ending_address: nil, mask: nil, cidr: nil)
+      raise JSS::MissingDataError, 'starting_address: must be provided' unless starting_address
+
+      starting_address = masked_starting_address(starting_address: starting_address, mask: mask, cidr: cidr)
+
+      if ending_address
+        startip = IPAddr.new starting_address.split('/').first
+        endip = IPAddr.new ending_address.to_s
+        validate_ip_range(startip, endip)
+      else
+        raise ArgumentError, 'Must provide ending_address:, mask:, cidr: or a masked starting_address:' unless starting_address.include? '/'
+        subnet = IPAddr.new starting_address
+        startip = subnet.to_range.first.mask 32
+        endip = subnet.to_range.last.mask 32
+      end
+
+      startip..endip
+    end
+
+    ### If we are given a mask or cidr, append them to the starting_address
+    ###
+    ### @param starting[String] The starting address, possibly masked
+    ###
+    ### @param mask[String] The subnet mask to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @param cidr[String, Integer] he cidr value to apply to the starting address to get
+    ###   the ending address
+    ###
+    ### @return [String] the starting with the mask or cidr appended
+    ###
+    def self.masked_starting_address(starting_address: nil, mask: nil, cidr: nil)
+      starting_address = "#{starting}/#{mask || cidr}" if mask || cidr
+      starting_address.to_s
+    end
+
+    ### Raise an exception if a given starting ip is higher than a given ending ip
+    ###
+    ### @param startip[String] The starting ip
+    ###
+    ### @param endip[String] The ending ip
+    ###
+    ### @return [void]
+    ###
+    def self.validate_ip_range(startip, endip)
+      return nil if IPAddr.new(startip.to_s) <= IPAddr.new(endip.to_s)
+      raise JSS::InvalidDataError, "Starting IP #{startip} is higher than ending ip #{endip} "
     end
 
     ### Find the ids of the network segments that contain a given IP address.
@@ -160,19 +244,27 @@ module JSS
     ### @return [Boolean] should machines checking in from this segment update their building
     attr_reader :override_buildings
 
-    ### @see APIObject#initialize
+    ### Instantiate a NetworkSegment
+    ###
+    ### @see_also JSS::NetworkSegment.ip_range for how starting and ending
+    ### addresses can be provided when using id: :new
     ###
     def initialize(args = {})
       super args
 
       if args[:id] == :new
-        raise MissingDataError, 'Missing :starting_address.' unless args[:starting_address]
-        raise MissingDataError, 'Missing :ending_address, :mask, or :cidr.' unless args[:ending_address] || args[:cidr] || args[:mask]
-        @init_data[:starting_address] = args[:starting_address]
-        @init_data[:ending_address] = args[:ending_address]
-        @init_data[:cidr_mask] = args[:cidr]
-        @init_data[:cidr_mask] ||= args[:mask]
+        range = self.class.ip_range(
+          starting_address: args[:starting_address],
+          ending_address: args[:ending_address],
+          mask: args[:mask],
+          cidr: args[:cidr]
+        )
+        @init_data[:starting_address] = range.begin.to_s
+        @init_data[:ending_address] = range.end.to_s
       end
+
+      @starting_address = IPAddr.new @init_data[:starting_address]
+      @ending_address = IPAddr.new @init_data[:ending_address]
 
       @building = @init_data[:building]
       @department = @init_data[:department]
@@ -182,16 +274,6 @@ module JSS
       @override_departments = @init_data[:override_departments]
       @swu_server = @init_data[:swu_server]
       @url = @init_data[:url]
-
-      @starting_address = IPAddr.new @init_data[:starting_address]
-
-      ### by now, we must have either an ending address or a cidr
-      ### along with a starting address, so figure out the other one.
-      @ending_address = if @init_data[:ending_address]
-                          IPAddr.new @init_data[:ending_address]
-                        else
-                          IPAddr.new("#{@init_data[:starting_address]}/#{@init_data[:cidr_mask]}").to_range.end.mask 32
-                        end # if @init_data[:ending_address]
     end # init
 
     ### a Range built from the start and end addresses.
@@ -210,13 +292,13 @@ module JSS
     ### @return [Boolean] Does the other segment overlap this one?
     ###
     def overlap?(other_segment)
-      raise ArgumentError, 'Argument must be a JSS::NetworkSegment' unless \
+      raise TypeError, 'Argument must be a JSS::NetworkSegment' unless \
         other_segment.is_a? JSS::NetworkSegment
       other_range = other_segment.range
       range.include?(other_range.begin) || range.include?(other_range.end)
     end
 
-    ### Does this network segment include an address or another segment
+    ### Does this network segment include an address or another segment?
     ### Inclusion means the other is completely inside this one.
     ###
     ### @param thing[JSS::NetworkSegment, String, IPAddr] the other thing to check
@@ -225,8 +307,7 @@ module JSS
     ###
     def include?(thing)
       if thing.is_a? JSS::NetworkSegment
-        thing = other_segment.range
-        @starting_address <= other_range.begin && @ending_address >= other_range.end
+        @starting_address <= thing.range.begin && @ending_address >= thing.range.end
       else
         thing = IPAddr.new thing.to_s
         range.include? thing
@@ -241,7 +322,8 @@ module JSS
     ### @return [Boolean] Does this segment include the other?
     ###
     def ==(other)
-      return false unless other.is_a? JSS::NetworkSegment
+      raise TypeError, 'Argument must be a JSS::NetworkSegment' unless \
+        other.is_a? JSS::NetworkSegment
       range == other.range
     end
 
@@ -342,7 +424,7 @@ module JSS
     ### @return [void]
     ###
     def starting_address=(newval)
-      validate_ip_range(newval, @ending_address)
+      self.class.validate_ip_range(newval, @ending_address)
       @starting_address = IPAddr.new newval.to_s
       @need_to_update = true
     end
@@ -354,7 +436,7 @@ module JSS
     ### @return [void]
     ###
     def ending_address=(newval)
-      validate_ip_range(@starting_address, newval)
+      self.class.validate_ip_range(@starting_address, newval)
       @ending_address = IPAddr.new newval.to_s
       @need_to_update = true
     end
@@ -368,30 +450,19 @@ module JSS
     ###
     def cidr=(newval)
       new_end = IPAddr.new("#{@starting_address}/#{newval}").to_range.end.mask 32
-      validate_ip_range(@starting_address, new_end)
+      self.class.validate_ip_range(@starting_address, new_end)
       @ending_address = new_end
       @need_to_update = true
     end
 
     ### set a new starting and ending addr at the same time.
     ###
-    ### The starting address must be provided, and may be a masked address
-    ### in which case nothing else is needed.
+    ### @see_also NetworkSegment.ip_range for how to specify the starting
+    ### and ending addresses.
     ###
-    ### If starting: is an unmasked address, then one of ending:
-    ### cidr: or mask: must be provided.
+    ### @param starting_address[String] The starting address, possibly masked
     ###
-    ### All these have the same effect:
-    ###
-    ### set_ip_range starting: '192.168.1.0', ending: '192.168.1.255'
-    ### set_ip_rangestarting: '192.168.1.0', mask: '255.255.255.0'
-    ### set_ip_range starting: '192.168.1.0', cidr: 24
-    ### set_ip_range starting: '192.168.1.0/24'
-    ### set_ip_range starting: '192.168.1.0/255.255.255.0'
-    ###
-    ### @param starting[String] The starting address, possibly masked
-    ###
-    ### @param ending[String] The ending address
+    ### @param ending_address[String] The ending address
     ###
     ### @param mask[String] The subnet mask to apply to the starting address to get
     ###   the ending address
@@ -401,41 +472,22 @@ module JSS
     ###
     ### @return [void]
     ###
-    def set_ip_range(starting: nil, ending: nil, mask: nil, cidr: nil)
-      raise JSS::MissingDataError, 'starting: address must be provided' unless starting
-      starting = "#{starting}/#{mask}" if mask
-      starting = "#{starting}/#{cidr}" if cidr
-      if starting.include? '/'
-        subnet = IPAddr.new starting
-        new_start = subnet.to_range.first.mask 32
-        new_end = subnet.to_range.last.mask 32
-      else
-        raise ArgumentError, 'Must provide ending:, mask:, cidr: or a masked starting address' unless ending
-        new_start = IPAddr.new starting
-        new_end = IPAddr.new ending
-      end
-      validate_ip_range(new_start, new_end)
-      @starting_address = new_start
-      @ending_address = new_end
-    end
-
-    # Raise an exception if a given ending ip is lower than a given starting ip
-    #
-    # @param startip[String] The starting ip
-    #
-    # @param endip[String] The ending ip
-    #
-    # @return [void]
-    #
-    def validate_ip_range(startip, endip)
-      return nil if IPAddr.new(startip.to_s) <= IPAddr.new(endip.to_s)
-      raise JSS::InvalidDataError, "Starting IP #{startip} is higher than ending ip #{endip} "
+    def set_ip_range(starting_address: nil, ending_address: nil, mask: nil, cidr: nil)
+      range = self.class.ip_range(
+        starting_address: starting_address,
+        ending_address: ending_address,
+        mask: mask,
+        cidr: cidr
+      )
+      @starting_address = range.first
+      @ending_address = range.last
+      @need_to_update = true
     end
 
     ### aliases
     ######################
     alias mask= cidr=
-
+    alias to_range range
 
     ### private methods
     ######################
