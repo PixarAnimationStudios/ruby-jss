@@ -203,7 +203,7 @@ module JSS
     ###
     def self.jss_port
       jss_url
-      @port ? @port.to_i : 80
+      @port ? @port.to_i : 8443
     end
 
     ### The contents of the JAMF plist
