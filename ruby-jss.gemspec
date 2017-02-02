@@ -54,7 +54,8 @@ Gem::Specification.new do |s|
 
 
   s.executables << "cgrouper"
-  s.executables << "subnet-update"
+  s.executables << "netseg-update"
+  s.executables << "jss-webhook-server"
 
   # Dependencies
   s.required_ruby_version = '>= 1.9.3'
