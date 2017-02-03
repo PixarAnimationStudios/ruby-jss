@@ -46,7 +46,7 @@ module JSS
   ###
   class Client
 
-    #####################################
+
     ### Class Constants
     #####################################
 
@@ -203,7 +203,7 @@ module JSS
     ###
     def self.jss_port
       jss_url
-      @port ? @port.to_i : 8443
+      @port
     end
 
     ### The contents of the JAMF plist
