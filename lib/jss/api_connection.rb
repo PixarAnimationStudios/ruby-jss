@@ -1,5 +1,4 @@
 ### Copyright 2017 Pixar
-
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -26,23 +25,18 @@
 ###
 module JSS
 
-  #####################################
   ### Constants
   #####################################
 
-  #####################################
   ### Module Variables
   #####################################
 
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
-  ### Module Classes
+  ### Classes
   #####################################
 
-  ###
   ### An API connection to the JSS.
   ###
   ### This is a singleton class, only one can exist at a time.
@@ -57,23 +51,21 @@ module JSS
   ### use JSS::API.cnx
   ###
   class APIConnection
-    include Singleton
 
-    #####################################
     ### Class Constants
     #####################################
 
     ### The base API path in the jss URL
-    RSRC_BASE = "JSSResource"
+    RSRC_BASE = 'JSSResource'.freeze
 
     ### A url path to load to see if there's an API available at a host.
     ### This just loads the API resource docs page
-    TEST_PATH = "#{RSRC_BASE}/accounts"
+    TEST_PATH = "#{RSRC_BASE}/accounts".freeze
 
     ### If the test path loads correctly from a casper server, it'll contain
     ### this text (this is what we get when we make an unauthenticated
     ### API call.)
-    TEST_CONTENT = "<p>The request requires user authentication</p>"
+    TEST_CONTENT = '<p>The request requires user authentication</p>'.freeze
 
     ### The Default port
     HTTP_PORT = 9006
@@ -82,16 +74,19 @@ module JSS
     SSL_PORT = 8443
 
     ### The top line of an XML doc for submitting data via API
-    XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
+    XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
 
     ### Default timeouts in seconds
     DFT_OPEN_TIMEOUT = 60
     DFT_TIMEOUT = 60
 
     ### The Default SSL Version
-    DFT_SSL_VERSION = 'TLSv1'
+    # As of Casper 9.61 we can't use SSL, must use TLS, since SSLv3 was susceptible to poodles.
+    # NOTE - this requires rest-client v 1.7.0 or higher
+    # which requires mime-types 2.0 or higher, which requires ruby 1.9.2 or higher!
+    # That means that support for ruby 1.8.7 stops with Casper 9.6
+    DFT_SSL_VERSION = 'TLSv1'.freeze
 
-    #####################################
     ### Attributes
     #####################################
 
@@ -110,23 +105,27 @@ module JSS
     ### @return [String] the hostname of the JSS to which we're connected.
     attr_reader :server_host
 
-    #####################################
+    ### @return [Integer] the port used for the connection
+    attr_reader :port
+
+    ### @return [String] the protocol being used: http or https
+    attr_reader :protocol
+
+    ### @return [RestClient::Response] The response from the most recent API call
+    attr_reader :last_http_response
+
     ### Constructor
     #####################################
 
+    ### To connect, use JSS::API.connect
     ###
-    ### To connect, use JSS::APIConnection.instance.connect
-    ### or a shortcut, JSS::API.connect
-    ###
-    def initialize ()
+    def initialize
       @connected = false
     end # init
 
-    #####################################
     ### Class Methods
     #####################################
 
-    ###
     ### Connect to the JSS API.
     ###
     ### @param args[Hash] the keyed arguments for connection.
@@ -155,11 +154,7 @@ module JSS
     ###
     ### @return [true]
     ###
-    def connect (args = {})
-
-      # the server, if not specified, might come from a couple places.
-      # see #hostname
-      args[:server] ||= hostname
+    def connect(args = {})
 
       # settings from config if they aren't in the args
       args[:server] ||= JSS::CONFIG.api_server_name
@@ -169,69 +164,68 @@ module JSS
       args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
       args[:ssl_version] ||= JSS::CONFIG.api_ssl_version
 
-      # if verify cert given was NOT in the args....
-      if args[:verify_cert].nil?
-        # set it from the prefs
-        args[:verify_cert] = JSS::CONFIG.api_verify_cert
-      end
+      # if verify cert was not in the args, get it from the prefs.
+      # We can't use ||= because the desired value might be 'false'
+      args[:verify_cert] = JSS::CONFIG.api_verify_cert if args[:verify_cert].nil?
 
-      # settings from client jamf plist if needed
-      args[:port] ||=  JSS::Client.jss_port
+      # these settings can come from the jamf binary config, if this machine is a JSS client.
+      args[:server] ||= JSS::Client.jss_server
+      args[:port] ||= JSS::Client.jss_port
+      args[:use_ssl] ||= JSS::Client.jss_protocol.end_with? 's'
 
       # default settings if needed
-      args[:port] ||= SSL_PORT
+      args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
       args[:timeout] ||= DFT_TIMEOUT
       args[:open_timeout] ||= DFT_OPEN_TIMEOUT
-
-      # As of Casper 9.61 we can't use SSL, must use TLS, since SSLv3 was susceptible to poodles.
-      # NOTE - this requires rest-client v 1.7.0 or higher
-      # which requires mime-types 2.0 or higher, which requires ruby 1.9.2 or higher!
-      # That means that support for ruby 1.8.7 stops with Casper 9.6
       args[:ssl_version] ||= DFT_SSL_VERSION
 
-
       # must have server, user, and pw
-      raise JSS::MissingDataError, "No JSS :server specified, or in configuration." unless args[:server]
-      raise JSS::MissingDataError, "No JSS :user specified, or in configuration." unless args[:user]
+      raise JSS::MissingDataError, 'No JSS :server specified, or in configuration.' unless args[:server]
+      raise JSS::MissingDataError, 'No JSS :user specified, or in configuration.' unless args[:user]
       raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
 
       # we're using ssl if 1) args[:use_ssl] is anything but false
       # or 2) the port is the default casper ssl port.
-      args[:use_ssl] = (not args[:use_ssl] == false) or (args[:port] == SSL_PORT)
+      (args[:use_ssl] = (args[:use_ssl] != false)) || (args[:port] == SSL_PORT)
 
       # and here's the URL
-      ssl = args[:use_ssl] ? "s" : ''
-      @rest_url = URI::encode "http#{ssl}://#{args[:server]}:#{args[:port]}/#{RSRC_BASE}"
-
+      @protocol = 'http'
+      @protocol << 's' if  args[:use_ssl]
+      @server_host = args[:server]
+      @port = args[:port].to_i
+      @rest_url = URI.encode "#{@protocol}://#{@server_host}:#{@port}/#{RSRC_BASE}"
 
       # prep the args for passing to RestClient::Resource
       # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] =  (args[:verify_cert] == false) ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      args[:verify_ssl] =  args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
 
       args[:password] = if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
-      elsif args[:pw].is_a?(Symbol) and args[:pw].to_s.start_with?('stdin')
-        args[:pw].to_s =~ /^stdin(\d+)$/
-        line = $1
-        line ||= 1
-        JSS.stdin line
-      else
-        args[:pw]
-      end
+                          JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
+                        elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
+                          args[:pw].to_s =~ /^stdin(\d+)$/
+                          line = Regexp.last_match(1)
+                          line ||= 1
+                          JSS.stdin line
+                        else
+                          args[:pw]
+                        end
 
       # heres our connection
-      @cnx = RestClient::Resource.new("#{@rest_url}", args)
+      @cnx = RestClient::Resource.new(@rest_url.to_s, args)
 
       @jss_user = args[:user]
-      @server_host = args[:server]
       @connected = true
+
+      # See JSS::Server.  This makes the first API GET call
+      # and will raise an exception if things are wrong, like
+      # failed authentication
       @server = JSS::Server.new
 
       if @server.version < JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
         raise JSS::UnsupportedError, "Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher."
       end
 
-      return @connected ? @server_host : nil
+      @connected ? @server_host : nil
     end # connect
 
     ### A useful string about this connection
@@ -239,33 +233,29 @@ module JSS
     ### @return [String]
     ###
     def to_s
-      @connected ? "Using #{@rest_url} as user #{@jss_user}" : "not connected"
+      @connected ? "Using #{@rest_url} as user #{@jss_user}" : 'not connected'
     end
 
-    ###
     ### Reset the response timeout for the rest connection
     ###
     ### @param timeout[Integer] the new timeout in seconds
     ###
     ### @return [void]
     ###
-    def timeout= (timeout)
+    def timeout=(timeout)
       @cnx.options[:timeout] = timeout
     end
 
-    ###
     ### Reset the open-connection timeout for the rest connection
     ###
     ### @param timeout[Integer] the new timeout in seconds
     ###
     ### @return [void]
     ###
-    def open_timeout= (timeout)
+    def open_timeout=(timeout)
       @cnx.options[:open_timeout] = timeout
     end
 
-
-    ###
     ### With a REST connection, there isn't any real "connection" to disconnect from
     ### So to disconnect, we just unset all our credentials.
     ###
@@ -279,7 +269,6 @@ module JSS
       @connected = false
     end # disconnect
 
-    ###
     ### Get an arbitrary JSS resource
     ###
     ### The first argument is the resource to get (the part of the API url
@@ -297,15 +286,13 @@ module JSS
     ###
     ### @return [Hash,String] the result of the get
     ###
-    def get_rsrc (rsrc, format = :json)
-      raise JSS::InvalidConnectionError, "Not Connected. Use JSS::API.connect first." unless @connected
-      rsrc = URI::encode rsrc
-      data = @cnx[rsrc].get(:accept => format)
-      return JSON.parse(data, :symbolize_names => true) if format == :json
-      data
+    def get_rsrc(rsrc, format = :json)
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      rsrc = URI.encode rsrc
+      @last_http_response = @cnx[rsrc].get(accept: format)
+      return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
     end
 
-    ###
     ### Change an existing JSS resource
     ###
     ### @param rsrc[String] the API resource being changed, the URL part after 'JSSResource/'
@@ -314,17 +301,16 @@ module JSS
     ###
     ### @return [String] the xml response from the server.
     ###
-    def put_rsrc(rsrc,xml)
-      raise JSS::InvalidConnectionError, "Not Connected. Use JSS::API.connect first." unless @connected
+    def put_rsrc(rsrc, xml)
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
 
       ### convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
 
       ### send the data
-      @cnx[rsrc].put(xml, :content_type => 'text/xml')
+      @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
     end
 
-    ###
     ### Create a new JSS resource
     ###
     ### @param rsrc[String] the API resource being created, the URL part after 'JSSResource/'
@@ -333,15 +319,15 @@ module JSS
     ###
     ### @return [String] the xml response from the server.
     ###
-    def post_rsrc(rsrc,xml)
-      raise JSS::InvalidConnectionError, "Not Connected. Use JSS::API.connect first." unless @connected
+    def post_rsrc(rsrc, xml)
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
 
       ### convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
 
       ### send the data
-      @cnx[rsrc].post xml, :content_type => 'text/xml', :accept => :json
-    end #post_rsrc
+      @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
+    end # post_rsrc
 
     ### Delete a resource from the JSS
     ###
@@ -350,14 +336,12 @@ module JSS
     ### @return [String] the xml response from the server.
     ###
     def delete_rsrc(rsrc)
-      raise JSS::InvalidConnectionError, "Not Connected. Use JSS::API.connect first." unless @connected
-      raise MissingDataError, "Missing :rsrc" if rsrc.nil?
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       ### delete the resource
-      @cnx[rsrc].delete
-
-    end #delete_rsrc
-
+      @last_http_response = @cnx[rsrc].delete
+    end # delete_rsrc
 
     ### Test that a given hostname & port is a JSS API server
     ###
@@ -367,7 +351,7 @@ module JSS
     ###
     ### @return [Boolean] does the server host a JSS API?
     ###
-    def valid_server? (server, port = SSL_PORT)
+    def valid_server?(server, port = SSL_PORT)
       # cheating by shelling out to curl, because getting open-uri, or even net/http to use
       # ssl_options like :OP_NO_SSLv2 and :OP_NO_SSLv3 will take time to figure out..
       return true if `/usr/bin/curl -s 'https://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
@@ -388,9 +372,9 @@ module JSS
           # any errors = no API
           return false
         end # begin
-      end #begin
+      end # begin
       # if we're here, no API
-      return false
+      false
     end
 
     ### The server to which we are connected, or will
@@ -403,17 +387,17 @@ module JSS
       return @server_host if @server_host
       srvr = JSS::CONFIG.api_server_name
       srvr ||= JSS::Client.jss_server
-      return srvr
+      srvr
     end
+
 
     ### aliases
     alias connected? connected
-
+    alias host hostname
 
   end # class JSSAPIConnection
 
-  ### The single instance of the APIConnection
-  API = APIConnection.instance
-
+  ### The default APIConnection
+  API = APIConnection.new
 
 end # module
