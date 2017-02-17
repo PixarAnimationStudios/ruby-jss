@@ -369,6 +369,14 @@ module JSS
       end
     end
 
+
+    def self.fetch(**args)
+      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+      raise ArgumentError, 'Use .new to create new JSS objects' if args[:id] == :new
+
+      new args
+    end
+
     ### Class Constants
     #####################################
 
