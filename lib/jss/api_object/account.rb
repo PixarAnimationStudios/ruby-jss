@@ -58,32 +58,32 @@ module JSS
 
     ### @return [Array<Hash>] all JSS account users
     def self.all_users(refresh = false)
-      self.all(refresh)[:users]
+      all(refresh)[:users]
     end
 
     ### @return [Array<Hash>] all JSS account user ids
     def self.all_user_ids(refresh = false)
-      self.all(refresh)[:users].map{|i| i[:id]}
+      all(refresh)[:users].map { |i| i[:id] }
     end
 
     ### @return [Array<Hash>] all JSS account user names
     def self.all_user_names(refresh = false)
-      self.all(refresh)[:users].map{|i| i[:name]}
+      all(refresh)[:users].map { |i| i[:name] }
     end
 
     ### @return [Array<Hash>] all JSS account groups
     def self.all_groups(refresh = false)
-      self.all(refresh)[:groups]
+      all(refresh)[:groups]
     end
 
     ### @return [Array<Hash>] all JSS account group ids
     def self.all_group_ids(refresh = false)
-      self.all(refresh)[:groups].map{|i| i[:id]}
+      all(refresh)[:groups].map { |i| i[:id] }
     end
 
     ### @return [Array<Hash>] all JSS account group names
     def self.all_group_names(refresh = false)
-      self.all(refresh)[:groups].map{|i| i[:name]}
+      all(refresh)[:groups].map { |i| i[:name] }
     end
 
     #####################################
@@ -91,7 +91,7 @@ module JSS
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "accounts"
+    RSRC_BASE = 'accounts'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :accounts
@@ -139,7 +139,7 @@ module JSS
     ###
     ### See JSS::APIObject#initialize
     ###
-    def initialize (args = {})
+    def initialize(args = {})
       super args, [:userid, :username, :groupid, :groupname]
 
       # check to see if a user has been specified, haven't built groups yet
@@ -153,7 +153,6 @@ module JSS
         @privilege_set = @init_data[:privilege_set]
         @privileges = @init_data[:privileges]
       end
-
     end # initialize
 
   end # class accounts
