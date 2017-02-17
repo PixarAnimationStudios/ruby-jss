@@ -26,14 +26,11 @@
 ###
 module JSS
 
-
   ### Module Variables
   #####################################
 
-
   ### Module Methods
   #####################################
-
 
   ### Classes
   #####################################
@@ -62,6 +59,9 @@ module JSS
     ### The hash key used for the JSON object output.
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :account
+
+    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = [:userid, :username, :groupid, :groupname].freeze
 
     ### Class Methods
     #####################################
@@ -133,7 +133,7 @@ module JSS
     ### See JSS::APIObject#initialize
     ###
     def initialize(args = {})
-      super args, [:userid, :username, :groupid, :groupname]
+      super args
 
       # check to see if a user has been specified, haven't built groups yet
       is_user = [:userid, :username].any? { |key| args.keys.include? key }

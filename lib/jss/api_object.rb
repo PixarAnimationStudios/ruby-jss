@@ -113,7 +113,7 @@ module JSS
     ### Mix-Ins
     #####################################
 
-    ### Class Variables
+    ### Class Instance Variables
     #####################################
 
     ### This Hash holds the most recent API query for a list of all items in any subclass,
@@ -240,7 +240,7 @@ module JSS
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
       @@all_items[objects_key] = nil if refresh
       return @@all_items[objects_key] if @@all_items[objects_key]
-      @@all_items[objects_key] = all(refresh = false).map { |o| new id: o[:id] }
+      @@all_items[objects_key] = all(refresh).map { |o| new id: o[:id] }
     end
 
     ### Return true or false if an object of this subclass
@@ -430,7 +430,14 @@ module JSS
     ### @param other_lookup_keys[Array<Symbol>] Hash keys other than :id and :name, by which an API
     ###   lookup may be performed.
     ###
-    def initialize(args = {}, other_lookup_keys = [])
+    def initialize(args = {})
+
+      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+
+      ### what lookup key are we using, if any?
+      lookup_keys = DEFAULT_LOOKUP_KEYS
+      lookup_keys += self.class::OTHER_LOOKUP_KEYS if defined? self.class::OTHER_LOOKUP_KEYS
+      lookup_key = (lookup_keys & args.keys)[0]
 
       ####### Previously looked-up JSON data
       if args[:data]
@@ -479,11 +486,9 @@ module JSS
 
       ###### Look up the data via the API
       else
-        ### what lookup key are we using?
-        combined_lookup_keys = self.class::DEFAULT_LOOKUP_KEYS + other_lookup_keys
-        lookup_key = (combined_lookup_keys & args.keys)[0]
 
-        raise JSS::MissingDataError, "Args must include :#{combined_lookup_keys.join(', :')}, or :data" unless lookup_key
+
+        raise JSS::MissingDataError, "Args must include one of #{lookup_keys.join(':, ')}:, or data:" unless lookup_key
 
         rsrc = "#{self.class::RSRC_BASE}/#{lookup_key}/#{args[lookup_key]}"
 
@@ -575,7 +580,6 @@ module JSS
       :deleted
     end # delete
 
-
     ### A meaningful string representation of this object
     ###
     ### @return [String]
@@ -583,7 +587,6 @@ module JSS
     def to_s
       "#{self.class}, name: #{@name}, id: #{@id}"
     end
-
 
     ### Private Instance Methods
     #####################################

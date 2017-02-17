@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -185,6 +185,9 @@ module JSS
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:device_name, :capacity, :tethered ]
 
+    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = [:udid, :serialnumber, :macaddress].freeze
+
     ### This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
 
@@ -297,7 +300,7 @@ module JSS
 
     ### @return [String] the serial numbee
     attr_reader :serial_number
-    
+
 
     ### @return [String] the site associated with this device
     attr_reader :site
@@ -393,7 +396,7 @@ module JSS
     ###
     def initialize(args = {})
 
-      super args, [:udid, :serialnumber, :macaddress]
+      super args
 
       gen = @init_data[:general]
       @airplay_password = gen[:airplay_password]
@@ -451,7 +454,7 @@ module JSS
     def blank_push
       self.class.send_mdm_command @id, :blank_push
     end
-    
+
 
 
     ###
@@ -475,7 +478,7 @@ module JSS
     def device_lock
       self.class.send_mdm_command @id, :device_lock
     end
-    
+
 
     ###
     ### Send an erase_device MDM command
@@ -487,7 +490,7 @@ module JSS
     def erase_device
       self.class.send_mdm_command @id, :erase_device
     end
-    
+
 
     ###
     ### Send a clear_passcode MDM command
@@ -510,14 +513,14 @@ module JSS
     def unmanage_device
       @managed = false if self.class.send_mdm_command(@id, :unmanage_device)
     end
-    
-    
+
+
     ### Aliases
     alias battery_percent battery_level
     alias managed? managed
     alias sn serial_number
     alias serialnumber serial_number
-    
+
     alias noop blank_push
     alias send_blank_push blank_push
     alias recon update_inventory
@@ -527,10 +530,10 @@ module JSS
     alias wipe erase_device
     alias unmanage unmanage_device
     alias make_unmanaged unmanage_device
-    
-    
-    
-    
+
+
+
+
     ##############################
     # private methods
     ##############################
