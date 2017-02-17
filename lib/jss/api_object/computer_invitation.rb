@@ -146,7 +146,7 @@ module JSS
       ssh_username: "casper_remote",
       hide_account: "true" } )
 
-      super args, []
+      super args
 
       @name = @init_data[:invitation]
       @invitation_type = @init_data[:invitation_type]
