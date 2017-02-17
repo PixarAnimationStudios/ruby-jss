@@ -26,20 +26,19 @@
 ###
 module JSS
 
-  #####################################
+
   ### Module Variables
   #####################################
 
-  #####################################
+
   ### Module Methods
   #####################################
 
-  #####################################
+
   ### Classes
   #####################################
 
-  ###
-  ### A User in the JSS.
+  ### A User or group in the JSS.
   ###
   ### @see JSS::APIObject
   ###
@@ -48,11 +47,22 @@ module JSS
     ### Note: This class is not fully extended and since the resource
     ### is different than the rest, methods like JSS::Account.all do not work
 
-    #####################################
     ### Mix-Ins
     #####################################
 
+    ### Class Constants
     #####################################
+
+    ### The base for REST resources of this class
+    RSRC_BASE = 'accounts'.freeze
+
+    ### the hash key used for the JSON list output of all objects in the JSS
+    RSRC_LIST_KEY = :accounts
+
+    ### The hash key used for the JSON object output.
+    ### It's also used in various error messages
+    RSRC_OBJECT_KEY = :account
+
     ### Class Methods
     #####################################
 
@@ -86,21 +96,6 @@ module JSS
       all(refresh)[:groups].map { |i| i[:name] }
     end
 
-    #####################################
-    ### Class Constants
-    #####################################
-
-    ### The base for REST resources of this class
-    RSRC_BASE = 'accounts'.freeze
-
-    ### the hash key used for the JSON list output of all objects in the JSS
-    RSRC_LIST_KEY = :accounts
-
-    ### The hash key used for the JSON object output.
-    ### It's also used in various error messages
-    RSRC_OBJECT_KEY = :account
-
-    #####################################
     ### Attributes
     #####################################
 
@@ -132,11 +127,9 @@ module JSS
     ### * :casper_imaging => An array of Casper Imaging privileges
     attr_reader :privileges
 
-    #####################################
     ### Constructor
     #####################################
 
-    ###
     ### See JSS::APIObject#initialize
     ###
     def initialize(args = {})
