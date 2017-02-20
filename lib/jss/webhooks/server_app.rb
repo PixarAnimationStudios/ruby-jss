@@ -25,11 +25,12 @@
 
 require 'jss/webhooks'
 require 'sinatra/base'
+require 'webrick/https'
 
 module JSSWebHooks
 
   # the class has to be defined first for some reason
-  class Server < Sinatra::Base ; end
+  class Server < Sinatra::Base; end
 
 end # module
 
