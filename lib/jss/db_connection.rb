@@ -162,7 +162,7 @@ module JSS
       args[:write_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
 
       begin
-        @mysql.close if connected?
+        disconnect if @connected
       rescue Mysql::ClientError::ServerGoneError
         @connected = false
       end

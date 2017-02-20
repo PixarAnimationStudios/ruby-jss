@@ -159,16 +159,20 @@ module JSSWebHooks
 
         if handler_file.executable?
           # store as a Pathname, we'll pipe JSON to it
-          @event_handlers[event_name] << handler_file unless \
-            @event_handlers[event_name].include? handler_file
+          unless @event_handlers[event_name].include? handler_file
+            @event_handlers[event_name] << handler_file
+            puts "===> Loaded executable hander file '#{handler_file.basename}'"
+          end
         else
-          # load the file. If written correctly, it will
-          # put a Proc into @loaded_event_handler
-          load handler_file.to_s
-          # store as a Proc, to be called when the event is handled.
-          @event_handlers[event_name] << @loaded_event_handler unless \
-            @event_handlers[event_name].include? @loaded_event_handler
 
+          # store as a Proc, to be called when the event is handled.
+          unless @event_handlers[event_name].include? @loaded_event_handler
+            # load the file. If written correctly, it will
+            # put a Proc into @loaded_event_handler
+            load handler_file.to_s
+            @event_handlers[event_name] << @loaded_event_handler
+            puts "===> Loaded WebHooks Framework hander file '#{handler_file.basename}'"
+          end
         end # if handler_file.executable?
       end # self.load_handler(handler_file)
 
