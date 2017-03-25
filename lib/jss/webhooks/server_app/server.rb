@@ -25,6 +25,11 @@
 
 module JSSWebHooks
 
+  MANUAL_CERTIFICATE = '/Users/Shared/pixar.com.crt'.freeze
+  MANUAL_KEY = '/Users/Shared/pixar.com.key'.freeze
+  CERT = OpenSSL::X509::Certificate.new File.read MANUAL_CERTIFICATE || nil
+  PKEY = OpenSSL::PKey::RSA.new File.read MANUAL_KEY || nil
+
   # Sinatra Server
   class Server < Sinatra::Base
 
@@ -35,24 +40,15 @@ module JSSWebHooks
       server_engine = JSSWebHooks::CONFIG.server_engine || DEFAULT_SERVER_ENGINE
       server_port = JSSWebHooks::CONFIG.server_port || DEFAULT_PORT
 
+      # Sinatra Settings
+      enable :logging, :lock
       set :bind, '0.0.0.0'
       set :server, server_engine
       set :port, server_port
     end
 
-    # run the server doing any engine-based config along the way
-    def self.run!
-      super do |server|
-        case server
-        when WEBrick::HTTPServer
-          webrick_ssl_config server
-        end # case
-      end # do server
-    end # run!
-
-    def self.webrick_ssl_config(_server)
-      # TODO: add ssl config
-      true
+    def self.server_settings
+      { SSLEnable: true, SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE, SSLCertificate: CERT, SSLPrivateKey: PKEY }
     end
 
   end # class

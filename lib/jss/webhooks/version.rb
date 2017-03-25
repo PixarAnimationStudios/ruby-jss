@@ -27,6 +27,6 @@
 module JSSWebHooks
 
   ### The version of the JSS WebHooks framework
-  VERSION = '0.0.1'
+  VERSION = '0.0.1'.freeze
 
 end # module

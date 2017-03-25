@@ -20,8 +20,8 @@
 ## Introduction
 
 JSSWebHooks is a sub-module of ruby-jss which implements both a framework for
-working with JSS Webhook events, and a simple http server, based on Sinatra and
-Webrick, for handling those events.
+working with JSS WebHook events, and a simple http server, based on Sinatra and
+WEBrick, for handling those events.
 
 You do not need to be a Ruby programmer to make use of this framework! "Event Handlers"
 can be written in any language and used by the web server included with the module.
@@ -30,13 +30,13 @@ See _Event Handlers_ and _The Server_  below for more info.
 JSSWebHooks is still in early development. While the basics seem to work,
 there's much to do before it can be released in the ruby-jss gem.
 
-For details about the JSS Webhooks API, and the JSON data it passes, please see
+For details about the JSS WebHooks API, and the JSON data it passes, please see
 [Bryson Tyrrell's excellent
 documentation.](https://unofficial-jss-api-docs.atlassian.net/wiki/display/JRA/Webhooks+API)
 
 **Note:** when creating WebHooks in your JSS to be handled by the framework, you must
 specify JSON in the 'Content Type' section. This framework doesn't support XML
-formated WebHook data.
+formatted WebHook data.
 
 ## The Framework
 
@@ -187,7 +187,7 @@ Docs](https://unofficial-jss-api-docs.atlassian.net/wiki/display/JRA/Webhooks+AP
 Each Event class is a subclass of `JSSWebHooks::Event`, where all of their
 functionality is defined.
 
-The EventObject classes aren't suclasses, but are dynamically-defined members of
+The EventObject classes aren't subclasses, but are dynamically-defined members of
 the `JSSWebHooks::EventObjects` module.
 
 | Event Classes | Event Object Classes |
