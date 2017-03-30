@@ -76,6 +76,8 @@ module JSS
     include JSS::Scopable
     include JSS::Uploadable
     include JSS::SelfServable
+    include JSS::Categorizable
+
 
     #####################################
     ### Class Methods
@@ -216,9 +218,6 @@ module JSS
     ### and correspond to the general section of the Edit Policy window in
     ### the JSS WebApp. They are general settings for this policy.
     ### We'll map it to direct attributes.
-
-    ### @return [String] policy category name
-    attr_reader :category
 
     ### @return [String] how often to run the policy on each computer
     attr_reader :frequency
@@ -533,7 +532,6 @@ module JSS
 
       if @in_jss
         gen = @init_data[:general]
-        @category = JSS::APIObject.get_name(gen[:category])
         @frequency = gen[:frequency]
         @target_drive = gen[:target_drive]
         @offline = gen[:offline]
@@ -601,9 +599,6 @@ module JSS
 
         @printers = @init_data[:printers]
 
-        parse_scope
-        parse_self_service
-        @in_self_service = @init_data[:self_service][:use_for_self_service]
 
         ### Not in jss yet
       end
@@ -696,21 +691,6 @@ module JSS
     def offline=(new_val)
       raise JSS::InvalidDataError, 'New value must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @offline = new_val
-      @need_to_update = true
-    end
-
-    ### Change the category of this policy, arg is a category name
-    ###
-    ### @param new_val[String] the name of the new category
-    ###
-    ### @return [void]
-    ###
-    def category=(new_val = JSS::Category::DEFAULT_CATEGORY)
-      return nil if @category == new_val
-      new_val = nil if new_val == ''
-      new_val ||= JSS::Category::DEFAULT_CATEGORY
-      raise JSS::NoSuchItemError, "No category '#{new_val}' in the JSS" unless JSS::Category.all_names(:refresh).include? new_val
-      @category = new_val
       @need_to_update = true
     end
 
@@ -1106,62 +1086,6 @@ module JSS
       @printers.map { |p| p[:name] }
     end
 
-    ###### SelfService
-    ### Is this policy in self service?
-    ###
-    ### @return [Boolean] Is this policy in self service?
-    ###
-    def in_self_service?
-      @in_self_service
-    end
-
-    ### policies in self service aren't 'removable'
-    ###
-    ### @return [FalseClass]
-    ###
-    def user_removable?
-      false
-    end
-    alias user_removable= user_removable?
-
-    ### Add this policy to Self Service
-    ###
-    ### @return [void]
-    def add_to_self_service
-      @need_to_update = (@in_self_service == false)
-      @in_self_service = true
-    end
-
-    ### Remove this policy from Self Service
-    ###
-    ### @return [void]
-    def remove_from_self_service
-      @need_to_update = (@in_self_service == true)
-      @in_self_service = false
-    end
-
-    ### Select or upload an image file to be the self service icon.
-    ### The policy must already exist in the JSS to upload an image.
-    ###
-    ### NOTE: There is no way to verify the validity of an icon id, as they are not
-    ###   available via the API. Caveat Emptor.
-    ###
-    ### NOTE: When setting by id, {#update} or #{save} must be used to save the change.
-    ###
-    ### @param icon [String, Pathname, Integer] the path to the local image file, to upload
-    ###   or the id of a previously uploaded one.
-    ###
-    ### @return [void]
-    ###
-    def assign_icon(icon)
-      if icon.is_a? Integer
-        @self_service_icon = { id: icon }
-        @need_to_update = true
-        return
-      end
-      upload(:icon, icon)
-    end
-
     ###### Actions
 
     ### Try to execute this policy on this machine.
@@ -1186,7 +1110,6 @@ module JSS
     alias command_to_run run_command
     alias delete_path? delete_file?
     alias execute run
-    alias self_service? in_self_service?
 
     ### Private Instance Methods
     #####################################
@@ -1202,7 +1125,8 @@ module JSS
       general.add_element('frequency').text = @frequency
       general.add_element('target_drive').text = @target_drive
       general.add_element('offline').text = @offline
-      general.add_element('category').add_element('name').text = @category if @category
+
+      add_category_to_xml(doc)
 
       JSS.hash_to_rexml_array(@trigger_events).each { |t| general << t }
 
@@ -1226,9 +1150,7 @@ module JSS
         sdeets.each { |d| script << d }
       end
 
-      self_svc = self_service_xml
-      self_svc.add_element('use_for_self_service').text = @in_self_service
-      obj << self_svc
+      add_self_service_xml doc
 
       doc.to_s
     end
