@@ -269,6 +269,17 @@ module JSS
       @connected = false
     end # disconnect
 
+
+    def raise_conflict_error(exception)
+      exception.http_body =~ %r{<p>Error:(.*)</p>}
+      conflict_reason = $1
+      if conflict_reason
+        raise JSS::ConflictError, conflict_reason
+      else
+        raise exception
+      end
+    end
+
     ### Get an arbitrary JSS resource
     ###
     ### The first argument is the resource to get (the part of the API url
@@ -309,6 +320,8 @@ module JSS
 
       ### send the data
       @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
+    rescue RestClient::Conflict => exception
+      raise_conflict_error(exception)
     end
 
     ### Create a new JSS resource
@@ -327,6 +340,8 @@ module JSS
 
       ### send the data
       @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
+    rescue RestClient::Conflict => exception
+      raise_conflict_error(exception)
     end # post_rsrc
 
     ### Delete a resource from the JSS
