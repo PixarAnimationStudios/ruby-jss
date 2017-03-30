@@ -26,20 +26,16 @@
 ###
 module JSS
 
-  #####################################
   ### Module Variables
   #####################################
 
-  #####################################
   ### Module Methods
   #####################################
 
-  #####################################
   ### Classes
   #####################################
 
-  ###
-  ### A User in the JSS.
+  ### A User or group in the JSS.
   ###
   ### @see JSS::APIObject
   ###
@@ -48,50 +44,14 @@ module JSS
     ### Note: This class is not fully extended and since the resource
     ### is different than the rest, methods like JSS::Account.all do not work
 
-    #####################################
     ### Mix-Ins
     #####################################
 
-    #####################################
-    ### Class Methods
-    #####################################
-
-    ### @return [Array<Hash>] all JSS account users
-    def self.all_users(refresh = false)
-      self.all(refresh)[:users]
-    end
-
-    ### @return [Array<Hash>] all JSS account user ids
-    def self.all_user_ids(refresh = false)
-      self.all(refresh)[:users].map{|i| i[:id]}
-    end
-
-    ### @return [Array<Hash>] all JSS account user names
-    def self.all_user_names(refresh = false)
-      self.all(refresh)[:users].map{|i| i[:name]}
-    end
-
-    ### @return [Array<Hash>] all JSS account groups
-    def self.all_groups(refresh = false)
-      self.all(refresh)[:groups]
-    end
-
-    ### @return [Array<Hash>] all JSS account group ids
-    def self.all_group_ids(refresh = false)
-      self.all(refresh)[:groups].map{|i| i[:id]}
-    end
-
-    ### @return [Array<Hash>] all JSS account group names
-    def self.all_group_names(refresh = false)
-      self.all(refresh)[:groups].map{|i| i[:name]}
-    end
-
-    #####################################
     ### Class Constants
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "accounts"
+    RSRC_BASE = 'accounts'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :accounts
@@ -100,7 +60,42 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :account
 
+    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = [:userid, :username, :groupid, :groupname].freeze
+
+    ### Class Methods
     #####################################
+
+    ### @return [Array<Hash>] all JSS account users
+    def self.all_users(refresh = false)
+      all(refresh)[:users]
+    end
+
+    ### @return [Array<Hash>] all JSS account user ids
+    def self.all_user_ids(refresh = false)
+      all(refresh)[:users].map { |i| i[:id] }
+    end
+
+    ### @return [Array<Hash>] all JSS account user names
+    def self.all_user_names(refresh = false)
+      all(refresh)[:users].map { |i| i[:name] }
+    end
+
+    ### @return [Array<Hash>] all JSS account groups
+    def self.all_groups(refresh = false)
+      all(refresh)[:groups]
+    end
+
+    ### @return [Array<Hash>] all JSS account group ids
+    def self.all_group_ids(refresh = false)
+      all(refresh)[:groups].map { |i| i[:id] }
+    end
+
+    ### @return [Array<Hash>] all JSS account group names
+    def self.all_group_names(refresh = false)
+      all(refresh)[:groups].map { |i| i[:name] }
+    end
+
     ### Attributes
     #####################################
 
@@ -132,15 +127,13 @@ module JSS
     ### * :casper_imaging => An array of Casper Imaging privileges
     attr_reader :privileges
 
-    #####################################
     ### Constructor
     #####################################
 
-    ###
     ### See JSS::APIObject#initialize
     ###
-    def initialize (args = {})
-      super args, [:userid, :username, :groupid, :groupname]
+    def initialize(args = {})
+      super args
 
       # check to see if a user has been specified, haven't built groups yet
       is_user = [:userid, :username].any? { |key| args.keys.include? key }
@@ -153,7 +146,6 @@ module JSS
         @privilege_set = @init_data[:privilege_set]
         @privileges = @init_data[:privileges]
       end
-
     end # initialize
 
   end # class accounts

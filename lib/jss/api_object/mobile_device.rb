@@ -185,6 +185,9 @@ module JSS
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:device_name, :capacity, :tethered ]
 
+    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = [:udid, :serialnumber, :macaddress].freeze
+
     ### This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
 

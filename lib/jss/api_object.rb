@@ -240,7 +240,7 @@ module JSS
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
       @@all_items[objects_key] = nil if refresh
       return @@all_items[objects_key] if @@all_items[objects_key]
-      @@all_items[objects_key] = all(refresh = false).map { |o| new id: o[:id] }
+      @@all_items[objects_key] = all(refresh).map { |o| new id: o[:id] }
     end
 
     # Return true or false if an object of this subclass
@@ -368,7 +368,15 @@ module JSS
       end
     end
 
-    # Class Constants
+
+    def self.fetch(**args)
+      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+      raise ArgumentError, 'Use .new to create new JSS objects' if args[:id] == :new
+
+      new args
+    end
+
+    ### Class Constants
     #####################################
 
     # These Symbols are added to VALID_DATA_KEYS for performing the
@@ -423,6 +431,13 @@ module JSS
     #
     def initialize(args = {}, other_lookup_keys = [])
       args[:other_lookup_keys] ||= other_lookup_keys
+
+      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+
+      ### what lookup key are we using, if any?
+      lookup_keys = DEFAULT_LOOKUP_KEYS
+      lookup_keys += self.class::OTHER_LOOKUP_KEYS if defined? self.class::OTHER_LOOKUP_KEYS
+      lookup_key = (lookup_keys & args.keys)[0]
 
       ####### Previously looked-up JSON data
       # DEPRECATED: pre-lookedup data is never used

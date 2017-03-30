@@ -278,7 +278,11 @@ module JSS
     RSRC_OBJECT_KEY = :computer
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    ###   DEPRECATED, with be removed in a future release.
     VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address ]
+
+    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = [:udid, :serialnumber, :mac_address]
 
     ### This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedComputerSearch
