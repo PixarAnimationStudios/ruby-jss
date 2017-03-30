@@ -61,6 +61,7 @@ module JSS
 
     include JSS::Creatable
     include JSS::Updatable
+    include JSS::Categorizable
 
     ### Class Methods
     #####################################
@@ -127,7 +128,6 @@ module JSS
     def initialize(args = {})
       super
 
-      @category = JSS::APIObject.get_name(@init_data[:category])
       @filename = @init_data[:filename] || @name
       @info = @init_data[:info]
       @notes = @init_data[:notes]
@@ -262,21 +262,6 @@ module JSS
       @notes = new_val
       @need_to_update = true
     end # notes=
-
-    ### Change the category
-    ###
-    ### @param new_val[String] the name of the new category, which must be in {JSS::Category.all_names}
-    ###
-    ### @return [void]
-    ###
-    def category=(new_val)
-      return nil if new_val == @category
-      new_val = nil if new_val == ''
-      new_val ||= JSS::Category::DEFAULT_CATEGORY
-      raise JSS::InvalidDataError, "Category #{new_val} is not known to the JSS" unless JSS::Category.all_names.include? new_val
-      @need_to_update = true
-      @category = new_val
-    end # category=
 
     ### Replace all the script parameters at once.
     ###
@@ -570,7 +555,7 @@ module JSS
     def rest_xml
       doc = REXML::Document.new
       scpt = doc.add_element 'script'
-      scpt.add_element('category').text = @category
+
       scpt.add_element('filename').text = @filename
       scpt.add_element('id').text = @id
       scpt.add_element('info').text = @info
@@ -578,6 +563,7 @@ module JSS
       scpt.add_element('notes').text = @notes
       scpt.add_element('os_requirements').text = JSS.to_s_and_a(@os_requirements)[:stringform]
       scpt.add_element('priority').text = @priority
+      add_category_to_xml(doc)
 
       if @parameters.empty?
         scpt.add_element('parameters').text = nil

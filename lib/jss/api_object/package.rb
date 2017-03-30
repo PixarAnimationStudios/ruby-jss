@@ -48,6 +48,7 @@ module JSS
     ### Mix-Ins
     #####################################
 
+    include JSS::Categorizable
     include JSS::Creatable
     include JSS::Updatable
 
@@ -127,9 +128,6 @@ module JSS
     ### @return [Boolean] can this item be uninstalled? Some, e.g. OS Updates, can't
     attr_reader :allow_uninstalled
 
-    ### @return [String] the category of this pkg, stored in the JSS as the id number from the categories table
-    attr_reader :category
-
     ### @return [String] the info field for this pkg - stores d3's basename & swupdate values
     attr_reader :info
 
@@ -156,8 +154,6 @@ module JSS
       ### now we have pkg_data with something in it, so fill out the instance vars
       @allow_uninstalled = @init_data[:allow_uninstalled]
       @boot_volume_required = @init_data[:boot_volume_required]
-      @category = JSS::APIObject.get_name(@init_data[:category])
-      @category = nil if @category.to_s.casecmp('No category assigned').zero?
       @filename = @init_data[:filename] || @init_data[:name]
       @fill_existing_users = @init_data[:fill_existing_users]
       @fill_user_template = @init_data[:fill_user_template]
@@ -211,21 +207,6 @@ module JSS
       new_val = false if new_val.to_s.empty?
       raise JSS::InvalidDataError, 'install_if_reported_available must be boolean true or false' unless JSS::TRUE_FALSE.include? new_val
       @boot_volume_required = new_val
-      @need_to_update = true
-    end
-
-    ### Change the category in the JSS
-    ###
-    ### @param new_val[String]  must be one listed by 'JSS::Category.all_names'
-    ###
-    ### @return [void]
-    ###
-    def category=(new_val)
-      return nil if new_val == @category
-      new_val = nil if new_val == ''
-      new_val ||= JSS::Category::DEFAULT_CATEGORY
-      raise JSS::InvalidDataError, "Category #{new_val} is not known to the JSS" unless JSS::Category.all_names.include? new_val
-      @category = new_val
       @need_to_update = true
     end
 
@@ -796,7 +777,6 @@ module JSS
       pkg = doc.add_element 'package'
       pkg.add_element('allow_uninstalled').text = @allow_uninstalled
       pkg.add_element('boot_volume_required').text = @boot_volume_required
-      pkg.add_element('category').text = @category.to_s.casecmp('No category assigned').zero? ? '' : @category
       pkg.add_element('filename').text = @filename
       pkg.add_element('fill_existing_users').text = @fill_existing_users
       pkg.add_element('fill_user_template').text = @fill_user_template
@@ -810,6 +790,7 @@ module JSS
       pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? 'None' : @required_processor
       pkg.add_element('send_notification').text = @send_notification
       pkg.add_element('switch_with_package').text = @switch_with_package
+      add_category_to_xml(doc)
       doc.to_s
     end # rest xml
 
