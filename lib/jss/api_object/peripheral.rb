@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -101,11 +101,11 @@ module JSS
 
     ### @return [String] the "bar code 1" value
     attr_reader :bar_code_1
-    
+
 
     ### @return [String] the "bar code 2" value
     attr_reader :bar_code_2
-    
+
 
     ### @return [Integer] the id number of the computer to which  this periph is connected
     attr_reader :computer_id
@@ -149,8 +149,6 @@ module JSS
       ### get the field defs for this PeriphType, omitting the leading nil
       @field_defs ||= JSS::PeripheralType.new(:name => @type).fields.compact
 
-      parse_location
-      parse_purchasing
 
     end # initialize
 
@@ -209,7 +207,7 @@ module JSS
         @bar_code_1 = new_value
         @need_to_update = true
     end
-    
+
 
     ###
     ### Set the value of barcode 2
@@ -222,7 +220,7 @@ module JSS
         @bar_code_2 = new_value
         @need_to_update = true
     end
-    
+
 
     ###
     ### Associate this peripheral with a computer.
@@ -241,7 +239,7 @@ module JSS
       end
       @need_to_update = true
     end
-    
+
 
     ###
     ### Disassociate this peripheral from any computer.
@@ -255,7 +253,7 @@ module JSS
       @computer_id = nil
       @need_to_update = true
     end
-    
+
 
     #################################
     ### Private Methods below here
@@ -317,20 +315,20 @@ module JSS
 
       return doc.to_s
     end # rest xml
-    
+
     ### Aliases
     alias barcode_1 bar_code_1
     alias barcode1 bar_code_1
     alias barcode_1= bar_code_1=
     alias barcode1= bar_code_1=
-    
+
     alias barcode_2 bar_code_2
     alias barcode2 bar_code_2
     alias barcode_2= bar_code_2=
     alias barcode2= bar_code_2=
-    
+
     alias assign_to associate
     alias unassign disassociate
-    
+
   end # class Peripheral
 end # module

@@ -155,8 +155,6 @@ module JSS
 
       @site = JSS::APIObject.get_name(@init_data[:site])
 
-      parse_criteria
-
     end #init
 
     #####################################
@@ -378,4 +376,3 @@ end # module JSS
 require "jss/api_object/group/computer_group"
 require "jss/api_object/group/mobile_device_group"
 require "jss/api_object/group/user_group"
-

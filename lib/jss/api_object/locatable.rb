@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -52,8 +52,7 @@ module JSS
   ### - :username => String
   ###
   ### Including this module in an {APIObject} subclass will give it attributes
-  ### matching those keys, which are populated by calling {#parse_location} in the
-  ### subclass's constructor after calling super.
+  ### matching those keys.
   ###
   ### If the subclass is creatable or updatable, calling {#location_xml} returns
   ### a REXML element representing the location subset, to be included with the
@@ -70,13 +69,13 @@ module JSS
     #####################################
     ###  Variables
     #####################################
-    
-    
+
+
     #####################################
     ###  Attribtues
     #####################################
 
-    ### 
+    ###
     ### Objects with a Location subset have those values stored as
     ### primary attributes here, not in a single Hash attribute
     ### as the other subsets
@@ -104,7 +103,7 @@ module JSS
 
     ### @return [String]
     attr_reader :username
-    
+
 
     #####################################
     ###  Mixed-in Instance Methods
@@ -130,12 +129,12 @@ module JSS
       @username = @init_data[:location][:username]
     end
 
-    
+
     ###
     ### All the location data in a Hash, as it comes from the API.
     ###
     ### The reason it isn't stored this way is to prevent editing of the hash directly.
-    ### 
+    ###
     ### @return [Hash<String>] the location data
     ###
     def location
@@ -150,8 +149,8 @@ module JSS
         :username => @username
       }
     end
-    
-    
+
+
     ###
     ###
     ### Setters
@@ -254,12 +253,12 @@ module JSS
       @room = ''
       @need_to_update = true
     end
-    
-    
+
+
     ### aliases
     alias user username
-    
-    
+
+
     ###
     ### @api private
     ###

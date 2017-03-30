@@ -141,9 +141,6 @@ module JSS
       @uuid = @main_subset[:uuid]
       @redeploy_on_update = @main_subset[:redeploy_on_update]
       @payloads = @main_subset[:payloads]
-
-      self.parse_scope
-      self.parse_self_service
     end
 
     #####################################

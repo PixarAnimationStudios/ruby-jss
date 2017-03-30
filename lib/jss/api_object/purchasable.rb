@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -58,8 +58,6 @@ module JSS
   ###
   ### These items become direct attributes of objects where this module is mixed-in.
   ###
-  ### Classes mixing in this module must call {#parse_purchasing} in their initialization method
-  ### in order to populate the attributes from @init_data.
   ###
   ### If the class also is Creatable or Updatable it must include the value of {#purchasing_xml} in its
   ### rest_xml output.
@@ -231,12 +229,12 @@ module JSS
       @vendor or \
       @warranty_expires
     end
-    
+
     ###
     ### All the purchasing data in a Hash, as it comes from the API.
     ###
     ### The reason it isn't stored this way is to prevent editing of the hash directly.
-    ### 
+    ###
     ### @return [Hash<String>] the location data
     ###
     def purchasing
@@ -255,7 +253,7 @@ module JSS
         :warranty_expires => @warranty_expires,
       }
     end
-    
+
     ###
     ### @api private
     ###
@@ -308,10 +306,10 @@ module JSS
       purch.add_element('warranty_expires_epoch').text = @warranty_expires ? @warranty_expires.to_jss_epoch : nil
       return purch
     end
-    
+
     ### Aliases
     alias leased? is_leased
     alias purchased? is_purchased
-    
+
   end # module Purchasable
 end # module JSS

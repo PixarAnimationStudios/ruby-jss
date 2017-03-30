@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -50,7 +50,6 @@ module JSS
   ###
   ### Classes that mix in this module must:
   ### - Set a Constant SCOPE_TARGET_KEY that is either :computers or :mobile_devices
-  ### - Call {#parse_scope} during initialization to make a {JSS::Scopable::Scope} instance for their @scope attribute.
   ### - Include the result of self.scope.scope_xml in their own rest_xml output if they are {Updatable} or {Creatable}
   ###
   module Scopable
@@ -112,25 +111,25 @@ module JSS
       @need_to_update = true if @in_jss
     end
 
-    
+
     ###
     ### A wrapper around the update method, to try catching RestClient::Conflict
     ### 409 errors when we couldn't verify all ldap users/groups due to lack of ldap connections
-    ### 
+    ###
     def update
       begin
         super
-        
+
       rescue RestClient::Conflict => conflict
         if  self.scope.unable_to_verify_ldap_entries == true
           raise JSS::InvalidDataError, "Potentially non-existant LDAP user or group in new scope values."
         else
           raise conflict
         end
-        
+
       end # begin
     end # update
-    
+
   end # module Scopable
 end # module JSS
 

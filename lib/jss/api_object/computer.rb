@@ -569,10 +569,6 @@ module JSS
       @sus = @init_data[:general][:sus]
       @udid = @init_data[:general][:udid]
 
-      parse_location
-      parse_purchasing
-      parse_ext_attrs
-
       @configuration_profiles = @init_data[:configuration_profiles]
       @extension_attributes = @init_data[:extension_attributes]
       @groups_accounts = @init_data[:groups_accounts]
