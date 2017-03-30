@@ -44,7 +44,7 @@ module JSS
   require 'singleton'
   require 'pathname'
   require 'fileutils'
-  require 'uri'
+  require 'open-uri'
   require 'ipaddr'
   require 'rexml/document'
   require 'base64'
@@ -95,15 +95,7 @@ module JSS
 
   module Composer; end
 
-  ### Mix-in Sub Modules
 
-  module Creatable; end
-  module FileUpload; end
-  module Locatable; end
-  module Matchable; end
-  module Purchasable; end
-  module Updatable; end
-  module Extendable; end
 
   ### Mix-in Sub Modules with Classes
 
@@ -123,6 +115,7 @@ module JSS
   class Client; end
   class DBConnection; end
   class Server; end
+  class Icon; end
   class Preferences; end
 
   ### SubClasses
@@ -152,9 +145,13 @@ module JSS
   class Category < JSS::APIObject; end
   class Computer < JSS::APIObject; end
   class Department < JSS::APIObject; end
+  class EBook < JSS::APIObject; end
   class DistributionPoint < JSS::APIObject; end
   class LDAPServer < JSS::APIObject; end
+  class MacApplication < JSS::APIObject; end
   class MobileDevice < JSS::APIObject; end
+  class MobileDeviceConfigurationProfile < JSS::APIObject; end
+  class MobileDeviceApplication < JSS::APIObject; end
   class NetBootServer < JSS::APIObject; end
   class NetworkSegment < JSS::APIObject; end
   class OSXConfigurationProfile < JSS::APIObject; end
@@ -169,6 +166,19 @@ module JSS
   class SoftwareUpdateServer < JSS::APIObject; end
   class User < JSS::APIObject; end
   class WebHook < JSS::APIObject; end
+
+  ### Mix-in Sub Modules
+
+  module Creatable; end
+  module FileUpload; end
+  module Locatable; end
+  module Matchable; end
+  module Purchasable; end
+  module Updatable; end
+  module Extendable; end
+  module SelfServable; end
+  module Categorizable; end
+  module VPPable; end
 
 end # module JSS
 
