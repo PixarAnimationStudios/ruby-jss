@@ -26,54 +26,54 @@
 ### A mix-in module providing object-updating via the JSS API.
 module JSS
 
-  ### Module Variables
+  # Module Variables
   #####################################
 
-  ### Module Methods
+  # Module Methods
   #####################################
 
-  ### Sub-Modules
+  # Sub-Modules
   #####################################
 
-  ### A mix-in module that allows objects to be updated in the JSS via the API.
-  ###
-  ### When a JSS::APIObject subclass includes this module, instances of that
-  ### subclass can be modified in the JSS using the {#update} or {APIObject#save} methods.
-  ###
-  ### Such classes should define setter methods for any values that they wish to
-  ### modify, such as the {#name=} method defined here. Those setter methods must:
-  ### - ensure the correctness of the data they accept.
-  ### - set @need_to_update to true, indicating that the local object no longer
-  ###   matches the JSS, and the changes should be pushed to the server with {#update}
-  ###
-  ### Classes mixing this module *must* provide a #rest_xml instance method that returns the XML
-  ### String to be submitted to the API for object updating.
-  ###
-  ### @see APIObject#save
-  ###
+  # A mix-in module that allows objects to be updated in the JSS via the API.
+  #
+  # When a JSS::APIObject subclass includes this module, instances of that
+  # subclass can be modified in the JSS using the {#update} or {APIObject#save} methods.
+  #
+  # Such classes should define setter methods for any values that they wish to
+  # modify, such as the {#name=} method defined here. Those setter methods must:
+  # - ensure the validity of the data they accept.
+  # - set @need_to_update to true, indicating that the local object no longer
+  #   matches the JSS, and the changes should be pushed to the server with {#update}
+  #
+  # Classes mixing this module *must* provide a #rest_xml instance method that returns the XML
+  # String to be submitted to the API for object updating.
+  #
+  # @see_also APIObject#save
+  #
   module Updatable
 
-    ###  Constants
+    #  Constants
     #####################################
 
     UPDATABLE = true
 
-    ###  Attributes
+    #  Attributes
     #####################################
 
-    ### @return [Boolean] do we have unsaved changes?
+    # @return [Boolean] do we have unsaved changes?
     attr_reader :need_to_update
 
-    ###  Mixed-in Instance Methods
+    #  Mixed-in Instance Methods
     #####################################
 
-    ### Change the name of this item
-    ### Remember to #update to push changes to the server.
-    ###
-    ### @param newname[String] the new name
-    ###
-    ### @return [void]
-    ###
+    # Change the name of this item
+    # Remember to #update to push changes to the server.
+    #
+    # @param newname[String] the new name
+    #
+    # @return [void]
+    #
     def name=(newname)
       return nil if @name == newname
       raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless UPDATABLE
@@ -85,16 +85,17 @@ module JSS
       @need_to_update = true
     end #  name=(newname)
 
-    ### Save changes to the JSS
-    ###
-    ### @return [Boolean] success
-    ###
+    # Save changes to the JSS
+    #
+    # @return [Boolean] success
+    #
     def update
       return nil unless @need_to_update
       raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless UPDATABLE
       raise JSS::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
       JSS::API.put_rsrc @rest_rsrc, rest_xml
       @need_to_update = false
+      refresh_icon if self_servable?
       @id
     end # update
 

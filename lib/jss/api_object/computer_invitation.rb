@@ -27,119 +27,119 @@
 module JSS
 
   #####################################
-  ### Module Constants
+  # Module Constants
   #####################################
 
   #####################################
-  ### Module Variables
+  # Module Variables
   #####################################
 
   #####################################
-  ### Module Methods
+  # Module Methods
   #####################################
 
-  ###
-  ### This class represents a Computer Invitation in the JSS.
-  ###
-  ### ===Adding Computer Invitations to the JSS
-  ###
-  ### This class is meant only to generate and hold the response of creating
-  ### an invitation.
-  ###
-  ### @see APIObject
-  ### @see Creatable
-  ###
+  #
+  # This class represents a Computer Invitation in the JSS.
+  #
+  # ===Adding Computer Invitations to the JSS
+  #
+  # This class is meant only to generate and hold the response of creating
+  # an invitation.
+  #
+  # @see APIObject
+  # @see Creatable
+  #
 
   class ComputerInvitation < JSS::APIObject
 
     #####################################
-    ### MixIns
+    # MixIns
     #####################################
 
     include JSS::Creatable
 
     #####################################
-    ### Class Variables
+    # Class Variables
     #####################################
 
     #####################################
-    ### Class Methods
+    # Class Methods
     #####################################
 
     #####################################
-    ### Class Constants
+    # Class Constants
     #####################################
 
-    ### The base for REST resources of this class
+    # The base for REST resources of this class
     RSRC_BASE = "computerinvitations"
 
-    ### the hash key used for the JSON list output of all objects in the JSS
+    # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :computer_invitations
 
-    ### The hash key used for the JSON object output.
-    ### It's also used in various error messages
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
     RSRC_OBJECT_KEY = :computer_invitation
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:invitation]
 
     #####################################
-    ### Attributes
+    # Attributes
     #####################################
 
-    ### The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
-    ### Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
-    ### Here's General, in alphabetical order
+    # The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
+    # Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
+    # Here's General, in alphabetical order
 
-    ### @return [String] the invitation name
+    # @return [String] the invitation name
     attr_reader :name
 
-    ### @return [String] the invitation type
-    ###
-    ### Valid values are: URL and EMAIL. Will default to DEFAULT.
+    # @return [String] the invitation type
+    #
+    # Valid values are: URL and EMAIL. Will default to DEFAULT.
     attr_accessor :invitation_type
 
-    ### @return [String] whether or not to create the account if required
-    ###
-    ### "true" or "false" are valid values.
+    # @return [String] whether or not to create the account if required
+    #
+    # "true" or "false" are valid values.
     attr_accessor :create_account_if_does_not_exist
 
-    ### @return [String]
-    ###
-    ### Time since epoch that the invitation will expire at.
-    ###
-    ### Note: defaults to "Unlimited", so only set if it should expire.
+    # @return [String]
+    #
+    # Time since epoch that the invitation will expire at.
+    #
+    # Note: defaults to "Unlimited", so only set if it should expire.
     attr_accessor :expiration_date_epoch
 
-    ### @return [String]
-    ###
-    ### The username of the ssh user to be created.
-    ###
-    ### REQUIRED for valid setup.
+    # @return [String]
+    #
+    # The username of the ssh user to be created.
+    #
+    # REQUIRED for valid setup.
     attr_accessor :ssh_username
 
-    ### @return [String]
-    ###
-    ### The whether or not to hide the ssh user.
+    # @return [String]
+    #
+    # The whether or not to hide the ssh user.
     attr_accessor :hide_account
 
-    ### @return [String]
-    ###
-    ### The invitation_status.
+    # @return [String]
+    #
+    # The invitation_status.
     attr_accessor :invitation_status
 
-    ### @return [String]
-    ###
-    ### Whether the invitation can be used multiple times (boolean).
+    # @return [String]
+    #
+    # Whether the invitation can be used multiple times (boolean).
     attr_accessor :multiple_uses_allowed
 
     #####################################
-    ### Public Instance Methods
+    # Public Instance Methods
     #####################################
 
-    ###
-    ### @see APIObject#initialize
-    ###
+    #
+    # @see APIObject#initialize
+    #
     def initialize(args = {
       id: :new,
       name: "some_new_name",
@@ -159,14 +159,14 @@ module JSS
     end
 
     #####################################
-    ### Public Class Methods
+    # Public Class Methods
     #####################################
 
-    ###
-    ### Needed to support creation of new Computer Invitations to set their name.
-    ###
-    ### @return [JSS::ComputerInvitation]
-    ###
+    #
+    # Needed to support creation of new Computer Invitations to set their name.
+    #
+    # @return [JSS::ComputerInvitation]
+    #
     def create
       new_invitation_id = super
 
@@ -182,13 +182,13 @@ module JSS
     end
 
     #####################################
-    ### Private Instance Methods
+    # Private Instance Methods
     #####################################
     private
 
-    ###
-    ### Sets invitation expiration 4 hours after request.
-    ###
+    #
+    # Sets invitation expiration 4 hours after request.
+    #
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
