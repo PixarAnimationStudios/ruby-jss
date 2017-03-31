@@ -351,6 +351,9 @@ module JSS
     # - 254 - Cancel button was select with delay option present
     # - 255 - No "-windowType"
     #
+    # If the :abandon_process option is given, the integer returned is the Process ID
+    # of the abondoned process running jamfHelper.
+    #
     # See also /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help
     #
     # @note the -startlaunchd and -kill options are not available in this implementation, since
@@ -416,8 +419,18 @@ module JSS
     # @option opts :align_countdown [Symbol] one of  [:right, :left, :center, :justified, :natural]
     #   Aligns the countdown to the specified alignment
     #
-    # @option opts :lock_hud [any value]
+    # @option opts :lock_hud [Boolean]
     #   Removes the ability to exit the HUD by selecting the close button
+    #
+    # @option opts :abandon_process [Boolean] Abandon the jamfHelper process so that your code can exit.
+    #   This is mostly used so that a policy can finish while a dialog is waiting
+    #   (possibly forever) for user response. When true, the returned value is the
+    #   process id of the abandoned jamfHelper process.
+    #
+    # @option opts :output_file [String, Pathname] Save the output of jamfHelper
+    #   (the exit code) into this file. This is useful when using abandon_process.
+    #   The output file can be examined later to see what happened. If this option
+    #   is not provided, no output is saved.
     #
     # @return [Integer] the exit status of the jamfHelper command. See above.
     #
@@ -504,7 +517,7 @@ module JSS
           args << JSS.to_s_and_a(opts[opt])[:arrayform].join(', ')
 
         when :countdown
-          args << '-countdown'
+          args << '-countdown' if opts[opt]
 
         when :align_countdown
           raise JSS::InvalidDataError, ":align_countdown must be one of :#{JAMF_HELPER_ALIGNMENTS.join(', :')}." unless \
@@ -513,12 +526,29 @@ module JSS
           args << opts[opt].to_s
 
         when :lock_hud
-          args << '-lockHUD'
+          args << '-lockHUD' if opts[opt]
+
         end # case opt
       end # each do opt
 
-      system JAMF_HELPER.to_s, *args
-      $CHILD_STATUS.exitstatus
+      cmd = Shellwords.escape JAMF_HELPER.to_s
+      args.each { |arg| cmd << " #{Shellwords.escape arg}" }
+      cmd << " > #{Shellwords.escape opts[:output_file]}" if opts[:output_file]
+
+      if opts[:abandon_process]
+        pid = Process.fork
+        if pid.nil?
+          # In child
+          exec cmd
+        else
+          # In parent
+          Process.detach(pid)
+          pid
+        end
+      else
+        system cmd
+        $CHILD_STATUS.exitstatus
+      end
     end # def self.jamf_helper
 
   end # class Client
