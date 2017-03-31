@@ -26,160 +26,146 @@
 ###
 module JSS
 
-  #####################################
-  ### Module Variables
-  #####################################
-
-  #####################################
-  ### Module Methods
+  # Module Variables
   #####################################
 
-  #####################################
-  ### Classes
+  # Module Methods
   #####################################
 
-  ###
-  ### A Parent class for Advanced Computer, MobileDevice, and User searchs
-  ###
-  ### Subclasses must define:
-  ### * the constant RESULT_CLASS which is the JSS Module class of
-  ###   the item returned by the search, e.g. JSS::Computer
-  ### * the constant RESULT_ID_FIELDS, which is an Array of Symbols
-  ###   that come from the API in the search_results along with the
-  ###   symbolized display fields.
-  ###   E.g. for AdvancedComputerSearches, :id, :name, and :udid are present along with
-  ###   whatever display fields have been defined.
-  ###
-  ###
-  ### @see JSS::AdvancedComputerSearch
-  ### @see JSS::AdvancedMobileDeviceSearch
-  ### @see JSS::AdvancedUserSearch
-  ### @see JSS::APIObject
-  ###
+  # Classes
+  #####################################
+
+  #
+  # A Parent class for Advanced Computer, MobileDevice, and User searchs
+  #
+  # Subclasses must define:
+  # * the constant RESULT_CLASS which is the JSS Module class of
+  #   the item returned by the search, e.g. JSS::Computer
+  # * the constant RESULT_ID_FIELDS, which is an Array of Symbols
+  #   that come from the API in the search_results along with the
+  #   symbolized display fields.
+  #   E.g. for AdvancedComputerSearches, :id, :name, and :udid are present along with
+  #   whatever display fields have been defined.
+  #
+  #
+  # @see JSS::AdvancedComputerSearch
+  # @see JSS::AdvancedMobileDeviceSearch
+  # @see JSS::AdvancedUserSearch
+  # @see JSS::APIObject
+  #
   class AdvancedSearch < JSS::APIObject
 
-    #####################################
-    ### Mix-Ins
+    # Mix-Ins
     #####################################
     include JSS::Creatable
     include JSS::Updatable
     include JSS::Criteriable
 
-    #####################################
-    ### Class Constants
-    #####################################
-
-    EXPORT_FORMATS = [:csv, :tab, :xml]
-
-    #####################################
-    ### Attributes
+    # Class Constants
     #####################################
 
+    EXPORT_FORMATS = [:csv, :tab, :xml].freeze
 
-    ###
-    ### @return [Array<Hash>] the results of the search
-    ###
-    ### Each Hash is one object that matches the criteria.
-    ### Within each hash there are variable keys, but always at least
-    ### the keys defined in each subclasses RESULT_ID_FIELDS
-    ###
-    ### The other keys correspond to the {AdvancedSearch#display_fields} defined for this
-    ### Advanced Search.
-    ###
+    # Attributes
+    #####################################
+
+    #
+    # @return [Array<Hash>] the results of the search
+    #
+    # Each Hash is one object that matches the criteria.
+    # Within each hash there are variable keys, but always at least
+    # the keys defined in each subclasses RESULT_ID_FIELDS
+    #
+    # The other keys correspond to the {AdvancedSearch#display_fields} defined for this
+    # Advanced Search.
+    #
     attr_reader :search_results
 
-    ### @return [Array<Symbol>]
-    ###
-    ### The search result Hash keys for the {#display_fields} of the search
-    ###
-    ### The field names in {#display_fields} are strings matching how the field is labeled
-    ### in the web UI (including the names of Extension Attributes). They have to be that way
-    ### when submitting them to the API, and thats mostly what {#display_fields} and related
-    ### methods are for.
-    ###
-    ### However, when those names come back as the Hash Keys of the {#search_results}
-    ### they (inconsistently) have spaces and/or dashes converted to underscores, and,
-    ### the JSON module converts the keys to Symbols, so they don't match the {#display_fields}.
-    ###
-    ### For example, the display field "Last Check-in" might come back as any of these Symbols:
-    ### - :"Last Check-in"
-    ### - :Last_Check_in
-    ### - :"Last_Check-in"
-    ###
-    ### Also, the data returned in the {#search_results} contains more keys than just the
-    ### {#display_fields} - namely it comes with some standard identifiers for each found item.
-    ### such as JSS id number and name.
-    ###
-    ### {#result_display_keys} will hold just the Hash keys corresponding to the
-    ### {#display_fields} by taking the keys from the first result Hash, and removing the
-    ### identifier keys as listed in each subclass's RESULT_ID_FIELDS constant.
-    ###
+    # @return [Array<Symbol>]
+    #
+    # The search result Hash keys for the {#display_fields} of the search
+    #
+    # The field names in {#display_fields} are strings matching how the field is labeled
+    # in the web UI (including the names of Extension Attributes). They have to be that way
+    # when submitting them to the API, and thats mostly what {#display_fields} and related
+    # methods are for.
+    #
+    # However, when those names come back as the Hash Keys of the {#search_results}
+    # they (inconsistently) have spaces and/or dashes converted to underscores, and,
+    # the JSON module converts the keys to Symbols, so they don't match the {#display_fields}.
+    #
+    # For example, the display field "Last Check-in" might come back as any of these Symbols:
+    # - :"Last Check-in"
+    # - :Last_Check_in
+    # - :"Last_Check-in"
+    #
+    # Also, the data returned in the {#search_results} contains more keys than just the
+    # {#display_fields} - namely it comes with some standard identifiers for each found item.
+    # such as JSS id number and name.
+    #
+    # {#result_display_keys} will hold just the Hash keys corresponding to the
+    # {#display_fields} by taking the keys from the first result Hash, and removing the
+    # identifier keys as listed in each subclass's RESULT_ID_FIELDS constant.
+    #
     attr_reader :result_display_keys
 
-    ### @return [String] the name of the site for this search
+    # @return [String] the name of the site for this search
     attr_reader :site
 
-    ### @return [String]  the SQL query generated by the JSS based on the critera
+    # @return [String]  the SQL query generated by the JSS based on the critera
     attr_reader :sql_text
 
-    #####################################
-    ### Constructor
+    # Constructor
     #####################################
 
-    ###
-    ### @see APIObject#initialize
-    ###
+    #
+    # @see APIObject#initialize
+    #
     def initialize(args = {})
-
       super args
 
-      ### @init_data now has the raw data
-      ### so fill in our attributes or set defaults
+      # @init_data now has the raw data
+      # so fill in our attributes or set defaults
 
       @sql_text = @init_data[:sql_text]
       @site = JSS::APIObject.get_name(@init_data[:site])
 
+      @display_fields = @init_data[:display_fields] ? @init_data[:display_fields].map { |f| f[:name] } : []
 
-
-      @display_fields = @init_data[:display_fields] ? @init_data[:display_fields].map{|f| f[:name]} : []
-
-      @search_results =  @init_data[self.class::RESULT_CLASS::RSRC_LIST_KEY]
+      @search_results = @init_data[self.class::RESULT_CLASS::RSRC_LIST_KEY]
       @search_results ||= []
-      if @search_results.empty?
-        @result_display_keys =[]
-      else
-        @result_display_keys = @search_results[0].keys - self.class::RESULT_ID_FIELDS
-      end
+      @result_display_keys = if @search_results.empty?
+                               []
+                             else
+                               @search_results[0].keys - self.class::RESULT_ID_FIELDS
+                             end
 
       # make sure each hash of the search results
       # has a key matching a standard key.
       #
       @search_results.each do |hash|
         hash.keys.each do |key|
-          std_key = key.to_s.gsub(/ |-/,"_").to_sym
+          std_key = key.to_s.gsub(/ |-/, '_').to_sym
           next if hash[std_key]
           hash[std_key] = hash[key]
         end
       end
-
     end # init
 
-    #####################################
-    ### Public Instance Methods
+    # Public Instance Methods
     #####################################
 
-    ###
-    ### Create in the JSS
-    ###
-    ### If get_results is true, they'll be available in {#search_results}. This might be slow.
-    ###
-    ### @param get_results[Boolean] should the results of the search be queried immediately?
-    ###
-    ### @return [Integer] the id of the newly created search
-    ###
+    # Create in the JSS
+    #
+    # If get_results is true, they'll be available in {#search_results}. This might be slow.
+    #
+    # @param get_results[Boolean] should the results of the search be queried immediately?
+    #
+    # @return [Integer] the id of the newly created search
+    #
     def create(get_results = false)
-      raise JSS::InvalidDataError, "JSS::Criteriable::Criteria instance required" unless @criteria.kind_of? JSS::Criteriable::Criteria
-      raise JSS::InvalidDataError, "display_fields must be an Array." unless @display_fields.kind_of? Array
+      raise JSS::InvalidDataError, 'JSS::Criteriable::Criteria instance required' unless @criteria.is_a? JSS::Criteriable::Criteria
+      raise JSS::InvalidDataError, 'display_fields must be an Array.' unless @display_fields.is_a? Array
 
       orig_timeout = JSS::API.cnx.options[:timeout]
       JSS::API.timeout = 1800
@@ -188,18 +174,16 @@ module JSS
       JSS::API.timeout = orig_timeout
 
       @id # remember to return the id
-
     end
 
-    ###
-    ### Save any changes
-    ###
-    ### If get_results is true, they'll be available in {#search_results}. This might be slow.
-    ###
-    ### @param get_results[Boolean] should the results of the search be queried immediately?
-    ###
-    ### @return [Integer] the id of the updated search
-    ###
+    # Save any changes
+    #
+    # If get_results is true, they'll be available in {#search_results}. This might be slow.
+    #
+    # @param get_results[Boolean] should the results of the search be queried immediately?
+    #
+    # @return [Integer] the id of the updated search
+    #
     def update(get_results = false)
       orig_timeout = JSS::API.cnx.options[:timeout]
       JSS::API.timeout = 1800
@@ -207,24 +191,22 @@ module JSS
       requery_search_results if get_results
       JSS::API.timeout = orig_timeout
 
-      @id  # remember to return the id
+      @id # remember to return the id
     end
 
-
-    ###
-    ### Requery the API for the search results.
-    ###
-    ### This can be very slow, so temporarily reset the API timeout to 30 minutes
-    ###
-    ### @return [Array<Hash>] the new search results
-    ###
+    # Requery the API for the search results.
+    #
+    # This can be very slow, so temporarily reset the API timeout to 30 minutes
+    #
+    # @return [Array<Hash>] the new search results
+    #
     def requery_search_results
       orig_open_timeout = JSS::API.cnx.options[:open_timeout]
       orig_timeout = JSS::API.cnx.options[:timeout]
       JSS::API.timeout = 1800
       JSS::API.open_timeout = 1800
       begin
-        requery = self.class.new(:id => @id)
+        requery = self.class.new(id: @id)
         @search_results = requery.search_results
         @result_display_keys = requery.result_display_keys
       ensure
@@ -233,66 +215,57 @@ module JSS
       end
     end
 
-    ###
-    ### @return [Array<String>] the fields to be returned with the search results
-    ###
-    ### The API delivers these as an array of Hashes,
-    ### where each hash has only one key, :name => the name of the fields/ExtAttrib
-    ### to display. It should probably not have the underlying Hashes, and just
-    ### be an array of names. This class converts it to just an Array of field names
-    ### (Strings) for internal use.
-    ###
-    ### These fields are returned in the @search_results
-    ### data along with :id, :name, and other unique identifiers
-    ### for each found item. In that data, their names have
-    ### spaces and dashes converted to underscores, and they are
-    ### symbolized.
-    ###
-    ###
-    def display_fields
-      @display_fields
-    end
+    # @return [Array<String>] the fields to be returned with the search results
+    #
+    # The API delivers these as an array of Hashes,
+    # where each hash has only one key, :name => the name of the fields/ExtAttrib
+    # to display. It should probably not have the underlying Hashes, and just
+    # be an array of names. This class converts it to just an Array of field names
+    # (Strings) for internal use.
+    #
+    # These fields are returned in the @search_results
+    # data along with :id, :name, and other unique identifiers
+    # for each found item. In that data, their names have
+    # spaces and dashes converted to underscores, and they are
+    # symbolized.
+    #
+    #
+    attr_reader :display_fields
 
-    ###
-    ### Set the list of fields to be retrieved with the
-    ### search results.
-    ###
-    ### @param new_val[Array<String>] the new field names
-    ###
-    def display_fields= (new_val)
-      raise JSS::InvalidDataError, "display_fields must be an Array." unless new_val.kind_of? Array
+    # Set the list of fields to be retrieved with the
+    # search results.
+    #
+    # @param new_val[Array<String>] the new field names
+    #
+    def display_fields=(new_val)
+      raise JSS::InvalidDataError, 'display_fields must be an Array.' unless new_val.is_a? Array
       return if new_val.sort == @display_fields.sort
       @display_fields = new_val
       @need_to_update = true
     end
 
-
-
-    ###
-    ### @return [Integer] the number of items found by the search
-    ###
+    # @return [Integer] the number of items found by the search
+    #
     def count
       @search_results.count
     end
 
-    ###
-    ### Export the display fields of the search results to a file.
-    ###
-    ### @param output_file[String,Pathname] The file in which to store the exported results
-    ###
-    ### @param format[Symbol] one of :csv, :tab, or :xml, defaults to :csv
-    ###
-    ### @param overwrite[Boolean] should the output_file be overwrite if it exists? Defaults to false
-    ###
-    ### @return [Pathname] the path to the output file
-    ###
-    ### @note This method only exports the display fields defined in this advanced search for
-    ### the search_result members (computers, mobile_devices, or users)
-    ### It doesn't currently provide the ability to export subsets of info about those objects, as the
-    ### Web UI does (e.g. group memberships, applications, receipts, etc)
-    ###
+    # Export the display fields of the search results to a file.
+    #
+    # @param output_file[String,Pathname] The file in which to store the exported results
+    #
+    # @param format[Symbol] one of :csv, :tab, or :xml, defaults to :csv
+    #
+    # @param overwrite[Boolean] should the output_file be overwrite if it exists? Defaults to false
+    #
+    # @return [Pathname] the path to the output file
+    #
+    # @note This method only exports the display fields defined in this advanced search for
+    # the search_result members (computers, mobile_devices, or users)
+    # It doesn't currently provide the ability to export subsets of info about those objects, as the
+    # Web UI does (e.g. group memberships, applications, receipts, etc)
+    #
     def export(output_file, format = :csv, overwrite = false)
-
       raise JSS::InvalidDataError, "Export format must be one of: :#{EXPORT_FORMATS.join ', :'}" unless EXPORT_FORMATS.include? format
 
       out = Pathname.new output_file
@@ -301,65 +274,61 @@ module JSS
         raise JSS::AlreadyExistsError, "The output file already exists: #{out}" if out.exist?
       end
 
-
       case format
-        when :csv
-          require 'csv'
-          CSV.open(out.to_s, 'wb') do |csv|
-            csv << @result_display_keys
-            @search_results.each do |row|
-              csv << @result_display_keys.map {|key| row[key]}
-            end # each do row
-          end #CSV.open
-
-        when :tab
-          tabbed = @result_display_keys.join("\t") + "\n"
+      when :csv
+        require 'csv'
+        CSV.open(out.to_s, 'wb') do |csv|
+          csv << @result_display_keys
           @search_results.each do |row|
-            tabbed << @result_display_keys.map {|key| row[key]}.join("\t") + "\n"
+            csv << @result_display_keys.map { |key| row[key] }
           end # each do row
-          out.jss_save tabbed.chomp
+        end # CSV.open
 
-        else # :xml
-          doc = REXML::Document.new '<?xml version="1.0" encoding="ISO-8859-1"?>'
-          members = doc.add_element self.class::RESULT_CLASS::RSRC_LIST_KEY.to_s
-          @search_results.each do |row|
-            member = members.add_element self.class::RESULT_CLASS::RSRC_OBJECT_KEY.to_s
-            @result_display_keys.each do |field|
-              member.add_element(field.to_s.gsub(' ',"_")).text = row[field].empty? ? nil : row[field]
-            end # ech do field
-          end #each do row
-          out.jss_save doc.to_s.gsub('><', ">\n<")
+      when :tab
+        tabbed = @result_display_keys.join("\t") + "\n"
+        @search_results.each do |row|
+          tabbed << @result_display_keys.map { |key| row[key] }.join("\t") + "\n"
+        end # each do row
+        out.jss_save tabbed.chomp
+
+      else # :xml
+        doc = REXML::Document.new '<?xml version="1.0" encoding="ISO-8859-1"?>'
+        members = doc.add_element self.class::RESULT_CLASS::RSRC_LIST_KEY.to_s
+        @search_results.each do |row|
+          member = members.add_element self.class::RESULT_CLASS::RSRC_OBJECT_KEY.to_s
+          @result_display_keys.each do |field|
+            member.add_element(field.to_s.tr(' ', '_')).text = row[field].empty? ? nil : row[field]
+          end # ech do field
+        end # each do row
+        out.jss_save doc.to_s.gsub('><', ">\n<")
       end # case
 
-      return out
+      out
     end
 
-
-    #####################################
-    ### Private Instance Methods
+    # Private Instance Methods
     #####################################
     private
 
-    ###
-    ### Clean up the inconsistent "Display Field" keys in the search results.
-    ###
-    ### Sometimes spaces have been converted to underscores, sometimes not, sometimes both.
-    ### Same for dashes.
-    ### E.g  :"Last Check-in"/:Last_Check_in/:"Last_Check-in", :Computer_Name, and :"Display Name"/:Display_Name
-    ###
-    ### This ensures there's always the fully underscored version.
-    ###
-    ### Update an internally used array of the display field names, symbolized, with
-    ### spaces and dashes converted to underscores. We use these
-    ### to overcome inconsistencies in how the names come from the API
-    ###
-    ### @return [void]
-    ###
-    def standardize_display_field_keys
-      spdash=
-      us =
-      @display_field_std_keys = @display_fields.map{|f| f.gsub(/ |-/,"_").to_sym }
-    end
+    # Clean up the inconsistent "Display Field" keys in the search results.
+    #
+    # Sometimes spaces have been converted to underscores, sometimes not, sometimes both.
+    # Same for dashes.
+    # E.g  :"Last Check-in"/:Last_Check_in/:"Last_Check-in", :Computer_Name, and :"Display Name"/:Display_Name
+    #
+    # This ensures there's always the fully underscored version.
+    #
+    # Update an internally used array of the display field names, symbolized, with
+    # spaces and dashes converted to underscores. We use these
+    # to overcome inconsistencies in how the names come from the API
+    #
+    # @return [void]
+    #
+    # def standardize_display_field_keys
+    #   spdash =
+    #     us =
+    #       @display_field_std_keys = @display_fields.map { |f| f.gsub(/ |-/, '_').to_sym }
+    # end
 
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
@@ -372,15 +341,15 @@ module JSS
       acs << @criteria.rest_xml
 
       df = acs.add_element('display_fields')
-      @display_fields.each{|f| df.add_element('display_field').add_element('name').text = f }
+      @display_fields.each { |f| df.add_element('display_field').add_element('name').text = f }
 
-      return doc.to_s
+      doc.to_s
     end # rest xml
 
   end # class AdvancedSearch
 
 end # module JSS
 
-require "jss/api_object/advanced_search/advanced_computer_search"
-require "jss/api_object/advanced_search/advanced_mobile_device_search"
-require "jss/api_object/advanced_search/advanced_user_search"
+require 'jss/api_object/advanced_search/advanced_computer_search'
+require 'jss/api_object/advanced_search/advanced_mobile_device_search'
+require 'jss/api_object/advanced_search/advanced_user_search'

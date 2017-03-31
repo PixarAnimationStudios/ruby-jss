@@ -26,35 +26,28 @@
 ###
 module JSS
 
-  #####################################
-  ### Module Variables
-  #####################################
-
-  #####################################
-  ### Module Methods
+  # Module Variables
   #####################################
 
-
-  #####################################
-  ### Classes
+  # Module Methods
   #####################################
 
-  ###
-  ### A Category in the JSS.
-  ###
-  ###
-  ### @see JSS::APIObject
-  ###
+  # Classes
+  #####################################
+
+  # A Category in the JSS.
+  #
+  #
+  # @see JSS::APIObject
+  #
   class Category < JSS::APIObject
 
-    #####################################
-    ### Mix-Ins
+    # Mix-Ins
     #####################################
     include JSS::Creatable
     include JSS::Updatable
 
-    #####################################
-    ### Class Methods
+    # Class Methods
     #####################################
 
     def self.category_id_from_name(name)
@@ -63,96 +56,85 @@ module JSS
       JSS::Category.map_all_ids_to(:name).invert[name]
     end # self cat id from name
 
-    #####################################
-    ### Class Constants
+    # Class Constants
     #####################################
 
-    ### The base for REST resources of this class
-    RSRC_BASE = "categories"
+    # The base for REST resources of this class
+    RSRC_BASE = 'categories'.freeze
 
-    ### the hash key used for the JSON list output of all objects in the JSS
+    # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :categories
 
-    ### The hash key used for the JSON object output.
-    ### It's also used in various error messages
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
     RSRC_OBJECT_KEY = :category
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:priority]
+    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    VALID_DATA_KEYS = [:priority].freeze
 
-    ### When no category has been assigned, this is the 'name' and id used
-    NO_CATEGORY_NAME= JSS::Categorizable::NO_CATEGORY_NAME
-    NO_CATEGORY_ID =  JSS::Categorizable::NO_CATEGORY_ID
+    # When no category has been assigned, this is the 'name' and id used
+    NO_CATEGORY_NAME = JSS::Categorizable::NO_CATEGORY_NAME
+    NO_CATEGORY_ID = JSS::Categorizable::NO_CATEGORY_ID
 
-    ### The Default category
+    # The Default category
     DEFAULT_CATEGORY = NO_CATEGORY_NAME
 
-    ### The range of possible priorities
+    # The range of possible priorities
     POSSIBLE_PRIORITIES = 1..20
 
-    ### The Default Priority
+    # The Default Priority
     DEFAULT_PRIORITY = 5
 
-    #####################################
-    ### Attributes
+    # Attributes
     #####################################
 
-    ### @return [Integer] the SelfService priority for this category
+    # @return [Integer] the SelfService priority for this category
     attr_reader :priority
 
-    #####################################
-    ### Constructor
+    # Constructor
     #####################################
 
-    ###
-    ### See JSS::APIObject#initialize
-    ###
+    # See JSS::APIObject#initialize
+    #
     def initialize(args = {})
       super
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
-
     end
 
-
-    #####################################
-    ### Public Instance Methods
+    # Public Instance Methods
     #####################################
 
-
-    ###
-    ### Change the Priority
-    ###
-    ### @param new_val[Integer] the new priority, must be in the range POSSIBLE_PRIORITIES
-    ###
-    ### @return [void]
-    ###
-    def priority= (new_val = @priority)
+    # Change the Priority
+    #
+    # @param new_val[Integer] the new priority, must be in the range POSSIBLE_PRIORITIES
+    #
+    # @return [void]
+    #
+    def priority=(new_val = @priority)
       return nil if new_val == @priority
       raise JSS::InvalidDataError, "priority must be an integer between #{POSSIBLE_PRIORITIES.first} and #{POSSIBLE_PRIORITIES.last} (inclusive)" unless POSSIBLE_PRIORITIES.include? new_val
       @priority = new_val
       @need_to_update = true
     end
 
-
-    #####################################
-    ### Private Instance Methods
+    # Private Instance Methods
     #####################################
     private
 
-    ###
-    ### Return a String with the XML Resource
-    ### for submitting creation or changes to the JSS via
-    ### the API via the Creatable or Updatable modules
-    ###
-    ### Most classes will redefine this method.
-    ###
+    # Return a String with the XML Resource
+    # for submitting creation or changes to the JSS via
+    # the API via the Creatable or Updatable modules
+    #
+    # Most classes will redefine this method.
+    #
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       tmpl = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
       tmpl.add_element('name').text = @name
       tmpl.add_element('priority').text = @priority
-      return doc.to_s
+      doc.to_s
     end
+
   end # class category
 
 end # module

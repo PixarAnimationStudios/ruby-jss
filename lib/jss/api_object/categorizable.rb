@@ -60,9 +60,9 @@ module JSS
 
     CATEGORIZABLE = true
 
-    ### When no category has been assigned, this is the 'name' and id used
-    NO_CATEGORY_NAME= 'No category assigned'.freeze
-    NO_CATEGORY_ID =  -1
+    # When no category has been assigned, this is the 'name' and id used
+    NO_CATEGORY_NAME = 'No category assigned'.freeze
+    NO_CATEGORY_ID = -1
 
     # Setting the category to any of these values will unset the category
     NON_CATEGORIES = [
@@ -77,7 +77,7 @@ module JSS
     OLD_STYLE_CATEGORY_CLASSES = [
       JSS::Script,
       JSS::Package
-    ]
+    ].freeze
 
     # Mixed-in Public Instance Methods
     #####################################

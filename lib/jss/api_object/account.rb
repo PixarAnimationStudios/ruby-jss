@@ -26,126 +26,126 @@
 ###
 module JSS
 
-  ### Module Variables
+  # Module Variables
   #####################################
 
-  ### Module Methods
+  # Module Methods
   #####################################
 
-  ### Classes
+  # Classes
   #####################################
 
-  ### A User or group in the JSS.
-  ###
-  ### @see JSS::APIObject
-  ###
+  # A User or group in the JSS.
+  #
+  # @see JSS::APIObject
+  #
   class Account < JSS::APIObject
 
-    ### Note: This class is not fully extended and since the resource
-    ### is different than the rest, methods like JSS::Account.all do not work
+    # Note: This class is not fully extended and since the resource
+    # is different than the rest, methods like JSS::Account.all do not work
 
-    ### Mix-Ins
+    # Mix-Ins
     #####################################
 
-    ### Class Constants
+    # Class Constants
     #####################################
 
-    ### The base for REST resources of this class
+    # The base for REST resources of this class
     RSRC_BASE = 'accounts'.freeze
 
-    ### the hash key used for the JSON list output of all objects in the JSS
+    # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :accounts
 
-    ### The hash key used for the JSON object output.
-    ### It's also used in various error messages
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
     RSRC_OBJECT_KEY = :account
 
-    ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
     OTHER_LOOKUP_KEYS = [:userid, :username, :groupid, :groupname].freeze
 
-    ### Class Methods
+    # Class Methods
     #####################################
 
-    ### @return [Array<Hash>] all JSS account users
+    # @return [Array<Hash>] all JSS account users
     def self.all_users(refresh = false)
       all(refresh)[:users]
     end
 
-    ### @return [Array<Hash>] all JSS account user ids
+    # @return [Array<Hash>] all JSS account user ids
     def self.all_user_ids(refresh = false)
       all(refresh)[:users].map { |i| i[:id] }
     end
 
-    ### @return [Array<Hash>] all JSS account user names
+    # @return [Array<Hash>] all JSS account user names
     def self.all_user_names(refresh = false)
       all(refresh)[:users].map { |i| i[:name] }
     end
 
-    ### @return [Array<Hash>] all JSS account groups
+    # @return [Array<Hash>] all JSS account groups
     def self.all_groups(refresh = false)
       all(refresh)[:groups]
     end
 
-    ### @return [Array<Hash>] all JSS account group ids
+    # @return [Array<Hash>] all JSS account group ids
     def self.all_group_ids(refresh = false)
       all(refresh)[:groups].map { |i| i[:id] }
     end
 
-    ### @return [Array<Hash>] all JSS account group names
+    # @return [Array<Hash>] all JSS account group names
     def self.all_group_names(refresh = false)
       all(refresh)[:groups].map { |i| i[:name] }
     end
 
-    ### Attributes
+    # Attributes
     #####################################
 
-    ### @return [String] The user's full name
+    # @return [String] The user's full name
     attr_reader :full_name
 
-    ### @return [String] The user's email address
+    # @return [String] The user's email address
     attr_reader :email
 
-    ### @return [String] The user's access level
+    # @return [String] The user's access level
     attr_reader :access_level
 
-    ### @return [String] The user's privilege set
+    # @return [String] The user's privilege set
     attr_reader :privilege_set
 
-    ### @return [Hash]
-    ###
-    ### Info about the privileges assigned to the user
-    ###
-    ### Note: these arrays may be empty, they always exist
-    ###
-    ### The Hash keys are:
-    ### * :jss_objects => An array of jss_object privileges
-    ### * :jss_settings => An array of jss_settings privileges
-    ### * :jss_actions => An array of jss_actions privileges
-    ### * :recon => An array of Casper Recon privileges
-    ### * :casper_admin => An array of Casper Admin privileges
-    ### * :casper_remote => An array of Casper Remote privileges
-    ### * :casper_imaging => An array of Casper Imaging privileges
+    # @return [Hash]
+    #
+    # Info about the privileges assigned to the user
+    #
+    # Note: these arrays may be empty, they always exist
+    #
+    # The Hash keys are:
+    # * :jss_objects => An array of jss_object privileges
+    # * :jss_settings => An array of jss_settings privileges
+    # * :jss_actions => An array of jss_actions privileges
+    # * :recon => An array of Casper Recon privileges
+    # * :casper_admin => An array of Casper Admin privileges
+    # * :casper_remote => An array of Casper Remote privileges
+    # * :casper_imaging => An array of Casper Imaging privileges
     attr_reader :privileges
 
-    ### Constructor
+    # Constructor
     #####################################
 
-    ### See JSS::APIObject#initialize
-    ###
+    # See JSS::APIObject#initialize
+    #
     def initialize(args = {})
       super args
 
       # check to see if a user has been specified, haven't built groups yet
       is_user = [:userid, :username].any? { |key| args.keys.include? key }
 
-      if is_user
-        @user_name = @init_data[:name]
-        @full_name = @init_data[:full_name]
-        @email = @init_data[:email]
-        @access_level = @init_data[:access_level]
-        @privilege_set = @init_data[:privilege_set]
-        @privileges = @init_data[:privileges]
-      end
+      return unless is_user
+      @user_name = @init_data[:name]
+      @full_name = @init_data[:full_name]
+      @email = @init_data[:email]
+      @access_level = @init_data[:access_level]
+      @privilege_set = @init_data[:privilege_set]
+      @privileges = @init_data[:privileges]
+
     end # initialize
 
   end # class accounts

@@ -26,19 +26,15 @@
 ###
 module JSS
 
-  #####################################
   # Module Constants
   #####################################
 
-  #####################################
   # Module Variables
   #####################################
 
-  #####################################
   # Module Methods
   #####################################
 
-  #
   # This class represents a Computer Invitation in the JSS.
   #
   # ===Adding Computer Invitations to the JSS
@@ -49,29 +45,24 @@ module JSS
   # @see APIObject
   # @see Creatable
   #
-
   class ComputerInvitation < JSS::APIObject
 
-    #####################################
     # MixIns
     #####################################
 
     include JSS::Creatable
 
-    #####################################
     # Class Variables
     #####################################
 
-    #####################################
     # Class Methods
     #####################################
 
-    #####################################
     # Class Constants
     #####################################
 
     # The base for REST resources of this class
-    RSRC_BASE = "computerinvitations"
+    RSRC_BASE = 'computerinvitations'.freeze
 
     # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :computer_invitations
@@ -81,9 +72,8 @@ module JSS
     RSRC_OBJECT_KEY = :computer_invitation
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:invitation]
+    VALID_DATA_KEYS = [:invitation].freeze
 
-    #####################################
     # Attributes
     #####################################
 
@@ -133,18 +123,17 @@ module JSS
     # Whether the invitation can be used multiple times (boolean).
     attr_accessor :multiple_uses_allowed
 
-    #####################################
     # Public Instance Methods
     #####################################
 
-    #
     # @see APIObject#initialize
     #
     def initialize(args = {
       id: :new,
-      name: "some_new_name",
-      ssh_username: "casper_remote",
-      hide_account: "true" } )
+      name: 'some_new_name',
+      ssh_username: 'casper_remote',
+      hide_account: 'true'
+    })
 
       super args
 
@@ -158,11 +147,9 @@ module JSS
       @multiple_uses_allowed = @init_data[:multiple_uses_allowed] || args[:multiple_uses_allowed]
     end
 
-    #####################################
     # Public Class Methods
     #####################################
 
-    #
     # Needed to support creation of new Computer Invitations to set their name.
     #
     # @return [JSS::ComputerInvitation]
@@ -181,12 +168,10 @@ module JSS
       @multiple_uses_allowed = jss_me.multiple_uses_allowed
     end
 
-    #####################################
     # Private Instance Methods
     #####################################
     private
 
-    #
     # Sets invitation expiration 4 hours after request.
     #
     def rest_xml
@@ -201,7 +186,9 @@ module JSS
       obj.add_element('hide_account').text = hide_account
       obj.add_element('invitation_status').text = invitation_status
       obj.add_element('multiple_uses_allowed').text = multiple_uses_allowed
-      return doc.to_s
+      doc.to_s
     end
+
   end
+
 end
