@@ -26,40 +26,39 @@
 ###
 module JSS
 
-  ### Module Variables
+  # Module Variables
   #####################################
 
-  ### Module Methods
+  # Module Methods
   #####################################
 
-  ### Classes
+  # Classes
   #####################################
 
-  ### This class represents a Casper/JSS Client computer, on which
-  ### this code is running.
-  ###
-  ### Since the class represents the current machine, there's no need
-  ### to make an instance of it, all methods are class methods.
-  ###
-  ### At the moment, only Macintosh computers are supported.
-  ###
-  ###
+  # This class represents a Casper/JSS Client computer, on which
+  # this code is running.
+  #
+  # Since the class represents the current machine, there's no need
+  # to make an instance of it, all methods are class methods.
+  #
+  # At the moment, only Macintosh computers are supported.
+  #
+  #
   class Client
 
-
-    ### Class Constants
+    # Class Constants
     #####################################
 
-    ### The Pathname to the jamf binary executable
-    ### As of El Capitan (OS X 10.11) the location has moved.
+    # The Pathname to the jamf binary executable
+    # As of El Capitan (OS X 10.11) the location has moved.
     ORIG_JAMF_BINARY = Pathname.new '/usr/sbin/jamf'
     ELCAP_JAMF_BINARY = Pathname.new '/usr/local/jamf/bin/jamf'
     JAMF_BINARY = ELCAP_JAMF_BINARY.executable? ? ELCAP_JAMF_BINARY : ORIG_JAMF_BINARY
 
-    ### The Pathname to the jamfHelper executable
+    # The Pathname to the jamfHelper executable
     JAMF_HELPER = Pathname.new '/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper'
 
-    ### The window_type options for jamfHelper
+    # The window_type options for jamfHelper
     JAMF_HELPER_WINDOW_TYPES = {
       hud: 'hud',
       utility: 'utility',
@@ -68,28 +67,28 @@ module JSS
       fs: 'fs'
     }.freeze
 
-    ### The possible window positions for jamfHelper
+    # The possible window positions for jamfHelper
     JAMF_HELPER_WINDOW_POSITIONS = [nil, :ul, :ll, :ur, :lr].freeze
 
-    ### The available buttons in jamfHelper
+    # The available buttons in jamfHelper
     JAMF_HELPER_BUTTONS =  [1, 2].freeze
 
-    ### The possible alignment positions in jamfHelper
+    # The possible alignment positions in jamfHelper
     JAMF_HELPER_ALIGNMENTS =  [:right, :left, :center, :justified, :natural].freeze
 
-    ### The Pathname to the preferences plist used by the jamf binary
+    # The Pathname to the preferences plist used by the jamf binary
     JAMF_PLIST = Pathname.new '/Library/Preferences/com.jamfsoftware.jamf.plist'
 
-    ### The Pathname to the JAMF support folder
+    # The Pathname to the JAMF support folder
     JAMF_SUPPORT_FOLDER = Pathname.new '/Library/Application Support/JAMF'
 
-    ### The JAMF receipts folder, where package installs are tracked.
+    # The JAMF receipts folder, where package installs are tracked.
     RECEIPTS_FOLDER = JAMF_SUPPORT_FOLDER + 'Receipts'
 
-    ### The JAMF downloads folder
+    # The JAMF downloads folder
     DOWNLOADS_FOLDER = JAMF_SUPPORT_FOLDER + 'Downloads'
 
-    ### These jamf commands don't need root privs (most do)
+    # These jamf commands don't need root privs (most do)
     ROOTLESS_JAMF_COMMANDS = [
       :about,
       :checkJSSConnection,
@@ -101,27 +100,27 @@ module JSS
     ].freeze
 
     #####################################
-    ### Class Variables
+    # Class Variables
     #####################################
 
     #####################################
-    ### Class Methods
+    # Class Methods
     #####################################
 
-    ### Get the current IP address as a String.
-    ###
-    ### This handy code doesn't acutally make a UDP connection,
-    ### it just starts to set up the connection, then uses that to get
-    ### the local IP.
-    ###
-    ### Lifted gratefully from
-    ### http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address/
-    ###
-    ### @return [String] the current IP address.
-    ###
+    # Get the current IP address as a String.
+    #
+    # This handy code doesn't acutally make a UDP connection,
+    # it just starts to set up the connection, then uses that to get
+    # the local IP.
+    #
+    # Lifted gratefully from
+    # http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address/
+    #
+    # @return [String] the current IP address.
+    #
     def self.my_ip_address
-      ### turn off reverse DNS resolution temporarily
-      ### @note the 'socket' library has already been required by 'rest-client'
+      # turn off reverse DNS resolution temporarily
+      # @note the 'socket' library has already been required by 'rest-client'
       orig = Socket.do_not_reverse_lookup
       Socket.do_not_reverse_lookup = true
 
@@ -133,10 +132,10 @@ module JSS
       Socket.do_not_reverse_lookup = orig
     end
 
-    ### Who's logged in to the console right now?
-    ###
-    ### @return [String, nil] the username of the current console user, or nil if none.
-    ###
+    # Who's logged in to the console right now?
+    #
+    # @return [String, nil] the username of the current console user, or nil if none.
+    #
     def self.console_user
       cmd = '/usr/sbin/scutil'
       qry = 'show State:/Users/ConsoleUser'
@@ -149,26 +148,26 @@ module JSS
       end # do
     end
 
-    ### Is the jamf binary installed?
-    ###
-    ### @return [Boolean] is the jamf binary installed?
-    ###
+    # Is the jamf binary installed?
+    #
+    # @return [Boolean] is the jamf binary installed?
+    #
     def self.installed?
       JAMF_BINARY.executable?
     end
 
-    ### What version of the jamf binary is installed?
-    ###
-    ### @return [String,nil] the version of the jamf binary installed on this client, nil if not installed
-    ###
+    # What version of the jamf binary is installed?
+    #
+    # @return [String,nil] the version of the jamf binary installed on this client, nil if not installed
+    #
     def self.jamf_version
       installed? ? run_jamf(:version).chomp.split('=')[1] : nil
     end
 
-    ### the URL to the jss for this client
-    ###
-    ### @return [String] the url to the JSS for this client
-    ###
+    # the URL to the jss for this client
+    #
+    # @return [String] the url to the JSS for this client
+    #
     def self.jss_url
       @url = jamf_plist['jss_url']
       return nil if @url.nil?
@@ -179,122 +178,122 @@ module JSS
       @url
     end
 
-    ### The JSS server hostname for this client
-    ###
-    ### @return [String] the JSS server for this client
-    ###
+    # The JSS server hostname for this client
+    #
+    # @return [String] the JSS server for this client
+    #
     def self.jss_server
       jss_url
       @server
     end
 
-    ### The protocol for JSS connections for this client
-    ###
-    ### @return [String] the protocol to the JSS for this client, "http" or "https"
-    ###
+    # The protocol for JSS connections for this client
+    #
+    # @return [String] the protocol to the JSS for this client, "http" or "https"
+    #
     def self.jss_protocol
       jss_url
       @protocol
     end
 
-    ### The port number for JSS connections for this client
-    ###
-    ### @return [Integer] the port to the JSS for this client
-    ###
+    # The port number for JSS connections for this client
+    #
+    # @return [Integer] the port to the JSS for this client
+    #
     def self.jss_port
       jss_url
       @port
     end
 
-    ### The contents of the JAMF plist
-    ###
-    ### @return [Hash] the parsed contents of the JAMF_PLIST if it exists, an empty hash if not
-    ###
+    # The contents of the JAMF plist
+    #
+    # @return [Hash] the parsed contents of the JAMF_PLIST if it exists, an empty hash if not
+    #
     def self.jamf_plist
       return {} unless JAMF_PLIST.file?
       Plist.parse_xml `/usr/libexec/PlistBuddy -x -c print #{Shellwords.escape JSS::Client::JAMF_PLIST.to_s}`
     end
 
-    ### All the JAMF receipts on this client
-    ###
-    ### @return [Array<Pathname>] an array of Pathnames for all regular files in the jamf receipts folder
-    ###
+    # All the JAMF receipts on this client
+    #
+    # @return [Array<Pathname>] an array of Pathnames for all regular files in the jamf receipts folder
+    #
     def self.receipts
       raise JSS::NoSuchItemError, "The JAMF Receipts folder doesn't exist on this computer." unless RECEIPTS_FOLDER.exist?
       RECEIPTS_FOLDER.children.select(&:file?)
     end
 
-    ### Is the JSS available right now?
-    ###
-    ### @return [Boolean] is the JSS available now?
-    ###
+    # Is the JSS available right now?
+    #
+    # @return [Boolean] is the JSS available now?
+    #
     def self.jss_available?
       run_jamf :checkJSSConnection, '-retry 1'
       $CHILD_STATUS.exitstatus.zero?
     end
 
-    ### The JSS::Computer object for this computer
-    ###
-    ### @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
-    ###
+    # The JSS::Computer object for this computer
+    #
+    # @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
+    #
     def self.jss_record
       JSS::Computer.new udid: udid
     rescue JSS::NoSuchItemError
       nil
     end
 
-    ### The UUID for this computer via system_profiler
-    ###
-    ### @return [String] the UUID/UDID for this computer
-    ###
+    # The UUID for this computer via system_profiler
+    #
+    # @return [String] the UUID/UDID for this computer
+    #
     def self.udid
       hardware_data['platform_UUID']
     end
 
-    ### The serial number for this computer via system_profiler
-    ###
-    ### @return [String] the serial number for this computer
-    ###
+    # The serial number for this computer via system_profiler
+    #
+    # @return [String] the serial number for this computer
+    #
     def self.serial_number
       hardware_data['serial_number']
     end
 
-    ### The parsed HardwareDataType output from system_profiler
-    ###
-    ### @return [Hash] the HardwareDataType data from the system_profiler command
-    ###
+    # The parsed HardwareDataType output from system_profiler
+    #
+    # @return [Hash] the HardwareDataType data from the system_profiler command
+    #
     def self.hardware_data
       raw = `/usr/sbin/system_profiler SPHardwareDataType -xml 2>/dev/null`
       Plist.parse_xml(raw)[0]['_items'][0]
     end
 
-    ### Run an arbitrary jamf binary command.
-    ###
-    ### @note Most jamf commands require superuser/root privileges.
-    ###
-    ### @param command[String,Symbol] the jamf binary command to run
-    ###   The command is the single jamf command that comes after the/usr/bin/jamf.
-    ###
-    ### @param args[String,Array] the arguments passed to the jamf command.
-    ###   This is to be passed to Kernel.` (backtick), after being combined with the
-    ###   jamf binary and the jamf command
-    ###
-    ### @param verbose[Boolean] Should the stdout & stderr of the jamf binary be sent to
-    ###  the current stdout in realtime, as well as returned as a string?
-    ###
-    ### @return [String] the stdout & stderr of the jamf binary.
-    ###
-    ### @example
-    ###   These two are equivalent:
-    ###
-    ###     JSS::Client.run_jamf "recon", "-assetTag 12345 -department 'IT Support'"
-    ###
-    ###     JSS::Client.run_jamf :recon, ['-assetTag', '12345', '-department', 'IT Support'"]
-    ###
-    ###
-    ### The details of the Process::Status for the jamf binary process can be captured from $?
-    ### immediately after calling. (See Process::Status)
-    ###
+    # Run an arbitrary jamf binary command.
+    #
+    # @note Most jamf commands require superuser/root privileges.
+    #
+    # @param command[String,Symbol] the jamf binary command to run
+    #   The command is the single jamf command that comes after the/usr/bin/jamf.
+    #
+    # @param args[String,Array] the arguments passed to the jamf command.
+    #   This is to be passed to Kernel.` (backtick), after being combined with the
+    #   jamf binary and the jamf command
+    #
+    # @param verbose[Boolean] Should the stdout & stderr of the jamf binary be sent to
+    #  the current stdout in realtime, as well as returned as a string?
+    #
+    # @return [String] the stdout & stderr of the jamf binary.
+    #
+    # @example
+    #   These two are equivalent:
+    #
+    #     JSS::Client.run_jamf "recon", "-assetTag 12345 -department 'IT Support'"
+    #
+    #     JSS::Client.run_jamf :recon, ['-assetTag', '12345', '-department', 'IT Support'"]
+    #
+    #
+    # The details of the Process::Status for the jamf binary process can be captured from $?
+    # immediately after calling. (See Process::Status)
+    #
     def self.run_jamf(command, args = nil, verbose = false)
       raise JSS::UnmanagedError, 'The jamf binary is not installed on this computer.' unless installed?
       raise JSS::UnsupportedError, 'You must have root privileges to run that jamf binary command' unless \
@@ -326,102 +325,102 @@ module JSS
       install_out
     end # run_jamf
 
-    ### A wrapper for the jamfHelper command, which can display a window on the client machine.
-    ###
-    ### The first parameter must be a symbol defining what kind of window to display. The options are
-    ### - :hud - creates an Apple "Heads Up Display" style window
-    ### - :utility or :util -  creates an Apple "Utility" style window
-    ### - :fs or :full_screen or :fullscreen - creates a full screen window that restricts all user input
-    ###   WARNING: Remote access must be used to unlock machines in this mode
-    ###
-    ### The remaining options Hash can contain any of the options listed. See below for descriptions.
-    ###
-    ### The value returned is the Integer exitstatus/stdout (both are the same) of the jamfHelper command.
-    ### The meanings of those integers are:
-    ###
-    ### - 0 - Button 1 was clicked
-    ### - 1 - The Jamf Helper was unable to launch
-    ### - 2 - Button 2 was clicked
-    ### - 3 - Process was started as a launchd task
-    ### - XX1 - Button 1 was clicked with a value of XX seconds selected in the drop-down
-    ### - XX2 - Button 2 was clicked with a value of XX seconds selected in the drop-down
-    ### - 239 - The exit button was clicked
-    ### - 240 - The "ProductVersion" in sw_vers did not return 10.5.X, 10.6.X or 10.7.X
-    ### - 243 - The window timed-out with no buttons on the screen
-    ### - 250 - Bad "-windowType"
-    ### - 254 - Cancel button was select with delay option present
-    ### - 255 - No "-windowType"
-    ###
-    ### See also /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help
-    ###
-    ### @note the -startlaunchd and -kill options are not available in this implementation, since
-    ###   they don't work at the moment (casper 9.4).
-    ###   -startlaunchd seems to be required to NOT use launchd, and when it's ommited, an error is generated
-    ###   about the launchd plist permissions being incorrect.
-    ###
-    ### @param window_type[Symbol]  The type of window to display
-    ###
-    ### @param opts[Hash] the options for the window
-    ###
-    ### @option opts :window_position [Symbol,nil] one of [ nil, :ul, :ll. :ur, :lr ]
-    ###   Positions window in the upper right, upper left, lower right or lower left of the user's screen
-    ###   If no input is given, the window defaults to the center of the screen
-    ###
-    ### @option opts :title [String]
-    ###   Sets the window's title to the specified string
-    ###
-    ### @option opts :heading  [String]
-    ###   Sets the heading of the window to the specified string
-    ###
-    ### @option opts :align_heading [Symbol] one of  [:right, :left, :center, :justified, :natural]
-    ###   Aligns the heading to the specified alignment
-    ###
-    ### @option opts :description [String]
-    ###   Sets the main contents of the window to the specified string
-    ###
-    ### @option opts :align_description [Symbol] one of  [:right, :left, :center, :justified, :natural]
-    ###   Aligns the description to the specified alignment
-    ###
-    ### @option opts :icon [String,Pathname]
-    ###   Sets the windows image field to the image located at the specified path
-    ###
-    ### @option opts :icon_size [Integer]
-    ###   Changes the image frame to the specified pixel size
-    ###
-    ### @option opts :full_screen_icon [any value]
-    ###   Scales the "icon" to the full size of the window.
-    ###   Note: Only available in full screen mode
-    ###
-    ### @option opts :button1 [String]
-    ###   Creates a button with the specified label
-    ###
-    ### @option opts :button2 [String]
-    ###   Creates a second button with the specified label
-    ###
-    ### @option opts :default_button [Integer]  either 1 or 2
-    ###   Sets the default button of the window to the specified button. The Default Button will respond to "return"
-    ###
-    ### @option opts :cancel_button [Integer]  either 1 or 2
-    ###   Sets the cancel button of the window to the specified button. The Cancel Button will respond to "escape"
-    ###
-    ### @option opts :timeout [Integer]
-    ###   Causes the window to timeout after the specified amount of seconds
-    ###   Note: The timeout will cause the default button, button 1 or button 2 to be selected (in that order)
-    ###
-    ### @option opts :show_delay_options [String,Array<Integer>] A String of comma-separated Integers, or an Array of Integers.
-    ###   Enables the "Delay Options Mode". The window will display a dropdown with the values passed through the string
-    ###
-    ### @option opts :countdown [any value]
-    ###   Displays a string notifying the user when the window will time out
-    ###
-    ### @option opts :align_countdown [Symbol] one of  [:right, :left, :center, :justified, :natural]
-    ###   Aligns the countdown to the specified alignment
-    ###
-    ### @option opts :lock_hud [any value]
-    ###   Removes the ability to exit the HUD by selecting the close button
-    ###
-    ### @return [Integer] the exit status of the jamfHelper command. See above.
-    ###
+    # A wrapper for the jamfHelper command, which can display a window on the client machine.
+    #
+    # The first parameter must be a symbol defining what kind of window to display. The options are
+    # - :hud - creates an Apple "Heads Up Display" style window
+    # - :utility or :util -  creates an Apple "Utility" style window
+    # - :fs or :full_screen or :fullscreen - creates a full screen window that restricts all user input
+    #   WARNING: Remote access must be used to unlock machines in this mode
+    #
+    # The remaining options Hash can contain any of the options listed. See below for descriptions.
+    #
+    # The value returned is the Integer exitstatus/stdout (both are the same) of the jamfHelper command.
+    # The meanings of those integers are:
+    #
+    # - 0 - Button 1 was clicked
+    # - 1 - The Jamf Helper was unable to launch
+    # - 2 - Button 2 was clicked
+    # - 3 - Process was started as a launchd task
+    # - XX1 - Button 1 was clicked with a value of XX seconds selected in the drop-down
+    # - XX2 - Button 2 was clicked with a value of XX seconds selected in the drop-down
+    # - 239 - The exit button was clicked
+    # - 240 - The "ProductVersion" in sw_vers did not return 10.5.X, 10.6.X or 10.7.X
+    # - 243 - The window timed-out with no buttons on the screen
+    # - 250 - Bad "-windowType"
+    # - 254 - Cancel button was select with delay option present
+    # - 255 - No "-windowType"
+    #
+    # See also /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help
+    #
+    # @note the -startlaunchd and -kill options are not available in this implementation, since
+    #   they don't work at the moment (casper 9.4).
+    #   -startlaunchd seems to be required to NOT use launchd, and when it's ommited, an error is generated
+    #   about the launchd plist permissions being incorrect.
+    #
+    # @param window_type[Symbol]  The type of window to display
+    #
+    # @param opts[Hash] the options for the window
+    #
+    # @option opts :window_position [Symbol,nil] one of [ nil, :ul, :ll. :ur, :lr ]
+    #   Positions window in the upper right, upper left, lower right or lower left of the user's screen
+    #   If no input is given, the window defaults to the center of the screen
+    #
+    # @option opts :title [String]
+    #   Sets the window's title to the specified string
+    #
+    # @option opts :heading  [String]
+    #   Sets the heading of the window to the specified string
+    #
+    # @option opts :align_heading [Symbol] one of  [:right, :left, :center, :justified, :natural]
+    #   Aligns the heading to the specified alignment
+    #
+    # @option opts :description [String]
+    #   Sets the main contents of the window to the specified string
+    #
+    # @option opts :align_description [Symbol] one of  [:right, :left, :center, :justified, :natural]
+    #   Aligns the description to the specified alignment
+    #
+    # @option opts :icon [String,Pathname]
+    #   Sets the windows image field to the image located at the specified path
+    #
+    # @option opts :icon_size [Integer]
+    #   Changes the image frame to the specified pixel size
+    #
+    # @option opts :full_screen_icon [any value]
+    #   Scales the "icon" to the full size of the window.
+    #   Note: Only available in full screen mode
+    #
+    # @option opts :button1 [String]
+    #   Creates a button with the specified label
+    #
+    # @option opts :button2 [String]
+    #   Creates a second button with the specified label
+    #
+    # @option opts :default_button [Integer]  either 1 or 2
+    #   Sets the default button of the window to the specified button. The Default Button will respond to "return"
+    #
+    # @option opts :cancel_button [Integer]  either 1 or 2
+    #   Sets the cancel button of the window to the specified button. The Cancel Button will respond to "escape"
+    #
+    # @option opts :timeout [Integer]
+    #   Causes the window to timeout after the specified amount of seconds
+    #   Note: The timeout will cause the default button, button 1 or button 2 to be selected (in that order)
+    #
+    # @option opts :show_delay_options [String,Array<Integer>] A String of comma-separated Integers, or an Array of Integers.
+    #   Enables the "Delay Options Mode". The window will display a dropdown with the values passed through the string
+    #
+    # @option opts :countdown [any value]
+    #   Displays a string notifying the user when the window will time out
+    #
+    # @option opts :align_countdown [Symbol] one of  [:right, :left, :center, :justified, :natural]
+    #   Aligns the countdown to the specified alignment
+    #
+    # @option opts :lock_hud [any value]
+    #   Removes the ability to exit the HUD by selecting the close button
+    #
+    # @return [Integer] the exit status of the jamfHelper command. See above.
+    #
     def self.jamf_helper(window_type = :hud, opts = {})
       raise JSS::UnmanagedError, 'The jamfHelper app is not installed properly on this computer.' unless JAMF_HELPER.executable?
 
