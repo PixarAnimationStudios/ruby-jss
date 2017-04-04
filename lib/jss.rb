@@ -52,6 +52,7 @@ module JSS
   require 'digest'
   require 'yaml'
   require 'open3'
+  require 'english'
 
   ###################
   ### Gems
