@@ -43,7 +43,6 @@
 require 'ruby-jss'
 require 'getoptlong'
 require 'english'
-load '/Users/chrisl/git/gemdev/ruby-jss/lib/jss/api_object/network_segment.rb'
 
 # The app object
 ##############################
