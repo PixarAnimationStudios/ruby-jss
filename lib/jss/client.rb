@@ -432,6 +432,15 @@ module JSS
     #   The output file can be examined later to see what happened. If this option
     #   is not provided, no output is saved.
     #
+    # @option opts :arg_string [String] The jamfHelper commandline args as a single
+    #   String, the way you'd specify them in a shell. This is appended to any
+    #   Ruby options provided when calling the method. So calling:
+    #      JSS::Client.jamf_helper :hud, title: 'This is a title', arg_string: '-heading "this is a heading"'
+    #   will run
+    #      jamfHelper -windowType hud -title 'this is a title' -heading "this is a heading"
+    #   When using this, be careful not to specify the windowType, since it's generated
+    #   by the first, required, parameter of this method.
+    #
     # @return [Integer] the exit status of the jamfHelper command. See above.
     #
     def self.jamf_helper(window_type = :hud, opts = {})
@@ -533,6 +542,7 @@ module JSS
 
       cmd = Shellwords.escape JAMF_HELPER.to_s
       args.each { |arg| cmd << " #{Shellwords.escape arg}" }
+      cmd << " #{opts[:arg_string]}" if opts[:arg_string]
       cmd << " > #{Shellwords.escape opts[:output_file]}" if opts[:output_file]
 
       if opts[:abandon_process]
