@@ -141,6 +141,12 @@ module JSS
     ### @return [true] the connection was successfully made.
     ###
     def connect(args = {})
+      begin
+        disconnect if @connected
+      rescue Mysql::ClientError::ServerGoneError
+        @connected = false
+      end
+
       # server might come frome several places
       # if not given in the args, use #hostname to figure out
       # which
@@ -161,11 +167,7 @@ module JSS
       args[:read_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
       args[:write_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
 
-      begin
-        disconnect if @connected
-      rescue Mysql::ClientError::ServerGoneError
-        @connected = false
-      end
+
 
       @port = args[:port]
       @socket = args[:socket]
