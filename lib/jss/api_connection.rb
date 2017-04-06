@@ -123,7 +123,7 @@ module JSS
       @connected = false
     end # init
 
-    # Class Methods
+    # Instance Methods
     #####################################
 
     # Connect to the JSS API.
@@ -155,76 +155,24 @@ module JSS
     # @return [true]
     #
     def connect(args = {})
-      # settings from config if they aren't in the args
-      args[:server] ||= JSS::CONFIG.api_server_name
-      args[:port] ||= JSS::CONFIG.api_server_port
-      args[:user] ||= JSS::CONFIG.api_username
-      args[:timeout] ||= JSS::CONFIG.api_timeout
-      args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
-      args[:ssl_version] ||= JSS::CONFIG.api_ssl_version
+      args = apply_connection_defaults args
+      verify_basic_args args
+      @jss_user = args[:user]
 
-      # if verify cert was not in the args, get it from the prefs.
-      # We can't use ||= because the desired value might be 'false'
-      args[:verify_cert] = JSS::CONFIG.api_verify_cert if args[:verify_cert].nil?
+      @rest_url = build_rest_url args
 
-      # these settings can come from the jamf binary config, if this machine is a JSS client.
-      args[:server] ||= JSS::Client.jss_server
-      args[:port] ||= JSS::Client.jss_port
-      args[:use_ssl] ||= JSS::Client.jss_protocol.end_with? 's'
+      # figure out :verify_ssl from :verify_cert
+      args[:verify_ssl] = verify_ssl args
 
-      # default settings if needed
-      args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
-      args[:timeout] ||= DFT_TIMEOUT
-      args[:open_timeout] ||= DFT_OPEN_TIMEOUT
-      args[:ssl_version] ||= DFT_SSL_VERSION
-
-      # must have server, user, and pw
-      raise JSS::MissingDataError, 'No JSS :server specified, or in configuration.' unless args[:server]
-      raise JSS::MissingDataError, 'No JSS :user specified, or in configuration.' unless args[:user]
-      raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
-
-      # we're using ssl if 1) args[:use_ssl] is anything but false
-      # or 2) the port is the default casper ssl port.
-      (args[:use_ssl] = (args[:use_ssl] != false)) || (args[:port] == SSL_PORT)
-
-      # and here's the URL
-      @protocol = 'http'
-      @protocol << 's' if args[:use_ssl]
-      @server_host = args[:server]
-      @port = args[:port].to_i
-      @rest_url = URI.encode "#{@protocol}://#{@server_host}:#{@port}/#{RSRC_BASE}"
-
-      # prep the args for passing to RestClient::Resource
-      # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] =  args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
-
-      args[:password] = if args[:pw] == :prompt
-                          JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
-                        elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
-                          args[:pw].to_s =~ /^stdin(\d+)$/
-                          line = Regexp.last_match(1)
-                          line ||= 1
-                          JSS.stdin line
-                        else
-                          args[:pw]
-                        end
+      # figure out :password from :pw
+      args[:password] = acquire_password args
 
       # heres our connection
       @cnx = RestClient::Resource.new(@rest_url.to_s, args)
 
-      @jss_user = args[:user]
-      @connected = true
+      verify_server_version
 
-      # See JSS::Server.  This makes the first API GET call
-      # and will raise an exception if things are wrong, like
-      # failed authentication
-      @server = JSS::Server.new
-
-      if @server.version < JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
-        raise JSS::UnsupportedError, "Your JSS Server version, #{@server.raw_version}, is to low. Must be #{JSS::MINIMUM_SERVER_VERSION} or higher."
-      end
-
-      @connected ? @server_host : nil
+      @connected ? hostname : nil
     end # connect
 
     # A useful string about this connection
@@ -267,14 +215,6 @@ module JSS
       @cnx = nil
       @connected = false
     end # disconnect
-
-    def raise_conflict_error(exception)
-      exception.http_body =~ %r{<p>Error:(.*)</p>}
-      conflict_reason = Regexp.last_match(1)
-
-      raise JSS::ConflictError, conflict_reason if conflict_reason
-      raise exception
-    end
 
     # Get an arbitrary JSS resource
     #
@@ -367,7 +307,7 @@ module JSS
       # ssl_options like :OP_NO_SSLv2 and :OP_NO_SSLv3 will take time to figure out..
       return true if `/usr/bin/curl -s 'https://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
       return true if `/usr/bin/curl -s 'http://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
-      return false
+      false
 
       # # try ssl first
       # # NOTE:  doesn't work if we can't disallow SSLv3 or force TLSv1
@@ -404,6 +344,143 @@ module JSS
     # aliases
     alias connected? connected
     alias host hostname
+
+    # Private Insance Methods
+    ####################################
+    private
+
+    # Apply defaults from the JSS::CONFIG, the JSS::Client
+    # or the module defaults to the args for the #connect method
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [Hash] The args with defaults applied
+    #
+    def apply_connection_defaults(args)
+      # settings from config if they aren't in the args
+      args[:server] ||= JSS::CONFIG.api_server_name
+      args[:port] ||= JSS::CONFIG.api_server_port
+      args[:user] ||= JSS::CONFIG.api_username
+      args[:timeout] ||= JSS::CONFIG.api_timeout
+      args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
+      args[:ssl_version] ||= JSS::CONFIG.api_ssl_version
+
+      # if verify cert was not in the args, get it from the prefs.
+      # We can't use ||= because the desired value might be 'false'
+      args[:verify_cert] = JSS::CONFIG.api_verify_cert if args[:verify_cert].nil?
+
+      # these settings can come from the jamf binary config, if this machine is a JSS client.
+      args[:server] ||= JSS::Client.jss_server
+      args[:port] ||= JSS::Client.jss_port
+      args[:use_ssl] ||= JSS::Client.jss_protocol.end_with? 's'
+
+      # defaults from the module if needed
+      args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
+      args[:timeout] ||= DFT_TIMEOUT
+      args[:open_timeout] ||= DFT_OPEN_TIMEOUT
+      args[:ssl_version] ||= DFT_SSL_VERSION
+      args
+    end
+
+    # Raise execeptions if we don't have essential data for the connection
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [void]
+    #
+    def verify_basic_args(args)
+      # must have server, user, and pw
+      raise JSS::MissingDataError, 'No JSS :server specified, or in configuration.' unless args[:server]
+      raise JSS::MissingDataError, 'No JSS :user specified, or in configuration.' unless args[:user]
+      raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
+    end
+
+    # Verify that we can connect with the args provided, and that
+    # the server version is high enough for this version of ruby-jss.
+    #
+    # This makes the first API GET call and will raise an exception if things
+    # are wrong, like failed authentication. Will also raise an exception
+    # if the JSS version is too low
+    # (see also JSS::Server)
+    #
+    # @return [void]
+    #
+    def verify_server_version
+      @connected = true
+      @server = JSS::Server.new
+      min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
+      return unless @server.version < min_vers
+      err_msg = "JSS version #{@server.raw_version} to low. Must be >= #{min_vers}"
+      @connected = false
+      raise JSS::UnsupportedError, err_msg
+    end
+
+    # Build the base URL for the API connection
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [String] The URI encoded URL
+    #
+    def build_rest_url(args)
+      # we're using ssl if:
+      #  1) args[:use_ssl] is anything but false
+      # or
+      #  2) the port is the default casper ssl port.
+      (args[:use_ssl] = (args[:use_ssl] != false)) || (args[:port] == SSL_PORT)
+
+      # and here's the URL
+      @protocol = 'http'
+      @protocol << 's' if args[:use_ssl]
+      @server_host = args[:server]
+      @port = args[:port].to_i
+      URI.encode "#{@protocol}://#{@server_host}:#{@port}/#{RSRC_BASE}"
+    end
+
+    # From whatever was given in args[:pw], figure out the real password
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [String] The password for the connection
+    #
+    def acquire_password(args)
+      if args[:pw] == :prompt
+        JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
+      elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
+        args[:pw].to_s =~ /^stdin(\d+)$/
+        line = Regexp.last_match(1)
+        line ||= 1
+        JSS.stdin line
+      else
+        args[:pw]
+      end
+    end
+
+    # Get the appropriate OpenSSL::SSL constant for
+    # certificate verification.
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [Type] description_of_returned_object
+    #
+    def verify_ssl(args)
+      # if verify_cert is anything but false, we will verify
+      args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+    end
+
+    # Parses the HTTP body of a RestClient::Conflict (409 conflict)
+    # exception and re-raises a JSS::ConflictError with a more
+    # useful error message.
+    #
+    # @param exception[RestClient::Conflict] the exception to parse
+    #
+    # @return [void]
+    #
+    def raise_conflict_error(exception)
+      exception.http_body =~ %r{<p>Error:(.*)</p>}
+      conflict_reason = Regexp.last_match(1)
+      conflict_reason ||= exception.http_body
+      raise JSS::ConflictError, conflict_reason
+    end
 
   end # class JSSAPIConnection
 
