@@ -1,5 +1,25 @@
 # Change History
 
+## v0.8.0 2017-XX-XX
+
+- Change: Lots of code cleanup to follow RuboCop guidelines (more of this comming)
+- Fix: sometimes the port would default to 80 rather than 8443
+- Fix?: sometimes DB connections would double-disconnect, causing superfluous exceptions.
+- Change: APIConnection class is no longer a singleton. The first step towards the ability to swap between multiple connections.
+- Add: #port, #protocol, and #last_http_response to APIConnection instances
+- Change: Improved APIConnection's ability to figure out default connection settings
+- Add: APIConnection#post_rsrc and #put_rsrc now catch and re-raise HTTP 409 Conflict errors as JSS::ConflictError with error message about what caused the conflict.
+- Improvement: APIObject mixin module parsing is now handled automatically by the APIObject superclass.
+- Improvement: APIObject subclasses have predicate methods to see if they have various mixed-in abilities, e.g. #creatable?, #locatable?
+- Change: All handling of Category data in non-Category objects is in a new Categorizable mixin module.
+- Add: JSS::MobileDeviceApplication class
+- Add: JSS::Icon class, handled by the improved SelfServable mixin module
+- Add: JSS::Client.jamf_helper method now takes arg_string:, output_file: and abandon_process: parameters.
+- Add: executable bin/jamfHelperBackgrounder, wrapper to run jamfHelper as a stand-alone process, allowing polcies to continue while a window is displayed
+- Add: explicitly require the standard library 'English', and start using it rather than cryptic globals like $! and $@
+- Add: first attempts at adding SSL/TLS support to the Webhooks framework.
+  - NOTE: the Webhooks framework is still 'alpha' code, and will be moved into a separate git repo eventually. It doesn't rely on ruby-jss.
+
 ## v0.7.0 2017-02-01
 
 - JSS::NetworkSegment - many bugfixes and cleanup. I didn't really have a proper grasp of IP CIDR masks before and how the (don't) related to the IP ranges used by Network Segments in the JSS. They CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn't match subnet-ranges.
