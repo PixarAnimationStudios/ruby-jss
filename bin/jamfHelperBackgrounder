@@ -94,7 +94,7 @@ class App
     end
 
     if @as_user
-      raise 'Only root can do things as another user' unless Process.euid.zero?
+      raise 'Only root can do things as another user' unless JSS.superuser?
       cmd = ['su', '-l', @as_user, '-c', "#{Shellwords.escape __FILE__} #{@arg_string}"]
       exec(*cmd)
     end
