@@ -35,13 +35,13 @@ Gem::Specification.new do |s|
   s.version     = JSS::VERSION
   s.license     = 'Apache-2.0 WITH Modifications'
   s.date        = Time.now.utc.strftime("%Y-%m-%d")
-  s.summary     = "A Ruby interface to the Casper Suite's JSS API"
+  s.summary     = "A Ruby interface to the Jamf Pro REST API"
   s.description = <<-EOD
     The ruby-jss gem provides the JSS module, a framework for interacting with the REST API
-    of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise/education
-    tool for managing Apple devices, from JAMF Software LLC.
+    of the Jamf Software Server (JSS), the core of Jamf Pro, an enterprise/education
+    tool for managing Apple devices, from Jamf Software LLC.
     JSS API objects are implemented as Ruby classes, and interact with each oher to
-    allow simpler automation of Casper-related tasks. For details see the README file."
+    allow simpler automation of Jamf-related tasks. For details see the README file."
   EOD
   s.authors     = ["Chris Lasell"]
   s.email       = 'ruby-jss@pixar.com'
@@ -52,10 +52,10 @@ Gem::Specification.new do |s|
   s.files      += Dir['data/**/*']
   s.files      += Dir['lib/jss/webhooks/**/*']
 
-
   s.executables << "cgrouper"
   s.executables << "netseg-update"
   s.executables << "jss-webhook-server"
+  s.executables << "jamfHelperBackgrounder"
 
   # Dependencies
   s.required_ruby_version = '>= 1.9.3'
@@ -71,10 +71,9 @@ Gem::Specification.new do |s|
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
   s.add_runtime_dependency 'immutable-struct', '~> 2.2', '>= 2.2.2'
 
-
   # Rdoc
-
   s.has_rdoc = true
   s.extra_rdoc_files = [ 'README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
+
 end
