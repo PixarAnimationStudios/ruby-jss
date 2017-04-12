@@ -378,60 +378,143 @@ module JSS
 
   ### Parse a JSS Version number into something comparable
   ###
-  ### Unfortunately, the JSS version numbering is inconsistant and improper at the moment.
+  ### Unfortunately, the JSS version numbering before 9.99
+  ### is not easily parsable, e.g.
   ### Version 9.32 should be version 9.3.2, so that it
   ### will be recognizable as being less than 9.4
   ###
-  ### To work around this until JAMF standardizes version numbering,
-  ### we will assume any digits before the first dot is the major version
-  ### and the first digit after the first dot is the minor version
-  ### and anything else, including other dots, is the revision
+  ### With Jamf Pro 9.99, they will start using more 'semantic-ish' versioning
+  ### and use a third integer appropriately.
   ###
-  ### If that revision starts with a dot, it is removed.
-  ### so 9.32 becomes  major-9, minor-3, rev-2
-  ### and 9.32.3764 becomes major-9, minor-3, rev-2.3764
-  ### and 9.3.2.3764 becomes major-9, minor-3, rev-2.3764
+  ### To deal with all this, version 9.99 and higher will be parsed like this:
+  ###   - Digits before the first dot are the Major Version
+  ###   - Digits after the first dot and before the second (or the end) are the
+  ###     Minor Version
+  ###   - Digits after the second dot, up to but not including any non-digit,
+  ###     are the Revision
+  ###   - If there's a third dot, anything after it is the build identifier
+  ###     (which may contain non-digits so will be a string)
+  ###   - Any non-digit anywhere means that it and everything after it
+  ###     are the build identifier
   ###
-  ### This method of parsing will break if the minor revision
-  ### ever gets above 9.
+  ### So 9.99 becomes major-9, minor-99, rev-0, build-''
+  ### and 10.0.1.32211 becomes major-10, minor-0, rev-1, build-32211
+  ### and 10.0.1a32211 becomes major-10, minor-0, rev-1, build-a32211
+  ### and 10.12a1234.t234 becomes major-10, minor-12, rev-0, build-a1234.t234
   ###
-  ### Returns a hash with these keys:
+  ### For versions less than 9.99 parsing is like this:
+  ###   - Digits before the first dot are the Major Version
+  ###   - The first digit after the first dot is the Minor Version
+  ###   - Any other digits after the first dot but before a non-digit
+  ###     are the Revision
+  ###   - Anything after a second dot is the build identifier
+  ###   - Any non-digit anywhere means that it and everything after it
+  ###     are the build identifier
+  ###
+  ### So 9.32 becomes major-9, minor-3, rev-2, build-''
+  ### and 9.32.3764 becomes major-9, minor-3, rev-2, build-3764
+  ### and 9.32a3764 becomes major-9, minor-3, rev-2, build-a3764
+  ### and 9.32a1234.t234 becomes major-9, minor-3, rev-2, build-a1234.t234
+  ###
+  ### This old style method of parsing will break if digits between the first
+  ### dot and the second (or the end) ever gets above 99, since '100' will
+  ### become minor-1, rev-0
+  ###
+  ### This method returns a Hash with these keys:
   ### * :major => the major version, Integer
   ### * :minor => the minor version, Integor
-  ### * :revision => the revision, String
-  ### * :version => a Gem::Version object built from the above keys, which is easily compared to others.
+  ### * :revision => the revision, Integer
+  ### * :build => the revision, String
+  ### * :version => a Gem::Version object built from :major, :minor, :revision
+  ###   which can be easily compared with other Gem::Version objects.
   ###
   ### @param version[String] a JSS version number from the API
   ###
   ### @return [Hash{Symbol => String, Gem::Version}] the parsed version data.
   ###
   def self.parse_jss_version(version)
-    spl = version.split('.')
+    major, second_part, *_rest = version.split('.')
+    raise JSS::InvalidDataError, 'JSS Versions must start with "x.x" where x is one or more digits' unless major =~ /\d$/ && second_part =~ /^\d/
+    # since ruby-jss requires 9.4 and up, this check works fine.
+    if major == '9' && !second_part.start_with?('99')
+      parse_jss_version_oldstyle version
+    else
+      parse_jss_version_newstyle version
+    end
+  end
 
-    case spl.count
-      when 1
-        major = spl[0].to_i
-        minor = 0
-        revision = '0'
-      when 2
-        major = spl[0].to_i
-        minor = spl[1][0,1].to_i
-        revision = spl[1][1..-1]
-        revision = '0' if revision.empty?
-      else
-        major = spl[0].to_i
-        minor = spl[1][0,1].to_i
-        revision = spl[1..-1].join('.')[1..-1]
-        revision = revision[1..-1] if revision.start_with? '.'
+  # (see parse_jss_version)
+  def self.parse_jss_version_newstyle(version)
+    major, minor, revision, *build = version.split('.')
+    build = build.join
+    minor ||= '0'
+
+    # if there's a non-digit anywhere in any part, it and everything after
+    # is the build.
+    if minor.to_s =~ /^(\d*)(\D.*)$/
+      minor = Regexp.last_match[1]
+      newrevision = nil
+      newbuild = Regexp.last_match[2].to_s
+      newbuild << ".#{revision}" if revision
+      newbuild << ".#{build}" unless build.empty?
+      revision = newrevision
+      build = newbuild
+    elsif revision.to_s =~ /^(\d*)(\D.*)$/
+      revision = Regexp.last_match[1]
+      newbuild = Regexp.last_match[2].to_s
+      newbuild << ".#{build}" unless build.empty?
+      build = newbuild
     end
 
-    ###revision = revision[1..-1] if revision.start_with? '.'
-    { :major => major,
-      :minor => minor,
-      :revision => revision,
-      :version => Gem::Version.new("#{major}.#{minor}.#{revision}")
+    version_string = major.to_s
+    if minor
+      version_string << ".#{minor}"
+      version_string << ".#{revision}" if revision
+    end
+
+    {
+      major: major.to_i,
+      minor:  minor.to_i,
+      revision:  revision.to_i,
+      build:  build.to_s,
+      version:  Gem::Version.new(version_string)
     }
-  end
+  end # parse_jss_version_oldstyle
+
+
+  # (see parse_jss_version)
+  def self.parse_jss_version_oldstyle(version)
+    version =~ /^(\d+?)\.(.*)$/
+    major = Regexp.last_match[1]
+    second_part = Regexp.last_match[2].to_s
+
+    minor = second_part[0]
+    revision = second_part[1..-1]
+
+    # if there's a non-digit anywhere in any part, it and everything after
+    # is the build.
+    if revision.to_s =~ /^(\d*)(\D.*)$/
+      revision = Regexp.last_match[1]
+      build = Regexp.last_match[2]
+      # but remove a leading dot
+      build = build[1..-1] if build.start_with? '.'
+    end
+    minor ||= ''
+    revision ||= ''
+
+    version_string = major.to_s
+    unless minor.empty?
+      version_string << ".#{minor}"
+      version_string << ".#{revision}" unless revision.empty?
+    end
+    {
+      major: major.to_i,
+      minor:  minor.to_i,
+      revision:  revision.to_i,
+      build:  build.to_s,
+      version:  Gem::Version.new(version_string)
+    }
+  end # parse_jss_version_oldstyle
 
   ### @return [Boolean] is this code running as root?
   ###
