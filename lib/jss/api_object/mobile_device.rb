@@ -274,14 +274,21 @@ module JSS
     ### @return [Time] uses the value from the API's last_inventory_update_utc
     attr_reader :last_inventory_update
 
+    ### @return [Time] the last time this device enrolled in Jamf
+    attr_reader :last_enrollment
+
     ### @return [String] the locales
     attr_reader :locales
 
     ### @return [Boolean] is this device managed?
     attr_reader :managed
 
+    ### @return [Boolean] is this device supervised?
+    attr_reader :supervised
+
     ### @return [String] the display name of the model
     attr_reader :model_display
+    alias model model_display
 
     ### @return [String] the model identifier
     attr_reader :model_identifier
@@ -414,8 +421,10 @@ module JSS
       @languages = gen[:languages]
       @last_backup_time = JSS.epoch_to_time  gen[:last_backup_time_epoch]
       @last_inventory_update = JSS.epoch_to_time gen[:last_inventory_update_epoch]
+      @last_enrollment = JSS.epoch_to_time gen[:last_enrollment_epoch]
       @locales = gen[:locales]
       @managed = gen[:managed]
+      @supervised = gen[:supervised]
       @model_display = gen[:model_display]
       @model_identifier = gen[:model_identifier]
       @modem_firmware = gen[:modem_firmware]
@@ -437,6 +446,7 @@ module JSS
       @configuration_profiles = @init_data[:configuration_profiles]
       @provisioning_profiles = @init_data[:provisioning_profiles]
       @security = @init_data[:security]
+      @applications = @init_data[:applications]
 
     end # initialize
 
