@@ -440,7 +440,10 @@ module JSS
 
     ### Upload a locally-readable file to the master distribution point.
     ### If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before
-    ### uploading and the @filename will be adjusted accordingly
+    ### uploading and the @filename will be adjusted accordingly by adding a .zip extension
+    ###
+    ### The name of the local file doesn't matter, the file on the dist. point will
+    ### use the @filename (possibly with .zip)
     ###
     ### If you'll be uploading several files you can specify unmount as false, and do it manually when all
     ### are finished with JSS::DistributionPoint.master_distribution_point.unmount
@@ -466,34 +469,37 @@ module JSS
       ### should we zip it?
       if local_path.directory?
         begin
-          zipdir = Pathname.new "/tmp/jssgemtmp-#{Time.new.strftime '%Y%m%d%H%M%S'}-#{$PROCESS_ID}"
-          zipdir.mkpath
-          zipdir.chmod 0o700
-          zipfile = zipdir + (local_path.basename.to_s + '.zip')
-
           ### go to the same dir as the local file
           wd = Dir.pwd
           Dir.chdir local_path.parent
 
           ### the contents of the zip file have to have the same name as the zip file itself (minus the .zip)
           ### so temporarily rename the source
-          local_path.rename(local_path.parent + @filename)
-          raise 'There was a problem zipping the pkg bundle' unless system "/usr/bin/zip -qr '#{zipfile}' '#{@filename}'"
+          local_path_to_upload = local_path.parent + @filename
+          local_path.rename local_path_to_upload unless local_path_to_upload == local_path
+
+          zipdir = Pathname.new "/tmp/rubyjsstmp-#{Time.new.strftime '%Y%m%d%H%M%S'}-#{$PROCESS_ID}"
+          zipdir.mkpath
+          zipdir.chmod 0o700
+          zipfile = zipdir + (local_path_to_upload.basename.to_s + '.zip')
+
+          raise 'There was a problem zipping the pkg bundle' unless system "/usr/bin/zip -qr '#{zipfile}' '#{local_path_to_upload}'"
 
         ensure
           ### rename the source to the original name
-          (local_path.parent + @filename).rename local_path if (local_path.parent + @filename).exist?
+          local_path_to_upload.rename local_path if local_path_to_upload.exist? && local_path_to_upload != local_path
           ### go back where we started
           Dir.chdir wd
         end # begin
 
         ### update our info
         local_path = zipfile
-
-        self.filename = zipfile.basename.to_s
-
+        destination = destination.to_s + '.zip'
+        @filename = zipfile.basename.to_s
+        @need_to_update = true
+        update
       end # if directory
-      update
+
       FileUtils.copy_entry local_path, destination
 
       mdp.unmount if unmount
