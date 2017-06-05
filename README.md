@@ -69,13 +69,12 @@ mg = JSS::ComputerGroup.fetch name: "Macs of interest"
 # Add a computer to the group
 mg.add_member "pricklepants"
 
-# save changes back to the JSS
-mg.update
+# save changes back to the JSS, mg.update works also
+mg.save
 
 # Create a new network segment to store in the JSS.
-# This creates a new Ruby Object that doesn't yet exist in the JSS.
-ns = JSS::NetworkSegment.new(
-  id: :new,
+# This makes a new Ruby Object that doesn't yet exist in the JSS.
+ns = JSS::NetworkSegment.make(
   name: 'Private Class C',
   starting_address: '192.168.0.0',
   ending_address: '192.168.0.255'
@@ -89,8 +88,8 @@ ns.building = "Main Office"
 #  which must exist in the JSS, and be listed in JSS::SoftwareUpdateServer.all_names
 ns.swu_server = "Main SWU Server"
 
-# Create the new network segment in the JSS
-ns.create
+# save the new network segment in the JSS, ns.create works as well
+ns.save
 ```
 
 ## USAGE
@@ -154,18 +153,18 @@ a_dept = JSS::Department.fetch name: "Payroll" # =>  #<JSS::Department:0x10b4c08
 Some classes can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
 
 *NOTE*: A class's '.fetch' method is now the preferred method to use for retrieving existing objects. The '.new' method still works as before, but is
-deprecated for object retrieval and doing so may raise errors in the future. See below for using .new to create new objects in the JSS.
+deprecated for object retrieval and doing so may raise errors in the future. See below for using .make to create new objects in the JSS.
 
 --------
 
 #### Creating Objects
 
-Some Objects can be created anew in the JSS. To make a new object, first create a Ruby object using the class's .new method
-and providing id: :new, and a unique :name:, e.g.
+Some Objects can be created anew in the JSS via ruby. To do so, first make a Ruby object using the class's .make method and providinga unique :name:, e.g.
 
 ```ruby
-new_pkg = JSS::Package.new id: :new, name: "transmogrifier-2.3-1.pkg"
+new_pkg = JSS::Package.make name: "transmogrifier-2.3-1.pkg"
 ```
+*NOTE*: some classes require more data than just a :name when created with .create.
 
 Then set the attributes of the new object as needed
 
@@ -175,13 +174,13 @@ new_pkg.category = "CoolTools"
 # etc..
 ```
 
-Then use the #create method to create it in the JSS.
+Then use the #create method to create it in the JSS. The #save method is an alias of #create
 
 ```ruby
 new_pkg.create # returns 453, the id number of the object just created
 ```
 
-*NOTE*: some classes require more data than just a :name when created with id: :new.
+*NOTE*: A class's '.make' method is now the preferred method to use for creating new objects. The '.new id: :new' method still works as before, but is deprecated for object creation and doing so may raise errors in the future.
 
 --------
 
@@ -197,7 +196,7 @@ existing_script.name = "transmogrifier-2.3-1.post-install"
 After changing any attributes, use the #update method (also aliased to #save) to push the changes to the JSS.
 
 ```ruby
-existing_script.update # or existing_script.save  => true # the update was successful
+existing_script.update #  => returns the id number of the object just saved
 ```
 
 --------
