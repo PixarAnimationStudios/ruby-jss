@@ -1,4 +1,4 @@
-# ruby-jss: Access to the Casper Suite from Ruby
+# ruby-jss: Access to the Jamf Pro from Ruby
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
 ### Table of contents
@@ -27,13 +27,20 @@
 
 ## DESCRIPTION
 
-The ruby-jss project provides a Ruby module called JSS, which is used for accessing the REST API of the JAMF Software Server (JSS), the core of the Casper Suite, an enterprise-level management tool for Apple devices from [JAMF Software, LLC](http://www.jamfsoftware.com/). It is available as a [rubygem](https://rubygems.org/gems/ruby-jss), and the [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
+The ruby-jss project provides a Ruby module called JSS, which is used for accessing the REST API of
+the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple
+devices from [JAMF Software, LLC](http://www.jamf.com/). It is available as a
+[rubygem](https://rubygems.org/gems/ruby-jss), and the
+[source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
-The module abstracts API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren't a part of the API itself, but come with other Casper-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution point, and the installation of {JSS::Package} objects on client machines. (See BEYOND THE API)
+The module abstracts API resources as Ruby objects, and provides methods for interacting with those
+resources. It also provides some features that aren't a part of the API itself, but come with other
+Jamf-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution
+point, and the installation of {JSS::Package} objects on client machines. (See [BEYOND THE API](#beyond-the-api)
 
-The module is not a complete implementation of the Casper API. Only some API objects are modeled, some only minimally. Of
-those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted)
-See OBJECTS IMPLEMENTED for a list.
+The module is not a complete implementation of the Jamf API. Only some API objects are modeled, some
+only minimally. Of those, some are read-only, some partially writable, some fully read-write (all
+implemented objects can be deleted) See [OBJECTS IMPLEMENTED](#objects-implemented) for a list.
 
 We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
@@ -46,33 +53,32 @@ Hopefully others will find it useful, and add more to it as well.
 ```ruby
 require 'jss'
 
-JSS::API.connect(
-  :user => jss_user,
-  :pw => jss_user_pw,
-  :server => jss_server_hostname
-)
+# Connect to the API
+JSS::API.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 
-# get an array of data about all JSS::Package objects in the JSS:
-JSS::Package.all
+# get an array of basic data about all JSS::Package objects in the JSS:
+pkgs = JSS::Package.all
 
 # get an array of names of all JSS::Package objects in the JSS:
-JSS::Package.all_names
+pkg_names = JSS::Package.all_names
 
-# Get a static computer group
-mg = JSS::ComputerGroup.new :name => "Macs of interest"
+# Get a static computer group. This creates a new Ruby object
+# representing the existing JSS computer group.
+mg = JSS::ComputerGroup.fetch name: "Macs of interest"
 
 # Add a computer to the group
 mg.add_member "pricklepants"
 
-# save my changes
+# save changes back to the JSS
 mg.update
 
-# Create a new network segment to store in the JSS
+# Create a new network segment to store in the JSS.
+# This creates a new Ruby Object that doesn't yet exist in the JSS.
 ns = JSS::NetworkSegment.new(
-  :id => :new,
-  :name => 'Private Class C',
-  :starting_address => '192.168.0.0',
-  :ending_address => '192.168.0.255'
+  id: :new,
+  name: 'Private Class C',
+  starting_address: '192.168.0.0',
+  ending_address: '192.168.0.255'
 )
 
 # Associate this network segment with a specific building,
@@ -94,23 +100,24 @@ ns.create
 Before you can work with JSS Objects via the API, you have to connect to it.
 
 The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't
-connected.  To remedy that, use JSS::API.connect, passing it values for :user, :pw, and :server:
+connected.  To remedy that, use JSS::API.connect, passing it values for the connection. In this example, those values are stored
+in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
-JSS::API.connect :user => jss_user, :pw => jss_user_pw, :server => jss_server_hostname
+JSS::API.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 ```
 
-Make sure the user has privileges in the JSS to do things with API Objects.
+Make sure the user has privileges in the JSS to do things with desired Objects.
 
 The {JSS::API#connect} method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
-password from stdin, or prompt for it in the shell. See the JSS::APIConnection class for more connection options and details about its methods.
+password from stdin, or prompt for it in the shell. See the {JSS::APIConnection} class for more connection options and details about its methods.
 
-Also see {JSS::Configuration}, and the CONFIGURATION section below, for how to store
+Also see {JSS::Configuration}, and the [CONFIGURATION](#configuration) section below, for how to store
 server connection parameters in a simple config file.
 
 ### Working with JSS Objects (a.k.a REST Resources)
 
-All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. Those classes do so by mixing in the JSS::Creatable and/or JSS::Updateable modules. See below for the level of implementation of each class.
+All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.
 
 --------
 
@@ -136,31 +143,28 @@ Some Classes provide other ways to list objects, depending on the data available
 
 #### Retrieving Objects
 
-To retrieve a single object call the object's constructor (.new) and provide either :name or :id or :data.
+To retrieve a single object call the class's constructor .fetch method and provide a name:,  id:, or other valid
+lookup attribute.
 
-* :name or :id will be looked up via the API
-
-```ruby
-a_dept = JSS::Department.new :name => "Payroll" # =>  #<JSS::Department:0x10b4c0818...
-```
-
-* :data must be the parsed JSON output of a separate API query (a hash with symbolized keys)
 
 ```ruby
-dept_data = JSS::API.get_rsrc("departments/name/Payroll")[:department] # => {:name=>"Payroll", :id=>42}
-a_dept = JSS::Department.new :data => dept_data  # =>  #<JSS::Department:0x10b4a83f8...
+a_dept = JSS::Department.fetch name: "Payroll" # =>  #<JSS::Department:0x10b4c0818...
 ```
 
-Some subclasses can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
+Some classes can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
+
+*NOTE*: A class's '.fetch' method is now the preferred method to use for retrieving existing objects. The '.new' method still works as before, but is
+deprecated for object retrieval and doing so may raise errors in the future. See below for using .new to create new objects in the JSS.
 
 --------
 
 #### Creating Objects
 
-Some Objects can be created anew in the JSS. To make a new object, first instantiate one using :id => :new, and provide a unique :name.
+Some Objects can be created anew in the JSS. To make a new object, first create a Ruby object using the class's .new method
+and providing id: :new, and a unique :name:, e.g.
 
 ```ruby
-new_pkg = JSS::Package.new :id => :new, :name => "transmogrifier-2.3-1.pkg"
+new_pkg = JSS::Package.new id: :new, name: "transmogrifier-2.3-1.pkg"
 ```
 
 Then set the attributes of the new object as needed
@@ -174,10 +178,10 @@ new_pkg.category = "CoolTools"
 Then use the #create method to create it in the JSS.
 
 ```ruby
-new_pkg.create # => 453 # the id number of the object just created
+new_pkg.create # returns 453, the id number of the object just created
 ```
 
-*NOTE* some subclasses require more data than just a :name when instantiating with :id => :new.
+*NOTE*: some classes require more data than just a :name when created with id: :new.
 
 --------
 
@@ -186,7 +190,7 @@ new_pkg.create # => 453 # the id number of the object just created
 Some objects can be modified in the JSS.
 
 ```ruby
-existing_script = JSS::Script.new :id => 321
+existing_script = JSS::Script.fetch id: 321
 existing_script.name = "transmogrifier-2.3-1.post-install"
 ```
 
@@ -203,7 +207,7 @@ existing_script.update # or existing_script.save  => true # the update was succe
 To delete an object, just call its #delete method
 
 ```ruby
-existing_script = JSS::Script.new :id => 321
+existing_script = JSS::Script.fetch id: 321
 existing_script.delete # => true # the delete was successful
 ```
 
@@ -225,6 +229,7 @@ See each Class's documentation for details.
 * {JSS::ComputerExtensionAttribute}
 * {JSS::ComputerGroup}
 * {JSS::Department}
+* {JSS::MobileDeviceApplication}
 * {JSS::MobileDeviceExtensionAttribute}
 * {JSS::MobileDeviceGroup}
 * {JSS::NetworkSegment}
@@ -278,6 +283,7 @@ These must be created and edited via the JSS WebApp
 * {JSS::DistributionPoint}
 * {JSS::LDAPServer}
 * {JSS::NetBootServer}
+* {JSS::RestrictedSoftware}
 * {JSS::SoftwareUpdateServer}
 
 ### Deletable
@@ -335,15 +341,15 @@ Here's an example of how to use a password stored in a file:
 
 ```ruby
 password = File.read "/path/to/secure/password/file" # read the password from a file
-JSS::API.connect :pw => password   # other arguments used from the config settings
+JSS::API.connect pw: password   # other arguments used from the config settings
 ```
 
 And here's an example of how to read a password from a web server and use it.
 
 ```ruby
 require 'open-uri'
-password =  open('http://server.org.org/path/to/password').read
-JSS::API.connect :pw => password   # other arguments used from the config settings
+password =  open('https://server.org.org/path/to/password').read
+JSS::API.connect pw: password   # other arguments used from the config settings
 ```
 
 ## BEYOND THE API
@@ -372,10 +378,9 @@ While the Casper API provides access to object data in the JSS, this gem tries t
 
 the JSS gem was written for:
 
-* Mac OS X 10.8 and higher
+* Mac OS X 10.9 or higher
+* Ruby 2.0 or higher
 * Casper Suite version 9.4 or higher
-* Casper 9.4 - 9.6 require Ruby 1.8.7 and higher
-* Casper >= 9.61 require Ruby 1.9.3 and higher
 
 It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
 
@@ -393,20 +398,14 @@ It also requires these gems, which will be installed automatically if you instal
 
 NOTE: You may need to install XCode, and it's CLI tools, in order to install the required gems.
 
-In general, you can install the JSS Gem with this command:
+In general, you can install ruby-jss with this command:
 
 `gem install ruby-jss`
 
-If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems manually first, since the JSS gem will try to install newer, incompatible versions if they aren't pre-installed.
-
-`gem install json -v 1.6.5`
-
-`gem install mime-types -v 1.25.1`
-
-`gem install rest-client -v 1.6.8`
-
 
 ## HELP
+
+Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/)
 
 [Email the developer](mailto:ruby-jss@pixar.com)
 
@@ -414,25 +413,7 @@ If you're using Ruby 1.8.7 (Casper 9.4 - 9.6 only), install the following gems m
 
 ## LICENSE
 
-Copyright 2016 Pixar
+Copyright 2017 Pixar
 
-Licensed under the Apache License, Version 2.0 (the "Apache License")
-with the following modification; you may not use this file except in
-compliance with the Apache License and the following modification to it:
-
-Section 6. Trademarks. is deleted and replaced with:
-
-  6\. Trademarks. This License does not grant permission to use the trade
-  names, trademarks, service marks, or product names of the Licensor
-  and its affiliates, except as required to comply with Section 4(c) of
-  the License and to reproduce the content of the NOTICE file.
-
-You may obtain a copy of the Apache License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the Apache License with the above modification is
-distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied. See the Apache License for the specific
-language governing permissions and limitations under the Apache License.
+Licensed under the Apache License, Version 2.0 (the "Apache License") with
+modifications. See LICENSE.txt for details
