@@ -371,10 +371,19 @@ module JSS
 
     def self.fetch(**args)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
-      raise ArgumentError, 'Use .new to create new JSS objects' if args[:id] == :new
+      raise ArgumentError, 'Use .create to create new JSS objects' if args[:id] == :new
 
       new args
     end
+
+
+    def self.create(**args)
+      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+      raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
+      args[:id] = :new
+      new args
+    end
+
 
     ### Class Constants
     #####################################
@@ -619,7 +628,7 @@ module JSS
     def validate_init_for_creation(args)
       raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless creatable?
 
-      raise JSS::MissingDataError, "You must provide a :name for a new #{self.class::RSRC_OBJECT_KEY}."  unless args[:name]
+      raise JSS::MissingDataError, "You must provide a :name to create a #{self.class::RSRC_OBJECT_KEY}."  unless args[:name]
 
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if self.class.all_names.include? args[:name]
     end
