@@ -114,6 +114,9 @@ module JSS
     # @return [RestClient::Response] The response from the most recent API call
     attr_reader :last_http_response
 
+    # @return [String] The base URL to to the current REST API
+    attr_reader :rest_url
+
     # Constructor
     #####################################
 
