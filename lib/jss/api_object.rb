@@ -368,16 +368,43 @@ module JSS
       end
     end
 
-
+    # Retrieve an object from the API.
+    #
+    # This is the preferred way to retrieve existing objects from the JSS.
+    # It's a wrapper for using APIObject.new
+    # and avoids the confusion of using ruby's .new class method when you're not
+    # creating a new object.
+    #
+    # For creating new objects in the JSS, use {APIObject.make}
+    #
+    # @param args[Hash] The data for fetching an object, such as id: or name:
+    #  See {APIObject#initialize}
+    #
+    # @return [APIObject] The ruby-instance of a JSS object
+    #
     def self.fetch(**args)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
       raise ArgumentError, 'Use .create to create new JSS objects' if args[:id] == :new
-
       new args
     end
 
-
-    def self.create(**args)
+    # Make a ruby instance of a not-yet-existing APIObject.
+    #
+    # This is the preferred way to create new objects in the JSS.
+    # It's a wrapper for using APIObject.new with the 'id: :new' parameter.
+    # and helps avoid the confusion of using ruby's .new class method for making
+    # ruby instances.
+    #
+    # For retrieving existing objects in the JSS, use {APIObject.fetch}
+    #
+    # For actually creating the object in the JSS, see {APIObject#create}
+    #
+    # @param args[Hash] The data for creating an object, such as name:
+    #  See {APIObject#initialize}
+    #
+    # @return [APIObject] The un-created ruby-instance of a JSS object
+    #
+    def self.make(**args)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
       args[:id] = :new
