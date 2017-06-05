@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
     JSS API objects are implemented as Ruby classes, and interact with each oher to
     allow simpler automation of Jamf-related tasks. For details see the README file."
   EOD
-  s.authors     = ["Chris Lasell"]
+  s.authors     = ["Chris Lasell", "Aurica Hayes"]
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
