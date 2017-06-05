@@ -376,31 +376,9 @@ module JSS
     xml_list
   end
 
-  ### Parse a JSS Version number into something comparable
+  ### Parse a JSS Version number into something comparable.
   ###
-  ### Unfortunately, the JSS version numbering before 9.99
-  ### is not easily parsable, e.g.
-  ### Version 9.32 should be version 9.3.2, so that it
-  ### will be recognizable as being less than 9.4
-  ###
-  ### With Jamf Pro 9.99, they will start using more 'semantic-ish' versioning
-  ### and use a third integer appropriately.
-  ###
-  ### To deal with all this, version 9.99 and higher will be parsed like this:
-  ###   - Digits before the first dot are the Major Version
-  ###   - Digits after the first dot and before the second (or the end) are the
-  ###     Minor Version
-  ###   - Digits after the second dot, up to but not including any non-digit,
-  ###     are the Revision
-  ###   - If there's a third dot, anything after it is the build identifier
-  ###     (which may contain non-digits so will be a string)
-  ###   - Any non-digit anywhere means that it and everything after it
-  ###     are the build identifier
-  ###
-  ### So 9.99 becomes major-9, minor-99, rev-0, build-''
-  ### and 10.0.1.32211 becomes major-10, minor-0, rev-1, build-32211
-  ### and 10.0.1a32211 becomes major-10, minor-0, rev-1, build-a32211
-  ### and 10.12a1234.t234 becomes major-10, minor-12, rev-0, build-a1234.t234
+  ### With Jamf Pro 9.99, "Semantic Versioning" is used, see http://semver.org/
   ###
   ### For versions less than 9.99 parsing is like this:
   ###   - Digits before the first dot are the Major Version
@@ -423,7 +401,8 @@ module JSS
   ### This method returns a Hash with these keys:
   ### * :major => the major version, Integer
   ### * :minor => the minor version, Integor
-  ### * :revision => the revision, Integer
+  ### * :maint => the revision, Integer
+  ###   (this is also available with the keys :patch and :revision)
   ### * :build => the revision, String
   ### * :version => a Gem::Version object built from :major, :minor, :revision
   ###   which can be easily compared with other Gem::Version objects.
@@ -435,6 +414,7 @@ module JSS
   def self.parse_jss_version(version)
     major, second_part, *_rest = version.split('.')
     raise JSS::InvalidDataError, 'JSS Versions must start with "x.x" where x is one or more digits' unless major =~ /\d$/ && second_part =~ /^\d/
+
     # since ruby-jss requires 9.4 and up, this check works fine.
     if major == '9' && !second_part.start_with?('99')
       parse_jss_version_oldstyle version
@@ -445,39 +425,16 @@ module JSS
 
   # (see parse_jss_version)
   def self.parse_jss_version_newstyle(version)
-    major, minor, revision, *build = version.split('.')
-    build = build.join
-    minor ||= '0'
-
-    # if there's a non-digit anywhere in any part, it and everything after
-    # is the build.
-    if minor.to_s =~ /^(\d*)(\D.*)$/
-      minor = Regexp.last_match[1]
-      newrevision = nil
-      newbuild = Regexp.last_match[2].to_s
-      newbuild << ".#{revision}" if revision
-      newbuild << ".#{build}" unless build.empty?
-      revision = newrevision
-      build = newbuild
-    elsif revision.to_s =~ /^(\d*)(\D.*)$/
-      revision = Regexp.last_match[1]
-      newbuild = Regexp.last_match[2].to_s
-      newbuild << ".#{build}" unless build.empty?
-      build = newbuild
-    end
-
-    version_string = major.to_s
-    if minor
-      version_string << ".#{minor}"
-      version_string << ".#{revision}" if revision
-    end
-
+    release, build = version.split '-'
+    major, minor, revision = release.split '.'
     {
       major: major.to_i,
       minor:  minor.to_i,
       revision:  revision.to_i,
-      build:  build.to_s,
-      version:  Gem::Version.new(version_string)
+      maint:  revision.to_i,
+      patch:  revision.to_i,
+      build:  build,
+      version: Gem::Version.new(version)
     }
   end # parse_jss_version_oldstyle
 
@@ -511,6 +468,8 @@ module JSS
       major: major.to_i,
       minor:  minor.to_i,
       revision:  revision.to_i,
+      maint:  revision.to_i,
+      patch:  revision.to_i,
       build:  build.to_s,
       version:  Gem::Version.new(version_string)
     }
