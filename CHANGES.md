@@ -1,6 +1,14 @@
 # Change History
 
-## v0.8.0 2017-XX-XX
+## v0.8.1 2017-06-05
+
+- Improvement: Support for the new semantic versioning of Jamf products starting with Jamf Pro 9.99
+- The alpha 'Webhooks framework' has been removed from ruby-jss and will reappear soon as it's own project with a new name.
+- Fix: JSS::Package uploading and zipping wasn't worked correctly, should be now.
+- Improvement: JSS::APIObject and subclasses now have .fetch and .make class methods which are wrappers for .new. .fetch is the preferred way to retrieve instances of existing API objects, and .make for making not-yet-existing objects to be created in the JSS. The .new class method still works as before, but is considered deprecated.
+- Improvement: JSS::APIConnection now has a #rest_url attribute that returns the base of the url for the current REST connection, e.g. "https://jamf.company.com:8443/JSSResource", or nil if not connected.
+
+## v0.8.0 2017-04-07
 
 - Change: Lots of code cleanup to follow RuboCop guidelines (more of this comming)
 - Fix: sometimes the port would default to 80 rather than 8443
@@ -22,7 +30,7 @@
 
 ## v0.7.0 2017-02-01
 
-- JSS::NetworkSegment - many bugfixes and cleanup. I didn't really have a proper grasp of IP CIDR masks before and how the (don't) related to the IP ranges used by Network Segments in the JSS. They CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn't match subnet-ranges.
+- JSS::NetworkSegment - many bugfixes and cleanup. I didn't really have a proper grasp of IP CIDR masks before and how they (don't) relate to the IP ranges used by Network Segments in the JSS. The CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn't match subnet-ranges.
 - subnect-update, the example command in the bin directory, has been renamed to negseg-update. It's also been cleaned up and uses the new functionality of JSS::NetworkSegment.
 - JSS::DBConnection - fixed a bug where meaningless IO 'stream closed' errors would appear when closing the DB connection.
 
@@ -34,49 +42,31 @@
 ## v0.6.6 2016-11-30
 
 - Added String#jss_to_pathname to convert Strings to Pathname instances in JSS::Configuration.
-
 - JSS::DBConnection#connect now returns the server hostname, to match the behavior of JSS::APIConnection#connect
-
 - JSS::Client: added .console_user method
-
 - JSS::Policy, now creatable, and self-servable, and more attributes are updatable
-
 - JSS::SelfServable, finally getting this module functional, at least for policies
-
 - JSS::Creatable, added #clone method - all creatable objects can be cloned easily.
-
 - JSS::APIObject, added .exist? and .valid_id class methods and #to_s instance method
-
 - Change the mountpoint directory for JSS::DistributionPoint#mount to /tmp, because Sierra doesn't allow mounting in /Volumes except by root. (Thanks @LM2807! )
-
 - Starting cleaning up code to better adhere to [RuboCop](http://rubocop.readthedocs.io/en/latest/) standards
-
 - Added alpha version of a JSS WebHooks framwork
 
 ## v0.6.5 2016-08-10
 
 - Cleanup of redundant constants (Thanks @aurica!)
-
 - Added JSS::ComputerInvitation class (Thanks @tostart-pickagreatname!)
-
 - Added JSS::Account class (Thanks @JonPulsifer!)
-
 - Added JSS::OSXConfigurationProfile class (Thanks @tostart-pickagreatname!)
-
 - JSS::Computer: added methods #boot_drive, #filevault2_enabled?, and #filevault1_accounts
-
 - Various small bugfixes & improvements
 
 ## v0.6.4 2016-03-24
 
 - JSS::Package#dlete can optionally delete the master file at the same time
-
 - Added an example ruby-jss.conf file with internal documentation
-
 - Various small bugfixes & improvements
-
 - Updated the config file name to match the new gem name, maintaining backwards compatibility
-
 - Improved error messages
 
 ## v0.6.3 2016-03-09
@@ -96,15 +86,12 @@ The 'jss-api' gem has been updated one last time, also to v0.6.2. That gem has a
 #### additions & features
 
 - JSS::Package#os_ok? and JSS::Package#processor_ok? methods can now check those things against the package settings, and not attempt to install if the machine isn't up to snuff.
-
 - JSS::ExtensionAttribute#latest_values always now includes :username in the returned data.
 
 #### bugfixes
 
 - JSS::stdin_lines no longer uses a constant to store incoming stdin data at load time, which causes hangs when there's no terminal on stdin. Now stdin is only read when the method is called, and data stored in a module variable.
-
 - JSS::Composer::mk_dmg fix for building/indexing dmg's, no longer creates an unreadable .Trashes folder.
-
 - Several small typos and other tiny bugs.
 
 ## v0.6.1 2016-03-01
