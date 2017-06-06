@@ -721,11 +721,12 @@ module JSS
     # @return [Hash] The part of the @init_data containg the :id and :name
     #
     def find_main_subset
+      return @init_data if @init_data[:id] && @init_data[:name]
+      return @init_data[:general] if @init_data[:general] && @init_data[:general][:id] && @init_data[:general][:name]
       @init_data.each do |key, value|
         next unless value.is_a? Hash
         return value if value.keys.include?(:id) && value.keys.include?(:name)
       end
-      @init_data
     end
 
     # parse category data during initialization
