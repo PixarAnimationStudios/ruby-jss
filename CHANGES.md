@@ -1,5 +1,11 @@
 # Change History
 
+## v0.8.1 2017-06-07
+
+- Fix: Some objects failed to locate their 'main subset' (the chunk of API data that contains the object name and id) correctly.
+- Fix: Some versions of Gem::Version don't like dashes (which are part of SemVers).
+
+
 ## v0.8.1 2017-06-05
 
 - Improvement: Support for the new semantic versioning of Jamf products starting with Jamf Pro 9.99
