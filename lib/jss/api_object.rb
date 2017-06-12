@@ -108,6 +108,16 @@ module JSS
   # *NOTE* Some API objects have data broken into subsections, in which case the
   # VALID_DATA_KEYS are expected in the section :general.
   #
+  #
+  # === Optional Constants
+  #
+  # ==== OTHER_LOOKUP_KEYS = [Hash{Symbol=>Hash}] Every object can be looked up by
+  # :id and :name, but some have other uniq identifiers that can also be used,
+  # e.g. :serial_number, :mac_address, and so on. This Hash, if defined,
+  # speficies those other keys for the subclass
+  # For more details about this hash, see {APIObject::DEFAULT_LOOKUP_KEYS},
+  # {APIObject.fetch}, and {APIObject#lookup_object_data}
+  #
   class APIObject
 
     # Mix-Ins
@@ -368,6 +378,44 @@ module JSS
       end
     end
 
+    # What are all the lookup keys available for this class?
+    #
+    # @return [Array<Symbol>] the DEFAULT_LOOKUP_KEYS plus any OTHER_LOOKUP_KEYS
+    #   defined for this class
+    #
+    def self.lookup_keys
+      return DEFAULT_LOOKUP_KEYS.keys unless defined? self::OTHER_LOOKUP_KEYS
+      DEFAULT_LOOKUP_KEYS.keys + self::OTHER_LOOKUP_KEYS.keys
+    end
+
+    # @return [Hash] the available lookup keys mapped to the appropriate
+    #  resource key for building a REST url to retrieve an object.
+    #
+    def self.rsrc_keys
+      hash = {}
+      all_keys = if defined?(self::OTHER_LOOKUP_KEYS)
+                   DEFAULT_LOOKUP_KEYS.merge self::OTHER_LOOKUP_KEYS
+                 else
+                   DEFAULT_LOOKUP_KEYS
+                 end
+      all_keys.each { |key, deets| hash[key] = deets[:rsrc_key]}
+      hash
+    end
+
+    # @return [Hash] the available lookup keys mapped to the appropriate
+    #  list class method (e.g. id: :all_ids )
+    #
+    def self.lookup_key_list_methods
+      hash = {}
+      all_keys = if defined?(self::OTHER_LOOKUP_KEYS)
+                   DEFAULT_LOOKUP_KEYS.merge self::OTHER_LOOKUP_KEYS
+                 else
+                   DEFAULT_LOOKUP_KEYS
+                 end
+      all_keys.each { |key, deets| hash[key] = deets[:list]}
+      hash
+    end
+
     # Retrieve an object from the API.
     #
     # This is the preferred way to retrieve existing objects from the JSS.
@@ -382,11 +430,26 @@ module JSS
     #
     # @return [APIObject] The ruby-instance of a JSS object
     #
-    def self.fetch(**args)
+    def self.fetch(arg)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
-      raise ArgumentError, 'Use .create to create new JSS objects' if args[:id] == :new
-      new args
-    end
+
+      # if given a hash (or a colletion of named params)
+      # pass to .new
+      if arg.is_a? Hash
+        raise ArgumentError, 'Use .create to create new JSS objects' if arg[:id] == :new
+        return new arg
+      end
+
+      # loop thru the lookup_key list methods for this class
+      # and if it's result includes the desired value,
+      # the pass they key and arg to .new
+      lookup_key_list_methods.each do |key, method_name|
+        return new({key => arg}) if self.send(method_name).include? arg
+      end # each key
+
+      # if we're here, we couldn't find a matching object
+      raise NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found matching '#{arg}'"
+    end # fetch
 
     # Make a ruby instance of a not-yet-existing APIObject.
     #
@@ -420,13 +483,37 @@ module JSS
     #
     REQUIRED_DATA_KEYS = [:id, :name].freeze
 
-    # By default, these keys are available for object lookups
-    # Others can be added by subclasses using an array of them
-    # as the second argument to super(initialize)
-    # The keys must be Symbols that  match the keyname in the resource url.
-    # e.g. :serialnumber  for JSSResource/computers/serialnumber/xxxxx
+    # All API objects have an id and a name. As such By these keys are available
+    # for object lookups.
     #
-    DEFAULT_LOOKUP_KEYS = [:id, :name].freeze
+    # Others can be defined by subclasses in their OTHER_LOOKUP_KEYS constant
+    # which has the same format, described here:
+    #
+    # The merged Hashes DEFAULT_LOOKUP_KEYS and OTHER_LOOKUP_KEYS
+    # define what unique identifiers can be passed as parameters to the
+    # fetch method for retrieving an object from the API.
+    # They also define the class methods that return a list (Array) of all such
+    # identifiers for the class (e.g. the :all_ids class method returns an array
+    # of all id's for an APIObject subclass)
+    #
+    # Since there's often a discrepency between the name of the identifier as
+    # an attribute (e.g. serial_number) and the REST resource key for
+    # retrieving that object (e.g. ../computers/serialnumber/xxxxx) this hash
+    # also explicitly provides the REST resource key for a given lookup key, so
+    # e.g. both serialnumber and serial_number can be used, and both will have
+    # the resource key 'serialnumber' and the list method ':all_serial_numbers'
+    #
+    # Here's how the Hash is structured, using serialnumber as an example:
+    #
+    # LOOKUP_KEYS = {
+    #      serialnumber: {rsrc_key: :serialnumber, list: :all_serial_numbers},
+    #      serial_number: {rsrc_key: :serialnumber, list: :all_serial_numbers}
+    # }
+    #
+    DEFAULT_LOOKUP_KEYS = {
+      id: {rsrc_key: :id, list: :all_ids},
+      name: {rsrc_key: :name, list: :all_names}
+    }.freeze
 
     # Attributes
     #####################################
@@ -461,19 +548,12 @@ module JSS
     # @option args :name[String] the name to look up
     #
     # @option args :data[Hash] the JSON output of a separate {JSS::APIConnection} query
+    #   NOTE: This arg is deprecated and will be removed in a future release.
     #
-    # @param other_lookup_keys[Array<Symbol>] Hash keys other than :id and :name, by which an API
-    #   lookup may be performed.
     #
-    def initialize(args = {}, other_lookup_keys = [])
-      args[:other_lookup_keys] ||= other_lookup_keys
+    def initialize(args = {})
 
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
-
-      ### what lookup key are we using, if any?
-      lookup_keys = DEFAULT_LOOKUP_KEYS
-      lookup_keys += self.class::OTHER_LOOKUP_KEYS if defined? self.class::OTHER_LOOKUP_KEYS
-      lookup_key = (lookup_keys & args.keys)[0]
 
       ####### Previously looked-up JSON data
       # DEPRECATED: pre-lookedup data is never used
@@ -486,7 +566,6 @@ module JSS
 
       ###### Make a new one in the JSS, but only if we've included the Creatable module
       elsif args[:id] == :new
-
         validate_init_for_creation(args)
         setup_object_for_creation(args)
         return
@@ -668,12 +747,12 @@ module JSS
     #
     def look_up_object_data(args)
       # what lookup key are we using?
-      combined_lookup_keys = self.class::DEFAULT_LOOKUP_KEYS + args[:other_lookup_keys]
-      lookup_key = (combined_lookup_keys & args.keys)[0]
+      lookup_keys = self.class.lookup_keys
+      lookup_key = (self.class.lookup_keys & args.keys)[0]
+      raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
+      rsrc_key = self.class.rsrc_keys[lookup_key]
 
-      raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{combined_lookup_keys.join(', :')}" unless lookup_key
-
-      rsrc = "#{self.class::RSRC_BASE}/#{lookup_key}/#{args[lookup_key]}"
+      rsrc = "#{self.class::RSRC_BASE}/#{rsrc_key}/#{args[lookup_key]}"
 
       return JSS::API.get_rsrc(rsrc)[self.class::RSRC_OBJECT_KEY]
     rescue RestClient::ResourceNotFound

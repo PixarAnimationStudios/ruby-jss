@@ -52,6 +52,10 @@ module JSS
     # Class Methods
     #####################################
 
+    def self.all_bundle_ids(refresh = false)
+      all(refresh).map { |mda| mda[:bundle_id] }
+    end
+
     # Class Constants
     #####################################
 
@@ -76,6 +80,12 @@ module JSS
       icon: :mobiledeviceapplicationsicon,
       app: :mobiledeviceapplicationsipa,
       attachment: :mobiledeviceapplications
+    }.freeze
+
+    # see JSS::APIObject
+    OTHER_LOOKUP_KEYS = {
+      bundleid: {rsrc_id: :bundleid, list: :all_bundle_ids},
+      bundle_id: {rsrc_id: :bundleid, list: :all_bundle_ids}
     }.freeze
 
     # Attributes

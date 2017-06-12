@@ -270,7 +270,13 @@ module JSS
     VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address].freeze
 
     # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
-    OTHER_LOOKUP_KEYS = [:udid, :serialnumber, :mac_address].freeze
+    OTHER_LOOKUP_KEYS = {
+      udid: {rsrc_key: :udid, list: :all_udids},
+      serialnumber: {rsrc_key: :serialnumber, list: :all_serial_numbers},
+      serial_number: {rsrc_key: :serialnumber, list: :all_serial_numbers},
+      macaddress: {rsrc_key: :macaddress, list: :all_mac_addresses},
+      mac_address: {rsrc_key: :macaddress, list: :all_mac_addresses}
+    }.freeze
 
     # This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedComputerSearch
@@ -526,7 +532,7 @@ module JSS
     # As well as :id and :name, computers can be queried using :udid, :serialnumber, and :mac_address
     #
     def initialize(args = {})
-      super args, [:udid, :serialnumber, :mac_address]
+      super args
 
       # now we have raw @init_data with something in it, so fill out the instance vars
       @alt_mac_address = @init_data[:general][:alt_mac_address]

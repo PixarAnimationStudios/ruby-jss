@@ -186,7 +186,13 @@ module JSS
     VALID_DATA_KEYS = [:device_name, :capacity, :tethered ]
 
     ### these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
-    OTHER_LOOKUP_KEYS = [:udid, :serialnumber, :macaddress].freeze
+    OTHER_LOOKUP_KEYS = {
+      udid: {rsrc_key: :udid, list: :all_udids},
+      serialnumber: {rsrc_key: :serialnumber, list: :all_serial_numbers},
+      serial_number: {rsrc_key: :serialnumber, list: :all_serial_numbers},
+      macaddress: {rsrc_key: :macaddress, list: :all_wifi_mac_addresses},
+      mac_address: {rsrc_key: :macaddress, list: :all_wifi_mac_addresses}
+    }.freeze
 
     ### This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
@@ -403,7 +409,7 @@ module JSS
     ###
     def initialize(args = {})
 
-      super args, [:udid, :serialnumber, :macaddress]
+      super args
 
       gen = @init_data[:general]
       @airplay_password = gen[:airplay_password]

@@ -61,7 +61,12 @@ module JSS
     RSRC_OBJECT_KEY = :account
 
     # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
-    OTHER_LOOKUP_KEYS = [:userid, :username, :groupid, :groupname].freeze
+    OTHER_LOOKUP_KEYS = {
+      userid: {rsrc_key: :userid, list: :all_user_ids},
+      username: {rsrc_key: :username, list: :all_user_names},
+      groupid: {rsrc_key: :groupid, list: :all_group_ids},
+      groupname: {rsrc_key: :groupname, list: :all_group_names}
+    }.freeze
 
     # Class Methods
     #####################################
