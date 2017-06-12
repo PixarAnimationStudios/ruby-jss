@@ -78,7 +78,6 @@ module JSS
     include JSS::SelfServable
     include JSS::Categorizable
 
-
     #####################################
     ### Class Methods
     #####################################
@@ -208,6 +207,29 @@ module JSS
     }.freeze
 
     SCOPE_TARGET_KEY = :computers
+
+    # Log Flushing
+
+    LOG_FLUSH_RSRC = 'logflush'.freeze
+
+    LOG_FLUSH_INTERVAL_INTEGERS = {
+      0 => 'Zero',
+      1 => 'One',
+      2 => 'Two',
+      3 => 'Three',
+      6 => 'Six'
+    }.freeze
+
+    LOG_FLUSH_INTERVAL_PERIODS = {
+      day: 'Day',
+      days: 'Day',
+      week: 'Week',
+      weeks: 'Week',
+      month: 'Month',
+      months: 'Month',
+      year: 'Year',
+      years: 'Year'
+    }.freeze
 
     ######################
     ### Attributes
@@ -598,7 +620,6 @@ module JSS
         @disk_encryption = @init_data[:disk_encryption]
 
         @printers = @init_data[:printers]
-
 
         ### Not in jss yet
       end
@@ -1101,6 +1122,19 @@ module JSS
       output = JSS::Client.run_jamf('policy', "-id #{id}", show_output)
       return nil if output.include? 'No policies were found for the ID'
       $CHILD_STATUS.exitstatus.zero? ? true : false
+    end
+
+    def flush_logs(older_than: 0, period: :days)
+      raise JSS::NoSuchItemError, "Policy doesn't exist in the JSS. Use #create first." \
+        unless @in_jss
+      raise JSS::InvalidDataError, "older_than must be one of: #{LOG_FLUSH_INTERVAL_INTEGERS.keys.join ', '}" \
+        unless LOG_FLUSH_INTERVAL_INTEGERS.keys.include? older_than
+      raise JSS::InvalidDataError, "period must be one of: :#{LOG_FLUSH_INTERVAL_PERIODS.keys.join ', :'}" \
+        unless LOG_FLUSH_INTERVAL_PERIODS.keys.include? period
+
+      interval = "#{LOG_FLUSH_INTERVAL_INTEGERS[older_than]}+#{LOG_FLUSH_INTERVAL_PERIODS[period]}"
+
+      JSS::API.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
     end
 
     ###### Aliases
