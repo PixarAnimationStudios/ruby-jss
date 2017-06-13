@@ -271,11 +271,11 @@ module JSS
 
     # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
     OTHER_LOOKUP_KEYS = {
-      udid: {rsrc_key: :udid, list: :all_udids},
-      serialnumber: {rsrc_key: :serialnumber, list: :all_serial_numbers},
-      serial_number: {rsrc_key: :serialnumber, list: :all_serial_numbers},
-      macaddress: {rsrc_key: :macaddress, list: :all_mac_addresses},
-      mac_address: {rsrc_key: :macaddress, list: :all_mac_addresses}
+      udid: { rsrc_key: :udid, list: :all_udids },
+      serialnumber: { rsrc_key: :serialnumber, list: :all_serial_numbers },
+      serial_number: { rsrc_key: :serialnumber, list: :all_serial_numbers },
+      macaddress: { rsrc_key: :macaddress, list: :all_mac_addresses },
+      mac_address: { rsrc_key: :macaddress, list: :all_mac_addresses }
     }.freeze
 
     # This class lets us seach for computers
@@ -306,6 +306,38 @@ module JSS
       unmanage_device: 'UnmanageDevice',
       unmanage: 'UnmanageDevice'
     }.freeze
+
+    # The API resource for app usage
+    APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
+
+    # The date format for retrieving usage data
+    APPLICATION_USAGE_DATE_FMT = '%Y-%m-%d'.freeze
+
+    # The classes that can be used with the date format
+    APPLICATION_USAGE_DATE_CLASSES = [Time, DateTime, Date].freeze
+
+    # The top-level hash key of the raw app usage data
+    APPLICATION_USAGE_KEY = :computer_application_usage
+
+    # The API resource for computer_management data
+    MGMT_DATA_RSRC = 'computermanagement'.freeze
+
+    # The top-level hash key of the computer_management data
+    MGMT_DATA_KEY = :computer_management
+
+    # Thes are both the subset names in the resrouce URLS (when
+    # converted to strings) and the second-level hash key of the
+    # returned subset data.
+    MGMT_DATA_SUBSETS = %i(
+      smart_groups
+      static_groups
+      mac_app_store_apps
+      policies
+      ebooks
+      os_x_configuration_profiles
+      restricted_software
+      patch_reporting_software_titles
+    ).freeze
 
     # Attributes
     #####################################
@@ -625,6 +657,122 @@ module JSS
     #
     def licensed_sw
       @software[:licensed_software]
+    end
+
+    # Get application usage data for this computer
+    # for a given date range.
+    #
+    # @param start_date [String,Date,DateTime,Time]
+    #
+    # @param end_date [String,Date,DateTime,Time] Defaults to start_date
+    #
+    # @return [Hash{Date=>Array<Hash>}] For each day in the range, an Array
+    #   with one Hash per application used. The hash keys are:
+    #   :name => String, the name of the app
+    #   :version => String ,the version of the app
+    #   :foreground => Integer, the minutes it was in the foreground
+    #   :open => Integer, the minutes it was running.
+    #
+    def application_usage(start_date, end_date = nil)
+      end_date ||= start_date
+      start_date = Time.parse start_date if start_date.is_a? String
+      end_date = Time.parse end_date if end_date.is_a? String
+      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
+        raise JSS::InvalidDataError, 'Invalid Start or End Date'
+      end
+      start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
+      end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
+      data = JSS::API.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
+      parsed_data = {}
+      data[APPLICATION_USAGE_KEY].each do |day_hash|
+        date = Date.parse day_hash[:date]
+        parsed_data[date] = day_hash[:apps]
+      end
+      parsed_data
+    end # app usage
+
+    # The 'computer management' data for this computer, looked up on the fly.
+    #
+    # Without specifying a subset:, the entire dataset is returned as a hash of
+    # arrays, one per  subset
+    # If a subset is given then only that array is returned, and it contains
+    # hashes with data about each item (usually :name and :id)
+    # If the only: param is provided with a subset, it is used as a hash-key to
+    # map the array to just those values, so subset: :smart_groups, only: :name
+    # will return an array of names of smartgroups that contain this computer.
+    #
+    # @param subset[Symbol] Fetch only a subset of data, as an array.
+    #    must be one of the symbols in MGMT_DATA_SUBSETS
+    #
+    # @param only[Symbol] When fetching a subset, only return one value
+    #   per item in the array. meaningless without a subset.
+    #
+    # @return [Hash] Without a subset:, a hash of all subsets, each of which is
+    #   an Array
+    # @return [Array] With a subset:, an array of items in that subset.
+    #
+    def management_data(subset: nil, only: nil)
+      if subset
+        raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
+        mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
+      else
+        mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
+      end
+
+      data = JSS::API.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+      return data unless subset
+
+      data = data[subset]
+      return data.map! { |d| d[only] } if only
+      data
+    end
+
+    # A shortcut for 'management_data subset: :smart_groups'
+    #
+    def smart_groups(only: nil)
+      management_data subset: :smart_groups, only: only
+    end
+
+    # A shortcut for 'management_data subset: :static_groups'
+    #
+    def static_groups(only: nil)
+      management_data subset: :static_groups, only: only
+    end
+
+    # A shortcut for 'management_data subset: :policies'
+    #
+    def policies(only: nil)
+      management_data subset: :policies, only: only
+    end
+
+    # A shortcut for 'management_data subset: :os_x_configuration_profiles'
+    #
+    def configuration_profiles(only: nil)
+      management_data subset: :os_x_configuration_profiles, only: only
+    end
+
+    # A shortcut for 'management_data subset: :ebooks'
+    #
+    def ebooks(only: nil)
+      management_data subset: :ebooks, only: only
+    end
+
+    # A shortcut for 'management_data subset: :mac_app_store_apps'
+    #
+    def app_store_apps(only: nil)
+      management_data subset: :mac_app_store_apps, only: only
+    end
+
+    # A shortcut for 'management_data subset: :restricted_software'
+    #
+    def restricted_software(only: nil)
+      management_data subset: :restricted_software, only: only
+    end
+
+    # A shortcut for 'management_data subset: :patch_reporting_software_titles'
+    #
+    def patch_titles(only: nil)
+      management_data subset: :patch_reporting_software_titles, only: only
     end
 
     # Set or unset management acct and password for this computer
