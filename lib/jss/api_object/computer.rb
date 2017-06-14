@@ -126,6 +126,29 @@ module JSS
     # Class Methods
     #####################################
 
+
+    # Display the current Computer CheckIn settings in the JSS.
+    # Currently this is read-only in ruby-jss, even tho the API
+    # allows updating.
+    #
+    # @return [Hash] the Computer Checkin Settings from the
+    #   currently connected JSS.
+    #
+    def self.checkin_settings
+      JSS::API.get_rsrc(CHECKIN_RSRC)[CHECKIN_KEY]
+    end
+
+    # Display the current Computer Inventory Collection settings in the JSS.
+    # Currently this is read-only in ruby-jss, even tho the API
+    # allows updating.
+    #
+    # @return [Hash] the Computer Inventpry Collection Settings from the
+    #   currently connected JSS.
+    #
+    def self.inventory_collection_settings
+      JSS::API.get_rsrc(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
+    end
+
     # A larger set of info about the computers in the JSS.
     #
     # Casper 9.4 introduced the API Resource /computers/subset/basic
@@ -338,6 +361,18 @@ module JSS
       restricted_software
       patch_reporting_software_titles
     ).freeze
+
+    # The API Resource for the computer checkin settings
+    CHECKIN_RSRC = 'computercheckin'.freeze
+
+    # The top-level hash key for the checkin settings
+    CHECKIN_KEY = :computer_check_in
+
+    # The API Resource for the computer inventory collection settings
+    INV_COLLECTION_RSRC = 'computerinventorycollection'.freeze
+
+    # The top-level hash key for the inventory collection settings
+    INV_COLLECTION_KEY = :computer_inventory_collection
 
     # Attributes
     #####################################
