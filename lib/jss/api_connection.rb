@@ -271,11 +271,11 @@ module JSS
     #
     # @return [String] the xml response from the server.
     #
-    def post_rsrc(rsrc, xml)
+    def post_rsrc(rsrc, xml = '')
       raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
 
       # convert CRs & to &#13;
-      xml.gsub!(/\r/, '&#13;')
+      xml.gsub!(/\r/, '&#13;') if xml
 
       # send the data
       @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
