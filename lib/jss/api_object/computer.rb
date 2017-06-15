@@ -128,6 +128,49 @@ module JSS
   # The top-level hash key for the inventory collection settings
   INV_COLLECTION_KEY = :computer_inventory_collection
 
+  # The API Resource for the computer history data
+  HISTORY_RSRC = 'computerhistory'.freeze
+
+  # The top-level hash key for the history data
+  HISTORY_KEY = :computer_history
+
+  # The keys are both the subset names in the resrouce URLS (when
+  # converted to strings) and the second-level hash key of the
+  # returned subset data.
+  #
+  # The values are the key within each history item that contains the
+  # 'epoch' timestamp, for conver
+  HISTORY_SUBSETS = %i(
+    computer_usage_logs
+    audits
+    policy_logs
+    casper_remote_logs
+    screen_sharing_logs
+    casper_imaging_logs
+    commands
+    user_location
+    mac_app_store_applications
+  ).freeze
+
+  # HISTORY_SUBSETS = %i(
+  #   computer_usage_logs date_time_epoch
+  #   audits
+  #   policy_logs date_completed_epoch
+  #   casper_remote_logs date_time_epoch
+  #   screen_sharing_logs date_time_epoch
+  #   casper_imaging_logs
+  #   commands completed_epoch
+  #   user_location
+  #   mac_app_store_applications
+  # ).freeze
+
+  POLICY_STATUS_COMPLETED = 'Completed'.freeze
+
+  POLICY_STATUS_FAILED = 'Failed'.freeze
+
+  POLICY_STATUS_PENDING = 'Pending'.freeze
+
+
   # This class represents a Computer in the JSS.
   #
   # ===Adding Computers to the JSS
@@ -801,6 +844,83 @@ module JSS
     #
     def patch_titles(only: nil)
       management_data subset: :patch_reporting_software_titles, only: only
+    end
+
+
+    # Return a subset of this computer's history. We never pull the whole
+    # history, its too big
+    #
+    # @param subset[Type] describe_subset
+    #
+    # @return [Type] description_of_returned_object
+    #
+    def history(subset = nil)
+      if subset
+        raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
+        history_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
+      else
+        history_rsrc = HISTORY_RSRC + "/id/#{@id}"
+      end
+      data = JSS::API.get_rsrc(history_rsrc)[HISTORY_KEY]
+
+      if subset
+         data[subset]
+      else
+         data
+      end
+    end
+
+    # Shortcut for history_subset(:computer_usage_logs)
+    def usage_logs
+      history_subset(:computer_usage_logs)
+    end
+
+    # Shortcut for history_subset(:audits)
+    def audits
+      history_subset(:audits)
+    end
+
+    # Shortcut for history_subset(:policy_logs)
+    def policy_logs
+      history_subset(:policy_logs)
+    end
+
+    def completed_policies
+      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
+    end
+
+    def failed_policies
+      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_FAILED }
+    end
+
+    # Shortcut for history_subset(:casper_remote_logs)
+    def casper_remote_logs
+      history_subset(:casper_remote_logs)
+    end
+
+    # Shortcut for history_subset(:screen_sharing_logs)
+    def screen_sharing_logs
+      history_subset(:screen_sharing_logs)
+    end
+
+    # Shortcut for history_subset(:casper_imaging_logs)
+    def casper_imaging_logs
+      history_subset(:casper_imaging_logs)
+    end
+
+    # Shortcut for history_subset(:commands)
+    def commands
+      history_subset(:commands)
+    end
+
+    # Shortcut for history_subset(:user_location)
+    def user_location
+      history_subset(:user_location)
+    end
+
+    # Shortcut for history_subset(:mac_app_store_applications)
+    def app_store_app_history
+      history_subset(:mac_app_store_applications)
     end
 
     # Set or unset management acct and password for this computer
