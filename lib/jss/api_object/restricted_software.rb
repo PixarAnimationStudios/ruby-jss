@@ -1,15 +1,10 @@
 module JSS
 
-
-  #
-  # Restricted Software in the JSS.
-  #
-  # This class only supports showing of object data.
+  # Restricted Software items in the JSS.
   #
   # @see JSS::APIObject
   #
   class RestrictedSoftware < JSS::APIObject
-
 
     # Mix-Ins
     #####################################
@@ -17,12 +12,11 @@ module JSS
     include JSS::Creatable
     include JSS::Scopable
 
-
     # Class Constants
     #####################################
 
     # The base for REST resources of this class
-    RSRC_BASE = "restrictedsoftware"
+    RSRC_BASE = 'restrictedsoftware'.freeze
 
     # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :restricted_software
@@ -32,18 +26,13 @@ module JSS
     RSRC_OBJECT_KEY = :restricted_software
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:scope]
+    VALID_DATA_KEYS = [:scope].freeze
 
     # Our scopes deal with computers
     SCOPE_TARGET_KEY = :computers
 
-    #####################################
     # Attributes
     #####################################
-
-    # The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
-    # Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
-    # Here's General, in alphabetical order
 
     # @return [String] the process name
     attr_reader :process_name
@@ -66,7 +55,6 @@ module JSS
     # @return [Hash] the :name and :id of the site for this machine
     attr_reader :site
 
-    #####################################
     # Instance Methods
     #####################################
 
@@ -133,7 +121,7 @@ module JSS
 
     def create
       raise JSS::MissingDataError, 'process_name must be set before creating' if @process_name.to_s.empty?
-      raise JSS::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names.include? @name
+      raise JSS::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh).include? @name
       super
     end
 
@@ -150,11 +138,12 @@ module JSS
     alias delete_executable? delete_executable
 
     ##### Private Instance Methods
-    #private
+    private
 
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
+
       general = obj.add_element 'general'
       general.add_element('name').text = @name
       general.add_element('process_name').text = @process_name
@@ -173,9 +162,8 @@ module JSS
 
     # TODO: Move this into a Validators module
     def confirm_boolean(val)
-      raise JSS::InvalidDataError, 'Value must be boolean true or false' unless  JSS::TRUE_FALSE.include? val
+      raise JSS::InvalidDataError, 'Value must be boolean true or false' unless JSS::TRUE_FALSE.include? val
     end
-
 
   end # class
 
