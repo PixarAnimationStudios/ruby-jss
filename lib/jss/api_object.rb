@@ -467,13 +467,12 @@ module JSS
     #
     # @return [APIObject] The un-created ruby-instance of a JSS object
     #
-    def self.make(**args)
+    def self.make(args = {})
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
       args[:id] = :new
       new args
     end
-
 
     ### Class Constants
     #####################################
@@ -568,12 +567,14 @@ module JSS
       elsif args[:id] == :new
         validate_init_for_creation(args)
         setup_object_for_creation(args)
+
         return
 
       ###### Look up the data via the API
       else
         @init_data = look_up_object_data(args)
       end ## end arg parsing
+
 
       parse_init_data
       @need_to_update = false
@@ -881,7 +882,7 @@ module JSS
     def setup_object_for_creation(args)
       # NOTE: subclasses may want to pre-populate more keys in @init_data when :id == :new
       # then parse them into attributes later.
-      @init_data = { name: args[:name] }
+      @init_data = args
       @name = args[:name]
       @in_jss = false
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
