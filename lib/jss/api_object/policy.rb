@@ -1127,6 +1127,8 @@ module JSS
     # Flush all policy logs for this policy older than
     # some number of days, weeks, months or years.
     #
+    # With no parameters, flushes all logs
+    #
     # NOTE: Currently the API doesn't have a way to
     # flush only failed policies.
     #
