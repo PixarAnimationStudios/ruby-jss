@@ -289,9 +289,12 @@ module JSS
     #
     # @return [String] the xml response from the server.
     #
-    def delete_rsrc(rsrc)
+    def delete_rsrc(rsrc, xml = nil)
       raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
+
+      # payload?
+      return delete_with_payload rsrc, xml if xml
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
@@ -352,14 +355,29 @@ module JSS
     ####################################
     private
 
-    # Apply defaults from the JSS::CONFIG, the JSS::Client
-    # or the module defaults to the args for the #connect method
+    # Apply defaults from the JSS::CONFIG,
+    # then from the JSS::Client,
+    # then from the module defaults
+    # to the args for the #connect method
     #
     # @param args[Hash] The args for #connect
     #
     # @return [Hash] The args with defaults applied
     #
     def apply_connection_defaults(args)
+      apply_defaults_from_config(args)
+      apply_defaults_from_client(args)
+      apply_module_defaults(args)
+    end
+
+    # Apply defaults from the JSS::CONFIG
+    # to the args for the #connect method
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [Hash] The args with defaults applied
+    #
+    def apply_defaults_from_config(args)
       # settings from config if they aren't in the args
       args[:server] ||= JSS::CONFIG.api_server_name
       args[:port] ||= JSS::CONFIG.api_server_port
@@ -371,12 +389,31 @@ module JSS
       # if verify cert was not in the args, get it from the prefs.
       # We can't use ||= because the desired value might be 'false'
       args[:verify_cert] = JSS::CONFIG.api_verify_cert if args[:verify_cert].nil?
+      args
+    end # apply_defaults_from_config
 
+    # Apply defaults from the JSS::Client
+    # to the args for the #connect method
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [Hash] The args with defaults applied
+    #
+    def apply_defaults_from_client(args)
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
       args[:port] ||= JSS::Client.jss_port
       args[:use_ssl] ||= JSS::Client.jss_protocol.end_with? 's'
+      args
+    end
 
+    # Apply the module defaults to the args for the #connect method
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [Hash] The args with defaults applied
+    #
+    def apply_module_defaults(args)
       # defaults from the module if needed
       args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
       args[:timeout] ||= DFT_TIMEOUT
@@ -485,7 +522,37 @@ module JSS
       raise JSS::ConflictError, conflict_reason
     end
 
-  end # class JSSAPIConnection
+    # RestClient::Resource#delete doesn't take an HTTP payload,
+    # but some JSS API resources require it (notably, logflush).
+    #
+    # This method uses RestClient::Request#execute
+    # to do the same thing that RestClient::Resource#delete does, but
+    # adding the payload.
+    #
+    # @param rsrc[String] the sub-resource we're DELETEing
+    #
+    # @param payload[String] The XML to be passed with the DELETE
+    #
+    # @param additional_headers[Type] See RestClient::Request#execute
+    #
+    # @param &block[Type] See RestClient::Request#execute
+    #
+    # @return [String] the XML response from the server.
+    #
+    def delete_with_payload(rsrc, payload, additional_headers = {}, &block)
+      headers = (@cnx.options[:headers] || {}).merge(additional_headers)
+      @last_http_response = RestClient::Request.execute(
+        @cnx.options.merge(
+          method: :delete,
+          url: @cnx[rsrc].url,
+          payload: payload,
+          headers: headers
+        ),
+        &(block || @block)
+      )
+    end # delete_with_payload
+
+  end # class APIConnection
 
   # The default APIConnection
   API = APIConnection.new
