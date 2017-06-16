@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -127,11 +127,11 @@ module JSS
       ###
       ### For telling it when a change is made and an update needed
       attr_accessor :container
-      
-      ### @return [Boolean] should we expect a potential 409 Conflict 
+
+      ### @return [Boolean] should we expect a potential 409 Conflict
       ###   if we can't connect to LDAP servers for verification?
       attr_accessor :unable_to_verify_ldap_entries
-      
+
       ### what type of target is this scope for? Computers or Mobiledevices?
       attr_reader :target_class
 
@@ -157,7 +157,7 @@ module JSS
       ### targets in the JSS form the base scope.
       ###
       attr_reader :all_targets
-      
+
 
 
       ### @return [Hash<Array>]
@@ -199,8 +199,8 @@ module JSS
       ###
       ### @param api_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
       ###
-      def initialize(target_key, api_scope = DEFAULT_SCOPE)
-
+      def initialize(target_key, api_scope = nil)
+        api_scope ||= DEFAULT_SCOPE
         raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.keys.include? target_key
 
         @target_key = target_key
@@ -575,13 +575,13 @@ module JSS
         end
         return scope
       end #scope_xml
-      
-      
+
+
       ### Aliases
-      
+
       alias all_targets? all_targets
-      
-      
+
+
       #####################################
       ### Private Instance Methods
       #####################################
@@ -600,17 +600,17 @@ module JSS
         return true if found_in_jss
 
         return false unless CHECK_LDAP_KEYS.include?(key)
-        
+
         begin
           return JSS::LDAPServer.user_in_ldap?(name) if LDAP_USER_KEYS.include?(key)
           return JSS::LDAPServer.group_in_ldap?(name) if LDAP_GROUP_KEYS.include?(key)
-        
+
         # if an ldap server isn't connected, make a note of it and return true
         rescue JSS::InvalidConnectionError
           @unable_to_verify_ldap_entries = true
           return true
         end # begin
-        
+
         return false
       end
 
@@ -619,4 +619,3 @@ module JSS
     end # class Scope
   end #module Scopable
 end # module
-
