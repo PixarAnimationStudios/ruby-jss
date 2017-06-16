@@ -1124,6 +1124,18 @@ module JSS
       $CHILD_STATUS.exitstatus.zero? ? true : false
     end
 
+    # Flush all policy logs for this policy older than
+    # some number of days, weeks, months or years.
+    #
+    # NOTE: Currently the API doesn't have a way to
+    # flush only failed policies.
+    #
+    # @param older_than[Integer] 0, 1, 2, 3, or 6
+    #
+    # @param period[Symbol] :days, :weeks, :months, or :years
+    #
+    # @return [void]
+    #
     def flush_logs(older_than: 0, period: :days)
       raise JSS::NoSuchItemError, "Policy doesn't exist in the JSS. Use #create first." \
         unless @in_jss
