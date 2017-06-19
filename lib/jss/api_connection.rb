@@ -400,10 +400,11 @@ module JSS
     # @return [Hash] The args with defaults applied
     #
     def apply_defaults_from_client(args)
+      return unless JSS::Client.installed?
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
       args[:port] ||= JSS::Client.jss_port
-      args[:use_ssl] ||= JSS::Client.jss_protocol.end_with? 's'
+      args[:use_ssl] ||= JSS::Client.jss_protocol.to_s.end_with? 's'
       args
     end
 
