@@ -26,151 +26,6 @@
 ###
 module JSS
 
-  # Class Constants
-  #####################################
-
-  # The base for REST resources of this class
-  RSRC_BASE = 'computers'.freeze
-
-  # The (temporary?) list-resource
-  LIST_RSRC = "#{RSRC_BASE}/subset/basic".freeze
-
-  # the hash key used for the JSON list output of all objects in the JSS
-  RSRC_LIST_KEY = :computers
-
-  # The hash key used for the JSON object output.
-  # It's also used in various error messages
-  RSRC_OBJECT_KEY = :computer
-
-  # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-  #   DEPRECATED, with be removed in a future release.
-  VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address].freeze
-
-  # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
-  OTHER_LOOKUP_KEYS = {
-    udid: { rsrc_key: :udid, list: :all_udids },
-    serialnumber: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-    serial_number: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-    macaddress: { rsrc_key: :macaddress, list: :all_mac_addresses },
-    mac_address: { rsrc_key: :macaddress, list: :all_mac_addresses }
-  }.freeze
-
-  # This class lets us seach for computers
-  SEARCH_CLASS = JSS::AdvancedComputerSearch
-
-  # This is the class for relevant Extension Attributes
-  EXT_ATTRIB_CLASS = JSS::ComputerExtensionAttribute
-
-  # Boot partitions are noted with the string "(Boot Partition)" at the end
-  BOOT_FLAG = ' (Boot Partition)'.freeze
-
-  # file uploads can send attachments to the JSS using :computers as the sub-resource.
-  UPLOAD_TYPES = { attachment: :computers }.freeze
-
-  # A mapping of Symbols available to the send_mdm_command class method, to
-  # the String commands actuallly sent via the API.
-  COMPUTER_MDM_COMMANDS = {
-    blank_push: 'BlankPush',
-    send_blank_push: 'BlankPush',
-    blank: 'BlankPush',
-    noop: 'BlankPush',
-    device_lock: 'DeviceLock',
-    lock: 'DeviceLock',
-    lock_device: 'DeviceLock',
-    erase_device: 'EraseDevice',
-    erase: 'EraseDevice',
-    wipe: 'EraseDevice',
-    unmanage_device: 'UnmanageDevice',
-    unmanage: 'UnmanageDevice'
-  }.freeze
-
-  # The API resource for app usage
-  APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
-
-  # The date format for retrieving usage data
-  APPLICATION_USAGE_DATE_FMT = '%Y-%m-%d'.freeze
-
-  # The classes that can be used with the date format
-  APPLICATION_USAGE_DATE_CLASSES = [Time, DateTime, Date].freeze
-
-  # The top-level hash key of the raw app usage data
-  APPLICATION_USAGE_KEY = :computer_application_usage
-
-  # The API resource for computer_management data
-  MGMT_DATA_RSRC = 'computermanagement'.freeze
-
-  # The top-level hash key of the computer_management data
-  MGMT_DATA_KEY = :computer_management
-
-  # Thes are both the subset names in the resrouce URLS (when
-  # converted to strings) and the second-level hash key of the
-  # returned subset data.
-  MGMT_DATA_SUBSETS = %i(
-    smart_groups
-    static_groups
-    mac_app_store_apps
-    policies
-    ebooks
-    os_x_configuration_profiles
-    restricted_software
-    patch_reporting_software_titles
-  ).freeze
-
-  # The API Resource for the computer checkin settings
-  CHECKIN_RSRC = 'computercheckin'.freeze
-
-  # The top-level hash key for the checkin settings
-  CHECKIN_KEY = :computer_check_in
-
-  # The API Resource for the computer inventory collection settings
-  INV_COLLECTION_RSRC = 'computerinventorycollection'.freeze
-
-  # The top-level hash key for the inventory collection settings
-  INV_COLLECTION_KEY = :computer_inventory_collection
-
-  # The API Resource for the computer history data
-  HISTORY_RSRC = 'computerhistory'.freeze
-
-  # The top-level hash key for the history data
-  HISTORY_KEY = :computer_history
-
-  # The keys are both the subset names in the resrouce URLS (when
-  # converted to strings) and the second-level hash key of the
-  # returned subset data.
-  #
-  # The values are the key within each history item that contains the
-  # 'epoch' timestamp, for conver
-  HISTORY_SUBSETS = %i(
-    computer_usage_logs
-    audits
-    policy_logs
-    casper_remote_logs
-    screen_sharing_logs
-    casper_imaging_logs
-    commands
-    user_location
-    mac_app_store_applications
-  ).freeze
-
-  # HISTORY_SUBSETS = %i(
-  #   computer_usage_logs date_time_epoch
-  #   audits
-  #   policy_logs date_completed_epoch
-  #   casper_remote_logs date_time_epoch
-  #   screen_sharing_logs date_time_epoch
-  #   casper_imaging_logs
-  #   commands completed_epoch
-  #   user_location
-  #   mac_app_store_applications
-  # ).freeze
-
-  POLICY_STATUS_COMPLETED = 'Completed'.freeze
-
-  POLICY_STATUS_FAILED = 'Failed'.freeze
-
-  POLICY_STATUS_PENDING = 'Pending'.freeze
-
-
   # This class represents a Computer in the JSS.
   #
   # ===Adding Computers to the JSS
@@ -243,6 +98,7 @@ module JSS
   #
   class Computer < JSS::APIObject
 
+
     # MixIns
     #####################################
 
@@ -253,6 +109,150 @@ module JSS
     include JSS::Extendable
 
     extend JSS::Matchable
+
+    # Class Constants
+    #####################################
+
+    # The base for REST resources of this class
+    RSRC_BASE = 'computers'.freeze
+
+    # The (temporary?) list-resource
+    LIST_RSRC = "#{RSRC_BASE}/subset/basic".freeze
+
+    # the hash key used for the JSON list output of all objects in the JSS
+    RSRC_LIST_KEY = :computers
+
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
+    RSRC_OBJECT_KEY = :computer
+
+    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    #   DEPRECATED, with be removed in a future release.
+    VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address].freeze
+
+    # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    OTHER_LOOKUP_KEYS = {
+      udid: { rsrc_key: :udid, list: :all_udids },
+      serialnumber: { rsrc_key: :serialnumber, list: :all_serial_numbers },
+      serial_number: { rsrc_key: :serialnumber, list: :all_serial_numbers },
+      macaddress: { rsrc_key: :macaddress, list: :all_mac_addresses },
+      mac_address: { rsrc_key: :macaddress, list: :all_mac_addresses }
+    }.freeze
+
+    # This class lets us seach for computers
+    SEARCH_CLASS = JSS::AdvancedComputerSearch
+
+    # This is the class for relevant Extension Attributes
+    EXT_ATTRIB_CLASS = JSS::ComputerExtensionAttribute
+
+    # Boot partitions are noted with the string "(Boot Partition)" at the end
+    BOOT_FLAG = ' (Boot Partition)'.freeze
+
+    # file uploads can send attachments to the JSS using :computers as the sub-resource.
+    UPLOAD_TYPES = { attachment: :computers }.freeze
+
+    # A mapping of Symbols available to the send_mdm_command class method, to
+    # the String commands actuallly sent via the API.
+    COMPUTER_MDM_COMMANDS = {
+      blank_push: 'BlankPush',
+      send_blank_push: 'BlankPush',
+      blank: 'BlankPush',
+      noop: 'BlankPush',
+      device_lock: 'DeviceLock',
+      lock: 'DeviceLock',
+      lock_device: 'DeviceLock',
+      erase_device: 'EraseDevice',
+      erase: 'EraseDevice',
+      wipe: 'EraseDevice',
+      unmanage_device: 'UnmanageDevice',
+      unmanage: 'UnmanageDevice'
+    }.freeze
+
+    # The API resource for app usage
+    APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
+
+    # The date format for retrieving usage data
+    APPLICATION_USAGE_DATE_FMT = '%Y-%m-%d'.freeze
+
+    # The classes that can be used with the date format
+    APPLICATION_USAGE_DATE_CLASSES = [Time, DateTime, Date].freeze
+
+    # The top-level hash key of the raw app usage data
+    APPLICATION_USAGE_KEY = :computer_application_usage
+
+    # The API resource for computer_management data
+    MGMT_DATA_RSRC = 'computermanagement'.freeze
+
+    # The top-level hash key of the computer_management data
+    MGMT_DATA_KEY = :computer_management
+
+    # Thes are both the subset names in the resrouce URLS (when
+    # converted to strings) and the second-level hash key of the
+    # returned subset data.
+    MGMT_DATA_SUBSETS = %i(
+      smart_groups
+      static_groups
+      mac_app_store_apps
+      policies
+      ebooks
+      os_x_configuration_profiles
+      restricted_software
+      patch_reporting_software_titles
+    ).freeze
+
+    # The API Resource for the computer checkin settings
+    CHECKIN_RSRC = 'computercheckin'.freeze
+
+    # The top-level hash key for the checkin settings
+    CHECKIN_KEY = :computer_check_in
+
+    # The API Resource for the computer inventory collection settings
+    INV_COLLECTION_RSRC = 'computerinventorycollection'.freeze
+
+    # The top-level hash key for the inventory collection settings
+    INV_COLLECTION_KEY = :computer_inventory_collection
+
+    # The API Resource for the computer history data
+    HISTORY_RSRC = 'computerhistory'.freeze
+
+    # The top-level hash key for the history data
+    HISTORY_KEY = :computer_history
+
+    # The keys are both the subset names in the resrouce URLS (when
+    # converted to strings) and the second-level hash key of the
+    # returned subset data.
+    #
+    # The values are the key within each history item that contains the
+    # 'epoch' timestamp, for conver
+    HISTORY_SUBSETS = %i(
+      computer_usage_logs
+      audits
+      policy_logs
+      casper_remote_logs
+      screen_sharing_logs
+      casper_imaging_logs
+      commands
+      user_location
+      mac_app_store_applications
+    ).freeze
+
+    # HISTORY_SUBSETS = %i(
+    #   computer_usage_logs date_time_epoch
+    #   audits
+    #   policy_logs date_completed_epoch
+    #   casper_remote_logs date_time_epoch
+    #   screen_sharing_logs date_time_epoch
+    #   casper_imaging_logs
+    #   commands completed_epoch
+    #   user_location
+    #   mac_app_store_applications
+    # ).freeze
+
+    POLICY_STATUS_COMPLETED = 'Completed'.freeze
+
+    POLICY_STATUS_FAILED = 'Failed'.freeze
+
+    POLICY_STATUS_PENDING = 'Pending'.freeze
 
     # Class Variables
     #####################################
