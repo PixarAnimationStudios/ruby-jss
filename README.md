@@ -164,7 +164,7 @@ Some Objects can be created anew in the JSS via ruby. To do so, first make a Rub
 ```ruby
 new_pkg = JSS::Package.make name: "transmogrifier-2.3-1.pkg"
 ```
-*NOTE*: some classes require more data than just a :name when created with .create.
+*NOTE*: some classes require more data than just a :name when created with .make.
 
 Then set the attributes of the new object as needed
 
@@ -236,6 +236,7 @@ See each Class's documentation for details.
 * {JSS::Peripheral}
 * {JSS::PeripheralType}
 * {JSS::RemovableMacAddress}
+* {JSS::RestrictedSoftware}
 * {JSS::Script}
 * {JSS::Site}
 * {JSS::User}
@@ -282,7 +283,6 @@ These must be created and edited via the JSS WebApp
 * {JSS::DistributionPoint}
 * {JSS::LDAPServer}
 * {JSS::NetBootServer}
-* {JSS::RestrictedSoftware}
 * {JSS::SoftwareUpdateServer}
 
 ### Deletable
@@ -353,7 +353,7 @@ JSS::API.connect pw: password   # other arguments used from the config settings
 
 ## BEYOND THE API
 
-While the Casper API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
+While the Jamf Pro API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
 
 * Client Machine Access
   * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts
