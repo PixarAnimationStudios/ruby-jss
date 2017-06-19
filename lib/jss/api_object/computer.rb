@@ -847,8 +847,9 @@ module JSS
     end
 
 
-    # Return a subset of this computer's history. We never pull the whole
-    # history, its too big
+    # Return this computer's history.
+    # WARNING! Its huge, better to use a subset a
+    # nd one of the shortcut methods.
     #
     # @param subset[Type] describe_subset
     #
@@ -862,65 +863,62 @@ module JSS
         history_rsrc = HISTORY_RSRC + "/id/#{@id}"
       end
       data = JSS::API.get_rsrc(history_rsrc)[HISTORY_KEY]
-
-      if subset
-         data[subset]
-      else
-         data
-      end
+      subset ? data[subset] : data
     end
 
-    # Shortcut for history_subset(:computer_usage_logs)
+    # Shortcut for history(:computer_usage_logs)
     def usage_logs
-      history_subset(:computer_usage_logs)
+      history(:computer_usage_logs)
     end
 
-    # Shortcut for history_subset(:audits)
+    # Shortcut for history(:audits)
     def audits
-      history_subset(:audits)
+      history(:audits)
     end
 
-    # Shortcut for history_subset(:policy_logs)
+    # Shortcut for history(:policy_logs)
     def policy_logs
-      history_subset(:policy_logs)
+      history(:policy_logs)
     end
 
+    # Shortcut for history(:policy_logs), but just the completed policies
     def completed_policies
       policy_logs.select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
     end
 
+    # Shortcut for history(:policy_logs), but just the failes policies
     def failed_policies
       policy_logs.select { |pl| pl[:status] == POLICY_STATUS_FAILED }
     end
 
-    # Shortcut for history_subset(:casper_remote_logs)
+    # Shortcut for history(:casper_remote_logs)
     def casper_remote_logs
-      history_subset(:casper_remote_logs)
+      history(:casper_remote_logs)
     end
 
-    # Shortcut for history_subset(:screen_sharing_logs)
+    # Shortcut for history(:screen_sharing_logs)
     def screen_sharing_logs
-      history_subset(:screen_sharing_logs)
+      history(:screen_sharing_logs)
     end
 
-    # Shortcut for history_subset(:casper_imaging_logs)
+    # Shortcut for history(:casper_imaging_logs)
     def casper_imaging_logs
-      history_subset(:casper_imaging_logs)
+      history(:casper_imaging_logs)
     end
 
-    # Shortcut for history_subset(:commands)
+    # Shortcut for history(:commands)
     def commands
-      history_subset(:commands)
+      history(:commands)
     end
 
-    # Shortcut for history_subset(:user_location)
+    # Shortcut for history(:user_location)
     def user_location_history
-      history_subset(:user_location)
+      history(:user_location)
     end
 
-    # Shortcut for history_subset(:mac_app_store_applications)
+    # Shortcut for history(:mac_app_store_applications)
     def app_store_app_history
-      history_subset(:mac_app_store_applications)
+      history(:mac_app_store_applications)
     end
 
     # Set or unset management acct and password for this computer
