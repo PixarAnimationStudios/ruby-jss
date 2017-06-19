@@ -914,7 +914,7 @@ module JSS
     end
 
     # Shortcut for history_subset(:user_location)
-    def user_location
+    def user_location_history
       history_subset(:user_location)
     end
 
