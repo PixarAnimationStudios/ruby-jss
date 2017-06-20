@@ -93,7 +93,7 @@ module JSS
       return nil unless @need_to_update
       raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless UPDATABLE
       raise JSS::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
-      JSS::API.put_rsrc @rest_rsrc, rest_xml
+      JSS.api_connection.put_rsrc @rest_rsrc, rest_xml
       @need_to_update = false
       refresh_icon if self_servable?
       @id

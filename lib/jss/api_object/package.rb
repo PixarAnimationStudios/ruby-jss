@@ -631,7 +631,7 @@ module JSS
       #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
       #
       append_at_vers = JSS.parse_jss_version('9.72')[:version]
-      our_vers = JSS.parse_jss_version(JSS::API.server.raw_version)[:version]
+      our_vers = JSS.parse_jss_version(JSS.api_connection.server.raw_version)[:version]
       no_filename_in_url = (our_vers < append_at_vers)
 
       # use a provided alternative url for an http download

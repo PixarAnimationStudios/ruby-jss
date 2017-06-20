@@ -304,7 +304,7 @@ module JSS
     ### @return [Array<Hash>] the refresh membership
     ###
     def refresh_members
-      @members = JSS::API.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
+      @members = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
 
     ###

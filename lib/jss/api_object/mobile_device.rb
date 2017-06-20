@@ -162,7 +162,7 @@ module JSS
       end # each do mmd
 
       if the_id
-        response = JSS::API.put_rsrc( "#{RSRC_BASE}/id/#{the_id}", command_xml)
+        response = JSS.api_connection.put_rsrc( "#{RSRC_BASE}/id/#{the_id}", command_xml)
         response =~ %r{<notification_sent>(.+)</notification_sent>}
         return ($1 and $1 == "true")
       end

@@ -167,11 +167,11 @@ module JSS
       raise JSS::InvalidDataError, 'JSS::Criteriable::Criteria instance required' unless @criteria.is_a? JSS::Criteriable::Criteria
       raise JSS::InvalidDataError, 'display_fields must be an Array.' unless @display_fields.is_a? Array
 
-      orig_timeout = JSS::API.cnx.options[:timeout]
-      JSS::API.timeout = 1800
+      orig_timeout = JSS.api_connection.cnx.options[:timeout]
+      JSS.api_connection.timeout = 1800
       super()
       requery_search_results if get_results
-      JSS::API.timeout = orig_timeout
+      JSS.api_connection.timeout = orig_timeout
 
       @id # remember to return the id
     end
@@ -185,11 +185,11 @@ module JSS
     # @return [Integer] the id of the updated search
     #
     def update(get_results = false)
-      orig_timeout = JSS::API.cnx.options[:timeout]
-      JSS::API.timeout = 1800
+      orig_timeout = JSS.api_connection.cnx.options[:timeout]
+      JSS.api_connection.timeout = 1800
       super()
       requery_search_results if get_results
-      JSS::API.timeout = orig_timeout
+      JSS.api_connection.timeout = orig_timeout
 
       @id # remember to return the id
     end
@@ -201,17 +201,17 @@ module JSS
     # @return [Array<Hash>] the new search results
     #
     def requery_search_results
-      orig_open_timeout = JSS::API.cnx.options[:open_timeout]
-      orig_timeout = JSS::API.cnx.options[:timeout]
-      JSS::API.timeout = 1800
-      JSS::API.open_timeout = 1800
+      orig_open_timeout = JSS.api_connection.cnx.options[:open_timeout]
+      orig_timeout = JSS.api_connection.cnx.options[:timeout]
+      JSS.api_connection.timeout = 1800
+      JSS.api_connection.open_timeout = 1800
       begin
         requery = self.class.new(id: @id)
         @search_results = requery.search_results
         @result_display_keys = requery.result_display_keys
       ensure
-        JSS::API.timeout = orig_timeout
-        JSS::API.open_timeout = orig_open_timeout
+        JSS.api_connection.timeout = orig_timeout
+        JSS.api_connection.open_timeout = orig_open_timeout
       end
     end
 

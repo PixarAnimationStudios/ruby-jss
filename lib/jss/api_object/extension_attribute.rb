@@ -201,15 +201,15 @@ module JSS
     ### @see JSS::APIObject#delete
     ###
     def delete
-      orig_open_timeout = JSS::API.cnx.options[:open_timeout]
-      orig_timeout = JSS::API.cnx.options[:timeout]
-      JSS::API.timeout = orig_timeout + 1800
-      JSS::API.open_timeout = orig_open_timeout + 1800
+      orig_open_timeout = JSS.api_connection.cnx.options[:open_timeout]
+      orig_timeout = JSS.api_connection.cnx.options[:timeout]
+      JSS.api_connection.timeout = orig_timeout + 1800
+      JSS.api_connection.open_timeout = orig_open_timeout + 1800
       begin
         super
       ensure
-        JSS::API.timeout = orig_timeout
-        JSS::API.open_timeout = orig_open_timeout
+        JSS.api_connection.timeout = orig_timeout
+        JSS.api_connection.open_timeout = orig_open_timeout
       end
     end
 

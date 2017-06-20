@@ -481,7 +481,7 @@ module JSS
     #
     def refresh_icon
       return nil unless @in_jss
-      fresh_data = JSS::API.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       icon_data = fresh_data[:self_service][:self_service_icon]
       @icon = JSS::Icon.new icon_data
     end # refresh icon

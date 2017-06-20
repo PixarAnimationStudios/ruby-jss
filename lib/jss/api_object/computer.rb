@@ -271,7 +271,7 @@ module JSS
     #   currently connected JSS.
     #
     def self.checkin_settings
-      JSS::API.get_rsrc(CHECKIN_RSRC)[CHECKIN_KEY]
+      JSS.api_connection.get_rsrc(CHECKIN_RSRC)[CHECKIN_KEY]
     end
 
     # Display the current Computer Inventory Collection settings in the JSS.
@@ -282,7 +282,7 @@ module JSS
     #   currently connected JSS.
     #
     def self.inventory_collection_settings
-      JSS::API.get_rsrc(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
+      JSS.api_connection.get_rsrc(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
     end
 
     # A larger set of info about the computers in the JSS.
@@ -304,7 +304,7 @@ module JSS
     def self.all(refresh = false)
       @@all_computers = nil if refresh
       return @@all_computers if @@all_computers
-      @@all_computers = JSS::API.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
+      @@all_computers = JSS.api_connection.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
     end
 
     # @return [Array<String>] all computer serial numbers in the jss
@@ -401,7 +401,7 @@ module JSS
     #       end
     #
     #       if the_id
-    #         response = JSS::API.put_rsrc("#{RSRC_BASE}/id/#{the_id}", command_xml)
+    #         response = JSS.api_connection.put_rsrc("#{RSRC_BASE}/id/#{the_id}", command_xml)
     #         response =~ %r{<notification_sent>(.+)</notification_sent>}
     #         return ($1 and $1 == "true")
     #       end
@@ -753,7 +753,7 @@ module JSS
       end
       start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
       end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
-      data = JSS::API.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
+      data = JSS.api_connection.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
       parsed_data = {}
       data[APPLICATION_USAGE_KEY].each do |day_hash|
         date = Date.parse day_hash[:date]
@@ -790,7 +790,7 @@ module JSS
         mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
       end
 
-      data = JSS::API.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+      data = JSS.api_connection.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
       return data unless subset
 
       data = data[subset]
@@ -862,7 +862,7 @@ module JSS
       else
         history_rsrc = HISTORY_RSRC + "/id/#{@id}"
       end
-      data = JSS::API.get_rsrc(history_rsrc)[HISTORY_KEY]
+      data = JSS.api_connection.get_rsrc(history_rsrc)[HISTORY_KEY]
       subset ? data[subset] : data
     end
 

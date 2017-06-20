@@ -43,12 +43,12 @@ module JSS
   # Its one instance is created automatically when the module loads, but it
   # isn't connected to anything at that time.
   #
-  # Use it via the {JSS::API} constant to call the #connect
+  # Use it via {JSS.api_connection} to call the #connect
   # method, and the {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
   # methods, q.v. below.
   #
   # To access the underlying RestClient::Resource instance,
-  # use JSS::API.cnx
+  # use JSS.api_connection.cnx
   #
   class APIConnection
 
@@ -120,7 +120,7 @@ module JSS
     # Constructor
     #####################################
 
-    # To connect, use JSS::API.connect
+    # To connect, use JSS.api_connection.connect
     #
     def initialize
       @connected = false
@@ -237,7 +237,8 @@ module JSS
     # @return [Hash,String] the result of the get
     #
     def get_rsrc(rsrc, format = :json)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      puts object_id
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api.connect first.' unless @connected
       rsrc = URI.encode rsrc
       @last_http_response = @cnx[rsrc].get(accept: format)
       return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
@@ -252,7 +253,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
@@ -272,7 +273,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
@@ -290,7 +291,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -555,7 +556,28 @@ module JSS
 
   end # class APIConnection
 
-  # The default APIConnection
-  API = APIConnection.new
+
+  def self.new_api_connection(args = {})
+    @api = APIConnection.new
+    @api.connect args unless args.empty?
+    @api
+  end
+
+  def self.use_api_connection(connection = :default)
+    connection = API if connection == :default
+    raise 'API connections must be instances of JSS::APIConnection' unless connection.is_a? JSS::APIConnection
+    @api = connection
+  end
+
+  def self.api_connection
+    @api
+  end
+
+  def self.api
+    @api
+  end
+
+  new_api_connection unless api
+  API = api
 
 end # module

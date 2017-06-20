@@ -4,7 +4,7 @@
 
 - Improvement: JSS::RestrictedSoftware class is now Creatable and Updatable.
 - Fix: issue with handling of params to APIObject.make
-- Add: JSS::Server instances (as found in the JSS::API.server attribute) now have methods #activation_code and
+- Add: JSS::Server instances (as found in the JSS.api_connection.server attribute) now have methods #activation_code and
   #organization
 - Add: JSS::Computer now has class methods to view the server-wide .inventory_collection_settings and
   .checkin_settings
