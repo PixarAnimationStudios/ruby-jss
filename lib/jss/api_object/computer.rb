@@ -71,10 +71,13 @@ module JSS
   # - #blank_push  (aliases blank, noop, send_blank_push)
   # - #device_lock (aliases lock, lock_device)
   # - #erase_device (aliases wipe)
+  # NOTE: the 'UnmanageDevice' command is sent as part of the 'make_unmanaged'
+  #   method, if the computer is MDM capable
   #
   # To send an MDM command without making an instance, use the class method {.send_mdm_command}
   #
   # Each returns true if the command as sent.
+  #
   #
   # ---
   # ===Other Methods
@@ -97,7 +100,6 @@ module JSS
   # @see FileUpload
   #
   class Computer < JSS::APIObject
-
 
     # MixIns
     #####################################
@@ -128,7 +130,7 @@ module JSS
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
     #   DEPRECATED, with be removed in a future release.
-    VALID_DATA_KEYS = [:sus, :distribution_point, :alt_mac_address].freeze
+    VALID_DATA_KEYS = %i[sus distribution_point alt_mac_address].freeze
 
     # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
     OTHER_LOOKUP_KEYS = {
@@ -151,6 +153,9 @@ module JSS
     # file uploads can send attachments to the JSS using :computers as the sub-resource.
     UPLOAD_TYPES = { attachment: :computers }.freeze
 
+    # The base REST resource for sending computer MDM commands
+    COMPUTER_MDM_RSRC = 'computercommands/command'.freeze
+
     # A mapping of Symbols available to the send_mdm_command class method, to
     # the String commands actuallly sent via the API.
     COMPUTER_MDM_COMMANDS = {
@@ -167,6 +172,9 @@ module JSS
       unmanage_device: 'UnmanageDevice',
       unmanage: 'UnmanageDevice'
     }.freeze
+
+    # these MDM commands require a passcode
+    COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE = %w[DeviceLock EraseDevice].freeze
 
     # The API resource for app usage
     APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
@@ -189,7 +197,7 @@ module JSS
     # Thes are both the subset names in the resrouce URLS (when
     # converted to strings) and the second-level hash key of the
     # returned subset data.
-    MGMT_DATA_SUBSETS = %i(
+    MGMT_DATA_SUBSETS = %i[
       smart_groups
       static_groups
       mac_app_store_apps
@@ -198,7 +206,7 @@ module JSS
       os_x_configuration_profiles
       restricted_software
       patch_reporting_software_titles
-    ).freeze
+    ].freeze
 
     # The API Resource for the computer checkin settings
     CHECKIN_RSRC = 'computercheckin'.freeze
@@ -224,7 +232,7 @@ module JSS
     #
     # The values are the key within each history item that contains the
     # 'epoch' timestamp, for conver
-    HISTORY_SUBSETS = %i(
+    HISTORY_SUBSETS = %i[
       computer_usage_logs
       audits
       policy_logs
@@ -234,7 +242,7 @@ module JSS
       commands
       user_location
       mac_app_store_applications
-    ).freeze
+    ].freeze
 
     # HISTORY_SUBSETS = %i(
     #   computer_usage_logs date_time_epoch
@@ -261,7 +269,6 @@ module JSS
 
     # Class Methods
     #####################################
-
 
     # Display the current Computer CheckIn settings in the JSS.
     # Currently this is read-only in ruby-jss, even tho the API
@@ -329,7 +336,7 @@ module JSS
 
     # @return [Array<Hash>] all unmanaged computers in the jss
     def self.all_unmanaged(refresh = false)
-      all(refresh).select { |d| !(d[:managed]) }
+      all(refresh).reject { |d| (d[:managed]) }
     end
 
     # @return [Array<Hash>] all laptop computers in the jss
@@ -359,7 +366,7 @@ module JSS
 
     # @return [Array<Hash>] all desktop macs in the jss
     def self.all_desktops(refresh = false)
-      all(refresh).select { |d| d[:model] !~ /serve|book/i }
+      all(refresh).reject { |d| d[:model] =~ /serve|book/i }
     end
 
     # @return [Array<Hash>] all imacs in the jss
@@ -377,38 +384,50 @@ module JSS
       all(refresh).select { |d| d[:model] =~ /^macpro/i }
     end
 
-    # Send an MDM command to a managed computer by id or name
+    # Send an MDM command to one or more managed computers by id or name
     #
-    # @param computer[String,Integer] the name or id of the computer to recieve the command
-    # @param command[Symbol] the command to send, one of the keys of COMPUTER_MDM_COMMANDS
+    # @param targets[String,Integer,Array<String,Integer>]
+    #   the name or id of the computer to receive the command, or
+    #   an array of such names or ids, or a comma-separated string
+    #   of them.
+    # @param command[Symbol] the command to send, one of the keys
+    #   of COMPUTER_MDM_COMMANDS
     #
-    # @return [true] if the command was sent
+    # @return [String] The uuid of the MDM command sent, if applicable
+    #  (blank pushes do not generate uuids)
     #
+    def self.send_mdm_command(targets, command, passcode = nil)
+      raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
 
-    # Not functional until I get more docs from JAMF
-    #
-    #     def self.send_mdm_command(computer,command)
-    #
-    #       raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
-    #
-    #       command_xml ="#{JSS::APIConnection::XML_HEADER}<computer><command>#{COMPUTER_MDM_COMMANDS[command]}</command></computer>"
-    #       the_id = nil
-    #
-    #       if computer.to_s =~ /^\d+$/
-    #         the_id = computer
-    #       else
-    #         the_id = self.map_all_ids_to(:name).invert[computer]
-    #       end
-    #
-    #       if the_id
-    #         response = JSS::API.put_rsrc("#{RSRC_BASE}/id/#{the_id}", command_xml)
-    #         response =~ %r{<notification_sent>(.+)</notification_sent>}
-    #         return ($1 and $1 == "true")
-    #       end
-    #       raise JSS::UnmanagedError, "Cannot send command to unknown/unmanaged computer '#{computer}'"
-    #     end
+      command = COMPUTER_MDM_COMMANDS[command]
+      cmd_rsrc = "#{COMPUTER_MDM_RSRC}/#{command}"
 
+      if COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE.include? command
+        unless passcode && passcode.is_a?(String) && passcode.length == 6
+          raise "Command '#{command}' requires a 6-character passcode"
+        end
+        cmd_rsrc << "/passcode/#{passcode}"
+      end
 
+      targets = JSS.to_s_and_a(targets.to_s)[:arrayform] unless targets.is_a? Array
+
+      # make sure its an array of ids
+      targets.map! do |comp|
+        if all_ids.include? comp.to_i
+          comp.to_i
+        elsif all_names.include? comp
+          map_all_ids_to(:name).invert[comp]
+        else
+          raise JSS::NoSuchItemError, "No computer found matching '#{comp}'"
+        end # if
+      end # map!
+
+      cmd_rsrc << "/id/#{targets.join ','}"
+
+      result = JSS::API.post_rsrc cmd_rsrc, nil
+      result =~ %r{<command_uuid>(.*)</command_uuid>}
+      Regexp.last_match(1)
+    end # send mdm command
 
     # Attributes
     #####################################
@@ -846,7 +865,6 @@ module JSS
       management_data subset: :patch_reporting_software_titles, only: only
     end
 
-
     # Return this computer's history.
     # WARNING! Its huge, better to use a subset a
     # nd one of the shortcut methods.
@@ -929,7 +947,7 @@ module JSS
     #
     # @return [void]
     #
-    # The changes will need to be pushed to the server with #update
+    # The changes will need to be pushed to the server with {#update}
     # before they take effect.
     #
     # CAUTION: this does nothing to confirm the name and password
@@ -956,10 +974,8 @@ module JSS
     def make_unmanaged
       return nil unless managed?
       set_management_to(nil, nil)
-      begin
-        self.class.send_mdm_command(@id, :unmanage_device)
-      rescue
-      end
+      return unless vm2.mdm_capable
+      self.class.send_mdm_command(@id, :unmanage_device)
     end
 
     #
@@ -1051,34 +1067,38 @@ module JSS
       @software = nil
     end # delete
 
-    # Not Functional until I get more docs from JAMF
     #
-    #     #
-    #     # Send a blank_push MDM command
-    #     #
-    #     def blank_push
-    #       self.class.send_mdm_command @id, :blank_push
-    #     end
-    #     alias noop blank_push
-    #     alias send_blank_push blank_push
+    # Send a blank_push MDM command
     #
-    #     #
-    #     # Send a device_lock MDM command
-    #     #
-    #     def device_lock
-    #       self.class.send_mdm_command @id, :device_lock
-    #     end
-    #     alias lock device_lock
-    #     alias lock_device device_lock
+    # See JSS::Computer.send_mdm_command
     #
-    #     #
-    #     # Send an erase_device MDM command
-    #     #
-    #     def erase_device
-    #       self.class.send_mdm_command @id, :erase_device
-    #     end
-    #     alias erase erase_device
-    #     alias wipe erase_device
+    def blank_push
+      self.class.send_mdm_command @id, :blank_push
+    end
+    alias noop blank_push
+    alias send_blank_push blank_push
+
+    #
+    # Send a device_lock MDM command
+    #
+    # See JSS::Computer.send_mdm_command
+    #
+    def device_lock(passcode)
+      self.class.send_mdm_command @id, :device_lock, passcode
+    end
+    alias lock device_lock
+    alias lock_device device_lock
+
+    #
+    # Send an erase_device MDM command
+    #
+    # See JSS::Computer.send_mdm_command
+    #
+    def erase_device(passcode)
+      self.class.send_mdm_command @id, :erase_device, passcode
+    end
+    alias erase erase_device
+    alias wipe erase_device
 
     # aliases
     alias alt_macaddress alt_mac_address
@@ -1130,7 +1150,7 @@ module JSS
       computer << purchasing_xml if has_purchasing?
 
       doc.to_s
-    end
+    end # rest_xml
 
   end # class Computer
 
