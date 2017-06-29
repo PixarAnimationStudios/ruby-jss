@@ -254,14 +254,8 @@ module JSS
 
     POLICY_STATUS_PENDING = 'Pending'.freeze
 
-    # Class Variables
-    #####################################
-
-    @@all_computers = nil
-
     # Class Methods
     #####################################
-
 
     # Display the current Computer CheckIn settings in the JSS.
     # Currently this is read-only in ruby-jss, even tho the API
@@ -302,9 +296,9 @@ module JSS
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
     def self.all(refresh = false)
-      @@all_computers = nil if refresh
-      return @@all_computers if @@all_computers
-      @@all_computers = JSS.api_connection.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
+      JSS.api.object_list_cache[RSRC_LIST_KEY] = nil if refresh
+      return JSS.api.object_list_cache[RSRC_LIST_KEY] if JSS.api.object_list_cache[RSRC_LIST_KEY]
+      JSS.api.object_list_cache[RSRC_LIST_KEY] = JSS.api_connection.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
     end
 
     # @return [Array<String>] all computer serial numbers in the jss
@@ -329,7 +323,7 @@ module JSS
 
     # @return [Array<Hash>] all unmanaged computers in the jss
     def self.all_unmanaged(refresh = false)
-      all(refresh).select { |d| !(d[:managed]) }
+      all(refresh).reject { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] all laptop computers in the jss
