@@ -1192,7 +1192,7 @@ module JSS
 
       date_time_limitations = general.add_element 'date_time_limitations'
       date_time_limitations.add_element('expiration_date_epoch').text = @server_side_limitations[:expiration].to_jss_epoch
-      date_time_limitations.add_element('activation_date_epoch').text = @server_side_limitations[:activcation].to_jss_epoch
+      date_time_limitations.add_element('activation_date_epoch').text = @server_side_limitations[:activation].to_jss_epoch
 
       obj << @scope.scope_xml
 
