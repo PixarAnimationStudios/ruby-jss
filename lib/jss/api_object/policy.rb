@@ -734,6 +734,18 @@ module JSS
       @need_to_update = true
     end
 
+    def server_side_activation=(activation)
+      raise JSS::InvalidDataError, 'Activation must be a Time' unless activation.is_a? Time
+      @server_side_limitations[:activation] = activation
+      @need_to_update = true
+    end
+
+    def server_side_expiration=(expiration)
+      raise JSS::InvalidDataError, 'Expiration must be a Time' unless expiration.is_a? Time
+      @server_side_limitations[:expiration] = expiration
+      @need_to_update = true
+    end
+
     ###### Files & Processes
 
     ### @return [String] The unix shell command to run on ths client.
@@ -1177,6 +1189,10 @@ module JSS
       add_category_to_xml(doc)
 
       JSS.hash_to_rexml_array(@trigger_events).each { |t| general << t }
+
+      date_time_limitations = general.add_element 'date_time_limitations'
+      date_time_limitations.add_element('expiration_date_epoch').text = @server_side_limitations[:expiration].to_jss_epoch
+      date_time_limitations.add_element('activation_date_epoch').text = @server_side_limitations[:activcation].to_jss_epoch
 
       obj << @scope.scope_xml
 
