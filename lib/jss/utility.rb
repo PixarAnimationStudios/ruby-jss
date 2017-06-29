@@ -281,6 +281,7 @@ module JSS
 
   # Given an element name and an array of content, generate an Array of
   # REXML::Element objects with that name, and matching content.
+  # Given element name 'foo' and the array ['bar','morefoo']
   # The array of REXML elements would render thus:
   #     <foo>bar</foo>
   #     <foo>morefoo</foo>

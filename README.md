@@ -54,7 +54,7 @@ Hopefully others will find it useful, and add more to it as well.
 require 'jss'
 
 # Connect to the API
-JSS::API.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+JSS.api_connection.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 
 # get an array of basic data about all JSS::Package objects in the JSS:
 pkgs = JSS::Package.all
@@ -99,11 +99,11 @@ ns.save
 Before you can work with JSS Objects via the API, you have to connect to it.
 
 The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't
-connected.  To remedy that, use JSS::API.connect, passing it values for the connection. In this example, those values are stored
+connected.  To remedy that, use JSS.api_connection.connect, passing it values for the connection. In this example, those values are stored
 in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
-JSS::API.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+JSS.api_connection.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 ```
 
 Make sure the user has privileges in the JSS to do things with desired Objects.
@@ -301,7 +301,7 @@ Other useful classes:
 
 The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for the JSS module. When the Module is required, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
 
-The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}. Values provided explicitly when calling JSS::API.connect will override the config values.
+The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}. Values provided explicitly when calling JSS.api_connection.connect will override the config values.
 
 While the {JSS::Configuration} class provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
 
@@ -326,11 +326,11 @@ api_username: readonly-api-user
 api_verify_cert: false
 ```
 
-and then any calls to {JSS::API.connect} will assume that server and username, and won't complain about the self-signed certificate.
+and then any calls to {JSS.api_connection.connect} will assume that server and username, and won't complain about the self-signed certificate.
 
 ### Passwords
 
-The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS::API.connect call.
+The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS.api_connection.connect call.
 
 The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
 
@@ -340,7 +340,7 @@ Here's an example of how to use a password stored in a file:
 
 ```ruby
 password = File.read "/path/to/secure/password/file" # read the password from a file
-JSS::API.connect pw: password   # other arguments used from the config settings
+JSS.api_connection.connect pw: password   # other arguments used from the config settings
 ```
 
 And here's an example of how to read a password from a web server and use it.
@@ -348,7 +348,7 @@ And here's an example of how to read a password from a web server and use it.
 ```ruby
 require 'open-uri'
 password =  open('https://server.org.org/path/to/password').read
-JSS::API.connect pw: password   # other arguments used from the config settings
+JSS.api_connection.connect pw: password   # other arguments used from the config settings
 ```
 
 ## BEYOND THE API

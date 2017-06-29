@@ -258,7 +258,7 @@ module JSS
       if args[:id] == :master
 
         self.class.all_ids.each do |id|
-          @init_data  = JSS::API.get_rsrc("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
+          @init_data  = JSS.api_connection.get_rsrc("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
           if @init_data[:is_master]
             @id = @init_data[:id]
             @name = @init_data[:name]

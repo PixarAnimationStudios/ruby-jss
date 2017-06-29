@@ -39,16 +39,130 @@ module JSS
 
   # An API connection to the JSS.
   #
-  # This is a singleton class, only one can exist at a time.
-  # Its one instance is created automatically when the module loads, but it
-  # isn't connected to anything at that time.
+  # Instances of this class are REST connections to a JSS API and contain
+  # (once connected) all the data needed for communication with
+  # that API, including login credentials, URLs, and so on.
   #
-  # Use it via the {JSS::API} constant to call the #connect
-  # method, and the {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
-  # methods, q.v. below.
+  # While multiple connection instances can be created (to different servers, or with
+  # different creditials), only one is active at a time. The currently-
+  # active connection instance is available from the {JSS.api} method.
   #
-  # To access the underlying RestClient::Resource instance,
-  # use JSS::API.cnx
+  # = The default connection
+  #
+  # When ruby-jss is loaded, a not-yet-connected default instance of
+  # JSS::APIConnection is created, activated, and stored in the constant JSS::API.
+  # Before using it you must call its {#connect} method, passing in appropriate
+  # connection details and credentials.
+  #
+  # If you're only going to be connecting to one server, or one at a time,
+  # using the default connection is preferred. You can call its {#connect}
+  # method at any time to change servers or connection credentials.
+  # See the example 'Using the default connection' below
+  #
+  #  ```
+  #   require 'ruby-jss'
+  #   JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #  ```
+  # = Creating multiple connections
+  #
+  # Other connections can be created and stored for later use using the
+  # standard ruby 'new' method, and storing the new connection instance in a
+  # variable.  e.g. `other_connection = JSS::APIConnection.new`
+  #
+  # If you pass in connection details when calling new, they will be used to
+  # call the #connect method immediately on the new connection.
+  # See the example 'Creating another connection and storing it in a variable'
+  #
+  # = Switching between multiple connections
+  #
+  # Only one connection is active at a time and the currently active one is
+  # returned when you call `JSS.api` or its aliases `JSS.api_connection` or
+  # `JSS.connection`
+  #
+  # To active another connection, one that was created and stored in a variable,
+  # just pass the variable in to the JSS.use_api like so:
+  # `JSS.use_api other_connection`
+  # See the example 'Switching to a different API connection instance' below.
+  #
+  # To re-activate to the default connection, just call
+  # {JSS.use_default_connection}, or its functional equivalent
+  # `JSS.use_api JSS::API`
+  #
+  # = Connection Names:
+  #
+  # As seen in the examples, you can provide an arbitrary 'name:' parameter
+  # (a String or a Symbol) which can be used later to see which connection is
+  # which.  If you don't provide one, the name is ':disconnected' until you
+  # connect, and then 'user@server:port' after connecting.
+  #
+  # The name of the default connection is always :default
+  #
+  # To see the name of the currently active connection, just use `JSS.api.name`
+  # See the example 'Getting the name of the currently active API connection'
+  # below
+  #
+  # = Creating, Storing and Activating a connection in one step
+  #
+  # Both of the above steps (creating/storing a connection, and making it
+  # active) can be performed in one step using the
+  # `JSS.new_api_connection method`, which creates a new APIConnection, makes it
+  # the current connection, and returns it. See the example
+  # 'Creating, storing, and activating a new API connection in one step' below.
+  #
+  # = Low-level use of APIConnection instances.
+  #
+  # For most uses, creating, activating, and connecting APIConnection instances
+  # is all you'll need. However to access API resources that aren't yet
+  # implemented in other parts of ruby-jss, you can use the methods
+  # {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
+  # documented below.
+  #
+  # For even lower-level work, you can access the underlying RestClient::Resource
+  # inside the APIConnection via the connection's {#cnx} attribute.
+  #
+  # APIConnection instances have a {#server} attribute which contains an
+  # instance of {JSS::Server} q.v., representing the JSS to which it's connected.
+  #
+  # @example Using the default connection
+  #
+  #   require 'ruby-jss'
+  #   JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #
+  #
+  # @example Creating another connection and storing it in a variable.
+  #
+  #   production_api = JSS::APIConnection.new(
+  #     name: 'prod',
+  #     server: 'prodserver.address.org',
+  #     user: 'produser',
+  #     pw: :prompt
+  #   )
+  #
+  #   # the new connection is now stored in the variable 'production_api'.
+  #
+  #
+  # @example Activating a different API connection instance
+  #
+  #   JSS.use_api production_api
+  #
+  #
+  # @example Getting the name of the currently active API connection
+  #
+  #   JSS.api.name  # => 'prod'
+  #
+  #
+  # @example Creating, storing, and activating a new API connection in one step
+  #
+  #    production_api2 = JSS.new_api_connection(
+  #     name: 'prod2',
+  #     server: 'prodserver.address.org',
+  #     user: 'produser',
+  #     pw: :prompt
+  #     )
+  #
+  #   JSS.api.name  # => 'prod2'
+  #
+  #
   #
   class APIConnection
 
@@ -117,13 +231,33 @@ module JSS
     # @return [String] The base URL to to the current REST API
     attr_reader :rest_url
 
+    # @return [String,Symbol] an arbitrary name that can be given to this
+    # connection during initialization, using the name: parameter.
+    # defaults to user@hostname:port
+    attr_reader :name
+
+    # @return [Hash]
+    # This Hash holds the most recent API query for a list of all items in any
+    # APIObject subclass, keyed by the subclass's RSRC_LIST_KEY.
+    # See the APIObject.all class method.
+    #
+    # When the APIObject.all method is called without an argument,
+    # and this hash has a matching value, the value is returned, rather than
+    # requerying the API. The first time a class calls .all, or whnever refresh
+    # is not false, the API is queried and the value in this hash is updated.
+    attr_reader :object_list_cache
+
     # Constructor
     #####################################
 
-    # To connect, use JSS::API.connect
+    # To connect, use JSS.api_connection.connect
     #
-    def initialize
+    def initialize(args = {})
+      @name = args.delete :name
+      @name ||= :disconnected
       @connected = false
+      @object_list_cache = {}
+      connect args unless args.empty?
     end # init
 
     # Instance Methods
@@ -175,6 +309,7 @@ module JSS
 
       verify_server_version
 
+      @name = "#{@jss_user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
       @connected ? hostname : nil
     end # connect
 
@@ -237,7 +372,8 @@ module JSS
     # @return [Hash,String] the result of the get
     #
     def get_rsrc(rsrc, format = :json)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      # puts object_id
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api.connect first.' unless @connected
       rsrc = URI.encode rsrc
       @last_http_response = @cnx[rsrc].get(accept: format)
       return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
@@ -252,7 +388,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
@@ -272,7 +408,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
@@ -290,7 +426,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS::API.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -448,7 +584,18 @@ module JSS
     #
     def verify_server_version
       @connected = true
-      @server = JSS::Server.new
+
+      # the jssuser resource is readable by anyone with a JSS acct
+      # regardless of their permissions.
+      # However, it's marked as 'deprecated'. Hopefully jamf will
+      # keep this basic level of info available for basic authentication
+      # and JSS version checking.
+      begin
+        @server = JSS::Server.new get_rsrc('jssuser')[:user]
+      rescue RestClient::Unauthorized, RestClient::Request::Unauthorized
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{JSS.api_connection.jss_user}@#{JSS.api_connection.server_host}'."
+      end
+
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
       return unless @server.version < min_vers
       err_msg = "JSS version #{@server.raw_version} to low. Must be >= #{min_vers}"
@@ -555,7 +702,61 @@ module JSS
 
   end # class APIConnection
 
-  # The default APIConnection
-  API = APIConnection.new
+  # Create a new APIConnection object and use it for all
+  # future API calls. If connection options are provided,
+  # they are passed to the connect method immediately, otherwise
+  # JSS.api.connect must be called before attemting to use the
+  # connection.
+  #
+  # @param (See JSS::APIConnection#connect)
+  #
+  # @return [APIConnection] the new, active connection
+  #
+  def self.new_api_connection(args = {})
+    @api = APIConnection.new args
+    @api
+  end
+
+  # Switch the connection used for all API interactions to the
+  # one provided. See {JSS::APIConnection} for details and examples
+  # of using multiple connections
+  #
+  # @param connection [APIConnection] The APIConnection to use for future
+  #   API calls. If omitted, use the default connection created when ruby-jss
+  #   was loaded (which may or may not yet be connected)
+  #
+  # @return [APIConnection] The connection now being used.
+  #
+  def self.use_api_connection(connection)
+    raise 'API connections must be instances of JSS::APIConnection' unless connection.is_a? JSS::APIConnection
+    @api = connection
+  end
+
+
+  def self.use_default_connection
+    use_api_connection API
+  end
+
+  def self.api
+    @api
+  end
+
+  # aliases of module methods
+  class << self
+
+    alias api_connection api
+    alias connection api
+    alias new_connection new_api_connection
+    alias new_api new_api_connection
+    alias use_api use_api_connection
+    alias use_connection use_api_connection
+
+  end
+
+  # create the default connection
+  new_api_connection(name: :default) unless @api
+
+  # put it in a constant for backward compatibility
+  API = @api unless defined? API
 
 end # module

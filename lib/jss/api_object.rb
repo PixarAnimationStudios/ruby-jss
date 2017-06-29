@@ -120,22 +120,6 @@ module JSS
   #
   class APIObject
 
-    # Mix-Ins
-    #####################################
-
-    # Class Variables
-    #####################################
-
-    # This Hash holds the most recent API query for a list of all items in any subclass,
-    # keyed by the subclass's RSRC_LIST_KEY. See the self.all class method.
-    #
-    # When the .all method is called without an argument, and this hash has
-    # a matching value, the value is returned, rather than requerying the
-    # API. The first time a class calls .all, or whnever refresh is
-    # not false, the API is queried and the value in this hash is updated.
-    #
-    @@all_items = {}
-
     # Class Methods
     #####################################
 
@@ -158,7 +142,7 @@ module JSS
     # class methods for accessing those other values as mapped Arrays,
     # e.g. JSS::Computer.all_udids
     #
-    # The results of the first query for each subclass is stored in @@all_items
+    # The results of the first query for each subclass is stored in JSS.api.object_list_cache
     # and returned at every future call, so as to not requery the server every time.
     #
     # To force requerying to get updated data, provided a non-false argument.
@@ -171,9 +155,9 @@ module JSS
     #
     def self.all(refresh = false)
       raise JSS::UnsupportedError, '.all can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
-      @@all_items[self::RSRC_LIST_KEY] = nil if refresh
-      return @@all_items[self::RSRC_LIST_KEY] if @@all_items[self::RSRC_LIST_KEY]
-      @@all_items[self::RSRC_LIST_KEY] = JSS::API.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
+      JSS.api.object_list_cache[self::RSRC_LIST_KEY] = nil if refresh
+      return JSS.api.object_list_cache[self::RSRC_LIST_KEY] if JSS.api.object_list_cache[self::RSRC_LIST_KEY]
+      JSS.api.object_list_cache[self::RSRC_LIST_KEY] = JSS.api.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
     # Returns an Array of the JSS id numbers of all the members
@@ -184,7 +168,7 @@ module JSS
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
-    # @return [Array<Integer>] the ids of all items of this subclass in the JSS
+    # @return [Array<Integer>] the ids of all it1ems of this subclass in the JSS
     #
     def self.all_ids(refresh = false)
       all(refresh).map { |i| i[:id] }
@@ -248,9 +232,9 @@ module JSS
     # @return [Hash{Integer => Object}] the objects requested
     def self.all_objects(refresh = false)
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
-      @@all_items[objects_key] = nil if refresh
-      return @@all_items[objects_key] if @@all_items[objects_key]
-      @@all_items[objects_key] = all(refresh).map { |o| new id: o[:id] }
+      JSS.api.object_list_cache[objects_key] = nil if refresh
+      return JSS.api.object_list_cache[objects_key] if JSS.api.object_list_cache[objects_key]
+      JSS.api.object_list_cache[objects_key] = all(refresh).map { |o| new id: o[:id] }
     end
 
     # Return true or false if an object of this subclass
@@ -676,7 +660,7 @@ module JSS
     #
     def delete
       return nil unless @in_jss
-      JSS::API.delete_rsrc @rest_rsrc
+      JSS.api.delete_rsrc @rest_rsrc
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
       @id = nil
       @in_jss = false
@@ -755,7 +739,7 @@ module JSS
 
       rsrc = "#{self.class::RSRC_BASE}/#{rsrc_key}/#{args[lookup_key]}"
 
-      return JSS::API.get_rsrc(rsrc)[self.class::RSRC_OBJECT_KEY]
+      return JSS.api.get_rsrc(rsrc)[self.class::RSRC_OBJECT_KEY]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{lookup_key}/#{args[lookup_key]}"
     end

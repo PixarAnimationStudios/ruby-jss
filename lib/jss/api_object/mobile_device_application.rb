@@ -422,7 +422,7 @@ module JSS
     #
     def refresh_ipa
       return nil unless @in_jss
-      fresh_data = JSS::API.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       @ipa = fresh_data[:general][:ipa]
     end
 

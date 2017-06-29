@@ -32,7 +32,7 @@ module JSS
   # attribute. It is created fresh every time {APIConnection#connect} is called.
   #
   # That's the only time it should be instantiated, and all access should be
-  # through {JSS::API.server}
+  # through {JSS.api_connection.server}
   #
   class Server
 
@@ -70,37 +70,34 @@ module JSS
     #####################################
 
     # Initialize!
-    #
-    def initialize
+    # THe jss_data to be passed in is the JSON output of the 'jssuser' resource
+    # on the API server.
+    # the jssuser resource is readable by anyone with a JSS acct
+    # regardless of their permissions.
+    # However, it's marked as 'deprecated'. Hopefully jamf will
+    # keep this basic level of info available for basic authentication
+    # and JSS version checking.
+    def initialize(jss_data)
 
-      # the jssuser resource is readable by anyone with a JSS acct
-      # regardless of their permissions.
-      # However, it's marked as 'deprecated'. Hopefully jamf will
-      # keep this basic level of info available for basic authentication
-      # and JSS version checking.
-      ju = JSS::API.get_rsrc('jssuser')[:user]
-      @license_type = ju[:license_type]
-      @product = ju[:product]
-      @raw_version = ju[:version]
+      @license_type = jss_data[:license_type]
+      @product = jss_data[:product]
+      @raw_version = jss_data[:version]
       parsed = JSS.parse_jss_version(@raw_version)
       @major_version = parsed[:major]
       @minor_version = parsed[:minor]
       @revision_version = parsed[:revision]
       @version = parsed[:version]
-
-    rescue RestClient::Request::Unauthorized
-      raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{JSS::API.jss_user}@#{JSS::API.server_host}'."
     end
 
     # @return [String] the organization to which the server is licensed
     def organization
-      @act_code_data ||= JSS::API.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
+      @act_code_data ||= JSS.api_connection.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
       @act_code_data[:organization_name]
     end
 
     # @return [String] the activation code for the server licence
     def activation_code
-      @act_code_data ||= JSS::API.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
+      @act_code_data ||= JSS.api_connection.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
       @act_code_data[:code]
     end
 

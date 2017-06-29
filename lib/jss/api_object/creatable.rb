@@ -76,7 +76,7 @@ module JSS
     def create
       raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless respond_to? :create
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
-      JSS::API.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      JSS.api_connection.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
