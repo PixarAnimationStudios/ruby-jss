@@ -51,10 +51,10 @@ Hopefully others will find it useful, and add more to it as well.
 ## SYNOPSIS
 
 ```ruby
-require 'jss'
+require 'ruby-jss'
 
 # Connect to the API
-JSS.api_connection.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 
 # get an array of basic data about all JSS::Package objects in the JSS:
 pkgs = JSS::Package.all
