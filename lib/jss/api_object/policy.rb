@@ -734,12 +734,24 @@ module JSS
       @need_to_update = true
     end
 
+    ### Set Server Side Activation
+    ###
+    ### @param activation[Time] Activation date and time
+    ###
+    ### @return [void]
+    ###
     def server_side_activation=(activation)
       raise JSS::InvalidDataError, 'Activation must be a Time' unless activation.is_a? Time
       @server_side_limitations[:activation] = activation
       @need_to_update = true
     end
 
+    ### Set Server Side Expiration
+    ###
+    ### @param expiration[Time] Expiration date and time
+    ###
+    ### @return [void]
+    ###
     def server_side_expiration=(expiration)
       raise JSS::InvalidDataError, 'Expiration must be a Time' unless expiration.is_a? Time
       @server_side_limitations[:expiration] = expiration
