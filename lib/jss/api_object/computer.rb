@@ -28,13 +28,12 @@ module JSS
 
   # This class represents a Computer in the JSS.
   #
-  # ===Adding Computers to the JSS
+  # === Adding Computers to the JSS
   #
-  # This class cannot be used to add new Computers to the JSS. Please use other
-  # Casper methods (like the Recon App or QuickAdd package)
+  # At the moment, this class cannot be used to add new Computers to the JSS.
+  # Please use other methods (like the Recon App or QuickAdd package)
   #
-  # ---
-  # ===Editing values
+  # === Editing values
   #
   # Any data that arrives in the JSS via an "inventory update"
   # (a.k.a. 'recon') cannot be modified through this class, or the API.
@@ -57,30 +56,77 @@ module JSS
   # After making any changes, you must call #update to send those
   # changes to the server.
   #
-  # ---
   # === MDM Commands
   #
-  # ==== MDM Commands are Not Yet Supported!
-  # *Hopefully they will be soon*
+  # The following methods can be used to send an APNS command to the
+  # computer represented by an instance of JSS::Computer, equivalent to
+  # clicking one of the buttons on the Management Commands section of the
+  # Management tab of the Computer details page in the JSS UI.
   #
-  # The following methods will be used to send an APNS command to the computer represented by an
-  # instance of JSS::Computer, equivalent to clicking one of the buttons on
-  # the Management Commands section of the Management tab of the Computer details page in the JSS UI.
+  # - {#blank_push}  (aliases blank, noop, send_blank_push)
+  # - {#device_lock} (aliases lock, lock_device)
+  # - {#erase_device} (aliases wipe)
+  # - {#remove_mdm_profile}
   #
-  # The methods supported will be:
-  # - #blank_push  (aliases blank, noop, send_blank_push)
-  # - #device_lock (aliases lock, lock_device)
-  # - #erase_device (aliases wipe)
-  # NOTE: the 'UnmanageDevice' command is sent as part of the 'make_unmanaged'
-  #   method, if the computer is MDM capable
+  # To send an MDM command without making a Computer instance, use the class
+  # {JSS::Computer.send_mdm_command} which can take multiple computer
+  # identifiers at once.
   #
-  # To send an MDM command without making an instance, use the class method {.send_mdm_command}
+  # NOTE: the poorly named 'UnmanageDevice' command via the API is implemented
+  # as the {#remove_mdm_profile} method (which is its name in the webUI).
+  # Calling that method will NOT unmanage the machine from the JSS's point
+  # of view, it will just remove the mdm management profile from the machine
+  # and all configuration profiles that were installed via the JSS. Those
+  # profiles may be re-installed automatically later if the computer is still in
+  # scope for them
   #
-  # Each returns true if the command as sent.
+  # The {#make_unmanaged} method also removes the mdm profile, but actually
+  # does make the machine unmanged by the JSS, setting the management acct to
+  # nil, and requring re-enrollment.
   #
+  # === Computer History
   #
-  # ---
-  # ===Other Methods
+  # Computer instances can now retrieve their history from the JSS.
+  #
+  # The full history data is available from the {#history} method, but beware that
+  # it is very large.
+  #
+  # Subsets of that history have their own methods, which are faster and only retrieve
+  # the subset requested. See {#usage_logs}, {#audits}, {#policy_los},
+  # {#completed_policies}, {#failed_polices}, {#casper_remote_logs},
+  # {#screen_sharing_logs}, {#casper_imaging_logs}, {#commands},
+  # {#user_location_history},and {#app_store_app_history}
+  #
+  # When any of the history methods is used the first time, the data is read
+  # from the API and cached internally, and that data is
+  # used for all future calls.. To re-read the data from the API and re-cache it,
+  # provide any non-false parameter to the subset methods , or `refresh: true`
+  # to the main {#history} method.
+  #
+  # === Management Data
+  #
+  # The computers 'manamgement data', as presented on the 'Management' tab of
+  # the computer's detail page in the JSS web UI, is available from the
+  # {#management_data} method. That method may return a large dataset,
+  # unless a subset is requested.
+  #
+  # Subsets of management data have their own methods, which are faster and
+  # only retrieve the subset requested. See {#smart_groups}, {#static_groups},
+  # {#policies}, {#configuration_profiles}, {#ebooks}, {#app_store_apps},
+  # {#restricted_software}, and {#patch_titles}
+  #
+  # The subset methods can take an 'only:' parameter, which is a symbol specifying
+  # the value you care to see. For example {#smart_groups} returns an array
+  # of hashes, one for each smart_group the computer is in. Those hashes
+  # have two keys, :name, and :id. However if you only want an array of
+  # names, you can call `smart_groups only: :name`
+  #
+  # When any of the manamgement data methods are used the first time, the data
+  # is read from the API and cached internally, the cache is then
+  # used for all future calls. To re-read the data from the API and re-cache it,
+  # provide `refresh: true` to any of the manamgement data methods.
+  #
+  # === Other Methods
   #
   # - {#set_management_to} change the management acct and passwd for this computer, aliased to #make_managed
   #   - requires calling #update to push changes to the server
@@ -160,16 +206,20 @@ module JSS
     # the String commands actuallly sent via the API.
     COMPUTER_MDM_COMMANDS = {
       blank_push: 'BlankPush',
+      blankpush: 'BlankPush',
       send_blank_push: 'BlankPush',
       blank: 'BlankPush',
       noop: 'BlankPush',
       device_lock: 'DeviceLock',
+      devicelock: 'DeviceLock',
       lock: 'DeviceLock',
       lock_device: 'DeviceLock',
       erase_device: 'EraseDevice',
+      erasedevice: 'EraseDevice',
       erase: 'EraseDevice',
       wipe: 'EraseDevice',
       unmanage_device: 'UnmanageDevice',
+      unmanagedevice: 'UnmanageDevice',
       unmanage: 'UnmanageDevice'
     }.freeze
 
@@ -381,6 +431,7 @@ module JSS
 
     # Send an MDM command to one or more managed computers by id or name
     #
+    #
     # @param targets[String,Integer,Array<String,Integer>]
     #   the name or id of the computer to receive the command, or
     #   an array of such names or ids, or a comma-separated string
@@ -399,7 +450,7 @@ module JSS
 
       if COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE.include? command
         unless passcode && passcode.is_a?(String) && passcode.length == 6
-          raise "Command '#{command}' requires a 6-character passcode"
+          raise JSS::MissingDataError, "Command '#{command}' requires a 6-character passcode"
         end
         cmd_rsrc << "/passcode/#{passcode}"
       end
@@ -782,6 +833,7 @@ module JSS
     # arrays, one per  subset
     # If a subset is given then only that array is returned, and it contains
     # hashes with data about each item (usually :name and :id)
+    #
     # If the only: param is provided with a subset, it is used as a hash-key to
     # map the array to just those values, so subset: :smart_groups, only: :name
     # will return an array of names of smartgroups that contain this computer.
@@ -792,146 +844,183 @@ module JSS
     # @param only[Symbol] When fetching a subset, only return one value
     #   per item in the array. meaningless without a subset.
     #
+    # @param refresh[Boolean] should the data be re-cached from the API?
+    #
     # @return [Hash] Without a subset:, a hash of all subsets, each of which is
     #   an Array
+    #
     # @return [Array] With a subset:, an array of items in that subset.
     #
-    def management_data(subset: nil, only: nil)
+    def management_data(subset: nil, only: nil, refresh: false)
+      @management_data ||= {}
       if subset
-        raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
-        mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
+        management_data_subset(subset: subset, only: only, refresh: refresh)
       else
-        mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
+        full_management_data refresh
       end
-
-      data = JSS.api_connection.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
-      return data unless subset
-
-      data = data[subset]
-      return data.map! { |d| d[only] } if only
-      data
     end
+
+    def full_management_data(refresh = false)
+      @management_data[:full] = nil if refresh
+      return @management_data[:full] if @management_data[:full]
+      mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
+      @management_data[:full] = JSS.api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+      @management_data[:full]
+    end
+    private :full_management_data
+
+    def management_data_subset(subset: nil, only: nil, refresh: false)
+      raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
+      @management_data[subset] = nil if refresh
+      return @management_data[subset] if @management_data[subset]
+      subset_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
+      @management_data[subset] = JSS.api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
+      return @management_data[subset] unless only
+      @management_data[subset].map { |d| d[only] }
+    end
+    private :management_data_subset
 
     # A shortcut for 'management_data subset: :smart_groups'
     #
-    def smart_groups(only: nil)
-      management_data subset: :smart_groups, only: only
+    def smart_groups(only: nil, refresh: false)
+      management_data subset: :smart_groups, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :static_groups'
     #
-    def static_groups(only: nil)
-      management_data subset: :static_groups, only: only
+    def static_groups(only: nil, refresh: false)
+      management_data subset: :static_groups, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :policies'
     #
-    def policies(only: nil)
-      management_data subset: :policies, only: only
+    def policies(only: nil, refresh: false)
+      management_data subset: :policies, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :os_x_configuration_profiles'
     #
-    def configuration_profiles(only: nil)
-      management_data subset: :os_x_configuration_profiles, only: only
+    def configuration_profiles(only: nil, refresh: false)
+      management_data subset: :os_x_configuration_profiles, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :ebooks'
     #
-    def ebooks(only: nil)
-      management_data subset: :ebooks, only: only
+    def ebooks(only: nil, refresh: false)
+      management_data subset: :ebooks, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :mac_app_store_apps'
     #
-    def app_store_apps(only: nil)
-      management_data subset: :mac_app_store_apps, only: only
+    def app_store_apps(only: nil, refresh: false)
+      management_data subset: :mac_app_store_apps, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :restricted_software'
     #
-    def restricted_software(only: nil)
-      management_data subset: :restricted_software, only: only
+    def restricted_software(only: nil, refresh: false)
+      management_data subset: :restricted_software, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :patch_reporting_software_titles'
     #
-    def patch_titles(only: nil)
-      management_data subset: :patch_reporting_software_titles, only: only
+    def patch_titles(only: nil, refresh: false)
+      management_data subset: :patch_reporting_software_titles, only: only, refresh: refresh
     end
 
     # Return this computer's history.
     # WARNING! Its huge, better to use a subset a
     # nd one of the shortcut methods.
     #
-    # @param subset[Type] describe_subset
+    # @param subset[Symbol] the subset to return, rather than full history.
     #
-    # @return [Type] description_of_returned_object
+    # @param refresh[Boolean] should we re-cache the data from the API?
     #
-    def history(subset = nil)
+    # @return [Hash] The full history
+    #
+    # @return [Array] The history subset requested
+    #
+    def history(subset: nil, refresh: false)
+      @history ||= {}
       if subset
-        raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
-        history_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
+        history_subset(subset: subset, refresh: refresh)
       else
-        history_rsrc = HISTORY_RSRC + "/id/#{@id}"
+        full_history refresh
       end
-      data = JSS.api_connection.get_rsrc(history_rsrc)[HISTORY_KEY]
-      subset ? data[subset] : data
     end
 
+    def full_history(refresh = false)
+      @history[:full] = nil if refresh
+      return @history[:full] if @history[:full]
+      history_rsrc = HISTORY_RSRC + "/id/#{@id}"
+      @history[:full] = JSS.api.get_rsrc(history_rsrc)[HISTORY_KEY]
+      @history[:full]
+    end
+    private :full_history
+
+    def history_subset(subset: nil, refresh: false)
+      raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
+      @history[subset] = nil if refresh
+      return @history[subset] if @history[subset]
+      subset_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
+      @history[subset] = JSS.api.get_rsrc(subset_rsrc)[HISTORY_KEY]
+      @history[subset]
+    end
+    private :history_subset
+
     # Shortcut for history(:computer_usage_logs)
-    def usage_logs
-      history(:computer_usage_logs)
+    def usage_logs(refresh = false)
+      history(subset: :computer_usage_logs, refresh: refresh)
     end
 
     # Shortcut for history(:audits)
-    def audits
-      history(:audits)
+    def audits(refresh = false)
+      history(subset: :audits, refresh: refresh)
     end
 
     # Shortcut for history(:policy_logs)
-    def policy_logs
-      history(:policy_logs)
+    def policy_logs(refresh = false)
+      history(subset: :policy_logs, refresh: refresh)
     end
 
     # Shortcut for history(:policy_logs), but just the completed policies
-    def completed_policies
-      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
+    def completed_policies(refresh = false)
+      policy_logs(refresh).select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
     end
 
     # Shortcut for history(:policy_logs), but just the failes policies
-    def failed_policies
-      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_FAILED }
+    def failed_policies(refresh = false)
+      policy_log(refresh).select { |pl| pl[:status] == POLICY_STATUS_FAILED }
     end
 
     # Shortcut for history(:casper_remote_logs)
-    def casper_remote_logs
-      history(:casper_remote_logs)
+    def casper_remote_logs(refresh = false)
+      history(subset: :casper_remote_logs, refresh: refresh)
     end
 
     # Shortcut for history(:screen_sharing_logs)
-    def screen_sharing_logs
-      history(:screen_sharing_logs)
+    def screen_sharing_logs(refresh = false)
+      history(subset: :screen_sharing_logs, refresh: refresh)
     end
 
     # Shortcut for history(:casper_imaging_logs)
-    def casper_imaging_logs
-      history(:casper_imaging_logs)
+    def casper_imaging_logs(refresh = false)
+      history(subset: :casper_imaging_logs, refresh: refresh)
     end
 
     # Shortcut for history(:commands)
-    def commands
-      history(:commands)
+    def commands(refresh = false)
+      history(subset: :commands, refresh: refresh)
     end
 
     # Shortcut for history(:user_location)
-    def user_location_history
-      history(:user_location)
+    def user_location_history(refresh = false)
+      history(subset: :user_location, refresh: refresh)
     end
 
     # Shortcut for history(:mac_app_store_applications)
-    def app_store_app_history
-      history(:mac_app_store_applications)
+    def app_store_app_history(refresh = false)
+      history(subset: :mac_app_store_applications, refresh: refresh)
     end
 
     # Set or unset management acct and password for this computer
@@ -1062,7 +1151,6 @@ module JSS
       @software = nil
     end # delete
 
-    #
     # Send a blank_push MDM command
     #
     # See JSS::Computer.send_mdm_command
@@ -1073,7 +1161,6 @@ module JSS
     alias noop blank_push
     alias send_blank_push blank_push
 
-    #
     # Send a device_lock MDM command
     #
     # See JSS::Computer.send_mdm_command
@@ -1084,7 +1171,6 @@ module JSS
     alias lock device_lock
     alias lock_device device_lock
 
-    #
     # Send an erase_device MDM command
     #
     # See JSS::Computer.send_mdm_command
@@ -1094,6 +1180,18 @@ module JSS
     end
     alias erase erase_device
     alias wipe erase_device
+
+    # Remove MDM management profile without
+    # un-enrolling from the JSS or
+    # resetting the JSS management acct.
+    #
+    # To do those things as well, see {#make_unmanaged}
+    #
+    # See JSS::Computer.send_mdm_command
+    #
+    def remove_mdm_profile
+      self.class.send_mdm_command(@id, :unmanage_device)
+    end
 
     # aliases
     alias alt_macaddress alt_mac_address
