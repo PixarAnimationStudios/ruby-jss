@@ -86,7 +86,7 @@ module JSS
   #
   # === Computer History
   #
-  # Computer instances can now retrieve their history from the JSS.
+  # Computer instances can now retrieve their management history from the JSS.
   #
   # The full history data is available from the {#history} method, but beware that
   # it is very large.
@@ -102,6 +102,20 @@ module JSS
   # used for all future calls.. To re-read the data from the API and re-cache it,
   # provide any non-false parameter to the subset methods , or `refresh: true`
   # to the main {#history} method.
+  #
+  # === Appication Usage History
+  #
+  # Computer Instances now have access to their Application Usage history
+  # via the {#application_usage} method.
+  # Call the method with a start-date value (either a String or a Time object)
+  # and an optional end-date value. If you omite the end-date, the start-date
+  # is used and you'll see usage for just that day.
+  #
+  # See {#application_usage} for details about the data returned.
+  #
+  # NOTE: your JSS must be gathering Appication Usage data in order
+  # for any data to be returned, and the usage history will only go back as
+  # far as your setting for flushing of Application Usage Logs.
   #
   # === Management Data
   #
