@@ -1072,7 +1072,7 @@ module JSS
     def make_unmanaged
       return nil unless managed?
       set_management_to(nil, nil)
-      return unless vm2.mdm_capable
+      return unless mdm_capable
       self.class.send_mdm_command(@id, :unmanage_device)
     end
 
