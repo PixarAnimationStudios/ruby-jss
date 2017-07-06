@@ -506,11 +506,13 @@ module JSS
       end
 
       cats = ssvc.add_element('self_service_categories')
-      @self_service_categories.each do |cat|
-        catelem = cats.add_element('category')
-        catelem.add_element('name').text = cat[:name]
-        catelem.add_element('display_in').text = cat[:display_in] if @self_service_data_config[:can_display_in_categories]
-        catelem.add_element('feature_in').text = cat[:feature_in] if @self_service_data_config[:can_feature_in_categories]
+      if @self_service_categories
+        @self_service_categories.each do |cat|
+          catelem = cats.add_element('category')
+          catelem.add_element('name').text = cat[:name]
+          catelem.add_element('display_in').text = cat[:display_in] if @self_service_data_config[:can_display_in_categories]
+          catelem.add_element('feature_in').text = cat[:feature_in] if @self_service_data_config[:can_feature_in_categories]
+        end
       end
 
       if self_service_targets.include? :macos
