@@ -1,11 +1,12 @@
 # Change History
 
-## v0.8.4
+## v0.9.0
 
 - Improvement: JSS::RestrictedSoftware class is now Creatable and Updatable.
-- Fix: issue with handling of params to APIObject.make
-- Add: JSS::Server instances (as found in the JSS.api_connection.server attribute) now have methods #activation_code and
+- Add: JSS::Server instances (as found in the JSS::APIConnection.server attribute) now have methods #activation_code and
   #organization
+- Add: JSS::Computer now can send MDM commands to instances via #blank_push #device_lock #erase_device and #remove_mdm_profile, or to
+  arrays of computer identifiers using the JSS::Computer.send_mdm_command method.
 - Add: JSS::Computer now has class methods to view the server-wide .inventory_collection_settings and
   .checkin_settings
 - Add: JSS::Computer instances now have access to the data in the History tab of the computer details page in
@@ -14,15 +15,19 @@
   array of usage data.
 - Add: JSS::Computer instances now have access to their 'management data' (the stuff in the Management tab of
   the Computer details in the WebUI).  As well as the #management_data method, there are shortcut methods for the subsets: #smart_groups, #static_groups, & #patch_titles and in-scope items like:  #policies, #configuration_profiles, #ebooks, #app_store_apps, #restricted_software
-- Improvement: APIObject.fetch can be given a single value, which will be compared to the subclasses .all_ids,
-  .all_names, and other list methods for the various lookup keys, and if a match is found, the object is returned. E.g. instead of JSS::Computer.fetch name: 'foo'  you can just use JSS::Computer.fetch 'foo'. Note
-  that specifying the lookup key is always faster.
-- Improvement: the OTHER_LOOKUP_KEYS constants can now reconize variations on a key, e.g. :serialnumber and
-  :serial_number, or :macaddress and :mac_address
+- Fix: issue with handling of params to APIObject.make
+- Improvement: APIObject.fetch can be given a single value, which will be compared to the subclass's .all_ids,
+  .all_names, and other list methods for the various lookup keys, and if a match is found, the object is returned. E.g. instead of
+  JSS::Computer.fetch name: 'foo'  you can just use JSS::Computer.fetch 'foo'.
+  Note that specifying the lookup key is always faster.
+- Improvement: the OTHER_LOOKUP_KEYS constants of APIObject subclasses can now reconize variations on a key, e.g. :serialnumber and
+    :serial_number, or :macaddress and :mac_address
+- Improvement: Support for multiple APIConnection instances - you can connect to more than one server at a time and switch between them.
 - Improvement: APIConnection connection settings come first from the #connect params, then from Configuration,
   then from the Client setting (if the machine is a client), then from the module defaults
-- Add: APIConnection can now take an xml payload with #delete_rsrc
-- Add: JSS::Policy instances can now flush their logs
+- Improvement: APIConnection can now take an xml payload with #delete_rsrc
+- Improvement: JSS::Policy instances can now flush their logs
+- Improvement: JSS::Policy now has setters for server_side_activation and server_side_expriation.
 
 ## v0.8.3 2017-06-07
 

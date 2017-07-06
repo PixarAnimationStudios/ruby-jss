@@ -66,8 +66,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rest-client', '~> 1.7', '>= 1.7.2'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
   s.add_runtime_dependency 'net-ldap', '~> 0.8'
-  # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
-  s.add_runtime_dependency 'immutable-struct', '~> 2.2', '>= 2.2.2'
 
   # Rdoc
   s.has_rdoc = true

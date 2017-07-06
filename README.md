@@ -51,10 +51,10 @@ Hopefully others will find it useful, and add more to it as well.
 ## SYNOPSIS
 
 ```ruby
-require 'jss'
+require 'ruby-jss'
 
 # Connect to the API
-JSS.api_connection.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 
 # get an array of basic data about all JSS::Package objects in the JSS:
 pkgs = JSS::Package.all
@@ -111,7 +111,7 @@ Make sure the user has privileges in the JSS to do things with desired Objects.
 The {JSS::API#connect} method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
 password from stdin, or prompt for it in the shell. See the {JSS::APIConnection} class for more connection options and details about its methods.
 
-Also see {JSS::Configuration}, and the [CONFIGURATION](#configuration) section below, for how to store
+Also see JSS::Configuration, and the [CONFIGURATION](#configuration) section below, for how to store
 server connection parameters in a simple config file.
 
 ### Working with JSS Objects (a.k.a REST Resources)
@@ -291,7 +291,7 @@ All supported API Objects can be deleted
 
 Other useful classes:
 
-* {JSS::APIConnect} - An object representing the connection to the REST API
+* {JSS::APIConnection} - An object representing the connection to the REST API
 * {JSS::DBConnection} - An object representing the connection to MySQL database, if used
 * {JSS::Server} - An encapsulation of some info about the JamfPro server, such as the version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
 * {JSS::Client} - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
@@ -375,7 +375,7 @@ While the Jamf Pro API provides access to object data in the JSS, this gem tries
 
 ## REQUIREMENTS
 
-the JSS gem was written for:
+ruby-jss was written for:
 
 * Mac OS X 10.9 or higher
 * Ruby 2.0 or higher
