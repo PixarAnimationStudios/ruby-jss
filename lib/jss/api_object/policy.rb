@@ -815,7 +815,6 @@ module JSS
 
     ### Reboot Options
     ### No User Logged In
-    ### Remove Reboot Options from a Policy by setting no_user_logged_in and user_logged_in to "Do not restart"
     ###
     ### @param no_user_option[String] Any one of the Strings from NO_USER_LOGGED_IN
     ###
@@ -829,7 +828,6 @@ module JSS
 
     ### Reboot Options
     ### User Logged In
-    ### Remove Reboot Options from a Policy by setting no_user_logged_in and user_logged_in to "Do not restart"
     ###
     ### @param logged_in_option[String] Any one of the Strings from USER_LOGGED_IN
     ###
@@ -838,6 +836,18 @@ module JSS
     def user_logged_in=(logged_in_option)
       raise JSS::InvalidDataError, "user_logged_in options: #{USER_LOGGED_IN.join(', ')}" unless USER_LOGGED_IN.include? logged_in_option
       @reboot_options[:user_logged_in] = logged_in_option
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### Do Not Reboot
+    ### Shortcut method to suppress Reboot Options
+    ###
+    ### @return [void]
+    ###
+    def do_not_reboot
+      @reboot_options[:user_logged_in] = 'Do not restart'
+      @reboot_options[:no_user_logged_in] = 'Do not restart'
       @need_to_update = true
     end
 
