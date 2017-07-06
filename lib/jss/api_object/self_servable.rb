@@ -458,6 +458,7 @@ module JSS
     def in_self_service_at_init?
       return nil unless @self_service_data_config[:in_self_service_data_path]
       subsection, key = @self_service_data_config[:in_self_service_data_path]
+      return false unless @init_data[subsection]
       @init_data[subsection][key] == @self_service_data_config[:in_self_service]
     end
 
