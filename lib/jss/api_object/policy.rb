@@ -206,6 +206,19 @@ module JSS
       custom: :trigger_other
     }.freeze
 
+    NO_USER_LOGGED_IN = [
+      'Do not restart',
+      'Restart immediately',
+      'Restart if a package or update requires it'
+    ].freeze
+
+    USER_LOGGED_IN = [
+      'Do not restart',
+      'Restart',
+      'Restart if a package or update requires it',
+      'Restart immediately'
+    ].freeze
+
     SCOPE_TARGET_KEY = :computers
 
     # Log Flushing
@@ -758,6 +771,102 @@ module JSS
       @need_to_update = true
     end
 
+    ### Reboot Options
+    ### Set Reboot Message
+    ###
+    ### @param reboot_message[String] Text of Reboot Message
+    ###
+    ### @return [void] description of returned object
+    ###
+    def message=(reboot_message)
+      raise JSS::InvalidDataError, 'Reboot message must be a String' unless reboot_message.is_a? String
+      @reboot_options[:message] = reboot_message
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### Set Startup Disk
+    ### Only Supports 'Specify Local Startup Disk' at the moment
+    ###
+    ### @param startup_disk_option[String]
+    ###
+    ### @return [void]
+    ###
+    def startup_disk=(startup_disk_option)
+      raise JSS::InvalidDataError, "#{startup_disk_option} is not a valid Startup Disk" unless startup_disk_option.is_a? String
+      @reboot_options[:startup_disk] = 'Specify Local Startup Disk'
+      self.specify_startup = startup_disk_option
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### Specify Startup Volume
+    ### Only Supports "Specify Local Startup Disk"
+    ###
+    ### @param startup_volume[String] a Volume to reboot to
+    ###
+    ### @return [void]
+    ###
+    def specify_startup=(startup_volume)
+      raise JSS::InvalidDataError, "#{startup_volume} is not a valid Startup Disk" unless startup_volume.is_a? String
+      @reboot_options[:specify_startup] = startup_volume
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### No User Logged In
+    ### Remove Reboot Options from a Policy by setting no_user_logged_in and user_logged_in to "Do not restart"
+    ###
+    ### @param no_user_option[String] Any one of the Strings from NO_USER_LOGGED_IN
+    ###
+    ### @return [void]
+    ###
+    def no_user_logged_in=(no_user_option)
+      raise JSS::InvalidDataError, "no_user_logged_in options: #{NO_USER_LOGGED_IN.join(', ')}" unless NO_USER_LOGGED_IN.include? no_user_option
+      @reboot_options[:no_user_logged_in] = no_user_option
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### User Logged In
+    ### Remove Reboot Options from a Policy by setting no_user_logged_in and user_logged_in to "Do not restart"
+    ###
+    ### @param logged_in_option[String] Any one of the Strings from USER_LOGGED_IN
+    ###
+    ### @return [void]
+    ###
+    def user_logged_in=(logged_in_option)
+      raise JSS::InvalidDataError, "user_logged_in options: #{USER_LOGGED_IN.join(', ')}" unless USER_LOGGED_IN.include? logged_in_option
+      @reboot_options[:user_logged_in] = logged_in_option
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### Minutes Until Reboot
+    ###
+    ### @param minutes[String] The number of minutes to delay prior to reboot
+    ###
+    ### @return [void]
+    ###
+    def minutes_until_reboot=(minutes)
+      raise JSS::InvalidDataError, 'Minutes until reboot must be an Integer' unless minutes.is_a? Integer
+      @reboot_options[:minutes_until_reboot] = minutes
+      @need_to_update = true
+    end
+
+    ### Reboot Options
+    ### FileVault Authenticated Reboot
+    ###
+    ### @param fv_bool[Boolean] true or false
+    ###
+    ### @return [void]
+    ###
+    def file_vault_2_reboot=(fv_bool)
+      raise JSS::InvalidDataError, 'FileVault 2 Reboot must be a Boolean' unless fv_bool.jss_boolean?
+      @reboot_options[:file_vault_2_reboot] = fv_bool
+      @need_to_update = true
+    end
+
     ###### Files & Processes
 
     ### @return [String] The unix shell command to run on ths client.
@@ -1207,6 +1316,15 @@ module JSS
       date_time_limitations.add_element('activation_date_epoch').text = @server_side_limitations[:activation].to_jss_epoch if @server_side_limitations[:activation]
 
       obj << @scope.scope_xml
+
+      reboot = obj.add_element 'reboot'
+      reboot.add_element('message').text = @reboot_options[:message] if @reboot_options[:message]
+      reboot.add_element('startup_disk').text = @reboot_options[:startup_disk] if @reboot_options[:startup_disk]
+      reboot.add_element('specify_startup').text = @reboot_options[:specify_startup] if @reboot_options[:specify_startup]
+      reboot.add_element('no_user_logged_in').text = @reboot_options[:no_user_logged_in] if @reboot_options[:no_user_logged_in]
+      reboot.add_element('user_logged_in').text = @reboot_options[:user_logged_in] if @reboot_options[:user_logged_in]
+      reboot.add_element('minutes_until_reboot').text = @reboot_options[:minutes_until_reboot] if @reboot_options[:minutes_until_reboot]
+      reboot.add_element('file_vault_2_reboot').text = @reboot_options[:file_vault_2_reboot] if @reboot_options[:file_vault_2_reboot]
 
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
