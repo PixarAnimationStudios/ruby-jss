@@ -2,12 +2,15 @@
 
 ## v0.9.0
 
+- Add: JSS::MobileDevice.all_apple_tvs class method
+- Add: JSS::MobileDevice.management_history method, and related methods in instances
+- Add: JSS::MobileDevice.send_mdm_command has been expanded to handle all MDM commands supported by the API *except* Wallpaper and PasscodeLockGracePeriod (some day soon hopefully)
 - Improvement: JSS::RestrictedSoftware class is now Creatable and Updatable.
 - Add: JSS::Server instances (as found in the JSS::APIConnection.server attribute) now have methods #activation_code and
   #organization
 - Add: JSS::Computer now can send MDM commands to instances via #blank_push #device_lock #erase_device and #remove_mdm_profile, or to
   arrays of computer identifiers using the JSS::Computer.send_mdm_command method.
-- Add: JSS::Computer now has class methods to view the server-wide .inventory_collection_settings and
+- Add: JSS::Computer now has class methods to retrieve the server-wide .inventory_collection_settings and
   .checkin_settings
 - Add: JSS::Computer instances now have access to the data in the History tab of the computer details page in
   the WebUI. Subset-specific methods are #usage_logs, #audits, #policy_logs, #completed_policies, #failed_policies, #casper_remote_logs, #screen_sharing_logs, #casper_imaging_logs, #user_location_history, and #app_store_history
