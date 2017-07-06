@@ -739,9 +739,13 @@ module JSS
 
       rsrc = "#{self.class::RSRC_BASE}/#{rsrc_key}/#{args[lookup_key]}"
 
-      return JSS.api.get_rsrc(rsrc)[self.class::RSRC_OBJECT_KEY]
+      # if needed, a non-standard object key can be passed by a subclass.
+      # e.g. User when loookup is by email.
+      rsrc_object_key = args[:rsrc_object_key] ? args[:rsrc_object_key] : self.class::RSRC_OBJECT_KEY
+
+      return JSS.api.get_rsrc(rsrc)[rsrc_object_key]
     rescue RestClient::ResourceNotFound
-      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{lookup_key}/#{args[lookup_key]}"
+      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
     end
 
     # Start examining the @init_data recieved from the API
@@ -749,6 +753,7 @@ module JSS
     # @return [void]
     #
     def parse_init_data
+      @init_data ||= {}
       # set empty strings to nil
       @init_data.jss_nillify! '', :recurse
 
