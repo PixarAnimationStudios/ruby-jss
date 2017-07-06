@@ -137,7 +137,11 @@ module JSS
       self.all(refresh).select{|d| d[:model].start_with? "iPad" }
     end
 
-    ###
+    ### @return [Array<Hash>] the list of all iPads
+    def self.all_apple_tvs(refresh = false)
+      self.all(refresh).select{|d| d[:model_identifier].start_with? "AppleTV" }
+    end
+
     ### Send an MDM command to a managed mobile device.
     ###
     ### @param dev[Integer,String] the id, name, serialnum, udid, phone num, or wifi macaddr of the device
