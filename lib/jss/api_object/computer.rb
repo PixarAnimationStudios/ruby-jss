@@ -453,6 +453,8 @@ module JSS
     # @param command[Symbol] the command to send, one of the keys
     #   of COMPUTER_MDM_COMMANDS
     #
+    # @param passcode[String] some commands require a 6-character passcode
+    #
     # @return [String] The uuid of the MDM command sent, if applicable
     #  (blank pushes do not generate uuids)
     #
