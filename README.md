@@ -326,7 +326,7 @@ api_username: readonly-api-user
 api_verify_cert: false
 ```
 
-and then any calls to {JSS.api_connection.connect} will assume that server and username, and won't complain about the self-signed certificate.
+and then any calls to JSS.api_connection.connect will assume that server and username, and won't complain about the self-signed certificate.
 
 ### Passwords
 
