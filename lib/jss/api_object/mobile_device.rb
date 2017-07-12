@@ -192,53 +192,53 @@ module JSS
     #####################################
 
     # @return [Array<String>] all mobiledevice serial_numbers
-    def self.all_serial_numbers(refresh = false)
-      all(refresh).map { |i| i[:serial_number] }
+    def self.all_serial_numbers(refresh = false, api: JSS.api)
+      all(refresh, api: API).map { |i| i[:serial_number] }
     end
 
     # @return [Array<String>] all mobiledevice phone numbers
-    def self.all_phone_numbers(refresh = false)
-      all(refresh).map { |i| i[:phone_number] }.reject(&:empty?)
+    def self.all_phone_numbers(refresh = false, api: JSS.api)
+      all(refresh, api: API).map { |i| i[:phone_number] }.reject(&:empty?)
     end
 
     # @return [Array<String>] all mobiledevice wifi mac addrs
-    def self.all_wifi_mac_addresses(refresh = false)
-      all(refresh).map { |i| i[:wifi_mac_address] }
+    def self.all_wifi_mac_addresses(refresh = false, api: JSS.api)
+      all(refresh, api: API).map { |i| i[:wifi_mac_address] }
     end
 
     # @return [Array<String>] all mobiledevice wifi mac addrs
-    def self.all_mac_addresses(refresh = false)
-      all_wifi_mac_addresses(refresh)
+    def self.all_mac_addresses(refresh = false, api: JSS.api)
+      all_wifi_mac_addresses(refresh, api: API)
     end
 
     # @return [Array<String>] all mobiledevice udids
-    def self.all_udids(refresh = false)
-      all(refresh).map { |i| i[:udid] }
+    def self.all_udids(refresh = false, api: JSS.api)
+      all(refresh, api: API).map { |i| i[:udid] }
     end
 
     # @return [Array<Hash>] the list of all managed mobile devices
-    def self.all_managed(refresh = false)
-      all(refresh).select { |d| d[:managed] }
+    def self.all_managed(refresh = false, api: JSS.api)
+      all(refresh, api: API).select { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] the list of all unmanaged mobile devices
-    def self.all_unmanaged(refresh = false)
-      all(refresh).reject { |d| d[:managed] }
+    def self.all_unmanaged(refresh = false, api: JSS.api)
+      all(refresh, api: API).reject { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] the list of all iPhones
-    def self.all_iphones(refresh = false)
-      all(refresh).select { |d| d[:model].start_with? 'iPhone' }
+    def self.all_iphones(refresh = false, api: JSS.api)
+      all(refresh, api: API).select { |d| d[:model].start_with? 'iPhone' }
     end
 
     # @return [Array<Hash>] the list of all iPads
-    def self.all_ipads(refresh = false)
-      all(refresh).select { |d| d[:model].start_with? 'iPad' }
+    def self.all_ipads(refresh = false, api: JSS.api)
+      all(refresh, api: API).select { |d| d[:model].start_with? 'iPad' }
     end
 
     # @return [Array<Hash>] the list of all iPads
-    def self.all_apple_tvs(refresh = false)
-      all(refresh).select { |d| d[:model_identifier].start_with? 'AppleTV' }
+    def self.all_apple_tvs(refresh = false, api: JSS.api)
+      all(refresh, api: API).select { |d| d[:model_identifier].start_with? 'AppleTV' }
     end
 
     # Send an MDM command to one or more mobile devices by id or name
@@ -253,10 +253,13 @@ module JSS
     #
     # @param data[String] Some commands require extra data.
     #
+    # @param api[JSS::APIConnection] the APi to query. Defaults to the
+    #   currently active API, see {JSS::APIConnection}
+    #
     # @return [String] The uuid of the MDM command sent, if applicable
     #  (blank pushes do not generate uuids)
     #
-    def self.send_mdm_command(targets, command, data = nil)
+    def self.send_mdm_command(targets, command, data = nil, api: JSS.api)
       raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless MDM_COMMANDS.keys.include? command
 
       command = MDM_COMMANDS[command]
@@ -271,10 +274,10 @@ module JSS
 
       # make sure its an array of ids
       targets.map! do |md|
-        if all_ids.include? md.to_i
+        if all_ids(api: api).include? md.to_i
           md.to_i
-        elsif all_names.include? md
-          map_all_ids_to(:name).invert[md]
+        elsif all_names(api: api).include? md
+          map_all_ids_to(:name, api: api.invert[md]
         else
           raise JSS::NoSuchItemError, "No mobile device found matching '#{md}'"
         end # if
@@ -282,26 +285,26 @@ module JSS
 
       cmd_rsrc << "/id/#{targets.join ','}"
 
-      result = JSS::API.post_rsrc cmd_rsrc, nil
+      result = api.post_rsrc cmd_rsrc, nil
       result =~ %r{<uuid>(.*)</uuid>}
       Regexp.last_match(1)
     end
 
-    def self.management_history(identifier, subset = nil )
+    def self.management_history(identifier, subset = nil, api: JSS.api)
       id = nil
       if identifier.is_a? Integer
         id = identifier
       else
         key = case identifier
-              when *all_names then :name
-              when *all_serial_numbers then :serial_number
-              when *all_mac_addresses then :mac_address
-              when *all_udids then :udid
-              end
-        id = map_all_ids_to(key).invert[identifier]
+        when *all_names(api: api) then :name
+        when *all_serial_numbers(api: api) then :serial_number
+        when *all_mac_addresses(api: api) then :mac_address
+        when *all_udids(api: api) then :udid
+        end
+        id = map_all_ids_to(key, api: api).invert[identifier]
       end # if identifier.is_a? Integer
 
-      raise JSS::NoSuchItemError, "No MobileDevice found matching #{identifier}" unless id && all_ids.include?(id)
+      raise JSS::NoSuchItemError, "No MobileDevice found matching #{identifier}" unless id && all_ids(api: api).include?(id)
 
       rsrc = "#{HISTORY_RSRC}/id/#{id}"
 
@@ -310,7 +313,7 @@ module JSS
         rsrc << "/subset/#{subset}"
       end
 
-      hist = JSS.api.get_rsrc(rsrc)[:mobile_device_history]
+      hist = api.get_rsrc(rsrc)[:mobile_device_history]
       subset ? hist[subset] : hist
     end
 
@@ -547,7 +550,7 @@ module JSS
     # @return [String] The command uuid
     #
     def blank_push
-      self.class.send_mdm_command @id, :blank_push
+      self.class.send_mdm_command @id, :blank_push, api: @api
     end #
 
     # Send an update_inventory MDM command
@@ -557,7 +560,7 @@ module JSS
     # @return [String] The command uuid
     #
     def update_inventory
-      self.class.send_mdm_command @id, :update_inventory
+      self.class.send_mdm_command @id, :update_inventory, api: @api
     end
 
     # Send a device_lock MDM command
@@ -569,7 +572,7 @@ module JSS
     # @return [String] The command uuid
     #
     def device_lock(message)
-      self.class.send_mdm_command @id, :device_lock, message
+      self.class.send_mdm_command @id, :device_lock, message, api: @api
     end
 
     # Send an erase_device MDM command
@@ -579,7 +582,7 @@ module JSS
     # @return [String] The command uuid
     #
     def erase_device
-      self.class.send_mdm_command @id, :erase_device
+      self.class.send_mdm_command @id, :erase_device, api: @api
     end
 
     # Send a clear_passcode MDM command
@@ -589,7 +592,7 @@ module JSS
     # @return [String] The command uuid
     #
     def clear_passcode
-      self.class.send_mdm_command @id, :clear_passcode
+      self.class.send_mdm_command @id, :clear_passcode, api: @api
     end
 
     # Send a unmanage_device MDM command
@@ -599,7 +602,7 @@ module JSS
     # @return [String] The command uuid
     #
     def unmanage_device
-      @managed = false if self.class.send_mdm_command(@id, :unmanage_device)
+      @managed = false if self.class.send_mdm_command(@id, :unmanage_device, api: @api)
     end
 
     # Send a ClearRestrictionsPassword MDM command
@@ -609,7 +612,7 @@ module JSS
     # @return [String] The command uuid
     #
     def clear_restrictions_password
-      self.class.send_mdm_command @id, :clear_restrictions_password
+      self.class.send_mdm_command @id, :clear_restrictions_password, api: @api
     end
 
     # Send a SettingsEnableDataRoaming MDM command
@@ -619,7 +622,7 @@ module JSS
     # @return [String] The command uuid
     #
     def enable_data_roaming
-      self.class.send_mdm_command @id, :enable_data_roaming
+      self.class.send_mdm_command @id, :enable_data_roaming, api: @api
     end
 
     # Send a disable_data_roaming MDM command
@@ -629,7 +632,7 @@ module JSS
     # @return [String] The command uuid
     #
     def disable_data_roaming
-      self.class.send_mdm_command @id, :disable_data_roaming
+      self.class.send_mdm_command @id, :disable_data_roaming, api: @api
     end
 
     # Send a enable_voice_roaming MDM command
@@ -639,7 +642,7 @@ module JSS
     # @return [String] The command uuid
     #
     def enable_voice_roaming
-      self.class.send_mdm_command @id, :enable_voice_roaming
+      self.class.send_mdm_command @id, :enable_voice_roaming, api: @api
     end
 
     # Send a disable_voice_roaming MDM command
@@ -649,7 +652,7 @@ module JSS
     # @return [String] The command uuid
     #
     def disable_voice_roaming
-      self.class.send_mdm_command @id, :disable_voice_roaming
+      self.class.send_mdm_command @id, :disable_voice_roaming, api: @api
     end
 
     # Send a enable_app_analytics MDM command
@@ -659,7 +662,7 @@ module JSS
     # @return [String] The command uuid
     #
     def enable_app_analytics
-      self.class.send_mdm_command @id, :enable_app_analytics
+      self.class.send_mdm_command @id, :enable_app_analytics, api: @api
     end
 
     # Send a disable_app_analytics MDM command
@@ -669,7 +672,7 @@ module JSS
     # @return [String] The command uuid
     #
     def disable_app_analytics
-      self.class.send_mdm_command @id, :disable_app_analytics
+      self.class.send_mdm_command @id, :disable_app_analytics, api: @api
     end
 
     # Send a enable_diagnostic_submission MDM command
@@ -679,7 +682,7 @@ module JSS
     # @return [String] The command uuid
     #
     def enable_diagnostic_submission
-      self.class.send_mdm_command @id, :enable_diagnostic_submission
+      self.class.send_mdm_command @id, :enable_diagnostic_submission, api: @api
     end
 
     # Send a disable_diagnostic_submission MDM command
@@ -689,7 +692,7 @@ module JSS
     # @return [String] The command uuid
     #
     def disable_diagnostic_submission
-      self.class.send_mdm_command @id, :disable_diagnostic_submission
+      self.class.send_mdm_command @id, :disable_diagnostic_submission, api: @api
     end
 
     # Send a device_name MDM command
@@ -701,7 +704,7 @@ module JSS
     # @return [String] The command uuid
     #
     def device_name(new_name)
-      self.class.send_mdm_command @id, :device_name, new_name
+      self.class.send_mdm_command @id, :device_name, new_name, api: @api
     end
 
     # Send a shutdown device MDM command
@@ -711,7 +714,7 @@ module JSS
     # @return [String] The command uuid
     #
     def shutdown
-      self.class.send_mdm_command @id, :shutdown
+      self.class.send_mdm_command @id, :shutdown, api: @api
     end
 
     # Send a restart device MDM command
@@ -721,9 +724,8 @@ module JSS
     # @return [String] The command uuid
     #
     def restart
-      self.class.send_mdm_command @id, :restart
+      self.class.send_mdm_command @id, :restart, api: @api
     end
-
 
     # The full management History data for this Mobile Device
     #
@@ -736,7 +738,7 @@ module JSS
     #   ebooks: see managed
     #
     def management_history
-      self.class.management_history @id
+      self.class.management_history @id, api: @api
     end
 
     # The user_location subset of the full history
@@ -747,7 +749,7 @@ module JSS
     #   objects
     #
     def user_location_history
-      self.class.management_history @id, :user_location
+      self.class.management_history @id, :user_location, api: @api
     end
 
     # The management_commands subset of the full history
@@ -758,7 +760,7 @@ module JSS
     #   #failed_mdm_commands
     #
     def management_command_history
-      self.class.management_history @id, :management_commands
+      self.class.management_history @id, :management_commands, api: @api
     end
     alias mdm_command_history management_command_history
 
@@ -802,7 +804,7 @@ module JSS
     #   #failed_managed_apps
     #
     def managed_app_history
-      self.class.management_history @id, :applications
+      self.class.management_history @id, :applications, api: @api
     end
 
     # The apps that have been installed via MDM
@@ -860,7 +862,7 @@ module JSS
     # @return [Array<Hash>] One hash per event
     #
     def audit_history
-      self.class.management_history @id, :audits
+      self.class.management_history @id, :audits, api: @api
     end
 
     # The ebooks subset of the full history
@@ -870,7 +872,7 @@ module JSS
     #   #failed_managed_ebooks
     #
     def managed_ebook_history
-      self.class.management_history @id, :ebooks
+      self.class.management_history @id, :ebooks, api: @api
     end
 
     # The ebooks that have been installed via MDM

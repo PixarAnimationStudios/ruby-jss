@@ -333,22 +333,28 @@ module JSS
     # Currently this is read-only in ruby-jss, even tho the API
     # allows updating.
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Hash] the Computer Checkin Settings from the
     #   currently connected JSS.
     #
-    def self.checkin_settings
-      JSS.api_connection.get_rsrc(CHECKIN_RSRC)[CHECKIN_KEY]
+    def self.checkin_settings(api: JSS.api)
+      api.get_rsrc(CHECKIN_RSRC)[CHECKIN_KEY]
     end
 
     # Display the current Computer Inventory Collection settings in the JSS.
     # Currently this is read-only in ruby-jss, even tho the API
     # allows updating.
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Hash] the Computer Inventpry Collection Settings from the
     #   currently connected JSS.
     #
-    def self.inventory_collection_settings
-      JSS.api_connection.get_rsrc(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
+    def self.inventory_collection_settings(api: JSS.api)
+      api.get_rsrc(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
     end
 
     # A larger set of info about the computers in the JSS.
@@ -365,82 +371,85 @@ module JSS
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
-    def self.all(refresh = false)
-      JSS.api.object_list_cache[RSRC_LIST_KEY] = nil if refresh
-      return JSS.api.object_list_cache[RSRC_LIST_KEY] if JSS.api.object_list_cache[RSRC_LIST_KEY]
-      JSS.api.object_list_cache[RSRC_LIST_KEY] = JSS.api_connection.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
+    def self.all(refresh = false, api: JSS.api)
+      api.object_list_cache[RSRC_LIST_KEY] = nil if refresh
+      return api.object_list_cache[RSRC_LIST_KEY] if api.object_list_cache[RSRC_LIST_KEY]
+      api.object_list_cache[RSRC_LIST_KEY] = api.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
     end
 
     # @return [Array<String>] all computer serial numbers in the jss
-    def self.all_serial_numbers(refresh = false)
-      all(refresh).map { |i| i[:serial_number] }
+    def self.all_serial_numbers(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:serial_number] }
     end
 
     # @return [Array<String>] all computer mac_addresses in the jss
-    def self.all_mac_addresses(refresh = false)
-      all(refresh).map { |i| i[:mac_address] }
+    def self.all_mac_addresses(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:mac_address] }
     end
 
     # @return [Array<String>] all computer udids in the jss
-    def self.all_udids(refresh = false)
-      all(refresh).map { |i| i[:udid] }
+    def self.all_udids(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:udid] }
     end
 
     # @return [Array<Hash>] all managed computers in the jss
-    def self.all_managed(refresh = false)
-      all(refresh).select { |d| d[:managed] }
+    def self.all_managed(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] all unmanaged computers in the jss
-    def self.all_unmanaged(refresh = false)
-      all(refresh).reject { |d| d[:managed] }
+    def self.all_unmanaged(refresh = false, api: JSS.api)
+      all(refresh, api: api).reject { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] all laptop computers in the jss
-    def self.all_laptops(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /book/i }
+    def self.all_laptops(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /book/i }
     end
 
     # @return [Array<Hash>] all macbooks in the jss
-    def self.all_macbooks(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^macbook\d/i }
+    def self.all_macbooks(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^macbook\d/i }
     end
 
     # @return [Array<Hash>] all macbookpros in the jss
-    def self.all_macbookpros(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^macbookpro\d/i  }
+    def self.all_macbookpros(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^macbookpro\d/i  }
     end
 
     # @return [Array<Hash>] all macbookairs in the jss
-    def self.all_macbookairs(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^macbookair\d/i  }
+    def self.all_macbookairs(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^macbookair\d/i  }
     end
 
     # @return [Array<Hash>] all xserves in the jss
-    def self.all_xserves(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /serve/i }
+    def self.all_xserves(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /serve/i }
     end
 
     # @return [Array<Hash>] all desktop macs in the jss
-    def self.all_desktops(refresh = false)
-      all(refresh).reject { |d| d[:model] =~ /serve|book/i }
+    def self.all_desktops(refresh = false, api: JSS.api)
+      all(refresh, api: api).reject { |d| d[:model] =~ /serve|book/i }
     end
 
     # @return [Array<Hash>] all imacs in the jss
-    def self.all_imacs(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^imac/i }
+    def self.all_imacs(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^imac/i }
     end
 
     # @return [Array<Hash>] all mac minis in the jss
-    def self.all_minis(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^macmini/i }
+    def self.all_minis(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^macmini/i }
     end
 
     # @return [Array<Hash>] all macpros in the jss
-    def self.all_macpros(refresh = false)
-      all(refresh).select { |d| d[:model] =~ /^macpro/i }
+    def self.all_macpros(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:model] =~ /^macpro/i }
     end
 
     # Send an MDM command to one or more managed computers by id or name
@@ -455,10 +464,13 @@ module JSS
     #
     # @param passcode[String] some commands require a 6-character passcode
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [String] The uuid of the MDM command sent, if applicable
     #  (blank pushes do not generate uuids)
     #
-    def self.send_mdm_command(targets, command, passcode = nil)
+    def self.send_mdm_command(targets, command, passcode = nil, api: JSS.api)
       raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
 
       command = COMPUTER_MDM_COMMANDS[command]
@@ -475,10 +487,10 @@ module JSS
 
       # make sure its an array of ids
       targets.map! do |comp|
-        if all_ids.include? comp.to_i
+        if all_ids(api: api).include? comp.to_i
           comp.to_i
-        elsif all_names.include? comp
-          map_all_ids_to(:name).invert[comp]
+        elsif all_names(api: api).include? comp
+          map_all_ids_to(:name, api: api).invert[comp]
         else
           raise JSS::NoSuchItemError, "No computer found matching '#{comp}'"
         end # if
@@ -486,7 +498,7 @@ module JSS
 
       cmd_rsrc << "/id/#{targets.join ','}"
 
-      result = JSS::API.post_rsrc cmd_rsrc, nil
+      result = api.post_rsrc cmd_rsrc, nil
       result =~ %r{<command_uuid>(.*)</command_uuid>}
       Regexp.last_match(1)
     end # send mdm command
@@ -834,7 +846,7 @@ module JSS
       end
       start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
       end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
-      data = JSS.api_connection.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
+      data = @api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
       parsed_data = {}
       data[APPLICATION_USAGE_KEY].each do |day_hash|
         date = Date.parse day_hash[:date]
@@ -880,7 +892,7 @@ module JSS
       @management_data[:full] = nil if refresh
       return @management_data[:full] if @management_data[:full]
       mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
-      @management_data[:full] = JSS.api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+      @management_data[:full] = @api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
       @management_data[:full]
     end
     private :full_management_data
@@ -890,7 +902,7 @@ module JSS
       @management_data[subset] = nil if refresh
       return @management_data[subset] if @management_data[subset]
       subset_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
-      @management_data[subset] = JSS.api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
+      @management_data[subset] = @api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
       return @management_data[subset] unless only
       @management_data[subset].map { |d| d[only] }
     end
@@ -969,7 +981,7 @@ module JSS
       @history[:full] = nil if refresh
       return @history[:full] if @history[:full]
       history_rsrc = HISTORY_RSRC + "/id/#{@id}"
-      @history[:full] = JSS.api.get_rsrc(history_rsrc)[HISTORY_KEY]
+      @history[:full] = @api.get_rsrc(history_rsrc)[HISTORY_KEY]
       @history[:full]
     end
     private :full_history
@@ -979,7 +991,7 @@ module JSS
       @history[subset] = nil if refresh
       return @history[subset] if @history[subset]
       subset_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
-      @history[subset] = JSS.api.get_rsrc(subset_rsrc)[HISTORY_KEY]
+      @history[subset] = @api.get_rsrc(subset_rsrc)[HISTORY_KEY]
       @history[subset]
     end
     private :history_subset
@@ -1172,7 +1184,7 @@ module JSS
     # See JSS::Computer.send_mdm_command
     #
     def blank_push
-      self.class.send_mdm_command @id, :blank_push
+      self.class.send_mdm_command @id, :blank_push, api: @api
     end
     alias noop blank_push
     alias send_blank_push blank_push
@@ -1182,7 +1194,7 @@ module JSS
     # See JSS::Computer.send_mdm_command
     #
     def device_lock(passcode)
-      self.class.send_mdm_command @id, :device_lock, passcode
+      self.class.send_mdm_command @id, :device_lock, passcode, api: @api
     end
     alias lock device_lock
     alias lock_device device_lock
@@ -1192,7 +1204,7 @@ module JSS
     # See JSS::Computer.send_mdm_command
     #
     def erase_device(passcode)
-      self.class.send_mdm_command @id, :erase_device, passcode
+      self.class.send_mdm_command @id, :erase_device, passcode, api: @api
     end
     alias erase erase_device
     alias wipe erase_device
@@ -1206,7 +1218,7 @@ module JSS
     # See JSS::Computer.send_mdm_command
     #
     def remove_mdm_profile
-      self.class.send_mdm_command(@id, :unmanage_device)
+      self.class.send_mdm_command @id, :unmanage_device, api: @api
     end
 
     # aliases

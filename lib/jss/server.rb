@@ -26,13 +26,14 @@
 ###
 module JSS
 
-  # A class representing the currently-connected JSS Server.
+  # A class representing the currently-connected JSS Server in a
+  # JSS::APIConnection instance.
   #
   # The {JSS::APIConnection} instance has a JSS::Server instance in its #server
   # attribute. It is created fresh every time {APIConnection#connect} is called.
   #
   # That's the only time it should be instantiated, and all access should be
-  # through {JSS.api_connection.server}
+  # through the #server attribute of the APIConnection instance.
   #
   class Server
 
@@ -66,6 +67,10 @@ module JSS
     #  @return [String]
     attr_reader :raw_version
 
+    # @return [JSS::APIConnection] The APIConnection object that contains this
+    #   instance of Server
+    attr_reader :api
+
     # Instance Methods
     #####################################
 
@@ -77,8 +82,12 @@ module JSS
     # However, it's marked as 'deprecated'. Hopefully jamf will
     # keep this basic level of info available for basic authentication
     # and JSS version checking.
-    def initialize(jss_data)
-
+    #
+    # The 'api' is a reference to the JSS::APIConnection instance
+    # which this JSS::Server instance is a part of.
+    #
+    def initialize(jss_data, api)
+      @api = api
       @license_type = jss_data[:license_type]
       @product = jss_data[:product]
       @raw_version = jss_data[:version]
@@ -91,13 +100,13 @@ module JSS
 
     # @return [String] the organization to which the server is licensed
     def organization
-      @act_code_data ||= JSS.api_connection.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
+      @act_code_data ||= @api.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
       @act_code_data[:organization_name]
     end
 
     # @return [String] the activation code for the server licence
     def activation_code
-      @act_code_data ||= JSS.api_connection.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
+      @act_code_data ||= @api.get_rsrc(ACTIVATION_CODE_RSRC)[ACTIVATION_CODE_KEY]
       @act_code_data[:code]
     end
 

@@ -58,8 +58,8 @@ module JSS
     # Class Methods
     #####################################
 
-    def self.all_invitations
-      all.map { |ci| ci[:invitation]  }
+    def self.all_invitations(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |ci| ci[:invitation]  }
     end
 
     # Class Constants

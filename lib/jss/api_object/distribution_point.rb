@@ -96,7 +96,6 @@ module JSS
 
     DEFAULT_MOUNTPOINT_PREFIX = "CasperDistribution-id"
 
-    #####################################
     ### Class Variables
     #####################################
 
@@ -104,7 +103,6 @@ module JSS
 
     @@my_distribution_point = nil
 
-    #####################################
     ### Class Methods
     #####################################
 
@@ -114,19 +112,18 @@ module JSS
     ###
     ### @return [JSS::DistributionPoint]
     ###
-    def self.master_distribution_point(refresh = false)
-      @@master_distribution_point = nil if refresh
-      return @@master_distribution_point if @@master_distribution_point
+    def self.master_distribution_point(refresh = false, api: JSS.api)
+      return api.master_distribution_point unless refresh || api.master_distribution_point.nil?
 
-      case self.all.count
-        when 0
-          raise JSS::NoSuchItemError, "No distribution points defined"
-        when 1
-          @@master_distribution_point = self.new :id => self.all_ids[0]
-        else
-          @@master_distribution_point = self.new :id => :master
-        end
-        @@master_distribution_point
+      case all(refresh, api: api).size
+      when 0
+        raise JSS::NoSuchItemError, "No distribution points defined"
+      when 1
+        api.master_distribution_point = self.fetch id: all_ids[0], api: api
+      else
+        api.master_distribution_point = self.fetch id: :master, api: api
+      end
+      api.master_distribution_point
     end
 
     ### Get the DistributionPoint instance for the machine running
@@ -137,18 +134,14 @@ module JSS
     ###
     ### @return [JSS::DistributionPoint]
     ###
-    def self.my_distribution_point(refresh = false)
-      @@my_distribution_point = nil if refresh
-      return @@my_distribution_point if @@my_distribution_point
+    def self.my_distribution_point(refresh = false, api: JSS.api)
+      return api.my_distribution_point unless refresh || api.my_distribution_point.nil?
 
       my_net_seg = JSS::NetworkSegment.my_network_segment[0]
-      specific = if my_net_seg
-        JSS::NetworkSegment.new(:id => my_net_seg).distribution_point
-      else
-        nil
-      end
-      @@my_distribution_point = specific ? self.new(:name => specific) : self.master_distribution_point
-      @@my_distribution_point
+      mydp = my_net_seg ? JSS::NetworkSegment.fetch(id: my_net_seg, api: api).distribution_point : nil
+      mydp ||= master_distribution_point refresh, api: api
+      api.my_distribution_point = mydp
+      mydp
     end
 
     #####################################
@@ -242,7 +235,6 @@ module JSS
     ### @return [String] the ssh password as a SHA256 digest
     attr_reader :ssh_password_sha256
 
-    ###
     ### As well as the standard :id, :name, and :data, you can
     ### instantiate this class with :id => :master, in which case you'll
     ### get the Master Distribution Point as defined in the JSS.
@@ -251,14 +243,16 @@ module JSS
     ### You can also do this more easily by calling JSS.master_distribution_point
     ###
     def initialize(args = {})
+      args[:api] ||= JSS.api
+      @api = args[:api]
 
       @init_data = nil
 
       ### looking for master?
       if args[:id] == :master
 
-        self.class.all_ids.each do |id|
-          @init_data  = JSS.api_connection.get_rsrc("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
+        self.class.all_ids(api: @api).each do |id|
+          @init_data  = @api.get_rsrc("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
           if @init_data[:is_master]
             @id = @init_data[:id]
             @name = @init_data[:name]

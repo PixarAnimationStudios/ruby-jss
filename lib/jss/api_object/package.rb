@@ -422,7 +422,7 @@ module JSS
       return nil if new_val == @switch_with_package
       new_val = nil if new_val.to_s.empty?
 
-      raise JSS::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names.include? new_val)
+      raise JSS::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names(api: @api).include? new_val)
 
       new_val ||= DO_NOT_INSTALL
       @switch_with_package = new_val
@@ -631,7 +631,7 @@ module JSS
       #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
       #
       append_at_vers = JSS.parse_jss_version('9.72')[:version]
-      our_vers = JSS.parse_jss_version(JSS.api_connection.server.raw_version)[:version]
+      our_vers = JSS.parse_jss_version(@api.server.raw_version)[:version]
       no_filename_in_url = (our_vers < append_at_vers)
 
       # use a provided alternative url for an http download

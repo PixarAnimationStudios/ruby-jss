@@ -142,22 +142,29 @@ module JSS
     # class methods for accessing those other values as mapped Arrays,
     # e.g. JSS::Computer.all_udids
     #
-    # The results of the first query for each subclass is stored in JSS.api.object_list_cache
-    # and returned at every future call, so as to not requery the server every time.
+    # The results of the first query for each subclass is stored in the .object_list_cache
+    # of the given JSS::APIConnection and returned at every future call, so as
+    # to not requery the server every time.
     #
     # To force requerying to get updated data, provided a non-false argument.
     # I usually use :refresh, so that it's obvious what I'm doing, but true, 1,
     # or anything besides false or nil will work.
     #
+    # To query an APIConnection other than the currently active one,
+    # provide one via the api: named parameter.
+    #
     # @param refresh[Boolean] should the data be re-queried from the API?
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
-    def self.all(refresh = false)
+    def self.all(refresh = false, api: JSS.api)
       raise JSS::UnsupportedError, '.all can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
-      JSS.api.object_list_cache[self::RSRC_LIST_KEY] = nil if refresh
-      return JSS.api.object_list_cache[self::RSRC_LIST_KEY] if JSS.api.object_list_cache[self::RSRC_LIST_KEY]
-      JSS.api.object_list_cache[self::RSRC_LIST_KEY] = JSS.api.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
+      api.object_list_cache[self::RSRC_LIST_KEY] = nil if refresh
+      return api.object_list_cache[self::RSRC_LIST_KEY] if api.object_list_cache[self::RSRC_LIST_KEY]
+      api.object_list_cache[self::RSRC_LIST_KEY] = api.get_rsrc(self::RSRC_BASE)[self::RSRC_LIST_KEY]
     end
 
     # Returns an Array of the JSS id numbers of all the members
@@ -168,10 +175,13 @@ module JSS
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Array<Integer>] the ids of all it1ems of this subclass in the JSS
     #
-    def self.all_ids(refresh = false)
-      all(refresh).map { |i| i[:id] }
+    def self.all_ids(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:id] }
     end
 
     # Returns an Array of the JSS names of all the members
@@ -182,10 +192,13 @@ module JSS
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Array<String>] the names of all item of this subclass in the JSS
     #
-    def self.all_names(refresh = false)
-      all(refresh).map { |i| i[:name] }
+    def self.all_names(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:name] }
     end
 
     # Return a hash of all objects of this subclass
@@ -212,11 +225,14 @@ module JSS
     #
     # @param refresh[Boolean] should the data  re-queried from the API?
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Hash{Integer => Oject}] the associated ids and data
     #
-    def self.map_all_ids_to(other_key, refresh = false)
+    def self.map_all_ids_to(other_key, refresh = false, api: JSS.api)
       h = {}
-      all(refresh).each { |i| h[i[:id]] = i[other_key] }
+      all(refresh, api: api).each { |i| h[i[:id]] = i[other_key] }
       h
     end
 
@@ -229,12 +245,15 @@ module JSS
     #
     # @param refresh[Boolean] should the data  re-queried from the API?
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Hash{Integer => Object}] the objects requested
-    def self.all_objects(refresh = false)
+    #
+    def self.all_objects(refresh = false, api: JSS.api)
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
-      JSS.api.object_list_cache[objects_key] = nil if refresh
-      return JSS.api.object_list_cache[objects_key] if JSS.api.object_list_cache[objects_key]
-      JSS.api.object_list_cache[objects_key] = all(refresh).map { |o| new id: o[:id] }
+      return api.object_list_cache[objects_key] unless refresh || api.object_list_cache[objects_key].nil?
+      api.object_list_cache[objects_key] = all(refresh, api: api).map { |o| fetch id: o[:id], api: api}
     end
 
     # Return true or false if an object of this subclass
@@ -244,14 +263,17 @@ module JSS
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Boolean] does an object with the given name or id exist?
     #
-    def self.exist?(identfier, refresh = false)
+    def self.exist?(identfier, refresh = false, api: JSS.api)
       case identfier
       when Integer
-        all_ids(refresh).include? identfier
+        all_ids(refresh, api: api).include? identfier
       when String
-        all_names(refresh).include? identfier
+        all_names(refresh, api: api).include? identfier
       else
         raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
       end
@@ -267,14 +289,17 @@ module JSS
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identfier, refresh = false)
+    def self.valid_id(identfier, refresh = false, api: JSS.api)
       case identfier
       when Integer
-        return identfier if all_ids(refresh).include? identfier
+        return identfier if all_ids(refresh, api: api).include? identfier
       when String
-        return map_all_ids_to(:name).invert[identfier] if all_names(refresh).include? identfier
+        return map_all_ids_to(:name).invert[identfier] if all_names(refresh, api: api).include? identfier
       else
         raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
       end
@@ -414,13 +439,15 @@ module JSS
     #
     # @return [APIObject] The ruby-instance of a JSS object
     #
-    def self.fetch(arg)
+    def self.fetch(arg, api: JSS.api)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+
 
       # if given a hash (or a colletion of named params)
       # pass to .new
       if arg.is_a? Hash
-        raise ArgumentError, 'Use .create to create new JSS objects' if arg[:id] == :new
+        raise ArgumentError, 'Use .make to create new JSS objects' if arg[:id] == :new
+        api = arg[:api] if arg[:api]
         return new arg
       end
 
@@ -428,7 +455,7 @@ module JSS
       # and if it's result includes the desired value,
       # the pass they key and arg to .new
       lookup_key_list_methods.each do |key, method_name|
-        return new({key => arg}) if self.send(method_name).include? arg
+        return new ({ key => arg, :api => api }) if method_name && send(method_name).include?(arg)
       end # each key
 
       # if we're here, we couldn't find a matching object
@@ -452,6 +479,7 @@ module JSS
     # @return [APIObject] The un-created ruby-instance of a JSS object
     #
     def self.make(args = {})
+      args[:api] ||= JSS.api
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
       args[:id] = :new
@@ -501,6 +529,10 @@ module JSS
     # Attributes
     #####################################
 
+    # @return [JSS::APIConnection] the API connection thru which we deal with
+    #   this object.
+    attr_reader :api
+
     # @return [Integer] the JSS id number
     attr_reader :id
 
@@ -535,7 +567,8 @@ module JSS
     #
     #
     def initialize(args = {})
-
+      args[:api] ||= JSS.api
+      @api = args[:api]
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
 
       ####### Previously looked-up JSON data
@@ -660,7 +693,7 @@ module JSS
     #
     def delete
       return nil unless @in_jss
-      JSS.api.delete_rsrc @rest_rsrc
+      @api.delete_rsrc @rest_rsrc
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}"
       @id = nil
       @in_jss = false
@@ -702,7 +735,7 @@ module JSS
       end
       # and the id must be in the jss
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} with JSS id: #{@init_data[:id]}" unless \
-        self.class.all_ids.include? hash_to_check[:id]
+        self.class.all_ids(api: @api).include? hash_to_check[:id]
     end # validate_init_data
 
     # If we're making a new object in the JSS, make sure we were given
@@ -721,7 +754,7 @@ module JSS
 
       raise JSS::MissingDataError, "You must provide a :name to create a #{self.class::RSRC_OBJECT_KEY}."  unless args[:name]
 
-      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if self.class.all_names.include? args[:name]
+      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if self.class.all_names(api: @api).include? args[:name]
     end
 
     # Given initialization args, perform an API lookup for an object.
@@ -743,7 +776,7 @@ module JSS
       # e.g. User when loookup is by email.
       rsrc_object_key = args[:rsrc_object_key] ? args[:rsrc_object_key] : self.class::RSRC_OBJECT_KEY
 
-      return JSS.api.get_rsrc(rsrc)[rsrc_object_key]
+      return @api.get_rsrc(rsrc)[rsrc_object_key]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
     end

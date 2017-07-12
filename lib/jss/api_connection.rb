@@ -244,6 +244,13 @@ module JSS
     # is not false, the API is queried and the value in this hash is updated.
     attr_reader :object_list_cache
 
+    # @return [JSS::DistributionPoint] The master Distribution Point for this API
+    attr_reader :master_distribution_point
+
+    # @return [JSS::DistributionPoint] The Distribution Point for this computer
+    #  in this API
+    attr_reader :my_distribution_point
+
     # Constructor
     #####################################
 
@@ -378,7 +385,7 @@ module JSS
     #
     def get_rsrc(rsrc, format = :json)
       # puts object_id
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
       rsrc = URI.encode rsrc
       @last_http_response = @cnx[rsrc].get(accept: format)
       return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
@@ -393,7 +400,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
@@ -413,7 +420,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
@@ -431,7 +438,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -486,6 +493,19 @@ module JSS
       srvr = JSS::CONFIG.api_server_name
       srvr ||= JSS::Client.jss_server
       srvr
+    end
+
+    # See {JSS::DistributionPoint.master_distribution_point}
+    def master_distribution_point=(new_dp)
+      raise JSS::InvalidDataError, 'Master distribution point must be a JSS::DistributionPoint' unless new_dp.is_a? JSS::DistributionPoint
+      raise JSS::InvalidDataError, 'That distribution point is not the master.' unless new_dp.is_master
+      @master_distribution_point = new_dp
+    end
+
+    # See {JSS::DistributionPoint.my_distribution_point}
+    def my_distribution_point=(new_dp)
+      raise JSS::InvalidDataError, 'Distribution point must be a JSS::DistributionPoint' unless new_dp.is_a? JSS::DistributionPoint
+      @my_distribution_point = new_dp
     end
 
     # aliases
@@ -596,9 +616,9 @@ module JSS
       # keep this basic level of info available for basic authentication
       # and JSS version checking.
       begin
-        @server = JSS::Server.new get_rsrc('jssuser')[:user]
+        @server = JSS::Server.new get_rsrc('jssuser')[:user], self
       rescue RestClient::Unauthorized, RestClient::Request::Unauthorized
-        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{JSS.api_connection.jss_user}@#{JSS.api_connection.server_host}'."
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@jss_user}@#{@server_host}:#{@port}'."
       end
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]

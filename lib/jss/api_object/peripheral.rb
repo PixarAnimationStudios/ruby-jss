@@ -129,7 +129,7 @@ module JSS
       if args[:id] == :new
         raise JSS::InvalidDataError, "New Peripherals must have a :type, which must be one of those defined in the JSS." unless args[:type]
         @type = args[:type]
-        raise JSS::InvalidDataError, "No peripheral type '#{@type}' in the JSS" unless JSS::PeripheralType.all_names(:refresh).include? @type
+        raise JSS::InvalidDataError, "No peripheral type '#{@type}' in the JSS" unless JSS::PeripheralType.all_names(:refresh, api: @api).include? @type
         @fields = {}
         @rest_rsrc = 'peripherals/id/-1'
         @site = "None"
@@ -231,11 +231,11 @@ module JSS
     ###
     def associate(computer)
       if computer =~ /^d+$/
-        raise JSS::NoSuchItemError, "No computer in the JSS with id #{computer}" unless JSS::Computer.all_ids.include? computer
+        raise JSS::NoSuchItemError, "No computer in the JSS with id #{computer}" unless JSS::Computer.all_ids(api: @api).include? computer
         @computer_id = computer
       else
-        raise JSS::NoSuchItemError, "No computer in the JSS with name #{computer}" unless JSS::Computer.all_names.include? computer
-        @computer_id = JSS::Computer.map_all_ids_to(:name).invert[computer]
+        raise JSS::NoSuchItemError, "No computer in the JSS with name #{computer}" unless JSS::Computer.all_names(api: @api).include? computer
+        @computer_id = JSS::Computer.map_all_ids_to(:name, api: @api).invert[computer]
       end
       @need_to_update = true
     end

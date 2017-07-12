@@ -69,14 +69,18 @@ module JSS
     ###  Mixed-in Instance Methods
     #####################################
 
-    ### Create a new object in the JSS.
-    ###
-    ### @return [Integer] the jss ID of the newly created object
-    ###
-    def create
+    # Create a new object in the JSS.
+    #
+    # @param api[JSS::APIConnection] the API in which to create the object
+    #   Defaults to the API used to instantiate this object
+    #
+    # @return [Integer] the jss ID of the newly created object
+    #
+    def create(api: nil)
+      api ||= @api
       raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless respond_to? :create
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
-      JSS.api_connection.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      api.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
@@ -90,10 +94,11 @@ module JSS
     ###
     ### @return [APIObject] An uncreated clone of this APIObject with the given name
     ###
-    def clone(new_name)
+    def clone(new_name, api: nil)
+      api ||= @api
       raise JSS::UnsupportedError, 'This class is not creatable in via ruby-jss' unless respond_to? :create
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with that name" if \
-        self.class.all_names.include? new_name
+        self.class.all_names(:refresh, api: api).include? new_name
 
       orig_in_jss = @in_jss
       @in_jss = false

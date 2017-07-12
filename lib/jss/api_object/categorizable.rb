@@ -158,10 +158,10 @@ module JSS
       # if we were given anything but a string, assume it was an id.
       if new_cat.is_a? String
         new_name = new_cat
-        new_id = JSS::Category.category_id_from_name new_cat
+        new_id = JSS::Category.category_id_from_name new_cat, api: @api
       else
         new_id = new_cat
-        new_name = JSS::Category.map_all_ids_to(:name)[new_id]
+        new_name = JSS::Category.map_all_ids_to(:name, api: @api)[new_id]
       end
       [new_name, new_id]
     end

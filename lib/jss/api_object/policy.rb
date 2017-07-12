@@ -1060,7 +1060,7 @@ module JSS
 
       return nil if @packages.map { |p| p[:id] }.include? id
 
-      name = JSS::Package.map_all_ids_to(:name)[id]
+      name = JSS::Package.map_all_ids_to(:name, api: @api)[id]
 
       position = case opts[:position]
                  when :start then 0
@@ -1167,7 +1167,7 @@ module JSS
 
       return nil if @scripts.map { |s| s[:id] }.include? id
 
-      name = JSS::Script.map_all_ids_to(:name)[id]
+      name = JSS::Script.map_all_ids_to(:name, api: @api)[id]
 
       position = case opts[:position]
                  when :start then 0
@@ -1291,7 +1291,7 @@ module JSS
 
       interval = "#{LOG_FLUSH_INTERVAL_INTEGERS[older_than]}+#{LOG_FLUSH_INTERVAL_PERIODS[period]}"
 
-      JSS.api_connection.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
+      @api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
     end
 
     ###### Aliases

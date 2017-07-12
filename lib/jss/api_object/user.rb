@@ -209,7 +209,7 @@ module JSS
 
     ###
     def ldap_server= (new_val)
-      raise JSS::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless JSS::LDAPServer.all_names.include? new_val
+      raise JSS::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless JSS::LDAPServer.all_names(api: @api).include? new_val
       @ldap_server = new_val
       @need_to_update = true
     end
@@ -223,7 +223,7 @@ module JSS
     ###
     def add_site (site)
       return nil if @sites.map{|s| s[:name]}.include? site
-      raise JSS::InvalidDataError, "No site in the JSS named #{site}" unless JSS::Site.all_names.include? site
+      raise JSS::InvalidDataError, "No site in the JSS named #{site}" unless JSS::Site.all_names(api: @api).include? site
       @sites << {:name => site}
       @need_to_update = true
     end

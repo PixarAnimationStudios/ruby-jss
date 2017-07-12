@@ -595,7 +595,7 @@ module JSS
       ###
       def check_name(key, name)
 
-        found_in_jss = SCOPING_CLASSES[key].all_names.include?(name)
+        found_in_jss = SCOPING_CLASSES[key].all_names(api: @api).include?(name)
 
         return true if found_in_jss
 

@@ -201,15 +201,15 @@ module JSS
     ### @see JSS::APIObject#delete
     ###
     def delete
-      orig_open_timeout = JSS.api_connection.cnx.options[:open_timeout]
-      orig_timeout = JSS.api_connection.cnx.options[:timeout]
-      JSS.api_connection.timeout = orig_timeout + 1800
-      JSS.api_connection.open_timeout = orig_open_timeout + 1800
+      orig_open_timeout = @api.cnx.options[:open_timeout]
+      orig_timeout = @api.cnx.options[:timeout]
+      @api.timeout = orig_timeout + 1800
+      @api.open_timeout = orig_open_timeout + 1800
       begin
         super
       ensure
-        JSS.api_connection.timeout = orig_timeout
-        JSS.api_connection.open_timeout = orig_open_timeout
+        @api.timeout = orig_timeout
+        @api.open_timeout = orig_open_timeout
       end
     end
 
@@ -333,7 +333,7 @@ module JSS
       begin
 
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.new :id => :new, :name => "JSSgem-EA-#{Time.now.to_jss_epoch}-result-search"
+        acs = search_class.new api: @api, :id => :new, :name => "JSSgem-EA-#{Time.now.to_jss_epoch}-result-search"
         acs.display_fields = [@name]
         crit_list = [JSS::Criteriable::Criterion.new(:and_or => "and", :name => @name, :search_type => search_type.to_s, :value => desired_value)]
         acs.criteria = JSS::Criteriable::Criteria.new crit_list
@@ -391,7 +391,7 @@ module JSS
 
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.new :id => :new, :name => tmp_advsrch
+        acs = search_class.new id: :new, name: tmp_advsrch, api: @api
         acs.display_fields = self.class::TARGET_CLASS == JSS::User ?  [@name, USERNAME_FIELD] : [@name, USERNAME_FIELD, LAST_RECON_FIELD]
 
         # search for 'Username like "" ' because all searchable object classes have a "Username" value
@@ -415,8 +415,11 @@ module JSS
         end #acs.search_results.each
 
       ensure
-        acs.delete
-        self.class::TARGET_CLASS::SEARCH_CLASS.new(:name => tmp_advsrch).delete if self.class::TARGET_CLASS::SEARCH_CLASS.all_names(:refresh).include? tmp_advsrch
+        if defined? acs
+          acs.delete
+        else
+          search_class.fetch(:name => tmp_advsrch, api: @api).delete if search_class.all_names(:refresh, api: @api).include? tmp_advsrch
+        end
       end
 
       results

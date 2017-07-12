@@ -148,7 +148,7 @@ class App
   end # run
 
   def connect_to_jss
-    JSS.api_connection.connect(
+    JSS.api.connect(
       server: @server,
       port: @port,
       verify_cert: @verify_cert,

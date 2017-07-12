@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -49,21 +49,21 @@ module JSS
   ### LDAP servers, and checking group membership.
   ###
   ### When an LDAPServer instance is created, if it
-  ### uses anonymous binding for lookups (the Authentication Type is set to 'none') then 
+  ### uses anonymous binding for lookups (the Authentication Type is set to 'none') then
   ### the LDAP connection is established immediately. Otherwise, you must use the {#connect}
   ### method, and provide the appropriate password for the lookup account defined.
   ###
-  ### Since LDAP server connections are used to verify the validity of LDAP users & groups used in 
+  ### Since LDAP server connections are used to verify the validity of LDAP users & groups used in
   ### scopes, if you don't connect to all LDAP servers before modifying any scope's user & group
   ### limitations or exceptions, those new values may not be verifiable. Unverified limitations and
-  ### exceptions, when sent to the API, will result in a REST 409 Conflict error if the user or 
+  ### exceptions, when sent to the API, will result in a REST 409 Conflict error if the user or
   ### group doesn't exist. Unfortunately, 409 Conflict errors are very generic and don't indicate the
-  ### source of the problem (in this case, a non-existent user or group limitation or exception to the 
+  ### source of the problem (in this case, a non-existent user or group limitation or exception to the
   ### scope). The {JSS::Scopable} module tries to catch these errors and raise a more useful
   ### exception when they happen.
   ###
   ### The class method {LDAPServer.all_ldaps} returns a Hash of JSS::LDAPServer instances.
-  ### one for each server defined in the JSS. 
+  ### one for each server defined in the JSS.
   ###
   ### The class methods {LDAPServer.user_in_ldap?} and {LDAPServer.group_in_ldap?} can be
   ### used to check all defined LDAP servers for a user or group. They are used by
@@ -76,44 +76,33 @@ module JSS
   ###
   class LDAPServer < JSS::APIObject
 
-    #####################################
-    ### Mix-Ins
-    #####################################
 
-    #####################################
-    ### Class Variables
-    #####################################
-    
-    @@all_ldaps = nil
-    
-    #####################################
     ### Class Methods
     #####################################
-    
+
+    ### DEPRECATED: Please Use ::all_objects
     ###
     ### @param refresh[Boolean] should the LDAP server data be re-read from the API?
     ###
     ### @return [Hash{String => JSS::LDAPServer}] JSS::LDAPServer instances for all defined servers
     ###
-    def self.all_ldaps(refresh = false)
-      @@all_ldaps = nil if refresh
-      return @@all_ldaps if @@all_ldaps
-      
-      @@all_ldaps = {}
-      JSS::LDAPServer.all.each { |svr| @@all_ldaps[svr[:name]] = JSS::LDAPServer.new(:id =>svr[:id])}
-
-      @@all_ldaps
+    def self.all_ldaps(refresh = false, api: JSS.api)
+      hash = {}
+      all_objects(refresh, api: api) { |ls| hash[ls.name] => ls }
+      hash
     end
-    
+
     ###
     ### @param user[String] a username to search for in all LDAP servers
     ###
     ### @return [Boolean] does the user exist in any LDAP server?
     ###
-    def self.user_in_ldap? (user)
-      gotuser = false
-      self.all_ldaps.values.each{|ldap| gotuser =  true unless ldap.find_user(user, :exact).empty? }
-      return gotuser
+    def self.user_in_ldap?(user, api: JSS.api)
+      all_objects(refresh, api: api).each do |ldap|
+        next if ldap.find_user(user, :exact).empty?
+        return true
+      end
+      false
     end
 
     ###
@@ -121,10 +110,12 @@ module JSS
     ###
     ### @return [Boolean] does the group exist in any LDAP server?
     ###
-    def self.group_in_ldap? (group)
-      gotgroup = false
-      self.all_ldaps.values.each{|ldap| gotgroup =  true unless ldap.find_group(group, :exact).empty? }
-      return gotgroup
+    def self.group_in_ldap? (group, api: JSS.api)
+      all_objects(refresh, api: api).each do |ldap|
+        next if ldap.find_group(group, :exact).empty?
+        return true
+      end
+      false
     end
 
 
@@ -258,10 +249,10 @@ module JSS
     ### - :map_user_membership_to_group_field =>
     ###
     attr_reader :user_group_membership_mappings
-    
+
     ### @return [Boolean] we we connected to this server at the moment?
     attr_reader :connected
-    
+
     #####################################
     ### Constructor
     #####################################
@@ -313,7 +304,7 @@ module JSS
 
       @connection = nil
       @connected = false
-      
+
       # If we are using anonymous binding, connect now
       connect if @authentication_type == :anonymous
     end
@@ -333,9 +324,9 @@ module JSS
     ### @return [Array<Hash>] The @user_attrs_to_get for all usernames matching the query
     ###
     def find_user(user, exact = false, additional_filter = nil)
-      
+
       raise JSS::InvalidConnectionError, "Not connected to LDAP server '#{@name}'. Please use #connect first." unless @connected
-      
+
       if @use_wildcards and not exact
         user_filter = Net::LDAP::Filter.contains(@user_mappings[:map_username], user)
       else
@@ -391,9 +382,9 @@ module JSS
     ### @return [Array<Hash>] The @user_group_attrs_to_get for all groups matching the query
     ###
     def find_group(group, exact = false, additional_filter = nil)
-      
+
       raise JSS::InvalidConnectionError, "Not connected to LDAP server '#{@name}'. Please use #connect first." unless @connected
-      
+
       if @use_wildcards and not exact
         group_filter = Net::LDAP::Filter.contains(@user_group_mappings[:map_group_name], group)
       else
@@ -448,9 +439,9 @@ module JSS
     ### @todo Implement checking groups membership in 'other' ldap area
     ###
     def check_membership(user, group)
-      
+
       raise JSS::InvalidConnectionError, "Not connected to LDAP server '#{@name}'. Please use #connect first." unless @connected
-      
+
       found_user = find_user(user, :exact)[0]
       found_group = find_group(group, :exact)[0]
 
@@ -492,15 +483,15 @@ module JSS
     ### @param pw[String,Symbol] the LDAP connection password for this server. Can be nil if
     ###   authentication type is 'none'.
     ###   If :prompt, the user is promted on the commandline to enter the password for the :user.
-    ###   If :stdin#, the password is read from a line of std in represented by the digit at #, 
-    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, 
+    ###   If :stdin#, the password is read from a line of std in represented by the digit at #,
+    ###   so :stdin3 reads the passwd from the third line of standard input. defaults to line 2,
     ###   if no digit is supplied. see {JSS.stdin}
     ###
     ###
     ### @return [Boolean] did we connect to the LDAP server with the defined credentials
     ###
     def connect(pw = nil)
-      
+
       unless @authentication_type == :anonymous
         # how do we get the password?
         password = if pw == :prompt
@@ -513,24 +504,24 @@ module JSS
         else
           pw
         end
-        
-        
+
+
         raise JSS::InvalidDataError, "Incorrect password for LDAP connection account '#{@lookup_dn}'" unless @lookup_pw_sha256 == Digest::SHA2.new(256).update(password.to_s).to_s
-      end # unless 
+      end # unless
 
       @connection = Net::LDAP.new :host => @hostname, :port => @port, :auth => {:method => @authentication_type, :username => @lookup_dn, :password => password }
-      
+
       @connected = true
     end # connect
-    
-    
-    
+
+
+
     ###
     ### Aliases
     ###
-    
+
     alias connected? connected
-    
+
   end # class ldap server
 
 end # module

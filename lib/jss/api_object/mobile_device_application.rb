@@ -52,8 +52,8 @@ module JSS
     # Class Methods
     #####################################
 
-    def self.all_bundle_ids(refresh = false)
-      all(refresh).map { |mda| mda[:bundle_id] }
+    def self.all_bundle_ids(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |mda| mda[:bundle_id] }
     end
 
     # Class Constants
@@ -422,7 +422,7 @@ module JSS
     #
     def refresh_ipa
       return nil unless @in_jss
-      fresh_data = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       @ipa = fresh_data[:general][:ipa]
     end
 
