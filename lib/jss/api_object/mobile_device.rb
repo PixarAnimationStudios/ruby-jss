@@ -277,7 +277,7 @@ module JSS
         if all_ids(api: api).include? md.to_i
           md.to_i
         elsif all_names(api: api).include? md
-          map_all_ids_to(:name, api: api.invert[md]
+          map_all_ids_to(:name, api: api.invert[md])
         else
           raise JSS::NoSuchItemError, "No mobile device found matching '#{md}'"
         end # if

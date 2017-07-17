@@ -141,7 +141,7 @@ module JSS
       # no change, go home.
       return nil if new_name == @category_name
 
-      raise JSS::NoSuchItemError, "Category '#{new_cat}' is not known to the JSS" unless JSS::Category.all_names(:ref).include? new_name
+      raise JSS::NoSuchItemError, "Category '#{new_cat}' is not known to the JSS" unless JSS::Category.all_names(:ref, api: @api).include? new_name
 
       @category_name = new_name
       @category_id = new_id
@@ -149,7 +149,7 @@ module JSS
     end # category =
 
     # Given a category name or id, return the name and id
-    #
+    # TODO: use APIObject.exist? and/or APIObject.valid_id
     # @param new_cat[String, Integer] The name or id of a possible category
     #
     # @return [Array<String, Integer>] The matching name and id, which may be nil.

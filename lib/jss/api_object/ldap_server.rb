@@ -88,7 +88,7 @@ module JSS
     ###
     def self.all_ldaps(refresh = false, api: JSS.api)
       hash = {}
-      all_objects(refresh, api: api) { |ls| hash[ls.name] => ls }
+      all_objects(refresh, api: api) { |ls| hash[ls.name] = s }
       hash
     end
 

@@ -64,14 +64,45 @@ module JSS
   # == Multiple connections & the currently active connection
   #
   # Sometimes you need to connect simultaneously to more than one JSS.
-  # or to the same JSS with different credentials.
+  # or to the same JSS with different credentials
   #
-  # While multiple connection instances can be created, only one is active at
-  # a time and all API access happens through the currently active connection.
-  # (See below for how to switch between different connections)
+  # ruby-jss provides two ways to deal with multiple connections:
+  #
+  # 1) By swapping the currently-active connection between two or more
+  # pre-established connections. If you do nothing, the def
+  #
+  # For example:
+  #   JSS.use_api test_api # test_api is an API connection, see below
+  #   test_comp = JSS::Computer.fetch name: 'Winston'
+  #   # test_comp is now a JSS::Computer object from the test_api
+  #
+  #   JSS.use_api production_api # production_api is an API connection, see below
+  #   prod_comp = JSS::Computer.fetch name: 'Winston'
+  #   # prod_comp is now a JSS::Computer object from the production_api
+  #
+  # 2) by passing an established connection into a method that will
+  # use it, for example when fetching an object from some connection.
+  #
+  #   test_comp = JSS::Computer.fetch name: 'Winston', api: test_api
+  #   # test_comp is now a JSS::Computer object from the test_api
+  #
+  #   prod_comp = JSS::Computer.fetch name: 'Winston', api: production_api
+  #   # prod_comp is now a JSS::Computer object from the production_api
+  #
+  # In this case, the 'active' connection is not used, but rather the
+  # connection you passed in to the 'fetch' method. is.
+  #
+  # === Changing the currently-active connection
+  #
+  # While multiple connection instances can be created, only one at a time is
+  # 'active' and all API access happens through that connection unless
+  # specifically told to use another connection.
+  # (See below for how to make different connections active)
   #
   # The currently-active connection instance is available from the
   # `JSS.api` method.
+  #
+  #
   #
   # == Making new connection instances
   #

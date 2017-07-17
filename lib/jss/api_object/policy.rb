@@ -1055,7 +1055,7 @@ module JSS
       opts[:fut] = false if opts[:fut].nil?
       opts[:update_autorun] = false if opts[:update_autorun].nil?
 
-      id = JSS::Package.valid_id identifier
+      id = JSS::Package.valid_id identifier, api: @api
       raise JSS::NoSuchItemError, "No package matches '#{identifier}'" unless id
 
       return nil if @packages.map { |p| p[:id] }.include? id
@@ -1163,7 +1163,7 @@ module JSS
       opts[:position] ||= -1
       opts[:priority] ||= :after
 
-      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless (id = JSS::Script.valid_id(identifier))
+      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless (id = JSS::Script.valid_id(identifier, api: @api))
 
       return nil if @scripts.map { |s| s[:id] }.include? id
 

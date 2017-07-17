@@ -268,7 +268,7 @@ module JSS
     #
     # @return [Boolean] does an object with the given name or id exist?
     #
-    def self.exist?(identfier, refresh = false, api: JSS.api)
+    def self.exist?(identfier, refresh = true, api: JSS.api)
       case identfier
       when Integer
         all_ids(refresh, api: api).include? identfier
@@ -285,7 +285,11 @@ module JSS
     # Subclasses may want to override this method to support more
     # identifiers than name and id.
     #
-    # @param identfier [String,Integer] The name or id of object to check for
+    # TODO: use DEFAULT_LOOKUP_KEYS.merge(self.class::OTHER_LOOKUP_KEYS)
+    # so validate any identifier for the class (e.g. serialnumber)
+    # TODO: combine this with .exist?
+    #
+    # @param identfier [String,Integer] The id of object to check for
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
@@ -294,12 +298,12 @@ module JSS
     #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identfier, refresh = false, api: JSS.api)
+    def self.valid_id(identfier, refresh = true, api: JSS.api)
       case identfier
       when Integer
         return identfier if all_ids(refresh, api: api).include? identfier
       when String
-        return map_all_ids_to(:name).invert[identfier] if all_names(refresh, api: api).include? identfier
+        return map_all_ids_to(:name, api: api).invert[identfier] if all_names(refresh, api: api).include? identfier
       else
         raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
       end
@@ -685,6 +689,9 @@ module JSS
 
     # Delete this item from the JSS.
     #
+    # TODO: Make a class method for mass deletion
+    # without instantiating, then call it from this method.
+    #
     # Subclasses may want to redefine this method,
     # first calling super, then setting other attributes to
     # nil, false, empty, etc..
@@ -800,6 +807,7 @@ module JSS
 
       # many things have  a :site
       # TODO: Implement a Sitable mixin module
+      #
       @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
 
       ##### Handle Mix-ins

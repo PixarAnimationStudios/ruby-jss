@@ -92,6 +92,9 @@ module JSS
     ###
     ### @param name [String] the name for the new object
     ###
+    ### @param api[JSS::APIConnection] the API in which to create the object
+    ###  Defaults to the API used to instantiate this object
+    ###
     ### @return [APIObject] An uncreated clone of this APIObject with the given name
     ###
     def clone(new_name, api: nil)

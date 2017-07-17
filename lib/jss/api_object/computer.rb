@@ -503,6 +503,7 @@ module JSS
       Regexp.last_match(1)
     end # send mdm command
 
+
     # Attributes
     #####################################
 
@@ -826,6 +827,9 @@ module JSS
     # Get application usage data for this computer
     # for a given date range.
     #
+    # TODO: Make this a class method so we can retrieve it without
+    # instantiating the Computer.
+    #
     # @param start_date [String,Date,DateTime,Time]
     #
     # @param end_date [String,Date,DateTime,Time] Defaults to start_date
@@ -865,6 +869,9 @@ module JSS
     # If the only: param is provided with a subset, it is used as a hash-key to
     # map the array to just those values, so subset: :smart_groups, only: :name
     # will return an array of names of smartgroups that contain this computer.
+    #
+    # TODO: Make this a class method so we can retrieve it without
+    # instantiating the Computer.
     #
     # @param subset[Symbol] Fetch only a subset of data, as an array.
     #    must be one of the symbols in MGMT_DATA_SUBSETS
@@ -959,6 +966,9 @@ module JSS
     # Return this computer's history.
     # WARNING! Its huge, better to use a subset a
     # nd one of the shortcut methods.
+    #
+    # TODO: Make this a class method so we can retrieve it without
+    # instantiating the Computer.
     #
     # @param subset[Symbol] the subset to return, rather than full history.
     #

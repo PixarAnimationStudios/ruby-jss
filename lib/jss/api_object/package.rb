@@ -460,7 +460,7 @@ module JSS
     def upload_master_file(local_file_path, rw_pw, unmount = true)
       raise JSS::NoSuchItemError, 'Please create this package in the JSS before uploading it.' unless @in_jss
 
-      mdp = JSS::DistributionPoint.master_distribution_point
+      mdp = JSS::DistributionPoint.master_distribution_point api: @api
       destination = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
       local_path = Pathname.new local_file_path
@@ -520,7 +520,7 @@ module JSS
     ###
     def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true)
       raise JSS::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
-      mdp = JSS::DistributionPoint.master_distribution_point
+      mdp = JSS::DistributionPoint.master_distribution_point api: @api
       pkgs_dir = mdp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
       old_file = pkgs_dir + old_file_name
       raise JSS::NoSuchItemError, "File not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}." unless \
@@ -548,7 +548,7 @@ module JSS
     ### @return [Boolean] was the file deleted?
     ###
     def delete_master_file(rw_pw, unmount = true)
-      mdp = JSS::DistributionPoint.master_distribution_point
+      mdp = JSS::DistributionPoint.master_distribution_point api: @api
       file = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
         file.delete
@@ -642,7 +642,7 @@ module JSS
 
       # use our appropriate dist. point for download
       else
-        mdp = JSS::DistributionPoint.my_distribution_point
+        mdp = JSS::DistributionPoint.my_distribution_point api: @api
 
         ### how do we access our dist. point? with http?
         if mdp.http_downloads_enabled && !(args[:no_http])

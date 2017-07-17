@@ -87,10 +87,10 @@ module JSS
     ###
     ### @return [Array<Hash>] the item smatched.
     ###
-    def match(term)
+    def match(term, api: JSS.api )
       raise JSS::InvalidDataError, "Match term may not be empty" if term.to_s.empty?
       rsrc = "#{self::RSRC_BASE}/#{JSS::Matchable::MATCH_RSRC}/#{term}"
-      @api.get_rsrc(rsrc)[self::RSRC_LIST_KEY]
+      api.get_rsrc(rsrc)[self::RSRC_LIST_KEY]
     end
 
   end # module Matchable

@@ -333,7 +333,7 @@ module JSS
       begin
 
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.new api: @api, :id => :new, :name => "JSSgem-EA-#{Time.now.to_jss_epoch}-result-search"
+        acs = search_class.new api: @api, :id => :new, :name => "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
         acs.display_fields = [@name]
         crit_list = [JSS::Criteriable::Criterion.new(:and_or => "and", :name => @name, :search_type => search_type.to_s, :value => desired_value)]
         acs.criteria = JSS::Criteriable::Criteria.new crit_list
@@ -387,7 +387,7 @@ module JSS
     ###
     def latest_values
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY}." unless @in_jss
-      tmp_advsrch = "JSSgem-EA-#{Time.now.to_jss_epoch}-latest-search"
+      tmp_advsrch = "ruby-jss-EA-latest-search-#{Time.now.to_jss_epoch}"
 
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS

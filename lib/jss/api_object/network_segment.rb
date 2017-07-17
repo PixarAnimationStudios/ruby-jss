@@ -74,11 +74,11 @@ module JSS
     ###
     ### @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
     ###
-    def self.network_ranges(refresh = false)
+    def self.network_ranges(refresh = false, api: JSS.api)
       @network_ranges = nil if refresh
       return @network_ranges if @network_ranges
       @network_ranges = {}
-      all(refresh).each { |ns| @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address]) }
+      api.all(refresh).each { |ns| @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address]) }
       @network_ranges
     end # def network_segments
 
@@ -88,8 +88,8 @@ module JSS
     ###
     ### @see {NetworkSegment::network_ranges}
     ###
-    def self.subnets(refresh = false)
-      network_ranges refresh
+    def self.subnets(refresh = false, api: JSS.api)
+      network_ranges refresh, api: api
     end
 
     ### Given a starting address & ending address, mask, or cidr,
@@ -188,27 +188,31 @@ module JSS
     ###
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
-    def self.network_segments_for_ip(ip)
+    def self.network_segments_for_ip(ip, api: JSS.api)
       ok_ip = IPAddr.new(ip)
       matches = []
-      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
+      network_ranges(api: api).each { |id, subnet| matches << id if subnet.include?(ok_ip) }
       matches
     end
 
-    def self.network_segment_for_ip(ip)
-      network_segments_for_ip(ip)
+    # @deprecated use network_segments_for_ip
+    # Backward compatibility
+    def self.network_segment_for_ip(ip, api: JSS.api)
+      network_segments_for_ip(ip, api: api)
     end
 
     ### Find the current network segment ids for the machine running this code
     ###
     ### @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
     ###
-    def self.my_network_segments
-      network_segment_for_ip JSS::Client.my_ip_address
+    def self.my_network_segments(api: JSS.api)
+      network_segment_for_ip JSS::Client.my_ip_address, api: api
     end
 
-    def self.my_network_segment
-      my_network_segments
+    # @deprecated use my_network_segments
+    # Backward compatibility
+    def self.my_network_segment(api: JSS.api)
+      my_network_segments api: api
     end
 
     ### Attributes
