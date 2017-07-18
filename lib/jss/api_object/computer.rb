@@ -1074,8 +1074,7 @@ module JSS
     def make_unmanaged
       return nil unless managed?
       set_management_to(nil, nil)
-      return unless mdm_capable
-      self.class.send_mdm_command(@id, :unmanage_device)
+      @unmange_at_update = true
     end
 
     #
@@ -1118,7 +1117,8 @@ module JSS
     #
     def update
       id = super
-      @management_password = nil
+      remove_mdm_profile if mdm_capable && managed? && @unmange_at_update
+      @unmange_at_update = false
       id
     end
 
