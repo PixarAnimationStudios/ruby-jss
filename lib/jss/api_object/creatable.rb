@@ -109,12 +109,15 @@ module JSS
       @id = nil
       orig_rsrc = @rest_rsrc
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name}"
+      orig_api = @api
+      @api = api
 
       new_obj = dup
 
       @in_jss = orig_in_jss
       @id = orig_id
       @rest_rsrc = orig_rsrc
+      @api = orig_api
       new_obj.name = new_name
 
       new_obj
