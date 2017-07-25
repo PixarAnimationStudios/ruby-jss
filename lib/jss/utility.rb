@@ -409,7 +409,7 @@ module JSS
     raise JSS::InvalidDataError, 'JSS Versions must start with "x.x" where x is one or more digits' unless major =~ /\d$/ && second_part =~ /^\d/
 
     # since ruby-jss requires 9.4 and up, this check works fine.
-    if if major == '9' && (second_part.to_i < 99)
+    if major == '9' && (second_part.to_i < 99)
       parse_jss_version_oldstyle version
     else
       parse_jss_version_newstyle version
