@@ -253,7 +253,7 @@ module JSS
     def self.all_objects(refresh = false, api: JSS.api)
       objects_key = "#{self::RSRC_LIST_KEY}_objects".to_sym
       return api.object_list_cache[objects_key] unless refresh || api.object_list_cache[objects_key].nil?
-      api.object_list_cache[objects_key] = all(refresh, api: api).map { |o| fetch id: o[:id], api: api}
+      api.object_list_cache[objects_key] = all(refresh, api: api).map { |o| fetch id: o[:id], api: api }
     end
 
     # Return true or false if an object of this subclass
@@ -394,7 +394,7 @@ module JSS
     #
     def self.rsrc_keys
       hash = {}
-      all_lookup_keys.each { |key, deets| hash[key] = deets[:rsrc_key]}
+      all_lookup_keys.each { |key, deets| hash[key] = deets[:rsrc_key] }
       hash
     end
 
@@ -419,7 +419,7 @@ module JSS
     #
     def self.lookup_key_list_methods
       hash = {}
-      all_lookup_keys.each { |key, deets| hash[key] = deets[:list]}
+      all_lookup_keys.each { |key, deets| hash[key] = deets[:list] }
       hash
     end
 
@@ -439,7 +439,6 @@ module JSS
     #
     def self.fetch(arg, api: JSS.api)
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
-
 
       # if given a hash (or a colletion of named params)
       # pass to .new
@@ -490,7 +489,7 @@ module JSS
     # These Symbols are added to VALID_DATA_KEYS for performing the
     # :data validity test described above.
     #
-    REQUIRED_DATA_KEYS = [:id, :name].freeze
+    REQUIRED_DATA_KEYS = %i[id name].freeze
 
     # All API objects have an id and a name. As such By these keys are available
     # for object lookups.
@@ -521,8 +520,8 @@ module JSS
     # }
     #
     DEFAULT_LOOKUP_KEYS = {
-      id: {rsrc_key: :id, list: :all_ids},
-      name: {rsrc_key: :name, list: :all_names}
+      id: { rsrc_key: :id, list: :all_ids },
+      name: { rsrc_key: :name, list: :all_names }
     }.freeze
 
     # Attributes
@@ -594,7 +593,6 @@ module JSS
       else
         @init_data = look_up_object_data(args)
       end ## end arg parsing
-
 
       parse_init_data
       @need_to_update = false
@@ -771,7 +769,7 @@ module JSS
     def validate_init_for_creation(args)
       raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless creatable?
 
-      raise JSS::MissingDataError, "You must provide a :name to create a #{self.class::RSRC_OBJECT_KEY}."  unless args[:name]
+      raise JSS::MissingDataError, "You must provide a :name to create a #{self.class::RSRC_OBJECT_KEY}." unless args[:name]
 
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if self.class.all_names(api: @api).include? args[:name]
     end
@@ -845,7 +843,7 @@ module JSS
     def find_main_subset
       return @init_data if @init_data[:id] && @init_data[:name]
       return @init_data[:general] if @init_data[:general] && @init_data[:general][:id] && @init_data[:general][:name]
-      @init_data.each do |key, value|
+      @init_data.each do |_key, value|
         next unless value.is_a? Hash
         return value if value.keys.include?(:id) && value.keys.include?(:name)
       end
