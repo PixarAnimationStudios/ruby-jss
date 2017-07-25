@@ -110,6 +110,18 @@ module JSS
       @act_code_data[:code]
     end
 
+    # Remove the api object from
+    # the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@api
+      vars
+    end
+
     ##### Aliases
     alias institution organization
     alias product_name product
