@@ -743,6 +743,24 @@ module JSS
       network_segments_for_ip JSS::Client.my_ip_address
     end
 
+    # Send an MDM command to one or more computers managed by
+    # this JSS
+    #
+    # see {JSS::Computer.send_mdm_command}
+    #
+    def send_computer_mdm_command(targets, command, passcode = nil)
+      JSS::Computer.send_mdm_command(targets, command, passcode, api: self)
+    end
+
+    # Send an MDM command to one or more mobile devices managed by
+    # this JSS
+    #
+    # see {JSS::MobileDevice.send_mdm_command}
+    #
+    def send_mobiledevice_mdm_command(targets, command, data = nil)
+      JSS::MobileDevice.send_mdm_command(targets, command, data, api: self)
+    end
+
     # Remove the various cached data
     # from the instance_variables used to create
     # pretty-print (pp) output.
