@@ -275,13 +275,6 @@ module JSS
     # is not false, the API is queried and the value in this hash is updated.
     attr_reader :object_list_cache
 
-    # @return [JSS::DistributionPoint] The master Distribution Point for this API
-    attr_reader :master_distribution_point
-
-    # @return [JSS::DistributionPoint] The Distribution Point for this computer
-    #  in this API
-    attr_reader :my_distribution_point
-
     # Constructor
     #####################################
 
@@ -526,22 +519,245 @@ module JSS
       srvr
     end
 
-    # See {JSS::DistributionPoint.master_distribution_point}
-    def master_distribution_point=(new_dp)
-      raise JSS::InvalidDataError, 'Master distribution point must be a JSS::DistributionPoint' unless new_dp.is_a? JSS::DistributionPoint
-      raise JSS::InvalidDataError, 'That distribution point is not the master.' unless new_dp.is_master
-      @master_distribution_point = new_dp
-    end
-
-    # See {JSS::DistributionPoint.my_distribution_point}
-    def my_distribution_point=(new_dp)
-      raise JSS::InvalidDataError, 'Distribution point must be a JSS::DistributionPoint' unless new_dp.is_a? JSS::DistributionPoint
-      @my_distribution_point = new_dp
-    end
-
     # aliases
     alias connected? connected
     alias host hostname
+
+
+    #################
+
+
+    # Call one of the 'all*' methods on a JSS::APIObject subclass
+    # using this APIConnection.
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @param only[String,Symbol] Limit the output to subset or data. All
+    #   APIObject subclasses can take :ids or :names, which calls the .all_ids
+    #   and .all_names methods. Some subclasses can take other options, e.g.
+    #   MobileDevice can take :udids
+    #
+    # @return [Array] The list of items for the class
+    #
+    def all(class_name, refresh = false, only: nil )
+      the_class = api_object_class(class_name)
+      list_method = only ? :"all_#{only}" : :all
+
+      raise ArgumentError, "Unknown identifier: #{only} for #{the_class}" unless
+        the_class.respond_to? list_method
+
+      the_class.send list_method, refresh, api: self
+    end
+
+    # Call the 'map_all_ids_to' method on a JSS::APIObject subclass
+    # using this APIConnection.
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @param to[String,Symbol] the value to which the ids should be mapped
+    #
+    # @return [Hash] The ids for the class keyed to the requested identifier
+    #
+    def map_all_ids(class_name, refresh = false, to: nil)
+      raise "'to:' value must be provided for mapping ids." unless to
+      the_class = api_object_class(class_name)
+      the_class.map_all_ids_to to,  api: self
+    end
+
+    # Call the 'valid_id' method on a JSS::APIObject subclass
+    # using this APIConnection. See {JSS::APIObject.valid_id}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #
+    # @param identifier[String,Symbol] the value to which the ids should be mapped
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @return [Integer, nil] the id of the matching object of the class,
+    #   or nil if there isn't one
+    #
+    def valid_id(class_name, identifier, refresh = true)
+      the_class = api_object_class(class_name)
+      the_class.valid_id identifier, refresh, api: self
+    end
+
+    # Call the 'exist?' method on a JSS::APIObject subclass
+    # using this APIConnection. See {JSS::APIObject.exist?}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #
+    # @param identifier[String,Symbol] the value to which the ids should be mapped
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @return [Boolean] Is there an object of this class in the JSS matching
+    #   this indentifier?
+    #
+    def exist?(class_name, identifier, refresh = false)
+      !valid_id(class_name, identifier, refresh).nil?
+    end
+
+    # Call {Matchable.match} for the given class.
+    #
+    # See {Matchable.match}
+    #
+    def match(class_name, term)
+      the_class = api_object_class(class_name)
+      raise JSS::UnsupportedError, "Class #{the_class} is not matchable" unless the_class.respond_to? :match
+      the_class.match term, api: self
+    end
+
+    # Retrieve an object of a given class from the API
+    # See {APIObject.fetch}
+    #
+    # @return [APIObject] The ruby-instance of the object.
+    #
+    def fetch(class_name, arg)
+      the_class = api_object_class(class_name)
+      the_class.fetch arg, api: self
+    end
+
+    # Make a ruby instance of a not-yet-existing APIObject
+    # of the given class
+    # See {APIObject.make}
+    #
+    # @return [APIObject] The un-created ruby-instance of the object.
+    #
+    def make(class_name, **args)
+      the_class = api_object_class(class_name)
+      args[:api] = self
+      the_class.make args
+    end
+
+    # Call {JSS::Computer.checkin_settings} passing this API
+    # connection
+    #
+    # @return (see JSS::Computer.checkin_settings)
+    #
+    def computer_checkin_settings
+      JSS::Computer.checkin_settings api: self
+    end
+
+
+    # Call {JSS::Computer.inventory_collection_settings} passing this API
+    # connection
+    #
+    # @return (see JSS::Computer.checkin_settings)
+    #
+    def computer_inventory_collection_settings
+      JSS::Computer.inventory_collection_settings api: self
+    end
+
+    # Get the DistributionPoint instance for the master
+    # distribution point in the JSS. If there's only one
+    # in the JSS, return it even if not marked as master.
+    #
+    # @param refresh[Boolean] re-read from the API?
+    #
+    # @return [JSS::DistributionPoint]
+    #
+    def master_distribution_point(refresh = false)
+      @master_distribution_point = nil if refresh
+      return @master_distribution_point if @master_distribution_point
+
+      all_dps = JSS::DistributionPoint.all refresh, api: self
+
+      @master_distribution_point =
+        case all_dps.size
+        when 0
+          raise JSS::NoSuchItemError, "No distribution points defined"
+        when 1
+          JSS::DistributionPoint.fetch id: all_dps.first[:id], api: self
+        else
+          JSS::DistributionPoint.fetch id: :master, api: self
+        end
+    end
+
+    # Get the DistributionPoint instance for the machine running
+    # this code, based on its IP address. If none is defined for this IP address,
+    # use the result of master_distribution_point
+    #
+    # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @return [JSS::DistributionPoint]
+    #
+    def my_distribution_point(refresh = false)
+      @my_distribution_point = nil if refresh
+      return @my_distribution_point if @my_distribution_point
+
+      my_net_seg = my_network_segments[0]
+      @my_distribution_point = JSS::NetworkSegment.fetch(id: my_net_seg, api: self).distribution_point if my_net_seg
+      @my_distribution_point ||= master_distribution_point refresh
+      @my_distribution_point
+    end
+
+    # All NetworkSegments in this jss as IPAddr object Ranges representing the
+    # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
+    # the range looks like:
+    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    #
+    # Using the #include? method on those Ranges is very useful.
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
+    #
+    def network_ranges(refresh = false)
+      @network_ranges = nil if refresh
+      return @network_ranges if @network_ranges
+      @network_ranges = {}
+      JSS::NetworkSegment.all(refresh, api: self).each do |ns|
+        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
+      end
+      @network_ranges
+    end # def network_segments
+
+    # Find the ids of the network segments that contain a given IP address.
+    #
+    # Even tho IPAddr.include? will take a String or an IPAddr
+    # I convert the ip to an IPAddr so that an exception will be raised if
+    # the ip isn't a valid ip.
+    #
+    # @param ip[String, IPAddr] the IP address to locate
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
+    #
+    def network_segments_for_ip(ip, refresh = false)
+      ok_ip = IPAddr.new(ip)
+      matches = []
+      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
+      matches
+    end
+
+    # Find the current network segment ids for the machine running this code
+    #
+    # @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
+    #
+    def my_network_segments
+      network_segments_for_ip JSS::Client.my_ip_address
+    end
+
+    # Remove the various cached data
+    # from the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@object_list_cache
+      vars.delete :@last_http_response
+      vars.delete :@network_ranges
+      vars.delete :@my_distribution_point
+      vars.delete :@master_distribution_point
+      vars
+    end
 
     # Private Insance Methods
     ####################################
@@ -755,6 +971,28 @@ module JSS
         &(block || @block)
       )
     end # delete_with_payload
+
+
+    # Given a name of a JSS::APIObject subclass as a String or
+    # Symbol (e.g. :Computer), return the class itself
+    # (e.g. JSS::Computer)
+    #
+    # @param name[String,Symbol] The name of a JSS::APIObject subclass
+    #
+    # @return [Class] The class
+    #
+    def api_object_class(name)
+      raise JSS::InvalidDataError, "Unknown API Object Class: #{name}" unless \
+        JSS.constants.include?(name.to_sym)
+
+      the_class = JSS.const_get(name.to_sym)
+
+      raise JSS::InvalidDataError, "Unknown API Object Class: #{name}" unless \
+        the_class.is_a?(Class) && the_class.ancestors.include?(JSS::APIObject)
+
+      the_class
+    end
+
 
   end # class APIConnection
 

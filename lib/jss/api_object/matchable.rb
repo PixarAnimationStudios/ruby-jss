@@ -77,7 +77,6 @@ module JSS
     ###  Extended Class Methods
     #####################################
 
-    ###
     ### Perform a match, returning an Array of Hashes, one for each item matched
     ###
     ### At the moment, it appears the search is an "exact match" search

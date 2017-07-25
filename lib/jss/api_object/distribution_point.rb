@@ -110,20 +110,14 @@ module JSS
     ### distribution point in the JSS. If there's only one
     ### in the JSS, return it even if not marked as master.
     ###
+    ### @param refresh[Boolean] should the distribution point be re-queried?
+    ###
+    ### @param api[JSS::APIConnection] which API connection should we query?
+    ###
     ### @return [JSS::DistributionPoint]
     ###
     def self.master_distribution_point(refresh = false, api: JSS.api)
-      return api.master_distribution_point unless refresh || api.master_distribution_point.nil?
-
-      case all(refresh, api: api).size
-      when 0
-        raise JSS::NoSuchItemError, "No distribution points defined"
-      when 1
-        api.master_distribution_point = self.fetch id: all_ids[0], api: api
-      else
-        api.master_distribution_point = self.fetch id: :master, api: api
-      end
-      api.master_distribution_point
+      api.master_distribution_point refresh
     end
 
     ### Get the DistributionPoint instance for the machine running
@@ -132,16 +126,12 @@ module JSS
     ###
     ### @param refresh[Boolean] should the distribution point be re-queried?
     ###
+    ### @param api[JSS::APIConnection] which API connection should we query?
+    ###
     ### @return [JSS::DistributionPoint]
     ###
     def self.my_distribution_point(refresh = false, api: JSS.api)
-      return api.my_distribution_point unless refresh || api.my_distribution_point.nil?
-
-      my_net_seg = JSS::NetworkSegment.my_network_segment[0]
-      mydp = my_net_seg ? JSS::NetworkSegment.fetch(id: my_net_seg, api: api).distribution_point : nil
-      mydp ||= master_distribution_point refresh, api: api
-      api.my_distribution_point = mydp
-      mydp
+      api.my_distribution_point refresh
     end
 
     #####################################

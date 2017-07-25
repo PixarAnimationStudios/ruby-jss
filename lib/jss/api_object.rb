@@ -257,39 +257,27 @@ module JSS
     end
 
     # Return true or false if an object of this subclass
-    # with the given name or id exists on the server
+    # with the given Identifier exists on the server
     #
-    # @param identfier [String,Integer] The name or id of object to check for
+    # @param identfier [String,Integer] An identifier for an object, a value for
+    # one of the available lookup_keys
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
     # @param api[JSS::APIConnection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
-    # @return [Boolean] does an object with the given name or id exist?
+    # @return [Boolean] does an object with the given identifier exist?
     #
-    def self.exist?(identfier, refresh = true, api: JSS.api)
-      case identfier
-      when Integer
-        all_ids(refresh, api: api).include? identfier
-      when String
-        all_names(refresh, api: api).include? identfier
-      else
-        raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
-      end
+    def self.exist?(identifier, refresh = false, api: JSS.api)
+      !valid_id(identifier, refresh, api: api).nil?
     end
 
     # Return an id or nil if an object of this subclass
     # with the given name or id exists on the server
     #
-    # Subclasses may want to override this method to support more
-    # identifiers than name and id.
-    #
-    # TODO: use DEFAULT_LOOKUP_KEYS.merge(self.class::OTHER_LOOKUP_KEYS)
-    # so validate any identifier for the class (e.g. serialnumber)
-    # TODO: combine this with .exist?
-    #
-    # @param identfier [String,Integer] The id of object to check for
+    # @param identfier [String,Integer] An identifier for an object, a value for
+    # one of the available lookup_keys
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
@@ -298,15 +286,15 @@ module JSS
     #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identfier, refresh = true, api: JSS.api)
-      case identfier
-      when Integer
-        return identfier if all_ids(refresh, api: api).include? identfier
-      when String
-        return map_all_ids_to(:name, api: api).invert[identfier] if all_names(refresh, api: api).include? identfier
-      else
-        raise ArgumentError, 'Identifier must be a name (String) or id (Integer)'
-      end
+    def self.valid_id(identifier, refresh = false, api: JSS.api)
+      return identifier if all_ids(refresh, api: api).include? identifier
+      id = nil
+      all_lookup_keys.keys.each do |key|
+        next if key == :id
+        id = map_all_ids_to(key).invert[identifier]
+        return id if id
+      end # do key
+      id
     end
 
     # Convert an Array of Hashes of API object data to a
@@ -406,13 +394,24 @@ module JSS
     #
     def self.rsrc_keys
       hash = {}
-      all_keys = if defined?(self::OTHER_LOOKUP_KEYS)
-                   DEFAULT_LOOKUP_KEYS.merge self::OTHER_LOOKUP_KEYS
-                 else
-                   DEFAULT_LOOKUP_KEYS
-                 end
-      all_keys.each { |key, deets| hash[key] = deets[:rsrc_key]}
+      all_lookup_keys.each { |key, deets| hash[key] = deets[:rsrc_key]}
       hash
+    end
+
+    # the available list methods for an APIObject sublcass
+    #
+    # @return [Array<Symbol>] The list methods (e.g. .all_serial_numbers) for
+    # this APIObject subclass
+    #
+
+    # The combined DEFAULT_LOOKUP_KEYS and OTHER_LOOKUP_KEYS
+    # (which may be defined in subclasses)
+    #
+    # @return [Hash] See DEFAULT_LOOKUP_KEYS constant
+    #
+    def self.all_lookup_keys
+      return DEFAULT_LOOKUP_KEYS.merge(self::OTHER_LOOKUP_KEYS) if defined? self::OTHER_LOOKUP_KEYS
+      DEFAULT_LOOKUP_KEYS
     end
 
     # @return [Hash] the available lookup keys mapped to the appropriate
@@ -420,12 +419,7 @@ module JSS
     #
     def self.lookup_key_list_methods
       hash = {}
-      all_keys = if defined?(self::OTHER_LOOKUP_KEYS)
-                   DEFAULT_LOOKUP_KEYS.merge self::OTHER_LOOKUP_KEYS
-                 else
-                   DEFAULT_LOOKUP_KEYS
-                 end
-      all_keys.each { |key, deets| hash[key] = deets[:list]}
+      all_lookup_keys.each { |key, deets| hash[key] = deets[:list]}
       hash
     end
 
@@ -482,7 +476,7 @@ module JSS
     #
     # @return [APIObject] The un-created ruby-instance of a JSS object
     #
-    def self.make(args = {})
+    def self.make(**args)
       args[:api] ||= JSS.api
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
@@ -505,6 +499,7 @@ module JSS
     # which has the same format, described here:
     #
     # The merged Hashes DEFAULT_LOOKUP_KEYS and OTHER_LOOKUP_KEYS
+    # (as provided by the .all_lookup_keys Class method)
     # define what unique identifiers can be passed as parameters to the
     # fetch method for retrieving an object from the API.
     # They also define the class methods that return a list (Array) of all such
@@ -536,6 +531,10 @@ module JSS
     # @return [JSS::APIConnection] the API connection thru which we deal with
     #   this object.
     attr_reader :api
+
+    # @return the parsed JSON data retrieved from the API when this object was
+    #    fetched
+    attr_reader :init_data
 
     # @return [Integer] the JSS id number
     attr_reader :id
@@ -714,6 +713,19 @@ module JSS
     #
     def to_s
       "#{self.class}, name: #{@name}, id: #{@id}"
+    end
+
+    # Remove the init_data and api object from
+    # the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@api
+      vars.delete :@init_data
+      vars
     end
 
     # Private Instance Methods

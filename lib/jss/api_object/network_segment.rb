@@ -72,14 +72,14 @@ module JSS
     ###
     ### Using the #include? method on those Ranges is very useful.
     ###
+    ### @param refresh[Boolean] re-read the data from the API?
+    ###
+    ### @param api[JSS::APIConnection] The API connection to query
+    ###
     ### @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
     ###
     def self.network_ranges(refresh = false, api: JSS.api)
-      @network_ranges = nil if refresh
-      return @network_ranges if @network_ranges
-      @network_ranges = {}
-      api.all(refresh).each { |ns| @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address]) }
-      @network_ranges
+      api.network_ranges refresh
     end # def network_segments
 
     ### An alias for {NetworkSegment.network_ranges}
@@ -186,13 +186,14 @@ module JSS
     ###
     ### @param ip[String, IPAddr] the IP address to locate
     ###
+    ### @param refresh[Boolean] should the data be re-queried?
+    ###
+    ### @param api[JSS::APIConnection] The API connection to query
+    ###
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
-    def self.network_segments_for_ip(ip, api: JSS.api)
-      ok_ip = IPAddr.new(ip)
-      matches = []
-      network_ranges(api: api).each { |id, subnet| matches << id if subnet.include?(ok_ip) }
-      matches
+    def self.network_segments_for_ip(ip, refresh = false, api: JSS.api)
+      api.network_segments_for_ip ip, refresh
     end
 
     # @deprecated use network_segments_for_ip
