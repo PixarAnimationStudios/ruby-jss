@@ -37,16 +37,18 @@ module JSS
   # Classes
   #####################################
 
-  # Instances of this class represent an API connection to the JSS.
-  #
-  # JSS::APIConnection objects are REST connections to JSS APIs and contain
-  # (once connected) all the data needed for communication with
+  # Instances of this class represent a REST connection to a JSS API. They
+  # contain (once connected) all the data needed for communication with
   # that API, including login credentials, URLs, and so on.
   #
   # == The default connection
   #
   # When ruby-jss is loaded, a not-yet-connected default instance of
-  # JSS::APIConnection is created, activated, and stored internally.
+  # JSS::APIConnection is created, activated, and stored internally. The
+  # various ruby-jss methods that make API calls will use this connection
+  # by default. For most uses, where you're only going to be working with
+  # one connection to one JSS, the default connection is all you need.
+  #
   # Before using it you must call its {#connect} method, passing in appropriate
   # connection details and credentials.
   #
@@ -57,60 +59,53 @@ module JSS
   #
   # (see {JSS::APIConnection#connect} for all the connection options)
   #
-  # If you're only going to be connecting to one server, or one at a time,
-  # using the default connection is preferred. You can call its {#connect}
-  # method at any time to change servers or connection credentials.
+  # If needed, you can call its {#connect} method at any time to change servers
+  # or connection credentials.
   #
-  # == Multiple connections & the currently active connection
+  # == Using Multiple Simultaneous Connections
   #
   # Sometimes you need to connect simultaneously to more than one JSS.
-  # or to the same JSS with different credentials
+  # or to the same JSS with different credentials. ruby-jss allows you to
+  # create as many connections as needed, and gives you three ways to use them:
   #
-  # ruby-jss provides two ways to deal with multiple connections:
+  # 1) Making a connection 'active', after which API calls go thru it
+  # automatically
   #
-  # 1) By swapping the currently-active connection between two or more
-  # pre-established connections. If you do nothing, the def
+  # Example:
   #
-  # For example:
-  #   JSS.use_api test_api # test_api is an API connection, see below
-  #   test_comp = JSS::Computer.fetch name: 'Winston'
-  #   # test_comp is now a JSS::Computer object from the test_api
+  #     a_computer = JSS::Computer.fetch id: 1234
   #
-  #   JSS.use_api production_api # production_api is an API connection, see below
-  #   prod_comp = JSS::Computer.fetch name: 'Winston'
-  #   # prod_comp is now a JSS::Computer object from the production_api
+  #     # the JSS::Computer with id 1234 is fetched from the active connection
+  #     # and stored in the variable 'a_computer'
   #
-  # 2) by passing an established connection into a method that will
-  # use it, for example when fetching an object from some connection.
+  # 2) Passing an APIConnection instance to methods that talk to the API
   #
-  #   test_comp = JSS::Computer.fetch name: 'Winston', api: test_api
-  #   # test_comp is now a JSS::Computer object from the test_api
+  # Example:
   #
-  #   prod_comp = JSS::Computer.fetch name: 'Winston', api: production_api
-  #   # prod_comp is now a JSS::Computer object from the production_api
+  #      a_computer = JSS::Computer.fetch id: 1234, api: @production_api
   #
-  # In this case, the 'active' connection is not used, but rather the
-  # connection you passed in to the 'fetch' method. is.
+  #      # the JSS::Computer with id 1234 is fetched from the connection
+  #      # stored in the variable '@production_api'. The computer is
+  #      # then stored in the variable 'a_computer'
   #
-  # === Changing the currently-active connection
+  # 3) Using the APIConnection object itself to make API calls.
   #
-  # While multiple connection instances can be created, only one at a time is
-  # 'active' and all API access happens through that connection unless
-  # specifically told to use another connection.
-  # (See below for how to make different connections active)
+  #    Example:
   #
-  # The currently-active connection instance is available from the
-  # `JSS.api` method.
+  #      a_computer = @production_api.fetch :Computer, id: 1234,
   #
+  #      # the JSS::Computer with id 1234 is fetched from the connection
+  #      # stored in the variable '@production_api'. The computer is
+  #      # then stored in the variable 'a_computer'
   #
+  # See below for more details about the ways to use multiple connections.
   #
-  # == Making new connection instances
+  # == Making new APIConnection instances
   #
-  # New connections can be created and stored in a variable using
-  # the standard ruby 'new' method.
+  # New connections can be created  using the standard ruby 'new' method.
   #
   # If you provide connection details when calling 'new', they will be passed
-  # to the #connect method immediately.
+  # to the {#connect} method immediately. Otherwise you can call {#connect} later.
   #
   #   production_api = JSS::APIConnection.new(
   #     name: 'prod',
@@ -121,13 +116,43 @@ module JSS
   #
   #   # the new connection is now stored in the variable 'production_api'.
   #
-  # == Switching between multiple connections
+  # == Using the 'Active' Connection
   #
-  # Only one connection is active at a time and the currently active one is
-  # returned when you call `JSS.api` or its aliases `JSS.api_connection` or
-  # `JSS.connection`
+  # While multiple connection instances can be created, only one at a time is
+  # 'the active connection' and all APIObject-based access methods in ruby-jss
+  # will use it automatically. When ruby-jss is loaded, the  default connection
+  # (see above) is the active connection.
+  #
+  # To use the active connection, just call a method on an APIObject subclass
+  # that uses the API.
+  #
+  # For example, the various list methods:
+  #
+  #   all_computer_sns = JSS::Computer.all_serial_numbers
+  #
+  #   # the list of all computer serial numbers is read from the active
+  #   # connection and stored in all_computer_sns
+  #
+  # Fetching an object from the API:
+  #
+  #   victim_md = JSS::MobileDevice.fetch id: 832
+  #
+  #   # the variable 'victim_md' now contains a JSS::MobileDevice queried
+  #   # through the active connection. The JSS::MobileDevice object knows
+  #   # which APIConnection it came from, and calls from it back to the API
+  #   # (such as #update) will only go to the API it came from, even if
+  #   # you make a different connection active.
+  #
+  # The currently-active connection instance is available from the
+  # `JSS.api` method.
+  #
+  # === Making a Connection Active
+  #
+  # Only one connection is 'active' at a time and the currently active one is
+  # returned when you call `JSS.api` or its alias `JSS.active_connection`
   #
   # To activate another connection just pass it to the JSS.use_api method like so:
+  #
   #   JSS.use_api production_api
   #   # the connection we stored in 'production_api' is now active
   #
@@ -177,6 +202,58 @@ module JSS
   #    )
   #
   #   JSS.api.name  # => 'prod2'
+  #
+  # == Passing an APIConnection object to API-related methods
+  #
+  # All methods that talk to the API can take an 'api:' parameter which
+  # contains an APIConnection object. When provided, that APIconnection is
+  # used rather than the active connection.
+  #
+  # For example:
+  #
+  #   prod2_computer_sns = JSS::Computer.all_serial_numbers, api: production_api2
+  #
+  #   # the list of all computer serial numbers is read from the connection in
+  #   # the variable 'production_api2' and stored in 'prod2_computer_sns'
+  #
+  #   prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
+  #
+  #   # the variable 'prod2_victim_md' now contains a JSS::MobileDevice queried
+  #   # through the connection 'production_api2'.
+  #
+  # == Using the APIConnection itself to make API calls.
+  #
+  # Rather than passing an APIConnection into another method, you can call
+  # similar methods on the connection itself. For example, these two calls
+  # have the same result as the two examples above:
+  #
+  #   prod2_computer_sns = production_api2.all :Computer, only: :serial_numbers
+  #   prod2_victim_md = production_api2.fetch :MobileDevice, id: 832
+  #
+  # Here are the API calls you can make directly from an APIConnection object.
+  # Most of them behave identically to the same methods in the APIObject classes
+  #
+  # - {#all}  The 'list' methods of the various APIObject classes. Use the 'only:'
+  #   parameter to specify one of the sub-list-methods, like #all_ids or
+  #   #all_laptops
+  # - {#map_all_ids} the equivalent of #map_all_ids_to in the APIObject classes
+  # - {#valid_id} given a class and an identifier (like macaddress or udid)
+  #   return a valid id or nil
+  # - {#exist?} given a class and an identifier (like macaddress or udid) does
+  #   the identifier exist for the class in the JSS
+  # - {#match} list items in the JSS matching a query
+  #   (if the object is {Matchable})
+  # - {#fetch} retrieve an object from the JSS
+  # - {#make} instantiate an object to be created in the JSS
+  # - {#send_computer_mdm_command} same as {Computer.send_mdm_command}
+  # - {#computer_checkin_settings} same as {Computer.checkin_settings}
+  # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
+  # - {#send_mobiledevice_mdm_command} same as {MobileDevice.send_mdm_command}
+  # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
+  # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
+  # - {#network_ranges} same as {NetworkSegment.network_ranges}
+  # - {#network_segments_for_ip} same as {NetworkSegment.segments_for_ip}
+  # - {#my_network_segments} same as {NetworkSegment.my_network_segments}
   #
   # == Low-level use of APIConnection instances.
   #
@@ -1064,12 +1141,14 @@ module JSS
   class << self
     alias api_connection api
     alias connection api
+    alias active_connection api
 
     alias new_connection new_api_connection
     alias new_api new_api_connection
 
     alias use_api use_api_connection
     alias use_connection use_api_connection
+    alias activate_connection use_api_connection
   end
 
   # create the default connection
