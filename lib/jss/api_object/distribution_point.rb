@@ -27,19 +27,8 @@
 module JSS
 
   #####################################
-  ### Module Variables
-  #####################################
-
-  ### the master dist. point, see JSS.master_distribution_point
-  @@master_distribution_point = nil
-
-  ### the dist point for this machine right now
-  @@my_distribution_point =nil
-
-  #####################################
   ### Module Methods
   #####################################
-
 
 
   ###
@@ -95,13 +84,6 @@ module JSS
     DEFAULT_MOUNTPOINT_DIR = Pathname.new "/tmp"
 
     DEFAULT_MOUNTPOINT_PREFIX = "CasperDistribution-id"
-
-    ### Class Variables
-    #####################################
-
-    @@master_distribution_point = nil
-
-    @@my_distribution_point = nil
 
     ### Class Methods
     #####################################
