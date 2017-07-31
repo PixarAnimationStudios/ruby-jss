@@ -603,11 +603,11 @@ module JSS
 
     #################
 
-
     # Call one of the 'all*' methods on a JSS::APIObject subclass
     # using this APIConnection.
     #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
     #
     # @param refresh[Boolean] Should the data be re-read from the API?
     #
@@ -619,7 +619,7 @@ module JSS
     # @return [Array] The list of items for the class
     #
     def all(class_name, refresh = false, only: nil )
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       list_method = only ? :"all_#{only}" : :all
 
       raise ArgumentError, "Unknown identifier: #{only} for #{the_class}" unless
@@ -632,6 +632,7 @@ module JSS
     # using this APIConnection.
     #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
     #
     # @param refresh[Boolean] Should the data be re-read from the API?
     #
@@ -641,14 +642,15 @@ module JSS
     #
     def map_all_ids(class_name, refresh = false, to: nil)
       raise "'to:' value must be provided for mapping ids." unless to
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       the_class.map_all_ids_to to,  api: self
     end
 
     # Call the 'valid_id' method on a JSS::APIObject subclass
     # using this APIConnection. See {JSS::APIObject.valid_id}
     #
-    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass,
+    #   see {JSS.api_object_class}
     #
     # @param identifier[String,Symbol] the value to which the ids should be mapped
     #
@@ -658,7 +660,7 @@ module JSS
     #   or nil if there isn't one
     #
     def valid_id(class_name, identifier, refresh = true)
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       the_class.valid_id identifier, refresh, api: self
     end
 
@@ -666,6 +668,7 @@ module JSS
     # using this APIConnection. See {JSS::APIObject.exist?}
     #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
     #
     # @param identifier[String,Symbol] the value to which the ids should be mapped
     #
@@ -682,8 +685,13 @@ module JSS
     #
     # See {Matchable.match}
     #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @return (see Matchable.match)
+    #
     def match(class_name, term)
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       raise JSS::UnsupportedError, "Class #{the_class} is not matchable" unless the_class.respond_to? :match
       the_class.match term, api: self
     end
@@ -691,10 +699,13 @@ module JSS
     # Retrieve an object of a given class from the API
     # See {APIObject.fetch}
     #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
     # @return [APIObject] The ruby-instance of the object.
     #
     def fetch(class_name, arg)
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       the_class.fetch arg, api: self
     end
 
@@ -702,10 +713,13 @@ module JSS
     # of the given class
     # See {APIObject.make}
     #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
     # @return [APIObject] The un-created ruby-instance of the object.
     #
     def make(class_name, **args)
-      the_class = api_object_class(class_name)
+      the_class = JSS.api_object_class(class_name)
       args[:api] = self
       the_class.make args
     end
@@ -1066,28 +1080,6 @@ module JSS
         &(block || @block)
       )
     end # delete_with_payload
-
-
-    # Given a name of a JSS::APIObject subclass as a String or
-    # Symbol (e.g. :Computer), return the class itself
-    # (e.g. JSS::Computer)
-    #
-    # @param name[String,Symbol] The name of a JSS::APIObject subclass
-    #
-    # @return [Class] The class
-    #
-    def api_object_class(name)
-      raise JSS::InvalidDataError, "Unknown API Object Class: #{name}" unless \
-        JSS.constants.include?(name.to_sym)
-
-      the_class = JSS.const_get(name.to_sym)
-
-      raise JSS::InvalidDataError, "Unknown API Object Class: #{name}" unless \
-        the_class.is_a?(Class) && the_class.ancestors.include?(JSS::APIObject)
-
-      the_class
-    end
-
 
   end # class APIConnection
 
