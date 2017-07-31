@@ -264,6 +264,50 @@ module JSS
     Time.at(epoch.to_i / 1000.0)
   end # parse_date
 
+  # Given a name, singular or plural, of a JSS::APIObject subclass as a String
+  # or Symbol (e.g. :computer/'computers'), return the class itself
+  # (e.g. JSS::Computer)
+  # The available names are the RSRC_LIST_KEY
+  # and RSRC_OBJECT_KEY values for each APIObject subclass.
+  #
+  # @seealso JSS.api_object_names
+  #
+  # @param name[String,Symbol] The name of a JSS::APIObject subclass, singluar
+  #   or plural
+  #
+  # @return [Class] The class
+  #
+  def self.api_object_class(name)
+    klass = api_object_names[name.downcase.to_sym]
+    raise JSS::InvalidDataError, "Unknown API Object Class: #{name}" unless klass
+    klass
+  end
+
+  # APIObject subclasses have singular names, and are, of course
+  # capitalized, e.g. 'Computer'
+  # But we often want to refer to them in the plural, or lowercase,
+  # e.g. 'computers'
+  # This method returns a Hash of the RSRC_LIST_KEY (a plural symbol)
+  # and the RSRC_OBJECT_KEY (a singular symbol) of each APIObject
+  # subclass, keyed to the class itself, such that both :computer
+  # and :computers are keys for JSS::Computer and both :policy and
+  # :policies are keys for JSS::Policy, and so on.
+  #
+  # @return [Hash] APIObject subclass names to Classes
+  #
+  def self.api_object_names
+    return @api_object_names if @api_object_names
+    @api_object_names ||= {}
+    JSS.constants.each do |const|
+      klass = JSS.const_get const
+      next unless klass.is_a? Class
+      next unless klass.ancestors.include? JSS::APIObject
+      @api_object_names[klass.const_get(:RSRC_LIST_KEY).to_sym] = klass if klass.constants.include? :RSRC_LIST_KEY
+      @api_object_names[klass.const_get(:RSRC_OBJECT_KEY).to_sym] = klass if klass.constants.include? :RSRC_OBJECT_KEY
+    end
+    @api_object_names
+  end
+
   # Given a string of xml element text, escape any characters that would make XML unhappy.
   #   * & => &amp;
   #   * " => &quot;
