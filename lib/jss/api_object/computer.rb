@@ -44,7 +44,12 @@ module JSS
   # * barcodes 1 and 2
   # * ip_address
   # * udid
-  # * mac_addresses
+  # * mac_address & alt_mac_address
+  # * serial_number
+  #   Note: Even tho the webUI doesn't allow editing the serial_number,
+  #   the API does, and it can be useful for dealing with duplicates
+  #   that arise when a logic-board swap causes a new computer record.
+  #   to be created.
   # * location data via the Locatable module
   # * purchasing data via the Purchasable module
   # * Extension Attribute values via the Extendable module
@@ -1271,6 +1276,7 @@ module JSS
       general.add_element('ip_address').text = @ip_address
       general.add_element('mac_address').text = @mac_address
       general.add_element('udid').text = @udid
+      general.add_element('serial_number').text = @serial_number
 
       rmgmt = general.add_element('remote_management')
       rmgmt.add_element('managed').text = @managed
