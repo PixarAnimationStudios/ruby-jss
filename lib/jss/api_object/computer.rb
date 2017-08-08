@@ -1104,10 +1104,35 @@ module JSS
     #
     def ip_address=(new_val)
       return nil if @ip_address == new_val
-      new_val.strip!
-      # this raises an error if its an invalid IP address
-      IPAddr.new new_val
-      @ip_address = new_val
+      @ip_address = JSS::Validate.ip_address new_val
+      @need_to_update = true
+    end
+
+    #
+    def mac_address=(new_val)
+      return nil if new_val == @mac_address
+      @mac_address = JSS::Validate.mac_address new_val
+      @need_to_update = true
+    end
+
+    #
+    def alt_mac_address=(new_val)
+      return nil if new_val == @alt_mac_address
+      @alt_mac_address = JSS::Validate.mac_address new_val
+      @need_to_update = true
+    end
+
+    #
+    def serial_number=(new_val)
+      return nil if new_val == @serial_number
+      @serial_number = JSS::Validate.unique_identifier JSS::Computer, :serial_number, new_val
+      @need_to_update = true
+    end
+
+    #
+    def udid=(new_val)
+      return nil if new_val == @udid
+      @udid = JSS::Validate.unique_identifier JSS::Computer, :udid, new_val
       @need_to_update = true
     end
 
