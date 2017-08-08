@@ -49,9 +49,10 @@ module JSS
   #
   # When ruby-jss is loaded, a not-yet-connected default instance of
   # JSS::APIConnection is created and stored in the constant JSS::API.
-  # All methods that make API calls will use this connection
-  # by default. For most uses, where you're only going to be working with
-  # one connection to one JSS, the default connection is all you need.
+  # This connection is used as the initial 'active connection' (see below)
+  # so all methods that make API calls will use it by default. For most uses,
+  # where you're only going to be working with one connection to one JSS, the
+  # default connection is all you need.
   #
   # Before using it you must call its {#connect} method, passing in appropriate
   # connection details and credentials.
@@ -82,8 +83,8 @@ module JSS
   #        # the JSS::Computer with id 1234 is fetched from the active connection
   #        # and stored in the variable 'a_computer'
   #
-  #    NOTE: When ruby-jss is first loaded, the default connection (see above) is the
-  #    active connection.
+  #    NOTE: When ruby-jss is first loaded, the default connection (see above)
+  #    is the active connection.
   #
   # 2. Passing an APIConnection instance to methods that use the API
   #
@@ -210,7 +211,7 @@ module JSS
   #
   # == Passing an APIConnection object to API-related methods
   #
-  # All methods that talk user the API can take an 'api:' parameter which
+  # All methods that use the API can take an 'api:' parameter which
   # contains an APIConnection object. When provided, that APIconnection is
   # used rather than the active connection.
   #
@@ -262,7 +263,7 @@ module JSS
   #
   # == Low-level use of APIConnection instances.
   #
-  # For most uses, creating, activating, and connecting APIConnection instances
+  # For most cases, using APIConnection instances as mentioned above
   # is all you'll need. However to access API resources that aren't yet
   # implemented in other parts of ruby-jss, you can use the methods
   # {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
