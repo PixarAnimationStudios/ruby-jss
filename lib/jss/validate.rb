@@ -1,5 +1,4 @@
 # Copyright 2017 Pixar
-
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -66,7 +65,6 @@ module JSS
       val
     end
 
-
     # Validate that a value doesn't already exist for a given identifier of a given class
     #
     # @param klass[JSS::APIObject] A subclass of JSS::APIObject, e.g. JSS::Computer
@@ -82,6 +80,6 @@ module JSS
       val
     end
 
-  end # module valid
+  end # module validate
 
-end # module
+end # module JSS
