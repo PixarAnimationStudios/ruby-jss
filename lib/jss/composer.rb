@@ -71,21 +71,36 @@ module JSS
   ###
   ### @param opts[Hash] the options for building the .pkg
   ###
-  ### @options opts :pkg_id[String] the full package if for the new pkg. 
+  ### @options opts :pkg_id[String] the full package if for the new pkg.
   ###   e.g. 'com.mycompany.myapp'
   ###
   ### @option opts :bundle_id_prefix[String] the pkg bundle identifier prefix.
-  ###   If no :pkg_id is provided, one is made using this prefix and 
-  ###   the name provided. e.g. 'com.mycompany' 
+  ###   If no :pkg_id is provided, one is made using this prefix and
+  ###   the name provided. e.g. 'com.mycompany'
   ###   Defaults to '{PKG_BUNDLE_ID_PFX}'. See 'man pkgbuild' for more info
   ###
-  ### @option opts :out_dir[String,Pathname] he folder in which the .pkg will be 
+  ### @option opts :out_dir[String,Pathname] he folder in which the .pkg will be
   ###   created. Defaults to {DEFAULT_OUT_DIR}
   ###
-  ### @option opts :preserve_ownership[Boolean] If true, the owner/group of the 
+  ### @option opts :preserve_ownership[Boolean] If true, the owner/group of the
   ###   rootpath are preserved.
-  ###   Default is false: they become the pkgbuild/installer "recommended" 
+  ###   Default is false: they become the pkgbuild/installer "recommended"
   ###   (root/wheel or root/admin)
+  ###
+  ### @option opts :signing_identity[String] the name of the signing identity to
+  ###   use for signing the pkg. See `man pkgbuild` for details
+  ###
+  ### @option opts :keychain[String,Pathname] the path to the keychain
+  ###   containing the  the signing identity. See `man pkgbuild` for details
+  ###
+  ### @option opts :certs[String,Array<String>] the Common Name(s) of additional
+  ###   certificates to include when signing the pkg. See `man pkgbuild` for
+  ###   details
+  ###
+  ### @option opts :include_timestamp[Boolean] should a trusted timestamp be
+  ###   included when signing the pkg. See `man pkgbuild` for details.
+  ###   Default depends on the situation, but true is the same as using
+  ###   --timestamp with pkgbuild, and false is --timestamp=none
   ###
   ### @return [Pathname] the local path to the new .pkg
   ###
@@ -101,6 +116,20 @@ module JSS
     pkg_out = "#{opts[:out_dir]}/#{pkg_filename}"
     pkg_ownership = opts[:preserve_ownership] ? "preserve" : "recommended"
 
+    if opts[:signing_identity]
+      signing = "--sign #{Shellwords.escape opts[:signing_identity]}"
+      signing << " --keychain #{Shellwords.escape opts[:keychain].to_s}" if opts[:keychain]
+      signing << ' --timestamp' if opts[:include_timestamp]
+      signing << ' --timestamp=none' if opts[:include_timestamp] == false
+      case opts[:certs]
+      when Array
+        opts[:certs].each { |c| signing << " --cert #{Shellwords.escape c}" }
+      when String
+        signing << " --cert #{Shellwords.escape opts[:certs]}"
+      end # case
+    else
+      signing = ''
+    end # if opts[:signing_identity]
 
     ### first, run 'analyze' to get a 'component plist' in which we can change some settings
     ### for any bundles in the root (bundles like .apps, frameworks, plugins, etc..)
@@ -138,9 +167,9 @@ module JSS
 
     ### now build the pkg
     begin
-      system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{comp_plist_arg} '#{pkg_out}' "
+      it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}' "
 
-      raise RuntimeError, "There was an error building the .pkg" unless $?.exitstatus == 0
+      raise RuntimeError, "There was an error building the .pkg" unless it_built
     ensure
       comp_plist_out.delete if comp_plist_out.exist?
     end
@@ -182,5 +211,3 @@ module JSS
 
  end # module Composer
 end # module JSS
-
-

@@ -1,6 +1,18 @@
 # Change History
 
-## v0.9.0
+## v0.9.3 2017-08-08
+
+- Add: JSS::Computer instance now allow you to modify mac_address, alt_mac_address, udid, and serial_number.
+  Note: even tho the WebUI doesn't allow editing of the serial_number, the API does and doing so can be useful
+  for dealing with duplicate SN's when a new logic board with a new udid creates a new computer entry.
+- Add: JSS::Validate module, to consoliday generic data-validation methods. Methods will be moved to it from
+  other places over time.
+
+## v0.9.2 2017-07-25
+
+- Fix: parsing of JSS versions > 9.99
+
+## v0.9.0 2017-07-17
 
 - Add: JSS::MobileDevice.all_apple_tvs class method
 - Add: JSS::MobileDevice.management_history method, and related methods in instances
