@@ -1109,35 +1109,35 @@ module JSS
     #
     def ip_address=(new_val)
       return nil if @ip_address == new_val
-      @ip_address = JSS::Validate.ip_address new_val
+      @ip_address = new_val.empty? ? new_val : JSS::Validate.ip_address(new_val)
       @need_to_update = true
     end
 
     #
     def mac_address=(new_val)
       return nil if new_val == @mac_address
-      @mac_address = JSS::Validate.mac_address new_val
+      @mac_address =  new_val.empty? ? new_val : JSS::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
     #
     def alt_mac_address=(new_val)
       return nil if new_val == @alt_mac_address
-      @alt_mac_address = JSS::Validate.mac_address new_val
+      @alt_mac_address = new_val.empty? ? new_val : JSS::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
     #
     def serial_number=(new_val)
       return nil if new_val == @serial_number
-      @serial_number = JSS::Validate.unique_identifier JSS::Computer, :serial_number, new_val
+      @serial_number =  new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :serial_number, new_val)
       @need_to_update = true
     end
 
     #
     def udid=(new_val)
       return nil if new_val == @udid
-      @udid = JSS::Validate.unique_identifier JSS::Computer, :udid, new_val
+      @udid = new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :udid, new_val)
       @need_to_update = true
     end
 
