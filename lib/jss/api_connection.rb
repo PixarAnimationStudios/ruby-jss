@@ -37,30 +37,34 @@ module JSS
   # Classes
   #####################################
 
-  # Instances of this class represent a REST connection to a JSS API. They
-  # contain (once connected) all the data needed for communication with
-  # that API, including login credentials, URLs, and so on.
+  # Instances of this class represent a REST connection to a JSS API.
   #
-  # == The default connection
+  # For most cases, a single connection to a single JSS is all you need, and
+  # this is ruby-jss's default behavior.
+  #
+  # If needed, multiple connections can be made and used sequentially or
+  # simultaneously.
+  #
+  # == Using the default connection
   #
   # When ruby-jss is loaded, a not-yet-connected default instance of
-  # JSS::APIConnection is created, activated, and stored internally. The
-  # various ruby-jss methods that make API calls will use this connection
+  # JSS::APIConnection is created and stored in the constant JSS::API.
+  # All methods that make API calls will use this connection
   # by default. For most uses, where you're only going to be working with
   # one connection to one JSS, the default connection is all you need.
   #
   # Before using it you must call its {#connect} method, passing in appropriate
   # connection details and credentials.
   #
-  # Here's how to use the default connection:
+  # Example:
   #
-  #   require 'ruby-jss'
-  #   JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #    require 'ruby-jss'
+  #    JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #    # (see {JSS::APIConnection#connect} for all the connection options)
   #
-  # (see {JSS::APIConnection#connect} for all the connection options)
+  #    a_phone = JSS::MobileDevice.fetch id: 8743
   #
-  # If needed, you can call its {#connect} method at any time to change servers
-  # or connection credentials.
+  #    # the mobile device was fetched through the default connection
   #
   # == Using Multiple Simultaneous Connections
   #
@@ -68,41 +72,54 @@ module JSS
   # or to the same JSS with different credentials. ruby-jss allows you to
   # create as many connections as needed, and gives you three ways to use them:
   #
-  # 1) Making a connection 'active', after which API calls go thru it
-  # automatically
-  #
-  # Example:
-  #
-  #     a_computer = JSS::Computer.fetch id: 1234
-  #
-  #     # the JSS::Computer with id 1234 is fetched from the active connection
-  #     # and stored in the variable 'a_computer'
-  #
-  # 2) Passing an APIConnection instance to methods that talk to the API
-  #
-  # Example:
-  #
-  #      a_computer = JSS::Computer.fetch id: 1234, api: @production_api
-  #
-  #      # the JSS::Computer with id 1234 is fetched from the connection
-  #      # stored in the variable '@production_api'. The computer is
-  #      # then stored in the variable 'a_computer'
-  #
-  # 3) Using the APIConnection object itself to make API calls.
+  # 1. Making a connection 'active', after which API calls go thru it
+  #    automatically
   #
   #    Example:
   #
-  #      a_computer = @production_api.fetch :Computer, id: 1234,
+  #        a_computer = JSS::Computer.fetch id: 1234
   #
-  #      # the JSS::Computer with id 1234 is fetched from the connection
-  #      # stored in the variable '@production_api'. The computer is
-  #      # then stored in the variable 'a_computer'
+  #        # the JSS::Computer with id 1234 is fetched from the active connection
+  #        # and stored in the variable 'a_computer'
+  #
+  #    NOTE: When ruby-jss is first loaded, the default connection (see above) is the
+  #    active connection.
+  #
+  # 2. Passing an APIConnection instance to methods that use the API
+  #
+  #    Example:
+  #
+  #         a_computer = JSS::Computer.fetch id: 1234, api: production_api
+  #
+  #         # the JSS::Computer with id 1234 is fetched from the connection
+  #         # stored in the variable 'production_api'. The computer is
+  #         # then stored in the variable 'a_computer'
+  #
+  # 3. Using the APIConnection instance itself to make API calls.
+  #
+  #    Example:
+  #
+  #         a_computer = production_api.fetch :Computer, id: 1234
+  #
+  #         # the JSS::Computer with id 1234 is fetched from the connection
+  #         # stored in the variable 'production_api'. The computer is
+  #         # then stored in the variable 'a_computer'
   #
   # See below for more details about the ways to use multiple connections.
   #
+  # NOTE:
+  # Objects retrieved or created through an APIConnection store an internal
+  # reference to that APIConnection and use that when they make other API
+  # calls, thus ensuring data consistency when using multiple connections.
+  #
+  # Similiarly, the data caches used by APIObject list methods (e.g.
+  # JSS::Computer.all, .all_names, and so on) are stored in the APIConnection
+  # instance through which they were read, so they won't be incorrect when
+  # you use multiple connections.
+  #
   # == Making new APIConnection instances
   #
-  # New connections can be created  using the standard ruby 'new' method.
+  # New connections can be created using the standard ruby 'new' method.
   #
   # If you provide connection details when calling 'new', they will be passed
   # to the {#connect} method immediately. Otherwise you can call {#connect} later.
@@ -138,10 +155,7 @@ module JSS
   #   victim_md = JSS::MobileDevice.fetch id: 832
   #
   #   # the variable 'victim_md' now contains a JSS::MobileDevice queried
-  #   # through the active connection. The JSS::MobileDevice object knows
-  #   # which APIConnection it came from, and calls from it back to the API
-  #   # (such as #update) will only go to the API it came from, even if
-  #   # you make a different connection active.
+  #   # through the active connection.
   #
   # The currently-active connection instance is available from the
   # `JSS.api` method.
@@ -158,15 +172,6 @@ module JSS
   #
   # To re-activate to the default connection, just call
   #   JSS.use_default_connection
-  #
-  # NOTE:
-  # The APIObject list methods (e.g. JSS::Computer.all) cache the list
-  # data from the API the first time they are used, and after that when
-  # their 'refresh' option is true.
-  #
-  # Those caches are stored in the APIConnection instance through-
-  # which they were read, so they won't be incorrect when you switch
-  # connections.
   #
   # == Connection Names:
   #
@@ -205,7 +210,7 @@ module JSS
   #
   # == Passing an APIConnection object to API-related methods
   #
-  # All methods that talk to the API can take an 'api:' parameter which
+  # All methods that talk user the API can take an 'api:' parameter which
   # contains an APIConnection object. When provided, that APIconnection is
   # used rather than the active connection.
   #
