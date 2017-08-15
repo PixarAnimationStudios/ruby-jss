@@ -295,8 +295,14 @@ module JSS
     # The Default port
     HTTP_PORT = 9006
 
-    # The SSL port
+    # The Jamf default SSL port
     SSL_PORT = 8443
+
+    # The https default SSL port
+    HTTPS_SSL_PORT = 443
+
+    # if either of these is specified, we'll default to SSL
+    SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
 
     # The top line of an XML doc for submitting data via API
     XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
@@ -412,13 +418,16 @@ module JSS
     #
     def connect(args = {})
       args = apply_connection_defaults args
+
+      # confirm we know basics
       verify_basic_args args
+
+      # parse our ssl situation
+      verify_ssl args
+
       @jss_user = args[:user]
 
       @rest_url = build_rest_url args
-
-      # figure out :verify_ssl from :verify_cert
-      args[:verify_ssl] = verify_ssl args
 
       # figure out :password from :pw
       args[:password] = acquire_password args
@@ -1038,8 +1047,17 @@ module JSS
     # @return [Type] description_of_returned_object
     #
     def verify_ssl(args)
+      # use SSL for those ports unless specifically told not to
+      if SSL_PORTS.include? args[:port]
+        args[:use_ssl] = true if args[:use_ssl].nil?
+      end
       # if verify_cert is anything but false, we will verify
-      args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      args[:verify_ssl] =
+        if args[:verify_cert] == false
+          OpenSSL::SSL::VERIFY_NONE
+        else
+          OpenSSL::SSL::VERIFY_PEER
+        end
     end
 
     # Parses the HTTP body of a RestClient::Conflict (409 conflict)
