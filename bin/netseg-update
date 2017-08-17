@@ -42,7 +42,7 @@
 ##############################
 require 'ruby-jss'
 require 'getoptlong'
-require 'english'
+require 'English'
 
 # The app object
 ##############################
