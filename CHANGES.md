@@ -1,5 +1,9 @@
 # Change History
 
+## v0.10.0a2 2017-08-17 (pre release)
+
+- Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
 ## v0.10.0a1 2017-08-15 (pre release)
 
 - Improvement: Working with multiple APIConnections is now far more flexible!
