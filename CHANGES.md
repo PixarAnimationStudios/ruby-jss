@@ -1,5 +1,9 @@
 # Change History
 
+## v0.9.4 2017-08-17
+
+- Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
 ## v0.9.3 2017-08-08
 
 - Add: JSS::Computer instance now allow you to modify mac_address, alt_mac_address, udid, and serial_number.
