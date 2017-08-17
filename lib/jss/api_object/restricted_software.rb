@@ -109,11 +109,11 @@ module JSS
 
     def site=(new_val)
       if new_val.is_a? Integer
-        raise JSS::NoSuchItemError, "No site found with id #{new_val}" unless JSS::Site.all_ids.include? new_val
-        new_val = JSS::Site.map_all_ids_to(:name)[new_val]
+        raise JSS::NoSuchItemError, "No site found with id #{new_val}" unless JSS::Site.all_ids(api: @api).include? new_val
+        new_val = JSS::Site.map_all_ids_to(:name, api: @api)[new_val]
       else
         new_val = new_val.to_s
-        raise JSS::NoSuchItemError, "No site found with name #{new_val}" unless JSS::Site.all_names.include? new_val
+        raise JSS::NoSuchItemError, "No site found with name #{new_val}" unless JSS::Site.all_names(api: @api).include? new_val
       end
       @site = new_val
       @need_to_update = true
@@ -121,7 +121,7 @@ module JSS
 
     def create
       raise JSS::MissingDataError, 'process_name must be set before creating' if @process_name.to_s.empty?
-      raise JSS::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh).include? @name
+      raise JSS::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh, api: @api).include? @name
       super
     end
 

@@ -72,33 +72,33 @@ module JSS
     #####################################
 
     # @return [Array<Hash>] all JSS account users
-    def self.all_users(refresh = false)
-      all(refresh)[:users]
+    def self.all_users(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:users]
     end
 
     # @return [Array<Hash>] all JSS account user ids
-    def self.all_user_ids(refresh = false)
-      all(refresh)[:users].map { |i| i[:id] }
+    def self.all_user_ids(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:users].map { |i| i[:id] }
     end
 
     # @return [Array<Hash>] all JSS account user names
-    def self.all_user_names(refresh = false)
-      all(refresh)[:users].map { |i| i[:name] }
+    def self.all_user_names(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:users].map { |i| i[:name] }
     end
 
     # @return [Array<Hash>] all JSS account groups
-    def self.all_groups(refresh = false)
-      all(refresh)[:groups]
+    def self.all_groups(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:groups]
     end
 
     # @return [Array<Hash>] all JSS account group ids
-    def self.all_group_ids(refresh = false)
-      all(refresh)[:groups].map { |i| i[:id] }
+    def self.all_group_ids(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:groups].map { |i| i[:id] }
     end
 
     # @return [Array<Hash>] all JSS account group names
-    def self.all_group_names(refresh = false)
-      all(refresh)[:groups].map { |i| i[:name] }
+    def self.all_group_names(refresh = false, api: JSS.api)
+      all(refresh, api: api)[:groups].map { |i| i[:name] }
     end
 
     # Attributes

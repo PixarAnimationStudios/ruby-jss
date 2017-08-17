@@ -88,16 +88,16 @@ module JSS
     ### Returns an Array of all the smart
     ### groups.
     ###
-    def self.all_smart(refresh = false)
-      self.all(refresh).select{|g| g[:is_smart] }
+    def self.all_smart(refresh = false, api: JSS.api)
+      all(refresh, api: api).select{|g| g[:is_smart] }
     end
 
     ###
     ### Returns an Array of all the static
     ### groups.
     ###
-    def self.all_static(refresh = false)
-      self.all(refresh).select{|g| not g[:is_smart] }
+    def self.all_static(refresh = false, api: JSS.api)
+      all(refresh, api: api).select{|g| not g[:is_smart] }
     end
 
     #####################################
@@ -304,7 +304,7 @@ module JSS
     ### @return [Array<Hash>] the refresh membership
     ###
     def refresh_members
-      @members = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
+      @members = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
 
     ###
@@ -315,7 +315,7 @@ module JSS
     ### @return [void]
     ###
     def site= (new_val)
-      raise JSS::NoSuchItemError, "No site named #{new_val} in the JSS" unless JSS::Site.all_names.include? new_val
+      raise JSS::NoSuchItemError, "No site named #{new_val} in the JSS" unless JSS::Site.all_names(api: @api).include? new_val
       @site = new_val
       @need_to_update = true
     end
@@ -341,7 +341,7 @@ module JSS
     ### @return [Hash{:id=>Integer,:name=>String}] the valid id and name
     ###
     def check_member(m)
-      potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name)
+      potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name, api: @api)
       if m.to_s =~ /^\d+$/
         return {:id=>m.to_i, :name=> potential_members[m]} if potential_members.keys.include? m.to_i
       else

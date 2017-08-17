@@ -160,7 +160,7 @@ module JSS
     def building= (new_val)
       return nil if @building == new_val
       new_val = new_val.to_s.strip
-      raise JSS::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Building.all_names.include? new_val
+      raise JSS::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Building.all_names(api: @api).include? new_val
       @building = new_val
       @need_to_update = true
     end
@@ -169,7 +169,7 @@ module JSS
     def department= (new_val)
       return nil if @department == new_val
       new_val = new_val.to_s.strip
-      raise JSS::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Department.all_names.include? new_val
+      raise JSS::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or JSS::Department.all_names(api: @api).include? new_val
       @department = new_val
       @need_to_update = true
     end

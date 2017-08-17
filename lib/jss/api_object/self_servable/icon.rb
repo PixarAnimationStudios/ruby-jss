@@ -29,7 +29,8 @@ module JSS
     # An Icon in the JSS, used in Self Service.
     #
     # At the moment, icons are not API objects, they are collections of data
-    # stored in the JSS that might be included in some API object's Self Service data.
+    # stored in the JSS that might be included in some API object's
+    # Self Service data.
     #
     # The data available for an icon are:
     #
@@ -38,12 +39,16 @@ module JSS
     # - uri: the uri to download or preview the icon
     # - data: the icon file itself, base-64 encoded.
     #
-    # Icon instances are read-only. To change the icon for an self-servable object,
+    # Icon instances are read-only. To change the icon for a self-servable object,
     # see {SelfServable#icon=}.
     #
     # NOTE: Since icons are not APIObjects, there's no way to see a list of them
     # via the API. The JSS::Icon class methods .all, .all_ids, and .all_names
     # require MySQL database access. See {JSS::DBConnection}.
+    #
+    # This also means, if you use multiple API connections, you'll have to
+    # make sure to connect to the correct MySQL server for the
+    # APIConnection you care about.
     #
     class Icon
 

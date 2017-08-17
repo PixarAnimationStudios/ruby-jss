@@ -595,15 +595,15 @@ module JSS
       ###
       def check_name(key, name)
 
-        found_in_jss = SCOPING_CLASSES[key].all_names.include?(name)
+        found_in_jss = SCOPING_CLASSES[key].all_names(api: @api).include?(name)
 
         return true if found_in_jss
 
         return false unless CHECK_LDAP_KEYS.include?(key)
 
         begin
-          return JSS::LDAPServer.user_in_ldap?(name) if LDAP_USER_KEYS.include?(key)
-          return JSS::LDAPServer.group_in_ldap?(name) if LDAP_GROUP_KEYS.include?(key)
+          return JSS::LDAPServer.user_in_ldap?(name, api: @api) if LDAP_USER_KEYS.include?(key)
+          return JSS::LDAPServer.group_in_ldap?(name, api: @api) if LDAP_GROUP_KEYS.include?(key)
 
         # if an ldap server isn't connected, make a note of it and return true
         rescue JSS::InvalidConnectionError

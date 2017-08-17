@@ -468,7 +468,7 @@ module JSS
 
         # otherwise, get it from the dist. point
         else
-          dist_point = JSS::DistributionPoint.my_distribution_point
+          dist_point = JSS::DistributionPoint.my_distribution_point api: @api
 
           ### how do we access our dist. point?
           if dist_point.http_downloads_enabled

@@ -1,26 +1,26 @@
 ### Copyright 2017 Pixar
 
-###  
+###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
 ###    compliance with the Apache License and the following modification to it:
 ###    Section 6. Trademarks. is deleted and replaced with:
-###  
+###
 ###    6. Trademarks. This License does not grant permission to use the trade
 ###       names, trademarks, service marks, or product names of the Licensor
 ###       and its affiliates, except as required to comply with Section 4(c) of
 ###       the License and to reproduce the content of the NOTICE file.
-###  
+###
 ###    You may obtain a copy of the Apache License at
-###  
+###
 ###        http://www.apache.org/licenses/LICENSE-2.0
-###  
+###
 ###    Unless required by applicable law or agreed to in writing, software
 ###    distributed under the Apache License with the above modification is
 ###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
-### 
+###
 ###
 
 ###
@@ -81,10 +81,10 @@ module JSS
 
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::Computer
-    
+
     ### A criterion that will return all members of the TARGET_CLASS
     ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Username", :search_type => "like", :value => '')
-    
+
     ### When the intput type is script, what platforms can they run on?
     PLATFORMS = ["Mac","Windows"]
 
@@ -111,12 +111,12 @@ module JSS
     ### scripts defined when the type is "script",
     ### however the API will only return the Mac script info if both are defined.
     ###
-    ### @return [String] 
+    ### @return [String]
     attr_reader :platform
 
     ### @return [String] the script code that will be executed when the @input_type is "script",
     attr_reader :script
-    
+
 
     ### The scripting language of the @script when @input_type is "script",
     ### and the @platform is "Windows"
@@ -246,7 +246,7 @@ module JSS
       @script = new_val
       @need_to_update = true
     end #
-    
+
 
     ###
     ### Change the scripting_language of this EA.
@@ -288,12 +288,12 @@ module JSS
       raise JSS::InvalidConnectionError, "Database connection required for 'history' query." unless JSS::DB_CNX.connected?
 
       computer_id = case computer
-        when *JSS::Computer.all_ids
+        when *JSS::Computer.all_ids(api: @api)
           computer
-        when *JSS::Computer.all_names
-          JSS::Computer.map_all_ids_to(:name).invert[computer]
+        when *JSS::Computer.all_names(api: @api)
+          JSS::Computer.map_all_ids_to(:name, api: @api).invert[computer]
         else nil
-      end # case
+        end # case
 
       raise JSS::NoSuchItemError, "No computer found matching '#{computer}'" unless computer_id
 
@@ -323,12 +323,12 @@ module JSS
 
       history
     end # history
-    
-    
+
+
     ### Aliases here, since YARD seems to have issues with them above
     alias code script
     alias code= script=
-    
+
     ######################
     ### Private Instance Methods
     #####################

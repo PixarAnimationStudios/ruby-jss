@@ -37,49 +37,93 @@ module JSS
   # Classes
   #####################################
 
-  # Instances of this class represent an API connection to the JSS.
+  # Instances of this class represent a REST connection to a JSS API.
   #
-  # JSS::APIConnection objects are REST connections to JSS APIs and contain
-  # (once connected) all the data needed for communication with
-  # that API, including login credentials, URLs, and so on.
+  # For most cases, a single connection to a single JSS is all you need, and
+  # this is ruby-jss's default behavior.
   #
-  # == The default connection
+  # If needed, multiple connections can be made and used sequentially or
+  # simultaneously.
+  #
+  # == Using the default connection
   #
   # When ruby-jss is loaded, a not-yet-connected default instance of
-  # JSS::APIConnection is created, activated, and stored internally.
+  # JSS::APIConnection is created and stored in the constant JSS::API.
+  # This connection is used as the initial 'active connection' (see below)
+  # so all methods that make API calls will use it by default. For most uses,
+  # where you're only going to be working with one connection to one JSS, the
+  # default connection is all you need.
+  #
   # Before using it you must call its {#connect} method, passing in appropriate
   # connection details and credentials.
   #
-  # Here's how to use the default connection:
+  # Example:
   #
-  #   require 'ruby-jss'
-  #   JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #    require 'ruby-jss'
+  #    JSS.api.connect server: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #    # (see {JSS::APIConnection#connect} for all the connection options)
   #
-  # (see {JSS::APIConnection#connect} for all the connection options)
+  #    a_phone = JSS::MobileDevice.fetch id: 8743
   #
-  # If you're only going to be connecting to one server, or one at a time,
-  # using the default connection is preferred. You can call its {#connect}
-  # method at any time to change servers or connection credentials.
+  #    # the mobile device was fetched through the default connection
   #
-  # == Multiple connections & the currently active connection
+  # == Using Multiple Simultaneous Connections
   #
   # Sometimes you need to connect simultaneously to more than one JSS.
-  # or to the same JSS with different credentials.
+  # or to the same JSS with different credentials. ruby-jss allows you to
+  # create as many connections as needed, and gives you three ways to use them:
   #
-  # While multiple connection instances can be created, only one is active at
-  # a time and all API access happens through the currently active connection.
-  # (See below for how to switch between different connections)
+  # 1. Making a connection 'active', after which API calls go thru it
+  #    automatically
   #
-  # The currently-active connection instance is available from the
-  # `JSS.api` method.
+  #    Example:
   #
-  # == Making new connection instances
+  #        a_computer = JSS::Computer.fetch id: 1234
   #
-  # New connections can be created and stored in a variable using
-  # the standard ruby 'new' method.
+  #        # the JSS::Computer with id 1234 is fetched from the active connection
+  #        # and stored in the variable 'a_computer'
+  #
+  #    NOTE: When ruby-jss is first loaded, the default connection (see above)
+  #    is the active connection.
+  #
+  # 2. Passing an APIConnection instance to methods that use the API
+  #
+  #    Example:
+  #
+  #         a_computer = JSS::Computer.fetch id: 1234, api: production_api
+  #
+  #         # the JSS::Computer with id 1234 is fetched from the connection
+  #         # stored in the variable 'production_api'. The computer is
+  #         # then stored in the variable 'a_computer'
+  #
+  # 3. Using the APIConnection instance itself to make API calls.
+  #
+  #    Example:
+  #
+  #         a_computer = production_api.fetch :Computer, id: 1234
+  #
+  #         # the JSS::Computer with id 1234 is fetched from the connection
+  #         # stored in the variable 'production_api'. The computer is
+  #         # then stored in the variable 'a_computer'
+  #
+  # See below for more details about the ways to use multiple connections.
+  #
+  # NOTE:
+  # Objects retrieved or created through an APIConnection store an internal
+  # reference to that APIConnection and use that when they make other API
+  # calls, thus ensuring data consistency when using multiple connections.
+  #
+  # Similiarly, the data caches used by APIObject list methods (e.g.
+  # JSS::Computer.all, .all_names, and so on) are stored in the APIConnection
+  # instance through which they were read, so they won't be incorrect when
+  # you use multiple connections.
+  #
+  # == Making new APIConnection instances
+  #
+  # New connections can be created using the standard ruby 'new' method.
   #
   # If you provide connection details when calling 'new', they will be passed
-  # to the #connect method immediately.
+  # to the {#connect} method immediately. Otherwise you can call {#connect} later.
   #
   #   production_api = JSS::APIConnection.new(
   #     name: 'prod',
@@ -90,27 +134,45 @@ module JSS
   #
   #   # the new connection is now stored in the variable 'production_api'.
   #
-  # == Switching between multiple connections
+  # == Using the 'Active' Connection
   #
-  # Only one connection is active at a time and the currently active one is
-  # returned when you call `JSS.api` or its aliases `JSS.api_connection` or
-  # `JSS.connection`
+  # While multiple connection instances can be created, only one at a time is
+  # 'the active connection' and all APIObject-based access methods in ruby-jss
+  # will use it automatically. When ruby-jss is loaded, the  default connection
+  # (see above) is the active connection.
+  #
+  # To use the active connection, just call a method on an APIObject subclass
+  # that uses the API.
+  #
+  # For example, the various list methods:
+  #
+  #   all_computer_sns = JSS::Computer.all_serial_numbers
+  #
+  #   # the list of all computer serial numbers is read from the active
+  #   # connection and stored in all_computer_sns
+  #
+  # Fetching an object from the API:
+  #
+  #   victim_md = JSS::MobileDevice.fetch id: 832
+  #
+  #   # the variable 'victim_md' now contains a JSS::MobileDevice queried
+  #   # through the active connection.
+  #
+  # The currently-active connection instance is available from the
+  # `JSS.api` method.
+  #
+  # === Making a Connection Active
+  #
+  # Only one connection is 'active' at a time and the currently active one is
+  # returned when you call `JSS.api` or its alias `JSS.active_connection`
   #
   # To activate another connection just pass it to the JSS.use_api method like so:
+  #
   #   JSS.use_api production_api
   #   # the connection we stored in 'production_api' is now active
   #
   # To re-activate to the default connection, just call
   #   JSS.use_default_connection
-  #
-  # NOTE:
-  # The APIObject list methods (e.g. JSS::Computer.all) cache the list
-  # data from the API the first time they are used, and after that when
-  # their 'refresh' option is true.
-  #
-  # Those caches are stored in the APIConnection instance through-
-  # which they were read, so they won't be incorrect when you switch
-  # connections.
   #
   # == Connection Names:
   #
@@ -147,9 +209,61 @@ module JSS
   #
   #   JSS.api.name  # => 'prod2'
   #
+  # == Passing an APIConnection object to API-related methods
+  #
+  # All methods that use the API can take an 'api:' parameter which
+  # contains an APIConnection object. When provided, that APIconnection is
+  # used rather than the active connection.
+  #
+  # For example:
+  #
+  #   prod2_computer_sns = JSS::Computer.all_serial_numbers, api: production_api2
+  #
+  #   # the list of all computer serial numbers is read from the connection in
+  #   # the variable 'production_api2' and stored in 'prod2_computer_sns'
+  #
+  #   prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
+  #
+  #   # the variable 'prod2_victim_md' now contains a JSS::MobileDevice queried
+  #   # through the connection 'production_api2'.
+  #
+  # == Using the APIConnection itself to make API calls.
+  #
+  # Rather than passing an APIConnection into another method, you can call
+  # similar methods on the connection itself. For example, these two calls
+  # have the same result as the two examples above:
+  #
+  #   prod2_computer_sns = production_api2.all :Computer, only: :serial_numbers
+  #   prod2_victim_md = production_api2.fetch :MobileDevice, id: 832
+  #
+  # Here are the API calls you can make directly from an APIConnection object.
+  # Most of them behave identically to the same methods in the APIObject classes
+  #
+  # - {#all}  The 'list' methods of the various APIObject classes. Use the 'only:'
+  #   parameter to specify one of the sub-list-methods, like #all_ids or
+  #   #all_laptops
+  # - {#map_all_ids} the equivalent of #map_all_ids_to in the APIObject classes
+  # - {#valid_id} given a class and an identifier (like macaddress or udid)
+  #   return a valid id or nil
+  # - {#exist?} given a class and an identifier (like macaddress or udid) does
+  #   the identifier exist for the class in the JSS
+  # - {#match} list items in the JSS matching a query
+  #   (if the object is {Matchable})
+  # - {#fetch} retrieve an object from the JSS
+  # - {#make} instantiate an object to be created in the JSS
+  # - {#send_computer_mdm_command} same as {Computer.send_mdm_command}
+  # - {#computer_checkin_settings} same as {Computer.checkin_settings}
+  # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
+  # - {#send_mobiledevice_mdm_command} same as {MobileDevice.send_mdm_command}
+  # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
+  # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
+  # - {#network_ranges} same as {NetworkSegment.network_ranges}
+  # - {#network_segments_for_ip} same as {NetworkSegment.segments_for_ip}
+  # - {#my_network_segments} same as {NetworkSegment.my_network_segments}
+  #
   # == Low-level use of APIConnection instances.
   #
-  # For most uses, creating, activating, and connecting APIConnection instances
+  # For most cases, using APIConnection instances as mentioned above
   # is all you'll need. However to access API resources that aren't yet
   # implemented in other parts of ruby-jss, you can use the methods
   # {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
@@ -181,8 +295,14 @@ module JSS
     # The Default port
     HTTP_PORT = 9006
 
-    # The SSL port
+    # The Jamf default SSL port
     SSL_PORT = 8443
+
+    # The https default SSL port
+    HTTPS_SSL_PORT = 443
+
+    # if either of these is specified, we'll default to SSL
+    SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
 
     # The top line of an XML doc for submitting data via API
     XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
@@ -298,13 +418,16 @@ module JSS
     #
     def connect(args = {})
       args = apply_connection_defaults args
+
+      # confirm we know basics
       verify_basic_args args
+
+      # parse our ssl situation
+      verify_ssl args
+
       @jss_user = args[:user]
 
       @rest_url = build_rest_url args
-
-      # figure out :verify_ssl from :verify_cert
-      args[:verify_ssl] = verify_ssl args
 
       # figure out :password from :pw
       args[:password] = acquire_password args
@@ -378,7 +501,7 @@ module JSS
     #
     def get_rsrc(rsrc, format = :json)
       # puts object_id
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
       rsrc = URI.encode rsrc
       @last_http_response = @cnx[rsrc].get(accept: format)
       return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
@@ -393,7 +516,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
@@ -413,7 +536,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
@@ -431,7 +554,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use JSS.api_connection.connect first.' unless @connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -491,6 +614,274 @@ module JSS
     # aliases
     alias connected? connected
     alias host hostname
+
+
+    #################
+
+    # Call one of the 'all*' methods on a JSS::APIObject subclass
+    # using this APIConnection.
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @param only[String,Symbol] Limit the output to subset or data. All
+    #   APIObject subclasses can take :ids or :names, which calls the .all_ids
+    #   and .all_names methods. Some subclasses can take other options, e.g.
+    #   MobileDevice can take :udids
+    #
+    # @return [Array] The list of items for the class
+    #
+    def all(class_name, refresh = false, only: nil )
+      the_class = JSS.api_object_class(class_name)
+      list_method = only ? :"all_#{only}" : :all
+
+      raise ArgumentError, "Unknown identifier: #{only} for #{the_class}" unless
+        the_class.respond_to? list_method
+
+      the_class.send list_method, refresh, api: self
+    end
+
+    # Call the 'map_all_ids_to' method on a JSS::APIObject subclass
+    # using this APIConnection.
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @param to[String,Symbol] the value to which the ids should be mapped
+    #
+    # @return [Hash] The ids for the class keyed to the requested identifier
+    #
+    def map_all_ids(class_name, refresh = false, to: nil)
+      raise "'to:' value must be provided for mapping ids." unless to
+      the_class = JSS.api_object_class(class_name)
+      the_class.map_all_ids_to to,  api: self
+    end
+
+    # Call the 'valid_id' method on a JSS::APIObject subclass
+    # using this APIConnection. See {JSS::APIObject.valid_id}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass,
+    #   see {JSS.api_object_class}
+    #
+    # @param identifier[String,Symbol] the value to which the ids should be mapped
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @return [Integer, nil] the id of the matching object of the class,
+    #   or nil if there isn't one
+    #
+    def valid_id(class_name, identifier, refresh = true)
+      the_class = JSS.api_object_class(class_name)
+      the_class.valid_id identifier, refresh, api: self
+    end
+
+    # Call the 'exist?' method on a JSS::APIObject subclass
+    # using this APIConnection. See {JSS::APIObject.exist?}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @param identifier[String,Symbol] the value to which the ids should be mapped
+    #
+    # @param refresh[Boolean] Should the data be re-read from the API?
+    #
+    # @return [Boolean] Is there an object of this class in the JSS matching
+    #   this indentifier?
+    #
+    def exist?(class_name, identifier, refresh = false)
+      !valid_id(class_name, identifier, refresh).nil?
+    end
+
+    # Call {Matchable.match} for the given class.
+    #
+    # See {Matchable.match}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @return (see Matchable.match)
+    #
+    def match(class_name, term)
+      the_class = JSS.api_object_class(class_name)
+      raise JSS::UnsupportedError, "Class #{the_class} is not matchable" unless the_class.respond_to? :match
+      the_class.match term, api: self
+    end
+
+    # Retrieve an object of a given class from the API
+    # See {APIObject.fetch}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @return [APIObject] The ruby-instance of the object.
+    #
+    def fetch(class_name, arg)
+      the_class = JSS.api_object_class(class_name)
+      the_class.fetch arg, api: self
+    end
+
+    # Make a ruby instance of a not-yet-existing APIObject
+    # of the given class
+    # See {APIObject.make}
+    #
+    # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
+    #   see {JSS.api_object_class}
+    #
+    # @return [APIObject] The un-created ruby-instance of the object.
+    #
+    def make(class_name, **args)
+      the_class = JSS.api_object_class(class_name)
+      args[:api] = self
+      the_class.make args
+    end
+
+    # Call {JSS::Computer.checkin_settings} passing this API
+    # connection
+    #
+    # @return (see JSS::Computer.checkin_settings)
+    #
+    def computer_checkin_settings
+      JSS::Computer.checkin_settings api: self
+    end
+
+
+    # Call {JSS::Computer.inventory_collection_settings} passing this API
+    # connection
+    #
+    # @return (see JSS::Computer.checkin_settings)
+    #
+    def computer_inventory_collection_settings
+      JSS::Computer.inventory_collection_settings api: self
+    end
+
+    # Get the DistributionPoint instance for the master
+    # distribution point in the JSS. If there's only one
+    # in the JSS, return it even if not marked as master.
+    #
+    # @param refresh[Boolean] re-read from the API?
+    #
+    # @return [JSS::DistributionPoint]
+    #
+    def master_distribution_point(refresh = false)
+      @master_distribution_point = nil if refresh
+      return @master_distribution_point if @master_distribution_point
+
+      all_dps = JSS::DistributionPoint.all refresh, api: self
+
+      @master_distribution_point =
+        case all_dps.size
+        when 0
+          raise JSS::NoSuchItemError, "No distribution points defined"
+        when 1
+          JSS::DistributionPoint.fetch id: all_dps.first[:id], api: self
+        else
+          JSS::DistributionPoint.fetch id: :master, api: self
+        end
+    end
+
+    # Get the DistributionPoint instance for the machine running
+    # this code, based on its IP address. If none is defined for this IP address,
+    # use the result of master_distribution_point
+    #
+    # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @return [JSS::DistributionPoint]
+    #
+    def my_distribution_point(refresh = false)
+      @my_distribution_point = nil if refresh
+      return @my_distribution_point if @my_distribution_point
+
+      my_net_seg = my_network_segments[0]
+      @my_distribution_point = JSS::NetworkSegment.fetch(id: my_net_seg, api: self).distribution_point if my_net_seg
+      @my_distribution_point ||= master_distribution_point refresh
+      @my_distribution_point
+    end
+
+    # All NetworkSegments in this jss as IPAddr object Ranges representing the
+    # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
+    # the range looks like:
+    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    #
+    # Using the #include? method on those Ranges is very useful.
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
+    #
+    def network_ranges(refresh = false)
+      @network_ranges = nil if refresh
+      return @network_ranges if @network_ranges
+      @network_ranges = {}
+      JSS::NetworkSegment.all(refresh, api: self).each do |ns|
+        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
+      end
+      @network_ranges
+    end # def network_segments
+
+    # Find the ids of the network segments that contain a given IP address.
+    #
+    # Even tho IPAddr.include? will take a String or an IPAddr
+    # I convert the ip to an IPAddr so that an exception will be raised if
+    # the ip isn't a valid ip.
+    #
+    # @param ip[String, IPAddr] the IP address to locate
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
+    #
+    def network_segments_for_ip(ip, refresh = false)
+      ok_ip = IPAddr.new(ip)
+      matches = []
+      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
+      matches
+    end
+
+    # Find the current network segment ids for the machine running this code
+    #
+    # @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
+    #
+    def my_network_segments
+      network_segments_for_ip JSS::Client.my_ip_address
+    end
+
+    # Send an MDM command to one or more computers managed by
+    # this JSS
+    #
+    # see {JSS::Computer.send_mdm_command}
+    #
+    def send_computer_mdm_command(targets, command, passcode = nil)
+      JSS::Computer.send_mdm_command(targets, command, passcode, api: self)
+    end
+
+    # Send an MDM command to one or more mobile devices managed by
+    # this JSS
+    #
+    # see {JSS::MobileDevice.send_mdm_command}
+    #
+    def send_mobiledevice_mdm_command(targets, command, data = nil)
+      JSS::MobileDevice.send_mdm_command(targets, command, data, api: self)
+    end
+
+    # Remove the various cached data
+    # from the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@object_list_cache
+      vars.delete :@last_http_response
+      vars.delete :@network_ranges
+      vars.delete :@my_distribution_point
+      vars.delete :@master_distribution_point
+      vars
+    end
 
     # Private Insance Methods
     ####################################
@@ -596,9 +987,9 @@ module JSS
       # keep this basic level of info available for basic authentication
       # and JSS version checking.
       begin
-        @server = JSS::Server.new get_rsrc('jssuser')[:user]
+        @server = JSS::Server.new get_rsrc('jssuser')[:user], self
       rescue RestClient::Unauthorized, RestClient::Request::Unauthorized
-        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{JSS.api_connection.jss_user}@#{JSS.api_connection.server_host}'."
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@jss_user}@#{@server_host}:#{@port}'."
       end
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
@@ -656,8 +1047,17 @@ module JSS
     # @return [Type] description_of_returned_object
     #
     def verify_ssl(args)
+      # use SSL for those ports unless specifically told not to
+      if SSL_PORTS.include? args[:port]
+        args[:use_ssl] = true if args[:use_ssl].nil?
+      end
       # if verify_cert is anything but false, we will verify
-      args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      args[:verify_ssl] =
+        if args[:verify_cert] == false
+          OpenSSL::SSL::VERIFY_NONE
+        else
+          OpenSSL::SSL::VERIFY_PEER
+        end
     end
 
     # Parses the HTTP body of a RestClient::Conflict (409 conflict)
@@ -757,12 +1157,14 @@ module JSS
   class << self
     alias api_connection api
     alias connection api
+    alias active_connection api
 
     alias new_connection new_api_connection
     alias new_api new_api_connection
 
     alias use_api use_api_connection
     alias use_connection use_api_connection
+    alias activate_connection use_api_connection
   end
 
   # create the default connection

@@ -130,7 +130,7 @@ module JSS
       file = File.new local_file.to_s, 'rb'
 
       # upload it!
-      JSS.api_connection.cnx[upload_rsrc].post name: file
+      @api.cnx[upload_rsrc].post name: file
     end # def upload file
 
   end # module FileUpload

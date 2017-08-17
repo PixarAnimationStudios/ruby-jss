@@ -1055,12 +1055,12 @@ module JSS
       opts[:fut] = false if opts[:fut].nil?
       opts[:update_autorun] = false if opts[:update_autorun].nil?
 
-      id = JSS::Package.valid_id identifier
+      id = JSS::Package.valid_id identifier, api: @api
       raise JSS::NoSuchItemError, "No package matches '#{identifier}'" unless id
 
       return nil if @packages.map { |p| p[:id] }.include? id
 
-      name = JSS::Package.map_all_ids_to(:name)[id]
+      name = JSS::Package.map_all_ids_to(:name, api: @api)[id]
 
       position = case opts[:position]
                  when :start then 0
@@ -1163,11 +1163,11 @@ module JSS
       opts[:position] ||= -1
       opts[:priority] ||= :after
 
-      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless (id = JSS::Script.valid_id(identifier))
+      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless (id = JSS::Script.valid_id(identifier, api: @api))
 
       return nil if @scripts.map { |s| s[:id] }.include? id
 
-      name = JSS::Script.map_all_ids_to(:name)[id]
+      name = JSS::Script.map_all_ids_to(:name, api: @api)[id]
 
       position = case opts[:position]
                  when :start then 0
@@ -1291,7 +1291,7 @@ module JSS
 
       interval = "#{LOG_FLUSH_INTERVAL_INTEGERS[older_than]}+#{LOG_FLUSH_INTERVAL_PERIODS[period]}"
 
-      JSS.api_connection.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
+      @api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
     end
 
     ###### Aliases

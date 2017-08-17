@@ -50,10 +50,10 @@ module JSS
     # Class Methods
     #####################################
 
-    def self.category_id_from_name(name)
+    def self.category_id_from_name(name, api: JSS.api)
       return nil if name.nil?
       return nil if name.casecmp(JSS::Category::NO_CATEGORY_NAME).zero?
-      JSS::Category.map_all_ids_to(:name).invert[name]
+      JSS::Category.map_all_ids_to(:name, api: api).invert[name]
     end # self cat id from name
 
     # Class Constants

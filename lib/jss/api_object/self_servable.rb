@@ -272,9 +272,9 @@ module JSS
     # @return [void]
     #
     def add_self_service_category(new_cat, display_in: true, feature_in: false)
-      new_cat = JSS::Category.map_all_ids_to(:name)[new_cat] if new_cat.is_a? Integer
+      new_cat = JSS::Category.map_all_ids_to(:name, api: @api)[new_cat] if new_cat.is_a? Integer
       feature_in = false if display_in == false
-      raise JSS::NoSuchItemError, "No category '#{new_cat}' in the JSS" unless JSS::Category.all_names(:refresh).include? new_cat
+      raise JSS::NoSuchItemError, "No category '#{new_cat}' in the JSS" unless JSS::Category.all_names(:refresh, api: @api).include? new_cat
 
       raise JSS::InvalidDataError, 'display_in must be true or false' unless display_in.jss_boolean?
 
@@ -482,7 +482,7 @@ module JSS
     #
     def refresh_icon
       return nil unless @in_jss
-      fresh_data = JSS.api_connection.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       icon_data = fresh_data[:self_service][:self_service_icon]
       @icon = JSS::Icon.new icon_data
     end # refresh icon

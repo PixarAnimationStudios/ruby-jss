@@ -1,8 +1,17 @@
 # Change History
 
-## v0.9.4 2017-08-17
+## v0.10.0a1 2017-08-15 (pre release)
 
-- Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+- Improvement: Working with multiple APIConnections is now far more flexible!
+
+    There are three ways to work with multiple simultaneous APIConnection instances:
+    1. Making a connection 'active', after which API calls go thru it (introduced in 0.9.0)
+    2. Passing an APIConnection instance to methods that use the API
+    3. Using an APIConnection instance itself to make API calls.
+
+  The default/active connection continues to work as always, so your existing code will be fine.
+  See the [documentation for the JSS::APIConnection class](http://www.rubydoc.info/gems/ruby-jss/JSS/APIConnection) for details.
+- Fix: Specifying port 443, as well as 8443, when connecting an APIConnection will default to using SSL. To force such a connection to NOT use SSL, provide the parameter `use_ssl: false`
 
 ## v0.9.3 2017-08-08
 
