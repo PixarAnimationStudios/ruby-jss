@@ -94,7 +94,7 @@ module JSS
       ### @return [void]
       ###
       def criteria= (new_criteria)
-        unless new_criteria.kind_of? Array && new_criteria.reject{|c| c.is_a? JSS::Criteriable::Criterion }.empty?
+        unless new_criteria.is_a?(Array) && new_criteria.reject{ |c| c.is_a? JSS::Criteriable::Criterion }.empty?
           raise JSS::InvalidDataError, "Argument must be an Array of JSS::Criteriable::Criterion instances."
         end
         new_criteria.each{ |nc| criterion_ok? nc }
