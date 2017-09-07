@@ -99,6 +99,9 @@ module JSS
     ### These input types can be modified, the others cannot.
     EDITABLE_INPUT_TYPES = ["Text Field", "Pop-up Menu"]
 
+    ### Popup choices can, for now, take empty strings
+    BLANK = ''.freeze
+
     ### Where can it be displayed in the WebApp?
     ### subclasses can add to this list
     WEB_DISPLAY_CHOICES = [
@@ -162,6 +165,8 @@ module JSS
       if @init_data[:input_type]
         @input_type = @init_data[:input_type][:type] || DEFAULT_INPUT_TYPE
         @popup_choices = @init_data[:input_type][:popup_choices]
+        # popups can always contain blank
+        @popup_choices << BLANK if @popup_choices
       else
         @input_type = DEFAULT_INPUT_TYPE
       end
