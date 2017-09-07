@@ -279,7 +279,7 @@ module JSS
     def remove_member(m)
       raise InvalidDataError, "Smart group members can't be changed." if @is_smart
 
-      if @members.reject!{ |mm|  [mm[:id], mm[:name]].include? m  }
+      if @members.reject!{ |mm|  [mm[:id], mm[:name], mm[:username]].include? m  }
         @need_to_update = true
       else
         raise JSS::NoSuchItemError, "No member matches '#{m}'"
