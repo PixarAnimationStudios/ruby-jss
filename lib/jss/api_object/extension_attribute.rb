@@ -396,7 +396,7 @@ module JSS
 
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.new id: :new, name: tmp_advsrch, api: @api
+        acs = search_class.make name: tmp_advsrch, api: @api
         acs.display_fields = self.class::TARGET_CLASS == JSS::User ?  [@name, USERNAME_FIELD] : [@name, USERNAME_FIELD, LAST_RECON_FIELD]
 
         # search for 'Username like "" ' because all searchable object classes have a "Username" value
@@ -421,7 +421,7 @@ module JSS
 
       ensure
         if defined? acs
-          acs.delete
+          acs.delete if acs
         else
           search_class.fetch(:name => tmp_advsrch, api: @api).delete if search_class.all_names(:refresh, api: @api).include? tmp_advsrch
         end
