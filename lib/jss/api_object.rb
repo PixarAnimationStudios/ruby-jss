@@ -444,7 +444,7 @@ module JSS
       # pass to .new
       if arg.is_a? Hash
         raise ArgumentError, 'Use .make to create new JSS objects' if arg[:id] == :new
-        api = arg[:api] if arg[:api]
+        arg[:api] ||= api
         return new arg
       end
 
@@ -452,7 +452,7 @@ module JSS
       # and if it's result includes the desired value,
       # the pass they key and arg to .new
       lookup_key_list_methods.each do |key, method_name|
-        return new ({ key => arg, :api => api }) if method_name && send(method_name).include?(arg)
+        return new(key => arg, :api => api) if method_name && send(method_name).include?(arg)
       end # each key
 
       # if we're here, we couldn't find a matching object
