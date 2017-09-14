@@ -53,8 +53,7 @@ module JSS
     RSRC_BASE = 'advancedmobiledevicesearches'.freeze
 
     # the hash key used for the JSON list output of all objects in the JSS
-    # NOTE - THIS IS A BUG, it should be advanced_mobile_device_searches
-    RSRC_LIST_KEY = :advanced_computer_searches
+    RSRC_LIST_KEY = :advanced_mobile_device_searches
 
     # The hash key used for the JSON object output.
     # It's also used in various error messages
