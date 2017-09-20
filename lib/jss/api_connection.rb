@@ -658,7 +658,7 @@ module JSS
     def map_all_ids(class_name, refresh = false, to: nil)
       raise "'to:' value must be provided for mapping ids." unless to
       the_class = JSS.api_object_class(class_name)
-      the_class.map_all_ids_to to,  api: self
+      the_class.map_all_ids_to to, refresh, api: self
     end
 
     # Call the 'valid_id' method on a JSS::APIObject subclass
