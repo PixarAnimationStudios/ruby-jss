@@ -159,6 +159,9 @@ module JSS
     ###
     def set_ext_attr(name, value)
 
+      # if we don't currently have any need to update(cuz we have recently), reset the list of changes to push
+      @changed_eas = [] unless @need_to_update
+
       # this will raise an exception if the name doesn't exist
       ea_def = self.class::EXT_ATTRIB_CLASS.new :name => name
 
@@ -184,8 +187,9 @@ module JSS
         ea[:value] = value if ea[:name] == name
       end
       @ext_attrs[name] = value
-
+      @changed_eas << name
       @need_to_update = true
+
     end
 
     ###
@@ -195,10 +199,10 @@ module JSS
     ###  included in the rest_xml of objects that mix-in this module.
     ###
     def ext_attr_xml
-
+      @changed_eas ||= []
       eaxml = REXML::Element.new('extension_attributes')
-
       @extension_attributes.each do |ea|
+        next unless @changed_eas.include? ea[:name]
         ea_el = eaxml.add_element('extension_attribute')
         ea_el.add_element('name').text = ea[:name]
 
