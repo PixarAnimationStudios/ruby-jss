@@ -540,6 +540,9 @@ module JSS
     # @return [Time] the last contact time
     attr_reader :last_contact_time
 
+    # @return [Time] the last time this machine was enrolled
+    attr_reader :last_enrolled
+
     # @return [String] the primary macaddress
     attr_reader :mac_address
 
@@ -743,6 +746,7 @@ module JSS
       @barcode_2 = @init_data[:general][:barcode_2]
       @distribution_point = @init_data[:general][:distribution_point]
       @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
+      @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
       @ip_address = @init_data[:general][:ip_address]
       @jamf_version = @init_data[:general][:jamf_version]
       @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
