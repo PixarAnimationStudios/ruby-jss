@@ -166,7 +166,7 @@ module JSS
         @input_type = @init_data[:input_type][:type] || DEFAULT_INPUT_TYPE
         @popup_choices = @init_data[:input_type][:popup_choices]
         # popups can always contain blank
-        @popup_choices << BLANK if @popup_choices
+        @popup_choices << JSS::BLANK if @popup_choices
       else
         @input_type = DEFAULT_INPUT_TYPE
       end
