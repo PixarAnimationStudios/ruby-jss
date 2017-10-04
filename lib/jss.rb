@@ -77,6 +77,9 @@ module JSS
   ### When parsing a date/time data into a Time object, these will return nil
   NIL_DATES = [0, nil, '', '0'].freeze
 
+  ### Empty strings are used in various places
+  BLANK = ''.freeze
+
   ### Module Variables
   #####################################
 
