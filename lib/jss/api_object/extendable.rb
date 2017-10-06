@@ -139,6 +139,11 @@ module JSS
         @ext_attrs[ea[:name]] = ea[:value]
 
       end # each do ea
+
+      # remember changes as they happen so
+      # we only send changes back to the server.
+      @changed_eas = []
+
     end
 
     ###
