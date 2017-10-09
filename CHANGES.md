@@ -1,10 +1,6 @@
 # Change History
 
-## v0.10.0a2 2017-08-17 (pre release)
-
-- Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
-
-## v0.10.0a1 2017-08-15 (pre release)
+## v0.10.0 2017-10-09
 
 - Improvement: Working with multiple APIConnections is now far more flexible!
 
@@ -16,6 +12,17 @@
   The default/active connection continues to work as always, so your existing code will be fine.
   See the [documentation for the JSS::APIConnection class](http://www.rubydoc.info/gems/ruby-jss/JSS/APIConnection) for details.
 - Fix: Specifying port 443, as well as 8443, when connecting an APIConnection will default to using SSL. To force such a connection to NOT use SSL, provide the parameter `use_ssl: false`
+- Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+- Fix: Popup extension attributes can always take a blank value.
+- Fix: UserGroup members have a 'username' value, not 'name'
+- Add: Two case-insentive string methods added to Array:
+  - Array#jss_ci_include_string? Takes a string, returns true if the Array contains the string without regard to case.
+        E.g. `['ThrAsHer'].jss_ci_include_string? 'thrasher' # => true`
+  - Array#jss_ci_fetch_string Takes a string and fetches it from the array, regardless of case. Nil if not found.
+        E.g. `['thrasher'].jss_ci_fetch_string 'ThrAsHer'  # => 'thrasher'`
+- Fix: APIConnection.map_all_ids wasn't honoring :refresh
+- Improvement: Extendable module: only push changed EAs when `update` is called.
+- Add: Computer objects now have a `last_enrolled` attribute
 
 ## v0.9.3 2017-08-08
 
