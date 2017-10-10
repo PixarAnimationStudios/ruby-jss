@@ -131,6 +131,10 @@ module JSS
     #
     # If the ext. attrib. is defined with a data type of Date, the value will be converted to a Time
     #
+    # Note that while the Jamf Pro Web interface does not allow editing the values of
+    # Extension Attributes populated by Scripts or LDAP,  the API does allow it.
+    # Bear in mind however that those values will be reset again at the next recon.
+    #
     # @param name[String] the name of the extension attribute to set
     #
     # @param value[String,Time,Time,Integer] the new value for the extension attribute for this user
