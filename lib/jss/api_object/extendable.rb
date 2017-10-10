@@ -63,7 +63,6 @@ module JSS
     #  Constants
     ###################################
 
-    #
     EXTENDABLE = true
 
     # ExtensionAttributes refer to the numeric data type as "Integer"
@@ -83,7 +82,6 @@ module JSS
 
     #  Mixed-in Instance Methods
     ###################################
-
 
     # Populate @extension_attributes (the Array of Hashes that comes from the API)
     # and @ext_attr_names, which is a Hash mapping the EA names to their
@@ -127,7 +125,7 @@ module JSS
     # Set the value of an extension attribute
     #
     # If the extension attribute is defined as a popup menu, the value must be one of the
-    # defined popup choices.
+    # defined popup choices, or an empty string
     #
     # If the ext. attrib. is defined with a data type of Integer, the value must be an Integer.
     #
@@ -146,26 +144,25 @@ module JSS
       # this will raise an exception if the name doesn't exist
       ea_def = self.class::EXT_ATTRIB_CLASS.new name: name
 
-      unless JSS::ExtensionAttribute::EDITABLE_INPUT_TYPES.include? ea_def.input_type
-        raise JSS::UnsupportedError, "The value for #{name} cannot be modified. It is gathered during inventory updates."
-      end
-
       if ea_def.input_type == 'Pop-up Menu' && (!ea_def.popup_choices.include? value.to_s)
         raise JSS::UnsupportedError, "The value for #{name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
       end
 
-      case ea_def.data_type
-      when 'Date'
-        value = JSS.parse_datetime value
+      unless value == JSS::BLANK
+        case ea_def.data_type
+        when 'Date'
+          value = JSS.parse_datetime value
 
-      when *NUMERIC_TYPES
-        raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
+        when *NUMERIC_TYPES
+          raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
 
-      end # case
+        end # case
+      end # unless blank
 
       @extension_attributes.each do |ea|
         ea[:value] = value if ea[:name] == name
       end
+
       @ext_attrs[name] = value
       @changed_eas << name
       @need_to_update = true

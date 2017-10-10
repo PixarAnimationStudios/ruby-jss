@@ -96,12 +96,6 @@ module JSS
     INPUT_TYPES = [ "Text Field", "Pop-up Menu", "script", "LDAP Attribute Mapping"]
     DEFAULT_INPUT_TYPE = "Text Field"
 
-    ### These input types can be modified, the others cannot.
-    EDITABLE_INPUT_TYPES = ["Text Field", "Pop-up Menu"]
-
-    ### Popup choices can, for now, take empty strings
-    BLANK = ''.freeze
-
     ### Where can it be displayed in the WebApp?
     ### subclasses can add to this list
     WEB_DISPLAY_CHOICES = [
