@@ -85,6 +85,11 @@ module JSS
     # The Default Priority
     DEFAULT_PRIORITY = 5
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 72
+
     # Attributes
     #####################################
 

@@ -94,6 +94,11 @@ module JSS
     ### The keys used in the @parameters Hash
     PARAMETER_KEYS = [:parameter4, :parameter5, :parameter6, :parameter7, :parameter8, :parameter9, :parameter10, :parameter11].freeze
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 91
+
     ### Attributes
     #####################################
 

@@ -85,6 +85,11 @@ module JSS
 
     DEFAULT_MOUNTPOINT_PREFIX = "CasperDistribution-id"
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 76
+
     ### Class Methods
     #####################################
 

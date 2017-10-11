@@ -83,6 +83,10 @@ module JSS
     ### these keys, as well as :id and :name, are present in valid API JSON data for this class
     VALID_DATA_KEYS = [:type, :bar_code_1, :computer_id ]
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 8
 
     #####################################
     ### Class Variables

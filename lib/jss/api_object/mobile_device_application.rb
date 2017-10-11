@@ -88,6 +88,11 @@ module JSS
       bundle_id: {rsrc_id: :bundleid, list: :all_bundle_ids}
     }.freeze
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 23
+
     # Attributes
     #####################################
 

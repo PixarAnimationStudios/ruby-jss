@@ -152,6 +152,11 @@ module JSS
     ### possible objectclass mapping options
     OBJECT_CLASS_MAPPING_OPTIONS = ["any", "all"]
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 80
+
     #####################################
     ### Attributes
     #####################################

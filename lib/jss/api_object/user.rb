@@ -79,6 +79,11 @@ module JSS
     ### This is the class for relevant Extension Attributes
     EXT_ATTRIB_CLASS = JSS::UserExtensionAttribute
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 53
+
     #####################################
     ### Attributes
     #####################################

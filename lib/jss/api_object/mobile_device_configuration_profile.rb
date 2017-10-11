@@ -16,6 +16,11 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :configuration_profile
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 22
+
   end
 
 end

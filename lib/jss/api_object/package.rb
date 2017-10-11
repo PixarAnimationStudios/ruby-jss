@@ -92,6 +92,11 @@ module JSS
     ### The table in the database for this object
     DB_TABLE = 'packages'.freeze
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 90
+
     ### Class Variables
     #####################################
 

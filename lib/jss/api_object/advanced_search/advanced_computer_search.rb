@@ -75,6 +75,10 @@ module JSS
     # for each computer?
     RESULT_ID_FIELDS = [:id, :name, :udid].freeze
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 70
 
     # Attributes
     #####################################

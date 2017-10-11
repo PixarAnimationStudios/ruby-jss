@@ -524,6 +524,11 @@ module JSS
       name: { rsrc_key: :name, list: :all_names }
     }.freeze
 
+    # This table holds the object history for JSS objects.
+    # Object history is not available via the API,
+    # only MySQL.
+    OBJECT_HISTORY_TABLE = 'object_history'.freeze
+
     # Attributes
     #####################################
 
@@ -726,9 +731,106 @@ module JSS
       vars
     end
 
+    # Make an entry in this object's Object History.
+    # For this to work, the APIObject subclass must define
+    # OBJECT_HISTORY_OBJECT_TYPE, an integer indicating the
+    # object type in the OBJECT_HISTORY_TABLE in the database
+    # (e.g. for computers, the object type is 1)
+    #
+    # NOTE: Object history is not available via the API,
+    #   so access is only available through direct MySQL
+    #   connections
+    #
+    # Also: the 'details' column in the table shows up in the
+    #   'notes' column of the Web UI.  and the 'object_description'
+    #   column of the table shows up in the 'details' column of
+    #   the UI, under the 'details' button.
+    #
+    #   The params below reflect the UI, not the table.
+    #
+    # @param user[String] the username creating the entry.
+    #
+    # @param notes[String] A string that appears as a 'note' in the history
+    #
+    # @param details[String] A string that appears as the 'details' in the history
+    #
+    # @return [void]
+    #
+    def add_object_history_entry(user: nil, notes: nil, details: nil)
+      validate_object_history_available
+
+      raise JSS::MissingDataError, 'A user: must be provided to make the entry' unless user
+
+      raise JSS::MissingDataError, 'Either notes: must be provided to make the entry' unless notes
+
+      user = "'#{Mysql.quote user.to_s}'"
+      notes =  "'#{Mysql.quote notes.to_s}'"
+      obj_type = self.class::OBJECT_HISTORY_OBJECT_TYPE
+
+      field_list = 'object_type, object_id, username, details, timestamp_epoch'
+      value_list = "#{obj_type}, #{@id}, #{user}, #{notes}, #{Time.now.to_jss_epoch}"
+
+      if details
+        field_list << ', object_description'
+        value_list << ", '#{Mysql.quote details.to_s}'"
+      end # if details
+
+      q = "INSERT INTO #{OBJECT_HISTORY_TABLE}
+        (#{field_list})
+      VALUES
+        (#{value_list})"
+
+      JSS::DB_CNX.db.query q
+    end
+
+    # the object history for this object, an array of hashes
+    # one per history entry, in order of creation.
+    # Each hash contains:
+    #   user: String, the username that created the entry
+    #   notes:  String, the notes for the entry
+    #   date: Time, the timestamp for the entry
+    #   details: String or nil, any details provided for the entry
+    #
+    # @return [Array<Hash>] the object history
+    #
+    def object_history
+      validate_object_history_available
+
+      q = "SELECT username, details, timestamp_epoch, object_description
+      FROM #{OBJECT_HISTORY_TABLE}
+      WHERE object_type = #{self.class::OBJECT_HISTORY_OBJECT_TYPE}
+      AND object_id = #{@id}
+      ORDER BY object_history_id ASC"
+
+      result = JSS::DB_CNX.db.query q
+      history = []
+      result.each do |entry|
+        history << {
+          user: entry[0],
+          notes: entry[1],
+          date: JSS.epoch_to_time(entry[2]),
+          details: entry[3]
+        }
+      end # each do entry
+      history
+    end
+
     # Private Instance Methods
     #####################################
     private
+
+    # Raise an exception if object history is not
+    # available for this object
+    #
+    # @return [void]
+    #
+    def validate_object_history_available
+      raise JSS::NoSuchItemError, 'Object not yet created' unless @id && @in_jss
+
+      raise JSS::InvalidConnectionError, 'Not connected to MySQL' unless JSS::DB_CNX.connected?
+
+      raise JSS::UnsupportedError, "Object History access is not supported for #{self.class} objects at this time" unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
+    end
 
     # If we were passed pre-lookedup API data, validate it,
     # raising exceptions if not valid.

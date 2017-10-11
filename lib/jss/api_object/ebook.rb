@@ -16,6 +16,11 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :ebook
 
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    OBJECT_HISTORY_OBJECT_TYPE = 24
+
   end
 
 end
