@@ -814,8 +814,7 @@ module JSS
     # @return [Hash, nil] The hardware[:storage] hash of the boot drive
     #
     def boot_drive
-      drives.each { |d| return d if d[:partition][:type] == 'boot' }
-      nil
+      drives.select { |d| d[:partition] && d[:partition][:type] == 'boot' }.first
     end
 
     # @return [Array<Hash>]  each printer on this computer
