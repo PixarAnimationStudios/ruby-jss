@@ -146,7 +146,7 @@ module JSS
       @changed_eas = [] unless @need_to_update
 
       # this will raise an exception if the name doesn't exist
-      ea_def = self.class::EXT_ATTRIB_CLASS.new name: name
+      ea_def = self.class::EXT_ATTRIB_CLASS.fetch name: name, api: api
 
       if ea_def.input_type == 'Pop-up Menu' && (!ea_def.popup_choices.include? value.to_s)
         raise JSS::UnsupportedError, "The value for #{name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
