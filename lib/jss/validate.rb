@@ -75,8 +75,8 @@ module JSS
     #
     # @return [Object] the validated unique value
     #
-    def self.unique_identifier(klass, identifier, val)
-      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'" if klass.all.map { |i| i[identifier] }.include? val
+    def self.unique_identifier(klass, identifier, val, api: JSS.api)
+      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'" if klass.all(api: api).map { |i| i[identifier] }.include? val
       val
     end
 
