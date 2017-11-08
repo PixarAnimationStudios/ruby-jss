@@ -1,5 +1,20 @@
 # Change History
 
+## v 0.10.1 2017-11-08
+
+- Add: Extension Attribute values that are populated by Script or LDAP can now be modified via Extendable#set_ext_attr.
+
+  Previously, attempts to set the value would raise an exception, because those values aren't modifiable in the WebUI.
+  However, the API itself allows such modification, so now ruby-jss does too.
+
+- Add: If you have access to the JSS MySQL database, ruby-jss now provides acces to the 'object history' of all APIObject subclasses.
+
+  Unfortunately there is no way to get at this data via the API, but if you can connect to the MySQL database (JSS::DB_CNX.connect)
+  then you can call `#object_history` and `#add_object_history_entry` for individual object instances.
+
+- Fix: Error when no storage device on a Computer is marked as the boot drive (Thanks @christopher.kemp!)
+- Fix: A few lingering methods that weren't multi-APIConnection aware, are now aware
+
 ## v0.10.0 2017-10-09
 
 - Improvement: Working with multiple APIConnections is now far more flexible!
