@@ -483,6 +483,47 @@ module JSS
       new args
     end
 
+
+    # Delete one or more API objects by jss_id without instantiating them.
+    # Non-existent id's are skipped and an array of skipped ids is returned.
+    #
+    # If an Array is provided, it is passed through #uniq! before being processed.
+    #
+    # @param victims[Integer,Array<Integer>] An object id or an array of them
+    #   to be deleted
+    #
+    # @param api[JSS::APIConnection] the API connection to use.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<Integer>] The id's that didn't exist when we tried to
+    #   delete them.
+    #
+    def self.delete(victims, api: JSS.api)
+      raise JSS::UnsupportedError, '.delete can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
+      raise JSS::InvalidDataError, 'Parameter must be an Integer ID or an Array of them' unless victims.is_a?(Integer) || victims.is_a?(Array)
+
+      case victims
+      when Integer
+        victims = [victims]
+      when Fixnum
+        victims = [victims]
+      when Array
+        victims.uniq!
+      end
+
+      skipped = []
+      current_ids = all_ids :refresh, api: api
+      victims.each do |vid|
+        if current_ids.include? vid
+          api.delete_rsrc "#{self.class::RSRC_BASE}/id/#{vid}"
+        else
+          skipped << vid
+        end # if current_ids include v
+      end # each victim
+
+      skipped
+    end # self.delete
+
     ### Class Constants
     #####################################
 
@@ -691,8 +732,8 @@ module JSS
 
     # Delete this item from the JSS.
     #
-    # TODO: Make a class method for mass deletion
-    # without instantiating, then call it from this method.
+    # @seealso {APIObject.delete} for deleting
+    # one or more objects by id without needing to instantiate
     #
     # Subclasses may want to redefine this method,
     # first calling super, then setting other attributes to
