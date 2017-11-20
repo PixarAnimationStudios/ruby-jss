@@ -237,11 +237,13 @@ module JSS
   #   prod2_victim_md = production_api2.fetch :MobileDevice, id: 832
   #
   # Here are the API calls you can make directly from an APIConnection object.
-  # Most of them behave identically to the same methods in the APIObject classes
+  # They behave practically identically to the same methods in the APIObject
+  # subclasses, since they just call those methods, passing themselves in as the
+  # APIConnection to use.
   #
   # - {#all}  The 'list' methods of the various APIObject classes. Use the 'only:'
   #   parameter to specify one of the sub-list-methods, like #all_ids or
-  #   #all_laptops
+  #   #all_laptops, e.g. `my_connection.all :computers, only: :id`
   # - {#map_all_ids} the equivalent of #map_all_ids_to in the APIObject classes
   # - {#valid_id} given a class and an identifier (like macaddress or udid)
   #   return a valid id or nil
@@ -254,6 +256,9 @@ module JSS
   # - {#send_computer_mdm_command} same as {Computer.send_mdm_command}
   # - {#computer_checkin_settings} same as {Computer.checkin_settings}
   # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
+  # - {#computer_application_usage} same as {Computer.application_usage}
+  # - {#computer_management_data} same as {Computer.management_data}
+  # - {#computer_history} same as {Computer.history}
   # - {#send_mobiledevice_mdm_command} same as {MobileDevice.send_mdm_command}
   # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
   # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
@@ -739,23 +744,46 @@ module JSS
       the_class.make args
     end
 
-    # Call {JSS::Computer.checkin_settings} passing this API
+    # Call {JSS::Computer.checkin_settings} q.v.,  passing this API
     # connection
-    #
-    # @return (see JSS::Computer.checkin_settings)
     #
     def computer_checkin_settings
       JSS::Computer.checkin_settings api: self
     end
 
-
-    # Call {JSS::Computer.inventory_collection_settings} passing this API
+    # Call {JSS::Computer.inventory_collection_settings} q.v., passing this API
     # connection
-    #
-    # @return (see JSS::Computer.checkin_settings)
     #
     def computer_inventory_collection_settings
       JSS::Computer.inventory_collection_settings api: self
+    end
+
+    # Call {JSS::Computer.application_usage} q.v., passing this API
+    # connection
+    #
+    def computer_application_usage(ident, start_date, end_date = nil)
+      JSS::Computer.application_usage ident, start_date, end_date, api: self
+    end
+
+    # Call {JSS::Computer.management_data} q.v., passing this API
+    # connection
+    #
+    def computer_management_data(ident, subset: nil, only: nil)
+      JSS::Computer.management_data ident, subset: subset, only: only, api: self
+    end
+
+    # Call {JSS::Computer.history} q.v., passing this API
+    # connection
+    #
+    def computer_history(ident, subset: nil)
+      JSS::Computer.history ident, subset: subset, api: self
+    end
+
+    # Call {JSS::Computer.send_mdm_command} q.v.,  passing this API
+    # connection
+    #
+    def send_computer_mdm_command(targets, command, passcode = nil)
+      JSS::Computer.send_mdm_command targets, command, passcode, api: self
     end
 
     # Get the DistributionPoint instance for the master
@@ -834,7 +862,7 @@ module JSS
     #
     # @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     #
-    def network_segments_for_ip(ip, refresh = false)
+    def network_segments_for_ip(ip)
       ok_ip = IPAddr.new(ip)
       matches = []
       network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
@@ -847,15 +875,6 @@ module JSS
     #
     def my_network_segments
       network_segments_for_ip JSS::Client.my_ip_address
-    end
-
-    # Send an MDM command to one or more computers managed by
-    # this JSS
-    #
-    # see {JSS::Computer.send_mdm_command}
-    #
-    def send_computer_mdm_command(targets, command, passcode = nil)
-      JSS::Computer.send_mdm_command(targets, command, passcode, api: self)
     end
 
     # Send an MDM command to one or more mobile devices managed by
