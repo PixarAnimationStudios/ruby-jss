@@ -494,17 +494,13 @@ module JSS
         cmd_rsrc << "/passcode/#{passcode}"
       end
 
-      targets = JSS.to_s_and_a(targets.to_s)[:arrayform] unless targets.is_a? Array
+      targets = JSS.to_s_and_a(targets)[:arrayform]
 
       # make sure its an array of ids
       targets.map! do |comp|
-        if all_ids(api: api).include? comp.to_i
-          comp.to_i
-        elsif all_names(api: api).include? comp
-          map_all_ids_to(:name, api: api).invert[comp]
-        else
-          raise JSS::NoSuchItemError, "No computer found matching '#{comp}'"
-        end # if
+        id = valid_id comp, api: api
+        raise JSS::NoSuchItemError, "No computer matches identifier: #{comp}" unless id
+        id
       end # map!
 
       cmd_rsrc << "/id/#{targets.join ','}"
@@ -514,6 +510,157 @@ module JSS
       Regexp.last_match(1)
     end # send mdm command
 
+    # Retrieve Application Usage data for a computer by id, without
+    # instantiation.
+    #
+    # @param ident [Integer,String] An identifier (id, name, serialnumber,
+    #   macadress or udid) of the computer for which to retrieve Application Usage
+    #
+    # @param start_date [Time,Date,DateTime,String] The earliest date to retrieve
+    #
+    # @param end_date [String,Date,DateTime,Time] Defaults to start_date
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash{Date=>Array<Hash>}] A Hash with keys (Date instances) for
+    #   each day in the range.
+    #
+    #   Each hash value contains an Array of apps used
+    #   on that day.
+    #
+    #   Each item in the array is a hash of data about the app.
+    #   Those hash keys are:
+    #     :name => String, the name of the app
+    #     :version => String ,the version of the app
+    #     :foreground => Integer, the minutes it was in the foreground
+    #     :open => Integer, the minutes it was running.
+    #
+    def self.application_usage(ident, start_date, end_date = nil, api: JSS.api)
+      id = valid_id ident, api: api
+      raise "No computer matches identifier: #{ident}" unless id
+      end_date ||= start_date
+      start_date = Time.parse start_date if start_date.is_a? String
+      end_date = Time.parse end_date if end_date.is_a? String
+      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
+        raise JSS::InvalidDataError, 'Invalid Start or End Date'
+      end
+      start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
+      end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
+      data = api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
+      parsed_data = {}
+      data[APPLICATION_USAGE_KEY].each do |day_hash|
+        date = Date.parse day_hash[:date]
+        parsed_data[date] = day_hash[:apps]
+      end
+      parsed_data
+    end # app usage
+
+    # The 'computer management' data for a given computer by id,
+    # looked up on the fly.
+    #
+    # Without specifying a subset:, the entire dataset is returned as a hash of
+    # arrays, one per  subset
+    #
+    # If a subset is given then only that array is returned, and it contains
+    # hashes with data about each item (usually :name and :id)
+    #
+    # If the only: param is provided with a subset, it is used as a hash-key to
+    # map the array to just those values, so subset: :smart_groups, only: :name
+    # will return an array of names of smartgroups that contain the computer.
+    #
+    # @param ident [Integer,String] An identifier (id, name, serialnumber,
+    #   macadress or udid) of the computer for which to retrieve Application Usage
+    #
+    # @param subset[Symbol] Fetch only a subset of data, as an array.
+    #    must be one of the symbols in MGMT_DATA_SUBSETS
+    #
+    # @param only[Symbol] When fetching a subset, only return one value
+    #   per item in the array. meaningless without a subset.
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash] Without a subset:, a hash of all subsets, each of which is
+    #   an Array
+    #
+    # @return [Array] With a subset:, an array of items in that subset, possibly
+    #   limited to just certain values with only:
+    #
+    def self.management_data(ident, subset: nil, only: nil, api: JSS.api)
+      id = valid_id ident, api: api
+      raise "No computer matches identifier: #{ident}" unless id
+      if subset
+        management_data_subset id, subset: subset, only: only, api: api
+      else
+        full_management_data id, api: api
+      end
+    end
+
+    # The full set of management data for a given computer.
+    # This private method is called by self.management_data, q.v.
+    #
+    def self.full_management_data(id, api: JSS.api)
+      mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{id}"
+      api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+    end
+    private_class_method :full_management_data
+
+    # A subset of management data for a given computer.
+    # This private method is called by self.management_data, q.v.
+    #
+    def self.management_data_subset(id, subset: nil, only: nil,  api: JSS.api)
+      raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
+      subset_rsrc = MGMT_DATA_RSRC + "/id/#{id}/subset/#{subset}"
+      subset_data = api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
+      return subset_data unless only
+      subset_data.map { |d| d[only] }
+    end
+    private_class_method :management_data_subset
+
+    # Return this computer's management history.
+    # WARNING! Its huge, better to use a subset.
+    #
+    # @param ident [Integer,String] An identifier (id, name, serialnumber,
+    #   macadress or udid) of the computer for which to retrieve Application Usage
+    #
+    # @param subset[Symbol] the subset to return, rather than full history.
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash] The full history
+    #
+    # @return [Array] The history subset requested
+    #
+    def self.history(ident, subset: nil, api: JSS.api)
+      id = valid_id ident, api: api
+      raise "No computer matches identifier: #{ident}" unless id
+
+      if subset
+        history_subset id, subset: subset, api: api
+      else
+        full_history id, api: api
+      end
+    end
+
+    # The full management history for a given computer.
+    # This private method is called by self.history, q.v.
+    #
+    def self.full_history(id, api: JSS.api)
+      api.get_rsrc(HISTORY_RSRC + "/id/#{id}")[HISTORY_KEY]
+    end
+    private_class_method :full_history
+
+    # A subset of the management history for a given computer.
+    # This private method is called by self.history, q.v.
+    #
+    def self.history_subset(id, subset: nil, api: JSS.api)
+      raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
+      subset_rsrc = HISTORY_RSRC + "/id/#{id}/subset/#{subset}"
+      api.get_rsrc(subset_rsrc)[HISTORY_KEY]
+    end
+    private_class_method :history_subset
 
     # Attributes
     #####################################
@@ -840,185 +987,83 @@ module JSS
 
     # Get application usage data for this computer
     # for a given date range.
-    #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
-    #
-    # @param start_date [String,Date,DateTime,Time]
-    #
-    # @param end_date [String,Date,DateTime,Time] Defaults to start_date
-    #
-    # @return [Hash{Date=>Array<Hash>}] For each day in the range, an Array
-    #   with one Hash per application used. The hash keys are:
-    #   :name => String, the name of the app
-    #   :version => String ,the version of the app
-    #   :foreground => Integer, the minutes it was in the foreground
-    #   :open => Integer, the minutes it was running.
+    # See {JSS::Computer.application_usage} for details
     #
     def application_usage(start_date, end_date = nil)
-      end_date ||= start_date
-      start_date = Time.parse start_date if start_date.is_a? String
-      end_date = Time.parse end_date if end_date.is_a? String
-      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
-        raise JSS::InvalidDataError, 'Invalid Start or End Date'
-      end
-      start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
-      end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
-      data = @api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
-      parsed_data = {}
-      data[APPLICATION_USAGE_KEY].each do |day_hash|
-        date = Date.parse day_hash[:date]
-        parsed_data[date] = day_hash[:apps]
-      end
-      parsed_data
+      JSS::Computer.application_usage @id, start_date, end_date, api: @api
     end # app usage
 
-    # The 'computer management' data for this computer, looked up on the fly.
+    # The 'computer management' data for this computer
     #
-    # Without specifying a subset:, the entire dataset is returned as a hash of
-    # arrays, one per  subset
-    # If a subset is given then only that array is returned, and it contains
-    # hashes with data about each item (usually :name and :id)
+    # NOTE: the data isn't cached locally, and the API is queried every time
     #
-    # If the only: param is provided with a subset, it is used as a hash-key to
-    # map the array to just those values, so subset: :smart_groups, only: :name
-    # will return an array of names of smartgroups that contain this computer.
+    # See {JSS::Computer.management_data} for details
     #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
-    #
-    # @param subset[Symbol] Fetch only a subset of data, as an array.
-    #    must be one of the symbols in MGMT_DATA_SUBSETS
-    #
-    # @param only[Symbol] When fetching a subset, only return one value
-    #   per item in the array. meaningless without a subset.
-    #
-    # @param refresh[Boolean] should the data be re-cached from the API?
-    #
-    # @return [Hash] Without a subset:, a hash of all subsets, each of which is
-    #   an Array
-    #
-    # @return [Array] With a subset:, an array of items in that subset.
-    #
-    def management_data(subset: nil, only: nil, refresh: false)
-      @management_data ||= {}
-      if subset
-        management_data_subset(subset: subset, only: only, refresh: refresh)
-      else
-        full_management_data refresh
-      end
+    def management_data(subset: nil, only: nil)
+      raise JSS::NoSuchItemError, 'Computer not yet saved in the JSS' unless @in_jss
+      JSS::Computer.management_data @id, subset: subset, only: only, api: @api
     end
-
-    def full_management_data(refresh = false)
-      @management_data[:full] = nil if refresh
-      return @management_data[:full] if @management_data[:full]
-      mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
-      @management_data[:full] = @api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
-      @management_data[:full]
-    end
-    private :full_management_data
-
-    def management_data_subset(subset: nil, only: nil, refresh: false)
-      raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
-      @management_data[subset] = nil if refresh
-      return @management_data[subset] if @management_data[subset]
-      subset_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
-      @management_data[subset] = @api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
-      return @management_data[subset] unless only
-      @management_data[subset].map { |d| d[only] }
-    end
-    private :management_data_subset
 
     # A shortcut for 'management_data subset: :smart_groups'
     #
-    def smart_groups(only: nil, refresh: false)
-      management_data subset: :smart_groups, only: only, refresh: refresh
+    def smart_groups(only: nil)
+      management_data subset: :smart_groups, only: only
     end
 
     # A shortcut for 'management_data subset: :static_groups'
     #
-    def static_groups(only: nil, refresh: false)
-      management_data subset: :static_groups, only: only, refresh: refresh
+    def static_groups(only: nil)
+      management_data subset: :static_groups, only: only
     end
 
     # A shortcut for 'management_data subset: :policies'
     #
-    def policies(only: nil, refresh: false)
-      management_data subset: :policies, only: only, refresh: refresh
+    def policies(only: nil)
+      management_data subset: :policies, only: only
     end
 
     # A shortcut for 'management_data subset: :os_x_configuration_profiles'
     #
-    def configuration_profiles(only: nil, refresh: false)
-      management_data subset: :os_x_configuration_profiles, only: only, refresh: refresh
+    def configuration_profiles(only: nil)
+      management_data subset: :os_x_configuration_profiles, only: only
     end
 
     # A shortcut for 'management_data subset: :ebooks'
     #
-    def ebooks(only: nil, refresh: false)
+    def ebooks(only: nil)
       management_data subset: :ebooks, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :mac_app_store_apps'
     #
-    def app_store_apps(only: nil, refresh: false)
-      management_data subset: :mac_app_store_apps, only: only, refresh: refresh
+    def app_store_apps(only: nil)
+      management_data subset: :mac_app_store_apps, only: only
     end
 
     # A shortcut for 'management_data subset: :restricted_software'
     #
-    def restricted_software(only: nil, refresh: false)
-      management_data subset: :restricted_software, only: only, refresh: refresh
+    def restricted_software(only: nil)
+      management_data subset: :restricted_software, only: only
     end
 
     # A shortcut for 'management_data subset: :patch_reporting_software_titles'
     #
-    def patch_titles(only: nil, refresh: false)
-      management_data subset: :patch_reporting_software_titles, only: only, refresh: refresh
+    def patch_titles(only: nil)
+      management_data subset: :patch_reporting_software_titles, only: only
     end
 
-    # Return this computer's history.
-    # WARNING! Its huge, better to use a subset a
-    # nd one of the shortcut methods.
+    # Return this computer's management history.
+    # WARNING: Its huge, better to use a subset or one of the shortcut methods.
     #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
+    # NOTE: This is not the same as a computer's Object History
     #
-    # @param subset[Symbol] the subset to return, rather than full history.
+    # NOTE: The data isn't cached locally, the API is queried every time
     #
-    # @param refresh[Boolean] should we re-cache the data from the API?
+    # For details, see {JSS::Computer.history}
     #
-    # @return [Hash] The full history
-    #
-    # @return [Array] The history subset requested
-    #
-    def history(subset: nil, refresh: false)
-      @history ||= {}
-      if subset
-        history_subset(subset: subset, refresh: refresh)
-      else
-        full_history refresh
-      end
+    def history(subset: nil)
+      JSS::Computer.history @id, subset, @api
     end
-
-    def full_history(refresh = false)
-      @history[:full] = nil if refresh
-      return @history[:full] if @history[:full]
-      history_rsrc = HISTORY_RSRC + "/id/#{@id}"
-      @history[:full] = @api.get_rsrc(history_rsrc)[HISTORY_KEY]
-      @history[:full]
-    end
-    private :full_history
-
-    def history_subset(subset: nil, refresh: false)
-      raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
-      @history[subset] = nil if refresh
-      return @history[subset] if @history[subset]
-      subset_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
-      @history[subset] = @api.get_rsrc(subset_rsrc)[HISTORY_KEY]
-      @history[subset]
-    end
-    private :history_subset
 
     # Shortcut for history(:computer_usage_logs)
     def usage_logs(refresh = false)
