@@ -174,15 +174,15 @@ module JSS
       # Public Instance Methods
       #####################################
 
-      # If api_scope is empty, a default scope, scoped to all targets, is created, and can be modified
+      # If raw_scope is empty, a default scope, scoped to all targets, is created, and can be modified
       # as needed.
       #
       # @param target_key[Symbol] the kind of thing we're scopeing, one of {TARGETS_AND_GROUPS}
       #
-      # @param api_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
+      # @param raw_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
       #
-      def initialize(target_key, api_scope = nil)
-        api_scope ||= DEFAULT_SCOPE
+      def initialize(target_key, raw_scope = nil)
+        raw_scope ||= DEFAULT_SCOPE
         raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.keys.include? target_key
 
         @target_key = target_key
@@ -194,21 +194,21 @@ module JSS
         @exclusion_keys = [@target_key, @group_key] + EXCLUSIONS
 
         @all_key = "all_#{target_key}".to_sym
-        @all_targets = api_scope[@all_key]
+        @all_targets = raw_scope[@all_key]
 
         # Everything gets mapped from an Array of Hashes to an Array of names (or an empty array)
         # since names are all that really matter when submitting the scope.
         @inclusions = {}
-        @inclusion_keys.each { |k| @inclusions[k] = api_scope[k] ? api_scope[k].map { |n| n[:name] } : [] }
+        @inclusion_keys.each { |k| @inclusions[k] = raw_scope[k] ? raw_scope[k].map { |n| n[:name] } : [] }
 
         @limitations = {}
-        if api_scope[:limitations]
-          LIMITATIONS.each { |k| @limitations[k] = api_scope[:limitations][k] ? api_scope[:limitations][k].map { |n| n[:name] } : [] }
+        if raw_scope[:limitations]
+          LIMITATIONS.each { |k| @limitations[k] = raw_scope[:limitations][k] ? raw_scope[:limitations][k].map { |n| n[:name] } : [] }
         end
 
         @exclusions = {}
-        if api_scope[:exclusions]
-          @exclusion_keys.each { |k| @exclusions[k] = api_scope[:exclusions][k] ? api_scope[:exclusions][k].map { |n| n[:name] } : [] }
+        if raw_scope[:exclusions]
+          @exclusion_keys.each { |k| @exclusions[k] = raw_scope[:exclusions][k] ? raw_scope[:exclusions][k].map { |n| n[:name] } : [] }
         end
 
         @container = nil
@@ -575,3 +575,4 @@ module JSS
   end # module Scopable
 
 end # module
+l
