@@ -856,6 +856,17 @@ module JSS
       history
     end
 
+    # Print the rest_xml value of the object to stdout,
+    # with indentation. Useful for debugging.
+    #
+    # @return [void]
+    #
+    def ppx
+      return nil unless creatable? || updatable?
+      REXML::Document.new(rest_xml).write $stdout, 2
+      puts
+    end
+
     # Private Instance Methods
     #####################################
     private
