@@ -67,6 +67,7 @@ module JSS
     include JSS::Creatable
     include JSS::Updatable
     include JSS::Criteriable
+    include JSS::Sitable
 
 
     #####################################
@@ -75,6 +76,9 @@ module JSS
 
     ### the types of groups allowed for creation
     GROUP_TYPES = [:smart, :static]
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :top
 
     #####################################
     ### Class Variables
@@ -357,13 +361,14 @@ module JSS
       doc = REXML::Document.new JSS::APIConnection::XML_HEADER
       group = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
       group.add_element('name').text = @name
-      group.add_element('site').add_element('name').text = @site if @site
       group.add_element('is_smart').text = @is_smart
       if @is_smart
         group << @criteria.rest_xml if @criteria
       else
         group << self.class::MEMBER_CLASS.xml_list(@members, :id)
       end
+
+      add_site_to_xml(doc)
 
       return doc.to_s
 

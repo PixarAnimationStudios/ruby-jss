@@ -44,6 +44,7 @@ module JSS
     include JSS::Scopable
     include JSS::SelfServable
     include JSS::Categorizable
+    include JSS::Sitable
 
     # Class Constants
     ###################################
@@ -82,6 +83,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 4
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # Attributes
     ###################################
@@ -216,7 +220,7 @@ module JSS
       obj << @scope.scope_xml
       add_self_service_xml doc
       add_category_to_xml doc
-
+      add_site_to_xml doc
       doc.to_s
     end
 

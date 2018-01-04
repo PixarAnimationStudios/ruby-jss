@@ -174,6 +174,7 @@ module JSS
     include JSS::Purchasable
     include JSS::Uploadable
     include JSS::Extendable
+    include JSS::Sitable
 
     extend JSS::Matchable
 
@@ -192,6 +193,9 @@ module JSS
     # The hash key used for the JSON object output.
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :computer
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
     #   DEPRECATED, with be removed in a future release.
@@ -1364,6 +1368,8 @@ module JSS
       computer << location_xml if has_location?
 
       computer << purchasing_xml if has_purchasing?
+
+      add_site_to_xml(doc)
 
       doc.to_s
     end # rest_xml

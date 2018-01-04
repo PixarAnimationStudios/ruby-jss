@@ -695,9 +695,14 @@ module JSS
       defined? self.class::SELF_SERVABLE
     end
 
-    # @return [Boolean] See {JSS::criteriable}
+    # @return [Boolean] See {JSS::Criteriable}
     def criterable?
       defined? self.class::CRITERIABLE
+    end
+
+    # @return [Boolean] See {JSS::Sitable}
+    def sitable?
+      defined? self.class::SITABLE
     end
 
     # @return [Boolean] See {JSS::extendable}
@@ -972,10 +977,11 @@ module JSS
       # many things have  a :site
       # TODO: Implement a Sitable mixin module
       #
-      @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
+      # @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
 
       ##### Handle Mix-ins
       initialize_category
+      initialize_site
       initialize_location
       initialize_purchasing
       initialize_scope
@@ -1009,6 +1015,14 @@ module JSS
     #
     def initialize_category
       parse_category if categorizable?
+    end
+
+    # parse site data during initialization
+    #
+    # @return [void]
+    #
+    def initialize_site
+      parse_site if sitable?
     end
 
     # parse location data during initialization

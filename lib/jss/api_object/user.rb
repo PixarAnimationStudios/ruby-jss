@@ -106,9 +106,13 @@ module JSS
 
     ### @return [Array<Hash>]
     ###
-    ### The sites associated with this user
+    ### Unlike every other Sitable object, Users
+    ### can be in multiple sites, so we don't use
+    ### the Sitable mixin module. Instead we'll
+    ### we'll store them in this Array, as they come
+    ### from the API.
     ###
-    ### Each Hash has then :id and :name for one site
+    ### Each Hash has the :id and :name for one site
     ###
     attr_reader :sites
 

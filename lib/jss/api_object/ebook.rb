@@ -6,6 +6,8 @@ module JSS
   #
   class EBook < APIObject
 
+    include Sitable
+
     ### The base for REST resources of this class
     RSRC_BASE = 'ebooks'.freeze
 
@@ -20,6 +22,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 24
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
   end
 

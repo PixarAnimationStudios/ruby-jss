@@ -48,6 +48,8 @@ module JSS
     include JSS::Categorizable
     include JSS::Uploadable
     include JSS::VPPable
+    include JSS::Sitable
+
 
     # Class Methods
     #####################################
@@ -92,6 +94,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 23
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # Attributes
     #####################################
@@ -452,6 +457,7 @@ module JSS
       obj << @scope.scope_xml
       add_category_to_xml doc
       add_self_service_xml doc
+      add_site_to_xml doc
       add_vpp_xml doc
       doc.to_s
     end

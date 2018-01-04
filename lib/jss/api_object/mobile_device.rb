@@ -86,6 +86,7 @@ module JSS
     include JSS::Purchasable
     include JSS::Uploadable
     include JSS::Extendable
+    include JSS::Sitable
 
     extend JSS::Matchable
 
@@ -101,6 +102,9 @@ module JSS
     # The hash key used for the JSON object output.
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :mobile_device
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = %i[device_name capacity tethered].freeze
@@ -945,12 +949,10 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       md = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
-
       md << ext_attr_xml
-
       md << location_xml if has_location?
       md << purchasing_xml if has_purchasing?
-
+      add_site_to_xml doc
       doc.to_s
     end
 

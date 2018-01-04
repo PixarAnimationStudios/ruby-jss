@@ -60,11 +60,15 @@ module JSS
     include JSS::Creatable
     include JSS::Updatable
     include JSS::Criteriable
+    include JSS::Sitable
 
     # Class Constants
     #####################################
 
     EXPORT_FORMATS = [:csv, :tab, :xml].freeze
+
+    # Where is site data located in the API JSON?
+    SITE_SUBSET = :top
 
     # Attributes
     #####################################
@@ -342,7 +346,7 @@ module JSS
 
       df = acs.add_element('display_fields')
       @display_fields.each { |f| df.add_element('display_field').add_element('name').text = f }
-
+      add_site_to_xml(doc)
       doc.to_s
     end # rest xml
 

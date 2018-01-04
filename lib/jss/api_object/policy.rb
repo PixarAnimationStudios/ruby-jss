@@ -77,6 +77,7 @@ module JSS
     include JSS::Uploadable
     include JSS::SelfServable
     include JSS::Categorizable
+    include JSS::Sitable
 
     #####################################
     ### Class Methods
@@ -248,6 +249,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 3
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     ######################
     ### Attributes
@@ -1360,6 +1364,7 @@ module JSS
       end
 
       add_self_service_xml doc
+      add_site_xml doc
 
       doc.to_s
     end
