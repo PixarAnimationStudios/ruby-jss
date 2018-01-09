@@ -515,7 +515,7 @@ module JSS
       current_ids = all_ids :refresh, api: api
       victims.each do |vid|
         if current_ids.include? vid
-          api.delete_rsrc "#{self.class::RSRC_BASE}/id/#{vid}"
+          api.delete_rsrc "#{self::RSRC_BASE}/id/#{vid}"
         else
           skipped << vid
         end # if current_ids include v
