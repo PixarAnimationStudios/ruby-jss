@@ -1129,6 +1129,8 @@ require 'jss/api_object/extendable'
 require 'jss/api_object/self_servable'
 require 'jss/api_object/categorizable'
 require 'jss/api_object/vppable'
+require 'jss/api_object/sitable'
+require 'jss/api_object/mdm'
 
 ### Mix-in Sub Modules with Classes
 require 'jss/api_object/criteriable'

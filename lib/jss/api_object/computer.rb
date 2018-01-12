@@ -63,31 +63,24 @@ module JSS
   #
   # === MDM Commands
   #
-  # The following methods can be used to send an APNS command to the
-  # computer represented by an instance of JSS::Computer, equivalent to
-  # clicking one of the buttons on the Management Commands section of the
-  # Management tab of the Computer details page in the JSS UI.
+  # See the {JSS::MDM} mixin module for Class and Instance methods for
+  # sending MDM commands to computers.
   #
-  # - {#blank_push}  (aliases blank, noop, send_blank_push)
-  # - {#device_lock} (aliases lock, lock_device)
-  # - {#erase_device} (aliases wipe)
-  # - {#remove_mdm_profile}
+  # To send MDM commands without fetching Computer instances, use the class
+  # methods, which can take multiple computer identifiers at once.
   #
-  # To send an MDM command without making a Computer instance, use the class
-  # {JSS::Computer.send_mdm_command} which can take multiple computer
-  # identifiers at once.
-  #
-  # NOTE: the poorly named 'UnmanageDevice' command via the API is implemented
-  # as the {#remove_mdm_profile} method (which is its name in the webUI).
-  # Calling that method will NOT unmanage the machine from the JSS's point
+  # NOTE: the poorly named 'UnmanageDevice' mdm command is implemented
+  # as {#remove_mdm_profile} (which is its name in the webUI) as well as
+  # {#unmanage_device}.
+  # Calling that method will NOT fully unmanage a computer from the JSS's point
   # of view, it will just remove the mdm management profile from the machine
   # and all configuration profiles that were installed via the JSS. Those
   # profiles may be re-installed automatically later if the computer is still in
   # scope for them
   #
-  # The {#make_unmanaged} method also removes the mdm profile, but actually
-  # does make the machine unmanged by the JSS, setting the management acct to
-  # nil, and requring re-enrollment.
+  # To properly unmanage a computer, use the {#make_unmanaged} Instance method
+  # which removes the mdm profile, but also makes the machine unmanged by the
+  # JSS, setting the management acct to nil, and requring re-enrollment.
   #
   # === Computer History
   #
@@ -175,6 +168,7 @@ module JSS
     include JSS::Uploadable
     include JSS::Extendable
     include JSS::Sitable
+    include JSS::MDM
 
     extend JSS::Matchable
 
@@ -222,32 +216,8 @@ module JSS
     # file uploads can send attachments to the JSS using :computers as the sub-resource.
     UPLOAD_TYPES = { attachment: :computers }.freeze
 
-    # The base REST resource for sending computer MDM commands
-    COMPUTER_MDM_RSRC = 'computercommands/command'.freeze
-
-    # A mapping of Symbols available to the send_mdm_command class method, to
-    # the String commands actuallly sent via the API.
-    COMPUTER_MDM_COMMANDS = {
-      blank_push: 'BlankPush',
-      blankpush: 'BlankPush',
-      send_blank_push: 'BlankPush',
-      blank: 'BlankPush',
-      noop: 'BlankPush',
-      device_lock: 'DeviceLock',
-      devicelock: 'DeviceLock',
-      lock: 'DeviceLock',
-      lock_device: 'DeviceLock',
-      erase_device: 'EraseDevice',
-      erasedevice: 'EraseDevice',
-      erase: 'EraseDevice',
-      wipe: 'EraseDevice',
-      unmanage_device: 'UnmanageDevice',
-      unmanagedevice: 'UnmanageDevice',
-      unmanage: 'UnmanageDevice'
-    }.freeze
-
-    # these MDM commands require a passcode
-    COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE = %w[DeviceLock EraseDevice].freeze
+    # Tell the MDM module what kind of MDM commands we use.
+    MDM_COMMAND_TARGET = :computers
 
     # The API resource for app usage
     APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
@@ -303,8 +273,6 @@ module JSS
     # converted to strings) and the second-level hash key of the
     # returned subset data.
     #
-    # The values are the key within each history item that contains the
-    # 'epoch' timestamp, for conver
     HISTORY_SUBSETS = %i[
       computer_usage_logs
       audits
@@ -317,17 +285,29 @@ module JSS
       mac_app_store_applications
     ].freeze
 
-    # HISTORY_SUBSETS = %i(
-    #   computer_usage_logs date_time_epoch
-    #   audits
-    #   policy_logs date_completed_epoch
-    #   casper_remote_logs date_time_epoch
-    #   screen_sharing_logs date_time_epoch
-    #   casper_imaging_logs
-    #   commands completed_epoch
-    #   user_location
-    #   mac_app_store_applications
-    # ).freeze
+    # Most History Subsets contain Arrays of Hashes.
+    #
+    # However, these contain a Hash of Arrays of Hashes:
+    #
+    # :commands is a hash with these keys:
+    #   :completed - An array of hashes about completed MDM commands
+    #   :pending - An array of hashes about pending MDM commands
+    #   :failed - An array of hashes about failed MDM commands
+    #
+    # :mac_app_store_applications is a hash with these keys:
+    #   :installed - An array of hashes about installed apps
+    #   :pending - An array of hashes about apps pending installation
+    #   :failed - An array of hashes about apps that failed to install.
+    #
+    # The .history class and instance methods for JSS::Computer re-organize
+    # those data structures to be consistent with the other subsets of history
+    # data by turning them into an Array of Hashes, where each hash has a
+    # :status key containing :completed/:installed, :pending, or :failed
+    #
+    # See {JSS::Computer.full_history}, {JSS::Computer.history_subset} and
+    # {JSS::Computer.standardize_history_subset} class methods for details.
+    #
+    HISTORY_INCONSISTENT_SUBSETS = %i[commands mac_app_store_applications].freeze
 
     POLICY_STATUS_COMPLETED = 'Completed'.freeze
 
@@ -335,11 +315,22 @@ module JSS
 
     POLICY_STATUS_PENDING = 'Pending'.freeze
 
+    COMMAND_STATUS_COMPLETED = :completed
+
+    COMMAND_STATUS_PENDING = :pending
+
+    COMMAND_STATUS_FAILED = :failed
+
+    APP_STORE_APP_STATUS_INSTALLED = :installed
+
+    APP_STORE_APP_STATUS_PENDING = :pending
+
+    APP_STORE_APP_STATUS_FAILED = :failed
+
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 1
-
 
     # Class Methods
     #####################################
@@ -467,53 +458,6 @@ module JSS
       all(refresh, api: api).select { |d| d[:model] =~ /^macpro/i }
     end
 
-    # Send an MDM command to one or more managed computers by id or name
-    #
-    #
-    # @param targets[String,Integer,Array<String,Integer>]
-    #   the name or id of the computer to receive the command, or
-    #   an array of such names or ids, or a comma-separated string
-    #   of them.
-    # @param command[Symbol] the command to send, one of the keys
-    #   of COMPUTER_MDM_COMMANDS
-    #
-    # @param passcode[String] some commands require a 6-character passcode
-    #
-    # @param api[JSS::APIConnection] an API connection to use for the query.
-    #   Defaults to the corrently active API. See {JSS::APIConnection}
-    #
-    # @return [String] The uuid of the MDM command sent, if applicable
-    #  (blank pushes do not generate uuids)
-    #
-    def self.send_mdm_command(targets, command, passcode = nil, api: JSS.api)
-      raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
-
-      command = COMPUTER_MDM_COMMANDS[command]
-      cmd_rsrc = "#{COMPUTER_MDM_RSRC}/#{command}"
-
-      if COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE.include? command
-        unless passcode && passcode.is_a?(String) && passcode.length == 6
-          raise JSS::MissingDataError, "Command '#{command}' requires a 6-character passcode"
-        end
-        cmd_rsrc << "/passcode/#{passcode}"
-      end
-
-      targets = JSS.to_s_and_a(targets)[:arrayform]
-
-      # make sure its an array of ids
-      targets.map! do |comp|
-        id = valid_id comp, api: api
-        raise JSS::NoSuchItemError, "No computer matches identifier: #{comp}" unless id
-        id
-      end # map!
-
-      cmd_rsrc << "/id/#{targets.join ','}"
-
-      result = api.post_rsrc cmd_rsrc, nil
-      result =~ %r{<command_uuid>(.*)</command_uuid>}
-      Regexp.last_match(1)
-    end # send mdm command
-
     # Retrieve Application Usage data for a computer by id, without
     # instantiation.
     #
@@ -623,7 +567,11 @@ module JSS
     private_class_method :management_data_subset
 
     # Return this computer's management history.
-    # WARNING! Its huge, better to use a subset.
+    # WARNING: Its huge, better to use a subset.
+    #
+    # NOTE: ruby-jss standardizes the inconsistent data-stucture of the subsets,
+    # so they may not exactly match the raw API output.
+    # See {JSS::Computer::HISTORY_INCONSISTENT_SUBSETS} for details
     #
     # @param ident [Integer,String] An identifier (id, name, serialnumber,
     #   macadress or udid) of the computer for which to retrieve Application Usage
@@ -633,13 +581,13 @@ module JSS
     # @param api[JSS::APIConnection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
-    # @return [Hash] The full history
+    # @return [Hash] The full history.
     #
-    # @return [Array] The history subset requested
+    # @return [Array] The requested subset.
     #
     def self.history(ident, subset: nil, api: JSS.api)
       id = valid_id ident, api: api
-      raise "No computer matches identifier: #{ident}" unless id
+      raise JSS::NoSuchItemError, "No Computer matches identifier: #{ident}" unless id
 
       if subset
         history_subset id, subset: subset, api: api
@@ -652,7 +600,13 @@ module JSS
     # This private method is called by self.history, q.v.
     #
     def self.full_history(id, api: JSS.api)
-      api.get_rsrc(HISTORY_RSRC + "/id/#{id}")[HISTORY_KEY]
+      hist = api.get_rsrc(HISTORY_RSRC + "/id/#{id}")[HISTORY_KEY]
+
+      # rework the :commands and :mac_app_store_applications into a consistent data structure
+      HISTORY_INCONSISTENT_SUBSETS.each do |subset|
+        hist[subset] = standardize_history_subset hist[subset]
+      end # :commands, :mac_app_store_applications].each do |subsect|
+      hist
     end
     private_class_method :full_history
 
@@ -662,9 +616,34 @@ module JSS
     def self.history_subset(id, subset: nil, api: JSS.api)
       raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
       subset_rsrc = HISTORY_RSRC + "/id/#{id}/subset/#{subset}"
-      api.get_rsrc(subset_rsrc)[HISTORY_KEY]
+      subset_data = api.get_rsrc(subset_rsrc)[HISTORY_KEY][subset]
+      return standardize_history_subset(subset_data) if HISTORY_INCONSISTENT_SUBSETS.include? subset
+      subset_data
     end
     private_class_method :history_subset
+
+    # rework the inconsistent data structure of :commands and
+    # :mac_app_store_applications (Hash of Arrays of Hashes)
+    # to the same structure as the other subsets (Array of Hashes)
+    #
+    # @param raw_data [Hash] The raw, inconsistent data structure from the API
+    #
+    # @return [Array] the same data restructured to match the rest of the
+    #   computer history subsets: An Array of Hashes, one per event, each with
+    #   a :status key.
+    #
+    def self.standardize_history_subset(raw_data)
+      consistency_array = []
+      raw_data.each do |status, events|
+        events.each do |evt|
+          evt[:status] = status
+          consistency_array << evt
+        end # cmd_events.each
+      end # raw_hist[:commands].each
+      consistency_array
+    end
+    private_class_method :standardize_history_subset
+
 
     # Attributes
     #####################################
@@ -1066,62 +1045,98 @@ module JSS
     # For details, see {JSS::Computer.history}
     #
     def history(subset: nil)
-      JSS::Computer.history @id, subset, @api
+      JSS::Computer.history @id, subset: subset, api: @api
     end
 
     # Shortcut for history(:computer_usage_logs)
-    def usage_logs(refresh = false)
-      history(subset: :computer_usage_logs, refresh: refresh)
+    def usage_logs
+      history subset: :computer_usage_logs
     end
 
     # Shortcut for history(:audits)
-    def audits(refresh = false)
-      history(subset: :audits, refresh: refresh)
+    def audits
+      history subset: :audits
     end
 
     # Shortcut for history(:policy_logs)
-    def policy_logs(refresh = false)
-      history(subset: :policy_logs, refresh: refresh)
+    def policy_logs
+      history subset: :policy_logs
     end
 
     # Shortcut for history(:policy_logs), but just the completed policies
-    def completed_policies(refresh = false)
-      policy_logs(refresh).select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
+    def completed_policies
+      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
     end
 
     # Shortcut for history(:policy_logs), but just the failes policies
-    def failed_policies(refresh = false)
-      policy_log(refresh).select { |pl| pl[:status] == POLICY_STATUS_FAILED }
+    def failed_policies
+      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_FAILED }
     end
 
     # Shortcut for history(:casper_remote_logs)
-    def casper_remote_logs(refresh = false)
-      history(subset: :casper_remote_logs, refresh: refresh)
+    def casper_remote_logs
+      history subset: :casper_remote_logs
     end
 
     # Shortcut for history(:screen_sharing_logs)
-    def screen_sharing_logs(refresh = false)
-      history(subset: :screen_sharing_logs, refresh: refresh)
+    def screen_sharing_logs
+      history subset: :screen_sharing_logs
     end
 
     # Shortcut for history(:casper_imaging_logs)
-    def casper_imaging_logs(refresh = false)
-      history(subset: :casper_imaging_logs, refresh: refresh)
+    def casper_imaging_logs
+      history subset: :casper_imaging_logs
     end
 
     # Shortcut for history(:commands)
-    def commands(refresh = false)
-      history(subset: :commands, refresh: refresh)
+    def commands
+      history subset: :commands
+    end
+
+    # Shortcut for history(:commands) but just the completed commands
+    #
+    def completed_commands
+      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_COMPLETED }
+    end
+
+    # Shortcut for history(:commands) but just the pending commands
+    #
+    def pending_commands
+      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_PENDING }
+    end
+
+    # Shortcut for history(:commands) but just the failed commands
+    #
+    def failed_commands
+      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_FAILED }
     end
 
     # Shortcut for history(:user_location)
-    def user_location_history(refresh = false)
-      history(subset: :user_location, refresh: refresh)
+    def user_location_history
+      history subset: :user_location
     end
 
     # Shortcut for history(:mac_app_store_applications)
-    def app_store_app_history(refresh = false)
-      history(subset: :mac_app_store_applications, refresh: refresh)
+    def app_store_app_history
+      history subset: :mac_app_store_applications
+    end
+
+    # Shortcut for history(:mac_app_store_applications) but just the installed apps
+    #
+    def installed_app_store_apps
+      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_INSTALLED }
+    end
+
+    # Shortcut for history(:mac_app_store_applications) but just the pending apps
+    #
+    def pending_app_store_apps
+      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_PENDING }
+    end
+
+    # Shortcut for history(:mac_app_store_applications) but just the failed apps
+    #
+    def failed_app_store_apps
+      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_FAILED }
     end
 
     # Set or unset management acct and password for this computer
@@ -1226,10 +1241,9 @@ module JSS
     # @return [void]
     #
     def update
-      id = super
-      remove_mdm_profile if mdm_capable && managed? && @unmange_at_update
+      remove_mdm_profile if mdm_capable && @unmange_at_update
       @unmange_at_update = false
-      id
+      super
     end
 
     # Delete this computer from the JSS
@@ -1277,47 +1291,6 @@ module JSS
       @software = nil
     end # delete
 
-    # Send a blank_push MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def blank_push
-      self.class.send_mdm_command @id, :blank_push, api: @api
-    end
-    alias noop blank_push
-    alias send_blank_push blank_push
-
-    # Send a device_lock MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def device_lock(passcode)
-      self.class.send_mdm_command @id, :device_lock, passcode, api: @api
-    end
-    alias lock device_lock
-    alias lock_device device_lock
-
-    # Send an erase_device MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def erase_device(passcode)
-      self.class.send_mdm_command @id, :erase_device, passcode, api: @api
-    end
-    alias erase erase_device
-    alias wipe erase_device
-
-    # Remove MDM management profile without
-    # un-enrolling from the JSS or
-    # resetting the JSS management acct.
-    #
-    # To do those things as well, see {#make_unmanaged}
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def remove_mdm_profile
-      self.class.send_mdm_command @id, :unmanage_device, api: @api
-    end
 
     # aliases
     alias alt_macaddress alt_mac_address

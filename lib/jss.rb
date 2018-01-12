@@ -160,6 +160,8 @@ module JSS
   class NetworkSegment < JSS::APIObject; end
   class OSXConfigurationProfile < JSS::APIObject; end
   class Package < JSS::APIObject; end
+  class Patch < JSS::APIObject; end
+  class PatchPolicy < JSS::APIObject; end
   class PeripheralType < JSS::APIObject; end
   class Peripheral < JSS::APIObject; end
   class Policy < JSS::APIObject; end
@@ -183,6 +185,8 @@ module JSS
   module SelfServable; end
   module Categorizable; end
   module VPPable; end
+  module Sitable; end
+  module MDM; end
 
 end # module JSS
 

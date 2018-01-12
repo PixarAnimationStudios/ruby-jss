@@ -39,14 +39,14 @@ module JSS
   # This class represents a Mobile Device stored in the JSS.
   #
   # ---
-  # ===Adding devices to the JSS
+  # === Adding devices to the JSS
   #
   # This class cannot be used to add new mobile devices to the JSS. That can only be done
   # via the enrollment process.  See JSS::MobileDeviceInvitation for sending
   # an enrollment invite to a device.
   #
   # ---
-  # ===Editing values
+  # === Editing values
   #
   # Only a few values can be changed via the API, using these methods, q.v:
   # - #asset_tag=  String
@@ -57,24 +57,17 @@ module JSS
   # After modfying any values, #save must be called to save changes to the JSS.
   #
   # ---
-  # ===MDM Commands
+  # === MDM Commands
   #
-  # The following methods can be used to send an APNS command to the device represented by an
-  # instance of JSS::MobileDevice, equivalent to clicking one of the buttons on
-  # the Management Commands section of the Management tab of the Mobile Device details page in the JSS UI.
+  # See the {JSS::MDM} mixin module for Class and Instance methods for
+  # sending MDM commands to mobiledevices.
   #
-  # The methods supported are:
-  # - blank_push  (aliases blank, noop, send_blank_push)
-  # - update_inventory (alias recon)
-  # - device_lock (aliases lock, lock_device)
-  # - erase_device (aliases wipe)
-  # - clear_passcode
-  # - unmanage_device (alias unmanage)
+  # To send MDM commands without fetching mobiledevice instances, use the class
+  # methods, which can take multiple identifiers at once.
   #
-  # Each returns true if the command as sent.
-  #
-  # @see JSS::APIObject
-  #
+  # NOTE: If the {#name=} method is used to change the name of a supervized device,
+  # the DeviceName MDM command will be sent to the device when
+  # the changes are sent to the server via {#save} or {#update}
   #
   class MobileDevice < JSS::APIObject
 
@@ -87,6 +80,7 @@ module JSS
     include JSS::Uploadable
     include JSS::Extendable
     include JSS::Sitable
+    include JSS::MDM
 
     extend JSS::Matchable
 
@@ -124,66 +118,9 @@ module JSS
     # This is the class for relevant Extension Attributes
     EXT_ATTRIB_CLASS = JSS::MobileDeviceExtensionAttribute
 
-    # the rsrc for mobile dev commands
-    MDM_RSRC = 'mobiledevicecommands/command'.freeze
+    # What kind of devices are we for MDM purposes?
+    MDM_COMMAND_TARGET = :mobiledevices
 
-    # The MDM commands sendable via the api
-    # and alternative versions
-    #
-    MDM_COMMANDS = {
-      blank_push: 'BlankPush',
-      send_blank_push: 'BlankPush',
-      blank: 'BlankPush',
-      noop: 'BlankPush',
-
-      settings: 'Settings',
-
-      update_inventory: 'UpdateInventory',
-      recon: 'UpdateInventory',
-
-      device_lock: 'DeviceLock',
-      lock: 'DeviceLock',
-      lock_device: 'DeviceLock',
-
-      erase_device: 'EraseDevice',
-      erase: 'EraseDevice',
-      wipe: 'EraseDevice',
-
-      clear_passcode: 'ClearPasscode',
-
-      clear_restrictions_password: 'ClearRestrictionsPassword',
-
-      enable_data_roaming: 'SettingsEnableDataRoaming',
-      disable_data_roaming: 'SettingsDisableDataRoaming',
-
-      enable_voice_roaming: 'SettingsEnableVoiceRoaming',
-      disable_voice_roaming: 'SettingsDisableVoiceRoaming',
-
-      enable_app_analytics: 'SettingsEnableAppAnalytics',
-      disable_app_analytics: 'SettingsDisableAppAnalytics',
-
-      enable_diagnostic_submission: 'SettingsEnableDiagnosticSubmission',
-      disable_diagnostic_submission: 'SettingsDisableDiagnosticSubmission',
-
-      # wallpaper: 'Wallpaper',
-
-      device_name: 'DeviceName',
-
-      shutdown_device: 'ShutDownDevice',
-      shutdown: 'ShutDownDevice',
-
-      restart_device: 'RestartDevice',
-      restart: 'RestartDevice',
-
-      # passcode_lock_grace_period: 'PasscodeLockGracePeriod',
-
-      unmanage_device: 'UnmanageDevice',
-      unmanage: 'UnmanageDevice'
-
-    }.freeze
-
-    # These MDM commands need extra data.
-    MDM_COMMANDS_REQUIRING_DATA = %w[DeviceLock DeviceName Wallpaper].freeze
 
     # The History resource
     HISTORY_RSRC = 'mobiledevicehistory'.freeze
@@ -202,101 +139,62 @@ module JSS
 
     # @return [Array<String>] all mobiledevice serial_numbers
     def self.all_serial_numbers(refresh = false, api: JSS.api)
-      all(refresh, api: API).map { |i| i[:serial_number] }
+      all(refresh, api: api).map { |i| i[:serial_number] }
     end
 
     # @return [Array<String>] all mobiledevice phone numbers
     def self.all_phone_numbers(refresh = false, api: JSS.api)
-      all(refresh, api: API).map { |i| i[:phone_number] }.reject(&:empty?)
+      all(refresh, api: api).map { |i| i[:phone_number] }.reject(&:empty?)
     end
 
     # @return [Array<String>] all mobiledevice wifi mac addrs
     def self.all_wifi_mac_addresses(refresh = false, api: JSS.api)
-      all(refresh, api: API).map { |i| i[:wifi_mac_address] }
+      all(refresh, api: api).map { |i| i[:wifi_mac_address] }
     end
 
     # @return [Array<String>] all mobiledevice wifi mac addrs
     def self.all_mac_addresses(refresh = false, api: JSS.api)
-      all_wifi_mac_addresses(refresh, api: API)
+      all_wifi_mac_addresses(refresh, api: api)
     end
 
     # @return [Array<String>] all mobiledevice udids
     def self.all_udids(refresh = false, api: JSS.api)
-      all(refresh, api: API).map { |i| i[:udid] }
+      all(refresh, api: api).map { |i| i[:udid] }
     end
 
     # @return [Array<Hash>] the list of all managed mobile devices
     def self.all_managed(refresh = false, api: JSS.api)
-      all(refresh, api: API).select { |d| d[:managed] }
+      all(refresh, api: api).select { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] the list of all unmanaged mobile devices
     def self.all_unmanaged(refresh = false, api: JSS.api)
-      all(refresh, api: API).reject { |d| d[:managed] }
+      all(refresh, api: api).reject { |d| d[:managed] }
+    end
+
+    # @return [Array<Hash>] the list of all supervised mobile devices
+    def self.all_supervised(refresh = false, api: JSS.api)
+      all(refresh, api: api).select { |d| d[:supervised] }
+    end
+
+    # @return [Array<Hash>] the list of all unsupervised mobile devices
+    def self.all_unsupervised(refresh = false, api: JSS.api)
+      all(refresh, api: api).reject { |d| d[:supervised] }
     end
 
     # @return [Array<Hash>] the list of all iPhones
     def self.all_iphones(refresh = false, api: JSS.api)
-      all(refresh, api: API).select { |d| d[:model].start_with? 'iPhone' }
+      all(refresh, api: api).select { |d| d[:model].start_with? 'iPhone' }
     end
 
     # @return [Array<Hash>] the list of all iPads
     def self.all_ipads(refresh = false, api: JSS.api)
-      all(refresh, api: API).select { |d| d[:model].start_with? 'iPad' }
+      all(refresh, api: api).select { |d| d[:model].start_with? 'iPad' }
     end
 
     # @return [Array<Hash>] the list of all iPads
     def self.all_apple_tvs(refresh = false, api: JSS.api)
-      all(refresh, api: API).select { |d| d[:model_identifier].start_with? 'AppleTV' }
-    end
-
-    # Send an MDM command to one or more mobile devices by id or name
-    #
-    #
-    # @param targets[String,Integer,Array<String,Integer>]
-    #   the name or id of the mobile devices to receive the command, or
-    #   an array of such names or ids, or a comma-separated string
-    #   of them.
-    # @param command[Symbol] the command to send, one of the keys
-    #   of MDM_COMMANDS
-    #
-    # @param data[String] Some commands require extra data.
-    #
-    # @param api[JSS::APIConnection] the APi to query. Defaults to the
-    #   currently active API, see {JSS::APIConnection}
-    #
-    # @return [String] The uuid of the MDM command sent, if applicable
-    #  (blank pushes do not generate uuids)
-    #
-    def self.send_mdm_command(targets, command, data = nil, api: JSS.api)
-      raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless MDM_COMMANDS.keys.include? command
-
-      command = MDM_COMMANDS[command]
-      cmd_rsrc = "#{MDM_RSRC}/#{command}"
-
-      if MDM_COMMANDS_REQUIRING_DATA.include? command
-        raise "MDM command '#{command}' requires additional data." unless data
-        cmd_rsrc << "/#{data}"
-      end
-
-      targets = JSS.to_s_and_a(targets.to_s)[:arrayform] unless targets.is_a? Array
-
-      # make sure its an array of ids
-      targets.map! do |md|
-        if all_ids(api: api).include? md.to_i
-          md.to_i
-        elsif all_names(api: api).include? md
-          map_all_ids_to(:name, api: api.invert[md])
-        else
-          raise JSS::NoSuchItemError, "No mobile device found matching '#{md}'"
-        end # if
-      end # map!
-
-      cmd_rsrc << "/id/#{targets.join ','}"
-
-      result = api.post_rsrc cmd_rsrc, nil
-      result =~ %r{<uuid>(.*)</uuid>}
-      Regexp.last_match(1)
+      all(refresh, api: api).select { |d| d[:model_identifier].start_with? 'AppleTV' }
     end
 
     def self.management_history(identifier, subset = nil, api: JSS.api)
@@ -304,12 +202,13 @@ module JSS
       if identifier.is_a? Integer
         id = identifier
       else
-        key = case identifier
-        when *all_names(api: api) then :name
-        when *all_serial_numbers(api: api) then :serial_number
-        when *all_mac_addresses(api: api) then :mac_address
-        when *all_udids(api: api) then :udid
-        end
+        key =
+          case identifier
+          when *all_names(api: api) then :name
+          when *all_serial_numbers(api: api) then :serial_number
+          when *all_mac_addresses(api: api) then :mac_address
+          when *all_udids(api: api) then :udid
+          end
         id = map_all_ids_to(key, api: api).invert[identifier]
       end # if identifier.is_a? Integer
 
@@ -498,11 +397,9 @@ module JSS
     # - :file_level_encryption_capable=>true
     attr_reader :security
 
-    #####################################
     # Instance Methods
     #####################################
 
-    #
     # @see APIObject#initialize
     #
     def initialize(args = {})
@@ -552,188 +449,16 @@ module JSS
       @applications = @init_data[:applications]
     end # initialize
 
-    # Send a blank_push MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def blank_push
-      self.class.send_mdm_command @id, :blank_push, api: @api
-    end #
-
-    # Send an update_inventory MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def update_inventory
-      self.class.send_mdm_command @id, :update_inventory, api: @api
+    def name=(new_name)
+      super
+      @needs_mdm_name_change = true if managed? && supervised?
     end
 
-    # Send a device_lock MDM command
-    #
-    # @param message[String] The message to display on the lock screen.
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def device_lock(message)
-      self.class.send_mdm_command @id, :device_lock, message, api: @api
-    end
-
-    # Send an erase_device MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def erase_device
-      self.class.send_mdm_command @id, :erase_device, api: @api
-    end
-
-    # Send a clear_passcode MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def clear_passcode
-      self.class.send_mdm_command @id, :clear_passcode, api: @api
-    end
-
-    # Send a unmanage_device MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def unmanage_device
-      @managed = false if self.class.send_mdm_command(@id, :unmanage_device, api: @api)
-    end
-
-    # Send a ClearRestrictionsPassword MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def clear_restrictions_password
-      self.class.send_mdm_command @id, :clear_restrictions_password, api: @api
-    end
-
-    # Send a SettingsEnableDataRoaming MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def enable_data_roaming
-      self.class.send_mdm_command @id, :enable_data_roaming, api: @api
-    end
-
-    # Send a disable_data_roaming MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def disable_data_roaming
-      self.class.send_mdm_command @id, :disable_data_roaming, api: @api
-    end
-
-    # Send a enable_voice_roaming MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def enable_voice_roaming
-      self.class.send_mdm_command @id, :enable_voice_roaming, api: @api
-    end
-
-    # Send a disable_voice_roaming MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def disable_voice_roaming
-      self.class.send_mdm_command @id, :disable_voice_roaming, api: @api
-    end
-
-    # Send a enable_app_analytics MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def enable_app_analytics
-      self.class.send_mdm_command @id, :enable_app_analytics, api: @api
-    end
-
-    # Send a disable_app_analytics MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def disable_app_analytics
-      self.class.send_mdm_command @id, :disable_app_analytics, api: @api
-    end
-
-    # Send a enable_diagnostic_submission MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def enable_diagnostic_submission
-      self.class.send_mdm_command @id, :enable_diagnostic_submission, api: @api
-    end
-
-    # Send a disable_diagnostic_submission MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def disable_diagnostic_submission
-      self.class.send_mdm_command @id, :disable_diagnostic_submission, api: @api
-    end
-
-    # Send a device_name MDM command
-    #
-    # @param new_name[String] The name for the device
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def device_name(new_name)
-      self.class.send_mdm_command @id, :device_name, new_name, api: @api
-    end
-
-    # Send a shutdown device MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def shutdown
-      self.class.send_mdm_command @id, :shutdown, api: @api
-    end
-
-    # Send a restart device MDM command
-    #
-    # @see MobileDevice.send_mdm_command
-    #
-    # @return [String] The command uuid
-    #
-    def restart
-      self.class.send_mdm_command @id, :restart, api: @api
+    def update
+      super
+      return unless @needs_mdm_name_change
+      self.class.send_mdm_command @id, :device_name, opts: { device_name: @name }, api: @api
+      @needs_mdm_name_change = false
     end
 
     # The full management History data for this Mobile Device
@@ -928,18 +653,12 @@ module JSS
     # Aliases
     alias battery_percent battery_level
     alias managed? managed
+    alias supervised? supervised
     alias sn serial_number
     alias serialnumber serial_number
 
-    alias noop blank_push
-    alias send_blank_push blank_push
-    alias recon update_inventory
-    alias lock device_lock
-    alias lock_device device_lock
-    alias erase erase_device
-    alias wipe erase_device
-    alias unmanage unmanage_device
-    alias make_unmanaged unmanage_device
+
+
 
     # private methods
     ##############################
