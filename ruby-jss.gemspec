@@ -65,7 +65,7 @@ Gem::Specification.new do |s|
   # https://github.com/rest-client/rest-client & dependencies: MIT License
   s.add_runtime_dependency 'rest-client', '~> 1.7', '>= 1.7.2'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
-  s.add_runtime_dependency 'net-ldap', '~> 0.8'
+  s.add_runtime_dependency 'net-ldap', '~> 0.16'
 
   # Rdoc
   s.has_rdoc = true
