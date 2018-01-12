@@ -558,4 +558,25 @@ module JSS
     pw
   end
 
+  # un/set devmode mode.
+  # Useful when coding - methods can call JSS.devmode? and then
+  # e.g. spit out something instead of performing some action.
+  #
+  # @param [Symbol] Set devmode :on or :off
+  #
+  # @return [Boolean] The new state of devmode
+  #
+  def self.devmode(setting)
+    @devmode = setting == :on ? true : false
+  end
+
+
+  # is devmode currently on?
+  #
+  # @return [Boolean]
+  #
+  def self.devmode?
+    @devmode
+  end
+
 end # module
