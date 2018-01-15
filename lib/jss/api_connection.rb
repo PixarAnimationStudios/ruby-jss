@@ -960,7 +960,7 @@ module JSS
       return unless JSS::Client.installed?
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
-      args[:port] ||= JSS::Client.jss_port
+      args[:port] ||= JSS::Client.jss_port.to_i
       args[:use_ssl] ||= JSS::Client.jss_protocol.to_s.end_with? 's'
       args
     end
