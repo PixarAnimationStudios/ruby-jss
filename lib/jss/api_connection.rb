@@ -300,14 +300,20 @@ module JSS
     # The Default port
     HTTP_PORT = 9006
 
-    # The Jamf default SSL port
+    # The Jamf default SSL port, default for locally-hosted servers
     SSL_PORT = 8443
 
-    # The https default SSL port
+    # The https default SSL port, default for Jamf Cloud servers
     HTTPS_SSL_PORT = 443
 
     # if either of these is specified, we'll default to SSL
     SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
+
+    # Recognize Jamf Cloud servers
+    JAMFCLOUD_DOMAIN = 'jamfcloud.com'.freeze
+
+    # JamfCloud connections default to 443, not 8443
+    JAMFCLOUD_PORT = HTTPS_SSL_PORT
 
     # The top line of an XML doc for submitting data via API
     XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
@@ -954,7 +960,7 @@ module JSS
       return unless JSS::Client.installed?
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
-      args[:port] ||= JSS::Client.jss_port
+      args[:port] ||= JSS::Client.jss_port.to_i
       args[:use_ssl] ||= JSS::Client.jss_protocol.to_s.end_with? 's'
       args
     end
@@ -966,8 +972,7 @@ module JSS
     # @return [Hash] The args with defaults applied
     #
     def apply_module_defaults(args)
-      # defaults from the module if needed
-      args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
+      args[:port] ||= args[:server].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : SSL_PORT
       args[:timeout] ||= DFT_TIMEOUT
       args[:open_timeout] ||= DFT_OPEN_TIMEOUT
       args[:ssl_version] ||= DFT_SSL_VERSION

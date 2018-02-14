@@ -98,17 +98,19 @@ ns.save
 
 Before you can work with JSS Objects via the API, you have to connect to it.
 
-The constant {JSS::API} contains the connection to the API (a singleton instance of {JSS::APIConnection}). When the JSS Module is first loaded, it isn't
-connected.  To remedy that, use JSS.api.connect, passing it values for the connection. In this example, those values are stored
-in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
+The method `JSS.api` retruns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
+
+When the JSS Module is first loaded, that connection isn't connected. To remedy that, use JSS.api.connect, passing it values for the connection. In this example, those values are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
 JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 ```
 
-Make sure the user has privileges in the JSS to do things with desired Objects.
+Make sure the user has privileges in the JSS to do things with desired Objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.
 
-The {JSS::API#connect} method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
+If the server name given ends with 'jamfcloud.com' the port number will default to 443 via SSL.  Otherwise, it defaults to 8443 with SSL (the default port for locally-hosted servers). In other situations, you can specify it with the `port:` and `use_ssl:` parameters.
+
+The connect method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
 password from stdin, or prompt for it in the shell. See the {JSS::APIConnection} class for more connection options and details about its methods.
 
 Also see JSS::Configuration, and the [CONFIGURATION](#configuration) section below, for how to store
@@ -142,12 +144,12 @@ Some Classes provide other ways to list objects, depending on the data available
 
 #### Retrieving Objects
 
-To retrieve a single object call the class's constructor .fetch method and provide a name:,  id:, or other valid
+To retrieve a single object call the class's .fetch method and provide a name:,  id:, or other valid
 lookup attribute.
 
 
 ```ruby
-a_dept = JSS::Department.fetch name: "Payroll" # =>  #<JSS::Department:0x10b4c0818...
+a_dept = JSS::Department.fetch name: 'Payroll'# =>  #<JSS::Department:0x10b4c0818...
 ```
 
 Some classes can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
@@ -208,6 +210,11 @@ To delete an object, just call its #delete method
 ```ruby
 existing_script = JSS::Script.fetch id: 321
 existing_script.delete # => true # the delete was successful
+```
+To delete an object without fetching it, use the class's .delete method and provide the id, or an array of ids.
+
+```ruby
+JSS::Script.delete [321, 543, 374]
 ```
 
 See JSS::APIObject, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.
