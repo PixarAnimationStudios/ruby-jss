@@ -29,51 +29,54 @@ module JSS
   # Mixin Modules
   #####################################
 
-  # Objects mixing in this module have 'management history' in the JSS,
+  # Objects mixing in this module have 'management history' in the JSS, which at
+  # this point is Computers and MobileDevices
   #
-  # NOTE: this is 'management history', i.e. the history
-  # of commands, locations, apps, and other events that are part of
+  # *Important:* this is 'management history', i.e. the history
+  # of mdm commands, locations, apps, and other events that are part of
   # management and inventory collection.
   #
+  # When viewing the details page for a computer or mobile device in the
+  # Web UI, this is the data visible in the 'History' pane of the page.
+  #
   # It is not the same as 'object history' which are the changes made to a
-  # JSS object in the database, e.g. edits & notes by admins or automated processes.
+  # JSS object in the database, e.g. edits & notes by admins or automated
+  # processes in the JSS web UI or via the API. Object history is visble in
+  # the Web UI by clicking the 'History' button at the bottom of a machine's
+  # details page.
   #
-  # Classes mixing in this module must define these constants:
+  # == Class & Instance Methods
   #
-  # HISTORY_RSRC:  String, The API Resource for the computer history data
-  # e.g. 'computerhistory'
+  # This module provides both class methods, which can be used to retrieve history
+  # data without instantiating a full Computer or MobileDevice, and
+  # instance methods that are wrappers around the class methods. The methods
+  # have the same names, but of course the class methods require arguments
+  # specifying the target for which to retrieve data, and which API connection
+  # to use.
   #
-  # HISTORY_KEY: Symbol, The top-level hash key for the history data
-  # e.g. :computer_history
+  # == Raw data versus processed data & event object classes
   #
-  # HISTORY_SUBSETS: Array<Symbol> each symbol is both the subset names in
-  # the resrouce URLS (when converted to strings) and the second-level hash key
-  # of the returned subset data.
+  # The primary data-retrieval method for management history data is
+  # {JSS::ManagementHistory.management_history}. This method returns the raw
+  # JSON data from the API, parsed into a ruby Hash.
   #
-  # HISTORY_INCONSISTENT_SUBSETS: Array<Symbol> Which of the symbols of
-  # HISTORY_SUBSETS have an inconsistant data structure?
+  # This data is somewhat inconsistent in it's structure and content across the
+  # different types of history events, but you're welcome to use it if needed.
   #
-  # Most History Subsets contain Arrays of Hashes.
+  # To provide a more consistent and ruby-like interface to the history events,
+  # the remaining methods, which only return subsets of the full dataset, will
+  # return Arrays of instances of the classes defined in this module.
   #
-  # However, these contain a Hash of Arrays of Hashes:
+  # For example, the {JSS::ManagementHistory.audit_history} method returns an
+  # Array of JSS::ManagementHistory::AuditEvent instances,  and the
+  # {JSS::ManagementHistory.completed_policies} gives an Array of
+  # JSS::ManagementHistory::PolicyLog objects. These objects are read-only
+  # and provide access to their values via attribute-style methods.
   #
-  # :commands is a hash with these keys:
-  #   :completed - An array of hashes about completed MDM commands
-  #   :pending - An array of hashes about pending MDM commands
-  #   :failed - An array of hashes about failed MDM commands
-  #
-  # :mac_app_store_applications is a hash with these keys:
-  #   :installed - An array of hashes about installed apps
-  #   :pending - An array of hashes about apps pending installation
-  #   :failed - An array of hashes about apps that failed to install.
-  #
-  # The .history class and instance methods for JSS::Computer re-organize
-  # those data structures to be consistent with the other subsets of history
-  # data by turning them into an Array of Hashes, where each hash has a
-  # :status key containing :completed/:installed, :pending, or :failed
-  #
-  # See {JSS::Historical.full_history}, {JSS::Historical.history_subset} and
-  # {JSS::Historical.standardize_history_subset} class methods for details.
+  # NOTE: History queries from the API are *not* cached in ruby-jss, like the
+  # APIObject.all data is - it is queried anew every time. For this reason, you
+  # are encouraged to store the results of these methods in variables for later
+  # use if needed.
   #
   module ManagementHistory
 
@@ -599,7 +602,7 @@ module JSS
       def installed_ebooks(ident, api: JSS.api)
         ebook_history(ident, :installed, api: api)
       end
-      alias installed_managed_ebooks installed_aebooks
+      alias installed_managed_ebooks installed_ebooks
 
       # shortcut for ebook_history where status = :pending
       #
@@ -825,7 +828,7 @@ module JSS
     def installed_ebooks
       self.class.installed_ebooks(@id, api: @api)
     end
-    alias installed_managed_ebooks installed_aebooks
+    alias installed_managed_ebooks installed_ebooks
 
     # shortcut for ebook_history where status = :pending
     #
