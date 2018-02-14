@@ -169,6 +169,7 @@ module JSS
     include JSS::Extendable
     include JSS::Sitable
     include JSS::MDM
+    include JSS::ManagementHistory
 
     extend JSS::Matchable
 
@@ -262,70 +263,6 @@ module JSS
 
     # The top-level hash key for the inventory collection settings
     INV_COLLECTION_KEY = :computer_inventory_collection
-
-    # The API Resource for the computer history data
-    HISTORY_RSRC = 'computerhistory'.freeze
-
-    # The top-level hash key for the history data
-    HISTORY_KEY = :computer_history
-
-    # The keys are both the subset names in the resrouce URLS (when
-    # converted to strings) and the second-level hash key of the
-    # returned subset data.
-    #
-    HISTORY_SUBSETS = %i[
-      computer_usage_logs
-      audits
-      policy_logs
-      casper_remote_logs
-      screen_sharing_logs
-      casper_imaging_logs
-      commands
-      user_location
-      mac_app_store_applications
-    ].freeze
-
-    # Most History Subsets contain Arrays of Hashes.
-    #
-    # However, these contain a Hash of Arrays of Hashes:
-    #
-    # :commands is a hash with these keys:
-    #   :completed - An array of hashes about completed MDM commands
-    #   :pending - An array of hashes about pending MDM commands
-    #   :failed - An array of hashes about failed MDM commands
-    #
-    # :mac_app_store_applications is a hash with these keys:
-    #   :installed - An array of hashes about installed apps
-    #   :pending - An array of hashes about apps pending installation
-    #   :failed - An array of hashes about apps that failed to install.
-    #
-    # The .history class and instance methods for JSS::Computer re-organize
-    # those data structures to be consistent with the other subsets of history
-    # data by turning them into an Array of Hashes, where each hash has a
-    # :status key containing :completed/:installed, :pending, or :failed
-    #
-    # See {JSS::Computer.full_history}, {JSS::Computer.history_subset} and
-    # {JSS::Computer.standardize_history_subset} class methods for details.
-    #
-    HISTORY_INCONSISTENT_SUBSETS = %i[commands mac_app_store_applications].freeze
-
-    POLICY_STATUS_COMPLETED = 'Completed'.freeze
-
-    POLICY_STATUS_FAILED = 'Failed'.freeze
-
-    POLICY_STATUS_PENDING = 'Pending'.freeze
-
-    COMMAND_STATUS_COMPLETED = :completed
-
-    COMMAND_STATUS_PENDING = :pending
-
-    COMMAND_STATUS_FAILED = :failed
-
-    APP_STORE_APP_STATUS_INSTALLED = :installed
-
-    APP_STORE_APP_STATUS_PENDING = :pending
-
-    APP_STORE_APP_STATUS_FAILED = :failed
 
     # the object type for this object in
     # the object history table.
@@ -565,85 +502,6 @@ module JSS
       subset_data.map { |d| d[only] }
     end
     private_class_method :management_data_subset
-
-    # Return this computer's management history.
-    # WARNING: Its huge, better to use a subset.
-    #
-    # NOTE: ruby-jss standardizes the inconsistent data-stucture of the subsets,
-    # so they may not exactly match the raw API output.
-    # See {JSS::Computer::HISTORY_INCONSISTENT_SUBSETS} for details
-    #
-    # @param ident [Integer,String] An identifier (id, name, serialnumber,
-    #   macadress or udid) of the computer for which to retrieve Application Usage
-    #
-    # @param subset[Symbol] the subset to return, rather than full history.
-    #
-    # @param api[JSS::APIConnection] an API connection to use for the query.
-    #   Defaults to the corrently active API. See {JSS::APIConnection}
-    #
-    # @return [Hash] The full history.
-    #
-    # @return [Array] The requested subset.
-    #
-    def self.history(ident, subset: nil, api: JSS.api)
-      id = valid_id ident, api: api
-      raise JSS::NoSuchItemError, "No Computer matches identifier: #{ident}" unless id
-
-      if subset
-        history_subset id, subset: subset, api: api
-      else
-        full_history id, api: api
-      end
-    end
-
-    # The full management history for a given computer.
-    # This private method is called by self.history, q.v.
-    #
-    def self.full_history(id, api: JSS.api)
-      hist = api.get_rsrc(HISTORY_RSRC + "/id/#{id}")[HISTORY_KEY]
-
-      # rework the :commands and :mac_app_store_applications into a consistent data structure
-      HISTORY_INCONSISTENT_SUBSETS.each do |subset|
-        hist[subset] = standardize_history_subset hist[subset]
-      end # :commands, :mac_app_store_applications].each do |subsect|
-      hist
-    end
-    private_class_method :full_history
-
-    # A subset of the management history for a given computer.
-    # This private method is called by self.history, q.v.
-    #
-    def self.history_subset(id, subset: nil, api: JSS.api)
-      raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
-      subset_rsrc = HISTORY_RSRC + "/id/#{id}/subset/#{subset}"
-      subset_data = api.get_rsrc(subset_rsrc)[HISTORY_KEY][subset]
-      return standardize_history_subset(subset_data) if HISTORY_INCONSISTENT_SUBSETS.include? subset
-      subset_data
-    end
-    private_class_method :history_subset
-
-    # rework the inconsistent data structure of :commands and
-    # :mac_app_store_applications (Hash of Arrays of Hashes)
-    # to the same structure as the other subsets (Array of Hashes)
-    #
-    # @param raw_data [Hash] The raw, inconsistent data structure from the API
-    #
-    # @return [Array] the same data restructured to match the rest of the
-    #   computer history subsets: An Array of Hashes, one per event, each with
-    #   a :status key.
-    #
-    def self.standardize_history_subset(raw_data)
-      consistency_array = []
-      raw_data.each do |status, events|
-        events.each do |evt|
-          evt[:status] = status
-          consistency_array << evt
-        end # cmd_events.each
-      end # raw_hist[:commands].each
-      consistency_array
-    end
-    private_class_method :standardize_history_subset
-
 
     # Attributes
     #####################################
@@ -980,7 +838,7 @@ module JSS
     #
     # NOTE: the data isn't cached locally, and the API is queried every time
     #
-    # See {JSS::Computer.management_data} for details
+    # @see {JSS::Computer.management_data} for details
     #
     def management_data(subset: nil, only: nil)
       raise JSS::NoSuchItemError, 'Computer not yet saved in the JSS' unless @in_jss
@@ -1033,110 +891,6 @@ module JSS
     #
     def patch_titles(only: nil)
       management_data subset: :patch_reporting_software_titles, only: only
-    end
-
-    # Return this computer's management history.
-    # WARNING: Its huge, better to use a subset or one of the shortcut methods.
-    #
-    # NOTE: This is not the same as a computer's Object History
-    #
-    # NOTE: The data isn't cached locally, the API is queried every time
-    #
-    # For details, see {JSS::Computer.history}
-    #
-    def history(subset: nil)
-      JSS::Computer.history @id, subset: subset, api: @api
-    end
-
-    # Shortcut for history(:computer_usage_logs)
-    def usage_logs
-      history subset: :computer_usage_logs
-    end
-
-    # Shortcut for history(:audits)
-    def audits
-      history subset: :audits
-    end
-
-    # Shortcut for history(:policy_logs)
-    def policy_logs
-      history subset: :policy_logs
-    end
-
-    # Shortcut for history(:policy_logs), but just the completed policies
-    def completed_policies
-      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
-    end
-
-    # Shortcut for history(:policy_logs), but just the failes policies
-    def failed_policies
-      policy_logs.select { |pl| pl[:status] == POLICY_STATUS_FAILED }
-    end
-
-    # Shortcut for history(:casper_remote_logs)
-    def casper_remote_logs
-      history subset: :casper_remote_logs
-    end
-
-    # Shortcut for history(:screen_sharing_logs)
-    def screen_sharing_logs
-      history subset: :screen_sharing_logs
-    end
-
-    # Shortcut for history(:casper_imaging_logs)
-    def casper_imaging_logs
-      history subset: :casper_imaging_logs
-    end
-
-    # Shortcut for history(:commands)
-    def commands
-      history subset: :commands
-    end
-
-    # Shortcut for history(:commands) but just the completed commands
-    #
-    def completed_commands
-      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_COMPLETED }
-    end
-
-    # Shortcut for history(:commands) but just the pending commands
-    #
-    def pending_commands
-      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_PENDING }
-    end
-
-    # Shortcut for history(:commands) but just the failed commands
-    #
-    def failed_commands
-      commands.select { |cmd| cmd[:status] == COMMAND_STATUS_FAILED }
-    end
-
-    # Shortcut for history(:user_location)
-    def user_location_history
-      history subset: :user_location
-    end
-
-    # Shortcut for history(:mac_app_store_applications)
-    def app_store_app_history
-      history subset: :mac_app_store_applications
-    end
-
-    # Shortcut for history(:mac_app_store_applications) but just the installed apps
-    #
-    def installed_app_store_apps
-      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_INSTALLED }
-    end
-
-    # Shortcut for history(:mac_app_store_applications) but just the pending apps
-    #
-    def pending_app_store_apps
-      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_PENDING }
-    end
-
-    # Shortcut for history(:mac_app_store_applications) but just the failed apps
-    #
-    def failed_app_store_apps
-      app_store_app_history.select { |app| app[:status] == APP_STORE_APP_STATUS_FAILED }
     end
 
     # Set or unset management acct and password for this computer
@@ -1290,7 +1044,6 @@ module JSS
       @purchasing = nil
       @software = nil
     end # delete
-
 
     # aliases
     alias alt_macaddress alt_mac_address

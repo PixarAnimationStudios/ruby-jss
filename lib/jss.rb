@@ -59,6 +59,7 @@ module JSS
   require 'rest-client'
   require 'json'
   require 'plist'
+  require 'immutable-struct'
 
   ### Constants
   #####################################
@@ -187,6 +188,7 @@ module JSS
   module VPPable; end
   module Sitable; end
   module MDM; end
+  module ManagementHistory; end
 
 end # module JSS
 

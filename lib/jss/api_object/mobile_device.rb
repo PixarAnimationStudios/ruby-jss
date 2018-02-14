@@ -81,6 +81,7 @@ module JSS
     include JSS::Extendable
     include JSS::Sitable
     include JSS::MDM
+    include JSS::ManagementHistory
 
     extend JSS::Matchable
 
@@ -120,13 +121,6 @@ module JSS
 
     # What kind of devices are we for MDM purposes?
     MDM_COMMAND_TARGET = :mobiledevices
-
-
-    # The History resource
-    HISTORY_RSRC = 'mobiledevicehistory'.freeze
-
-    # Available history subsets
-    HISTORY_SUBSETS = %i[management_commands user_location audits applications ebooks].freeze
 
     # the object type for this object in
     # the object history table.
@@ -195,34 +189,6 @@ module JSS
     # @return [Array<Hash>] the list of all iPads
     def self.all_apple_tvs(refresh = false, api: JSS.api)
       all(refresh, api: api).select { |d| d[:model_identifier].start_with? 'AppleTV' }
-    end
-
-    def self.management_history(identifier, subset = nil, api: JSS.api)
-      id = nil
-      if identifier.is_a? Integer
-        id = identifier
-      else
-        key =
-          case identifier
-          when *all_names(api: api) then :name
-          when *all_serial_numbers(api: api) then :serial_number
-          when *all_mac_addresses(api: api) then :mac_address
-          when *all_udids(api: api) then :udid
-          end
-        id = map_all_ids_to(key, api: api).invert[identifier]
-      end # if identifier.is_a? Integer
-
-      raise JSS::NoSuchItemError, "No MobileDevice found matching #{identifier}" unless id && all_ids(api: api).include?(id)
-
-      rsrc = "#{HISTORY_RSRC}/id/#{id}"
-
-      if subset
-        raise "subset must be one of: :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
-        rsrc << "/subset/#{subset}"
-      end
-
-      hist = api.get_rsrc(rsrc)[:mobile_device_history]
-      subset ? hist[subset] : hist
     end
 
     # Attributes
@@ -460,195 +426,6 @@ module JSS
       self.class.send_mdm_command @id, :device_name, opts: { device_name: @name }, api: @api
       @needs_mdm_name_change = false
     end
-
-    # The full management History data for this Mobile Device
-    #
-    # @return [Hash] Keys are:
-    #   general: Hash of identifiers
-    #   user_location: see user_location_history
-    #   management_commands: see management_command_history
-    #   audits:  see audit_history
-    #   applications: see managed_app_history
-    #   ebooks: see managed
-    #
-    def management_history
-      self.class.management_history @id, api: @api
-    end
-
-    # The user_location subset of the full history
-    #
-    # @return [Array<Hash>] Each hash contains user and location data
-    #   and the timestamp as a JSS epoch value or string.
-    #   use JSS.epoch_to_time or JSS.parse_time to convert them to Time
-    #   objects
-    #
-    def user_location_history
-      self.class.management_history @id, :user_location, api: @api
-    end
-
-    # The management_commands subset of the full history
-    #
-    # @return [Hash] A hash of :completed, :pending, and :failed
-    #   mdm commands, each being an array of hashes.
-    #   see #completed_mdm_commands, #pending_mdm_commands and
-    #   #failed_mdm_commands
-    #
-    def management_command_history
-      self.class.management_history @id, :management_commands, api: @api
-    end
-    alias mdm_command_history management_command_history
-
-    # The history of completed mdm commands.
-    #
-    # @return [Array<Hash>] Each hash contains a command name and
-    #   and the timestamp as a JSS epoch value or string.
-    #   use JSS.epoch_to_time or JSS.parse_time to convert them to Time
-    #   objects
-    #
-    def completed_mdm_commands
-      management_command_history[:completed]
-    end
-
-    # The currently pending mdm commands.
-    #
-    # @return [Array<Hash>] Each hash contains a command name and a :status
-    #   and a a timestamp as a JSS epoch value or string.
-    #   use JSS.epoch_to_time or JSS.parse_time to convert them to Time
-    #   objects
-    #
-    def pending_mdm_commands
-      management_command_history[:pending]
-    end
-
-    # The history of failed mdm commands.
-    #
-    # @return [Array<Hash>] Each hash contains a command name and an :error
-    #   message and timestamps for issuance and failure as JSS epoch values
-    #   or strings. use JSS.epoch_to_time or JSS.parse_time to convert them to
-    #   Time objects
-    #
-    def failed_mdm_commands
-      management_command_history[:failed]
-    end
-
-    # The applications subset of the full history
-    #
-    # @return [Hash] Keys are :installed, :pending, and :failed
-    #   See #installed_managed_apps, #pending_managed_apps and
-    #   #failed_managed_apps
-    #
-    def managed_app_history
-      self.class.management_history @id, :applications, api: @api
-    end
-
-    # The apps that have been installed via MDM
-    #
-    # @param from[Symbol] :in_house, :app_store, :other, or :all.
-    #   Defaults to :all
-    #
-    # @return [Hash{Array<Hash>}] When from = :all, all three sources.
-    #
-    # @return [Array<Hash>] When from = :in_house, :app_store, or :other
-    #   the managed apps that have been installed from that source.
-    #   Each Hash includes these keys:
-    #     name:
-    #     version:
-    #     short_version:
-    #     management_status:
-    #     bundle_size:
-    #     dynamic_size:
-    #
-    def installed_managed_apps(from = :all)
-      all = managed_app_history[:installed]
-      case from
-      when :all
-        all
-      when :in_house
-        all[:in_house_from_mobile_device_app_catalog]
-      when :app_store
-        all[:app_store_from_mobile_device_app_catalog]
-      when :other
-        all[:other]
-      else
-        raise JSS::InvalidDataError, "Unknown mobiledevice app source: '#{from}'"
-      end
-    end
-
-    # An array of pending managed app installs.
-    #
-    # @return [Array<Hash>] Hashes for each pending app install
-    #
-    def pending_managed_apps
-      managed_app_history[:pending]
-    end
-
-    # An array of data about failed managed app installs
-    #
-    # @return [Array<Hash>] The name: and version: of each failed app install.
-    #
-    def failed_managed_apps
-      managed_app_history[:failed]
-    end
-
-    # The audits subset of the full history
-    # The history of 'auditable' events.
-    #
-    # @return [Array<Hash>] One hash per event
-    #
-    def audit_history
-      self.class.management_history @id, :audits, api: @api
-    end
-
-    # The ebooks subset of the full history
-    #
-    # @return [Hash] Keys are :installed, :pending, and :failed
-    #   See #installed_managed_ebooks, #pending_managed_ebooks and
-    #   #failed_managed_ebooks
-    #
-    def managed_ebook_history
-      self.class.management_history @id, :ebooks, api: @api
-    end
-
-    # The ebooks that have been installed via MDM
-    #
-    # @param from[Symbol] :in_house, :ibookstore, or :all.
-    #   Defaults to :all
-    #
-    # @return [Hash{Array<Hash>}] When from = :all, all three sources.
-    #
-    # @return [Array<Hash>] When from = :in_house, :app_store, or :other
-    #   the managed apps that have been installed from that source.
-    #
-    def installed_managed_ebooks(from = :all)
-      all = managed_ebook_history[:installed]
-      case from
-      when :all
-        all
-      when :in_house
-        all[:inhouse]
-      when :ibookstore
-        all[:ibookstore]
-      else
-        raise JSS::InvalidDataError, "Unknown ebook source: '#{from}'"
-      end
-    end
-
-    # Mananged ebooks pending installation
-    #
-    # @return [Array<Hash>] The pending ebooks
-    #
-    def pending_managed_ebooks
-      managed_ebook_history[:pending]
-    end
-
-   # Mananged ebooks tha failed installation
-   #
-   # @return [Array<Hash>] The failed ebook installs
-   #
-    def failed_managed_ebooks
-      managed_ebook_history[:failed]
-    end
-
 
     # Aliases
     alias battery_percent battery_level

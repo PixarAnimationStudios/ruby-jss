@@ -1,5 +1,12 @@
 # Change History
 
+## v 0.10.2a5 2018-01-12
+
+- Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
+- Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
+- Fix: Scope objects use the api connection of their container
+-
+
 ## v 0.10.1 2017-11-08
 
 - Add: Extension Attribute values that are populated by Script or LDAP can now be modified via Extendable#set_ext_attr.

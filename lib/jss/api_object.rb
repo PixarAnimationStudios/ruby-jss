@@ -1131,6 +1131,7 @@ require 'jss/api_object/categorizable'
 require 'jss/api_object/vppable'
 require 'jss/api_object/sitable'
 require 'jss/api_object/mdm'
+require 'jss/api_object/management_history'
 
 ### Mix-in Sub Modules with Classes
 require 'jss/api_object/criteriable'
