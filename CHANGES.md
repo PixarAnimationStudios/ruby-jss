@@ -1,11 +1,23 @@
 # Change History
 
-## v 0.10.2a5 2018-01-12
+## v 0.11.0a1 2018-02-15
 
 - Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
 - Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
 - Fix: Scope objects use the api connection of their container
--
+- Computer app usage &  mgmt data methods are now class methods, so can be used without instantiating the computer.
+  The instance methods remain, and they now just use the class methods.
+- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module.
+  The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash with symbolized keys. This data is somewhat inconsistent in it's structure and content across the different types of history events, but you're welcome to use it if needed.
+  All other methods now return Arrays of various instances of classes defined in the module.
+  For example, the {JSS::ManagementHistory.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the {JSS::ManagementHistory.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and provide access to their values via attribute-style methods.
+  As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just
+  call the class methods.
+- Handling of 'site' data is now done via the JSS::Sitable mixin module
+- Improvement: When the JSS server's hostname ends with 'jamfcloud.com' default to SSL port 443 (vs 8443 for locally hosted JSSs)
+- Improvement: ruby-jss now has a code of conduct for contributors.
+- Improvement: now requires net-ldap v 0.16, for security fixes
+
 
 ## v 0.10.1 2017-11-08
 
