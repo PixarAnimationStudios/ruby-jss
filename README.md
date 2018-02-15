@@ -1,4 +1,4 @@
-# ruby-jss: Access to the Jamf Pro from Ruby
+# ruby-jss: Working with the Jamf Pro API in Ruby
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
 ### Table of contents
@@ -29,14 +29,14 @@
 
 The ruby-jss project provides a Ruby module called JSS, which is used for accessing the REST API of
 the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple
-devices from [JAMF Software, LLC](http://www.jamf.com/). It is available as a
+devices from [Jamf.com](http://www.jamf.com/). It is available as a
 [rubygem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
 The module abstracts API resources as Ruby objects, and provides methods for interacting with those
 resources. It also provides some features that aren't a part of the API itself, but come with other
 Jamf-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution
-point, and the installation of {JSS::Package} objects on client machines. (See [BEYOND THE API](#beyond-the-api)
+point, and the installation of {JSS::Package} objects on client machines. (See [BEYOND THE API](#beyond-the-api))
 
 The module is not a complete implementation of the Jamf API. Only some API objects are modeled, some
 only minimally. Of those, some are read-only, some partially writable, some fully read-write (all
@@ -49,6 +49,8 @@ Hopefully others will find it useful, and add more to it as well.
 
 
 ## SYNOPSIS
+
+Here are some simple examples of using ruby-jss
 
 ```ruby
 require 'ruby-jss'
@@ -100,13 +102,13 @@ Before you can work with JSS Objects via the API, you have to connect to it.
 
 The method `JSS.api` retruns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
 
-When the JSS Module is first loaded, that connection isn't connected. To remedy that, use JSS.api.connect, passing it values for the connection. In this example, those values are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
+When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `JSS.api.connect`, passing it values for the connection. In this example, those values are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
 JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 ```
 
-Make sure the user has privileges in the JSS to do things with desired Objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.
+Make sure the user has privileges in the JSS to do things with desired objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.
 
 If the server name given ends with 'jamfcloud.com' the port number will default to 443 via SSL.  Otherwise, it defaults to 8443 with SSL (the default port for locally-hosted servers). In other situations, you can specify it with the `port:` and `use_ssl:` parameters.
 
@@ -118,7 +120,7 @@ server connection parameters in a simple config file.
 
 ### Working with JSS Objects (a.k.a REST Resources)
 
-All API Object classes are subclasses of JSS::APIObject and share methods for listing, retrieving, and deleting from the JSS. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.
+All of the ruby classes representing objects in Jamf Pro are subclasse of, or modules within, JSS::APIObject and share methods for creating, listing, retrieving, updating, and deleting via the API. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.
 
 --------
 
@@ -138,14 +140,13 @@ JSS::Computer.all_names # =>  ["cephei", "peterparker", "rowdy", ...]
 JSS::Computer.all_ids # =>  [1122, 1218, 931, ...]
 ```
 
-Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all\_udids
+Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all\_udids or JSS::Computer.all\_laptops
 
 --------
 
 #### Retrieving Objects
 
-To retrieve a single object call the class's .fetch method and provide a name:,  id:, or other valid
-lookup attribute.
+To retrieve a single object call the class's `.fetch` method and provide a name:,  id:, or other valid identfier.
 
 
 ```ruby
@@ -154,14 +155,16 @@ a_dept = JSS::Department.fetch name: 'Payroll'# =>  #<JSS::Department:0x10b4c081
 
 Some classes can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
 
-*NOTE*: A class's '.fetch' method is now the preferred method to use for retrieving existing objects. The '.new' method still works as before, but is
-deprecated for object retrieval and doing so may raise errors in the future. See below for using .make to create new objects in the JSS.
+You can even fetch objects without specifying the kind of identifier, e.g. `JSS::Computer.fetch 3241`, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.
+
+*NOTE*: A class's '.fetch' method is now the preferred method to use for retrieving existing objects.
+The '.new' method still works as before, but is deprecated for object retrieval and doing so may raise errors in the future. See below for using .make to create new objects in the JSS.
 
 --------
 
 #### Creating Objects
 
-Some Objects can be created anew in the JSS via ruby. To do so, first make a Ruby object using the class's .make method and providinga unique :name:, e.g.
+Some Objects can be created anew in the JSS via ruby. To do so, first make a Ruby object using the class's `.make` method and providing a unique :name:, e.g.
 
 ```ruby
 new_pkg = JSS::Package.make name: "transmogrifier-2.3-1.pkg"
@@ -217,13 +220,15 @@ To delete an object without fetching it, use the class's .delete method and prov
 JSS::Script.delete [321, 543, 374]
 ```
 
-See JSS::APIObject, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.
+See [JSS::APIObject](http://www.rubydoc.info/gems/ruby-jss/JSS/APIObject), the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.
 
 See the individual subclasses for any details specific to them.
 
 ## OBJECTS IMPLEMENTED
 
-See each Class's documentation for details.
+While the API itself supports nearly full CRUD (Create,Read,Update,Delete) for all objects, ruby-jss doesn't yet do so. Why? Because implementing the data validation and other parts needed for creating & updating can be time-consuming and we've focused on what we needed. As we keep developing ruby-jss, this list changes. If you'd like to help implement some of these objects more fully, please fork the github project and reach out to us at ruby-jss@pixar.com.
+
+Here's what we've implemented so far. See each Class's [documentation(http://www.rubydoc.info/gems/ruby-jss)] for details.
 
 ### Creatable and Updatable
 
@@ -250,34 +255,15 @@ See each Class's documentation for details.
 * {JSS::UserExtensionAttribute}
 * {JSS::UserGroup}
 * {JSS::WebHook}
+* {JSS::Computer}
+* {JSS::MobileDevice}
+* {JSS::Policy} (still not fully implemented)
 
-### Updatable but not Creatable
+**NOTE** Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
-* {JSS::Computer} - limited to modifying
-  * name
-  * barcodes
-  * asset tag
-  * ip address
-  * location data
-  * purchasing data
-  * editable extension attributes
-* {JSS::MobileDevice} - limited to modifying
-  * asset tag
-  * location data
-  * purchasing data
-  * editable extension attributes
-* {JSS::Policy} - limited  to modifying
-  * scope (see {JSS::Scopable::Scope})
-  * name
-  * enabled
-  * category
-  * triggers
-  * packages
-  * scripts
-  * file & process actions
+### Updatable, but must be created in the Web UI
+
 * {JSS::OSXConfigurationProfile}
-
-**NOTE** Even in the API and the WebApp, Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
 ### Creatable only
 
@@ -296,19 +282,21 @@ These must be created and edited via the JSS WebApp
 
 All supported API Objects can be deleted
 
-Other useful classes:
+Other useful classes & modules:
 
 * {JSS::APIConnection} - An object representing the connection to the REST API
-* {JSS::DBConnection} - An object representing the connection to MySQL database, if used
+* {JSS::DBConnection} - An object representing the connection to MySQL database, if used.
 * {JSS::Server} - An encapsulation of some info about the JamfPro server, such as the version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
 * {JSS::Client} - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
-
+* {JSS::ManagementHistory} - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine's history.
+* {JSS::Scopable} - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects.
+* {JSS::MDM} - a module that handles sending MDM commands to Computers and Mobile Devices
 
 ## CONFIGURATION
 
-The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for the JSS module. When the Module is required, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/jss_gem.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.jss_gem.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
+The {JSS::Configuration} singleton class is used to read, write, and use site-specific defaults for the JSS module. When ruby-jss is required, the single instance of {JSS::Configuration} is created and stored in the constant {JSS::CONFIG}. At that time the system-wide file /etc/ruby-jss.conf is examined if it exists, and the items in it are loaded into the attributes of {JSS::CONFIG}. The user-specific file ~/.ruby-hss.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
 
-The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::API#connect}. Values provided explicitly when calling JSS.api.connect will override the config values.
+The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling {JSS::APIConnection#connect}. Values provided explicitly when calling JSS::APIConnection#connect will override the config values.
 
 While the {JSS::Configuration} class provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:
 
@@ -325,7 +313,7 @@ The currently known attributes are:
 * api_timeout_open [Integer] the number of seconds for the open-connection timeout
 * api_timeout [Integer] the number of seconds for the response timeout
 
-To put a standard server & username on all client machines, and auto-accept the JSS's self-signed https certificate, create the file /etc/jss_gem.conf containing three lines like this:
+To put a standard server & username on all client machines, and auto-accept the JSS's self-signed https certificate, create the file /etc/ruby-jss.conf containing three lines like this:
 
 ```
 api_server_name: casper.myschool.edu
@@ -413,13 +401,13 @@ In general, you can install ruby-jss with this command:
 
 Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/)
 
-[Email the developer](mailto:ruby-jss@pixar.com)
+[Email the developers](mailto:ruby-jss@pixar.com)
 
 [Macadmins Slack Channel](https://macadmins.slack.com/messages/#jss-api/)
 
 ## LICENSE
 
-Copyright 2017 Pixar
+Copyright 2018 Pixar
 
 Licensed under the Apache License, Version 2.0 (the "Apache License") with
 modifications. See LICENSE.txt for details
