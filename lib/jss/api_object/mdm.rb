@@ -455,9 +455,13 @@ module JSS
 
       # Generate the XML to send to the API, sending the MDM command to the targets
       #
-      # @param command [Type] describe_command_here
-      # @param options [Type] describe_options_here
-      # @param targets [Type] describe_targets_here
+      # @param command [Symbol] the command to be sent, a key from COMMANDS
+      #
+      # @param options [Hash] different commands require different options,
+      #   see each command method
+      #
+      # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
+      #
       # @return [String] The XML content to send to the API
       #
       def mdm_command_xml(command, options, targets)
@@ -732,6 +736,21 @@ module JSS
 
       # Commands for supervized mobile devices only
       ################################
+
+      # Send a device_name command to one or more targets
+      #
+      # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
+      #
+      # @param name[String] The new name
+      #
+      # @param api[JSS::APIConnection] the API thru which to send the command
+      #
+      # @return (see .send_mdm_command)
+      #
+      def device_name(targets, name, api: JSS.api)
+        send_mdm_command targets, :device_name, opts: { device_name: name }, api: api
+      end
+      alias set_name device_name
 
       # Send a wallpaper command to one or more targets
       #
@@ -1114,6 +1133,17 @@ module JSS
     # their name is changed with #name= and they are then
     # updated in the JSS with #update/#save
     ################################
+
+    # Send a device_name command to this object
+    #
+    # @param name[String] The new name
+    #
+    # @return (see .send_mdm_command)
+    #
+    def device_name(name)
+      self.class.device_name @id, name, api: @api
+    end
+    alias set_name device_name
 
     # Send a wallpaper command to this object
     #
