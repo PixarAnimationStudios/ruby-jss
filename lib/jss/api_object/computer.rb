@@ -161,7 +161,7 @@ module JSS
 
     # MixIns
     #####################################
-
+    include JSS::Creatable
     include JSS::Updatable
     include JSS::Locatable
     include JSS::Purchasable
