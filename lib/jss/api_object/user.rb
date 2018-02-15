@@ -271,7 +271,7 @@ module JSS
 
       user << JSS::Site.xml_list(@sites)
 
-      user << ext_attr_xml
+      user << ext_attr_xml if unsaved_eas?
 
       return doc.to_s
     end

@@ -445,7 +445,7 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       md = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
-      md << ext_attr_xml
+      md << ext_attr_xml if unsaved_eas?
       md << location_xml if has_location?
       md << purchasing_xml if has_purchasing?
       add_site_to_xml doc
