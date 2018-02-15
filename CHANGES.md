@@ -1,8 +1,12 @@
 # Change History
 
-## v 0.11.0a1 2018-02-15
+## v 0.11.0a4 2018-02-15
 
 - Fix: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
+
+- Improvement: Updated general attributes for computers and mobile devices
+
+- Improvement: Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.
 
 - Improvement: Handling of 'site' data is now done via the JSS::Sitable mixin module
 
