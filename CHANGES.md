@@ -1,6 +1,6 @@
 # Change History
 
-## v 0.11.0a4 2018-02-15
+## v 0.11.0a5 2018-02-15
 
 - Fix: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
 
