@@ -506,9 +506,9 @@ module JSS
     # Attributes
     #####################################
 
-    # The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
-    # Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
-    # Here's General, in alphabetical order
+    # identifiers
+    ################
+
 
     # @return [String] the secondary mac address
     attr_reader :alt_mac_address
@@ -527,6 +527,9 @@ module JSS
 
     # @return [IPAddr] the last known IP address
     attr_reader :ip_address
+
+    # @return [Boolean]
+    attr_reader :itunes_store_account_is_active
 
     # @return [String] the version of the jamf binary
     attr_reader :jamf_version
@@ -548,6 +551,13 @@ module JSS
 
     # @return [Boolean] doesit support MDM?
     attr_reader :mdm_capable
+
+    # @return [Array] user accts that support MDM?
+    #  NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data
+    #  bug and only shows the last listed user, cuz it comes from the API
+    #  as a hash, not an array.
+    #
+    attr_reader :mdm_capable_users
 
     # @return [String] the name of the netboot server for this machine
     attr_reader :netboot_server
@@ -732,8 +742,8 @@ module JSS
     #
     def initialize(args = {})
       super args
+      return unless @in_jss
 
-      # now we have raw @init_data with something in it, so fill out the instance vars
       @alt_mac_address = @init_data[:general][:alt_mac_address]
       @asset_tag = @init_data[:general][:asset_tag]
       @barcode_1 = @init_data[:general][:barcode_1]
@@ -742,12 +752,14 @@ module JSS
       @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
       @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
       @ip_address = @init_data[:general][:ip_address]
+      @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
       @jamf_version = @init_data[:general][:jamf_version]
       @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
       @mac_address = @init_data[:general][:mac_address]
       @managed = @init_data[:general][:remote_management][:managed]
       @management_username = @init_data[:general][:remote_management][:management_username]
       @mdm_capable = @init_data[:general][:mdm_capable]
+      @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
       @netboot_server = @init_data[:general][:netboot_server]
       @platform = @init_data[:general][:platform]
       @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
@@ -757,7 +769,7 @@ module JSS
       @udid = @init_data[:general][:udid]
 
       @configuration_profiles = @init_data[:configuration_profiles]
-      @extension_attributes = @init_data[:extension_attributes]
+      @certificates = @init_data[:certificates]
       @groups_accounts = @init_data[:groups_accounts]
       @hardware = @init_data[:hardware]
       @peripherals = @init_data[:peripherals]

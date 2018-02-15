@@ -74,6 +74,7 @@ module JSS
     # Mix-Ins
     #####################################
 
+    include JSS::Creatable
     include JSS::Updatable
     include JSS::Locatable
     include JSS::Purchasable
@@ -126,7 +127,6 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 21
-
 
     # Class Methods
     #####################################
@@ -195,75 +195,68 @@ module JSS
     #####################################
 
     ############
-    # The values returned in the General and Location subset are stored as direct attributes
-    # Here are the  Location values
+    # The values returned in the General subset are stored as direct attributes
+
+    # identifiers
+    ###########################
+
+    # @return [String]
+    attr_reader :serial_number
+    alias sn serial_number
+    alias serialnumber serial_number
+
+    # @return [String]
+    attr_reader :udid
+
+    # @return [String]
+    attr_reader :asset_tag
+
+    # @return [String]
+    attr_reader :display_name
+
+    # @return [String]
+    attr_reader :device_name
+
+    # @return [String] An Apple TV identifier
+    attr_reader :device_id
+
+    # @return [String]
+    attr_reader :exchange_activesync_device_identifier
+
+    # settings
+    ###########################
+
+    # @return [Boolean] is this device managed?
+    attr_reader :managed
+    alias managed? managed
+
+    # @return [Boolean] is this device supervised?
+    attr_reader :supervised
+    alias supervised? supervised
+
+    # @return [String] the device_ownership_level
+    attr_reader :device_ownership_level
+
+    # @return [String] the tether state of the device
+    attr_reader :tethered
+
+    # @return [Boolean] is this device shared?
+    attr_reader :shared
+
+    # @return [Boolean] is this device ble_capable?
+    attr_reader :ble_capable
 
     # @return [String] the airplay passwd on devices that can receive AirPlay (i.e. apple tvs)
     attr_reader :airplay_password
 
-    # @return [String] the asset tag
-    attr_reader :asset_tag
-
-    # @return [Intger] how much space available on the device?
-    attr_reader :available_mb
-
-    # @return [Integer] total storage on the device
-    attr_reader :capacity_mb
-
-    # @return [Integer] how much of the capacity is in use?
-    attr_reader :percentage_used
-
-    # @return [Integer] what percentage of the battery is remaining
-    attr_reader :battery_level
-
-    # @return [String] the bluetooth mac addr
-    attr_reader :bluetooth_mac_address
-
-    # @return [String] the wifi mac addr
-    attr_reader :wifi_mac_address
-
-    # @return [Hash] !{:name=>"xxx", :id=>nnn} the computer associated with this device
-    attr_reader :computer
-
-    # @return [String] what is this??
-    attr_reader :device_id
-
-    # @return [String] the API's device_name and display_name are not used.
-    attr_reader :name
-
-    # @return [Time] uses the value from the API's initial_entry_date_epoch
-    attr_reader :initial_entry_date
-
-    # @return [String] the IP addr
-    attr_reader :ip_address
-
-    # @return [String] the language setting
+    # @return [String] the languages
     attr_reader :languages
-
-    # @return [Time] uses the value from the API's last_backup_time_epoch
-    attr_reader :last_backup_time
-
-    # @return [Time] uses the value from the API's last_inventory_update_utc
-    attr_reader :last_inventory_update
-
-    # @return [Time] the last time this device enrolled in Jamf
-    attr_reader :last_enrollment
 
     # @return [String] the locales
     attr_reader :locales
 
-    # @return [Boolean] is this device managed?
-    attr_reader :managed
-
-    # @return [Boolean] is this device supervised?
-    attr_reader :supervised
-
-    # @return [String] the display name of the model
-    attr_reader :model_display
-    alias model model_display
-
-    # @return [String] the model identifier
-    attr_reader :model_identifier
+    # software
+    ###########################
 
     # @return [String] the model firmware
     attr_reader :modem_firmware
@@ -274,25 +267,81 @@ module JSS
     # @return [String] the OS build
     attr_reader :os_build
 
+    # @return [String] the OS type
+    attr_reader :os_type
+
+    # hardware
+    ###########################
+
+    # @return [String] the display name of the model
+    attr_reader :model
+
+    # @return [String] the display name of the model
+    attr_reader :model_number
+
+    # @return [String] the display name of the model
+    attr_reader :model_display
+
+    # @return [String] the model identifier
+    attr_reader :model_identifier
+
+    # usage
+    ##########################
+
+    # @return [Intger] how much space available on the device?
+    attr_reader :available_mb
+    alias available available_mb
+
+    # @return [Integer] total storage on the device
+    attr_reader :capacity_mb
+    alias capacity capacity_mb
+
+    # @return [Integer] how much of the capacity is in use?
+    attr_reader :percentage_used
+
+    # @return [Integer] what percentage of the battery is remaining
+    attr_reader :battery_level
+    alias battery_percent battery_level
+
+    # network
+    ##########################
+
+    # @return [String] the bluetooth mac addr
+    attr_reader :bluetooth_mac_address
+
+    # @return [String] the wifi mac addr
+    attr_reader :wifi_mac_address
+
+    # @return [String] the IP addr
+    attr_reader :ip_address
+
     # @return [String] the phone number of the device's SIM card
-    attr_reader :phone_number
+    attr_reader :sim_phone_number
+    alias device_phone_number sim_phone_number
 
-    # @return [String] the serial numbee
-    attr_reader :serial_number
+    # timestamps
+    ##########################
 
-    # @return [String] the site associated with this device
-    attr_reader :site
+    # @return [Time] uses the value from the API's initial_entry_date_epoch
+    attr_reader :initial_entry_date
 
-    # @return [Boolean] Is this device supervised?
-    attr_reader :supervised
+    # @return [Time] uses the value from the API's last_backup_time_epoch
+    attr_reader :last_backup_time
+    alias last_backup_date last_backup_time
+    alias last_backup last_backup_time
 
-    # @return [String] the tether state of the device
-    attr_reader :tethered
+    # @return [Time] uses the value from the API's last_inventory_update_utc
+    attr_reader :last_inventory_update
 
-    # @return [String] the udid
-    attr_reader :udid
+    # @return [Time] the last time this device enrolled in Jamf
+    attr_reader :last_enrollment
 
-    # @return [Array<Hash>] the applications on the devices
+    # @return [Time] last_cloud_backup_date
+    attr_reader :last_cloud_backup_date
+
+    # subsets
+
+    # @return [Array<Hash>] the applications on the device
     attr_reader :applications
 
     # @return [Array<Hash>]
@@ -370,41 +419,63 @@ module JSS
     #
     def initialize(args = {})
       super args
+      return unless @in_jss
 
       gen = @init_data[:general]
-      @airplay_password = gen[:airplay_password]
+
+      # identifiers
+      @serial_number = gen[:serial_number]
+      @udid = gen[:udid]
       @asset_tag = gen[:asset_tag]
-      @available_mb = gen[:available_mb]
-      @battery_level = gen[:battery_level]
-      @bluetooth_mac_address = gen[:bluetooth_mac_address]
-      @capacity_mb = gen[:capacity_mb]
-      @computer = gen[:computer]
       @device_id = gen[:device_id]
       @device_name = gen[:device_name]
       @display_name = gen[:display_name]
-      @initial_entry_date = JSS.epoch_to_time gen[:initial_entry_date_epoch]
-      @ip_address = gen[:ip_address]
-      @languages = gen[:languages]
-      @last_backup_time = JSS.epoch_to_time gen[:last_backup_time_epoch]
-      @last_inventory_update = JSS.epoch_to_time gen[:last_inventory_update_epoch]
-      @last_enrollment = JSS.epoch_to_time gen[:last_enrollment_epoch]
-      @locales = gen[:locales]
+      @exchange_activesync_device_identifier = gen[:exchange_activesync_device_identifier]
+
+      # settings
       @managed = gen[:managed]
       @supervised = gen[:supervised]
-      @model_display = gen[:model_display]
-      @model_identifier = gen[:model_identifier]
-      @modem_firmware = gen[:modem_firmware]
+      @device_ownership_level = gen[:device_ownership_level]
+      @tethered = gen[:tethered]
+      @shared = gen[:shared]
+      @ble_capable = gen[:ble_capable]
+
+      @airplay_password = gen[:airplay_password]
+      @languages = gen[:languages]
+      @locales = gen[:locales]
+
+      # software
+      @os_type = gen[:os_type]
       @os_build = gen[:os_build]
       @os_version = gen[:os_version]
-      @percentage_used = gen[:percentage_used]
-      @phone_number = gen[:phone_number]
-      @serial_number = gen[:serial_number]
-      @site = JSS::APIObject.get_name(gen[:site])
-      @supervised = gen[:supervised]
-      @tethered = gen[:tethered]
-      @udid = gen[:udid]
-      @wifi_mac_address = gen[:wifi_mac_address]
+      @modem_firmware = gen[:modem_firmware]
 
+      # hardware
+      @model = gen[:model]
+      @model_number = gen[:model_number]
+      @model_identifier = gen[:model_identifier]
+      @model_display = gen[:model_display]
+
+      # usage
+      @capacity_mb = gen[:capacity_mb]
+      @available_mb = gen[:available_mb]
+      @percentage_used = gen[:percentage_used]
+      @battery_level = gen[:battery_level]
+
+      # network
+      @bluetooth_mac_address = gen[:bluetooth_mac_address]
+      @wifi_mac_address = gen[:wifi_mac_address]
+      @sim_phone_number = gen[:phone_number]
+      @ip_address = gen[:ip_address]
+
+      # timestamps
+      @initial_entry_date = JSS.epoch_to_time gen[:initial_entry_date_epoch]
+      @last_backup_time = JSS.epoch_to_time gen[:last_backup_time_epoch]
+      @last_cloud_backup_date = JSS.epoch_to_time gen[:last_cloud_backup_date_epoch]
+      @last_inventory_update = JSS.epoch_to_time gen[:last_inventory_update_epoch]
+      @last_enrollment = JSS.epoch_to_time gen[:last_enrollment_epoch]
+
+      # subsets
       @mobile_device_groups = @init_data[:mobile_device_groups]
       @network = @init_data[:network]
       @extension_attributes = @init_data[:extension_attributes]
@@ -420,22 +491,35 @@ module JSS
       @needs_mdm_name_change = true if managed? && supervised?
     end
 
+    #
+    def serial_number=(new_val)
+      return nil if new_val == @serial_number
+      @serial_number =  new_val.empty? ? new_val : JSS::Validate.unique_identifier(self.class, :serial_number, new_val, api: api)
+      @need_to_update = true
+    end
+
+    #
+    def udid=(new_val)
+      return nil if new_val == @udid
+      @udid = new_val.empty? ? new_val : JSS::Validate.unique_identifier(self.class, :udid, new_val, api: api)
+      @need_to_update = true
+    end
+
+    #
+    def asset_tag=(new_val)
+      return nil if @asset_tag == new_val
+      new_val.strip!
+      @asset_tag = new_val
+      @need_to_update = true
+    end
+
+    #
     def update
       super
       return unless @needs_mdm_name_change
-      self.class.send_mdm_command @id, :device_name, opts: { device_name: @name }, api: @api
+      set_device_mame @name if managed? && supervised?
       @needs_mdm_name_change = false
     end
-
-    # Aliases
-    alias battery_percent battery_level
-    alias managed? managed
-    alias supervised? supervised
-    alias sn serial_number
-    alias serialnumber serial_number
-
-
-
 
     # private methods
     ##############################
@@ -445,6 +529,12 @@ module JSS
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       md = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      general = md.add_element('general')
+      general.add_element('name').text = @name
+      general.add_element('udid').text = @udid
+      general.add_element('serial_number').text = @serial_number
+      general.add_element('asset_tag').text = @asset_tag
+
       md << ext_attr_xml if unsaved_eas?
       md << location_xml if has_location?
       md << purchasing_xml if has_purchasing?
