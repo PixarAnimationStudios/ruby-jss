@@ -2,22 +2,42 @@
 
 ## v 0.11.0a1 2018-02-15
 
-- Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
-- Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
-- Fix: Scope objects use the api connection of their container
-- Computer app usage &  mgmt data methods are now class methods, so can be used without instantiating the computer.
-  The instance methods remain, and they now just use the class methods.
-- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module.
-  The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash with symbolized keys. This data is somewhat inconsistent in it's structure and content across the different types of history events, but you're welcome to use it if needed.
-  All other methods now return Arrays of various instances of classes defined in the module.
-  For example, the {JSS::ManagementHistory.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the {JSS::ManagementHistory.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and provide access to their values via attribute-style methods.
-  As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just
-  call the class methods.
-- Handling of 'site' data is now done via the JSS::Sitable mixin module
+- Fix: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
+
+- Improvement: Handling of 'site' data is now done via the JSS::Sitable mixin module
+
 - Improvement: When the JSS server's hostname ends with 'jamfcloud.com' default to SSL port 443 (vs 8443 for locally hosted JSSs)
+
 - Improvement: ruby-jss now has a code of conduct for contributors.
+
 - Improvement: now requires net-ldap v 0.16, for security fixes
 
+- Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
+
+- Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
+
+- Fix: Scope objects use the api connection of their container
+
+- Improvement: Computer app usage & mgmt data methods are now class methods, so can be used without instantiating the computer.
+  The instance methods remain, and they now just use the class methods.
+
+- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module.
+
+  The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash
+  with symbolized keys. This data is somewhat inconsistent in it's structure and content across the different types of history events,
+  but you're welcome to use it if needed.
+
+  All other methods now return Arrays of various instances of classes defined in the module.
+
+  For example, the {JSS::ManagementHistory.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the
+  {JSS::ManagementHistory.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
+  provide access to their values via attribute-style methods.
+
+  As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just
+  call the class methods.
+
+  *WARNING* these changes mean that the methods returning Arrays of ManagementHistory class instances are not backward compatible,
+  since the earlier versions returned Hashes
 
 ## v 0.10.1 2017-11-08
 
@@ -32,6 +52,7 @@
   then you can call `#object_history` and `#add_object_history_entry` for individual object instances.
 
 - Fix: Error when no storage device on a Computer is marked as the boot drive (Thanks @christopher.kemp!)
+
 - Fix: A few lingering methods that weren't multi-APIConnection aware, are now aware
 
 ## v0.10.0 2017-10-09
@@ -45,17 +66,24 @@
 
   The default/active connection continues to work as always, so your existing code will be fine.
   See the [documentation for the JSS::APIConnection class](http://www.rubydoc.info/gems/ruby-jss/JSS/APIConnection) for details.
+
 - Fix: Specifying port 443, as well as 8443, when connecting an APIConnection will default to using SSL. To force such a connection to NOT use SSL, provide the parameter `use_ssl: false`
+
 - Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
 - Fix: Popup extension attributes can always take a blank value.
+
 - Fix: UserGroup members have a 'username' value, not 'name'
+
 - Add: Two case-insentive string methods added to Array:
   - Array#jss_ci_include_string? Takes a string, returns true if the Array contains the string without regard to case.
         E.g. `['ThrAsHer'].jss_ci_include_string? 'thrasher' # => true`
   - Array#jss_ci_fetch_string Takes a string and fetches it from the array, regardless of case. Nil if not found.
         E.g. `['thrasher'].jss_ci_fetch_string 'ThrAsHer'  # => 'thrasher'`
 - Fix: APIConnection.map_all_ids wasn't honoring :refresh
+
 - Improvement: Extendable module: only push changed EAs when `update` is called.
+
 - Add: Computer objects now have a `last_enrolled` attribute
 
 ## v0.9.3 2017-08-08
@@ -63,6 +91,7 @@
 - Add: JSS::Computer instance now allow you to modify mac_address, alt_mac_address, udid, and serial_number.
   Note: even tho the WebUI doesn't allow editing of the serial_number, the API does and doing so can be useful
   for dealing with duplicate SN's when a new logic board with a new udid creates a new computer entry.
+
 - Add: JSS::Validate module, to consoliday generic data-validation methods. Methods will be moved to it from
   other places over time.
 
