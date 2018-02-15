@@ -738,44 +738,57 @@ module JSS
 
     # @param (see APIObject#initialize)
     #
-    # As well as :id and :name, computers can be queried using :udid, :serialnumber, and :mac_address
+    # # When creating new records with .make,
+    # these can be provided in the arg, or after instantiation via
+    # setter methods:
+    #   serial_number:, udid:, asset_tag:, mac_address:
+    #   alt_mac_address:, barcode_1:, barcode_2:
+    #
     #
     def initialize(args = {})
       super args
-      return unless @in_jss
+      if @in_jss
+        @alt_mac_address = @init_data[:general][:alt_mac_address]
+        @asset_tag = @init_data[:general][:asset_tag]
+        @barcode_1 = @init_data[:general][:barcode_1]
+        @barcode_2 = @init_data[:general][:barcode_2]
+        @distribution_point = @init_data[:general][:distribution_point]
+        @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
+        @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
+        @ip_address = @init_data[:general][:ip_address]
+        @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
+        @jamf_version = @init_data[:general][:jamf_version]
+        @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
+        @mac_address = @init_data[:general][:mac_address]
+        @managed = @init_data[:general][:remote_management][:managed]
+        @management_username = @init_data[:general][:remote_management][:management_username]
+        @mdm_capable = @init_data[:general][:mdm_capable]
+        @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
+        @netboot_server = @init_data[:general][:netboot_server]
+        @platform = @init_data[:general][:platform]
+        @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
+        @serial_number = @init_data[:general][:serial_number]
+        @site = JSS::APIObject.get_name(@init_data[:general][:site])
+        @sus = @init_data[:general][:sus]
+        @udid = @init_data[:general][:udid]
 
-      @alt_mac_address = @init_data[:general][:alt_mac_address]
-      @asset_tag = @init_data[:general][:asset_tag]
-      @barcode_1 = @init_data[:general][:barcode_1]
-      @barcode_2 = @init_data[:general][:barcode_2]
-      @distribution_point = @init_data[:general][:distribution_point]
-      @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
-      @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
-      @ip_address = @init_data[:general][:ip_address]
-      @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
-      @jamf_version = @init_data[:general][:jamf_version]
-      @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
-      @mac_address = @init_data[:general][:mac_address]
-      @managed = @init_data[:general][:remote_management][:managed]
-      @management_username = @init_data[:general][:remote_management][:management_username]
-      @mdm_capable = @init_data[:general][:mdm_capable]
-      @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
-      @netboot_server = @init_data[:general][:netboot_server]
-      @platform = @init_data[:general][:platform]
-      @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
-      @serial_number = @init_data[:general][:serial_number]
-      @site = JSS::APIObject.get_name(@init_data[:general][:site])
-      @sus = @init_data[:general][:sus]
-      @udid = @init_data[:general][:udid]
+        @configuration_profiles = @init_data[:configuration_profiles]
+        @certificates = @init_data[:certificates]
+        @groups_accounts = @init_data[:groups_accounts]
+        @hardware = @init_data[:hardware]
+        @peripherals = @init_data[:peripherals]
+        @software = @init_data[:software]
 
-      @configuration_profiles = @init_data[:configuration_profiles]
-      @certificates = @init_data[:certificates]
-      @groups_accounts = @init_data[:groups_accounts]
-      @hardware = @init_data[:hardware]
-      @peripherals = @init_data[:peripherals]
-      @software = @init_data[:software]
-
-      @management_password = nil
+        @management_password = nil
+      else
+        @udid = args[:udid]
+        @serial_number = args[:serial_number]
+        @asset_tag = args[:asset_tag]
+        @mac_address = args[:mac_address]
+        @alt_mac_address = args[:alt_mac_address]
+        @barcode_1 = args[:barcode_1]
+        @barcode_2 = args[:barcode_2]
+      end
     end # initialize
 
     # @return [Array] the JSS groups to which thismachine belongs (smart and static)

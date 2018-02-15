@@ -417,73 +417,82 @@ module JSS
 
     # @see APIObject#initialize
     #
+    # When creating new records with .make,
+    # udid:, serial_number:, and asset_tag: can be provided in
+    # the args.
+    #
     def initialize(args = {})
       super args
-      return unless @in_jss
+      if @in_jss
 
-      gen = @init_data[:general]
+        gen = @init_data[:general]
 
-      # identifiers
-      @serial_number = gen[:serial_number]
-      @udid = gen[:udid]
-      @asset_tag = gen[:asset_tag]
-      @device_id = gen[:device_id]
-      @device_name = gen[:device_name]
-      @display_name = gen[:display_name]
-      @exchange_activesync_device_identifier = gen[:exchange_activesync_device_identifier]
+        # identifiers
+        @serial_number = gen[:serial_number]
+        @udid = gen[:udid]
+        @asset_tag = gen[:asset_tag]
+        @device_id = gen[:device_id]
+        @device_name = gen[:device_name]
+        @display_name = gen[:display_name]
+        @exchange_activesync_device_identifier = gen[:exchange_activesync_device_identifier]
 
-      # settings
-      @managed = gen[:managed]
-      @supervised = gen[:supervised]
-      @device_ownership_level = gen[:device_ownership_level]
-      @tethered = gen[:tethered]
-      @shared = gen[:shared]
-      @ble_capable = gen[:ble_capable]
+        # settings
+        @managed = gen[:managed]
+        @supervised = gen[:supervised]
+        @device_ownership_level = gen[:device_ownership_level]
+        @tethered = gen[:tethered]
+        @shared = gen[:shared]
+        @ble_capable = gen[:ble_capable]
 
-      @airplay_password = gen[:airplay_password]
-      @languages = gen[:languages]
-      @locales = gen[:locales]
+        @airplay_password = gen[:airplay_password]
+        @languages = gen[:languages]
+        @locales = gen[:locales]
 
-      # software
-      @os_type = gen[:os_type]
-      @os_build = gen[:os_build]
-      @os_version = gen[:os_version]
-      @modem_firmware = gen[:modem_firmware]
+        # software
+        @os_type = gen[:os_type]
+        @os_build = gen[:os_build]
+        @os_version = gen[:os_version]
+        @modem_firmware = gen[:modem_firmware]
 
-      # hardware
-      @model = gen[:model]
-      @model_number = gen[:model_number]
-      @model_identifier = gen[:model_identifier]
-      @model_display = gen[:model_display]
+        # hardware
+        @model = gen[:model]
+        @model_number = gen[:model_number]
+        @model_identifier = gen[:model_identifier]
+        @model_display = gen[:model_display]
 
-      # usage
-      @capacity_mb = gen[:capacity_mb]
-      @available_mb = gen[:available_mb]
-      @percentage_used = gen[:percentage_used]
-      @battery_level = gen[:battery_level]
+        # usage
+        @capacity_mb = gen[:capacity_mb]
+        @available_mb = gen[:available_mb]
+        @percentage_used = gen[:percentage_used]
+        @battery_level = gen[:battery_level]
 
-      # network
-      @bluetooth_mac_address = gen[:bluetooth_mac_address]
-      @wifi_mac_address = gen[:wifi_mac_address]
-      @sim_phone_number = gen[:phone_number]
-      @ip_address = gen[:ip_address]
+        # network
+        @bluetooth_mac_address = gen[:bluetooth_mac_address]
+        @wifi_mac_address = gen[:wifi_mac_address]
+        @sim_phone_number = gen[:phone_number]
+        @ip_address = gen[:ip_address]
 
-      # timestamps
-      @initial_entry_date = JSS.epoch_to_time gen[:initial_entry_date_epoch]
-      @last_backup_time = JSS.epoch_to_time gen[:last_backup_time_epoch]
-      @last_cloud_backup_date = JSS.epoch_to_time gen[:last_cloud_backup_date_epoch]
-      @last_inventory_update = JSS.epoch_to_time gen[:last_inventory_update_epoch]
-      @last_enrollment = JSS.epoch_to_time gen[:last_enrollment_epoch]
+        # timestamps
+        @initial_entry_date = JSS.epoch_to_time gen[:initial_entry_date_epoch]
+        @last_backup_time = JSS.epoch_to_time gen[:last_backup_time_epoch]
+        @last_cloud_backup_date = JSS.epoch_to_time gen[:last_cloud_backup_date_epoch]
+        @last_inventory_update = JSS.epoch_to_time gen[:last_inventory_update_epoch]
+        @last_enrollment = JSS.epoch_to_time gen[:last_enrollment_epoch]
 
-      # subsets
-      @mobile_device_groups = @init_data[:mobile_device_groups]
-      @network = @init_data[:network]
-      @extension_attributes = @init_data[:extension_attributes]
-      @certificates = @init_data[:certificates]
-      @configuration_profiles = @init_data[:configuration_profiles]
-      @provisioning_profiles = @init_data[:provisioning_profiles]
-      @security = @init_data[:security]
-      @applications = @init_data[:applications]
+        # subsets
+        @mobile_device_groups = @init_data[:mobile_device_groups]
+        @network = @init_data[:network]
+        @extension_attributes = @init_data[:extension_attributes]
+        @certificates = @init_data[:certificates]
+        @configuration_profiles = @init_data[:configuration_profiles]
+        @provisioning_profiles = @init_data[:provisioning_profiles]
+        @security = @init_data[:security]
+        @applications = @init_data[:applications]
+      else
+        @udid = args[:udid]
+        @serial_number = args[:serial_number]
+        @asset_tag = args[:asset_tag]
+      end
     end # initialize
 
     def name=(new_name)
