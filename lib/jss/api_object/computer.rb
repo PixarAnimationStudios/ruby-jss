@@ -1089,7 +1089,7 @@ module JSS
       rmgmt.add_element('management_username').text = @management_username
       rmgmt.add_element('management_password').text = @management_password if @management_password
 
-      computer << ext_attr_xml
+      computer << ext_attr_xml if @changed_eas && !@changed_eas.empty?
 
       computer << location_xml if has_location?
 
