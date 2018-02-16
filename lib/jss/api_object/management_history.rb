@@ -32,9 +32,9 @@ module JSS
   # Objects mixing in this module have 'management history' in the JSS, which at
   # this point is Computers and MobileDevices
   #
-  # *Important:* this is 'management history', i.e. the history
-  # of mdm commands, locations, apps, and other events that are part of
-  # management and inventory collection.
+  # *Important:* this is 'management history', i.e. the history and logs
+  # of mdm commands, locations, apps, policies, and other events that are part
+  # of management and inventory collection.
   #
   # When viewing the details page for a computer or mobile device in the
   # Web UI, this is the data visible in the 'History' pane of the page.
@@ -52,31 +52,33 @@ module JSS
   # instance methods that are wrappers around the class methods. The methods
   # have the same names, but of course the class methods require arguments
   # specifying the target for which to retrieve data, and which API connection
-  # to use.
+  # to use (defaulting to the currently active connection).
   #
   # == Raw data versus processed data & event object classes
   #
   # The primary data-retrieval method for management history data is
   # {JSS::ManagementHistory.management_history}. This method returns the raw
-  # JSON data from the API, parsed into a ruby Hash.
+  # JSON data from the API, parsed into a Ruby Hash. If you don't specify a
+  # subset, the data returned can be very large.
   #
-  # This data is somewhat inconsistent in it's structure and content across the
-  # different types of history events, but you're welcome to use it if needed.
+  # This data is somewhat inconsistent in its structure and content across the
+  # different subsets of history events, but you're welcome to use it if needed.
   #
   # To provide a more consistent and ruby-like interface to the history events,
   # the remaining methods, which only return subsets of the full dataset, will
   # return Arrays of instances of the classes defined in this module.
   #
-  # For example, the {JSS::ManagementHistory.audit_history} method returns an
-  # Array of JSS::ManagementHistory::AuditEvent instances,  and the
-  # {JSS::ManagementHistory.completed_policies} gives an Array of
-  # JSS::ManagementHistory::PolicyLog objects. These objects are read-only
-  # and provide access to their values via attribute-style methods.
+  # For example, the {JSS::MobileDevice.audit_history} method returns an Array
+  # of JSS::ManagementHistory::AuditEvent instances,  and the
+  # {JSS::Computer.completed_policies} gives an Array of
+  # JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
+  # provide access to their values via attribute-style methods.
+  #
   #
   # NOTE: History queries from the API are *not* cached in ruby-jss, like the
-  # APIObject.all data is - it is queried anew every time. For this reason, you
-  # are encouraged to store the results of these methods in variables for later
-  # use if needed.
+  # APIObject.all data is - instead it is queried anew every time. For this reason,
+  # you are encouraged to store the results of these methods in variables for
+  # later use if needed.
   #
   module ManagementHistory
 
@@ -177,7 +179,7 @@ module JSS
       #
       def management_history(ident, subset = nil, api: JSS.api)
         id = valid_id ident, api: api
-        raise JSS::NoSuchItemError, "No #{RSRC_OBJECT_KEY} matches identifier: #{ident}" unless id
+        raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} matches identifier: #{ident}" unless id
 
         if self == JSS::Computer
           @hist_subsets ||= HIST_COMPUTER_SUBSETS

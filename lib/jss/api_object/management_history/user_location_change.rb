@@ -36,6 +36,8 @@ module JSS
       # @!attribute [r] email_address
       #   @return [String] The email_address for this change
 
+      alias email email_address
+
       # @!attribute [r] phone_number
       #   @return [String] The phone_number for this change
 

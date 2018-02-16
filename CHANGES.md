@@ -2,7 +2,7 @@
 
 ## v 0.11.0a5, 2018-02-15
 
-- Fix: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
+- *IMPORTANT BUG FIX*: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
 
 - Improvement: Updated general attributes for computers and mobile devices
 
@@ -22,19 +22,23 @@
 
 - Fix: Scope objects use the api connection of their container
 
+- Improvement: 'devmode', use `JSS.devmode \[:on|:off]`` to set, and `JSS.devmode?`` to query.  Useful for developers, esp. in `irb` who want, e.g. to have a method output some state when in devmode, instead of/as well as behaving normally. This is currently the case for `JSS::MDM.send_mdm_command`.  When devmode? is true, the XML sent to the API for the command is printed to stdout before the command is sent to the target machine.
+
 - Improvement: Computer app usage & mgmt data methods are now class methods, so can be used without instantiating the computer.
   The instance methods remain, and they now just use the class methods.
 
-- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module.
+- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module. The module
+  is mixed into JSS::Computer and JSS::MobileDevice, so its methods are available to those classes and their instances. Note that some
+  history events are only available in Computers or MobileDevices, and some are available in both.
 
   The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash
-  with symbolized keys. This data is somewhat inconsistent in it's structure and content across the different types of history events,
+  with symbolized keys. This data is somewhat inconsistent in its structure and content across the different types of history events,
   but you're welcome to use it if needed.
 
   All other methods now return Arrays of various instances of classes defined in the module.
 
-  For example, the {JSS::ManagementHistory.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the
-  {JSS::ManagementHistory.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
+  For example, the {JSS::MobileDevice.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the
+  {JSS::Computer.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
   provide access to their values via attribute-style methods.
 
   As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just

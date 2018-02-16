@@ -82,24 +82,12 @@ module JSS
   # which removes the mdm profile, but also makes the machine unmanged by the
   # JSS, setting the management acct to nil, and requring re-enrollment.
   #
-  # === Computer History
+  # === Management History & Logs
   #
-  # Computer instances can now retrieve their management history from the JSS.
-  #
-  # The full history data is available from the {#history} method, but beware that
-  # it is very large.
-  #
-  # Subsets of that history have their own methods, which are faster and only retrieve
-  # the subset requested. See {#usage_logs}, {#audits}, {#policy_los},
-  # {#completed_policies}, {#failed_polices}, {#casper_remote_logs},
-  # {#screen_sharing_logs}, {#casper_imaging_logs}, {#commands},
-  # {#user_location_history},and {#app_store_app_history}
-  #
-  # When any of the history methods is used the first time, the data is read
-  # from the API and cached internally, and that data is
-  # used for all future calls.. To re-read the data from the API and re-cache it,
-  # provide any non-false parameter to the subset methods , or `refresh: true`
-  # to the main {#history} method.
+  # Computer Management History and logs can now be retrieved both from a
+  # Computer instance, and directly via class methods without fetching an
+  # instance. This is handled by the mixed-in {JSS::ManagementHistory} module,
+  # Q.V. for details.
   #
   # === Appication Usage History
   #

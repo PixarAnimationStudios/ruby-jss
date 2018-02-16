@@ -41,20 +41,18 @@ module JSS
   # ---
   # === Adding devices to the JSS
   #
-  # This class cannot be used to add new mobile devices to the JSS. That can only be done
-  # via the enrollment process.  See JSS::MobileDeviceInvitation for sending
-  # an enrollment invite to a device.
+  # When creating new MobileDevices in the JSS with this class
+  # (using {JSS::MobileDevice.make}) you must specify a udid, and serial_number
+  # before calling `create` or `save`. You can provide these values with the
+  # `.make` call, or afterward using setters.
   #
   # ---
-  # === Editing values
+  # === Management History & Logs
   #
-  # Only a few values can be changed via the API, using these methods, q.v:
-  # - #asset_tag=  String
-  # - #extension_attribute=  Hash of :name or :id, and :value
-  # - #location= Hash of values in @location, not all are required
-  # - #purchasing= Hash of values in @purchasing, not all are required
-  #
-  # After modfying any values, #save must be called to save changes to the JSS.
+  # MobileDevice Management History and logs can now be retrieved both from a
+  # MobileDevice instance, and directly via class methods without fetching an
+  # instance. This is handled by the mixed-in {JSS::ManagementHistory} module,
+  # Q.V. for details.
   #
   # ---
   # === MDM Commands
