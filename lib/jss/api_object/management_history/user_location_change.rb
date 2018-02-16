@@ -23,6 +23,7 @@ module JSS
       :room,
       :position
     )
+      include JSS::ManagementHistory::HashLike
 
       # @!attribute [r] date_time_epoch
       #   @return [Integer] When the change occurred

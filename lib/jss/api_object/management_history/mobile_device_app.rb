@@ -25,6 +25,8 @@ module JSS
       :dynamic_size
     )
 
+      include JSS::ManagementHistory::HashLike
+
       # @!attribute [r] name
       #   @return [String] the name of the app.
 

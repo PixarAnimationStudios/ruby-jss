@@ -71,8 +71,16 @@ module JSS
   # For example, the {JSS::MobileDevice.audit_history} method returns an Array
   # of JSS::ManagementHistory::AuditEvent instances,  and the
   # {JSS::Computer.completed_policies} gives an Array of
-  # JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
-  # provide access to their values via attribute-style methods.
+  # JSS::ManagementHistory::PolicyLog objects.
+  #
+  # These objects are read-only and provide access to their values via both
+  # attribute-style methods, and hash-like keys, similar to how OpenStruct
+  # objects do. This means that
+  #    `some_log_event.date_time`
+  # and
+  #    `some_log_event[:date_time]`
+  # are identical.
+  # This *may* help with some backward-compatibility issues.
   #
   #
   # NOTE: History queries from the API are *not* cached in ruby-jss, like the
@@ -854,6 +862,7 @@ module JSS
 
 end # module JSS
 
+require 'jss/api_object/management_history/hashlike'
 require 'jss/api_object/management_history/audit_event'
 require 'jss/api_object/management_history/casper_imaging_log'
 require 'jss/api_object/management_history/casper_remote_log'

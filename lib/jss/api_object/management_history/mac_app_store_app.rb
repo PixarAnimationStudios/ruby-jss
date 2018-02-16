@@ -23,6 +23,7 @@ module JSS
       :last_update_epoch,
       :size_mb
     )
+      include JSS::ManagementHistory::HashLike
 
       # @!attribute [r] name
       #   @return [String] the name of the app.

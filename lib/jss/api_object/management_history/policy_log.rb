@@ -19,6 +19,7 @@ module JSS
       :date_completed_epoch,
       :status
     )
+      include JSS::ManagementHistory::HashLike
 
       def initialize(args = {})
         # we want the status as a Symbol

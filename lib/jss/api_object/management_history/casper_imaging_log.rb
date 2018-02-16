@@ -16,6 +16,7 @@ module JSS
       :status,
       :date_time_epoch
     )
+      include JSS::ManagementHistory::HashLike
 
       # @!attribute [r] status
       #  @return [String] The status of the event.

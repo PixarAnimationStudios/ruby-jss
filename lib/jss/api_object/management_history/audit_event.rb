@@ -17,6 +17,7 @@ module JSS
       :username,
       :date_time_epoch
     )
+      include JSS::ManagementHistory::HashLike
 
       # @!attribute [r] event
       #  @return [String] The description of the event.

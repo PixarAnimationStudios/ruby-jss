@@ -23,6 +23,7 @@ module JSS
       :management_status,
       :source
     )
+      include JSS::ManagementHistory::HashLike
 
       # @!attribute [r] title
       #  @return [String] The name of the ebook.

@@ -25,6 +25,7 @@ module JSS
       :completed_epoch,
       :last_push_epoch
     )
+      include JSS::ManagementHistory::HashLike
 
       def initialize(args = {})
         args[:completed_epoch] ||= args[:date_time_completed_epoch]
