@@ -267,7 +267,7 @@ module JSS
 
       user << JSS::Site.xml_list(@sites)
 
-      user << ext_attr_xml
+      user << ext_attr_xml if @changed_eas && !@changed_eas.empty?
 
       return doc.to_s
     end
