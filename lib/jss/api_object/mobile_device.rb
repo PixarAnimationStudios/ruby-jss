@@ -946,7 +946,7 @@ module JSS
       doc = REXML::Document.new APIConnection::XML_HEADER
       md = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
 
-      md << ext_attr_xml
+      md << ext_attr_xml if @changed_eas && !@changed_eas.empty?
 
       md << location_xml if has_location?
       md << purchasing_xml if has_purchasing?
