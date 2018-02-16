@@ -75,7 +75,8 @@ module JSS
   #
   # These objects are read-only and provide access to their values via both
   # attribute-style methods, and hash-like keys, similar to how OpenStruct
-  # objects do. This means that
+  # objects do.
+  # This means that
   #    `some_log_event.date_time`
   # and
   #    `some_log_event[:date_time]`
