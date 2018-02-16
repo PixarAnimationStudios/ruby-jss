@@ -1,8 +1,6 @@
 # Change History
 
-## v 0.11.0a5, 2018-02-15
-
-- *IMPORTANT BUG FIX*: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
+## v 0.11.0, 2018-02-19
 
 - Improvement: Updated general attributes for computers and mobile devices
 
@@ -46,6 +44,10 @@
 
   *WARNING* these changes mean that the methods returning Arrays of ManagementHistory class instances are not backward compatible,
   since the earlier versions returned Hashes
+
+## v 0.10.2, 2018-02-16
+
+-  *IMPORTANT BUG FIX*: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
 
 ## v 0.10.1, 2017-11-08
 
