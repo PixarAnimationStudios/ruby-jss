@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -61,7 +61,7 @@ module JSS
   #
   #
   # Classes including this module *MUST*:
-  # - call {#add_self_service_xml()} in their #rest_xml method
+  # - call {#add_self_service_xml(xmldoc)} in their #rest_xml method
   #
   # IMPORTANT: Since SelfServable also includes #{JSS::Updatable}, for uploading icons,
   # see that module for its requirements.
@@ -85,6 +85,8 @@ module JSS
     MAKE_AVAILABLE = 'Make Available in Self Service'.freeze
     AUTO_INSTALL = 'Install Automatically'.freeze
     AUTO_INSTALL_OR_PROMPT = 'Install Automatically/Prompt Users to Install'.freeze
+    PATCHPOL_SELF_SERVICE = 'selfservice'.freeze # 'Make Available in Self Service' in the UI
+    PATCHPOL_AUTO = 'prompt'.freeze # 'Install Automatically' in the UI
 
     DEFAULT_INSTALL_BUTTON_TEXT = 'Install'.freeze
 
@@ -97,6 +99,15 @@ module JSS
         payload: :policy,
         can_display_in_categories: true,
         can_feature_in_categories: true
+      },
+      JSS::PatchPolicy => {
+        in_self_service_data_path: [:general, :distribution_method],
+        in_self_service: PATCHPOL_SELF_SERVICE,
+        not_in_self_service: PATCHPOL_AUTO,
+        targets: [:macos],
+        payload: :patchpolicy,
+        can_display_in_categories: false,
+        can_feature_in_categories: false
       },
       JSS::MacApplication => { # TODO: add the correct values when Jamf fixes this bug
         in_self_service_data_path: nil, # [:general, :distribution_method],
@@ -471,10 +482,10 @@ module JSS
     end
 
     def validate_icon(id)
-      if JSS::DB_CNX.connected?
-        raise JSS::NoSuchItemError, "No icon with id #{new_icon}" unless JSS::Icon.all_ids.include? id
-      end
+      return nil unless JSS::DB_CNX.connected?
+      raise JSS::NoSuchItemError, "No icon with id #{new_icon}" unless JSS::Icon.all_ids.include? id
     end
+
     # Re-read the icon data for this object from the API
     # Generally done after uploading a new icon via {#icon=}
     #

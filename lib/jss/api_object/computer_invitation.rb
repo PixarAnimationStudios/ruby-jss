@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -51,9 +51,7 @@ module JSS
     #####################################
 
     include JSS::Creatable
-
-    # Class Variables
-    #####################################
+    include JSS::Sitable
 
     # Class Methods
     #####################################
@@ -87,6 +85,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 84
+
+    # Where is site data located in the API JSON?
+    SITE_SUBSET = :top
 
     # Attributes
     #####################################
@@ -200,6 +201,7 @@ module JSS
       obj.add_element('hide_account').text = hide_account
       obj.add_element('invitation_status').text = invitation_status
       obj.add_element('multiple_uses_allowed').text = multiple_uses_allowed
+      add_site_to_xml(doc)
       doc.to_s
     end
 

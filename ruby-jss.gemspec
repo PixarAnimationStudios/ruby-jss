@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,19 +23,12 @@
 ###
 
 proj_name = 'ruby-jss'
-lib_dir = "jss"
+lib_dir = 'jss'
 
 require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
-
   # General
-
-  s.name        = proj_name
-  s.version     = JSS::VERSION
-  s.license     = 'Apache-2.0 WITH Modifications'
-  s.date        = Time.now.utc.strftime("%Y-%m-%d")
-  s.summary     = "A Ruby interface to the Jamf Pro REST API"
   s.description = <<-EOD
     The ruby-jss gem provides the JSS module, a framework for interacting with the REST API
     of the Jamf Software Server (JSS), the core of Jamf Pro, an enterprise/education
@@ -43,17 +36,22 @@ Gem::Specification.new do |s|
     JSS API objects are implemented as Ruby classes, and interact with each oher to
     allow simpler automation of Jamf-related tasks. For details see the README file."
   EOD
-  s.authors     = ["Chris Lasell", "Aurica Hayes"]
+  s.name        = proj_name
+  s.version     = JSS::VERSION
+  s.license     = 'Apache-2.0 WITH Modifications'
+  s.date        = Time.now.utc.strftime('%Y-%m-%d')
+  s.summary     = 'A Ruby interface to the Jamf Pro REST API'
+  s.authors     = ['Chris Lasell', 'Aurica Hayes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
-  s.files       = Dir['lib/**/*.rb']
+  s.files = Dir['lib/**/*.rb']
   s.files << '.yardopts'
-  s.files      += Dir['data/**/*']
+  s.files += Dir['data/**/*']
 
-  s.executables << "cgrouper"
-  s.executables << "netseg-update"
-  s.executables << "jamfHelperBackgrounder"
+  s.executables << 'cgrouper'
+  s.executables << 'netseg-update'
+  s.executables << 'jamfHelperBackgrounder'
 
   # Dependencies
   s.required_ruby_version = '>= 1.9.3'
@@ -65,11 +63,12 @@ Gem::Specification.new do |s|
   # https://github.com/rest-client/rest-client & dependencies: MIT License
   s.add_runtime_dependency 'rest-client', '~> 1.7', '>= 1.7.2'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
-  s.add_runtime_dependency 'net-ldap', '~> 0.8'
+  s.add_runtime_dependency 'net-ldap', '~> 0.16'
+  # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
+  s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
 
   # Rdoc
   s.has_rdoc = true
-  s.extra_rdoc_files = [ 'README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
+  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
-
 end

@@ -11,6 +11,7 @@ module JSS
     include JSS::Updatable
     include JSS::Creatable
     include JSS::Scopable
+    include JSS::Sitable
 
     # Class Constants
     #####################################
@@ -35,6 +36,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 5
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # Attributes
     #####################################
@@ -162,6 +166,7 @@ module JSS
       site.add_element('name').text = @site
 
       obj << @scope.scope_xml
+      add_self_service_xml doc
       doc.to_s
     end # rest_xml
 

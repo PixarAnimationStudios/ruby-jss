@@ -1,4 +1,4 @@
-# Copyright 2017 Pixar
+# Copyright 2018 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -172,7 +172,20 @@ module JSS
       @need_to_update = true
     end
 
+    # are there any changes in the EAs needing to be saved?
+    #
+    # @return [Boolean]
+    #
+    def unsaved_eas?
+      @need_to_update && @changed_eas && !@changed_eas.empty?
+    end
+
     # @api private
+    #
+    # TODO: make this (and all XML amending) method take the in-progress XML doc and
+    # add (or not) the EA xml to it.
+    # See how Sitable#add_site_to_xml works, as called from
+    # Computer.rest_xml
     #
     # @return [REXML::Element] An <extension_attribute> element to be
     #  included in the rest_xml of objects that mix-in this module.

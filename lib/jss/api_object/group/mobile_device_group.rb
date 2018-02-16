@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -56,7 +56,7 @@ module JSS
     #####################################
     ### Mix-Ins
     #####################################
-
+    include JSS::MDM
 
     #####################################
     ### Class Constants
@@ -82,6 +82,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 25
+
+    # what kind of devices are these WRT MDM
+    MDM_COMMAND_TARGET = :mobiledevicegroups
 
     #####################################
     ### Class Variables

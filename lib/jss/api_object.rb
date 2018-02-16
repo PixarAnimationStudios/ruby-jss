@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -483,6 +483,47 @@ module JSS
       new args
     end
 
+
+    # Delete one or more API objects by jss_id without instantiating them.
+    # Non-existent id's are skipped and an array of skipped ids is returned.
+    #
+    # If an Array is provided, it is passed through #uniq! before being processed.
+    #
+    # @param victims[Integer,Array<Integer>] An object id or an array of them
+    #   to be deleted
+    #
+    # @param api[JSS::APIConnection] the API connection to use.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<Integer>] The id's that didn't exist when we tried to
+    #   delete them.
+    #
+    def self.delete(victims, api: JSS.api)
+      raise JSS::UnsupportedError, '.delete can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
+      raise JSS::InvalidDataError, 'Parameter must be an Integer ID or an Array of them' unless victims.is_a?(Integer) || victims.is_a?(Array)
+
+      case victims
+      when Integer
+        victims = [victims]
+      when Fixnum
+        victims = [victims]
+      when Array
+        victims.uniq!
+      end
+
+      skipped = []
+      current_ids = all_ids :refresh, api: api
+      victims.each do |vid|
+        if current_ids.include? vid
+          api.delete_rsrc "#{self::RSRC_BASE}/id/#{vid}"
+        else
+          skipped << vid
+        end # if current_ids include v
+      end # each victim
+
+      skipped
+    end # self.delete
+
     ### Class Constants
     #####################################
 
@@ -654,9 +695,14 @@ module JSS
       defined? self.class::SELF_SERVABLE
     end
 
-    # @return [Boolean] See {JSS::criteriable}
+    # @return [Boolean] See {JSS::Criteriable}
     def criterable?
       defined? self.class::CRITERIABLE
+    end
+
+    # @return [Boolean] See {JSS::Sitable}
+    def sitable?
+      defined? self.class::SITABLE
     end
 
     # @return [Boolean] See {JSS::extendable}
@@ -691,8 +737,8 @@ module JSS
 
     # Delete this item from the JSS.
     #
-    # TODO: Make a class method for mass deletion
-    # without instantiating, then call it from this method.
+    # @seealso {APIObject.delete} for deleting
+    # one or more objects by id without needing to instantiate
     #
     # Subclasses may want to redefine this method,
     # first calling super, then setting other attributes to
@@ -815,6 +861,17 @@ module JSS
       history
     end
 
+    # Print the rest_xml value of the object to stdout,
+    # with indentation. Useful for debugging.
+    #
+    # @return [void]
+    #
+    def ppx
+      return nil unless creatable? || updatable?
+      REXML::Document.new(rest_xml).write $stdout, 2
+      puts
+    end
+
     # Private Instance Methods
     #####################################
     private
@@ -920,10 +977,11 @@ module JSS
       # many things have  a :site
       # TODO: Implement a Sitable mixin module
       #
-      @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
+      # @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
 
       ##### Handle Mix-ins
       initialize_category
+      initialize_site
       initialize_location
       initialize_purchasing
       initialize_scope
@@ -957,6 +1015,14 @@ module JSS
     #
     def initialize_category
       parse_category if categorizable?
+    end
+
+    # parse site data during initialization
+    #
+    # @return [void]
+    #
+    def initialize_site
+      parse_site if sitable?
     end
 
     # parse location data during initialization
@@ -1063,6 +1129,9 @@ require 'jss/api_object/extendable'
 require 'jss/api_object/self_servable'
 require 'jss/api_object/categorizable'
 require 'jss/api_object/vppable'
+require 'jss/api_object/sitable'
+require 'jss/api_object/mdm'
+require 'jss/api_object/management_history'
 
 ### Mix-in Sub Modules with Classes
 require 'jss/api_object/criteriable'
@@ -1091,6 +1160,8 @@ require 'jss/api_object/netboot_server'
 require 'jss/api_object/network_segment'
 require 'jss/api_object/osx_configuration_profile'
 require 'jss/api_object/package'
+require 'jss/api_object/patch'
+require 'jss/api_object/patch_policy'
 require 'jss/api_object/peripheral_type'
 require 'jss/api_object/peripheral'
 require 'jss/api_object/policy'

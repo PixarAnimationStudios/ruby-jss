@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -51,16 +51,10 @@ module JSS
 
     include JSS::Creatable
     include JSS::Updatable
-
-    ### periphs have a purchasing subset
     include JSS::Purchasable
-
-    ### periphs have a location subset, which will be
-    ### stored in primary attributes.
     include JSS::Locatable
-
-    ### periphs can take uploaded files.
     include JSS::Uploadable
+    include JSS::Sitable
 
     #####################################
     ### Class Methods
@@ -87,6 +81,9 @@ module JSS
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 8
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     #####################################
     ### Class Variables
@@ -316,6 +313,7 @@ module JSS
       if has_purchasing?
         periph << purchasing_xml
       end
+      add_site_to_xml doc
 
       return doc.to_s
     end # rest xml

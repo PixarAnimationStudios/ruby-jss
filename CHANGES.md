@@ -1,6 +1,53 @@
 # Change History
 
-## v 0.10.1 2017-11-08
+## v 0.11.0a5, 2018-02-15
+
+- *IMPORTANT BUG FIX*: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)
+
+- Improvement: Updated general attributes for computers and mobile devices
+
+- Improvement: Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.
+
+- Improvement: Handling of 'site' data is now done via the JSS::Sitable mixin module
+
+- Improvement: When the JSS server's hostname ends with 'jamfcloud.com' default to SSL port 443 (vs 8443 for locally hosted JSSs)
+
+- Improvement: ruby-jss now has a code of conduct for contributors.
+
+- Improvement: now requires net-ldap v 0.16, for security fixes
+
+- Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
+
+- Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
+
+- Fix: Scope objects use the api connection of their container
+
+- Improvement: 'devmode', use `JSS.devmode \[:on|:off]`` to set, and `JSS.devmode?`` to query.  Useful for developers, esp. in `irb` who want, e.g. to have a method output some state when in devmode, instead of/as well as behaving normally. This is currently the case for `JSS::MDM.send_mdm_command`.  When devmode? is true, the XML sent to the API for the command is printed to stdout before the command is sent to the target machine.
+
+- Improvement: Computer app usage & mgmt data methods are now class methods, so can be used without instantiating the computer.
+  The instance methods remain, and they now just use the class methods.
+
+- Improvement/Change: All handling of management history for Computers and MobileDevices is in the new ManagementHistory module. The module
+  is mixed into JSS::Computer and JSS::MobileDevice, so its methods are available to those classes and their instances. Note that some
+  history events are only available in Computers or MobileDevices, and some are available in both.
+
+  The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash
+  with symbolized keys. This data is somewhat inconsistent in its structure and content across the different types of history events,
+  but you're welcome to use it if needed.
+
+  All other methods now return Arrays of various instances of classes defined in the module.
+
+  For example, the {JSS::MobileDevice.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the
+  {JSS::Computer.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
+  provide access to their values via attribute-style methods.
+
+  As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just
+  call the class methods.
+
+  *WARNING* these changes mean that the methods returning Arrays of ManagementHistory class instances are not backward compatible,
+  since the earlier versions returned Hashes
+
+## v 0.10.1, 2017-11-08
 
 - Add: Extension Attribute values that are populated by Script or LDAP can now be modified via Extendable#set_ext_attr.
 
@@ -13,9 +60,10 @@
   then you can call `#object_history` and `#add_object_history_entry` for individual object instances.
 
 - Fix: Error when no storage device on a Computer is marked as the boot drive (Thanks @christopher.kemp!)
+
 - Fix: A few lingering methods that weren't multi-APIConnection aware, are now aware
 
-## v0.10.0 2017-10-09
+## v0.10.0, 2017-10-09
 
 - Improvement: Working with multiple APIConnections is now far more flexible!
 
@@ -26,32 +74,40 @@
 
   The default/active connection continues to work as always, so your existing code will be fine.
   See the [documentation for the JSS::APIConnection class](http://www.rubydoc.info/gems/ruby-jss/JSS/APIConnection) for details.
+
 - Fix: Specifying port 443, as well as 8443, when connecting an APIConnection will default to using SSL. To force such a connection to NOT use SSL, provide the parameter `use_ssl: false`
+
 - Fix: require 'English', rather than require 'english'. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
 - Fix: Popup extension attributes can always take a blank value.
+
 - Fix: UserGroup members have a 'username' value, not 'name'
+
 - Add: Two case-insentive string methods added to Array:
   - Array#jss_ci_include_string? Takes a string, returns true if the Array contains the string without regard to case.
         E.g. `['ThrAsHer'].jss_ci_include_string? 'thrasher' # => true`
   - Array#jss_ci_fetch_string Takes a string and fetches it from the array, regardless of case. Nil if not found.
         E.g. `['thrasher'].jss_ci_fetch_string 'ThrAsHer'  # => 'thrasher'`
 - Fix: APIConnection.map_all_ids wasn't honoring :refresh
+
 - Improvement: Extendable module: only push changed EAs when `update` is called.
+
 - Add: Computer objects now have a `last_enrolled` attribute
 
-## v0.9.3 2017-08-08
+## v0.9.3, 2017-08-08
 
 - Add: JSS::Computer instance now allow you to modify mac_address, alt_mac_address, udid, and serial_number.
   Note: even tho the WebUI doesn't allow editing of the serial_number, the API does and doing so can be useful
   for dealing with duplicate SN's when a new logic board with a new udid creates a new computer entry.
+
 - Add: JSS::Validate module, to consoliday generic data-validation methods. Methods will be moved to it from
   other places over time.
 
-## v0.9.2 2017-07-25
+## v0.9.2, 2017-07-25
 
 - Fix: parsing of JSS versions > 9.99
 
-## v0.9.0 2017-07-17
+## v0.9.0, 2017-07-17
 
 - Add: JSS::MobileDevice.all_apple_tvs class method
 - Add: JSS::MobileDevice.management_history method, and related methods in instances
@@ -83,17 +139,17 @@
 - Improvement: JSS::Policy instances can now flush their logs
 - Improvement: JSS::Policy now has setters for server_side_activation and server_side_expriation.
 
-## v0.8.3 2017-06-07
+## v0.8.3, 2017-06-07
 
 - Fix: Version parsing: empty version parts default to 0, e.g. 10.2 parses as 10.2.0
 
-## v0.8.2 2017-06-07
+## v0.8.2, 2017-06-07
 
 - Fix: Some objects failed to locate their 'main subset' (the chunk of API data that contains the object name and id) correctly.
 - Fix: Some versions of Gem::Version don't like dashes (which are part of SemVers).
 
 
-## v0.8.1 2017-06-05
+## v0.8.1, 2017-06-05
 
 - Improvement: Support for the new semantic versioning of Jamf products starting with Jamf Pro 9.99
 - The alpha 'Webhooks framework' has been removed from ruby-jss and will reappear soon as it's own project with a new name.
@@ -101,7 +157,7 @@
 - Improvement: JSS::APIObject and subclasses now have .fetch and .make class methods which are wrappers for .new. .fetch is the preferred way to retrieve instances of existing API objects, and .make for making not-yet-existing objects to be created in the JSS. The .new class method still works as before, but is considered deprecated.
 - Improvement: JSS::APIConnection now has a #rest_url attribute that returns the base of the url for the current REST connection, e.g. "https://jamf.company.com:8443/JSSResource", or nil if not connected.
 
-## v0.8.0 2017-04-07
+## v0.8.0, 2017-04-07
 
 - Change: Lots of code cleanup to follow RuboCop guidelines (more of this comming)
 - Fix: sometimes the port would default to 80 rather than 8443
@@ -121,18 +177,18 @@
 - Add: first attempts at adding SSL/TLS support to the Webhooks framework.
   - NOTE: the Webhooks framework is still 'alpha' code, and will be moved into a separate git repo eventually. It doesn't rely on ruby-jss.
 
-## v0.7.0 2017-02-01
+## v0.7.0, 2017-02-01
 
 - JSS::NetworkSegment - many bugfixes and cleanup. I didn't really have a proper grasp of IP CIDR masks before and how they (don't) relate to the IP ranges used by Network Segments in the JSS. The CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn't match subnet-ranges.
 - subnect-update, the example command in the bin directory, has been renamed to negseg-update. It's also been cleaned up and uses the new functionality of JSS::NetworkSegment.
 - JSS::DBConnection - fixed a bug where meaningless IO 'stream closed' errors would appear when closing the DB connection.
 
-## v0.6.7 2017-01-03
+## v0.6.7, 2017-01-03
 
 - Added class JSS::WebHook, which requires Jamf Pro 9.97 or higher.
   - NOTE: This is access to the WebHooks themselves as defined in Jamf Pro, and is separate from the  WebHook-handling framework included in the previous release for testing.
 
-## v0.6.6 2016-11-30
+## v0.6.6, 2016-11-30
 
 - Added String#jss_to_pathname to convert Strings to Pathname instances in JSS::Configuration.
 - JSS::DBConnection#connect now returns the server hostname, to match the behavior of JSS::APIConnection#connect
@@ -145,7 +201,7 @@
 - Starting cleaning up code to better adhere to [RuboCop](http://rubocop.readthedocs.io/en/latest/) standards
 - Added alpha version of a JSS WebHooks framwork
 
-## v0.6.5 2016-08-10
+## v0.6.5, 2016-08-10
 
 - Cleanup of redundant constants (Thanks @aurica!)
 - Added JSS::ComputerInvitation class (Thanks @tostart-pickagreatname!)
@@ -154,7 +210,7 @@
 - JSS::Computer: added methods #boot_drive, #filevault2_enabled?, and #filevault1_accounts
 - Various small bugfixes & improvements
 
-## v0.6.4 2016-03-24
+## v0.6.4, 2016-03-24
 
 - JSS::Package#dlete can optionally delete the master file at the same time
 - Added an example ruby-jss.conf file with internal documentation
@@ -162,11 +218,11 @@
 - Updated the config file name to match the new gem name, maintaining backwards compatibility
 - Improved error messages
 
-## v0.6.3 2016-03-09
+## v0.6.3, 2016-03-09
 
 Maintenence version bump to fix an issue uploading to rubygems.org
 
-## v0.6.2 2016-03-08
+## v0.6.2, 2016-03-08
 
 As of v0.6.2, the github project, and rubygem have been renamed to 'ruby-jss'. The 'require' name is now 'jss'.
 
@@ -187,14 +243,14 @@ The 'jss-api' gem has been updated one last time, also to v0.6.2. That gem has a
 - JSS::Composer::mk_dmg fix for building/indexing dmg's, no longer creates an unreadable .Trashes folder.
 - Several small typos and other tiny bugs.
 
-## v0.6.1 2016-03-01
+## v0.6.1, 2016-03-01
 
 #### additions & features
 
 - JSS::Package#install now takes :alt_download_url argument.Can be used to specify a custom URL from which to download a pkg/dmg for installation with 'jamf install'. This allows the use of cloud distribution points.
 - JSS::DistributionPoint: Added reachability methods, improved assessment of mount-success. #reachable_for_download? and #reachable_for_upload? will now return a boolean indicating if the DistPoint is reachable.
 
-## v0.6.0 2016-01-06
+## v0.6.0, 2016-01-06
 
 This version of the jss-api gem incorporates changes needed for the upcoming release of d3 (a.k.a. depot3),
 a package/patch management system for Casper, which was the reason for the jss-api gem to begin with.
@@ -232,7 +288,7 @@ Now the actual install command is examined, and if its exitstatus is zero, Packa
 Also: As of casper 9.72, the argument requirements havechanged for 'jamf install' with http downloads. This is now handled correctly
 
 
-## v0.5.8 2015-09-22
+## v0.5.8, 2015-09-22
 
 #### bugfixes & cleanup
 
@@ -247,7 +303,7 @@ Also: As of casper 9.72, the argument requirements havechanged for 'jamf install
 - TimeoutError and AuthenticationError have been added to exceptions
 - Policy objects now have a #run method - attempts to execute the policy locally.
 
-## v0.5.7 2015-05-26
+## v0.5.7, 2015-05-26
 
 #### bugfixes & cleanup
 
@@ -261,7 +317,7 @@ Also: As of casper 9.72, the argument requirements havechanged for 'jamf install
 - Package#required_processor: remove buggy line of ancient, deprecated code
 - Package#upload_master_file: move autoupdate to appropriate location
 
-## v0.5.6 2014-11-04
+## v0.5.6, 2014-11-04
 
 - now requires Ruby >= 1.9.3 and rest-client >= 1.7.0. Needed for Casper >= 9.61's lack of support for SSLv3.
 - APIConnection now accepts :ssl_version option in the argument hash. Defaults to 'TLSv1'
@@ -270,6 +326,6 @@ Also: As of casper 9.72, the argument requirements havechanged for 'jamf install
 - many documentation updates as we adjust to being live
 - minor bugfixes
 
-## v0.5.0 2014-10-23
+## v0.5.0, 2014-10-23
 
 - first opensource release

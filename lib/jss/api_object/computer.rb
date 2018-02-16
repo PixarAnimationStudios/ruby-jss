@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -63,50 +63,31 @@ module JSS
   #
   # === MDM Commands
   #
-  # The following methods can be used to send an APNS command to the
-  # computer represented by an instance of JSS::Computer, equivalent to
-  # clicking one of the buttons on the Management Commands section of the
-  # Management tab of the Computer details page in the JSS UI.
+  # See the {JSS::MDM} mixin module for Class and Instance methods for
+  # sending MDM commands to computers.
   #
-  # - {#blank_push}  (aliases blank, noop, send_blank_push)
-  # - {#device_lock} (aliases lock, lock_device)
-  # - {#erase_device} (aliases wipe)
-  # - {#remove_mdm_profile}
+  # To send MDM commands without fetching Computer instances, use the class
+  # methods, which can take multiple computer identifiers at once.
   #
-  # To send an MDM command without making a Computer instance, use the class
-  # {JSS::Computer.send_mdm_command} which can take multiple computer
-  # identifiers at once.
-  #
-  # NOTE: the poorly named 'UnmanageDevice' command via the API is implemented
-  # as the {#remove_mdm_profile} method (which is its name in the webUI).
-  # Calling that method will NOT unmanage the machine from the JSS's point
+  # NOTE: the poorly named 'UnmanageDevice' mdm command is implemented
+  # as {#remove_mdm_profile} (which is its name in the webUI) as well as
+  # {#unmanage_device}.
+  # Calling that method will NOT fully unmanage a computer from the JSS's point
   # of view, it will just remove the mdm management profile from the machine
   # and all configuration profiles that were installed via the JSS. Those
   # profiles may be re-installed automatically later if the computer is still in
   # scope for them
   #
-  # The {#make_unmanaged} method also removes the mdm profile, but actually
-  # does make the machine unmanged by the JSS, setting the management acct to
-  # nil, and requring re-enrollment.
+  # To properly unmanage a computer, use the {#make_unmanaged} Instance method
+  # which removes the mdm profile, but also makes the machine unmanged by the
+  # JSS, setting the management acct to nil, and requring re-enrollment.
   #
-  # === Computer History
+  # === Management History & Logs
   #
-  # Computer instances can now retrieve their management history from the JSS.
-  #
-  # The full history data is available from the {#history} method, but beware that
-  # it is very large.
-  #
-  # Subsets of that history have their own methods, which are faster and only retrieve
-  # the subset requested. See {#usage_logs}, {#audits}, {#policy_los},
-  # {#completed_policies}, {#failed_polices}, {#casper_remote_logs},
-  # {#screen_sharing_logs}, {#casper_imaging_logs}, {#commands},
-  # {#user_location_history},and {#app_store_app_history}
-  #
-  # When any of the history methods is used the first time, the data is read
-  # from the API and cached internally, and that data is
-  # used for all future calls.. To re-read the data from the API and re-cache it,
-  # provide any non-false parameter to the subset methods , or `refresh: true`
-  # to the main {#history} method.
+  # Computer Management History and logs can now be retrieved both from a
+  # Computer instance, and directly via class methods without fetching an
+  # instance. This is handled by the mixed-in {JSS::ManagementHistory} module,
+  # Q.V. for details.
   #
   # === Appication Usage History
   #
@@ -168,12 +149,15 @@ module JSS
 
     # MixIns
     #####################################
-
+    include JSS::Creatable
     include JSS::Updatable
     include JSS::Locatable
     include JSS::Purchasable
     include JSS::Uploadable
     include JSS::Extendable
+    include JSS::Sitable
+    include JSS::MDM
+    include JSS::ManagementHistory
 
     extend JSS::Matchable
 
@@ -192,6 +176,9 @@ module JSS
     # The hash key used for the JSON object output.
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :computer
+
+    # Where is the Site data in the API JSON?
+    SITE_SUBSET = :general
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
     #   DEPRECATED, with be removed in a future release.
@@ -218,32 +205,8 @@ module JSS
     # file uploads can send attachments to the JSS using :computers as the sub-resource.
     UPLOAD_TYPES = { attachment: :computers }.freeze
 
-    # The base REST resource for sending computer MDM commands
-    COMPUTER_MDM_RSRC = 'computercommands/command'.freeze
-
-    # A mapping of Symbols available to the send_mdm_command class method, to
-    # the String commands actuallly sent via the API.
-    COMPUTER_MDM_COMMANDS = {
-      blank_push: 'BlankPush',
-      blankpush: 'BlankPush',
-      send_blank_push: 'BlankPush',
-      blank: 'BlankPush',
-      noop: 'BlankPush',
-      device_lock: 'DeviceLock',
-      devicelock: 'DeviceLock',
-      lock: 'DeviceLock',
-      lock_device: 'DeviceLock',
-      erase_device: 'EraseDevice',
-      erasedevice: 'EraseDevice',
-      erase: 'EraseDevice',
-      wipe: 'EraseDevice',
-      unmanage_device: 'UnmanageDevice',
-      unmanagedevice: 'UnmanageDevice',
-      unmanage: 'UnmanageDevice'
-    }.freeze
-
-    # these MDM commands require a passcode
-    COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE = %w[DeviceLock EraseDevice].freeze
+    # Tell the MDM module what kind of MDM commands we use.
+    MDM_COMMAND_TARGET = :computers
 
     # The API resource for app usage
     APPLICATION_USAGE_RSRC = 'computerapplicationusage'.freeze
@@ -289,53 +252,10 @@ module JSS
     # The top-level hash key for the inventory collection settings
     INV_COLLECTION_KEY = :computer_inventory_collection
 
-    # The API Resource for the computer history data
-    HISTORY_RSRC = 'computerhistory'.freeze
-
-    # The top-level hash key for the history data
-    HISTORY_KEY = :computer_history
-
-    # The keys are both the subset names in the resrouce URLS (when
-    # converted to strings) and the second-level hash key of the
-    # returned subset data.
-    #
-    # The values are the key within each history item that contains the
-    # 'epoch' timestamp, for conver
-    HISTORY_SUBSETS = %i[
-      computer_usage_logs
-      audits
-      policy_logs
-      casper_remote_logs
-      screen_sharing_logs
-      casper_imaging_logs
-      commands
-      user_location
-      mac_app_store_applications
-    ].freeze
-
-    # HISTORY_SUBSETS = %i(
-    #   computer_usage_logs date_time_epoch
-    #   audits
-    #   policy_logs date_completed_epoch
-    #   casper_remote_logs date_time_epoch
-    #   screen_sharing_logs date_time_epoch
-    #   casper_imaging_logs
-    #   commands completed_epoch
-    #   user_location
-    #   mac_app_store_applications
-    # ).freeze
-
-    POLICY_STATUS_COMPLETED = 'Completed'.freeze
-
-    POLICY_STATUS_FAILED = 'Failed'.freeze
-
-    POLICY_STATUS_PENDING = 'Pending'.freeze
-
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 1
-
 
     # Class Methods
     #####################################
@@ -463,64 +383,120 @@ module JSS
       all(refresh, api: api).select { |d| d[:model] =~ /^macpro/i }
     end
 
-    # Send an MDM command to one or more managed computers by id or name
+    # Retrieve Application Usage data for a computer by id, without
+    # instantiation.
     #
+    # @param ident [Integer,String] An identifier (id, name, serialnumber,
+    #   macadress or udid) of the computer for which to retrieve Application Usage
     #
-    # @param targets[String,Integer,Array<String,Integer>]
-    #   the name or id of the computer to receive the command, or
-    #   an array of such names or ids, or a comma-separated string
-    #   of them.
-    # @param command[Symbol] the command to send, one of the keys
-    #   of COMPUTER_MDM_COMMANDS
+    # @param start_date [Time,Date,DateTime,String] The earliest date to retrieve
     #
-    # @param passcode[String] some commands require a 6-character passcode
+    # @param end_date [String,Date,DateTime,Time] Defaults to start_date
     #
     # @param api[JSS::APIConnection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
-    # @return [String] The uuid of the MDM command sent, if applicable
-    #  (blank pushes do not generate uuids)
+    # @return [Hash{Date=>Array<Hash>}] A Hash with keys (Date instances) for
+    #   each day in the range.
     #
-    def self.send_mdm_command(targets, command, passcode = nil, api: JSS.api)
-      raise JSS::NoSuchItemError, "Unknown command '#{command}'" unless COMPUTER_MDM_COMMANDS.keys.include? command
-
-      command = COMPUTER_MDM_COMMANDS[command]
-      cmd_rsrc = "#{COMPUTER_MDM_RSRC}/#{command}"
-
-      if COMPUTER_MDM_COMMANDS_NEEDING_PASSCODE.include? command
-        unless passcode && passcode.is_a?(String) && passcode.length == 6
-          raise JSS::MissingDataError, "Command '#{command}' requires a 6-character passcode"
-        end
-        cmd_rsrc << "/passcode/#{passcode}"
+    #   Each hash value contains an Array of apps used
+    #   on that day.
+    #
+    #   Each item in the array is a hash of data about the app.
+    #   Those hash keys are:
+    #     :name => String, the name of the app
+    #     :version => String ,the version of the app
+    #     :foreground => Integer, the minutes it was in the foreground
+    #     :open => Integer, the minutes it was running.
+    #
+    def self.application_usage(ident, start_date, end_date = nil, api: JSS.api)
+      id = valid_id ident, api: api
+      raise "No computer matches identifier: #{ident}" unless id
+      end_date ||= start_date
+      start_date = Time.parse start_date if start_date.is_a? String
+      end_date = Time.parse end_date if end_date.is_a? String
+      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
+        raise JSS::InvalidDataError, 'Invalid Start or End Date'
       end
+      start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
+      end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
+      data = api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
+      parsed_data = {}
+      data[APPLICATION_USAGE_KEY].each do |day_hash|
+        date = Date.parse day_hash[:date]
+        parsed_data[date] = day_hash[:apps]
+      end
+      parsed_data
+    end # app usage
 
-      targets = JSS.to_s_and_a(targets.to_s)[:arrayform] unless targets.is_a? Array
+    # The 'computer management' data for a given computer by id,
+    # looked up on the fly.
+    #
+    # Without specifying a subset:, the entire dataset is returned as a hash of
+    # arrays, one per  subset
+    #
+    # If a subset is given then only that array is returned, and it contains
+    # hashes with data about each item (usually :name and :id)
+    #
+    # If the only: param is provided with a subset, it is used as a hash-key to
+    # map the array to just those values, so subset: :smart_groups, only: :name
+    # will return an array of names of smartgroups that contain the computer.
+    #
+    # @param ident [Integer,String] An identifier (id, name, serialnumber,
+    #   macadress or udid) of the computer for which to retrieve Application Usage
+    #
+    # @param subset[Symbol] Fetch only a subset of data, as an array.
+    #    must be one of the symbols in MGMT_DATA_SUBSETS
+    #
+    # @param only[Symbol] When fetching a subset, only return one value
+    #   per item in the array. meaningless without a subset.
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash] Without a subset:, a hash of all subsets, each of which is
+    #   an Array
+    #
+    # @return [Array] With a subset:, an array of items in that subset, possibly
+    #   limited to just certain values with only:
+    #
+    def self.management_data(ident, subset: nil, only: nil, api: JSS.api)
+      id = valid_id ident, api: api
+      raise "No computer matches identifier: #{ident}" unless id
+      if subset
+        management_data_subset id, subset: subset, only: only, api: api
+      else
+        full_management_data id, api: api
+      end
+    end
 
-      # make sure its an array of ids
-      targets.map! do |comp|
-        if all_ids(api: api).include? comp.to_i
-          comp.to_i
-        elsif all_names(api: api).include? comp
-          map_all_ids_to(:name, api: api).invert[comp]
-        else
-          raise JSS::NoSuchItemError, "No computer found matching '#{comp}'"
-        end # if
-      end # map!
+    # The full set of management data for a given computer.
+    # This private method is called by self.management_data, q.v.
+    #
+    def self.full_management_data(id, api: JSS.api)
+      mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{id}"
+      api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
+    end
+    private_class_method :full_management_data
 
-      cmd_rsrc << "/id/#{targets.join ','}"
-
-      result = api.post_rsrc cmd_rsrc, nil
-      result =~ %r{<command_uuid>(.*)</command_uuid>}
-      Regexp.last_match(1)
-    end # send mdm command
-
+    # A subset of management data for a given computer.
+    # This private method is called by self.management_data, q.v.
+    #
+    def self.management_data_subset(id, subset: nil, only: nil,  api: JSS.api)
+      raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
+      subset_rsrc = MGMT_DATA_RSRC + "/id/#{id}/subset/#{subset}"
+      subset_data = api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
+      return subset_data unless only
+      subset_data.map { |d| d[only] }
+    end
+    private_class_method :management_data_subset
 
     # Attributes
     #####################################
 
-    # The values returned in the General, Location, and Purchasing subsets are stored as direct attributes
-    # Location and Purchasing are defined in the Locatable and Purchasable mixin modules.
-    # Here's General, in alphabetical order
+    # identifiers
+    ################
+
 
     # @return [String] the secondary mac address
     attr_reader :alt_mac_address
@@ -539,6 +515,9 @@ module JSS
 
     # @return [IPAddr] the last known IP address
     attr_reader :ip_address
+
+    # @return [Boolean]
+    attr_reader :itunes_store_account_is_active
 
     # @return [String] the version of the jamf binary
     attr_reader :jamf_version
@@ -560,6 +539,13 @@ module JSS
 
     # @return [Boolean] doesit support MDM?
     attr_reader :mdm_capable
+
+    # @return [Array] user accts that support MDM?
+    #  NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data
+    #  bug and only shows the last listed user, cuz it comes from the API
+    #  as a hash, not an array.
+    #
+    attr_reader :mdm_capable_users
 
     # @return [String] the name of the netboot server for this machine
     attr_reader :netboot_server
@@ -740,42 +726,57 @@ module JSS
 
     # @param (see APIObject#initialize)
     #
-    # As well as :id and :name, computers can be queried using :udid, :serialnumber, and :mac_address
+    # # When creating new records with .make,
+    # these can be provided in the arg, or after instantiation via
+    # setter methods:
+    #   serial_number:, udid:, asset_tag:, mac_address:
+    #   alt_mac_address:, barcode_1:, barcode_2:
+    #
     #
     def initialize(args = {})
       super args
+      if @in_jss
+        @alt_mac_address = @init_data[:general][:alt_mac_address]
+        @asset_tag = @init_data[:general][:asset_tag]
+        @barcode_1 = @init_data[:general][:barcode_1]
+        @barcode_2 = @init_data[:general][:barcode_2]
+        @distribution_point = @init_data[:general][:distribution_point]
+        @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
+        @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
+        @ip_address = @init_data[:general][:ip_address]
+        @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
+        @jamf_version = @init_data[:general][:jamf_version]
+        @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
+        @mac_address = @init_data[:general][:mac_address]
+        @managed = @init_data[:general][:remote_management][:managed]
+        @management_username = @init_data[:general][:remote_management][:management_username]
+        @mdm_capable = @init_data[:general][:mdm_capable]
+        @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
+        @netboot_server = @init_data[:general][:netboot_server]
+        @platform = @init_data[:general][:platform]
+        @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
+        @serial_number = @init_data[:general][:serial_number]
+        @site = JSS::APIObject.get_name(@init_data[:general][:site])
+        @sus = @init_data[:general][:sus]
+        @udid = @init_data[:general][:udid]
 
-      # now we have raw @init_data with something in it, so fill out the instance vars
-      @alt_mac_address = @init_data[:general][:alt_mac_address]
-      @asset_tag = @init_data[:general][:asset_tag]
-      @barcode_1 = @init_data[:general][:barcode_1]
-      @barcode_2 = @init_data[:general][:barcode_2]
-      @distribution_point = @init_data[:general][:distribution_point]
-      @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
-      @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
-      @ip_address = @init_data[:general][:ip_address]
-      @jamf_version = @init_data[:general][:jamf_version]
-      @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
-      @mac_address = @init_data[:general][:mac_address]
-      @managed = @init_data[:general][:remote_management][:managed]
-      @management_username = @init_data[:general][:remote_management][:management_username]
-      @mdm_capable = @init_data[:general][:mdm_capable]
-      @netboot_server = @init_data[:general][:netboot_server]
-      @platform = @init_data[:general][:platform]
-      @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
-      @serial_number = @init_data[:general][:serial_number]
-      @site = JSS::APIObject.get_name(@init_data[:general][:site])
-      @sus = @init_data[:general][:sus]
-      @udid = @init_data[:general][:udid]
+        @configuration_profiles = @init_data[:configuration_profiles]
+        @certificates = @init_data[:certificates]
+        @groups_accounts = @init_data[:groups_accounts]
+        @hardware = @init_data[:hardware]
+        @peripherals = @init_data[:peripherals]
+        @software = @init_data[:software]
 
-      @configuration_profiles = @init_data[:configuration_profiles]
-      @extension_attributes = @init_data[:extension_attributes]
-      @groups_accounts = @init_data[:groups_accounts]
-      @hardware = @init_data[:hardware]
-      @peripherals = @init_data[:peripherals]
-      @software = @init_data[:software]
-
-      @management_password = nil
+        @management_password = nil
+      else
+        @udid = args[:udid]
+        @serial_number = args[:serial_number]
+        @asset_tag = args[:asset_tag]
+        @mac_address = args[:mac_address]
+        @alt_mac_address = args[:alt_mac_address]
+        @barcode_1 = args[:barcode_1]
+        @barcode_2 = args[:barcode_2]
+      end
     end # initialize
 
     # @return [Array] the JSS groups to which thismachine belongs (smart and static)
@@ -840,239 +841,69 @@ module JSS
 
     # Get application usage data for this computer
     # for a given date range.
-    #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
-    #
-    # @param start_date [String,Date,DateTime,Time]
-    #
-    # @param end_date [String,Date,DateTime,Time] Defaults to start_date
-    #
-    # @return [Hash{Date=>Array<Hash>}] For each day in the range, an Array
-    #   with one Hash per application used. The hash keys are:
-    #   :name => String, the name of the app
-    #   :version => String ,the version of the app
-    #   :foreground => Integer, the minutes it was in the foreground
-    #   :open => Integer, the minutes it was running.
+    # See {JSS::Computer.application_usage} for details
     #
     def application_usage(start_date, end_date = nil)
-      end_date ||= start_date
-      start_date = Time.parse start_date if start_date.is_a? String
-      end_date = Time.parse end_date if end_date.is_a? String
-      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
-        raise JSS::InvalidDataError, 'Invalid Start or End Date'
-      end
-      start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
-      end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
-      data = @api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{@id}/#{start_date}_#{end_date}")
-      parsed_data = {}
-      data[APPLICATION_USAGE_KEY].each do |day_hash|
-        date = Date.parse day_hash[:date]
-        parsed_data[date] = day_hash[:apps]
-      end
-      parsed_data
+      JSS::Computer.application_usage @id, start_date, end_date, api: @api
     end # app usage
 
-    # The 'computer management' data for this computer, looked up on the fly.
+    # The 'computer management' data for this computer
     #
-    # Without specifying a subset:, the entire dataset is returned as a hash of
-    # arrays, one per  subset
-    # If a subset is given then only that array is returned, and it contains
-    # hashes with data about each item (usually :name and :id)
+    # NOTE: the data isn't cached locally, and the API is queried every time
     #
-    # If the only: param is provided with a subset, it is used as a hash-key to
-    # map the array to just those values, so subset: :smart_groups, only: :name
-    # will return an array of names of smartgroups that contain this computer.
+    # @see {JSS::Computer.management_data} for details
     #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
-    #
-    # @param subset[Symbol] Fetch only a subset of data, as an array.
-    #    must be one of the symbols in MGMT_DATA_SUBSETS
-    #
-    # @param only[Symbol] When fetching a subset, only return one value
-    #   per item in the array. meaningless without a subset.
-    #
-    # @param refresh[Boolean] should the data be re-cached from the API?
-    #
-    # @return [Hash] Without a subset:, a hash of all subsets, each of which is
-    #   an Array
-    #
-    # @return [Array] With a subset:, an array of items in that subset.
-    #
-    def management_data(subset: nil, only: nil, refresh: false)
-      @management_data ||= {}
-      if subset
-        management_data_subset(subset: subset, only: only, refresh: refresh)
-      else
-        full_management_data refresh
-      end
+    def management_data(subset: nil, only: nil)
+      raise JSS::NoSuchItemError, 'Computer not yet saved in the JSS' unless @in_jss
+      JSS::Computer.management_data @id, subset: subset, only: only, api: @api
     end
-
-    def full_management_data(refresh = false)
-      @management_data[:full] = nil if refresh
-      return @management_data[:full] if @management_data[:full]
-      mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{@id}"
-      @management_data[:full] = @api.get_rsrc(mgmt_rsrc)[MGMT_DATA_KEY]
-      @management_data[:full]
-    end
-    private :full_management_data
-
-    def management_data_subset(subset: nil, only: nil, refresh: false)
-      raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
-      @management_data[subset] = nil if refresh
-      return @management_data[subset] if @management_data[subset]
-      subset_rsrc = MGMT_DATA_RSRC + "/id/#{@id}/subset/#{subset}"
-      @management_data[subset] = @api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
-      return @management_data[subset] unless only
-      @management_data[subset].map { |d| d[only] }
-    end
-    private :management_data_subset
 
     # A shortcut for 'management_data subset: :smart_groups'
     #
-    def smart_groups(only: nil, refresh: false)
-      management_data subset: :smart_groups, only: only, refresh: refresh
+    def smart_groups(only: nil)
+      management_data subset: :smart_groups, only: only
     end
 
     # A shortcut for 'management_data subset: :static_groups'
     #
-    def static_groups(only: nil, refresh: false)
-      management_data subset: :static_groups, only: only, refresh: refresh
+    def static_groups(only: nil)
+      management_data subset: :static_groups, only: only
     end
 
     # A shortcut for 'management_data subset: :policies'
     #
-    def policies(only: nil, refresh: false)
-      management_data subset: :policies, only: only, refresh: refresh
+    def policies(only: nil)
+      management_data subset: :policies, only: only
     end
 
     # A shortcut for 'management_data subset: :os_x_configuration_profiles'
     #
-    def configuration_profiles(only: nil, refresh: false)
-      management_data subset: :os_x_configuration_profiles, only: only, refresh: refresh
+    def configuration_profiles(only: nil)
+      management_data subset: :os_x_configuration_profiles, only: only
     end
 
     # A shortcut for 'management_data subset: :ebooks'
     #
-    def ebooks(only: nil, refresh: false)
+    def ebooks(only: nil)
       management_data subset: :ebooks, only: only, refresh: refresh
     end
 
     # A shortcut for 'management_data subset: :mac_app_store_apps'
     #
-    def app_store_apps(only: nil, refresh: false)
-      management_data subset: :mac_app_store_apps, only: only, refresh: refresh
+    def app_store_apps(only: nil)
+      management_data subset: :mac_app_store_apps, only: only
     end
 
     # A shortcut for 'management_data subset: :restricted_software'
     #
-    def restricted_software(only: nil, refresh: false)
-      management_data subset: :restricted_software, only: only, refresh: refresh
+    def restricted_software(only: nil)
+      management_data subset: :restricted_software, only: only
     end
 
     # A shortcut for 'management_data subset: :patch_reporting_software_titles'
     #
-    def patch_titles(only: nil, refresh: false)
-      management_data subset: :patch_reporting_software_titles, only: only, refresh: refresh
-    end
-
-    # Return this computer's history.
-    # WARNING! Its huge, better to use a subset a
-    # nd one of the shortcut methods.
-    #
-    # TODO: Make this a class method so we can retrieve it without
-    # instantiating the Computer.
-    #
-    # @param subset[Symbol] the subset to return, rather than full history.
-    #
-    # @param refresh[Boolean] should we re-cache the data from the API?
-    #
-    # @return [Hash] The full history
-    #
-    # @return [Array] The history subset requested
-    #
-    def history(subset: nil, refresh: false)
-      @history ||= {}
-      if subset
-        history_subset(subset: subset, refresh: refresh)
-      else
-        full_history refresh
-      end
-    end
-
-    def full_history(refresh = false)
-      @history[:full] = nil if refresh
-      return @history[:full] if @history[:full]
-      history_rsrc = HISTORY_RSRC + "/id/#{@id}"
-      @history[:full] = @api.get_rsrc(history_rsrc)[HISTORY_KEY]
-      @history[:full]
-    end
-    private :full_history
-
-    def history_subset(subset: nil, refresh: false)
-      raise "Subset must be one of :#{HISTORY_SUBSETS.join ', :'}" unless HISTORY_SUBSETS.include? subset
-      @history[subset] = nil if refresh
-      return @history[subset] if @history[subset]
-      subset_rsrc = HISTORY_RSRC + "/id/#{@id}/subset/#{subset}"
-      @history[subset] = @api.get_rsrc(subset_rsrc)[HISTORY_KEY]
-      @history[subset]
-    end
-    private :history_subset
-
-    # Shortcut for history(:computer_usage_logs)
-    def usage_logs(refresh = false)
-      history(subset: :computer_usage_logs, refresh: refresh)
-    end
-
-    # Shortcut for history(:audits)
-    def audits(refresh = false)
-      history(subset: :audits, refresh: refresh)
-    end
-
-    # Shortcut for history(:policy_logs)
-    def policy_logs(refresh = false)
-      history(subset: :policy_logs, refresh: refresh)
-    end
-
-    # Shortcut for history(:policy_logs), but just the completed policies
-    def completed_policies(refresh = false)
-      policy_logs(refresh).select { |pl| pl[:status] == POLICY_STATUS_COMPLETED }
-    end
-
-    # Shortcut for history(:policy_logs), but just the failes policies
-    def failed_policies(refresh = false)
-      policy_log(refresh).select { |pl| pl[:status] == POLICY_STATUS_FAILED }
-    end
-
-    # Shortcut for history(:casper_remote_logs)
-    def casper_remote_logs(refresh = false)
-      history(subset: :casper_remote_logs, refresh: refresh)
-    end
-
-    # Shortcut for history(:screen_sharing_logs)
-    def screen_sharing_logs(refresh = false)
-      history(subset: :screen_sharing_logs, refresh: refresh)
-    end
-
-    # Shortcut for history(:casper_imaging_logs)
-    def casper_imaging_logs(refresh = false)
-      history(subset: :casper_imaging_logs, refresh: refresh)
-    end
-
-    # Shortcut for history(:commands)
-    def commands(refresh = false)
-      history(subset: :commands, refresh: refresh)
-    end
-
-    # Shortcut for history(:user_location)
-    def user_location_history(refresh = false)
-      history(subset: :user_location, refresh: refresh)
-    end
-
-    # Shortcut for history(:mac_app_store_applications)
-    def app_store_app_history(refresh = false)
-      history(subset: :mac_app_store_applications, refresh: refresh)
+    def patch_titles(only: nil)
+      management_data subset: :patch_reporting_software_titles, only: only
     end
 
     # Set or unset management acct and password for this computer
@@ -1177,10 +1008,9 @@ module JSS
     # @return [void]
     #
     def update
-      id = super
-      remove_mdm_profile if mdm_capable && managed? && @unmange_at_update
+      remove_mdm_profile if mdm_capable && @unmange_at_update
       @unmange_at_update = false
-      id
+      super
     end
 
     # Delete this computer from the JSS
@@ -1228,48 +1058,6 @@ module JSS
       @software = nil
     end # delete
 
-    # Send a blank_push MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def blank_push
-      self.class.send_mdm_command @id, :blank_push, api: @api
-    end
-    alias noop blank_push
-    alias send_blank_push blank_push
-
-    # Send a device_lock MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def device_lock(passcode)
-      self.class.send_mdm_command @id, :device_lock, passcode, api: @api
-    end
-    alias lock device_lock
-    alias lock_device device_lock
-
-    # Send an erase_device MDM command
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def erase_device(passcode)
-      self.class.send_mdm_command @id, :erase_device, passcode, api: @api
-    end
-    alias erase erase_device
-    alias wipe erase_device
-
-    # Remove MDM management profile without
-    # un-enrolling from the JSS or
-    # resetting the JSS management acct.
-    #
-    # To do those things as well, see {#make_unmanaged}
-    #
-    # See JSS::Computer.send_mdm_command
-    #
-    def remove_mdm_profile
-      self.class.send_mdm_command @id, :unmanage_device, api: @api
-    end
-
     # aliases
     alias alt_macaddress alt_mac_address
     alias bar_code_1 barcode_1
@@ -1314,11 +1102,13 @@ module JSS
       rmgmt.add_element('management_username').text = @management_username
       rmgmt.add_element('management_password').text = @management_password if @management_password
 
-      computer << ext_attr_xml if @changed_eas && !@changed_eas.empty?
+      computer << ext_attr_xml if unsaved_eas?
 
       computer << location_xml if has_location?
 
       computer << purchasing_xml if has_purchasing?
+
+      add_site_to_xml(doc)
 
       doc.to_s
     end # rest_xml

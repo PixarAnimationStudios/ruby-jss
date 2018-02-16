@@ -1,4 +1,4 @@
-### Copyright 2017 Pixar
+### Copyright 2018 Pixar
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -237,11 +237,13 @@ module JSS
   #   prod2_victim_md = production_api2.fetch :MobileDevice, id: 832
   #
   # Here are the API calls you can make directly from an APIConnection object.
-  # Most of them behave identically to the same methods in the APIObject classes
+  # They behave practically identically to the same methods in the APIObject
+  # subclasses, since they just call those methods, passing themselves in as the
+  # APIConnection to use.
   #
   # - {#all}  The 'list' methods of the various APIObject classes. Use the 'only:'
   #   parameter to specify one of the sub-list-methods, like #all_ids or
-  #   #all_laptops
+  #   #all_laptops, e.g. `my_connection.all :computers, only: :id`
   # - {#map_all_ids} the equivalent of #map_all_ids_to in the APIObject classes
   # - {#valid_id} given a class and an identifier (like macaddress or udid)
   #   return a valid id or nil
@@ -254,6 +256,9 @@ module JSS
   # - {#send_computer_mdm_command} same as {Computer.send_mdm_command}
   # - {#computer_checkin_settings} same as {Computer.checkin_settings}
   # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
+  # - {#computer_application_usage} same as {Computer.application_usage}
+  # - {#computer_management_data} same as {Computer.management_data}
+  # - {#computer_history} same as {Computer.history}
   # - {#send_mobiledevice_mdm_command} same as {MobileDevice.send_mdm_command}
   # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
   # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
@@ -295,14 +300,20 @@ module JSS
     # The Default port
     HTTP_PORT = 9006
 
-    # The Jamf default SSL port
+    # The Jamf default SSL port, default for locally-hosted servers
     SSL_PORT = 8443
 
-    # The https default SSL port
+    # The https default SSL port, default for Jamf Cloud servers
     HTTPS_SSL_PORT = 443
 
     # if either of these is specified, we'll default to SSL
     SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
+
+    # Recognize Jamf Cloud servers
+    JAMFCLOUD_DOMAIN = 'jamfcloud.com'.freeze
+
+    # JamfCloud connections default to 443, not 8443
+    JAMFCLOUD_PORT = HTTPS_SSL_PORT
 
     # The top line of an XML doc for submitting data via API
     XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
@@ -739,23 +750,46 @@ module JSS
       the_class.make args
     end
 
-    # Call {JSS::Computer.checkin_settings} passing this API
+    # Call {JSS::Computer.checkin_settings} q.v.,  passing this API
     # connection
-    #
-    # @return (see JSS::Computer.checkin_settings)
     #
     def computer_checkin_settings
       JSS::Computer.checkin_settings api: self
     end
 
-
-    # Call {JSS::Computer.inventory_collection_settings} passing this API
+    # Call {JSS::Computer.inventory_collection_settings} q.v., passing this API
     # connection
-    #
-    # @return (see JSS::Computer.checkin_settings)
     #
     def computer_inventory_collection_settings
       JSS::Computer.inventory_collection_settings api: self
+    end
+
+    # Call {JSS::Computer.application_usage} q.v., passing this API
+    # connection
+    #
+    def computer_application_usage(ident, start_date, end_date = nil)
+      JSS::Computer.application_usage ident, start_date, end_date, api: self
+    end
+
+    # Call {JSS::Computer.management_data} q.v., passing this API
+    # connection
+    #
+    def computer_management_data(ident, subset: nil, only: nil)
+      JSS::Computer.management_data ident, subset: subset, only: only, api: self
+    end
+
+    # Call {JSS::Computer.history} q.v., passing this API
+    # connection
+    #
+    def computer_history(ident, subset: nil)
+      JSS::Computer.history ident, subset: subset, api: self
+    end
+
+    # Call {JSS::Computer.send_mdm_command} q.v.,  passing this API
+    # connection
+    #
+    def send_computer_mdm_command(targets, command, passcode = nil)
+      JSS::Computer.send_mdm_command targets, command, passcode, api: self
     end
 
     # Get the DistributionPoint instance for the master
@@ -834,7 +868,7 @@ module JSS
     #
     # @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     #
-    def network_segments_for_ip(ip, refresh = false)
+    def network_segments_for_ip(ip)
       ok_ip = IPAddr.new(ip)
       matches = []
       network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
@@ -847,15 +881,6 @@ module JSS
     #
     def my_network_segments
       network_segments_for_ip JSS::Client.my_ip_address
-    end
-
-    # Send an MDM command to one or more computers managed by
-    # this JSS
-    #
-    # see {JSS::Computer.send_mdm_command}
-    #
-    def send_computer_mdm_command(targets, command, passcode = nil)
-      JSS::Computer.send_mdm_command(targets, command, passcode, api: self)
     end
 
     # Send an MDM command to one or more mobile devices managed by
@@ -935,7 +960,7 @@ module JSS
       return unless JSS::Client.installed?
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
-      args[:port] ||= JSS::Client.jss_port
+      args[:port] ||= JSS::Client.jss_port.to_i
       args[:use_ssl] ||= JSS::Client.jss_protocol.to_s.end_with? 's'
       args
     end
@@ -947,8 +972,7 @@ module JSS
     # @return [Hash] The args with defaults applied
     #
     def apply_module_defaults(args)
-      # defaults from the module if needed
-      args[:port] ||= args[:use_ssl] ? SSL_PORT : HTTP_PORT
+      args[:port] ||= args[:server].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : SSL_PORT
       args[:timeout] ||= DFT_TIMEOUT
       args[:open_timeout] ||= DFT_OPEN_TIMEOUT
       args[:ssl_version] ||= DFT_SSL_VERSION
