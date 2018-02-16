@@ -37,7 +37,7 @@
 
   For example, the {JSS::MobileDevice.audit_history} method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the
   {JSS::Computer.completed_policies} gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and
-  provide access to their values via attribute-style methods.
+  provide access to their values via attribute-style methods, and hash-like keys, similar to how OpenStruct objects do.
 
   As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just
   call the class methods.
