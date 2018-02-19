@@ -253,13 +253,10 @@ module JSS
   #   (if the object is {Matchable})
   # - {#fetch} retrieve an object from the JSS
   # - {#make} instantiate an object to be created in the JSS
-  # - {#send_computer_mdm_command} same as {Computer.send_mdm_command}
   # - {#computer_checkin_settings} same as {Computer.checkin_settings}
   # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
   # - {#computer_application_usage} same as {Computer.application_usage}
   # - {#computer_management_data} same as {Computer.management_data}
-  # - {#computer_history} same as {Computer.history}
-  # - {#send_mobiledevice_mdm_command} same as {MobileDevice.send_mdm_command}
   # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
   # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
   # - {#network_ranges} same as {NetworkSegment.network_ranges}
@@ -781,15 +778,22 @@ module JSS
     # Call {JSS::Computer.history} q.v., passing this API
     # connection
     #
+    # @deprecated Please use JSS::Computer.management_history or its
+    #   convenience methods. @see JSS::ManagementHistory
+    #
     def computer_history(ident, subset: nil)
-      JSS::Computer.history ident, subset: subset, api: self
+      JSS::Computer.history ident, subset, api: self
     end
 
     # Call {JSS::Computer.send_mdm_command} q.v.,  passing this API
     # connection
     #
+    # @deprecated Please use JSS::Computer.send_mdm_command or its
+    #   convenience methods. @see JSS::MDM
+    #
     def send_computer_mdm_command(targets, command, passcode = nil)
-      JSS::Computer.send_mdm_command targets, command, passcode, api: self
+      opts = passcode ? { passcode: passcode } : {}
+      JSS::Computer.send_mdm_command targets, command, opts: opts, api: self
     end
 
     # Get the DistributionPoint instance for the master
@@ -888,8 +892,11 @@ module JSS
     #
     # see {JSS::MobileDevice.send_mdm_command}
     #
-    def send_mobiledevice_mdm_command(targets, command, data = nil)
-      JSS::MobileDevice.send_mdm_command(targets, command, data, api: self)
+    # @deprecated Please use JSS::MobileDevice.send_mdm_command or its
+    #   convenience methods. @see JSS::MDM
+    #
+    def send_mobiledevice_mdm_command(targets, command, data = {})
+      JSS::MobileDevice.send_mdm_command(targets, command, opts: data, api: self)
     end
 
     # Remove the various cached data
