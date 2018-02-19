@@ -1,6 +1,6 @@
 # Change History
 
-## v 0.11.0, 2018-02-19
+## v 0.11.0b1, 2018-02-19
 
 - Improvement: Updated general attributes for computers and mobile devices
 
@@ -17,6 +17,8 @@
 - Add: All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids
 
 - Improvement: All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup
+
+  *WARNING* Due to the expanded functionality of MDM commands overall, the syntax for calling .send_mdm_command may have changed, depening on how you used it. Please test your code before updating.
 
 - Fix: Scope objects use the api connection of their container
 
@@ -44,6 +46,11 @@
 
   *WARNING* these changes mean that the methods returning Arrays of ManagementHistory class instances are not backward compatible,
   since the earlier versions returned Hashes
+
+- Deprecated: The JSS::APIConnection convenience class methods .computer_history, .send_computer_mdm_command, and .send_computer_mdm_command.
+
+  These methods have been updated to work with the new methods in the MDM and ManagementHistory modules, but will be removed from JSS::APIConnection in a future release. Instead, call them directly from the JSS::Computer or JSS::MobileDevice classes, passing in the desired APIConnection if needed. Given the expansion of MDM commands and history details, maintaining the convenience methods in APIConnection is too prone to errors.
+
 
 ## v 0.10.2, 2018-02-16
 
