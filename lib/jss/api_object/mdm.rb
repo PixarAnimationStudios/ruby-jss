@@ -450,6 +450,15 @@ module JSS
           targets.each { |group_id| target_ids += fetch(id: group_id).member_ids }
           targets = target_ids
         end
+
+        # make sure all of them are managed, or else the API will raise a 400
+        # 'Bad Request' when sending the command to an unmanaged target
+        all_mgd = self.map_all_ids_to(:managed).select { |_id, mgd| mgd }.keys
+
+        targets.each do |target_id|
+          raise JSS::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
+        end
+
         targets
       end
 
