@@ -483,7 +483,6 @@ module JSS
       new args
     end
 
-
     # Delete one or more API objects by jss_id without instantiating them.
     # Non-existent id's are skipped and an array of skipped ids is returned.
     #
@@ -505,7 +504,7 @@ module JSS
       case victims
       when Integer
         victims = [victims]
-      when Fixnum
+      when Integer
         victims = [victims]
       when Array
         victims.uniq!
@@ -632,16 +631,14 @@ module JSS
       elsif args[:id] == :new
         validate_init_for_creation(args)
         setup_object_for_creation(args)
-
-        return
-
+        @need_to_update = true
       ###### Look up the data via the API
       else
         @init_data = look_up_object_data(args)
+        @need_to_update = false
       end ## end arg parsing
 
       parse_init_data
-      @need_to_update = false
     end # init
 
     # Public Instance Methods
@@ -968,10 +965,16 @@ module JSS
 
       # Find the "main" subset which contains :id and :name
       @main_subset = find_main_subset
-
-      @id = @main_subset[:id]
       @name = @main_subset[:name]
-      @in_jss = true
+
+      if @main_subset[:id] == :new
+        @id = 0
+        @in_jss = false
+      else
+        @id = @main_subset[:id]
+        @in_jss = true
+      end
+
       @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
 
       # many things have  a :site

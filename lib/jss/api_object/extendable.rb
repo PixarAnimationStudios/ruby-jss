@@ -92,13 +92,8 @@ module JSS
     # @return [void]
     #
     def parse_ext_attrs
-      unless @init_data[:extension_attributes]
-        @extension_attributes = []
-        @ext_attrs = {}
-        return
-      end
-
       @extension_attributes = @init_data[:extension_attributes]
+      @extension_attributes ||= []
       @ext_attrs = {}
 
       @extension_attributes.each do |ea|
@@ -108,6 +103,7 @@ module JSS
           begin # if there's random non-date data, the parse will fail
             ea[:value] = JSS.parse_datetime ea[:value]
           rescue
+            true
           end
 
         when *NUMERIC_TYPES
@@ -142,9 +138,6 @@ module JSS
     # @return [void]
     #
     def set_ext_attr(name, value)
-      # if we don't currently have any need to update(cuz we have recently), reset the list of changes to push
-      @changed_eas = [] unless @need_to_update
-
       # this will raise an exception if the name doesn't exist
       ea_def = self.class::EXT_ATTRIB_CLASS.fetch name: name, api: api
 
