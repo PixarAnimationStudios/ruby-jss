@@ -85,9 +85,8 @@ module JSS
 
     # Populate @extension_attributes (the Array of Hashes that comes from the API)
     # and @ext_attr_names, which is a Hash mapping the EA names to their
-    # index in the @extension_attributes Array.
-    #
-    # Classes including this module should call this in #initialize
+    # values. This is called during initialization for all objects
+    # that mix in this module
     #
     # @return [void]
     #
@@ -156,8 +155,14 @@ module JSS
         end # case
       end # unless blank
 
+      been_set = false
       @extension_attributes.each do |ea|
-        ea[:value] = value if ea[:name] == name
+        next unless ea[:name] == name
+        ea[:value] = value
+        been_set = true
+      end
+      unless been_set
+        @extension_attributes << { id: ea_def.id, name: name, type: ea_def.data_type, value: value }
       end
 
       @ext_attrs[name] = value
@@ -198,7 +203,7 @@ module JSS
             ea_el.add_element('value').text = ea[:value].to_s
           end
         else
-          ea_el.add_element('value').text = ea[:value]
+          ea_el.add_element('value').text = ea[:value].to_s
         end # if
       end # each do ea
 
