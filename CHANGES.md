@@ -2,6 +2,8 @@
 
 ## v 0.11.0b1, 2018-02-19
 
+- Fix: Creatable Extendable objects have their empty extension attributes initialized properly so you can set the values before calling #create/#save
+
 - Improvement: Updated general attributes for computers and mobile devices
 
 - Improvement: Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.
