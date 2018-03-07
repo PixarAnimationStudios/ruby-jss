@@ -1364,7 +1364,7 @@ module JSS
       end
 
       add_self_service_xml doc
-      add_site_xml doc
+      add_site_to_xml doc
 
       doc.to_s
     end
