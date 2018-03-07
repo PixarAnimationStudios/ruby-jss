@@ -65,7 +65,7 @@ module JSS
     # Class Constants
     #####################################
 
-    EXPORT_FORMATS = [:csv, :tab, :xml].freeze
+    EXPORT_FORMATS = %i[csv tab xml].freeze
 
     # Where is site data located in the API JSON?
     SITE_SUBSET = :top
