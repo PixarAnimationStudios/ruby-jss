@@ -2,7 +2,7 @@
 
 ## v 0.11.0b1, 2018-02-19
 
-- Fix: Creatable Extendable objects have their empty extension attributes initialized properly so you can set the values before calling #create/#save. Thanks @mylescarrick for reporting this one.
+- Fix: Initialization of Creatable objects using certain mixins (Extendable, Sitable, Categorizable) either failed, or errored when trying to set their values. Now fixed. Thanks @mylescarrick for reporting this one.
 
 - Improvement: Updated general attributes for computers and mobile devices
 
