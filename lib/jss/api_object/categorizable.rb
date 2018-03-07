@@ -190,7 +190,7 @@ module JSS
       if @init_data[:category]
         @category_name = @init_data[:category]
         @category_id = JSS::Category.category_id_from_name @category_name
-      elsif @init_data[:general][:category]
+      elsif @init_data[:general] && @init_data[:general][:category]
         @category_name = @init_data[:general][:category][:name]
         @category_id = @init_data[:general][:category][:id]
       end

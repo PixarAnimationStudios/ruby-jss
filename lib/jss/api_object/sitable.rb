@@ -126,7 +126,6 @@ module JSS
         return
       end
 
-
       new_id = JSS::Site.valid_id new_site, api: @api
       new_name = JSS::Site.map_all_ids_to(:name, api: @api)[new_id]
       # no change, go home.
@@ -163,11 +162,10 @@ module JSS
       site_data =
         if self.class::SITE_SUBSET == :top
           @init_data[:site]
-        else
+        elsif @init_data[self.class::SITE_SUBSET]
           @init_data[self.class::SITE_SUBSET][:site]
         end
-
-      raise JSS::MissingDataError, 'No Site data found in API data.' unless site_data
+      site_data ||= {}
 
       @site_name = site_data[:name]
       @site_id = site_data[:id]
