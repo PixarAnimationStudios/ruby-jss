@@ -206,6 +206,7 @@ module JSS
     # @return [void]
     #
     def add_category_to_xml(xmldoc)
+      return if @category_name.to_s.empty?
       root = xmldoc.root
       if @category_data_style == :old
         root.add_element('category').text = @category_name.to_s
