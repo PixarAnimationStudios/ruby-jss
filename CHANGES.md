@@ -1,6 +1,8 @@
 # Change History
 
-## v 0.11.0b1, 2018-02-19
+## v 0.11.0, 2018-03-12
+
+- Fix: NoMethod error when saving JSS::Policy was due to a typo in a method call.
 
 - Fix: Initialization of Creatable objects using certain mixins (Extendable, Sitable, Categorizable) either failed, or errored when trying to set their values. Now fixed. Thanks @mylescarrick for reporting this one.
 
