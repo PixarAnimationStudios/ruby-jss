@@ -66,6 +66,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'net-ldap', '~> 0.16'
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
   s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
+  # https://github.com/aetherknight/recursive-open-struct MIT License (no dependencies)
+  s.add_runtime_dependency 'recursive-open-struct', '~> 1.1', '>= 1.1.0'
 
   # Rdoc
   s.has_rdoc = true
