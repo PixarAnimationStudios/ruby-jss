@@ -1116,3 +1116,5 @@ module JSS
   end # class Computer
 
 end # module
+
+require 'jss/api_object/computer/application_installs'
