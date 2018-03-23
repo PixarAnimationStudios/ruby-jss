@@ -482,7 +482,7 @@ module JSS
     # A subset of management data for a given computer.
     # This private method is called by self.management_data, q.v.
     #
-    def self.management_data_subset(id, subset: nil, only: nil,  api: JSS.api)
+    def self.management_data_subset(id, subset: nil, only: nil, api: JSS.api)
       raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
       subset_rsrc = MGMT_DATA_RSRC + "/id/#{id}/subset/#{subset}"
       subset_data = api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
@@ -497,7 +497,6 @@ module JSS
     # identifiers
     ################
 
-
     # @return [String] the secondary mac address
     attr_reader :alt_mac_address
 
@@ -505,7 +504,7 @@ module JSS
     attr_reader :asset_tag
 
     # @return [String] the barcodes
-    attr_reader :barcode_1, :barcode_2
+    attr_reader :barcode1, :barcode2
 
     # @return [String] The name of the distribution point for this computer
     attr_reader :distribution_point
@@ -730,16 +729,25 @@ module JSS
     # these can be provided in the arg, or after instantiation via
     # setter methods:
     #   serial_number:, udid:, asset_tag:, mac_address:
-    #   alt_mac_address:, barcode_1:, barcode_2:
+    #   alt_mac_address:, barcode1:, barcode2:
     #
     #
     def initialize(args = {})
       super args
       if @in_jss
+
+        # mutable stuff
         @alt_mac_address = @init_data[:general][:alt_mac_address]
         @asset_tag = @init_data[:general][:asset_tag]
-        @barcode_1 = @init_data[:general][:barcode_1]
-        @barcode_2 = @init_data[:general][:barcode_2]
+        @barcode1 = @init_data[:general][:barcode_1]
+        @barcode2 = @init_data[:general][:barcode_2]
+        @mac_address = @init_data[:general][:mac_address]
+        @managed = @init_data[:general][:remote_management][:managed]
+        @management_username = @init_data[:general][:remote_management][:management_username]
+        @serial_number = @init_data[:general][:serial_number]
+        @udid = @init_data[:general][:udid]
+
+        # immutable single-values
         @distribution_point = @init_data[:general][:distribution_point]
         @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
         @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
@@ -747,18 +755,12 @@ module JSS
         @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
         @jamf_version = @init_data[:general][:jamf_version]
         @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
-        @mac_address = @init_data[:general][:mac_address]
-        @managed = @init_data[:general][:remote_management][:managed]
-        @management_username = @init_data[:general][:remote_management][:management_username]
         @mdm_capable = @init_data[:general][:mdm_capable]
         @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
         @netboot_server = @init_data[:general][:netboot_server]
         @platform = @init_data[:general][:platform]
         @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
-        @serial_number = @init_data[:general][:serial_number]
-        @site = JSS::APIObject.get_name(@init_data[:general][:site])
         @sus = @init_data[:general][:sus]
-        @udid = @init_data[:general][:udid]
 
         @configuration_profiles = @init_data[:configuration_profiles]
         @certificates = @init_data[:certificates]
@@ -767,6 +769,16 @@ module JSS
         @peripherals = @init_data[:peripherals]
         @software = @init_data[:software]
 
+        # Freeze immutable things.
+        # These are updated via recon, and aren't sent
+        # with #update, so changing them here is meaningless anyway.
+        @configuration_profiles.freeze
+        @certificates.freeze
+        @groups_accounts.freeze
+        @hardware.freeze
+        @peripherals.freeze
+        @software.freeze
+
         @management_password = nil
       else
         @udid = args[:udid]
@@ -774,8 +786,8 @@ module JSS
         @asset_tag = args[:asset_tag]
         @mac_address = args[:mac_address]
         @alt_mac_address = args[:alt_mac_address]
-        @barcode_1 = args[:barcode_1]
-        @barcode_2 = args[:barcode_2]
+        @barcode1 = args[:barcode_1]
+        @barcode2 = args[:barcode_2]
       end
     end # initialize
 
@@ -953,18 +965,18 @@ module JSS
     end
 
     #
-    def barcode_1=(new_val)
-      return nil if @barcode_1 == new_val
+    def barcode1=(new_val)
+      return nil if @barcode1 == new_val
       new_val.strip!
-      @barcode_1 = new_val
+      @barcode1 = new_val
       @need_to_update = true
     end
 
     #
-    def barcode_2=(new_val)
-      return nil if @barcode_2 == new_val
+    def barcode2=(new_val)
+      return nil if @barcode2 == new_val
       new_val.strip!
-      @barcode_2 = new_val
+      @barcode2 = new_val
       @need_to_update = true
     end
 
@@ -1021,8 +1033,8 @@ module JSS
       super
       @alt_mac_address = nil
       @asset_tag = nil
-      @barcode_1 = nil
-      @barcode_2 = nil
+      @barcode1 = nil
+      @barcode2 = nil
       @distribution_point = nil
       @initial_entry_date = nil
       @ip_address = nil
@@ -1060,8 +1072,14 @@ module JSS
 
     # aliases
     alias alt_macaddress alt_mac_address
-    alias bar_code_1 barcode_1
-    alias bar_code_2 barcode_2
+    alias bar_code_1 barcode1
+    alias bar_code_2 barcode2
+    alias barcode_1 barcode1
+    alias barcode_2 barcode2
+    alias bar_code_1= barcode1=
+    alias bar_code_2= barcode2=
+    alias barcode_1= barcode1=
+    alias barcode_2= barcode2=
     alias managed? managed
     alias mdm? mdm_capable
     alias last_recon report_date
@@ -1090,8 +1108,8 @@ module JSS
       general.add_element('name').text = @name
       general.add_element('alt_mac_address').text = @alt_mac_address
       general.add_element('asset_tag').text = @asset_tag
-      general.add_element('barcode_1').text = @barcode_1
-      general.add_element('barcode_2').text = @barcode_2
+      general.add_element('barcode_1').text = @barcode1
+      general.add_element('barcode_2').text = @barcode2
       general.add_element('ip_address').text = @ip_address
       general.add_element('mac_address').text = @mac_address
       general.add_element('udid').text = @udid
