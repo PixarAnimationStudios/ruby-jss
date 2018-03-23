@@ -27,6 +27,6 @@
 module JSS
 
   ### The version of the JSS ruby gem
-  VERSION = '0.11.1a1'.freeze
+  VERSION = '0.12.1a1'.freeze
 
 end # module
