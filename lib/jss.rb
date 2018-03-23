@@ -53,13 +53,14 @@ module JSS
   require 'yaml'
   require 'open3'
   require 'English'
+  require 'json'
 
   ###################
   ### Gems
   require 'rest-client'
-  require 'json'
   require 'plist'
   require 'immutable-struct'
+  require 'recursive-open-struct'
 
   ### Constants
   #####################################
