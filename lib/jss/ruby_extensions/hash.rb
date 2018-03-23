@@ -76,15 +76,60 @@ class Hash
     end # each pair
   end # def nillify
 
-  # define jss_recursive_ostruct only if the gem is available
-  begin
-    require 'recursive_open_struct'
-    def jss_recursive_ostruct
-      @ros ||= RecursiveOpenStruct.new(self, recurse_over_arrays: true)
-    end
-    alias jss_ros jss_recursive_ostruct
-  rescue LoadError
-    nil
+  # Since a lot of JSON data from the API comes as deeply-nested structures
+  # of Hashes and Arrays, it can be a pain to reference some of the deeper
+  # data inside, and it isn't worth coding them out into Class attributes.
+  #
+  # For example see the 'hardware' subset of a JSS::Computer's API data,
+  # which is stored as a Hash in the {JSS::Computer.hardware} attribute.
+  #
+  # To refer to the percent-full value of one of the machine's drives, you need
+  # to use e.g. this:
+  #
+  #   computer_instance.hardware[:storage].first[:partition][:percentage_full]
+  #
+  # It would be nice to use method-like chains to access that data,
+  # similar to what OpenStruct provides.
+  #
+  # But, there are two problems with just storing #hardware as an OpenStruct:
+  # 1) we'd lose some important Hash methods, like #keys and #values, breaking
+  # backward compatibility. 2) OpenStructs only work on the Hash itself, not
+  # not it's contents.
+  #
+  # So to get the best of both worlds, we use the RecursiveOpenStruct gem
+  #
+  #   https://github.com/aetherknight/recursive-open-struct
+  #
+  # which subclasses OpenStruct to be recursive.
+  #
+  # And, instead of replacing the Hash, we'll add a RecursiveOpenStruct version
+  # of itself to itself as an attribute.
+  #
+  # Now, we can access the same data using this:
+  #
+  #   computer_instance.hardware.jss_ros.storage.first.partition.percentage_full
+  #
+  # CAVEAT: Treat these as read-only.
+  #
+  # While the Hashes themselves may be mutable, their use in ruby-jss Classes
+  # should be usually be considered read-only - and the RecursiveOpenStruct
+  # object created by this method should not be changed. Changes to the Hash
+  # or the RecursiveOpenStruct are NOT synced between them
+  #
+  # This should be fine for the intended uses. Data like Computer#hardware
+  # isn't sent back to the JSS via Computer#update, since it must come
+  # from a 'recon' anyway. Data that is sent back to the JSS will have
+  # setter methods defined in the class or a mixin module (e.g. the
+  # Locatable module).
+  #
+  # Since the data is read-only, why not use the ImmutableStruct gem, used
+  # elsewhere in ruby-jss?  Because ImmutableStruct is really for creating
+  # fully-fleshed-out read-only classes, with a known set of attributes rather
+  # than just giving us a nicer way to access Hash data with arbitrary keys.
+  #
+  def jss_recursive_ostruct
+    @jss_ros ||= RecursiveOpenStruct.new(self, recurse_over_arrays: true)
   end
+  alias jss_ros jss_recursive_ostruct
 
 end # class
