@@ -729,7 +729,7 @@ module JSS
     # these can be provided in the arg, or after instantiation via
     # setter methods:
     #   serial_number:, udid:, asset_tag:, mac_address:
-    #   alt_mac_address:, barcode1:, barcode2:
+    #   alt_mac_address:, barcode_1:, barcode_2:
     #
     #
     def initialize(args = {})
