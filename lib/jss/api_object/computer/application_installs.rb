@@ -63,6 +63,11 @@ module JSS
     # is ignored, however the 'version' parameters is still valid and will
     # restrict the list to those computer ids with that version installed.
     #
+    # This method implements the 'computerapplications' API endpoint.
+    #
+    # NOTE: To see all the apps installed on a specific computer, fetch the
+    # JSS::Computer instance and call its {JSS::Computer#apps} method.
+    #
     # @param appname [String] The name of the app to look for, e.g. 'Transmogrifier.app'
     #
     # @param fields [String,Array<String>] Additional 'inventory fields' to return
