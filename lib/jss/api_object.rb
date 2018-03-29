@@ -288,13 +288,12 @@ module JSS
     #
     def self.valid_id(identifier, refresh = false, api: JSS.api)
       return identifier if all_ids(refresh, api: api).include? identifier
-      id = nil
       all_lookup_keys.keys.each do |key|
         next if key == :id
         id = map_all_ids_to(key).invert[identifier]
         return id if id
       end # do key
-      id
+      nil
     end
 
     # Convert an Array of Hashes of API object data to a
@@ -426,14 +425,13 @@ module JSS
     # Retrieve an object from the API.
     #
     # This is the preferred way to retrieve existing objects from the JSS.
-    # It's a wrapper for using APIObject.new
-    # and avoids the confusion of using ruby's .new class method when you're not
-    # creating a new object.
+    # It's a wrapper for using APIObject.new and avoids the confusion of using
+    # ruby's .new class method when you're not creating a new object in the JSS
     #
     # For creating new objects in the JSS, use {APIObject.make}
     #
     # @param args[Hash] The data for fetching an object, such as id: or name:
-    #  See {APIObject#initialize}
+    #  Each APIObject subclass can define additional lookup keys for fetching.
     #
     # @return [APIObject] The ruby-instance of a JSS object
     #
@@ -609,8 +607,8 @@ module JSS
     #
     # @option args :name[String] the name to look up
     #
-    # @option args :data[Hash] the JSON output of a separate {JSS::APIConnection} query
-    #   NOTE: This arg is deprecated and will be removed in a future release.
+    # @option args :fetch_rsrc[String] a non-standard resource for fetching
+    #   API data e.g. to limit the data returned
     #
     #
     def initialize(args = {})
@@ -618,21 +616,13 @@ module JSS
       @api = args[:api]
       raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
 
-      ####### Previously looked-up JSON data
-      # DEPRECATED: pre-lookedup data is never used
-      # and support for it will be going away.
-      if args[:data]
-
-        @init_data = args[:data]
-
-        validate_external_init_data
-
-      ###### Make a new one in the JSS, but only if we've included the Creatable module
-      elsif args[:id] == :new
+      # we're making a new one in the JSS
+      if args[:id] == :new
         validate_init_for_creation(args)
         setup_object_for_creation(args)
         @need_to_update = true
-      ###### Look up the data via the API
+
+      # we're instantiating an existing one in the jss
       else
         @init_data = look_up_object_data(args)
         @need_to_update = false
@@ -771,6 +761,7 @@ module JSS
       vars = instance_variables.sort
       vars.delete :@api
       vars.delete :@init_data
+      vars.delete :@main_subset
       vars
     end
 
@@ -892,6 +883,8 @@ module JSS
     # DEPRECATED: pre-lookedup data is never used
     # and support for it will be going away.
     #
+    # TODO: delete this and all defined VALID_DATA_KEYS
+    #
     # @return [void]
     #
     def validate_external_init_data
@@ -937,13 +930,14 @@ module JSS
     # @return [Hash] The parsed JSON data for the object from the API
     #
     def look_up_object_data(args)
-      # what lookup key are we using?
-      lookup_keys = self.class.lookup_keys
-      lookup_key = (self.class.lookup_keys & args.keys)[0]
-      raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
-      rsrc_key = self.class.rsrc_keys[lookup_key]
-
-      rsrc = "#{self.class::RSRC_BASE}/#{rsrc_key}/#{args[lookup_key]}"
+      rsrc =
+        if args[:fetch_rsrc]
+          args[:fetch_rsrc]
+        else
+          # what lookup key are we using?
+          rsrc_key, lookup_value = find_rsrc_keys(args)
+          "#{self.class::RSRC_BASE}/#{rsrc_key}/#{lookup_value}"
+        end
 
       # if needed, a non-standard object key can be passed by a subclass.
       # e.g. User when loookup is by email.
@@ -952,6 +946,25 @@ module JSS
       return @api.get_rsrc(rsrc)[rsrc_object_key]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
+    end
+
+    # Given initialization args, determine the rsrc key and
+    # lookup value to be used in building the GET resource.
+    # E.g. for looking up something with id 345,
+    # return the rsrc_key :id, and the value 345, which
+    # can be used to create the resrouce
+    # '/things/id/345'
+    #
+    # @param args[Hash] The args passed to #initialize
+    #
+    # @return [Array] Two item array: [ rsrc_key, lookup_value]
+    #
+    def find_rsrc_keys(args)
+      lookup_keys = self.class.lookup_keys
+      lookup_key = (self.class.lookup_keys & args.keys)[0]
+      raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
+      rsrc_key = self.class.rsrc_keys[lookup_key]
+      [rsrc_key, args[lookup_key]]
     end
 
     # Start examining the @init_data recieved from the API
@@ -1163,7 +1176,8 @@ require 'jss/api_object/netboot_server'
 require 'jss/api_object/network_segment'
 require 'jss/api_object/osx_configuration_profile'
 require 'jss/api_object/package'
-require 'jss/api_object/patch'
+require 'jss/api_object/patch_version'
+require 'jss/api_object/patch_title'
 require 'jss/api_object/patch_policy'
 require 'jss/api_object/peripheral_type'
 require 'jss/api_object/peripheral'
