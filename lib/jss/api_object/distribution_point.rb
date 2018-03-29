@@ -220,6 +220,7 @@ module JSS
     ### You can also do this more easily by calling JSS.master_distribution_point
     ###
     def initialize(args = {})
+      #TODO: this looks redundant with super....
       args[:api] ||= JSS.api
       @api = args[:api]
 
