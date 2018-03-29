@@ -67,7 +67,7 @@ module JSS
 
   ### The minimum JSS version that works with this gem, as returned by the API
   ### in the deprecated 'jssuser' resource
-  MINIMUM_SERVER_VERSION = '9.4'.freeze
+  MINIMUM_SERVER_VERSION = '10.2.1'.freeze
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
@@ -118,7 +118,6 @@ module JSS
 
   class APIObject; end
   class APIConnection; end
-  class Client; end
   class DBConnection; end
   class Server; end
   class Icon; end
@@ -190,6 +189,9 @@ module JSS
   module Sitable; end
   module MDM; end
   module ManagementHistory; end
+
+  ### Class-like modules
+  module Client; end
 
 end # module JSS
 
