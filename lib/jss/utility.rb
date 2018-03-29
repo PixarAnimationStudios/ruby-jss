@@ -462,7 +462,7 @@ module JSS
 
   # (see parse_jss_version)
   def self.parse_jss_version_newstyle(version)
-    release, build = version.split '-'
+    release, build = version.split /-?t/
     major, minor, revision = release.split '.'
     minor ||= 0
     revision ||= 0
