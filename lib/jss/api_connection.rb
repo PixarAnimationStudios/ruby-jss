@@ -623,7 +623,6 @@ module JSS
     alias connected? connected
     alias host hostname
 
-
     #################
 
     # Call one of the 'all*' methods on a JSS::APIObject subclass
@@ -641,7 +640,7 @@ module JSS
     #
     # @return [Array] The list of items for the class
     #
-    def all(class_name, refresh = false, only: nil )
+    def all(class_name, refresh = false, only: nil)
       the_class = JSS.api_object_class(class_name)
       list_method = only ? :"all_#{only}" : :all
 
@@ -813,7 +812,7 @@ module JSS
       @master_distribution_point =
         case all_dps.size
         when 0
-          raise JSS::NoSuchItemError, "No distribution points defined"
+          raise JSS::NoSuchItemError, 'No distribution points defined'
         when 1
           JSS::DistributionPoint.fetch id: all_dps.first[:id], api: self
         else
@@ -1024,7 +1023,8 @@ module JSS
       end
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
-      return unless @server.version < min_vers
+      return if @server.version >= min_vers # we're good...
+
       err_msg = "JSS version #{@server.raw_version} to low. Must be >= #{min_vers}"
       @connected = false
       raise JSS::UnsupportedError, err_msg
@@ -1186,6 +1186,7 @@ module JSS
 
   # aliases of module methods
   class << self
+
     alias api_connection api
     alias connection api
     alias active_connection api
@@ -1196,6 +1197,7 @@ module JSS
     alias use_api use_api_connection
     alias use_connection use_api_connection
     alias activate_connection use_api_connection
+
   end
 
   # create the default connection
