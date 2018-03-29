@@ -97,6 +97,13 @@ module JSS
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 90
 
+    # Where is the Category in the API JSON?
+    CATEGORY_SUBSET = :top
+
+    # How is the category stored in the API data?
+    CATEGORY_DATA_TYPE = String
+
+
     ### Class Variables
     #####################################
 

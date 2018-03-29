@@ -33,6 +33,13 @@ module JSS
 
     SITE_SUBSET = :general
 
+    # Where is the Category in the API JSON?
+    CATEGORY_SUBSET = :general
+
+    # How is the category stored in the API data?
+    CATEGORY_DATA_TYPE = Hash
+
+
     # Attributes
     ###################################
 
