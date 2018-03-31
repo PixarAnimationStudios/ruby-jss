@@ -45,8 +45,8 @@ module JSS
     # Attributes
     #####################################
 
-    # @return [String] the software version number for this PatchVersion. name_id is a unique identfier
-    # created from the patch name
+    # @return [String] the software version number for this PatchVersion.
+    #   name_id is a unique identfier created from the patch name
     attr_reader :version
 
     # @return [Integer, nil] How many computers have this version of this title
@@ -75,9 +75,11 @@ module JSS
       @size = data[:size]
       @computers = data[:computers]
 
-      return unless data[:package] && data[:package][:id].to_i > 0
+      return unless data[:package]
 
-      @package_id = data[:package][:id].to_i
+      pid = data[:package][:id].to_i
+
+      @package_id = pid < 1 ? :none : pid
       @package_name = data[:package][:name]
     end
 
@@ -104,21 +106,26 @@ module JSS
     # sure to call #update on the PatchTitle containing
     # this Version.
     #
-    # @param new_pkg[String,Integer] A name or id of a JSS::Package.
+    # @param new_pkg[String,Integer,Symbol] A name or id of a JSS::Package.
+    #   use :none to unset a package for this version.
     #
     def package=(new_pkg)
       raise JSS::UnsupportedError, "Packages can't be assigned to the Unkown version." if version == JSS::PatchTitle::UNKNOWN_VERSION_ID
 
-      pkgid = JSS::Package.valid_id new_pkg, :refresh, api: title.api
-
+      pkgid =
+        if new_pkg == :none
+          :none
+        else
+          JSS::Package.valid_id new_pkg, :refresh, api: @title.api
+        end
       raise JSS::NoSuchItemError, "No JSS::Package matches '#{new_pkg}'" unless pkgid
 
       return if @package_id == pkgid
 
       @package_id = pkgid
-      @package_name = JSS::Package.map_all_ids_to(:name)[pkgid]
+      @package_name = pkgid == :none ? nil : JSS::Package.map_all_ids_to(:name)[pkgid]
 
-      title.changed_pkg_for version
+      @title.changed_pkg_for version
     end
 
     # Remove the various cached data
