@@ -1,3 +1,4 @@
+
 ### Copyright 2018 Pixar
 
 ###
@@ -50,8 +51,14 @@ module JSS
   # - :security
   #
   # Additionally, items that apper in macOS Slf Svc have these keys:
+  # - :self_service_display_name
   # - :install_button_text
+  # - :reinstall_button_text
   # - :force_users_to_view_description
+  # - :notification
+  # - :notification_location # PENDING API FIX
+  # - :notification_subject
+  # - :notification_message
   #
   # See the attribute definitions for details of these values and structures.
   #
@@ -89,10 +96,19 @@ module JSS
     PATCHPOL_AUTO = 'prompt'.freeze # 'Install Automatically' in the UI
 
     DEFAULT_INSTALL_BUTTON_TEXT = 'Install'.freeze
+    DEFAULT_REINSTALL_BUTTON_TEXT = 'Reinstall'.freeze
+    DEFAULT_FORCE_TO_VIEW_DESC = false
+
+    NOTIFICATION_OPTIONS = {
+      off: 'off',
+      ssvc_only: 'Self Service',
+      ssvc_and_nctr: 'Self Service and Notification Center'
+    }.freeze
+    NOTIFICATION_DEFAULT = :off
 
     SELF_SERVICE_CLASSES = {
       JSS::Policy => {
-        in_self_service_data_path: [:self_service, :use_for_self_service],
+        in_self_service_data_path: %i[self_service use_for_self_service],
         in_self_service: true,
         not_in_self_service: false,
         targets: [:macos],
@@ -101,7 +117,7 @@ module JSS
         can_feature_in_categories: true
       },
       JSS::PatchPolicy => {
-        in_self_service_data_path: [:general, :distribution_method],
+        in_self_service_data_path: %i[general distribution_method],
         in_self_service: PATCHPOL_SELF_SERVICE,
         not_in_self_service: PATCHPOL_AUTO,
         targets: [:macos],
@@ -119,7 +135,7 @@ module JSS
         can_feature_in_categories: true
       },
       JSS::OSXConfigurationProfile => {
-        in_self_service_data_path: [:general, :distribution_method],
+        in_self_service_data_path: %i[general distribution_method],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL,
         targets: [:macos],
@@ -128,16 +144,16 @@ module JSS
         can_feature_in_categories: true
       },
       JSS::EBook => {
-        in_self_service_data_path: [:general, :deployment_type],
+        in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
-        targets: [:macos, :ios],
+        targets: %i[macos ios],
         payload: :app, # ebooks are handled the same way as apps, it seems,
         can_display_in_categories: true,
         can_feature_in_categories: true
       },
       JSS::MobileDeviceApplication => {
-        in_self_service_data_path: [:general, :deployment_type],
+        in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
         targets: [:ios],
@@ -146,7 +162,7 @@ module JSS
         can_feature_in_categories: false
       },
       JSS::MobileDeviceConfigurationProfile => {
-        in_self_service_data_path: [:general, :deployment_method],
+        in_self_service_data_path: %i[general deployment_method],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL,
         targets: [:ios],
@@ -169,6 +185,9 @@ module JSS
     # @return [JSS::Icon, nil] The icon used in self-service
     attr_reader :icon
     alias self_service_icon icon
+
+    # @return [String] The name to display in macOS Self Service.
+    attr_reader :self_service_display_name
 
     # @return [String] The verbage that appears in SelfSvc for this item
     attr_reader :self_service_description
@@ -210,10 +229,26 @@ module JSS
     attr_reader :self_service_removal_password
 
     # @return [String] The text label on the install button in SSvc (OSX SSvc only)
+    # defaults to 'Install'
     attr_reader :self_service_install_button_text
+
+    # @return [String] The text label on the reinstall button in SSvc (OSX SSvc only)
+    # defaults to 'Reinstall'
+    attr_reader :self_service_reinstall_button_text
 
     # @return [Boolean] Should an extra window appear before the user can install the item? (OSX SSvc only)
     attr_reader :self_service_force_users_to_view_description
+
+    # @return [Symbol] Should this policy send notifications, and if so, where?
+    #   one of: :off, :ssvc_only or :ssvc_and_nctr
+    attr_reader :self_service_notifications
+
+    # @return [String] The subject text of the notification. Defaults to the
+    # object name.
+    attr_reader :self_service_notification_subject
+
+    # @return [String] The message text of the notification
+    attr_reader :self_service_notification_message
 
     #  Mixed-in Public Instance Methods
     #####################################
@@ -232,14 +267,39 @@ module JSS
       @need_to_update = true
     end
 
+    # @param new_val[String] The display name of the item in SSvc
+    #
+    # @return [void]
+    #
+    def self_service_dislay_name=(new_val)
+      new_val.strip!
+      return nil if @self_service_dislay_name == new_val
+      raise JSS::InvalidDataError, 'Only macOS Self Service items have display names' unless self_service_targets.include? :macos
+      @self_service_dislay_name = new_val
+      @need_to_update = true
+    end
+
     # @param new_val[String] the new install button text
     #
     # @return [void]
     #
     def self_service_install_button_text=(new_val)
+      new_val.strip!
       return nil if @self_service_install_button_text == new_val
-      raise JSS::InvalidDataError, 'Only OS X Self Service Items can have custom button text' unless self_service_targets.include? :macos
-      @self_service_install_button_text = new_val.strip
+      raise JSS::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
+      @self_service_install_button_text = new_val
+      @need_to_update = true
+    end
+
+    # @param new_val[String] the new reinstall button text
+    #
+    # @return [void]
+    #
+    def self_service_reinstall_button_text=(new_val)
+      new_val.strip!
+      return nil if @self_service_reinstall_button_text == new_val
+      raise JSS::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
+      @self_service_reinstall_button_text = new_val
       @need_to_update = true
     end
 
@@ -262,7 +322,7 @@ module JSS
     #
     def self_service_force_users_to_view_description=(new_val)
       return nil if @self_service_force_users_to_view_description == new_val
-      raise JSS::InvalidDataError, 'Only OS X Self Service Items can force users to view description' unless self_service_targets.include? :macos
+      raise JSS::InvalidDataError, 'Only macOS Self Service Items can force users to view description' unless self_service_targets.include? :macos
       raise JSS::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
       @self_service_force_users_to_view_description = new_val
       @need_to_update = true
@@ -335,6 +395,53 @@ module JSS
 
       @self_service_user_removable = new_val
       @self_service_removal_password = pw
+      @need_to_update = true
+    end
+
+    # Where should self service notifications be displayed, if at all
+    # HACK: Until jamf fixes bugs, you can only set notifications
+    # :off or :ssvc_only. If you want :ssvc_and_nctr, you must
+    # check the checkbox in the web-UI.
+    #
+    # @param location[Symbol] A key from SelfServable::NOTIFICATION_OPTIONS
+    #
+    # @return [void]
+    #
+    def self_service_notifications=(location)
+      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
+
+      raise JSS::InvalidDataError, "Location must be one of: :#{NOTIFICATION_OPTIONS.keys.join ', :'}" unless NOTIFICATION_OPTIONS.keys.include? location
+
+      # HACK: Until jamf fixes bugs, you can only set notifications
+      # :off or :ssvc_only. If you want :ssvc_and_nctr, you must
+      # check the checkbox in the web-UI.
+      raise 'Jamf Bug: Until Jamf fixes API bugs, you can only set Self Service notifications to :off or :ssvc_only. Use the WebUI to activate Notification Center notifications' unless %i[off ssvc_only].include? location
+
+      @self_service_notifications = location
+      @need_to_update = true
+    end
+
+    # @param subj[String] The subject text for the notification
+    #
+    # @return [void]
+    #
+    def self_service_notification_subject=(subj)
+      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
+      subj.strip!
+      return nil if subj == @self_service_notification_subject
+      @self_service_notification_subject = subj
+      @need_to_update = true
+    end
+
+    # @param msg[String] The message text for the notification
+    #
+    # @return [void]
+    #
+    def self_service_notification_message=(msg)
+      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
+      msg.strip!
+      return nil if msg == @self_service_notification_message
+      @self_service_notification_message = msg
       @need_to_update = true
     end
 
@@ -453,11 +560,47 @@ module JSS
       @self_service_categories = ss_data[:self_service_categories]
       @self_service_categories ||= []
 
+      return unless self_service_targets.include? :macos
+
+      # Computers only...
+      @self_service_display_name = ss_data[:self_service_display_name]
+      @self_service_display_name ||= name
+
       @self_service_install_button_text = ss_data[:install_button_text]
       @self_service_install_button_text ||= DEFAULT_INSTALL_BUTTON_TEXT
 
+      @self_service_reinstall_button_text = ss_data[:reinstall_button_text]
+      @self_service_reinstall_button_text ||= DEFAULT_REINSTALL_BUTTON_TEXT
+
       @self_service_force_users_to_view_description = ss_data[:force_users_to_view_description]
-      @self_service_force_users_to_view_description ||= false
+      @self_service_force_users_to_view_description ||= DEFAULT_FORCE_TO_VIEW_DESC
+
+      # HACK: Workaround until jamf fixes bugs.
+      # when its fixed, here's how
+      #
+      # @self_service_notifications =
+      #  if ss_data[:notification] == false
+      #    :off
+      #  else
+      #    NOTIFICATION_OPTIONS.invert[ss_data[:notification_location]]
+      #  end
+      #
+      #
+      ss_xml = @api.get_rsrc("#{rest_rsrc}/subset/selfservice", :xml)
+      @self_service_notifications =
+        if ss_xml.include?('<notification>false</notification>')
+          :off
+        elsif ss_xml.include? "<notification>#{NOTIFICATION_OPTIONS[:ssvc_and_nctr]}</notification>"
+          :ssvc_and_nctr
+        else
+          :ssvc_only
+        end
+
+      # end hacks
+      @self_service_notification_subject = ss_data[:notification_subject]
+      @self_service_notification_subject ||= name
+
+      @self_service_notification_message = ss_data[:notification_message]
     end # parse
 
     # Figure out if this object is in Self Service, from the API
@@ -509,7 +652,7 @@ module JSS
       doc_root = xdoc.root
       ssvc = doc_root.add_element 'self_service'
 
-      ssvc.add_element('self_service_description').text = @self_service_description
+      ssvc.add_element('self_service_description').text = @self_service_description if @self_service_description
       ssvc.add_element('feature_on_main_page').text = @self_service_feature_on_main_page
 
       if @new_icon_id
@@ -528,9 +671,38 @@ module JSS
       end
 
       if self_service_targets.include? :macos
-        ssvc.add_element('install_button_text').text = @self_service_install_button_text
-        ssvc.add_element('force_users_to_view_description').text = @self_service_force_users_to_view_description
-      end
+        ssvc.add_element('self_service_display_name').text = @self_service_display_name if @self_service_display_name
+        ssvc.add_element('install_button_text').text = @self_service_install_button_text if @self_service_install_button_text
+        ssvc.add_element('reinstall_button_text').text = @self_service_reinstall_button_text if @self_service_reinstall_button_text
+        ssvc.add_element('force_users_to_view_description').text = @self_service_force_users_to_view_description.to_s
+
+        # HACK: until jamf fixes bugs
+        # put the location info into 'notification'.
+        # the real 'notification' value will be PUT again
+        # after seprattely after this.
+        #
+        # w/o hack:
+        #
+        # ssvc.add_element('notification').text =
+        #   if self_service_notifications == :off
+        #     'false'
+        #   else
+        #     'true'
+        #   end
+        #
+        # ssvc.add_element('notification_location').text = NOTIFICATION_OPTIONS[self_service_notifications]
+        #
+        ssvc.add_element('notification').text =
+          if self_service_notifications == :off
+            'false'
+          else
+            @need_ss_notification_activation_hack = true
+            NOTIFICATION_OPTIONS[self_service_notifications]
+          end
+
+        ssvc.add_element('notification_subject').text = @self_service_notification_subject
+        ssvc.add_element('notification_message').text = @self_service_notification_message if @self_service_notification_message
+      end # if self_service_targets.include? :macos
 
       if self_service_payload == :profile
         sec = ssvc.add_element('security')
@@ -551,6 +723,36 @@ module JSS
 
     # aliases
     alias change_self_service_category add_self_service_category
+
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def update
+      resp = super
+      force_notifications_on if @need_ss_notification_activation_hack
+      resp
+    end
+
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def create
+      resp = super
+      force_notifications_on if @need_ss_notification_activation_hack
+      resp
+    end
+
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def force_notifications_on
+      xml = <<-ENDXML
+<#{self.class::RSRC_OBJECT_KEY}>
+  <self_service>
+    <notification>true</notification>
+  </self_service>
+</#{self.class::RSRC_OBJECT_KEY}>
+      ENDXML
+      @api.put_rsrc rest_rsrc, xml
+      @need_ss_notification_activation_hack = nil
+    end
 
   end # module SelfServable
 
