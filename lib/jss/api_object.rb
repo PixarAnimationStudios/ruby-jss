@@ -941,9 +941,8 @@ module JSS
 
       # if needed, a non-standard object key can be passed by a subclass.
       # e.g. User when loookup is by email.
-      rsrc_object_key = args[:rsrc_object_key] ? args[:rsrc_object_key] : self.class::RSRC_OBJECT_KEY
-
-      return @api.get_rsrc(rsrc)[rsrc_object_key]
+      args[:rsrc_object_key] ||= self.class::RSRC_OBJECT_KEY
+      return @api.get_rsrc(rsrc)[args[:rsrc_object_key]]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
     end
