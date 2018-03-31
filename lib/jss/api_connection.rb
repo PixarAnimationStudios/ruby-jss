@@ -510,9 +510,11 @@ module JSS
     def get_rsrc(rsrc, format = :json)
       # puts object_id
       raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      raise JSS::InvalidDataError, 'format must be :json or :xml' unless format == :json || format == :xml
+
       rsrc = URI.encode rsrc
       @last_http_response = @cnx[rsrc].get(accept: format)
-      return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
+      format == :json ? JSON.parse(@last_http_response, symbolize_names: true) : @last_http_response
     end
 
     # Change an existing JSS resource
