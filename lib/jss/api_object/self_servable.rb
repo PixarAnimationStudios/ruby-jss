@@ -354,7 +354,7 @@ module JSS
     #
     def icon=(new_icon)
       if new_icon.is_a? Integer
-        return if new_icon == @icon.id
+        return if @icon && new_icon == @icon.id
         validate_icon new_icon
         @new_icon_id = new_icon
         @need_to_update = true
