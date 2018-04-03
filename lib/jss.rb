@@ -65,9 +65,9 @@ module JSS
   ### Constants
   #####################################
 
-  ### The minimum JSS version that works with this gem, as returned by the API
+  ### The minimum JSS version that works with this module, as returned by the API
   ### in the deprecated 'jssuser' resource
-  MINIMUM_SERVER_VERSION = '10.2.1'.freeze
+  MINIMUM_SERVER_VERSION = '10.4'.freeze
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
