@@ -942,7 +942,21 @@ module JSS
       # if needed, a non-standard object key can be passed by a subclass.
       # e.g. User when loookup is by email.
       args[:rsrc_object_key] ||= self.class::RSRC_OBJECT_KEY
-      return @api.get_rsrc(rsrc)[args[:rsrc_object_key]]
+
+      #
+      return @api.get_rsrc(rsrc)[args[:rsrc_object_key]] unless defined? self.class::USE_XML_WORKAROUND
+
+      # use the XML workaround to get our usable JSON
+      raw_xml = @api.get_rsrc(rsrc, :xml)
+      xmlroot = REXML::Document.new(raw_xml).root
+      hash_from_xml = {}
+      hash_from_xml[xmlroot.name] = JSS::XMLWorkarounds.process_element(xmlroot)
+
+      # this to-JSON-and-back-again ensures we have consistently symbolized_names
+      # and that this data looks the same as if it came from the JSON GET response.
+      usable_json = JSON.parse(hash_from_xml.to_json, symbolize_names: true)
+
+      usable_json[args[:rsrc_object_key]]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
     end

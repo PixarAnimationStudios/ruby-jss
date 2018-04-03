@@ -33,6 +33,14 @@ module JSS
   #
   class PatchPolicy < JSS::APIObject
 
+    RSRC_BASE = 'patchpolicies'
+
+    RSRC_LIST_KEY = :patch_policies
+
+    RSRC_OBJECT_KEY = :patch_policy
+
+    USE_XML_WORKAROUND = true
+
   end # class PatchPolicy
 
 end # module JSS
