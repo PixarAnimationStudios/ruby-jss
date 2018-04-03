@@ -26,38 +26,44 @@
 ###
 module JSS
 
-  # Since much of the JSON data is borked, the methods here can be used to
-  # parse the XML data into usable JSON, which we can then treat normally.
+  # Since a non-trivial amount of the JSON data from the API is borked, the
+  # methods here can be used to parse the XML data into usable JSON, which we
+  # can then treat as we normally treat the API JSON.
   #
   # For classes with borked JSON, set the constant USE_XML_WORKAROUND to true
   # (or anything) and then class.fetch will use the XML data parsed
   # with the methods here to get functional JSON, which can be treated mostly
   # like normal.
   #
-  # One important difference, at least to start. Since we don't know
+  # One important difference, at least to start: Since we don't know
   # if an empty XML element should really be a Hash or Array, they
-  # always come back as an empty string. In either case #empty? should work.
+  # always come back as an empty string or nil. In any case #to_s#empty?
+  # should work.
   #
   module XMLWorkarounds
 
-    TF_STRINGS = %w[true false].freeze
-    TRUESTRING = TF_STRINGS.first
+    BOOLEAN_STRINGS = %w[true false].freeze
+    TRUE_STRING = BOOLEAN_STRINGS.first
     SIZE_ELEM_NAME = 'size'.freeze
 
     # given a REXML element, return its ruby value
     #
-    # When APIObject classes with USE_XML_WORKAROUND defined are fetched,
-    # The XML is parsed by calling this method with the root XML element.
-    # This happens in APIObject#lookup_object_data
+    # When APIObject classes are fetched and they have the constant
+    # USE_XML_WORKAROUND defined, the XML is retrieved from the API rather than
+    # th usual JSON. The XML is parsed by calling this method with the root XML
+    # element. This happens in APIObject#lookup_object_data
     #
-    # This method is called recursively as needed when traversing XML elements
-    # that contain elements.
+    # This method is then called recursively as needed when traversing XML
+    # elements that contain sub-elements.
+    #
+    # XML Elements that do not contain other elements are converted to a
+    # single ruby value.
     #
     def self.process_element(elem)
-      # remove any 'size' element if appropriate
+      # remove any 'size' sub-element if appropriate
       remove_size_sub_elem elem
 
-      # Elems without sub elems have a single value
+      # Elems without sub-elems are a single value
       return elem_to_single_value(elem) unless elem.has_elements?
 
       # If an element has sub-elements, and all the sub-elems
@@ -81,30 +87,34 @@ module JSS
       elem_as_hash elem
     end
 
-    # remove the 'size' sub element as long as:
+    # remove the 'size' sub element from a given element as long as:
     # - a sub element named 'size' exists
     # - there's only one sub element named 'size'
     # - it doesn't have sub elements itself
     # - and it contains an integer value
-    # These are extraneous for the most part, and
-    # will confuse the logic when deciding if an element
-    # should become an Array or a Hash.
+    # Such elements are extraneous for the most part, and are not consistently
+    # located - sometimes they are in the Array-ish elements they reference,
+    # sometimes they are alongside them. In any case they confuse the logic
+    # when deciding if an element with sub-elements should become an
+    # Array or a Hash.
     #
     def self.remove_size_sub_elem(elem)
-      return unless elem.elements[SIZE_ELEM_NAME]
-      return unless elem.elements.to_a.select { |subel| subel.name == SIZE_ELEM_NAME }.count == 1
-      return if elem.elements[SIZE_ELEM_NAME].has_elements?
-      return unless elem.elements[SIZE_ELEM_NAME].text.jss_integer?
-      elem.delete_element SIZE_ELEM_NAME
+      size_elems = elem.elements.to_a.select { |subel| subel.name == SIZE_ELEM_NAME }
+      size_elem = size_elems.first
+      return unless size_elem
+      return unless size_elems.count == 1
+      return if size_elem.has_elements?
+      return unless size_elem.text.jss_integer?
+      elem.delete_element size_elem
     end
 
-    # Convert a single text value from an XML element into
-    # an approprate ruby class:
+    # Given an element with no sub-elements, convert its text value
+    # into an approprate ruby class:
     #   - textual integers to integers         '123' => 123
     #   - textual floats to floats             '-12.34' => -12.34
-    #   - textual Booleans to real booleans    'true' => true
+    #   - textual Booleans to real Booleans    'true' => true
     #   - everything else is a String          '37.0.2' => '37.0.2'
-    #                                        nil => ''
+    #                                          nil => ''
     #
     def self.elem_to_single_value(elem)
       case elem.text
@@ -112,8 +122,8 @@ module JSS
         elem.text.to_i
       when /^-?\d+\.\d+$/
         elem.text.to_f
-      when *TF_STRINGS
-        elem.text.downcase == TRUESTRING ? true : false
+      when *BOOLEAN_STRINGS
+        elem.text.downcase == TRUE_STRING ? true : false
       else
         elem.text.to_s
       end # case
