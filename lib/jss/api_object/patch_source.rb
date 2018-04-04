@@ -37,6 +37,11 @@ module JSS
     HTTP = 'http'.freeze
     HTTPS = 'https'.freeze
 
+    DFT_ENABLED = false
+    DFT_SSL = true
+    DFT_SSL_PORT = 443
+    DFT_NO_SSL_PORT = 80
+
     # Attributes
     #####################################
 
@@ -51,6 +56,7 @@ module JSS
     # @return [String] The host name of the patch source
     attr_reader :host_name
     alias hostname host_name
+    alias host host_name
 
     # @return [Integer] the TCP port of the patch source
     attr_reader :port
@@ -64,14 +70,24 @@ module JSS
       super
       @enabled = @init_data[:enabled]
 
+      # from API in Internal sources
       @endpoint = @init_data[:endpoint]
 
+      # from API in External sources
       @host_name = @init_data[:host_name]
       @port = @init_data[:port]
       @ssl_enabled = @init_data[:ssl_enabled]
 
+      # set defaults
+      @enabled ||= DFT_ENABLED
+      @ssl_enabled = DFT_SSL if ssl_enabled.nil?
+      if port.nil?
+        @port = ssl_enabled? ? DFT_SSL_PORT : DFT_NO_SSL_PORT
+      end
+
+      # derive the data not provided for this source type
       if @endpoint
-        url = URI.parse 'https://jamf-patch.jamfcloud.com/v1/'
+        url = URI.parse endpoint
         @host_name = url.host
         @port = url.port
         @ssl_enabled = url.scheme == HTTPS
@@ -79,7 +95,66 @@ module JSS
         protocol =  ssl_enabled ? HTTPS : HTTP
         @endpoint = "#{protocol}://#{host_name}:#{port}/"
       end
+
     end # init
+
+    # Enable this source for retrieving patch info
+    #
+    # if we ever get the ability to en/disable the internal sources,
+    # this is here in the superclass
+    #
+    # @return [void]
+    #
+    def enable
+      return if enabled?
+      validate_host_port('enable a patch source')
+      @enabled = true
+      @need_to_update = true
+    end
+
+    # Disable this source for retrieving patch info
+    #
+    # if we ever get the ability to en/disable the internal sources,
+    # this is here in the superclass
+    #
+    # @return [void]
+    #
+    def disable
+      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be disabled' unless self.class == JSS::PatchExternalSource
+      return unless enabled?
+      @enabled = false
+      @need_to_update = true
+    end
+
+    # if we ever get the ability to en/disable the internal sources
+    # this is here in the superclass
+    def update
+      validate_host_port('update a patch source')
+      super
+    end
+
+    private
+
+    # raise an exeption if needed when trying to do something that needs
+    # a host and port set
+    #
+    # @param action[String] The action that needs a host and port
+    #
+    # @return [void]
+    #
+    def validate_host_port(action)
+      return nil unless self.class == JSS::PatchExternalSource
+      raise JSS::UnsupportedError, "Cannot #{action} without first setting a host_name and port" if hostname.to_s.empty? && port.to_s.empty?
+    end
+
+    # if we ever get the ability to en/disable the internal sources
+    # this is here in the superclass
+    def rest_xml
+      doc = REXML::Document.new
+      src = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      src.add_element('enabled').text = @enabled.to_s
+      doc
+    end
 
   end # class PatchSource
 

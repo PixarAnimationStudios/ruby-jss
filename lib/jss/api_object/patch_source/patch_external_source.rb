@@ -65,6 +65,8 @@ module JSS
       @host_name = name
       @need_to_update = true
     end
+    alias hostname= host_name=
+    alias host= host_name=
 
     # @param port[Integer] the new port on the source host name
     #
@@ -97,33 +99,17 @@ module JSS
       @need_to_update = true
     end
 
-    # Enable this source for retrieving patch info
-    #
-    # @return [void]
-    #
-    def enable
-      return if enabled?
-      @enabled = true
-      @need_to_update = true
-    end
-
-    # DIsable this source for retrieving patch info
-    #
-    # @return [void]
-    #
-    def disable
-      return unless enabled?
-      @enabled = false
-      @need_to_update = true
+    def create
+      validate_host_port('create a patch source')
+      super
     end
 
     private
 
     def rest_xml
-      doc = REXML::Document.new
-      src = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc = super
+      src = doc.root
       src.add_element('name').text = @name
-      src.add_element('enabled').text = @enabled.to_s
       src.add_element('ssl_enabled').text = @ssl_enabled.to_s
       src.add_element('host_name').text = @host_name
       src.add_element('port').text = @port.to_s

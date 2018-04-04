@@ -27,11 +27,14 @@
 module JSS
 
   # An 'Internal' patch source. These sources are defined by
-  # Jamf themselves, as a part of the JSS, and cannot be modified or deleted.
+  # Jamf themselves, as a part of the JSS, and cannot be created, modified
+  #  or deleted.
   #
   # @see JSS::APIObject
   #
   class PatchInternalSource < JSS::PatchSource
+
+    include JSS::Updatable
 
     # Constants
     #####################################
@@ -62,6 +65,13 @@ module JSS
     def delete
       raise JSS::UnsupportedError, 'Internal Patch Sources cannot be deleted.'
     end
+
+    private
+
+    def rest_xml
+      super.to_s
+    end
+
 
   end # class PatchInternalSource
 
