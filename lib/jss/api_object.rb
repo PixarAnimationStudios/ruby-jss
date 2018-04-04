@@ -993,7 +993,7 @@ module JSS
         @id = 0
         @in_jss = false
       else
-        @id = @main_subset[:id]
+        @id = @main_subset[:id].to_i
         @in_jss = true
       end
 
