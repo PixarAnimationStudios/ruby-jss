@@ -67,7 +67,7 @@ module JSS
 
   ### The minimum JSS version that works with this module, as returned by the API
   ### in the deprecated 'jssuser' resource
-  MINIMUM_SERVER_VERSION = '10.4'.freeze
+  MINIMUM_SERVER_VERSION = '10.4.0'.freeze
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
@@ -210,3 +210,4 @@ require 'jss/configuration'
 require 'jss/db_connection'
 require 'jss/validate'
 require 'jss/version'
+require 'jss/xml_workaround'

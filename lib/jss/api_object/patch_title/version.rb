@@ -54,15 +54,6 @@ module JSS
       #   name_id is a unique identfier created from the patch name
       attr_reader :version
 
-      # @return [Integer, nil] How many computers have this version of this title
-      #   installed?
-      attr_reader :size
-      alias total_computers size
-
-      # @return [Array<Hash>] The :id, :name, :mac_address, :alt_mac_address &
-      #  :serial_number of each computer with this PatchVersion installed.
-      attr_reader :computers
-
       # @return [Integer] the id of the JSS::Package that installs this PatchVersion,
       #  if defined.
       attr_reader :package_id
@@ -76,16 +67,23 @@ module JSS
       #
       def initialize(title, data)
         @title = title
-        @version = data[:software_version]
-        @size = data[:size]
-        @computers = data[:computers]
+        @version = data[:software_version].to_s
 
-        return unless data[:package]
+        return if data[:package].to_s.empty?
 
         pid = data[:package][:id].to_i
 
         @package_id = pid < 1 ? :none : pid
         @package_name = data[:package][:name]
+      end
+
+      # get the patch report for this version
+      def patch_report
+        @title.patch_report version
+      end
+
+      def computers
+        patch_report[:versions][version]
       end
 
       # @return [Array<Integer>] The ids of #computers
@@ -104,6 +102,12 @@ module JSS
       #
       def computer_serial_numbers
         computers.map { |c| c[:serial_number] }
+      end
+
+      # @return [Integer] How many #computers have this version?
+      #
+      def total_computers
+        patch_report[:total_computers]
       end
 
       # Assign a new JSS::Package to this PatchVersion.

@@ -44,29 +44,42 @@ module JSS
     include JSS::Categorizable
     include JSS::Updatable
 
+    # TODO: remove this and adjust parsing when jamf fixes the JSON
+    USE_XML_WORKAROUND = {
+      patch_software_title: {
+        id: -1,
+        name: JSS::BLANK,
+        name_id: JSS::BLANK,
+        source_id: -1,
+        notifications: {
+          email_notification: nil,
+          web_notification: nil
+        },
+        category: {
+          id: -1,
+          name: JSS::BLANK
+        },
+        versions: [
+          {
+            software_version: JSS::BLANK,
+            package: {
+              id: -1,
+              name: JSS::BLANK
+            }
+          }
+        ]
+      }
+    }.freeze
+
     ### The base for REST resources of this class
-    RSRC_BASE = 'patches'.freeze
+    RSRC_BASE = 'patchsoftwaretitles'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
-    RSRC_LIST_KEY = :patch_management_software_titles
+    RSRC_LIST_KEY = :patch_software_titles
 
     # The hash key used for the JSON object output.
     # It's also used in various error messages
-    #
-    # NOTE: Unfortunately Jamf broke consistency in the API here and this
-    # key is not the singular of the RSRC_LIST_KEY. They know about it
-    # as [PI-004889]
-    #
-    # However, when PUTing changes to the API, this key doesn't work in the XML.
-    # There, it does want the singular of the RSRC_LIST_KEY.
-    # Which is defined as XML_PUT_OBJECT_KEY below.
-    #
-    RSRC_OBJECT_KEY = :software_title
-
-    # When PUTing changes to the API, this key is required in the XML.
-    # rather than the RSRC_OBJECT_KEY, as everywhere else in the API
-    #
-    XML_PUT_OBJECT_KEY = 'patch_management_software_title'.freeze
+    RSRC_OBJECT_KEY = :patch_software_title
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = %i[notifications name_id source_id].freeze
@@ -74,6 +87,7 @@ module JSS
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
+    # TODO: comfirm this in 10.4
     OBJECT_HISTORY_OBJECT_TYPE = 604
 
     SITE_SUBSET = :top
@@ -96,14 +110,16 @@ module JSS
     # :jss_and_email = both
     # :none = no notifications
     NEW_VERSION_NOTIFICATIONS = %i[
-      jss
+      web
       email
-      jss_and_email
+      web_and_email
       none
     ].freeze
 
-    JSS_NOTIFICATIONS = %i[jss jss_and_email].freeze
-    EMAIL_NOTIFICATIONS = %i[email jss_and_email].freeze
+    WEB_NOTIFICATIONS = %i[web web_and_email].freeze
+    EMAIL_NOTIFICATIONS = %i[email web_and_email].freeze
+
+    REPORTS_RSRC_BASE = '/patchreports/patchsoftwaretitleid'.freeze
 
     # Class Methods
     #######################################
@@ -183,21 +199,10 @@ module JSS
     #   installed?  Nil unless fetched with versions: :all. @see #total_computers_found
     attr_reader :total_computers
 
-    # @return [Symbol, String] What version was searched for when we fetched?
-    #  will be :latest, :unknown, :all, or a specific version string.
-    attr_reader :version_requested
-
-    # @return [Symbol, String] What version was returned from a fetch?
-    #  will be :all, :unknown, or a specific version string.
-    attr_reader :version_fetched
-
-    # @return [Hash{String => JSS::PatchVersion}] The JSS::PatchVersions fetched for
+    # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
     # this title, keyed by version string
-    attr_reader :patch_versions
-    alias patches patch_versions
-
-    # @return [Array<String>] The version strings for all the versions fetched
     attr_reader :versions
+    alias patches versions
 
     # PatchTitles may be fetched by name: or id:
     #
@@ -215,14 +220,6 @@ module JSS
     # number found for a specific version.
     #
     def initialize(**args)
-      args[:version] ||= :latest
-      @version_requested = args[:version]
-
-      args[:version] = LATEST_VERSION_ID if args[:version] == :latest
-      args[:version] = UNKNOWN_VERSION_ID if args[:version] == :unknown
-
-      args[:fetch_rsrc] = parse_fetch_rsrc args
-
       super
 
       @name_id = @init_data[:name_id]
@@ -311,6 +308,57 @@ module JSS
       resp
     end
 
+    # TODO: use new XML parsing with data map
+    # Get a patch report for this title
+    # The Hash returned has 3 keys:
+    #   - :total_comptuters [Integer] total computers found for the requested version(s)
+    #   - :total versions [Integer] How many versions does this title have?
+    #       Always 1 if you report a specific version
+    #   - :versions [Hash {String => Array<Hash>}] Keys are the version(s) requested
+    #     values are Arrays of Hashes, one per computer with the keyed version
+    #     installed. Computer Hashes have identifiers as keys.
+    #
+    # See Also JSS::PatchTitle::Version.patch_report
+    #
+    # @param vers[String,Symbol] the version to report about. Can be a string
+    #   version number like '8.13.2' or :latest, :unknown, or :all. Defaults
+    #   to :all
+    #
+    # @return [Hash] the patch report for the version(s) specified.
+    #
+    def patch_report(vers = :all)
+      rsrc = patch_report_rsrc(vers)
+
+      # TODO: remove this and adjust parsing when jamf fixes the JSON
+      raw_report = XMLWorkaround.json_via_xml(rsrc, @api)[:patch_report]
+
+      report = {}
+      report[:total_computers] = raw_report[:total_computers]
+      report[:total_versions] = raw_report[:total_versions]
+
+      if raw_report[:versions].is_a? Hash
+        vs = raw_report[:versions][:version][:software_version].to_s
+        comps = raw_report[:versions][:version][:computers]
+        comps = [] if comps.empty?
+        report[:versions] = { vs => comps }
+        return report
+      end
+
+      report[:versions] = {}
+      raw_report[:versions].each do |v|
+        report[:versions][v[:software_version].to_s] = v[:computers].empty? ? [] : v[:computers]
+      end
+      report
+    end
+
+    def total_computers
+      patch_report[:total_computers]
+    end
+
+    def total_versions
+      patch_report[:total_versions]
+    end
+
     #################################
     private
 
@@ -341,19 +389,32 @@ module JSS
 
     # Used by initialize
     def parse_versions
-      @patch_versions = {}
-      @versions = []
+      @versions = {}
       @init_data[:versions].each do |vers|
-        @versions << vers[:software_version]
-        @patch_versions[vers[:software_version]] = JSS::PatchVersion.new(self, vers)
+        @versions[vers[:software_version]] = JSS::PatchTitle::Version.new(self, vers)
       end # each do vers
 
       @version_fetched =
         case @version_requested
         when :all then :all
         when :unknown then :unknown
-        else @versions.first
+        else @versions.keys.first # yay for ordered hashes
         end
+    end
+
+    # given a requested version, return the rest rsrc for getting
+    # a patch report for it.
+    def patch_report_rsrc(vers)
+      case vers
+      when :all
+        "#{REPORTS_RSRC_BASE}/#{id}"
+      when :latest
+        "#{REPORTS_RSRC_BASE}/#{id}/version/#{LATEST_VERSION_ID}"
+      when :unknown
+        "#{REPORTS_RSRC_BASE}/#{id}/version/#{UNKNOWN_VERSION_ID}"
+      else
+        "#{REPORTS_RSRC_BASE}/#{id}/version/#{vers}"
+      end
     end
 
     # Return the REST XML for this title, with the current values,
@@ -396,3 +457,5 @@ module JSS
   end # class Patch
 
 end # module JSS
+
+require 'jss/api_object/patch_title/version'

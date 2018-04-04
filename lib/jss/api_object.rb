@@ -943,22 +943,18 @@ module JSS
       # e.g. User when loookup is by email.
       args[:rsrc_object_key] ||= self.class::RSRC_OBJECT_KEY
 
-      #
-      return @api.get_rsrc(rsrc)[args[:rsrc_object_key]] unless defined? self.class::USE_XML_WORKAROUND
+      raw_json =
+        if defined? self.class::USE_XML_WORKAROUND
+          # if we're here, the API JSON is borked, so use the XML
+          JSS::XMLWorkaround.data_via_xml rsrc, self.class::USE_XML_WORKAROUND, @api
+        else
+          # othereise
+          @api.get_rsrc(rsrc)
+        end
 
-      # use the XML workaround to get our usable JSON
-      raw_xml = @api.get_rsrc(rsrc, :xml)
-      xmlroot = REXML::Document.new(raw_xml).root
-      hash_from_xml = {}
-      hash_from_xml[xmlroot.name] = JSS::XMLWorkarounds.process_element(xmlroot)
-
-      # this to-JSON-and-back-again ensures we have consistently symbolized_names
-      # and that this data looks the same as if it came from the JSON GET response.
-      usable_json = JSON.parse(hash_from_xml.to_json, symbolize_names: true)
-
-      usable_json[args[:rsrc_object_key]]
+      raw_json[args[:rsrc_object_key]]
     rescue RestClient::ResourceNotFound
-      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching: #{rsrc_key}/#{args[lookup_key]}"
+      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching resource #{rsrc}"
     end
 
     # Given initialization args, determine the rsrc key and
@@ -1189,7 +1185,6 @@ require 'jss/api_object/netboot_server'
 require 'jss/api_object/network_segment'
 require 'jss/api_object/osx_configuration_profile'
 require 'jss/api_object/package'
-require 'jss/api_object/patch_version'
 require 'jss/api_object/patch_title'
 require 'jss/api_object/patch_policy'
 require 'jss/api_object/peripheral_type'
