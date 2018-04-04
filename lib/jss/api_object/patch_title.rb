@@ -45,6 +45,8 @@ module JSS
     include JSS::Updatable
 
     # TODO: remove this and adjust parsing when jamf fixes the JSON
+    # Data map for PatchTitle XML data parsing cuz Borked JSON
+    # @see {JSS::XMLWorkaround} for details
     USE_XML_WORKAROUND = {
       patch_software_title: {
         id: -1,
@@ -66,6 +68,32 @@ module JSS
               id: -1,
               name: JSS::BLANK
             }
+          }
+        ]
+      }
+    }.freeze
+
+    # TODO: remove this and adjust parsing when jamf fixes the JSON
+    # Data map for PatchReport XML data parsing cuz Borked JSON
+    # @see {JSS::XMLWorkaround} for details
+    PATCH_REPORT_DATA_MAP = {
+      patch_report: {
+        name: JSS::BLANK,
+        patch_software_title_id: -1,
+        total_computers: 0,
+        total_versions: 0,
+        versions: [
+          {
+            software_version: JSS::BLANK,
+            computers: [
+              {
+                id: -1,
+                name: JSS::BLANK,
+                mac_address: JSS::BLANK,
+                alt_mac_address: JSS::BLANK,
+                serial_number: JSS::BLANK
+              }
+            ]
           }
         ]
       }
@@ -308,7 +336,6 @@ module JSS
       resp
     end
 
-    # TODO: use new XML parsing with data map
     # Get a patch report for this title
     # The Hash returned has 3 keys:
     #   - :total_comptuters [Integer] total computers found for the requested version(s)
@@ -330,8 +357,7 @@ module JSS
       rsrc = patch_report_rsrc(vers)
 
       # TODO: remove this and adjust parsing when jamf fixes the JSON
-      raw_report = XMLWorkaround.json_via_xml(rsrc, @api)[:patch_report]
-
+      raw_report = XMLWorkaround.data_via_xml(rsrc, PATCH_REPORT_DATA_MAP, api)[:patch_report]
       report = {}
       report[:total_computers] = raw_report[:total_computers]
       report[:total_versions] = raw_report[:total_versions]
