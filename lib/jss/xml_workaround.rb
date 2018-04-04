@@ -91,6 +91,17 @@ module JSS
   # For sub-hashes, use the same technique as for the main hash.
   # see the :category value above.
   #
+  # IMPORTANT NOTE: Lots of Arrays in the XML have a matching 'size' attribute
+  # containing an integer indicating how many items in the array. Unfortunately
+  # there is zero consistency about their existence or location. If they exist
+  # sometimes the are adjacent to the Array element, sometimes within it.
+  #
+  # Fortunately in Ruby, all container/enumerable classes have a 'size' or 'count'
+  # method to easily get that number.
+  # As such, when parsing XML elements, any 'size' element that exists with no
+  # other 'size' elements, and contains only an integer value and no sub-
+  # elements, are ignored. I haven't yet found any cases of a 'size' element
+  # that is used for anything else.
   #
   module XMLWorkaround
 
