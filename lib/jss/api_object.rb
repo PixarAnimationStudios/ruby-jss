@@ -1142,6 +1142,7 @@ require 'jss/api_object/scopable'
 
 ### APIObject SubClasses with SubClasses
 require 'jss/api_object/advanced_search'
+require 'jss/api_object/configuration_profile'
 require 'jss/api_object/extension_attribute'
 require 'jss/api_object/group'
 
@@ -1158,10 +1159,8 @@ require 'jss/api_object/ldap_server'
 require 'jss/api_object/mac_application'
 require 'jss/api_object/mobile_device'
 require 'jss/api_object/mobile_device_application'
-require 'jss/api_object/mobile_device_configuration_profile'
 require 'jss/api_object/netboot_server'
 require 'jss/api_object/network_segment'
-require 'jss/api_object/osx_configuration_profile'
 require 'jss/api_object/package'
 require 'jss/api_object/patch'
 require 'jss/api_object/patch_policy'
