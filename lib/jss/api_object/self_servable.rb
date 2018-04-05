@@ -63,7 +63,7 @@ module JSS
   # Classes including this module *MUST*:
   # - call {#add_self_service_xml(xmldoc)} in their #rest_xml method
   #
-  # IMPORTANT: Since SelfServable also includes #{JSS::Updatable}, for uploading icons,
+  # IMPORTANT: Since SelfServable also includes #{JSS::Uploadable}, for uploading icons,
   # see that module for its requirements.
   #
   #
@@ -90,6 +90,35 @@ module JSS
 
     DEFAULT_INSTALL_BUTTON_TEXT = 'Install'.freeze
 
+    # This hash contains the details about the inconsistencies of how
+    # Self Service data is dealt with in the API data of the different
+    # self-servable classes.
+    #
+    #  - in_self_service_data_path: Array, In the API data hash (the @init_data)
+    #      where to find the value indicicating that a thing is in self service.
+    #      e.g. [:self_service, :use_for_self_service] means
+    #      @init_data[:self_service][:use_for_self_service]
+    #
+    #  - in_self_service: Object, In the path defined above, what value means
+    #      the thing IS in self service
+    #
+    #  - not_in_self_service: Object, In the path defined above, what value means
+    #      the thing IS NOT in self service
+    #
+    #  - targets: Array<Symbol>, the array contains either :macos, :ios, or both.
+    #
+    #  - payload: Symbol, The thing that is deployed by self service, one of:
+    #     :policy, :app, :profile, :patchpolicy (ebooks are considered apps)
+    #
+    #  - can_display_in_categories: Boolean, when adding 'self service categories'
+    #    can the thing be 'displayed in' those categories?
+    #
+    #  - can_feature_in_categories: Boolean, when adding 'self service categories'
+    #    can the thing be 'featured in' those categories?
+    #
+    # It's unfortunate that this is needed in order to keep all the
+    # self service ruby code in this one module.
+    #
     SELF_SERVICE_CLASSES = {
       JSS::Policy => {
         in_self_service_data_path: [:self_service, :use_for_self_service],
@@ -330,7 +359,11 @@ module JSS
     # @return [void]
     #
     def self_service_user_removable=(new_val, pw = @self_service_removal_password)
-      return nil if new_val == @self_service_user_removable && pw == @self_service_removal_password
+      new_val, pw = *new_val if new_val.is_a? Array
+      pw = nil unless new_val == :with_auth
+
+      return nil if new_val == self_service_user_removable && pw == self_service_removal_password
+
       validate_user_removable new_val
 
       @self_service_user_removable = new_val
@@ -359,7 +392,7 @@ module JSS
         @new_icon_id = new_icon
         @need_to_update = true
       else
-        unless uploadable? && self.class::UPLOAD_TYPES.keys.include?(:icon)
+        unless uploadable? && defined?(self.class::UPLOAD_TYPES) && self.class::UPLOAD_TYPES.keys.include?(:icon)
           raise JSS::UnsupportedError, "Class #{self.class} does not support icon uploads."
         end
         new_icon = Pathname.new new_icon
@@ -473,7 +506,7 @@ module JSS
       @init_data[subsection][key] == @self_service_data_config[:in_self_service]
     end
 
-    def validate_user_removable=(new_val)
+    def validate_user_removable(new_val)
       raise JSS::UnsupportedError, 'User removal settings not applicable to this class' unless self_service_payload == :profile
 
       raise JSS::UnsupportedError, 'Removal :with_auth not applicable to this class' if new_val == :with_auth && !self_service_targets.include?(:ios)
@@ -483,7 +516,7 @@ module JSS
 
     def validate_icon(id)
       return nil unless JSS::DB_CNX.connected?
-      raise JSS::NoSuchItemError, "No icon with id #{new_icon}" unless JSS::Icon.all_ids.include? id
+      raise JSS::NoSuchItemError, "No icon with id #{id}" unless JSS::Icon.all_ids.include? id
     end
 
     # Re-read the icon data for this object from the API
@@ -533,9 +566,14 @@ module JSS
       end
 
       if self_service_payload == :profile
-        sec = ssvc.add_element('security')
-        sec.add_element('removal_disallowed').text = PROFILE_REMOVAL_BY_USER[@self_service_user_removable]
-        sec.add_element('password').text = @self_service_removal_password if @self_service_removal_password
+        if self_service_targets.include? :ios
+          sec = ssvc.add_element('security')
+          sec.add_element('removal_disallowed').text = PROFILE_REMOVAL_BY_USER[@self_service_user_removable]
+          sec.add_element('password').text = @self_service_removal_password.to_s
+        else
+          gen = doc_root.elements['general']
+          gen.add_element('user_removable').text = (@self_service_user_removable == :always).to_s
+        end
       end
 
       return unless @self_service_data_config[:in_self_service_data_path]
