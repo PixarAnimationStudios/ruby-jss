@@ -760,6 +760,7 @@ module JSS
         send_mdm_command targets, :device_name, opts: { device_name: name }, api: api
       end
       alias set_name device_name
+      alias set_device_name device_name
 
       # Send a wallpaper command to one or more targets
       #
@@ -1153,6 +1154,7 @@ module JSS
       self.class.device_name @id, name, api: @api
     end
     alias set_name device_name
+    alias set_device_name device_name
 
     # Send a wallpaper command to this object
     #
