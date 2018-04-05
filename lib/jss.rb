@@ -100,8 +100,7 @@ module JSS
   #####################################
 
   module Composer; end
-
-
+  module Client; end
 
   ### Mix-in Sub Modules with Classes
 
@@ -143,6 +142,10 @@ module JSS
   class MobileDeviceGroup < JSS::Group; end
   class UserGroup < JSS::Group; end
 
+  class ConfigurationProfile < JSS::APIObject; end
+  class OSXConfigurationProfile < JSS::ConfigurationProfile; end
+  class MobileDeviceConfigurationProfile < JSS::ConfigurationProfile; end
+
   ### APIObject Classes without SubClasses
 
   class Account < JSS::APIObject; end
@@ -155,11 +158,9 @@ module JSS
   class LDAPServer < JSS::APIObject; end
   class MacApplication < JSS::APIObject; end
   class MobileDevice < JSS::APIObject; end
-  class MobileDeviceConfigurationProfile < JSS::APIObject; end
   class MobileDeviceApplication < JSS::APIObject; end
   class NetBootServer < JSS::APIObject; end
   class NetworkSegment < JSS::APIObject; end
-  class OSXConfigurationProfile < JSS::APIObject; end
   class Package < JSS::APIObject; end
   class Patch < JSS::APIObject; end
   class PatchPolicy < JSS::APIObject; end
