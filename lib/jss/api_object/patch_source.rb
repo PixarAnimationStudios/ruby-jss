@@ -42,6 +42,63 @@ module JSS
     DFT_SSL_PORT = 443
     DFT_NO_SSL_PORT = 80
 
+    AVAILABLE_TITLES_RSRC = 'patchavailabletitles/sourceid/'.freeze
+
+    # TODO: remove this and adjust parsing when jamf fixes the JSON
+    # Data map for PatchReport XML data parsing cuz Borked JSON
+    # @see {JSS::XMLWorkaround} for details
+    AVAILABLE_TITLES_DATA_MAP = {
+      patch_available_titles: {
+        available_titles: [
+          {
+            name_id: JSS::BLANK,
+            current_version: JSS::BLANK,
+            publisher: JSS::BLANK,
+            last_modified: JSS::BLANK,
+            app_name: JSS::BLANK
+          }
+        ]
+      }
+    }.freeze
+
+    # Class Methods
+    ############################################
+
+    # Get a list of patch titles available from a Patch Source (either
+    # internal or external, since they have unique ids )
+    #
+    # @param vers[String,Integer] name or id of the Patch Source for which to
+    # get the available titles
+    #
+    # @param api[JSS::APIConnection] The api connection to use for the query
+    #   Defaults to the currently active connection
+    #
+    # @return [Array<Hash{Symbol:String}>] One hash for each available title, with
+    #   these keys:
+    #     :name_id String
+    #     :current_version String
+    #     :publisher String
+    #     :last_modified Time
+    #     :app_name  String
+    #
+    def self.available_titles(source, api: JSS.api)
+      validate_subclass
+      src_id = valid_id source
+      raise JSS::NoSuchItemError, "No Patch Source found matching: #{source}" unless src_id
+      rsrc = "#{AVAILABLE_TITLES_RSRC}#{src_id}"
+
+      # TODO: remove this and adjust parsing when jamf fixes the JSON
+      raw = JSS::XMLWorkaround.data_via_xml(rsrc, AVAILABLE_TITLES_DATA_MAP, api)
+      titles = raw[:patch_available_titles][:available_titles]
+      titles.each { |t| t[:last_modified] = Time.parse t[:last_modified] }
+      titles
+    end
+
+    def self.validate_subclass
+      return unless self == JSS::PatchSource
+      raise JSS::UnsupportedError, 'PatchSource is an abstract parent class. Please use PatchInternalSource or PatchExternalSource'
+    end
+
     # Attributes
     #####################################
 
@@ -67,6 +124,7 @@ module JSS
 
     #
     def initialize(**args)
+      self.class.validate_subclass
       super
       @enabled = @init_data[:enabled]
 
@@ -95,7 +153,6 @@ module JSS
         protocol =  ssl_enabled ? HTTPS : HTTP
         @endpoint = "#{protocol}://#{host_name}:#{port}/"
       end
-
     end # init
 
     # Enable this source for retrieving patch info
@@ -124,6 +181,20 @@ module JSS
       return unless enabled?
       @enabled = false
       @need_to_update = true
+    end
+
+    # Get a list of patch titles available from this Patch Source
+    #
+    # @return [Array<Hash{Symbol:String}>] One hash for each available title, with
+    #   these keys:
+    #     :name_id String
+    #     :current_version String
+    #     :publisher String
+    #     :last_modified Time
+    #     :app_name  String
+    #
+    def available_titles
+      self.class.available_titles id, api: api
     end
 
     # if we ever get the ability to en/disable the internal sources
