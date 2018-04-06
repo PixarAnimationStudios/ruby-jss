@@ -87,7 +87,7 @@ module JSS
     ### @option opts :signing_identity[String] the optional name of the signing identity (certificate) to
     ###   use for signing the pkg. See `man pkgbuild` for details
     ###
-    ### @option opts :signing_id[String] the optional string of options to pass to pkgbuild.
+    ### @option opts :signing_options[String] the optional string of options to pass to pkgbuild.
     ###  See `man pkgbuild` for details
     ###
     ### @return [Pathname] the local path to the new .pkg
@@ -147,7 +147,6 @@ module JSS
 
       ### now build the pkg
       begin
-        byebug
         it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}' "
 
         raise 'There was an error building the .pkg' unless it_built
