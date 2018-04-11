@@ -4,9 +4,9 @@
 
 - Simplification: when building .pkg's with JSS::Composer.mk_pkg, only two params are related to Package Signing: 'signing_identity:' the name of the signing identity to use, and and 'signing_options:' a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see `man pkgbuild`
 
-- Improvement: Now augmenting ruby Hashes with an embeded 'recursive-open-struct' version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of `computer_instance.hardware[:storage].first[:partition][:percentage_full]` you can do `computer_instance.hardware.jss_ros.storage.first.partition.percentage_full`.  See http://www.rubydoc.info/gems/ruby-jss/Hash for details.
+- Improvement: Now augmenting ruby Hashes with an embeded 'recursive-open-struct' version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of `computer_instance.hardware[:storage].first[:partition][:percentage_full]` you can do `computer_instance.hardware.jss_ros.storage.first.partition.percentage_full`.  See http://www.rubydoc.info/gems/ruby-jss/Hash for details. Uses the [recursive-open-struct gem](https://github.com/aetherknight/recursive-open-struct).
 
-- Add: JSS::Computer now has a class method to access to the computerapplications/application endpoint so you can query lists of computers that have certain apps installed.
+- Add: The computerapplications/application endpoint is now implemented as the JSS::Computer.application_installs class method so you can query lists of computers that have certain apps installed.
 
 - Improvement: the JSS::Computer class is now defined in multiple files.  The single computer.rb file was getting far to unwieldy.
 
