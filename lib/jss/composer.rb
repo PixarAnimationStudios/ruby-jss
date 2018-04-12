@@ -147,7 +147,6 @@ module JSS
 
       ### now build the pkg
       begin
-        byebug
         it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}' "
 
         raise 'There was an error building the .pkg' unless it_built
