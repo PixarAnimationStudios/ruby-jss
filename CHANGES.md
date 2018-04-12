@@ -1,5 +1,27 @@
 # Change History
 
+## v 0.12.x
+
+- Simplification: when building .pkg's with JSS::Composer.mk_pkg, only two params are related to Package Signing: 'signing_identity:' the name of the signing identity to use, and and 'signing_options:' a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see `man pkgbuild`
+
+- Improvement: Now augmenting ruby Hashes with an embeded 'recursive-open-struct' version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of `computer_instance.hardware[:storage].first[:partition][:percentage_full]` you can do `computer_instance.hardware.jss_ros.storage.first.partition.percentage_full`.  See http://www.rubydoc.info/gems/ruby-jss/Hash for details. Uses the [recursive-open-struct gem](https://github.com/aetherknight/recursive-open-struct).
+
+- Add: The computerapplications/application endpoint is now implemented as the JSS::Computer.application_installs class method so you can query lists of computers that have certain apps installed.
+
+- Improvement: the JSS::Computer class is now defined in multiple files.  The single computer.rb file was getting far to unwieldy.
+
+- Improvement: JSS::Client is now a module full of module methods rather than a class full of class methods. Functionally, nothing has changed, but since it is never meant to be instantiated, it logicially should not be a class.
+
+- Fix: Setting the first icon of a newly-created JSS::Policy now works. Thanks @christopher.kemp for reporting this one
+
+- Add: JSS::MobileDeviceConfigurationProfile is now more fleshed-out and is Updatable.
+
+- Improvement: JSS::MobileDeviceConfigurationProfile and JSS::OSXConfigurationProfile now share an abstract parent class, JSS::ConfigurationProfile, containing common code.
+
+- Fix: the SelfServable module was mis-handling 'user-removability' data for config profiles.
+
+- Fix: Typo and missing method alias, caught by csfjeff @ github, issue #23
+
 ## v 0.11.0, 2018-03-12
 
 - Fix: NoMethod error when saving JSS::Policy was due to a typo in a method call.

@@ -524,7 +524,7 @@ module JSS
     def update
       super
       return unless @needs_mdm_name_change
-      set_device_mame @name if managed? && supervised?
+      set_device_name @name if managed? && supervised?
       @needs_mdm_name_change = false
     end
 
