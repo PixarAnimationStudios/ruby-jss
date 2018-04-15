@@ -91,10 +91,10 @@ module JSS
   # For sub-hashes, use the same technique as for the main hash.
   # see the :category value above.
   #
-  # IMPORTANT NOTE: Lots of Arrays in the XML have a matching 'size' attribute
-  # containing an integer indicating how many items in the array. Unfortunately
-  # there is zero consistency about their existence or location. If they exist
-  # sometimes the are adjacent to the Array element, sometimes within it.
+  # IMPORTANT NOTE: Lots of Arrays in the XML have a matching 'size' element
+  # containing an integer indicating how many items are in the array. Unfortunately
+  # there is zero consistency about their existence or location. If they exist at
+  # all, sometimes the are adjacent to the Array element, sometimes within it.
   #
   # Fortunately in Ruby, all container/enumerable classes have a 'size' or 'count'
   # method to easily get that number.
@@ -145,7 +145,7 @@ module JSS
       when Integer
         element ? element.text.to_i : model
       when Float
-        element ? element.text.to_s : model
+        element ? element.text.to_f : model
       when nil
         return nil unless element
         element.text.downcase == TRUE_STRING ? true : false
@@ -186,7 +186,7 @@ module JSS
         arr << process_map_item(model, subelem)
       end # each subelem
       arr
-end
+    end
 
     # convert an XML element into a Hash
     def self.elem_as_hash(model, elem)
@@ -199,7 +199,7 @@ end
         hsh[key] = val
       end
       hsh
-end
+    end
 
   end # module XMLWorkarounds
 

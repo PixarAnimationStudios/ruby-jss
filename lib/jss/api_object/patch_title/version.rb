@@ -35,15 +35,14 @@ module JSS
     # 'patchsoftwaretitles' resource of the API
     #
     # Not only does each one have a 'version', e.g. '8.3.2b12', but
-    # also knows its parent SoftwareTitle, the id of the matching
-    # JSS::Package, if any, and can report the names and ids of the computers
+    # also knows its parent PatchTitle, the matching JSS::Package,
+    # if any, and can report the names and ids of the computers
     # that have it installed.
     #
-    # To set or change the JSS::Package associated with a SoftwareTitle::Version,
-    # first fetch
-    # the corresponding SoftwareTitle, specifying the version you want to change,
-    # the use the #package= method of the encapsulated PatchVersion object
-    # and save your changes back to the JSS.
+    # To set or change the JSS::Package associated with a PatchTitle::Version,
+    # first fetch the corresponding SoftwareTitle, use the #package= method
+    # of the Version object in its #versions attribute, then save the PatchTitle
+    # back to the JSS.
     #
     class Version
 
@@ -62,6 +61,11 @@ module JSS
       #  if defined
       attr_reader :package_name
 
+      # @return [Boolean] Has the package been changed, and need saving back to
+      #   JSS?
+      attr_reader :package_changed
+      alias package_changed? package_changed
+
       # This should only be instantiated by the JSS::PatchTitle that contains
       # this version.
       #
@@ -78,10 +82,21 @@ module JSS
       end
 
       # get the patch report for this version
+      # See PatchTitle.patch_report
       def patch_report
         @title.patch_report version
       end
+      alias version_report patch_report
+      alias report patch_report
 
+      # @return [Integer] How many #computers have this version?
+      #
+      def total_computers
+        patch_report[:total_computers]
+      end
+
+      # @return [Array<Hash>] A hash of identifiers for each computer
+      #   with this version installed.
       def computers
         patch_report[:versions][version]
       end
@@ -98,19 +113,19 @@ module JSS
         computers.map { |c| c[:name] }
       end
 
-      # @return [Array<Integer>] The serialnumbers of #computers
+      # @return [Array<Integer>] The serial_numbers of #computers
       #
       def computer_serial_numbers
         computers.map { |c| c[:serial_number] }
       end
 
-      # @return [Integer] How many #computers have this version?
+      # @return [Array<Integer>] The udids of #computers
       #
-      def total_computers
-        patch_report[:total_computers]
+      def computer_udids
+        computers.map { |c| c[:udid] }
       end
 
-      # Assign a new JSS::Package to this PatchVersion.
+      # Assign a new JSS::Package to this PatchTitle::Version.
       # The Package must exist in the JSS. Be
       # sure to call #update on the PatchTitle containing
       # this Version.
@@ -133,8 +148,7 @@ module JSS
 
         @package_id = pkgid
         @package_name = pkgid == :none ? nil : JSS::Package.map_all_ids_to(:name)[pkgid]
-
-        @title.changed_pkg_for version
+        @title.changed_pkg_for_version version
       end
 
       # Remove the various cached data

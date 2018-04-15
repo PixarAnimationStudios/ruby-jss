@@ -26,21 +26,27 @@
 ###
 module JSS
 
-  # An active Patch Title, or 'Patch Software Title' in the JSS.
+  # An active Patch Software Title in the JSS.
   #
-  # Even though this class corresponds to the 'patches' resource of the API
-  # these objects are really 'Titles', not 'Patches'. The versions within the
-  # title are really the patches, and are defined in the JSS::PatchVersion class
+  # This class provides access to titles that have been added to Jamf Pro
+  # via a PatchInternalSource or a PatchExternalSource, and the versions
+  # contained therein.
   #
-  # This class will contain methods/attributes for accessing those patches, and
-  # they can only be instantiated by fetching the title that contains them.
+  # Patch versions for the title are available in the #versions read-only
+  # attribute, a Hash of versions keyed by the version string. The values are
+  # JSS::PatchTitle::Version objects.
   #
+  # Use the patch_report method on the PatchTitle class, an instance of it, or
+  # a PatchTitle::Version, to retrieve a report of computers with a
+  # specific version of the title installed, or :all, :latest, or :unknown
+  # versions. Reports called on the class or an instance default to :all
+  # versions, and are slower to retrieve than a specific version,
   #
   # @see JSS::APIObject
   #
   class PatchTitle < JSS::APIObject
 
-    include JSS::Sitable
+    #  include JSS::Sitable # TODO: confirm in JSS 10.4 release
     include JSS::Categorizable
     include JSS::Updatable
 
@@ -203,140 +209,9 @@ module JSS
       all(refresh, api: api).map { |i| i[:source_id] }.sort.uniq
     end
 
-    # Attributes
-    #####################################
-
-    # @return [String] the 'name_id' for this patch title. name_id is a unique
-    # identfier provided by the patch source
-    attr_reader :name_id
-
-    # @return [Integer] the id of the patch source from which we get patches
-    # for this title
-    attr_reader :source_id
-
-    # @return [Symbol] How should new patches be announced within the JSS webUI?
-    # one of: :jss, :email, :jss_and_email, :none
-    attr_reader :notifications
-
-    # @return [Integer, nil] how many total versions/patches are we aware of for this
-    #   title? Nil unless fetched with versions: :all
-    attr_reader :total_versions
-    alias total_patches total_versions
-
-    # @return [Integer, nil] How many computers have any version of this title
-    #   installed?  Nil unless fetched with versions: :all. @see #total_computers_found
-    attr_reader :total_computers
-
-    # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
-    # this title, keyed by version string
-    attr_reader :versions
-    alias patches versions
-
-    # PatchTitles may be fetched by name: or id:
+    # Get a patch report for a softwaretitle, withouth fetching an instance.
+    # Defaults to reporting all versions. Specifiying a version will be faster.
     #
-    # By default, PatchTitles are fetched with data about the latest known
-    # PatchVersion only, because the search takes much less time than with
-    # all known PatchVersions. You may also specify `version: :latest` for the
-    # same effect.
-    #
-    # To gather data about all known PatchVersions, use 'version: :all' when
-    # fetching a PatchTitle. To get just the 'Unknown' version, use
-    # 'version: :unknown'.  For any other version, specify the version as a String
-    #
-    # The #total_versions and #total_computers attributes will return nil unless
-    # you fetched with 'version: :all', use #total_computers_found to get the
-    # number found for a specific version.
-    #
-    def initialize(**args)
-      super
-
-      @name_id = @init_data[:name_id]
-      @source_id = @init_data[:source_id]
-
-      parse_notifications
-
-      @total_versions = @init_data[:total_versions]
-      @total_computers = @init_data[:total_computers]
-
-      parse_versions
-
-      @changed_pkgs = []
-    end
-
-    # @return [Integer] How many computers were found with the
-    #   specified PatchVersion(s)?
-    #
-    def total_computers_found
-      return total_computers if @version_fetched == :all
-      patch_versions.values.first.size
-    end
-
-    # @return [Array<String>] PatchVersion numbers not installed
-    #   on any computers
-    def versions_with_no_computers
-      patch_versions.keys.select { |v| patch_versions[v].size.zero? }
-    end
-
-    # @return [Array<String>] PatchVersion numbers installed
-    #   on at least one computer
-    def versions_with_computers
-      patch_versions.keys.reject { |v| patch_versions[v].size.zero? }
-    end
-
-    # @return [Boolean] Do notifications show up in the jss?
-    #
-    def jss_notification?
-      JSS_NOTIFICATIONS.include? notifications
-    end
-
-    # @return [Boolean] Do notifications get sent via email?
-    #
-    def email_notification?
-      EMAIL_NOTIFICATIONS.include? notifications
-    end
-
-    # Set how to get notifications of new patches for this title
-    #
-    # @param now[Symbol] How should we be notified of new versions for this title?
-    #   one of the values of NEW_VERSION_NOTIFICATIONS
-    #
-    # @return [void]
-    #
-    def notifications=(how)
-      return if @notifications == how
-      raise JSS::InvalidDataError, "Parameter must be one of :#{NEW_VERSION_NOTIFICATIONS.join ', :'}" unless NEW_VERSION_NOTIFICATIONS.include? how
-      @notifications = how
-      @need_to_update = true
-    end
-
-    # Remove the various cached data
-    # from the instance_variables used to create
-    # pretty-print (pp) output.
-    #
-    # @return [Array] the desired instance_variables
-    #
-    def pretty_print_instance_variables
-      vars = super
-      vars.delete :@versions
-      vars
-    end
-
-    # this is called by JSS::PatchVersion#package= to update @changed_pkgs which
-    # is used by #rest_xml to change the package assigned to a patch version
-    # in this title.
-    def changed_pkg_for(version)
-      @changed_pkgs << version
-      @need_to_update = true
-    end
-
-    # wrapper to clear @changed_pkgs after updating
-    def update
-      resp = super
-      @changed_pkgs.clear
-      resp
-    end
-
-    # Get a patch report for this title
     # The Hash returned has 3 keys:
     #   - :total_comptuters [Integer] total computers found for the requested version(s)
     #   - :total versions [Integer] How many versions does this title have?
@@ -345,16 +220,24 @@ module JSS
     #     values are Arrays of Hashes, one per computer with the keyed version
     #     installed. Computer Hashes have identifiers as keys.
     #
-    # See Also JSS::PatchTitle::Version.patch_report
+    # PatchTitle#patch_report calls this method, as does
+    # PatchTitle::Version.patch_report.
     #
-    # @param vers[String,Symbol] the version to report about. Can be a string
-    #   version number like '8.13.2' or :latest, :unknown, or :all. Defaults
-    #   to :all
+    # @param title[Integer, String]  The name or id of the software title to
+    #   report.
+    #
+    # @param version[String,Symbol] Limit the report to this version.
+    #   Can be a string version number like '8.13.2' or :latest, :unknown,
+    #   or :all. Defaults to :all
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
     # @return [Hash] the patch report for the version(s) specified.
     #
-    def patch_report(vers = :all)
-      rsrc = patch_report_rsrc(vers)
+    def self.patch_report(title, version: :all, api: JSS.api)
+      title_id = valid_id title
+      rsrc = patch_report_rsrc(title_id, version)
 
       # TODO: remove this and adjust parsing when jamf fixes the JSON
       raw_report = XMLWorkaround.data_via_xml(rsrc, PATCH_REPORT_DATA_MAP, api)[:patch_report]
@@ -377,60 +260,13 @@ module JSS
       report
     end
 
-    def total_computers
-      patch_report[:total_computers]
-    end
-
-    def total_versions
-      patch_report[:total_versions]
-    end
-
-    #################################
-    private
-
-    # Used by initialize
-    def parse_notifications
-      notifs = @init_data[:notifications]
-      @notifications =
-        if notifs[:jss_notification] && notifs[:email_notification]
-          :jss_and_email
-        elsif notifs[:jss_notification]
-          :jss
-        elsif notifs[:email_notification]
-          :email
-        else
-          :none
-        end
-    end
-
-    # if not fetching all versions,
-    # make a version-specific rest resource to GET
-    #
-    # Used by initialize
-    def parse_fetch_rsrc(args)
-      return nil if args[:version] == :all
-      rsrc_key, lookup_value = find_rsrc_keys(args)
-      "#{self.class::RSRC_BASE}/#{rsrc_key}/#{lookup_value}/version/#{args[:version]}"
-    end
-
-    # Used by initialize
-    def parse_versions
-      @versions = {}
-      @init_data[:versions].each do |vers|
-        @versions[vers[:software_version]] = JSS::PatchTitle::Version.new(self, vers)
-      end # each do vers
-
-      @version_fetched =
-        case @version_requested
-        when :all then :all
-        when :unknown then :unknown
-        else @versions.keys.first # yay for ordered hashes
-        end
-    end
+    # aliases of patch_report
+    singleton_class.send(:alias_method, :version_report, :patch_report)
+    singleton_class.send(:alias_method, :report, :patch_report)
 
     # given a requested version, return the rest rsrc for getting
     # a patch report for it.
-    def patch_report_rsrc(vers)
+    def self.patch_report_rsrc(id, vers)
       case vers
       when :all
         "#{REPORTS_RSRC_BASE}/#{id}"
@@ -442,15 +278,127 @@ module JSS
         "#{REPORTS_RSRC_BASE}/#{id}/version/#{vers}"
       end
     end
+    private_class_method :patch_report_rsrc
+
+    # Attributes
+    #####################################
+
+    # @return [String] the 'name_id' for this patch title. name_id is a unique
+    #   identfier provided by the patch source
+    attr_reader :name_id
+
+    # @return [Integer] the id of the patch source from which we get patches
+    #   for this title
+    attr_reader :source_id
+
+    # @return [Symbol] How should new patches be announced to admins?
+    #   one of: :jss, :email, :jss_and_email, :none
+    attr_reader :notifications
+
+    # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
+    #   this title, keyed by version string
+    attr_reader :versions
+
+    # PatchTitles may be fetched by name: or id:
+    #
+    def initialize(**args)
+      super
+
+      @name_id = @init_data[:name_id]
+      @source_id = @init_data[:source_id]
+
+      notifs = @init_data[:notifications]
+      @notifications =
+        if notifs[:jss_notification] && notifs[:email_notification]
+          :jss_and_email
+        elsif notifs[:jss_notification]
+          :jss
+        elsif notifs[:email_notification]
+          :email
+        else
+          :none
+        end
+
+      @versions = {}
+      @init_data[:versions].each do |vers|
+        @versions[vers[:software_version]] = JSS::PatchTitle::Version.new(self, vers)
+      end # each do vers
+
+      @changed_pkgs = []
+    end
+
+    # @return [Boolean] Do notifications show up in the jss?
+    #
+    def jss_notification?
+      WEB_NOTIFICATIONS.include? notifications
+    end
+
+    # @return [Boolean] Do notifications get sent via email?
+    #
+    def email_notification?
+      EMAIL_NOTIFICATIONS.include? notifications
+    end
+
+    # Set how to get notifications of new patches for this title
+    #
+    # @param how[Symbol] How should we be notified of new versions for this title?
+    #   one of the values of NEW_VERSION_NOTIFICATIONS
+    #
+    # @return [void]
+    #
+    def notifications=(how)
+      return if @notifications == how
+      raise JSS::InvalidDataError, "Parameter must be one of :#{NEW_VERSION_NOTIFICATIONS.join ', :'}" unless NEW_VERSION_NOTIFICATIONS.include? how
+      @notifications = how
+      @need_to_update = true
+    end
+
+    # this is called by JSS::PatchTitle::Version#package= to update @changed_pkgs which
+    # is used by #rest_xml to change the package assigned to a patch version
+    # in this title.
+    def changed_pkg_for_version(version)
+      @changed_pkgs << version
+      @need_to_update = true
+    end
+
+    # wrapper to clear @changed_pkgs after updating
+    def update
+      resp = super
+      @changed_pkgs.clear
+      resp
+    end
+
+    # Get a patch report for this title.
+    #
+    # See the class method JSS::PatchTitle.patch_report
+    #
+    def patch_report(vers = :all)
+      JSS::PatchTitle.patch_report id, version: vers, api: @api
+    end
+    alias version_report patch_report
+    alias report patch_report
+
+    # Remove the various cached data
+    # from the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = super
+      vars.delete :@versions
+      vars
+    end
+
+    #################################
+    private
 
     # Return the REST XML for this title, with the current values,
     # for saving or updating.
     #
     def rest_xml
-      doc = REXML::Document.new APIConnection::XML_HEADER
-      # obj = doc.add_element RSRC_OBJECT_KEY.to_s
-      # LOVE us some inconsistency :-(
-      obj = doc.add_element XML_PUT_OBJECT_KEY
+      doc = REXML::Document.new # JSS::APIConnection::XML_HEADER
+      obj = doc.add_element RSRC_OBJECT_KEY.to_s
 
       obj.add_element('name').text = name
 
@@ -458,25 +406,24 @@ module JSS
       notifs.add_element('jss_notification').text = jss_notification?.to_s
       notifs.add_element('email_notification').text = email_notification?.to_s
 
-      add_changed_pkg_xml obj
+      add_changed_pkg_xml obj unless @changed_pkgs.empty?
 
       add_category_to_xml doc
-      add_site_to_xml doc
+      #  add_site_to_xml doc
 
       doc.to_s
     end # rest_xml
 
     # add xml for any package changes to patch versions
     def add_changed_pkg_xml(obj)
-      return if @changed_pkgs.empty?
       versions_elem = obj.add_element 'versions'
       @changed_pkgs.each do |vers|
         velem = versions_elem.add_element 'version'
         velem.add_element('software_version').text = vers.to_s
         pkg = velem.add_element 'package'
         # leave am empty package element to remove the pkg assignement
-        next if patch_versions[vers].package_id == :none
-        pkg.add_element('id').text = patch_versions[vers].package_id.to_s
+        next if versions[vers].package_id == :none
+        pkg.add_element('id').text = versions[vers].package_id.to_s
       end # do vers
     end
 
