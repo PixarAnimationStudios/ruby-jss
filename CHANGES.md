@@ -1,6 +1,6 @@
 # Change History
 
-## v 0.12.x
+## v 0.12.0, 2018-04-16
 
 - Simplification: when building .pkg's with JSS::Composer.mk_pkg, only two params are related to Package Signing: 'signing_identity:' the name of the signing identity to use, and and 'signing_options:' a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see `man pkgbuild`
 
@@ -29,7 +29,7 @@
 - Fix: Initialization of Creatable objects using certain mixins (Extendable, Sitable, Categorizable) either failed, or errored when trying to set their values. Now fixed. Thanks @mylescarrick for reporting this one.
 
 - Improvement: Updated general attributes for computers and mobile devices
-
+s
 - Improvement: Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.
 
 - Improvement: Handling of 'site' data is now done via the JSS::Sitable mixin module
