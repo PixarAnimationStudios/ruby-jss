@@ -10,8 +10,6 @@
 
 - Improvement: the JSS::Computer class is now defined in multiple files.  The single computer.rb file was getting far to unwieldy.
 
-- Improvement: JSS::Client is now a module full of module methods rather than a class full of class methods. Functionally, nothing has changed, but since it is never meant to be instantiated, it logicially should not be a class.
-
 - Fix: Setting the first icon of a newly-created JSS::Policy now works. Thanks @christopher.kemp for reporting this one
 
 - Add: JSS::MobileDeviceConfigurationProfile is now more fleshed-out and is Updatable.
