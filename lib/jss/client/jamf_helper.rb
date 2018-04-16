@@ -27,7 +27,7 @@
 module JSS
 
   #
-  module Client
+  class Client
 
     # Constants
     #####################################
@@ -53,13 +53,9 @@ module JSS
     # The possible alignment positions in jamfHelper
     JAMF_HELPER_ALIGNMENTS = %i[right left center justified natural].freeze
 
-    # Module Methods
+    # class Methods
     #####################################
 
-    # the preferred way to make all the following methods into
-    # module methods:
-
-    module_function
 
     # A wrapper for the jamfHelper command, which can display a window on the client machine.
     #
@@ -179,7 +175,7 @@ module JSS
     #
     # @return [Integer] the exit status of the jamfHelper command. See above.
     #
-    def jamf_helper(window_type = :hud, opts = {})
+    def self.jamf_helper(window_type = :hud, opts = {})
       raise JSS::UnmanagedError, 'The jamfHelper app is not installed properly on this computer.' unless JAMF_HELPER.executable?
 
       unless JAMF_HELPER_WINDOW_TYPES.include? window_type
