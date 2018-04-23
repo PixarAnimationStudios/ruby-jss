@@ -71,9 +71,11 @@ module JSS
   # So a map example of '' (an empty string, a.k.a. JSS::BLANK) indicates
   # that the value should be a String and if the XML element is nil or empty,
   # use '' in the Ruby data. If its -1, that means the value should be an
-  # Integer, and if its empty or nil, use -1 in Ruby. Booleans are special: the
-  # map example must be nil, and nil is used when the xml is empty, since you
-  # want to be able to know that the XML value was neither true nor false.
+  # Integer, and if its empty or nil, use -1 in Ruby.
+  #
+  # Booleans are special: the map example must be nil, and nil is used when the
+  # xml is empty, since you want to be able to know that the XML value was
+  # neither true nor false.
   #
   # Allowed single value classes and common default examples are:
   #   String, common default: '' or JSS::BLANK
@@ -185,7 +187,7 @@ module JSS
         # Recursion for the win!
         arr << process_map_item(model, subelem)
       end # each subelem
-      arr
+      arr.compact
     end
 
     # convert an XML element into a Hash

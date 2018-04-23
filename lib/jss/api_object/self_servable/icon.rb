@@ -179,6 +179,18 @@ module JSS
         path.jss_save @data
       end
 
+      # Remove the data  object from
+      # the instance_variables used to create
+      # pretty-print (pp) output.
+      #
+      # @return [Array] the desired instance_variables
+      #
+      def pretty_print_instance_variables
+        vars = instance_variables.sort
+        vars.delete :@data
+        vars
+      end
+
     end # class icon
 
 end # module

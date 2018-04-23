@@ -121,6 +121,10 @@ module JSS
     #  - not_in_self_service: Object, In the path defined above, what value means
     #      the thing IS NOT in self service
     #
+    #  - self_service_subset: Symbol.  Which key of the init data hash contains
+    #    the self service data. If not defined, its :self_service, but
+    #    PatchPolcies use :user_interaction
+    #
     #  - targets: Array<Symbol>, the array contains either :macos, :ios, or both.
     #
     #  - payload: Symbol, The thing that is deployed by self service, one of:
@@ -149,6 +153,7 @@ module JSS
         in_self_service_data_path: %i[general distribution_method],
         in_self_service: PATCHPOL_SELF_SERVICE,
         not_in_self_service: PATCHPOL_AUTO,
+        self_service_subset: :user_interaction,
         targets: [:macos],
         payload: :patchpolicy,
         can_display_in_categories: false,
@@ -571,9 +576,12 @@ module JSS
     # @return [void]
     #
     def parse_self_service
-      ss_data = @init_data[:self_service]
-      ss_data ||= {}
       @self_service_data_config = SELF_SERVICE_CLASSES[self.class]
+
+      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+
+      ss_data = @init_data[subset_key]
+      ss_data ||= {}
 
       @in_self_service = in_self_service_at_init?
 
