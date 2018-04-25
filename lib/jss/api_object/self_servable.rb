@@ -690,8 +690,11 @@ module JSS
     # @return [void]
     #
     def add_self_service_xml(xdoc)
+      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+
       doc_root = xdoc.root
-      ssvc = doc_root.add_element 'self_service'
+
+      ssvc = doc_root.add_element subset_key.to_s
 
       ssvc.add_element('self_service_description').text = @self_service_description if @self_service_description
       ssvc.add_element('feature_on_main_page').text = @self_service_feature_on_main_page

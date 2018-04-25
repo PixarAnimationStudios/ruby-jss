@@ -35,6 +35,8 @@ module JSS
 
     include JSS::SelfServable
     include JSS::Scopable
+    include JSS::Creatable
+    include JSS::Updatable
 
     RSRC_BASE = 'patchpolicies'.freeze
 
@@ -261,6 +263,33 @@ module JSS
       @deadline_enabled = @init_data[:user_interaction][:deadlines][:deadline_enabled]
       @deadline_period = @init_data[:user_interaction][:deadlines][:deadline_period]
 
+    end
+
+    private
+
+    def rest_xml
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+
+      general = obj.add_element 'general'
+      general.add_element('name').text = @name
+      general.add_element('enabled').text = @enabled
+      general.add_element('target_version').text = @target_version
+      general.add_element('release_date').text = @release_date.to_jss_epoch
+      general.add_element('incremental_update').text = @incremental_update
+      general.add_element('reboot').text = @reboot
+      general.add_element('minimum_os').text = @minimum_os
+      general.add_element('allow_downgrade').text = @allow_downgrade
+      general.add_element('patch_unknown').text = @patch_unknown
+      killapps_elem = general.add_element('kill_apps')
+      @kill_apps.each do |ka|
+        killapp_elem = killapps_elem.add_element('kill_app')
+        JSS.hash_to_rexml_array(ka).each { |data| killapp_elem << data }
+      end
+
+      add_self_service_xml doc
+
+      doc.to_s
     end
 
 
