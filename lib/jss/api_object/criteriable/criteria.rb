@@ -218,12 +218,12 @@ module JSS
       ###
       ### Return true or raise an error about the problem
       ###
-      def criterion_ok? (criterion)
-        raise JSS::InvalidDataError, "Duplicate criterion: #{criterion.signature.join(', ')}" if @criteria.select{|c| c == criterion}.count > 1
-        raise JSS::InvalidDataError, "Missing :and_or for criterion: #{criterion.signature.join(', ')}" unless criterion.and_or
-        raise JSS::InvalidDataError, "Missing :name for criterion: #{criterion.signature.join(', ')}" unless criterion.name
-        raise JSS::InvalidDataError, "Missing :search_type for criterion: #{criterion.signature.join(', ')}" unless criterion.search_type
-        raise JSS::InvalidDataError, "Missing :value for criterion: #{criterion.signature.join(', ')}" unless criterion.value
+      def criterion_ok?(criterion)
+        raise JSS::InvalidDataError, "Duplicate criterion: #{criterion.signature}" if @criteria.select { |c| c == criterion }.count > 1
+        raise JSS::InvalidDataError, "Missing :and_or for criterion: #{criterion.signature}" unless criterion.and_or
+        raise JSS::InvalidDataError, "Missing :name for criterion: #{criterion.signature}" unless criterion.name
+        raise JSS::InvalidDataError, "Missing :search_type for criterion: #{criterion.signature}" unless criterion.search_type
+        raise JSS::InvalidDataError, "Missing :value for criterion: #{criterion.signature}" unless criterion.value
         true
       end
 
