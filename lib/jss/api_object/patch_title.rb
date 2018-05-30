@@ -46,8 +46,9 @@ module JSS
   #
   class PatchTitle < JSS::APIObject
 
-    #  include JSS::Sitable # TODO: confirm in JSS 10.4 release
+    include JSS::Sitable
     include JSS::Categorizable
+    include JSS::Creatable
     include JSS::Updatable
 
     # TODO: remove this and adjust parsing when jamf fixes the JSON
@@ -64,6 +65,10 @@ module JSS
           web_notification: nil
         },
         category: {
+          id: -1,
+          name: JSS::BLANK
+        },
+        site: {
           id: -1,
           name: JSS::BLANK
         },
@@ -163,10 +168,14 @@ module JSS
     # patch titles with the specified source_id.
     # ALSO, JAMF BUG: More broken json - the id is coming as a string.
     # so here we turn it into an integer manually :-(
+    # Ditto for source_id
     #
     def self.all(refresh = false, source_id: nil, api: JSS.api)
       data = super(refresh, api: api)
-      data.each { |info| info[:id] = info[:id].to_i }
+      data.each do |info|
+        info[:id] = info[:id].to_i
+        info[:source_id] = info[:source_id].to_i
+      end
       return data unless source_id
       data.select { |p| p[:source_id] == source_id }
     end
@@ -404,6 +413,8 @@ module JSS
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
 
       obj.add_element('name').text = name
+      obj.add_element('name_id').text = name_id
+      obj.add_element('source_id').text = source_id
 
       notifs = obj.add_element 'notifications'
       notifs.add_element('jss_notification').text = jss_notification?.to_s
@@ -412,7 +423,7 @@ module JSS
       add_changed_pkg_xml obj unless @changed_pkgs.empty?
 
       add_category_to_xml doc
-      #  add_site_to_xml doc
+      add_site_to_xml doc
 
       doc.to_s
     end # rest_xml
