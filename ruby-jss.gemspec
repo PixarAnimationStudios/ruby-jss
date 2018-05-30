@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
   s.executables << 'jamfHelperBackgrounder'
 
   # Dependencies
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 
   # http://plist.rubyforge.org/  MIT License (no dependencies)
   s.add_runtime_dependency 'plist', '~> 3.1'
