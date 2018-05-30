@@ -24,7 +24,6 @@
 ###
 ###
 
-#
 module JSS
 
   # A patch source. The abstract parent class of {JSS::PatchInternalSource} and
@@ -67,7 +66,7 @@ module JSS
     # Get a list of patch titles available from a Patch Source (either
     # internal or external, since they have unique ids )
     #
-    # @param vers[String,Integer] name or id of the Patch Source for which to
+    # @param source[String,Integer] name or id of the Patch Source for which to
     # get the available titles
     #
     # @param api[JSS::APIConnection] The api connection to use for the query
@@ -122,7 +121,7 @@ module JSS
     attr_reader :ssl_enabled
     alias ssl_enabled? ssl_enabled
 
-    #
+    # Init
     def initialize(**args)
       self.class.validate_subclass
       super
