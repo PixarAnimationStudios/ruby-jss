@@ -161,9 +161,12 @@ module JSS
     # The same as  @see APIObject.all but also takes an optional
     # source_id: parameter, which limites the results to
     # patch titles with the specified source_id.
+    # ALSO, JAMF BUG: More broken json - the id is coming as a string.
+    # so here we turn it into an integer manually :-(
     #
     def self.all(refresh = false, source_id: nil, api: JSS.api)
       data = super(refresh, api: api)
+      data.each { |info| info[:id] = info[:id].to_i }
       return data unless source_id
       data.select { |p| p[:source_id] == source_id }
     end
@@ -236,7 +239,7 @@ module JSS
     # @return [Hash] the patch report for the version(s) specified.
     #
     def self.patch_report(title, version: :all, api: JSS.api)
-      title_id = valid_id title
+      title_id = valid_id title, api: api
       rsrc = patch_report_rsrc(title_id, version)
 
       # TODO: remove this and adjust parsing when jamf fixes the JSON
