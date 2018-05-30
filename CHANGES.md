@@ -1,5 +1,11 @@
 # Change History
 
+## v 0.13.0, 2018-05-30
+
+- Update: Now requires rest-client gem v2.0 and up, and ruby v 2.0.0 and up. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
+- Fix: a few minor bugs in JSS::Criteriable::Criterion
+
 ## v 0.12.0, 2018-04-16
 
 - Simplification: when building .pkg's with JSS::Composer.mk_pkg, only two params are related to Package Signing: 'signing_identity:' the name of the signing identity to use, and and 'signing_options:' a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see `man pkgbuild`
