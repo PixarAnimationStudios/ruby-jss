@@ -120,8 +120,7 @@ module JSS
   class Server; end
   class Icon; end
   class Preferences; end
-  class Client; end
-
+  class Client; end # TODO: see if this can be made into a module.
 
   ### SubClasses
   #####################################
@@ -192,8 +191,6 @@ module JSS
   module MDM; end
   module ManagementHistory; end
 
-  ### Class-like modules
-  module Client; end
 
 end # module JSS
 
