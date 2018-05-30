@@ -1,16 +1,20 @@
 # Change History
 
-## v 0.12.x
+## v 0.13.0, 2018-05-30
+
+- Update: Now requires rest-client gem v2.0 and up, and ruby v 2.0.0 and up. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
+
+- Fix: a few minor bugs in JSS::Criteriable::Criterion
+
+## v 0.12.0, 2018-04-16
 
 - Simplification: when building .pkg's with JSS::Composer.mk_pkg, only two params are related to Package Signing: 'signing_identity:' the name of the signing identity to use, and and 'signing_options:' a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see `man pkgbuild`
 
-- Improvement: Now augmenting ruby Hashes with an embeded 'recursive-open-struct' version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of `computer_instance.hardware[:storage].first[:partition][:percentage_full]` you can do `computer_instance.hardware.jss_ros.storage.first.partition.percentage_full`.  See http://www.rubydoc.info/gems/ruby-jss/Hash for details.
+- Improvement: Now augmenting ruby Hashes with an embeded 'recursive-open-struct' version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of `computer_instance.hardware[:storage].first[:partition][:percentage_full]` you can do `computer_instance.hardware.jss_ros.storage.first.partition.percentage_full`.  See http://www.rubydoc.info/gems/ruby-jss/Hash for details. Uses the [recursive-open-struct gem](https://github.com/aetherknight/recursive-open-struct).
 
-- Add: JSS::Computer now has a class method to access to the computerapplications/application endpoint so you can query lists of computers that have certain apps installed.
+- Add: The computerapplications/application endpoint is now implemented as the JSS::Computer.application_installs class method so you can query lists of computers that have certain apps installed.
 
 - Improvement: the JSS::Computer class is now defined in multiple files.  The single computer.rb file was getting far to unwieldy.
-
-- Improvement: JSS::Client is now a module full of module methods rather than a class full of class methods. Functionally, nothing has changed, but since it is never meant to be instantiated, it logicially should not be a class.
 
 - Fix: Setting the first icon of a newly-created JSS::Policy now works. Thanks @christopher.kemp for reporting this one
 
@@ -29,7 +33,7 @@
 - Fix: Initialization of Creatable objects using certain mixins (Extendable, Sitable, Categorizable) either failed, or errored when trying to set their values. Now fixed. Thanks @mylescarrick for reporting this one.
 
 - Improvement: Updated general attributes for computers and mobile devices
-
+s
 - Improvement: Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.
 
 - Improvement: Handling of 'site' data is now done via the JSS::Sitable mixin module

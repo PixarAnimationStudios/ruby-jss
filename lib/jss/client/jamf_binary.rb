@@ -27,7 +27,7 @@
 module JSS
 
   #
-  module Client
+  class Client
 
     # Constants
     #####################################
@@ -57,13 +57,8 @@ module JSS
     # the option that makes the jamf binary verbose
     JAMF_VERBOSE_OPT = ' -verbose'.freeze
 
-    # Module Methods
+    # class Methods
     #####################################
-
-    # the preferred way to make all the following methods into
-    # module methods:
-
-    module_function
 
     # Run an arbitrary jamf binary command.
     #
@@ -92,7 +87,7 @@ module JSS
     # The details of the Process::Status for the jamf binary process can be
     # captured from $CHILD_STATUS immediately after calling. (See Process::Status)
     #
-    def run_jamf(command, args = nil, verbose = false)
+    def self.run_jamf(command, args = nil, verbose = false)
       raise JSS::UnmanagedError, 'The jamf binary is not installed on this computer.' unless installed?
       unless ROOTLESS_JAMF_COMMANDS.include?(command.to_sym) || JSS.superuser?
         raise JSS::UnsupportedError, 'You must have root privileges to run that jamf binary command'
@@ -104,7 +99,7 @@ module JSS
 
     private_class_method
 
-    def build_jamf_command(command, args)
+    def self.build_jamf_command(command, args)
       case args
       when nil
         "#{JAMF_BINARY} #{command}"
@@ -117,7 +112,7 @@ module JSS
       end # case
     end
 
-    def execute_jamf(cmd, verbose)
+    def self.execute_jamf(cmd, verbose)
       puts "Running: #{cmd}" if verbose
       output = ''
       IO.popen("#{cmd} 2>&1") do |proc|

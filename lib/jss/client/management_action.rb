@@ -27,7 +27,7 @@
 module JSS
 
   #
-  module Client
+  class Client
 
     #  Constants
     #####################################
@@ -40,15 +40,10 @@ module JSS
     # MGMT_ACTION_BUNDLE_ID = 'com.jamfsoftware.Management-Action'.freeze
     # HUP_NOTIF_CTR_CMD = '/usr/bin/killall sighup usernoted NotificationCenter'.freeze
 
-    # Module Methods
+    # class Methods
     #####################################
 
-    # the preferred way to make all the following methods into
-    # module methods:
-
-    module_function
-
-    def management_action(msg, title: nil, subtitle: nil, delay: 0)
+    def self.management_action(msg, title: nil, subtitle: nil, delay: 0)
       raise JSS::InvalidDataError, 'delay: must be a non-negative integer.' unless delay.is_a?(Integer) && delay > -1
 
       cmd = Shellwords.escape MGMT_ACTION.to_s
@@ -60,7 +55,7 @@ module JSS
     end
 
     # an alias of management_action
-    def nc_notify(msg, title: nil, subtitle: nil, delay: 0)
+    def self.nc_notify(msg, title: nil, subtitle: nil, delay: 0)
       management_action(msg, title: title, subtitle: subtitle, delay: delay)
     end
 
@@ -73,7 +68,7 @@ module JSS
     # 'banner' (which vanishes in a few seconds), regardless of the user's
     # setting in the NC prefs.
 
-    def force_alerts
+    def self.force_alerts
       orig_flags = {}
       console_users.each do |user|
         orig_flags[user] = set_mgmt_action_ncprefs_flags user, NC_ALERT_STYLE_FLAGS, hup: false
@@ -83,7 +78,7 @@ module JSS
       orig_flags
     end
 
-    def restore_alerts(orig_flags)
+    def self.restore_alerts(orig_flags)
       orig_flags.each do |user, flags|
         set_mgmt_action_ncprefs_flags user, flags, hup: false
       end
@@ -97,7 +92,7 @@ module JSS
     #
     # @return [Integer] the original flags, or given flags if no originals.
     #
-    def set_mgmt_action_ncprefs_flags(user, flags, hup: true)
+    def self.set_mgmt_action_ncprefs_flags(user, flags, hup: true)
       plist = Pathname.new "/Users/#{user}/Library/Preferences/#{NCPREFS_DOMAIN}.plist"
       prefs = JSS.parse_plist plist
       mgmt_action_setting = prefs['apps'].select { |a| a['bundle-id'] == MGMT_ACTION_BUNDLE_ID }.first

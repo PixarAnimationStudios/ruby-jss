@@ -25,6 +25,7 @@
 
 ###
 module JSS
+
   module Criteriable
 
     #####################################
@@ -61,7 +62,7 @@ module JSS
       #####################################
 
       ### Criterion instances we maintain need these attributes.s
-      CRITERION_ATTRIBUTES = [:priority, :and_or, :name, :search_type, :value]
+      CRITERION_ATTRIBUTES = [:priority, :and_or, :name, :search_type, :value].freeze
 
       #####################################
       ### Attributes
@@ -94,10 +95,10 @@ module JSS
       ### @return [void]
       ###
       def criteria= (new_criteria)
-        unless new_criteria.is_a?(Array) && new_criteria.reject{ |c| c.is_a?(JSS::Criteriable::Criterion) }.empty?
-          raise JSS::InvalidDataError, "Argument must be an Array of JSS::Criteriable::Criterion instances."
+        unless new_criteria.is_a?(Array) && new_criteria.reject { |c| c.is_a?(JSS::Criteriable::Criterion) }.empty?
+          raise JSS::InvalidDataError, 'Argument must be an Array of JSS::Criteriable::Criterion instances.'
         end
-        new_criteria.each{ |nc| criterion_ok? nc }
+        new_criteria.each { |nc| criterion_ok? nc }
         @criteria = new_criteria
         set_priorities
         @container.should_update if @container
@@ -188,7 +189,7 @@ module JSS
       ### @return [void]
       ###
       def set_priorities
-        @criteria.each_index{ |ci| @criteria[ci].priority = ci }
+        @criteria.each_index { |ci| @criteria[ci].priority = ci }
       end
 
       ###
@@ -202,14 +203,13 @@ module JSS
         raise JSS::MissingDataError, "Criteria can't be empty" if @criteria.empty?
         cr = REXML::Element.new 'criteria'
         @criteria.each { |c| cr << c.rest_xml }
-        return cr
-     end # rest_xml
+        cr
+      end # rest_xml
 
       #####################################
       ### Private Instance Methods
       #####################################
       private
-
 
       ###
       ### Chech the validity of a criterion.
@@ -218,15 +218,17 @@ module JSS
       ###
       ### Return true or raise an error about the problem
       ###
-      def criterion_ok? (criterion)
-        raise JSS::InvalidDataError, "Duplicate criterion: #{criterion.signature.join(', ')}" if @criteria.select{|c| c == criterion}.count > 1
-        raise JSS::InvalidDataError, "Missing :and_or for criterion: #{criterion.signature.join(', ')}" unless criterion.and_or
-        raise JSS::InvalidDataError, "Missing :name for criterion: #{criterion.signature.join(', ')}" unless criterion.name
-        raise JSS::InvalidDataError, "Missing :search_type for criterion: #{criterion.signature.join(', ')}" unless criterion.search_type
-        raise JSS::InvalidDataError, "Missing :value for criterion: #{criterion.signature.join(', ')}" unless criterion.value
+      def criterion_ok?(criterion)
+        raise JSS::InvalidDataError, "Duplicate criterion: #{criterion.signature}" if @criteria.select { |c| c == criterion }.count > 1
+        raise JSS::InvalidDataError, "Missing :and_or for criterion: #{criterion.signature}" unless criterion.and_or
+        raise JSS::InvalidDataError, "Missing :name for criterion: #{criterion.signature}" unless criterion.name
+        raise JSS::InvalidDataError, "Missing :search_type for criterion: #{criterion.signature}" unless criterion.search_type
+        raise JSS::InvalidDataError, "Missing :value for criterion: #{criterion.signature}" unless criterion.value
         true
       end
 
     end # class Criteria
+
   end # module Criteriable
+
 end # module

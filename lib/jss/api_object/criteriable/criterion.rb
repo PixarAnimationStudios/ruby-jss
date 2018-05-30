@@ -123,10 +123,8 @@ module JSS
 
         @priority = args[:priority]
 
-        if args[:and_or]
-          @and_or = args[:and_or].to_sym
-          raise JSS::InvalidDataError, ":and_or must be 'and' or 'or'." unless AND_OR.include? @and_or
-        end
+        @and_or = (args[:and_or].downcase.to_sym if args[:and_or]) || :and
+        raise JSS::InvalidDataError, ":and_or must be 'and' or 'or'." unless AND_OR.include? @and_or
 
         @name = args[:name]
 

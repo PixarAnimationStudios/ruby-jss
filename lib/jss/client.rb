@@ -34,8 +34,9 @@ module JSS
   #
   # At the moment, only Macintosh computers are supported.
   #
+  # TODO: convert this to a module, since that's how it's used.
   #
-  module Client
+  class Client
 
     # Constants
     #####################################
@@ -74,13 +75,10 @@ module JSS
     # the ps command used to figure out who's running Self Service
     PS_USER_COMM = 'ps -A -o user,comm'.freeze
 
-    # Module Methods
+    # Class Methods
     #####################################
 
-    # the preferred way to make all the following methods into
-    # module methods:
 
-    module_function
 
     # Get the current IP address as a String.
     #
@@ -93,7 +91,7 @@ module JSS
     #
     # @return [String] the current IP address.
     #
-    def my_ip_address
+    def self.my_ip_address
       # turn off reverse DNS resolution temporarily
       # @note the 'socket' library has already been required by 'rest-client'
       orig = Socket.do_not_reverse_lookup
@@ -111,7 +109,7 @@ module JSS
     #
     # @return [Boolean] is the jamf binary installed?
     #
-    def installed?
+    def self.installed?
       JAMF_BINARY.executable?
     end
 
@@ -119,7 +117,7 @@ module JSS
     #
     # @return [String,nil] the version of the jamf binary installed on this client, nil if not installed
     #
-    def jamf_version
+    def self.jamf_version
       installed? ? run_jamf(:version).chomp.split('=')[1] : nil
     end
 
@@ -127,7 +125,7 @@ module JSS
     #
     # @return [String] the url to the JSS for this client
     #
-    def jss_url
+    def self.jss_url
       @url = jamf_plist['jss_url']
       return nil if @url.nil?
       @url =~ %r{(https?)://(.+):(\d+)/}
@@ -141,7 +139,7 @@ module JSS
     #
     # @return [String] the JSS server for this client
     #
-    def jss_server
+    def self.jss_server
       jss_url
       @server
     end
@@ -150,7 +148,7 @@ module JSS
     #
     # @return [String] the protocol to the JSS for this client, "http" or "https"
     #
-    def jss_protocol
+    def self.jss_protocol
       jss_url
       @protocol
     end
@@ -159,7 +157,7 @@ module JSS
     #
     # @return [Integer] the port to the JSS for this client
     #
-    def jss_port
+    def self.jss_port
       jss_url
       @port
     end
@@ -169,7 +167,7 @@ module JSS
     # @return [Hash] the parsed contents of the JAMF_PLIST if it exists,
     # an empty hash if not
     #
-    def jamf_plist
+    def self.jamf_plist
       return {} unless JAMF_PLIST.file?
       JSS.parse_plist JAMF_PLIST
     end
@@ -178,7 +176,7 @@ module JSS
     #
     # @return [Array<Pathname>] an array of Pathnames for all regular files in the jamf receipts folder
     #
-    def receipts
+    def self.receipts
       raise JSS::NoSuchItemError, "The JAMF Receipts folder doesn't exist on this computer." unless RECEIPTS_FOLDER.exist?
       RECEIPTS_FOLDER.children.select(&:file?)
     end
@@ -187,7 +185,7 @@ module JSS
     #
     # @return [Boolean] is the JSS available now?
     #
-    def jss_available?
+    def self.jss_available?
       run_jamf :checkJSSConnection, '-retry 1'
       $CHILD_STATUS.exitstatus.zero?
     end
@@ -196,7 +194,7 @@ module JSS
     #
     # @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
     #
-    def jss_record
+    def self.jss_record
       JSS::Computer.new udid: udid
     rescue JSS::NoSuchItemError
       nil
@@ -206,7 +204,7 @@ module JSS
     #
     # @return [String] the UUID/UDID for this computer
     #
-    def udid
+    def self.udid
       hardware_data['platform_UUID']
     end
 
@@ -214,7 +212,7 @@ module JSS
     #
     # @return [String] the serial number for this computer
     #
-    def serial_number
+    def self.serial_number
       hardware_data['serial_number']
     end
 
@@ -222,7 +220,7 @@ module JSS
     #
     # @return [Hash] the HardwareDataType data from the system_profiler command
     #
-    def hardware_data
+    def self.hardware_data
       raw = `/usr/sbin/system_profiler SPHardwareDataType -xml 2>/dev/null`
       JSS.parse_plist(raw)[0]['_items'][0]
     end
@@ -232,7 +230,7 @@ module JSS
     #
     # @return [Array<String>] The current users with GUI sessions
     #
-    def console_users
+    def self.console_users
       output = `#{CONSOLE_USERS_SCUTIL_CMD}`
       userlines = output.lines.select { |l| l =~ /SessionUserNameKey\s*:/ }
       userlines.map! { |ul| ul.split(':').last.strip }
@@ -245,13 +243,13 @@ module JSS
     # @return [String,nil] The login name of the user is using the primary
     #   GUI console, or nil if at the login window.
     #
-    def primary_console_user
+    def self.primary_console_user
       `#{CONSOLE_USERS_SCUTIL_CMD}` =~ /^\s*Name : (\S+)$/
       Regexp.last_match(1) == LOGINWINDOW_USER ? nil : user
     end
 
     # alias for primary_console_user
-    def console_user
+    def self.console_user
       primary_console_user
     end
 
@@ -260,7 +258,7 @@ module JSS
     #
     # @return [Array<String>] The current users running Self Service.app
     #
-    def self_service_users
+    def self.self_service_users
       ss_userlines = `#{PS_USER_COMM}`.lines.select { |l| l.include? SELF_SERVICE_EXECUTABLE_END }
       ss_userlines.map { |ssl| ssl.split(' ').first }
     end

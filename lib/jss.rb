@@ -100,7 +100,6 @@ module JSS
   #####################################
 
   module Composer; end
-  module Client; end
 
   ### Mix-in Sub Modules with Classes
 
@@ -121,6 +120,8 @@ module JSS
   class Server; end
   class Icon; end
   class Preferences; end
+  class Client; end
+
 
   ### SubClasses
   #####################################
