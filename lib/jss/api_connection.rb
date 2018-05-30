@@ -1020,7 +1020,7 @@ module JSS
       # and JSS version checking.
       begin
         @server = JSS::Server.new get_rsrc('jssuser')[:user], self
-      rescue RestClient::Unauthorized, RestClient::Request::Unauthorized
+      rescue RestClient::Unauthorized
         raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@jss_user}@#{@server_host}:#{@port}'."
       end
 

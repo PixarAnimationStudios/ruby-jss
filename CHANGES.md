@@ -1,5 +1,11 @@
 # Change History
 
+## v 0.14.0, 2018-05-30
+
+- Fix: RestClient no longer uses RestClient::Request::Unauthorized, only RestClient::Unauthorized
+
+- Revert: RestClient 2.0x doesn't seem to play nicely with the version of openssl on macOS 10.10 and JamfPro 10.3 (at least in our environment). So the rest-client gem can be any version >= 1.8.0 and < 2.1. You may have to separately install the correct RestClient version as needed.
+
 ## v 0.13.0, 2018-05-30
 
 - Update: Now requires rest-client gem v2.0 and up, and ruby v 2.0.0 and up. Thanks to HIMANSHU-ELIGIBLE @ github for catching & fixing this one.
