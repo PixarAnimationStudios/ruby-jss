@@ -61,7 +61,120 @@ module JSS
     }.freeze
 
     # Class Methods
+    #
+    # These work from this metaclass, as well as from the
+    # subclasses. In the metaclass, both subclasses are searched
+    # and a :type value is available.
     ############################################
+
+    # Get names, ids and types for all patch sources
+    #
+    # @param refresh[Boolean] should the data be re-queried from the API?
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<Hash{:name=>String, :id=> Integer, :type => Symbol}>]
+    #
+    def self.all(refresh = false, api: JSS.api)
+      if self == JSS::PatchSource
+        int = JSS::PatchInternalSource.all(refresh, api: api).each { |s| s[:type] = :internal }
+        ext = JSS::PatchExternalSource.all(refresh, api: api).each { |s| s[:type] = :external }
+        return (int + ext).sort! { |s1, s2| s1[:id] <=> s2[:id] }
+      end
+      super
+    end
+
+    # Get names, ids  for all patch internal sources
+    #
+    # the same as JSS::PatchInternalSource.all refresh, api: api
+    #
+    # @see  JSS::PatchInternalSource.all
+    #
+    def self.all_internal(refresh = false, api: JSS.api)
+      JSS::PatchInternalSource.all refresh, api: api
+    end
+
+    # Get names, ids  for all patch internal sources
+    #
+    # the same as JSS::PatchExternalSource.all refresh, api: api
+    #
+    #  @see  JSS::PatchExternalSource.all
+    #
+    def self.all_external(refresh = false, api: JSS.api)
+      JSS::PatchExternalSource.all refresh, api: api
+    end
+
+    # @see JSS::APIObject.all_objects
+    #
+    def self.all_objects(refresh = false, api: JSS.api)
+      if self == JSS::PatchSource
+        int = JSS::PatchInternalSource.all_objects refresh, api: api
+        ext = JSS::PatchExternalSource.all_objects refresh, api: api
+        return (int + ext).sort! { |s1, s2| s1.id <=> s2.id }
+      end
+      super
+    end
+
+    # Fetch either an internal or external patch source
+    #
+    # BUG: there's an API bug: fetching a non-existent ids
+    # which is why we rescue internal server errors.
+    #
+    # @see APIObject.fetch
+    #
+    def self.fetch(arg, api: JSS.api)
+      if self == JSS::PatchSource
+        begin
+          fetched = JSS::PatchInternalSource.fetch arg, api: api
+        rescue RestClient::ResourceNotFound, RestClient::InternalServerError, JSS::NoSuchItemError
+          fetched = nil
+        end
+        unless fetched
+          begin
+            fetched = JSS::PatchExternalSource.fetch arg, api: api
+          rescue RestClient::ResourceNotFound, RestClient::InternalServerError, JSS::NoSuchItemError
+            raise JSS::NoSuchItemError, 'No matching PatchSource found'
+          end
+        end
+        return fetched
+      end # if self == JSS::PatchSource
+      begin
+        super
+      rescue RestClient::ResourceNotFound, RestClient::InternalServerError, JSS::NoSuchItemError
+        raise JSS::NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found"
+      end
+    end
+
+    # Only JSS::PatchExternalSources can be created
+    #
+    # @see APIObject.make
+    #
+    def self.make(**args)
+      case self
+      when JSS::PatchSource
+        JSS::PatchExternalSource.make args
+      when JSS::PatchExternalSource
+        super
+      when JSS::PatchInternalSource
+        raise JSS::UnsupportedError, 'PatchInteralSources cannot be created.'
+      end
+    end
+
+    # Only JSS::PatchExternalSources can be deleted
+    #
+    # @see APIObject.delete
+    #
+    def self.delete(victims, api: JSS.api)
+      case self
+      when JSS::PatchSource
+        JSS::PatchExternalSource victims, api: api
+      when JSS::PatchExternalSource
+        super
+      when JSS::PatchInternalSource
+        raise JSS::UnsupportedError, 'PatchInteralSources cannot be deleted.'
+      end
+    end
 
     # Get a list of patch titles available from a Patch Source (either
     # internal or external, since they have unique ids )
@@ -81,21 +194,79 @@ module JSS
     #     :app_name  String
     #
     def self.available_titles(source, api: JSS.api)
-      validate_subclass
-      src_id = valid_id source
+      src_id = valid_patch_source_id source, api: api
       raise JSS::NoSuchItemError, "No Patch Source found matching: #{source}" unless src_id
-      rsrc = "#{AVAILABLE_TITLES_RSRC}#{src_id}"
 
-      # TODO: remove this and adjust parsing when jamf fixes the JSON
-      raw = JSS::XMLWorkaround.data_via_xml(rsrc, AVAILABLE_TITLES_DATA_MAP, api)
+      rsrc_base =
+        if valid_patch_source_type(src_id, api: api) == :internal
+          JSS::PatchInternalSource::AVAILABLE_TITLES_RSRC
+        else
+          JSS::PatchExternalSource::AVAILABLE_TITLES_RSRC
+        end
+
+      rsrc = "#{rsrc_base}#{src_id}"
+
+      begin
+        # TODO: remove this and adjust parsing when jamf fixes the JSON
+        raw = JSS::XMLWorkaround.data_via_xml(rsrc, AVAILABLE_TITLES_DATA_MAP, api)
+      rescue RestClient::ResourceNotFound
+        return []
+      end
+
       titles = raw[:patch_available_titles][:available_titles]
       titles.each { |t| t[:last_modified] = Time.parse t[:last_modified] }
       titles
     end
 
-    def self.validate_subclass
-      return unless self == JSS::PatchSource
-      raise JSS::UnsupportedError, 'PatchSource is an abstract parent class. Please use PatchInternalSource or PatchExternalSource'
+    # FOr a given patch source, an array of available 'name_id's
+    # which are uniq identifiers for titles available on that source.
+    #
+    # @see available_titles
+    #
+    # @return [Array<String>] the name_ids available on the source
+    #
+    def self.available_name_ids(source, api: JSS.api)
+      available_titles(source, api: api).map { |t| t[:name_id] }
+    end
+
+    # Given a name or id for a Patch Source (internal or external)
+    # return the id if it exists, or nil if it doesn't.
+    #
+    # NOTE: does not indicate which kind of source it is, just that it exists
+    # and can be used as a source_id for a patch title.
+    # @see .valid_patch_source_type
+    #
+    # @param ident[String,Integer] the name or id to validate
+    #
+    # @param refresh [Boolean] Should the data be re-read from the server
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Integer, nil] the valid id or nil if it doesn't exist.
+    #
+    def self.valid_patch_source_id(ident, refresh = false, api: JSS.api)
+      id = JSS::PatchInternalSource.valid_id ident, refresh, api: api
+      id ||= JSS::PatchExternalSource.valid_id ident, refresh, api: api
+      id
+    end
+
+    # Given a name or id for a Patch Source
+    # return :internal or :external if it exists, or nil if it doesnt.
+    #
+    # @param ident[String,Integer] the name or id to validate
+    #
+    # @param refresh [Boolean] Should the data be re-read from the server
+    #
+    # @param api[JSS::APIConnection] an API connection to use for the query.
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Symbol, nil] :internal, :external, or nil if it doesn't exist.
+    #
+    def self.valid_patch_source_type(ident, refresh = false, api: JSS.api)
+      return :internel if JSS::PatchInternalSource.valid_id ident, refresh, api: api
+      return :external if JSS::PatchExternalSource.valid_id ident, refresh, api: api
+      nil
     end
 
     # Attributes
@@ -123,64 +294,27 @@ module JSS
 
     # Init
     def initialize(**args)
-      self.class.validate_subclass
+      raise JSS::UnsupportedError, 'PatchSource is an abstract metaclass. Please use PatchInternalSource or PatchExternalSource' if self.class == JSS::PatchSource
+
       super
-      @enabled = @init_data[:enabled]
 
-      # from API in Internal sources
-      @endpoint = @init_data[:endpoint]
-
-      # from API in External sources
-      @host_name = @init_data[:host_name]
-      @port = @init_data[:port]
-      @ssl_enabled = @init_data[:ssl_enabled]
-
-      # set defaults
-      @enabled ||= DFT_ENABLED
-      @ssl_enabled = DFT_SSL if ssl_enabled.nil?
-      if port.nil?
-        @port = ssl_enabled? ? DFT_SSL_PORT : DFT_NO_SSL_PORT
-      end
+      @enabled = @init_data[:enabled] ? @init_data[:enabled] : DFT_ENABLED
 
       # derive the data not provided for this source type
-      if @endpoint
+      if @init_data[:endpoint]
+        @endpoint = @init_data[:endpoint]
         url = URI.parse endpoint
         @host_name = url.host
         @port = url.port
         @ssl_enabled = url.scheme == HTTPS
       else
-        protocol =  ssl_enabled ? HTTPS : HTTP
-        @endpoint = "#{protocol}://#{host_name}:#{port}/"
+        @host_name = @init_data[:host_name]
+        @port = @init_data[:port]
+        @port ||= ssl_enabled? ? DFT_SSL_PORT : DFT_NO_SSL_PORT
+        @ssl_enabled = @init_data[:ssl_enabled].nil? ? DFT_SSL : @init_data[:ssl_enabled]
+        @endpoint = "#{ssl_enabled ? HTTPS : HTTP}://#{host_name}:#{port}/"
       end
     end # init
-
-    # Enable this source for retrieving patch info
-    #
-    # if we ever get the ability to en/disable the internal sources,
-    # this is here in the superclass
-    #
-    # @return [void]
-    #
-    def enable
-      return if enabled?
-      validate_host_port('enable a patch source')
-      @enabled = true
-      @need_to_update = true
-    end
-
-    # Disable this source for retrieving patch info
-    #
-    # if we ever get the ability to en/disable the internal sources,
-    # this is here in the superclass
-    #
-    # @return [void]
-    #
-    def disable
-      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be disabled' unless self.class == JSS::PatchExternalSource
-      return unless enabled?
-      @enabled = false
-      @need_to_update = true
-    end
 
     # Get a list of patch titles available from this Patch Source
     #
@@ -196,34 +330,15 @@ module JSS
       self.class.available_titles id, api: api
     end
 
-    # if we ever get the ability to en/disable the internal sources
-    # this is here in the superclass
-    def update
-      validate_host_port('update a patch source')
-      super
-    end
-
-    private
-
-    # raise an exeption if needed when trying to do something that needs
-    # a host and port set
-    #
-    # @param action[String] The action that needs a host and port
-    #
-    # @return [void]
-    #
-    def validate_host_port(action)
-      return nil unless self.class == JSS::PatchExternalSource
-      raise JSS::UnsupportedError, "Cannot #{action} without first setting a host_name and port" if hostname.to_s.empty? && port.to_s.empty?
-    end
-
-    # if we ever get the ability to en/disable the internal sources
-    # this is here in the superclass
-    def rest_xml
-      doc = REXML::Document.new
-      src = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
-      src.add_element('enabled').text = @enabled.to_s
-      doc
+    # Delete this instance
+    # This method is needed to override APIObject#delete
+    def delete
+      case self.class
+      when JSS::PatchExternalSource
+        super
+      when JSS::PatchInternalSource
+        raise JSS::UnsupportedError, 'PatchInteralSources cannot be deleted.'
+      end
     end
 
   end # class PatchSource

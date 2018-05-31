@@ -55,12 +55,34 @@ module JSS
     # Instance Methods
     #####################################
 
+    # Enable this source for retrieving patch info
+    #
+    # @return [void]
+    #
+    def enable
+      return if enabled?
+      validate_host_port('enable a patch source')
+      @enabled = true
+      @need_to_update = true
+    end
+
+    # Disable this source for retrieving patch info
+    #
+    # @return [void]
+    #
+    def disable
+      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be disabled' unless self.class == JSS::PatchExternalSource
+      return unless enabled?
+      @enabled = false
+      @need_to_update = true
+    end
+
     # @param name[String] the new source host name
     #
     # @return [void]
     #
-    def host_name=(name)
-      return if name == @hostname
+    def host_name=(newname)
+      return if newname == host_name
       raise JSS::InvalidDataError, 'names must be String' unless name.is_a? String
       @host_name = name
       @need_to_update = true
@@ -72,8 +94,8 @@ module JSS
     #
     # @return [void]
     #
-    def port=(port)
-      return if port == @port
+    def port=(new_port)
+      return if new_port == port
       raise JSS::InvalidDataError, 'ports must be Integers' unless port.is_a? Integer
       @port = port
       @need_to_update = true
@@ -88,6 +110,7 @@ module JSS
       @ssl_enabled = true
       @need_to_update = true
     end
+    alias enable_ssl use_ssl
 
     # Do not use SSL for connecting to the source host
     #
@@ -98,17 +121,36 @@ module JSS
       @ssl_enabled = false
       @need_to_update = true
     end
+    alias disable_ssl no_ssl
 
     def create
       validate_host_port('create a patch source')
       super
     end
 
+    def update
+      validate_host_port('update a patch source')
+      super
+    end
+
     private
 
+    # raise an exeption if needed when trying to do something that needs
+    # a host and port set
+    #
+    # @param action[String] The action that needs a host and port
+    #
+    # @return [void]
+    #
+    def validate_host_port(action)
+      return nil unless self.class == JSS::PatchExternalSource
+      raise JSS::UnsupportedError, "Cannot #{action} without first setting a host_name and port" if hostname.to_s.empty? && port.to_s.empty?
+    end
+
     def rest_xml
-      doc = super
-      src = doc.root
+      doc = REXML::Document.new
+      src = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      src.add_element('enabled').text = @enabled.to_s
       src.add_element('name').text = @name
       src.add_element('ssl_enabled').text = @ssl_enabled.to_s
       src.add_element('host_name').text = @host_name

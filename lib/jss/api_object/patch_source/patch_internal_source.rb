@@ -34,8 +34,6 @@ module JSS
   #
   class PatchInternalSource < JSS::PatchSource
 
-    include JSS::Updatable
-
     # Constants
     #####################################
 
@@ -51,27 +49,6 @@ module JSS
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = %i[enabled endpoint].freeze
-
-    # Class Methods
-    #####################################
-
-    def self.delete(_victims, _api: nil)
-      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be deleted.'
-    end
-
-    # Instance Methods
-    #####################################
-
-    def delete
-      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be deleted.'
-    end
-
-    private
-
-    def rest_xml
-      super.to_s
-    end
-
 
   end # class PatchInternalSource
 
