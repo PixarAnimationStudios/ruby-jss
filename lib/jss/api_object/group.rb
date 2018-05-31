@@ -168,12 +168,12 @@ module JSS
     ###
     ### @see Creatable#create
     ###
-    def create
+    def create(calculate_members: true)
       if @is_smart
         raise JSS::MissingDataError, "No criteria specified for smart group" unless @criteria
       end
-      super
-      refresh_members
+      super()
+      refresh_members if calculate_members
       return @id
     end
 
