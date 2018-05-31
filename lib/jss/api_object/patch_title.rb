@@ -143,21 +143,6 @@ module JSS
     # when fetching a specific version, this is a valid version
     UNKNOWN_VERSION_ID = 'Unknown'.freeze
 
-    # How can we be notified of new patches for this title?
-    # :jss = in the JSS web UI
-    # :email = via email
-    # :jss_and_email = both
-    # :none = no notifications
-    NEW_VERSION_NOTIFICATIONS = %i[
-      web
-      email
-      web_and_email
-      none
-    ].freeze
-
-    WEB_NOTIFICATIONS = %i[web web_and_email].freeze
-    EMAIL_NOTIFICATIONS = %i[email web_and_email].freeze
-
     REPORTS_RSRC_BASE = '/patchreports/patchsoftwaretitleid'.freeze
 
     # Class Methods
@@ -292,6 +277,19 @@ module JSS
     end
     private_class_method :patch_report_rsrc
 
+    # for some reason, patch titles can't be fetched by name.
+    # only by id. SO, look up the id if given a name.
+    #
+    def self.fetch(id: nil, name: nil, api: JSS.api)
+      unless id
+        id =  JSS::PatchTitle.map_all_ids_to(:name).invert[name]
+        raise NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found" unless id
+      end
+
+      super id: id, api: api
+    end
+
+
     # Attributes
     #####################################
 
@@ -303,9 +301,13 @@ module JSS
     #   for this title
     attr_reader :source_id
 
-    # @return [Symbol] How should new patches be announced to admins?
-    #   one of: :jss, :email, :jss_and_email, :none
-    attr_reader :notifications
+    # @return [Boolean] Are new patches announced in the JSS web ui?
+    attr_reader :web_notification
+    alias web_notification? web_notification
+
+    # @return [Boolean] Are new patches announced by email?
+    attr_reader :email_notification
+    alias email_notification? email_notification
 
     # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
     #   this title, keyed by version string
@@ -319,19 +321,13 @@ module JSS
       @name_id = @init_data[:name_id]
       @source_id = @init_data[:source_id]
 
+      @init_data[:notifications] ||= {}
       notifs = @init_data[:notifications]
-      @notifications =
-        if notifs[:jss_notification] && notifs[:email_notification]
-          :jss_and_email
-        elsif notifs[:jss_notification]
-          :jss
-        elsif notifs[:email_notification]
-          :email
-        else
-          :none
-        end
+      @web_notification = notifs[:web_notification].nil? ? false : notifs[:web_notification]
+      @email_notification = notifs[:email_notification].nil? ? false : notifs[:email_notification]
 
       @versions = {}
+      @init_data[:versions] ||= []
       @init_data[:versions].each do |vers|
         @versions[vers[:software_version]] = JSS::PatchTitle::Version.new(self, vers)
       end # each do vers
@@ -339,29 +335,15 @@ module JSS
       @changed_pkgs = []
     end
 
-    # @return [Boolean] Do notifications show up in the jss?
-    #
-    def jss_notification?
-      WEB_NOTIFICATIONS.include? notifications
+    def email_notification=(new_setting)
+      return if email_notification == new_setting
+      raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @email_notification = new_setting
+      @need_to_update = true
     end
 
-    # @return [Boolean] Do notifications get sent via email?
-    #
-    def email_notification?
-      EMAIL_NOTIFICATIONS.include? notifications
-    end
-
-    # Set how to get notifications of new patches for this title
-    #
-    # @param how[Symbol] How should we be notified of new versions for this title?
-    #   one of the values of NEW_VERSION_NOTIFICATIONS
-    #
-    # @return [void]
-    #
-    def notifications=(how)
-      return if @notifications == how
-      raise JSS::InvalidDataError, "Parameter must be one of :#{NEW_VERSION_NOTIFICATIONS.join ', :'}" unless NEW_VERSION_NOTIFICATIONS.include? how
-      @notifications = how
+    def web_notification=(new_setting)
+      return if web_notification == new_setting
+      raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @web_notification = new_setting
       @need_to_update = true
     end
 
@@ -373,8 +355,33 @@ module JSS
       @need_to_update = true
     end
 
+    def source_id=(new_id)
+      sid = JSS::PatchSource.valid_patch_source_id new_id
+      raise JSS::NoSuchItemError, "No active Patch Sources matche '#{new_id}'" unless sid
+      return if sid == source_id
+      @source_id = sid
+      @need_to_update = true
+    end
+
+    def name_id=(new_id)
+      return if new_id == name_id
+      raise JSS::NoSuchItemError, 'source_id must be set before setting name_id' unless source_id
+      raise JSS::NoSuchItemError, "source_id #{source_id} doesn't offer name_id '#{new_id}'" unless JSS::PatchSource.available_name_ids(source_id).include? new_id
+      @name_id = new_id
+      @need_to_update = true
+    end
+
+    # wrapper to fetch versions after creating
+    def create
+      validate_for_saving
+      super
+      @versions = self.class.fetch(id: id).versions
+    end
+
+
     # wrapper to clear @changed_pkgs after updating
     def update
+      validate_for_saving
       resp = super
       @changed_pkgs.clear
       resp
@@ -405,6 +412,10 @@ module JSS
     #################################
     private
 
+    def validate_for_saving
+      raise JSS::InvalidDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? && name_id.to_s.empty?
+    end
+
     # Return the REST XML for this title, with the current values,
     # for saving or updating.
     #
@@ -417,7 +428,7 @@ module JSS
       obj.add_element('source_id').text = source_id
 
       notifs = obj.add_element 'notifications'
-      notifs.add_element('jss_notification').text = jss_notification?.to_s
+      notifs.add_element('web_notification').text = web_notification?.to_s
       notifs.add_element('email_notification').text = email_notification?.to_s
 
       add_changed_pkg_xml obj unless @changed_pkgs.empty?
