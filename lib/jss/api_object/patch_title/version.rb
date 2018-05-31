@@ -61,11 +61,6 @@ module JSS
       #  if defined
       attr_reader :package_name
 
-      # @return [Boolean] Has the package been changed, and need saving back to
-      #   JSS?
-      attr_reader :package_changed
-      alias package_changed? package_changed
-
       # This should only be instantiated by the JSS::PatchTitle that contains
       # this version.
       #
