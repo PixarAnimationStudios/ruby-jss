@@ -80,7 +80,7 @@ module JSS
     # @return [String] The name of the site for this object.
     #
     def site_name
-      @site_name
+      @site_name || NO_SITE_NAME
     end # cat name
     alias site site_name
 
@@ -89,7 +89,7 @@ module JSS
     # @return [Integer] The id of the site for this object.
     #
     def site_id
-      @site_id
+      @site_id || NO_SITE_ID
     end # cat id
 
     # The JSS::Site instance for this object's site
@@ -165,7 +165,7 @@ module JSS
         elsif @init_data[self.class::SITE_SUBSET]
           @init_data[self.class::SITE_SUBSET][:site]
         end
-      site_data ||= {}
+      site_data ||= { name: NO_SITE_NAME, id: NO_SITE_ID }
 
       @site_name = site_data[:name]
       @site_id = site_data[:id]
@@ -187,7 +187,7 @@ module JSS
           parent_elem ||= root.add_element(self.class::SITE_SUBSET.to_s)
           parent_elem.add_element 'site'
         end
-      site_elem.add_element('name').text = @site_name.to_s
+      site_elem.add_element('name').text = site_name.to_s
     end # add_site_to_xml
 
   end # module categorizable
