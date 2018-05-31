@@ -454,7 +454,7 @@ module JSS
       end # each key
 
       # if we're here, we couldn't find a matching object
-      raise NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found matching '#{arg}'"
+      raise NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found"
     end # fetch
 
     # Make a ruby instance of a not-yet-existing APIObject.
@@ -614,7 +614,7 @@ module JSS
     def initialize(args = {})
       args[:api] ||= JSS.api
       @api = args[:api]
-      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self.class == JSS::APIObject
+      raise JSS::UnsupportedError, 'JSS::APIObject is a metaclass and cannot be instantiated' if self.class == JSS::APIObject
 
       # we're making a new one in the JSS
       if args[:id] == :new
@@ -951,7 +951,6 @@ module JSS
           # othereise
           @api.get_rsrc(rsrc)
         end
-
       raw_json[args[:rsrc_object_key]]
     rescue RestClient::ResourceNotFound
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching resource #{rsrc}"
@@ -1039,7 +1038,7 @@ module JSS
     # @return [void]
     #
     def initialize_category
-      parse_category if categorizable?
+      parse_category if categorizable? && @in_jss
     end
 
     # parse site data during initialization
