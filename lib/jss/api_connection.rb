@@ -1102,7 +1102,7 @@ module JSS
     # @return [void]
     #
     def raise_conflict_error(exception)
-      exception.http_body =~ %r{<p>Error:(.*)</p>}
+      exception.http_body =~ %r{<p>Error:(.*)(<|$)}
       conflict_reason = Regexp.last_match(1)
       conflict_reason ||= exception.http_body
       raise JSS::ConflictError, conflict_reason
