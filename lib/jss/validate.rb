@@ -80,6 +80,30 @@ module JSS
       val
     end
 
+    # Raise exception if a value is neither boolean true or boolean false
+    #
+    # TODO: use this throughout.
+    #
+    # @param val[Object] the value to validate
+    #
+    # @return [void]
+    #
+    def self.boolean(val)
+      raise JSS::InvalidDataError, 'Value must be Boolean true or false' unless JSS::TRUE_FALSE.include? val
+    end
+
+    # Raise exception if a value is neither boolean true or boolean false
+    #
+    # TODO: use this throughout.
+    #
+    # @param val[Object] the value to validate
+    #
+    # @return [void]
+    #
+    def self.integer(val)
+      raise JSS::InvalidDataError, 'Value must be an integer' unless val.is_a? Integer
+    end
+
   end # module validate
 
 end # module JSS
