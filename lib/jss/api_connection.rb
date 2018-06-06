@@ -326,6 +326,8 @@ module JSS
     # That means that support for ruby 1.8.7 stops with Casper 9.6
     DFT_SSL_VERSION = 'TLSv1'.freeze
 
+    RSRC_NOT_FOUND_MSG = 'The requested resource was not found'.freeze
+
     # Attributes
     #####################################
 
@@ -509,11 +511,15 @@ module JSS
     #
     def get_rsrc(rsrc, format = :json)
       # puts object_id
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
       raise JSS::InvalidDataError, 'format must be :json or :xml' unless format == :json || format == :xml
 
       rsrc = URI.encode rsrc
-      @last_http_response = @cnx[rsrc].get(accept: format)
+      begin
+        @last_http_response = @cnx[rsrc].get(accept: format)
+      rescue RestClient::ExceptionWithResponse => e
+        handle_http_error e
+      end
       format == :json ? JSON.parse(@last_http_response, symbolize_names: true) : @last_http_response
     end
 
@@ -526,15 +532,15 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
 
       # send the data
       @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
-    rescue RestClient::Conflict => exception
-      raise_conflict_error(exception)
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end
 
     # Create a new JSS resource
@@ -546,15 +552,15 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
 
       # send the data
       @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
-    rescue RestClient::Conflict => exception
-      raise_conflict_error(exception)
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # post_rsrc
 
     # Delete a resource from the JSS
@@ -564,7 +570,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -572,6 +578,9 @@ module JSS
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
+
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # delete_rsrc
 
     # Test that a given hostname & port is a JSS API server
@@ -920,6 +929,11 @@ module JSS
     ####################################
     private
 
+    # raise exception if not connected
+    def validate_connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless connected?
+    end
+
     # Apply defaults from the JSS::CONFIG,
     # then from the JSS::Client,
     # then from the module defaults
@@ -1093,19 +1107,35 @@ module JSS
         end
     end
 
-    # Parses the HTTP body of a RestClient::Conflict (409 conflict)
-    # exception and re-raises a JSS::ConflictError with a more
+    # Parses the HTTP body of a RestClient::ExceptionWithResponse
+    # (the parent of all HTTP error responses) and its subclasses
+    # and re-raises a JSS::APIError with a more
     # useful error message.
     #
-    # @param exception[RestClient::Conflict] the exception to parse
+    # @param exception[RestClient::ExceptionWithResponse] the exception to parse
     #
     # @return [void]
     #
-    def raise_conflict_error(exception)
-      exception.http_body =~ %r{<p>Error:(.*)(<|$)}
-      conflict_reason = Regexp.last_match(1)
-      conflict_reason ||= exception.http_body
-      raise JSS::ConflictError, conflict_reason
+    def handle_http_error(exception)
+      @last_http_response = exception.response
+      case exception
+      when RestClient::ResourceNotFound
+        # other methods catch this and report more details
+        raise exception
+      when RestClient::Conflict
+        err = JSS::ConflictError
+        msg_matcher = /<p>Error:(.*)(<|$)/m
+      when RestClient::BadRequest
+        err = JSS::BadRequestError
+        msg_matcher = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+      else
+        err = JSS::APIRequestError
+        msg_matcher = %r{<body.*?>(.*)</body>}m
+      end
+      exception.http_body =~ msg_matcher
+      msg = Regexp.last_match(1)
+      msg ||= exception.http_body
+      raise err, msg
     end
 
     # RestClient::Resource#delete doesn't take an HTTP payload,
@@ -1136,6 +1166,8 @@ module JSS
         ),
         &(block || @block)
       )
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # delete_with_payload
 
   end # class APIConnection
