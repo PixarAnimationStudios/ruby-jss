@@ -99,12 +99,18 @@ module JSS
     DEFAULT_REINSTALL_BUTTON_TEXT = 'Reinstall'.freeze
     DEFAULT_FORCE_TO_VIEW_DESC = false
 
-    NOTIFICATION_OPTIONS = {
-      off: 'off',
+    NOTIFICATION_TYPES = {
       ssvc_only: 'Self Service',
       ssvc_and_nctr: 'Self Service and Notification Center'
     }.freeze
-    NOTIFICATION_DEFAULT = :off
+    DFT_NOTIFICATION_TYPE = :ssvc_only
+
+
+    USER_URL_BASE = 'jamfselfservice://content?entity='.freeze
+    USER_URL_EXEC_ACTION = 'execute'.freeze
+    USER_URL_VIEW_ACTION = 'view'.freeze
+
+
 
     # This hash contains the details about the inconsistencies of how
     # Self Service data is dealt with in the API data of the different
@@ -136,6 +142,17 @@ module JSS
     #  - can_feature_in_categories: Boolean, when adding 'self service categories'
     #    can the thing be 'featured in' those categories?
     #
+    #  - notifications_supported: either nil (not supported), :ssvc_only, or
+    #    :ssvc_and_nctr  NOTE: when notifications are supported for :ssvc_only,
+    #    its due to a bug in the handling of the XML (two separate values are
+    #    using the same XML element tag <notification>) Items that support both
+    #    have a <notifications> subset inside the <self_service> subset
+    #
+    #  - notification_reminders: if true, supports notification reminders.
+    #    Only true for items that have a <notifications> subset
+    #
+    #  - url_entity: the 'entity' value used in user-urls for this SSVc item.
+    #
     # It's unfortunate that this is needed in order to keep all the
     # self service ruby code in this one module.
     #
@@ -147,7 +164,9 @@ module JSS
         targets: [:macos],
         payload: :policy,
         can_display_in_categories: true,
-        can_feature_in_categories: true
+        can_feature_in_categories: true,
+        notifications_supported: :ssvc_only,
+        url_entity: 'policy'
       },
       JSS::PatchPolicy => {
         in_self_service_data_path: %i[general distribution_method],
@@ -157,7 +176,9 @@ module JSS
         targets: [:macos],
         payload: :patchpolicy,
         can_display_in_categories: false,
-        can_feature_in_categories: false
+        can_feature_in_categories: false,
+        notifications_supported: :ssvc_and_nctr,
+        notification_reminders: true
       },
       JSS::MacApplication => { # TODO: add the correct values when Jamf fixes this bug
         in_self_service_data_path: nil, # [:general, :distribution_method],
@@ -166,7 +187,9 @@ module JSS
         targets: [:macos],
         payload: :app,
         can_display_in_categories: true,
-        can_feature_in_categories: true
+        can_feature_in_categories: true,
+        url_entity: 'app'
+        # OTHER BUG: no notification options seem to be changable via the API
       },
       JSS::OSXConfigurationProfile => {
         in_self_service_data_path: %i[general distribution_method],
@@ -175,7 +198,9 @@ module JSS
         targets: [:macos],
         payload: :profile,
         can_display_in_categories: true,
-        can_feature_in_categories: true
+        can_feature_in_categories: true,
+        notifications_supported: :ssvc_only,
+        url_entity: 'configprofile'
       },
       JSS::EBook => {
         in_self_service_data_path: %i[general deployment_type],
@@ -184,7 +209,9 @@ module JSS
         targets: %i[macos ios],
         payload: :app, # ebooks are handled the same way as apps, it seems,
         can_display_in_categories: true,
-        can_feature_in_categories: true
+        can_feature_in_categories: true,
+        notifications_supported: :ssvc_only,
+        url_entity: 'ebook'
       },
       JSS::MobileDeviceApplication => {
         in_self_service_data_path: %i[general deployment_type],
@@ -273,9 +300,13 @@ module JSS
     # @return [Boolean] Should an extra window appear before the user can install the item? (OSX SSvc only)
     attr_reader :self_service_force_users_to_view_description
 
-    # @return [Symbol] Should this policy send notifications, and if so, where?
-    #   one of: :off, :ssvc_only or :ssvc_and_nctr
-    attr_reader :self_service_notifications
+    # @return [Boolean] Should jamf send notifications to self service?
+    attr_reader :self_service_notifications_enabled
+    alias self_service_notifications_enabled? self_service_notifications_enabled
+
+    # @return [Symbol] How should notifications be sent
+    #   either :ssvc_only or :ssvc_and_nctr
+    attr_reader :self_service_notification_type
 
     # @return [String] The subject text of the notification. Defaults to the
     # object name.
@@ -284,11 +315,33 @@ module JSS
     # @return [String] The message text of the notification
     attr_reader :self_service_notification_message
 
+    # @return [Boolean] Should self service give reminders by displaying the
+    #   notification repeatedly?
+    attr_reader :self_service_reminders_enabled
+    alias self_service_reminders_enabled? self_service_reminders_enabled
+
+    # @return [Integer] How often (in days) should reminders be given
+    attr_reader :self_service_reminder_frequency
+
     #  Mixed-in Public Instance Methods
     #####################################
 
-    # Setters
+    # @return [String] The url to view this thing in Self Service
     #
+    def self_service_view_url
+      return nil unless @self_service_data_config[:url_entity]
+      "#{USER_URL_BASE}#{@self_service_data_config[:url_entity]}&id=#{id}&action=#{USER_URL_VIEW_ACTION}"
+    end
+
+    # @return [String] The url to view this thing in Self Service
+    #
+    def self_service_execute_url
+      return nil unless @self_service_data_config[:url_entity]
+      "#{USER_URL_BASE}#{@self_service_data_config[:url_entity]}&id=#{id}&action=#{USER_URL_EXEC_ACTION}"
+    end
+
+    # Setters
+    #####################################
 
     # @param new_val[String] the new discription
     #
@@ -401,6 +454,7 @@ module JSS
       @need_to_update = true
     end
     alias set_self_service_category add_self_service_category
+    alias change_self_service_category add_self_service_category
 
     # Remove a category from those for this item in SSvc
     #
@@ -436,26 +490,39 @@ module JSS
       @need_to_update = true
     end
 
-    # Where should self service notifications be displayed, if at all
-    # HACK: Until jamf fixes bugs, you can only set notifications
-    # :off or :ssvc_only. If you want :ssvc_and_nctr, you must
-    # check the checkbox in the web-UI.
+    # en/disable notifications
     #
-    # @param location[Symbol] A key from SelfServable::NOTIFICATION_OPTIONS
+    # @param new_val [Boolean] should we display notifications?
     #
     # @return [void]
     #
-    def self_service_notifications=(location)
-      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
+    def self_service_notifications_enabled=(new_val)
+      return if new_val == self_service_notifications_enabled
+      validate_notifications_supported
+      JSS::Validate.boolean new_val
+      @self_service_notifications_enabled = new_val
+      @need_to_update = true
+    end
 
-      raise JSS::InvalidDataError, "Location must be one of: :#{NOTIFICATION_OPTIONS.keys.join ', :'}" unless NOTIFICATION_OPTIONS.keys.include? location
+    # How should self service notifications be displayed
+    #
+    # @param type[Symbol] A key from SelfServable::NOTIFICATION_TYPES
+    #
+    # @return [void]
+    #
+    def self_service_notification_type=(type)
+      validate_notifications_supported
 
       # HACK: Until jamf fixes bugs, you can only set notifications
       # :off or :ssvc_only. If you want :ssvc_and_nctr, you must
       # check the checkbox in the web-UI.
-      raise 'Jamf Bug: Until Jamf fixes API bugs, you can only set Self Service notifications to :off or :ssvc_only. Use the WebUI to activate Notification Center notifications' unless %i[off ssvc_only].include? location
+      if @self_service_data_config[:notifications_supported] == :ssvc_only && type != :ssvc_only
+        raise "JAMF BUG: Until Jamf fixes API bugs in #{self.class}, you can only set Self Service notifications to :ssvc_only. Use the WebUI to activate Notification Center notifications"
+      end
 
-      @self_service_notifications = location
+      raise JSS::InvalidDataError, "type must be one of: :#{NOTIFICATION_TYPES.keys.join ', :'}" unless NOTIFICATION_TYPES.key? type
+
+      @self_service_notification_type = type
       @need_to_update = true
     end
 
@@ -464,9 +531,9 @@ module JSS
     # @return [void]
     #
     def self_service_notification_subject=(subj)
-      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
       subj.strip!
-      return nil if subj == @self_service_notification_subject
+      return if subj == @self_service_notification_subject
+      validate_notifications_supported
       @self_service_notification_subject = subj
       @need_to_update = true
     end
@@ -476,10 +543,38 @@ module JSS
     # @return [void]
     #
     def self_service_notification_message=(msg)
-      raise JSS::UnsupportedError, 'Only macOS Self Service Items can have self service notifications' unless self_service_targets.include? :macos
       msg.strip!
-      return nil if msg == @self_service_notification_message
+      return if msg == @self_service_notification_message
+      validate_notifications_supported
       @self_service_notification_message = msg
+      @need_to_update = true
+    end
+
+    # en/disable reminder notifications
+    #
+    # @param new_val [Boolean] should we display reminder notifications?
+    #
+    # @return [void]
+    #
+    def self_service_reminders_enabled=(new_val)
+      return if new_val == self_service_reminders_enabled
+      validate_notification_reminders_supported
+      JSS::Validate.boolean new_val
+      @self_service_reminders_enabled = new_val
+      @need_to_update = true
+    end
+
+    # set reminder notification frequency
+    #
+    # @param new_val[Integer] How many days between reminder notifications?
+    #
+    # @return [void]
+    #
+    def self_service_reminder_frequency=(days)
+      return if days == self_service_reminder_frequency
+      validate_notification_reminders_supported
+      JSS::Validate.integer days
+      @self_service_reminder_frequency = days
       @need_to_update = true
     end
 
@@ -504,7 +599,7 @@ module JSS
         @new_icon_id = new_icon
         @need_to_update = true
       else
-        unless uploadable? && defined?(self.class::UPLOAD_TYPES) && self.class::UPLOAD_TYPES.keys.include?(:icon)
+        unless uploadable? && defined?(self.class::UPLOAD_TYPES) && self.class::UPLOAD_TYPES.key?(:icon)
           raise JSS::UnsupportedError, "Class #{self.class} does not support icon uploads."
         end
         new_icon = Pathname.new new_icon
@@ -585,63 +680,27 @@ module JSS
 
       @in_self_service = in_self_service_at_init?
 
-      if ss_data[:security]
-        removable_value = ss_data[:security][:removal_disallowed]
-        @self_service_user_removable = PROFILE_REMOVAL_BY_USER.invert[removable_value]
-        @self_service_removal_password = ss_data[:security][:password]
-      end
-
       @self_service_description = ss_data[:self_service_description]
 
       @icon = JSS::Icon.new(ss_data[:self_service_icon]) if ss_data[:self_service_icon]
 
       @self_service_feature_on_main_page = ss_data[:feature_on_main_page]
-      @self_service_feature_on_main_page ||= false
 
       @self_service_categories = ss_data[:self_service_categories]
       @self_service_categories ||= []
+
+      parse_self_service_profile ss_data
 
       return unless self_service_targets.include? :macos
 
       # Computers only...
       @self_service_display_name = ss_data[:self_service_display_name]
       @self_service_display_name ||= name
-
       @self_service_install_button_text = ss_data[:install_button_text]
-      @self_service_install_button_text ||= DEFAULT_INSTALL_BUTTON_TEXT
-
       @self_service_reinstall_button_text = ss_data[:reinstall_button_text]
-      @self_service_reinstall_button_text ||= DEFAULT_REINSTALL_BUTTON_TEXT
-
       @self_service_force_users_to_view_description = ss_data[:force_users_to_view_description]
-      @self_service_force_users_to_view_description ||= DEFAULT_FORCE_TO_VIEW_DESC
 
-      # HACK: Workaround until jamf fixes bugs.
-      # when its fixed, here's how
-      #
-      # @self_service_notifications =
-      #  if ss_data[:notification] == false
-      #    :off
-      #  else
-      #    NOTIFICATION_OPTIONS.invert[ss_data[:notification_location]]
-      #  end
-      #
-      #
-      ss_xml = @api.get_rsrc("#{rest_rsrc}/subset/selfservice", :xml)
-      @self_service_notifications =
-        if ss_xml.include?('<notification>false</notification>')
-          :off
-        elsif ss_xml.include? "<notification>#{NOTIFICATION_OPTIONS[:ssvc_and_nctr]}</notification>"
-          :ssvc_and_nctr
-        else
-          :ssvc_only
-        end
-
-      # end hacks
-      @self_service_notification_subject = ss_data[:notification_subject]
-      @self_service_notification_subject ||= name
-
-      @self_service_notification_message = ss_data[:notification_message]
+      parse_self_service_notifications ss_data
     end # parse
 
     # Figure out if this object is in Self Service, from the API
@@ -657,17 +716,46 @@ module JSS
       @init_data[subsection][key] == @self_service_data_config[:in_self_service]
     end
 
-    def validate_user_removable(new_val)
-      raise JSS::UnsupportedError, 'User removal settings not applicable to this class' unless self_service_payload == :profile
-
-      raise JSS::UnsupportedError, 'Removal :with_auth not applicable to this class' if new_val == :with_auth && !self_service_targets.include?(:ios)
-
-      raise JSS::InvalidDataError, "Value must be one of: :#{PROFILE_REMOVAL_BY_USER.keys.join(', :')}" unless PROFILE_REMOVAL_BY_USER.keys.include? new_val
+    # parse incoming ssvc settings for profiles
+    def parse_self_service_profile(ss_data)
+      return unless self_service_payload == :profile
+      if self_service_targets.include? :ios
+        @self_service_user_removable = PROFILE_REMOVAL_BY_USER[ss_data[:security][:removal_disallowed]]
+        @self_service_removal_password = ss_data[:security][:password]
+        return
+      end
+      @self_service_user_removable =  @init_data[:general][:user_removable]
     end
 
-    def validate_icon(id)
-      return nil unless JSS::DB_CNX.connected?
-      raise JSS::NoSuchItemError, "No icon with id #{id}" unless JSS::Icon.all_ids.include? id
+    # parse incoming ssvc notification settings
+    def parse_self_service_notifications(ss_data)
+      return unless @self_service_data_config[:notifications_supported]
+
+      # oldstyle/broken, we need the XML to know if notifications are turned on
+      if @self_service_data_config[:notifications_supported] == :ssvc_only
+        ssrsrc = "#{rest_rsrc}/subset/selfservice}"
+        raw_xml = api.get_rsrc(ssrsrc, :xml)
+        @self_service_notifications_enabled = raw_xml.include? '<notification>true</notification>'
+        @self_service_notification_type = NOTIFICATION_TYPES.invert[ss_data[:notification]]
+        @self_service_notification_subject = ss_data[:notification_subject]
+        @self_service_notification_message = ss_data[:notification_message]
+        return
+      end
+
+      # newstyle, 'notifications' subset
+      notif_data = ss_data[:notifications]
+      notif_data ||= {}
+
+      @self_service_notifications_enabled = notif_data[:notification_enabled]
+      @self_service_notification_type = NOTIFICATION_TYPES.invert[notif_data[:notification_type]]
+      @self_service_notification_type ||= DFT_NOTIFICATION_TYPE
+      @self_service_notification_subject = notif_data[:notification_subject]
+      @self_service_notification_message = notif_data[:notification_message]
+
+      reminders = notif_data[:reminders]
+      reminders ||= {}
+      @self_service_reminders_enabled = reminders[:notification_reminders_enabled]
+      @self_service_reminder_frequency = reminders[:notification_reminder_frequency]
     end
 
     # Re-read the icon data for this object from the API
@@ -678,21 +766,30 @@ module JSS
     def refresh_icon
       return nil unless @in_jss
       fresh_data = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
-      icon_data = fresh_data[:self_service][:self_service_icon]
+      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+
+      ss_data = fresh_data[subset_key]
+
+      icon_data = ss_data[:self_service_icon]
       @icon = JSS::Icon.new icon_data
     end # refresh icon
 
-    # Add a REXML <self_service> element to the root of the provided REXML::Document
+    # Add approriate XML for self service data to the XML document for this
+    # item.
     #
-    # @param xdoc[REXML::Document] The XML Document to which we're adding a Self
-    #   Service subsection
+    # @param xdoc[REXML::Document] The XML Document to which we're adding Self
+    #   Service data
     #
     # @return [void]
     #
     def add_self_service_xml(xdoc)
-      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
-
       doc_root = xdoc.root
+
+      # whether or not we're in self service is usually not in the
+      # ssvc subset...
+      add_in_self_service_xml doc_root
+
+      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
 
       ssvc = doc_root.add_element subset_key.to_s
 
@@ -704,61 +801,17 @@ module JSS
         icon.add_element('id').text = @new_icon_id
       end
 
-      cats = ssvc.add_element('self_service_categories')
-      if @self_service_categories
-        @self_service_categories.each do |cat|
-          catelem = cats.add_element('category')
-          catelem.add_element('name').text = cat[:name]
-          catelem.add_element('display_in').text = cat[:display_in] if @self_service_data_config[:can_display_in_categories]
-          catelem.add_element('feature_in').text = cat[:feature_in] if @self_service_data_config[:can_feature_in_categories]
-        end
-      end
+      add_self_service_category_xml ssvc
 
-      if self_service_targets.include? :macos
-        ssvc.add_element('self_service_display_name').text = @self_service_display_name if @self_service_display_name
-        ssvc.add_element('install_button_text').text = @self_service_install_button_text if @self_service_install_button_text
-        ssvc.add_element('reinstall_button_text').text = @self_service_reinstall_button_text if @self_service_reinstall_button_text
-        ssvc.add_element('force_users_to_view_description').text = @self_service_force_users_to_view_description.to_s
+      add_self_service_profile_xml ssvc, doc_root
 
-        # HACK: until jamf fixes bugs
-        # put the location info into 'notification'.
-        # the real 'notification' value will be PUT again
-        # after seprattely after this.
-        #
-        # w/o hack:
-        #
-        # ssvc.add_element('notification').text =
-        #   if self_service_notifications == :off
-        #     'false'
-        #   else
-        #     'true'
-        #   end
-        #
-        # ssvc.add_element('notification_location').text = NOTIFICATION_OPTIONS[self_service_notifications]
-        #
-        ssvc.add_element('notification').text =
-          if self_service_notifications == :off
-            'false'
-          else
-            @need_ss_notification_activation_hack = true
-            NOTIFICATION_OPTIONS[self_service_notifications]
-          end
+      add_self_service_macos_xml ssvc
 
-        ssvc.add_element('notification_subject').text = @self_service_notification_subject
-        ssvc.add_element('notification_message').text = @self_service_notification_message if @self_service_notification_message
-      end # if self_service_targets.include? :macos
+      add_self_service_notification_xml ssvc
+    end # add_self_service_xml
 
-      if self_service_payload == :profile
-        if self_service_targets.include? :ios
-          sec = ssvc.add_element('security')
-          sec.add_element('removal_disallowed').text = PROFILE_REMOVAL_BY_USER[@self_service_user_removable]
-          sec.add_element('password').text = @self_service_removal_password.to_s
-        else
-          gen = doc_root.elements['general']
-          gen.add_element('user_removable').text = (@self_service_user_removable == :always).to_s
-        end
-      end
-
+    # add the correct XML indicating whether or not we're even in SSvc
+    def add_in_self_service_xml(doc_root)
       return unless @self_service_data_config[:in_self_service_data_path]
 
       in_ss_section, in_ss_elem = @self_service_data_config[:in_self_service_data_path]
@@ -768,10 +821,70 @@ module JSS
       in_ss_section_xml = doc_root.elements[in_ss_section.to_s]
       in_ss_section_xml ||= doc_root.add_element(in_ss_section.to_s)
       in_ss_section_xml.add_element(in_ss_elem.to_s).text = in_ss_value.to_s
-    end # add_self_service_xml
+    end
 
-    # aliases
-    alias change_self_service_category add_self_service_category
+    # add the xml specific to profiles
+    def add_self_service_profile_xml(ssvc, doc_root)
+      return unless self_service_payload == :profile
+      if self_service_targets.include? :ios
+        sec = ssvc.add_element('security')
+        sec.add_element('removal_disallowed').text = PROFILE_REMOVAL_BY_USER[@self_service_user_removable]
+        sec.add_element('password').text = @self_service_removal_password.to_s
+        return
+      end
+      gen = doc_root.elements['general']
+      gen.add_element('user_removable').text = (@self_service_user_removable == :always).to_s
+    end
+
+    # add the xml for self-service categories
+    def add_self_service_category_xml(ssvc)
+      cats = ssvc.add_element('self_service_categories')
+      return if self_service_categories.empty?
+      self_service_categories.each do |cat|
+        catelem = cats.add_element('category')
+        catelem.add_element('name').text = cat[:name]
+        catelem.add_element('display_in').text = cat[:display_in] if @self_service_data_config[:can_display_in_categories]
+        catelem.add_element('feature_in').text = cat[:feature_in] if @self_service_data_config[:can_feature_in_categories]
+      end
+    end
+
+    # set macOS settings in ssvc xml
+    def add_self_service_macos_xml(ssvc)
+      return unless self_service_targets.include? :macos
+      ssvc.add_element('self_service_display_name').text = self_service_display_name if self_service_display_name
+      ssvc.add_element('install_button_text').text = self_service_install_button_text if self_service_install_button_text
+      ssvc.add_element('reinstall_button_text').text = self_service_reinstall_button_text if self_service_reinstall_button_text
+      ssvc.add_element('force_users_to_view_description').text = self_service_force_users_to_view_description.to_s
+    end
+
+
+    # set ssvc notification settings in xml
+    def add_self_service_notification_xml(ssvc)
+      return unless @self_service_data_config[:notifications_supported]
+
+      # oldstyle/broken, only sscv notifs
+      if @self_service_data_config[:notifications_supported] == :ssvc_only
+        ssvc.add_element('notification').text = self_service_notifications_enabled.to_s
+        ssvc.add_element('notification_subject').text = self_service_notification_subject if self_service_notification_subject
+        ssvc.add_element('notification_message').text = self_service_notification_message if self_service_notification_message
+        return
+      end
+
+      # newstyle, 'notifications' subset
+      notif = ssvc.add_element('notifications')
+      notif.add_element('notifications_enabled').text = self_service_notifications_enabled.to_s
+      notif.add_element('notification_type').text = NOTIFICATION_TYPES[self_service_notification_type] if self_service_notification_type
+      notif.add_element('notification_subject').text = self_service_notification_subject if self_service_notification_subject
+      notif.add_element('notification_message').text = self_service_notification_message if self_service_notification_message
+
+      return unless @self_service_data_config[:notification_reminders]
+
+      reminds = notif.add_element('reminders')
+      reminds.add_element('notification_reminders_enabled').text = self_service_reminders_enabled.to_s
+      reminds.add_element('notification_reminder_frequency').text = self_service_reminder_frequency.to_s if self_service_reminder_frequency
+
+    end
+
 
     # HACK: ity hack hack...
     # remove when jamf fixes these bugs
@@ -801,6 +914,31 @@ module JSS
       ENDXML
       @api.put_rsrc rest_rsrc, xml
       @need_ss_notification_activation_hack = nil
+    end
+
+    # Raise an error if user_removable settings are wrong
+    def validate_user_removable(new_val)
+      raise JSS::UnsupportedError, 'User removal settings not applicable to this class' unless self_service_payload == :profile
+
+      raise JSS::UnsupportedError, 'Removal :with_auth not applicable to this class' if new_val == :with_auth && !self_service_targets.include?(:ios)
+
+      raise JSS::InvalidDataError, "Value must be one of: :#{PROFILE_REMOVAL_BY_USER.keys.join(', :')}" unless PROFILE_REMOVAL_BY_USER.key?(new_val)
+    end
+
+    # Raise an error if an icon id is not valid
+    def validate_icon(id)
+      return nil unless JSS::DB_CNX.connected?
+      raise JSS::NoSuchItemError, "No icon with id #{id}" unless JSS::Icon.all_ids.include? id
+    end
+
+    # Raise an error if notifications aren't supported
+    def validate_notifications_supported
+      raise JSS::UnsupportedError, "#{self.class} doesn't support Self Service notifications" unless @self_service_data_config[:notifications_supported]
+    end
+
+    # Raise an error if notification reminders aren't supported
+    def validate_notification_reminders_supported
+      raise JSS::UnsupportedError, "#{self.class} doesn't support Self Service notifications" unless @self_service_data_config[:notification_reminders]
     end
 
   end # module SelfServable
