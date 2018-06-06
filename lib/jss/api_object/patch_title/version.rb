@@ -76,6 +76,12 @@ module JSS
         @package_name = data[:package][:name]
       end
 
+      # @return [Boolean] Has a package been assigned to this version?
+      #
+      def package_assigned?
+        package_id != :none
+      end
+
       # get the patch report for this version
       # See PatchTitle.patch_report
       def patch_report
