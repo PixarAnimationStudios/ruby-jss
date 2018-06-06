@@ -338,6 +338,14 @@ module JSS
       @changed_pkgs = []
     end
 
+    # @return [Hash] Subset of @versions, containing those which have packages
+    #   assigned
+    #
+    def versions_with_packages
+      versions.select { |_ver_string, vers| vers.package_assigned? }
+    end
+
+
     def email_notification=(new_setting)
       return if email_notification == new_setting
       raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @email_notification = new_setting
