@@ -732,8 +732,8 @@ module JSS
       return unless @self_service_data_config[:notifications_supported]
 
       # oldstyle/broken, we need the XML to know if notifications are turned on
-      if @self_service_data_config[:notifications_supported] == :ssvc_only
-        ssrsrc = "#{rest_rsrc}/subset/selfservice}"
+      if @self_service_data_config[:notifications_supported] == :ssvc_only && @in_jss
+        ssrsrc = "#{rest_rsrc}/subset/selfservice"
         raw_xml = api.get_rsrc(ssrsrc, :xml)
         @self_service_notifications_enabled = raw_xml.include? '<notification>true</notification>'
         @self_service_notification_type = NOTIFICATION_TYPES.invert[ss_data[:notification]]
