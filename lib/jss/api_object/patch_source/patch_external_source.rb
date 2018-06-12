@@ -34,7 +34,6 @@ module JSS
   class PatchExternalSource < JSS::PatchSource
 
     include JSS::Creatable
-    include JSS::Updatable
 
     # Constants
     #####################################

@@ -33,6 +33,8 @@ module JSS
   #
   class PatchSource < JSS::APIObject
 
+    include JSS::Updatable
+
     HTTP = 'http'.freeze
     HTTPS = 'https'.freeze
 
