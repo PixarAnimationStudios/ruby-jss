@@ -120,6 +120,11 @@ module JSS
   #
   class APIObject
 
+    # Constants
+    ####################################
+
+    OK_INSTANTIATORS = ['make', 'fetch', 'block in fetch'].freeze
+
     # Class Methods
     #####################################
 
@@ -479,6 +484,15 @@ module JSS
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
       args[:id] = :new
       new args
+    end
+
+    # Disallow direct use of ruby's .new class method for creating instances.
+    # Require use of .fetch or .make
+    def self.new(**args)
+      calling_method = caller_locations(1..1).first.label
+      # puts "Called By: #{calling_method}"
+      raise JSS::UnsupportedError, 'Use .fetch or .make to instantiate APIObject classes' unless OK_INSTANTIATORS.include? calling_method
+      super
     end
 
     # Delete one or more API objects by jss_id without instantiating them.
