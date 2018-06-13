@@ -1128,6 +1128,8 @@ module JSS
       when RestClient::BadRequest
         err = JSS::BadRequestError
         msg_matcher = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+      when RestClient::Unauthorized
+        raise
       else
         err = JSS::APIRequestError
         msg_matcher = %r{<body.*?>(.*)</body>}m
