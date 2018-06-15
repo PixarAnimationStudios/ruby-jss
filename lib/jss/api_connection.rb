@@ -320,11 +320,7 @@ module JSS
     DFT_TIMEOUT = 60
 
     # The Default SSL Version
-    # As of Casper 9.61 we can't use SSL, must use TLS, since SSLv3 was susceptible to poodles.
-    # NOTE - this requires rest-client v 1.7.0 or higher
-    # which requires mime-types 2.0 or higher, which requires ruby 1.9.2 or higher!
-    # That means that support for ruby 1.8.7 stops with Casper 9.6
-    DFT_SSL_VERSION = 'TLSv1'.freeze
+    DFT_SSL_VERSION = 'TLSv1_2'.freeze
 
     RSRC_NOT_FOUND_MSG = 'The requested resource was not found'.freeze
 
