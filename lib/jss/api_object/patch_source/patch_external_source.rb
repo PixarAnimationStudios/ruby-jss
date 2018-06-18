@@ -70,15 +70,12 @@ module JSS
     # @return [void]
     #
     def disable
-      raise JSS::UnsupportedError, 'Internal Patch Sources cannot be disabled' unless self.class == JSS::PatchExternalSource
       return unless enabled?
       @enabled = false
       @need_to_update = true
     end
 
-    # @param name[String] the new source host name
-    #
-    # @return [void]
+    # see PatchSource attr_reader :host_name
     #
     def host_name=(newname)
       return if newname == host_name
@@ -89,9 +86,7 @@ module JSS
     alias hostname= host_name=
     alias host= host_name=
 
-    # @param port[Integer] the new port on the source host name
-    #
-    # @return [void]
+    # see PatchSource attr_reader :port
     #
     def port=(new_port)
       return if new_port == port
@@ -142,8 +137,7 @@ module JSS
     # @return [void]
     #
     def validate_host_port(action)
-      return nil unless self.class == JSS::PatchExternalSource
-      raise JSS::UnsupportedError, "Cannot #{action} without first setting a host_name and port" if hostname.to_s.empty? && port.to_s.empty?
+      raise JSS::UnsupportedError, "Cannot #{action} without first setting a host_name and port" if host_name.to_s.empty? || port.to_s.empty?
     end
 
     def rest_xml

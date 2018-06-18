@@ -282,11 +282,15 @@ module JSS
     attr_reader :endpoint
     alias url endpoint
 
+    # @param newname [String] The new host name (external sources only)
+    #
     # @return [String] The host name of the patch source
     attr_reader :host_name
     alias hostname host_name
     alias host host_name
 
+    # @param new_port [Integer] The new port (external sources only)
+    #
     # @return [Integer] the TCP port of the patch source
     attr_reader :port
 

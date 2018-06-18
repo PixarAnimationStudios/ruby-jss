@@ -50,7 +50,6 @@ module JSS
 
     DFT_ENABLED = false
 
-
     USE_XML_WORKAROUND = {
       patch_policy: {
         general: {
@@ -213,6 +212,11 @@ module JSS
     attr_reader :enabled
     alias enabled? enabled
 
+    # When setting, the version must exist in the policy's PatchTitle,
+    # and have a package assigned to it.
+    #
+    # @param new_tgt_vers[String] the new version for this Patch Policy.
+    #
     # @return [String] The version deployed by this policy
     attr_reader :target_version
     alias version target_version
@@ -237,20 +241,28 @@ module JSS
     #   each Hash contains :kill_app_name and :kill_app_bundle_id, both Strings
     attr_reader :kill_apps
 
-    # @return [Boolean] Can this title be downgraded to this version?
+    # Can this title be downgraded to this version?
+    # @param new_val [Boolean]
+    # @return [Boolean]
     attr_reader :allow_downgrade
     alias allow_downgrade? allow_downgrade
     alias downgradable? allow_downgrade
 
-    # @return [Boolean] can this be installed over an unknown current version?
+    # Can this policy run when we don't know the prev. version?
+    # @param new_val [Boolean]
+    # @return [Boolean]
     attr_reader :patch_unknown
     alias patch_unknown? patch_unknown
 
-    # @return [Boolean] Does this policy have a deadline for installing?
+    # Does this policy have a deadline for installing?
+    # @param new_val [Boolean]
+    # @return [Boolean]
     attr_reader :deadline_enabled
     alias deadline_enabled? deadline_enabled
 
-    # @return [Integer] If a deadline is enabled, how many days is it?
+    # How many days is the install deadline (if enabled)
+    # @param days[Integer]
+    # @return [Integer]
     attr_reader :deadline_period
 
     # @return [Integer] How many minutes does the user have to quit the killapps?
@@ -283,7 +295,7 @@ module JSS
       gen = @init_data[:general]
       gen ||= {}
 
-      if !in_jss
+      unless in_jss
         raise JSS::MissingDataError, ':patch_title required when creating a patch policy' unless @init_data[:patch_title]
         title_id = JSS::PatchTitle.valid_id @init_data[:patch_title]
         raise JSS::NoSuchItemError, "No Patch Title matches '#{@init_data[:patch_title]}'" unless title_id
@@ -292,12 +304,10 @@ module JSS
         @init_data[:general][:target_version] = @init_data[:target_version]
       end
 
-
       @enabled = gen[:enabled]
       @target_version = gen[:target_version]
       @allow_downgrade = gen[:allow_downgrade]
       @patch_unknown = gen[:patch_unknown]
-
 
       @init_data[:user_interaction] ||= {}
       deadlines = @init_data[:user_interaction][:deadlines]
@@ -321,16 +331,9 @@ module JSS
       @reboot = gen[:reboot]
       @minimum_os = gen[:minimum_os]
       @kill_apps = gen[:kill_apps]
-
     end
 
-    # Set a new target version for this policy.
-    # The version must exist in the policy's PatchTitle, and have a package
-    # assigned to it.
-    #
-    # @param new_tgt_vers[String] the new version for this Patch Policy.
-    #
-    # @return [void]
+    # See attr_reader :target_version
     #
     def target_version=(new_tgt_vers)
       return if new_tgt_vers == target_version
@@ -347,7 +350,7 @@ module JSS
     # @return [JSS::PatchTitle, nil]
     #
     def patch_title(refresh = false)
-      return nil unless JSS::PatchTitle.all_ids.include? software_title_configuration_id
+      return nil unless JSS::PatchTitle.all_ids(refresh).include? software_title_configuration_id
       @patch_title = nil if refresh
       @patch_title ||= JSS::PatchTitle.fetch id: software_title_configuration_id
     end
@@ -358,12 +361,7 @@ module JSS
       JSS::PatchTitle.map_all_ids_to(:name)[software_title_configuration_id]
     end
 
-    # Set the downgradability of this policy - i.e. can it run when
-    # the installed version is newer than this one?
-    #
-    # @param new_val [Boolean] Can this policy be used for downgrades?
-    #
-    # @return [void]
+    # see attr_reader :allow_downgrade
     #
     def allow_downgrade=(new_val)
       return if new_val == allow_downgrade
@@ -372,13 +370,7 @@ module JSS
       @need_to_update = true
     end
 
-    # Set the abillity of this policy to install when the previosly installed
-    # version cannot be determined?
-    #
-    # @param new_val [Boolean] Can this policy run when we don't know the prev.
-    #  version?
-    #
-    # @return [void]
+    # see attr_reader :patch_unknown
     #
     def patch_unknown=(new_val)
       return if new_val == patch_unknown
@@ -387,11 +379,7 @@ module JSS
       @need_to_update = true
     end
 
-    # Set the deadline enforcement of this policy
-    #
-    # @param new_val [Boolean] Does this policy have a deadline for running?
-    #
-    # @return [void]
+    # see attr_reader :deadline_enabled
     #
     def deadline_enabled=(new_val)
       return if new_val == deadline_enabled
@@ -400,12 +388,7 @@ module JSS
       @need_to_update = true
     end
 
-    # Set the deadline for running this patch policy to some number of days
-    # after it becomes available.
-    #
-    # @param days[Integer] how many days before this Patch Policy runs automatically?
-    #
-    # @return [void]
+    # see attr_reader :deadline_period
     #
     def deadline_period=(days)
       return if deadline_period == days
@@ -414,38 +397,42 @@ module JSS
       @need_to_update = true
     end
 
-
+    # Create a new PatchPolicy in the JSS
+    #
+    # @return [Integer] the id of the new policy
+    #
     def create
       super
       refetch_version_info
+      id
     end
 
-
+    # Update an existing PatchPolicy with changes from ruby
+    #
+    # @return [Integer] the id of the policy
+    #
     def update
       super
       refetch_version_info if @refetch_for_new_version
       @refetch_for_new_version = false
+      id
     end
-
-
 
     # Private Instance Methods
     #####################################
     private
 
+    # raise an exception if a given target version is not valid for this policy
+    #
     def validate_target_version(tgt_vers)
-      raise JSS::InvalidDataError, 'target_version must be a String' unless tgt_vers.is_a? String
-      raise JSS::InvalidDataError, 'target_version must not be empty' if tgt_vers.empty?
-
-      unless title.versions.key? new_tgt_vers
-        raise JSS::UnsupportedError, "Version '#{new_tgt_vers}' does not exist for title: #{patch_title_name}."
-      end
-
-      unless title.versions_with_packages.key? new_tgt_vers
-        raise JSS::UnsupportedError, "Version '#{new_tgt_vers}' cannot be used in Patch Policies until a package is assigned to it."
-      end
+      raise JSS::InvalidDataError, 'target_version must be a non-empty String' unless tgt_vers.is_a? String && !tgt_vers.empty?
+      raise JSS::NoSuchItemError, "Version '#{tgt_vers}' does not exist for title: #{patch_title_name}." unless title.versions.key? tgt_vers
+      return if title.versions_with_packages.key? tgt_vers
+      raise JSS::UnsupportedError, "Version '#{tgt_vers}' cannot be used in Patch Policies until a package is assigned to it."
     end
 
+    # Update our local version data after the target_version is changed
+    #
     def refetch_version_info
       tmp = self.class.fetch id: id
       @release_date = tmp.release_date
@@ -472,7 +459,6 @@ module JSS
 
       doc.to_s
     end
-
 
   end # class PatchPolicy
 
