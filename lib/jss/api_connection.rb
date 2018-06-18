@@ -328,7 +328,8 @@ module JSS
     #####################################
 
     # @return [String] the username who's connected to the JSS API
-    attr_reader :jss_user
+    attr_reader :user
+    alias jss_user user
 
     # @return [RestClient::Resource] the underlying connection resource
     attr_reader :cnx
@@ -431,7 +432,7 @@ module JSS
       # parse our ssl situation
       verify_ssl args
 
-      @jss_user = args[:user]
+      @user = args[:user]
 
       @rest_url = build_rest_url args
 
@@ -443,7 +444,7 @@ module JSS
 
       verify_server_version
 
-      @name = "#{@jss_user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
+      @name = "#{@user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
       @connected ? hostname : nil
     end # connect
 
@@ -452,7 +453,7 @@ module JSS
     # @return [String]
     #
     def to_s
-      @connected ? "Using #{@rest_url} as user #{@jss_user}" : 'not connected'
+      @connected ? "Using #{@rest_url} as user #{@user}" : 'not connected'
     end
 
     # Reset the response timeout for the rest connection
@@ -481,7 +482,7 @@ module JSS
     # @return [void]
     #
     def disconnect
-      @jss_user = nil
+      @user = nil
       @rest_url = nil
       @server_host = nil
       @cnx = nil
@@ -508,7 +509,7 @@ module JSS
     def get_rsrc(rsrc, format = :json)
       # puts object_id
       validate_connected
-      raise JSS::InvalidDataError, 'format must be :json or :xml' unless format == :json || format == :xml
+      raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
 
       rsrc = URI.encode rsrc
       begin
@@ -574,7 +575,6 @@ module JSS
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
-
     rescue RestClient::ExceptionWithResponse => e
       handle_http_error e
     end # delete_rsrc
@@ -1031,7 +1031,7 @@ module JSS
       begin
         @server = JSS::Server.new get_rsrc('jssuser')[:user], self
       rescue RestClient::Unauthorized
-        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@jss_user}@#{@server_host}:#{@port}'."
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@user}@#{@server_host}:#{@port}'."
       end
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
