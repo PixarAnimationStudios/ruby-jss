@@ -168,12 +168,12 @@ module JSS
     # @see APIObject.delete
     #
     def self.delete(victims, api: JSS.api)
-      case self
-      when JSS::PatchSource
+      case self.name
+      when 'JSS::PatchSource'
         JSS::PatchExternalSource victims, api: api
-      when JSS::PatchExternalSource
+      when 'JSS::PatchExternalSource'
         super
-      when JSS::PatchInternalSource
+      when 'JSS::PatchInternalSource'
         raise JSS::UnsupportedError, 'PatchInteralSources cannot be deleted.'
       end
     end
