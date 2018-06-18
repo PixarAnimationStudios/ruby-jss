@@ -153,12 +153,12 @@ module JSS
     # @see APIObject.make
     #
     def self.make(**args)
-      case self
-      when JSS::PatchSource
+      case self.name
+      when 'JSS::PatchSource'
         JSS::PatchExternalSource.make args
-      when JSS::PatchExternalSource
+      when 'JSS::PatchExternalSource'
         super
-      when JSS::PatchInternalSource
+      when 'JSS::PatchInternalSource'
         raise JSS::UnsupportedError, 'PatchInteralSources cannot be created.'
       end
     end
