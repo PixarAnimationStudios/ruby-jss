@@ -91,7 +91,7 @@ module JSS
     def port=(new_port)
       return if new_port == port
       raise JSS::InvalidDataError, 'ports must be Integers' unless port.is_a? Integer
-      @port = port
+      @port = new_port
       @need_to_update = true
     end
 
