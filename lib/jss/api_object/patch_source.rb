@@ -304,7 +304,8 @@ module JSS
 
       super
 
-      @enabled = @init_data[:enabled] ? @init_data[:enabled] : DFT_ENABLED
+      @enabled = @init_data[:enabled].to_s.jss_to_bool
+      @enabled ||= false
 
       # derive the data not provided for this source type
       if @init_data[:endpoint]
@@ -315,34 +316,35 @@ module JSS
         @ssl_enabled = url.scheme == HTTPS
       else
         @host_name = @init_data[:host_name]
-        @port = @init_data[:port]
+        @port = @init_data[:port].to_i
         @port ||= ssl_enabled? ? DFT_SSL_PORT : DFT_NO_SSL_PORT
-        @ssl_enabled = @init_data[:ssl_enabled].nil? ? DFT_SSL : @init_data[:ssl_enabled]
+        @ssl_enabled = @init_data[:ssl_enabled].to_s.jss_to_bool
+        @ssl_enabled ||= false
         @endpoint = "#{ssl_enabled ? HTTPS : HTTP}://#{host_name}:#{port}/"
       end
     end # init
 
     # Get a list of patch titles available from this Patch Source
-    #
-    # @return [Array<Hash{Symbol:String}>] One hash for each available title, with
-    #   these keys:
-    #     :name_id String
-    #     :current_version String
-    #     :publisher String
-    #     :last_modified Time
-    #     :app_name  String
+    # @see JSS::PatchSource.available_titles
     #
     def available_titles
       self.class.available_titles id, api: api
     end
 
+    # Get a list of available name_id's for this patch source
+    # @see JSS::PatchSource.available_name_ids
+    #
+    def available_name_ids
+      self.class.available_name_ids id, api: api
+    end
+
     # Delete this instance
     # This method is needed to override APIObject#delete
     def delete
-      case self.class
-      when JSS::PatchExternalSource
+      case self.class.name
+      when 'JSS::PatchExternalSource'
         super
-      when JSS::PatchInternalSource
+      when 'JSS::PatchInternalSource'
         raise JSS::UnsupportedError, 'PatchInteralSources cannot be deleted.'
       end
     end
