@@ -1,6 +1,32 @@
+### Copyright 2018 Pixar
+
+###
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###
+###    You may obtain a copy of the Apache License at
+###
+###        http://www.apache.org/licenses/LICENSE-2.0
+###
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+###
+###
 # Patch Source MetaClass
 #
 describe JSS::PatchSource do
+
+  ##### Specs
 
   it 'can list all patch sources' do
     JSS::PatchSource.all.must_be_instance_of Array
@@ -30,14 +56,20 @@ end # describe JSS::PatchSource
 #
 describe JSS::PatchInternalSource do
 
+  ##### Class Methods
+
   def self.src
     @src ||= JSS::PatchInternalSource.fetch(id: 1)
   end
+
+  ##### Instance Methods
 
   # instance access to self.src
   def src
     self.class.src
   end
+
+  ##### Specs
 
   it 'cannot be created' do
     proc { JSS::PatchInternalSource.make name: 'foo' }.must_raise JSS::UnsupportedError
@@ -92,8 +124,12 @@ end # describe JSS::PatchInternalSource
 #
 describe JSS::PatchExternalSource do
 
+  ##### Constants
+
   TEST_NAME = 'rubyjss-testPatchSource.company.com'.freeze
   TEST_PORT = 8843
+
+  ##### Class methods
 
   # this effectively makes the tests run in the order defined, which is
   # needed in this situattion.
@@ -110,10 +146,14 @@ describe JSS::PatchExternalSource do
     @src = JSS::PatchExternalSource.fetch name: TEST_NAME
   end
 
+  ##### Instance Methods
+
   # instance access to self.src
   def src
     self.class.src
   end
+
+  ##### Specs
 
   it 'can delete crufty objects from earlier tests' do
     break unless JSS::PatchExternalSource.all_names(:refresh).include? TEST_NAME
