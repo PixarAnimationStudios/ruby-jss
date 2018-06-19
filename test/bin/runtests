@@ -154,6 +154,9 @@ class App
   def run_tests
     JSSTestHelper.say "Starting tests of ruby-jss v #{JSS::VERSION}"
     JSSTestHelper.say "API Connection: #{@api_user}@#{@api_server}:#{@api_port} running Jamf Pro #{JSS.api.server.version}"
+
+    base_runnables = MiniTest::Runnable.runnables.dup
+
     @tests_to_run.each do |t|
       t += SPEC_SUFFIX unless t.end_with? SPEC_SUFFIX
       specfile = @specdir + t
@@ -163,9 +166,11 @@ class App
       if specfile.file?
         JSSTestHelper.say "Running test #{specfile.basename}: "
         load specfile.to_s
+
         MiniTest.run @minitest_opts.dup
-        # clear this spec from the run list..
-        MiniTest::Runnable.runnables.pop
+
+        # clear this files specs from the run list..
+        MiniTest::Runnable.runnables.select! { |r| base_runnables.include? r }
         puts
       else
         JSSTestHelper.say "Skipping unknown test #{specfile.basename}"
