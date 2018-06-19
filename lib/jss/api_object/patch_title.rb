@@ -292,7 +292,6 @@ module JSS
       super id: id, api: api
     end
 
-
     # Attributes
     #####################################
 
@@ -345,7 +344,6 @@ module JSS
       versions.select { |_ver_string, vers| vers.package_assigned? }
     end
 
-
     def email_notification=(new_setting)
       return if email_notification == new_setting
       raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @email_notification = new_setting
@@ -376,7 +374,7 @@ module JSS
 
     def name_id=(new_id)
       return if new_id == name_id
-      raise JSS::NoSuchItemError, 'source_id must be set before setting name_id' unless source_id
+      raise JSS::NoSuchItemError, 'source_id must be set before setting name_id' if source_id.to_s.empty?
       raise JSS::NoSuchItemError, "source_id #{source_id} doesn't offer name_id '#{new_id}'" unless JSS::PatchSource.available_name_ids(source_id).include? new_id
       @name_id = new_id
       @need_to_update = true
@@ -385,17 +383,17 @@ module JSS
     # wrapper to fetch versions after creating
     def create
       validate_for_saving
-      super
+      response = super
       @versions = self.class.fetch(id: id).versions
+      response
     end
-
 
     # wrapper to clear @changed_pkgs after updating
     def update
       validate_for_saving
-      resp = super
+      response = super
       @changed_pkgs.clear
-      resp
+      response
     end
 
     # Get a patch report for this title.
@@ -424,7 +422,7 @@ module JSS
     private
 
     def validate_for_saving
-      raise JSS::InvalidDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? && name_id.to_s.empty?
+      raise JSS::InvalidDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? || name_id.to_s.empty?
     end
 
     # Return the REST XML for this title, with the current values,
