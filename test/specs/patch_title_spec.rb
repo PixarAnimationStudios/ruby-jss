@@ -1,6 +1,8 @@
 
 describe JSS::PatchTitle do
 
+  TEST_NAME = 'rubyjss-testPatchTitle'.freeze
+
   # this effectively makes the tests run in the order defined, which is
   # needed in this situattion.
   def self.test_order
@@ -26,6 +28,8 @@ describe JSS::PatchTitle do
     JSS::PatchTitle.all_source_ids.first.must_be_kind_of Integer
   end
 
+  # TODO: simplify this when we aren't reading the data via
+  # XMLWorkaround
   it 'can get a patch report' do
     break if JSS::PatchTitle.all.empty?
 
@@ -44,5 +48,17 @@ describe JSS::PatchTitle do
     client.must_be_instance_of Hash
     client[:id].must_be_kind_of Integer
   end
+
+  def self.test_title
+    return @test_title if @test_title
+    src = JSS::PatchInternalSource.fetch id: 1
+    unused_name_ids = src.available_name_ids - JSS::PatchTitle.all_name_ids
+    puts 'Enter one of the available unused Patch Titles for testing.'
+    puts 'Must be one of the following:'
+    puts unused_name_ids
+    @test_title ||= JSS::PatchTitle.make
+  end
+
+
 
 end
