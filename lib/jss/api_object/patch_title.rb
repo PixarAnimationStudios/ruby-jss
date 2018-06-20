@@ -344,12 +344,24 @@ module JSS
       versions.select { |_ver_string, vers| vers.package_assigned? }
     end
 
+    # Set email notifications on or off
+    #
+    # @param new_setting[Boolean] Should email notifications be on or off?
+    #
+    # @return [void]
+    #
     def email_notification=(new_setting)
       return if email_notification == new_setting
       raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @email_notification = new_setting
       @need_to_update = true
     end
 
+    # Set web notifications on or off
+    #
+    # @param new_setting[Boolean] Should email notifications be on or off?
+    #
+    # @return [void]
+    #
     def web_notification=(new_setting)
       return if web_notification == new_setting
       raise JSS::InvalidDataError, 'New Setting must be boolean true or false' unless JSS::TRUE_FALSE.include? @web_notification = new_setting
