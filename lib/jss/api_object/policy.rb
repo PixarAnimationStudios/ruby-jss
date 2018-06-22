@@ -60,13 +60,13 @@ module JSS
   # - - packages, see {#add_package} and {#remove_package}
   # - - scripts see {#add_script} and {#remove_script}
   # - - self service, see {JSS::SelfServable}
+  # - - reboot options
   #
   # All other values and sections must be edited via the Web App.
   #
   # Policies may be deleted via this class
   #
   class Policy < JSS::APIObject
-
 
     # Mix-Ins
     #####################################
@@ -537,7 +537,6 @@ module JSS
     # - :no_user_logged_in => "Do not restart"
     # - :file_vault_2_reboot => false
     #
-    # TODO: make individial getters/setters as for @files_processes
     attr_reader :reboot_options
 
     ##### files & processes
@@ -851,19 +850,45 @@ module JSS
     end
 
     # Reboot Options
+    #######
+
+    # What to do at reboot when No User Logged In
+    #
+    # @param no_user_option[String] Any one of the Strings from NO_USER_LOGGED_IN
+    #
+    # @return [void]
+    #
+    def no_user_logged_in=(no_user_option)
+      raise JSS::InvalidDataError, "no_user_logged_in options: #{NO_USER_LOGGED_IN.join(', ')}" unless NO_USER_LOGGED_IN.include? no_user_option
+      @reboot_options[:no_user_logged_in] = no_user_option
+      @need_to_update = true
+    end
+
+    # What to do at reboot when there is a User Logged In
+    #
+    # @param logged_in_option[String] Any one of the Strings from USER_LOGGED_IN
+    #
+    # @return [void]
+    #
+    def user_logged_in=(logged_in_option)
+      raise JSS::InvalidDataError, "user_logged_in options: #{USER_LOGGED_IN.join(', ')}" unless USER_LOGGED_IN.include? logged_in_option
+      @reboot_options[:user_logged_in] = logged_in_option
+      @need_to_update = true
+    end
+
     # Set Reboot Message
     #
     # @param reboot_message[String] Text of Reboot Message
     #
     # @return [void] description of returned object
     #
-    def message=(reboot_message)
-      raise JSS::InvalidDataError, 'Reboot message must be a String' unless reboot_message.is_a? String
-      @reboot_options[:message] = reboot_message
+    def reboot_message=(message)
+      raise JSS::InvalidDataError, 'Reboot message must be a String' unless message.is_a? String
+      @reboot_options[:message] = message
       @need_to_update = true
     end
+    alias message= reboot_message=
 
-    # Reboot Options
     # Set Startup Disk
     # Only Supports 'Specify Local Startup Disk' at the moment
     #
@@ -878,7 +903,6 @@ module JSS
       @need_to_update = true
     end
 
-    # Reboot Options
     # Specify Startup Volume
     # Only Supports "Specify Local Startup Disk"
     #
@@ -892,31 +916,7 @@ module JSS
       @need_to_update = true
     end
 
-    # Reboot Options
-    # No User Logged In
-    #
-    # @param no_user_option[String] Any one of the Strings from NO_USER_LOGGED_IN
-    #
-    # @return [void]
-    #
-    def no_user_logged_in=(no_user_option)
-      raise JSS::InvalidDataError, "no_user_logged_in options: #{NO_USER_LOGGED_IN.join(', ')}" unless NO_USER_LOGGED_IN.include? no_user_option
-      @reboot_options[:no_user_logged_in] = no_user_option
-      @need_to_update = true
-    end
 
-    # Reboot Options
-    # User Logged In
-    #
-    # @param logged_in_option[String] Any one of the Strings from USER_LOGGED_IN
-    #
-    # @return [void]
-    #
-    def user_logged_in=(logged_in_option)
-      raise JSS::InvalidDataError, "user_logged_in options: #{USER_LOGGED_IN.join(', ')}" unless USER_LOGGED_IN.include? logged_in_option
-      @reboot_options[:user_logged_in] = logged_in_option
-      @need_to_update = true
-    end
 
     # Reboot Options
     # Do Not Reboot
@@ -986,12 +986,12 @@ module JSS
 
     # Set whether or not to update the database used by the locate command.
     #
-    # @param tf[Boolean] whether or not to update the database used by the locate command.
+    # @param bool [Boolean] whether or not to update the database used by the locate command.
     #
     # @return [void]
     #
-    def update_locate_database=(tf)
-      @files_processes[:update_locate_database] = tf ? true : false
+    def update_locate_database=(bool)
+      @files_processes[:update_locate_database] = JSS::Validate.boolean bool
       @need_to_update = true
     end
 
@@ -1421,19 +1421,15 @@ module JSS
       JSS.hash_to_rexml_array(@trigger_events).each { |t| general << t }
 
       date_time_limitations = general.add_element 'date_time_limitations'
-      date_time_limitations.add_element('expiration_date_epoch').text = @server_side_limitations[:expiration].to_jss_epoch if @server_side_limitations[:expiration]
-      date_time_limitations.add_element('activation_date_epoch').text = @server_side_limitations[:activation].to_jss_epoch if @server_side_limitations[:activation]
+      exp = @server_side_limitations[:expiration]
+      date_time_limitations.add_element('expiration_date_epoch').text = exp.to_jss_epoch if exp
+      activation = @server_side_limitations[:activation]
+      date_time_limitations.add_element('activation_date_epoch').text = activation.to_jss_epoch if activation
 
       obj << @scope.scope_xml
 
       reboot = obj.add_element 'reboot'
-      reboot.add_element('message').text = @reboot_options[:message] if @reboot_options[:message]
-      reboot.add_element('startup_disk').text = @reboot_options[:startup_disk] if @reboot_options[:startup_disk]
-      reboot.add_element('specify_startup').text = @reboot_options[:specify_startup] if @reboot_options[:specify_startup]
-      reboot.add_element('no_user_logged_in').text = @reboot_options[:no_user_logged_in] if @reboot_options[:no_user_logged_in]
-      reboot.add_element('user_logged_in').text = @reboot_options[:user_logged_in] if @reboot_options[:user_logged_in]
-      reboot.add_element('minutes_until_reboot').text = @reboot_options[:minutes_until_reboot] if @reboot_options[:minutes_until_reboot]
-      reboot.add_element('file_vault_2_reboot').text = @reboot_options[:file_vault_2_reboot] if @reboot_options[:file_vault_2_reboot]
+      JSS.hash_to_rexml_array(@reboot_options).each { |elem| reboot << elem }
 
       maint = obj.add_element 'maintenance'
       maint.add_element('recon').text = @recon.to_s
