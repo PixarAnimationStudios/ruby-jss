@@ -117,6 +117,17 @@ module JSS
       val
     end
 
+    # validate that the given value is a non-empty string
+    #
+    # @param val [Object] the thing to validate
+    #
+    # @return [String] the valid non-empty string
+    #
+    def self.non_empty_string(val)
+      raise JSS::InvalidDataError, 'value must be a non-empty String' unless val.is_a?(String) && !val.empty?
+      val
+    end
+
   end # module validate
 
 end # module JSS
