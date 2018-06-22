@@ -254,7 +254,6 @@ module JSS
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = Hash
 
-
     # Attributes
     ######################
 
@@ -695,9 +694,8 @@ module JSS
     # @return [void]
     #
     def enabled=(new_val)
-      return nil if @enabled == new_val
-      raise JSS::InvalidDataError, 'New value must be true or false' unless JSS::TRUE_FALSE.include? new_val
-      @enabled = new_val
+      return if @enabled == new_val
+      @enabled = JSS::Validate.boolean new_val
       @need_to_update = true
     end
 
@@ -795,6 +793,7 @@ module JSS
     # see attr_reader :verify_startup_disk
     #
     def verify_startup_disk=(bool)
+      return if @verify_startup_disk == bool
       @verify_startup_disk = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -802,6 +801,7 @@ module JSS
     # see attr_reader :permissions_repair
     #
     def permissions_repair=(bool)
+      return if @permissions_repair == bool
       @permissions_repair = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -809,6 +809,7 @@ module JSS
     # see attr_reader :recon
     #
     def recon=(bool)
+      return if @recon == bool
       @recon = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -817,6 +818,7 @@ module JSS
     # see attr_reader :fix_byhost
     #
     def fix_byhost=(bool)
+      return if @fix_byhost == bool
       @fix_byhost = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -824,6 +826,7 @@ module JSS
     # see attr_reader :reset_name
     #
     def reset_name=(bool)
+      return if @reset_name == bool
       @reset_name = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -831,6 +834,7 @@ module JSS
     # see attr_reader :flush_system_cache
     #
     def flush_system_cache=(bool)
+      return if @flush_system_cache == bool
       @flush_system_cache = JSS::Validate.boolean bool
       @need_to_update = true
     end # see attr_reader :recon
@@ -838,6 +842,7 @@ module JSS
     # see attr_reader :install_cached_pkgs
     #
     def install_cached_pkgs=(bool)
+      return if @install_cached_pkgs == bool
       @install_cached_pkgs = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -845,6 +850,7 @@ module JSS
     # see attr_reader :flush_user_cache
     #
     def flush_user_cache=(bool)
+      return if @flush_user_cache == bool
       @flush_user_cache = JSS::Validate.boolean bool
       @need_to_update = true
     end
@@ -915,8 +921,6 @@ module JSS
       @reboot_options[:specify_startup] = startup_volume
       @need_to_update = true
     end
-
-
 
     # Reboot Options
     # Do Not Reboot
