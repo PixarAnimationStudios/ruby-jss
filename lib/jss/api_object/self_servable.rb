@@ -105,12 +105,9 @@ module JSS
     }.freeze
     DFT_NOTIFICATION_TYPE = :ssvc_only
 
-
     USER_URL_BASE = 'jamfselfservice://content?entity='.freeze
     USER_URL_EXEC_ACTION = 'execute'.freeze
     USER_URL_VIEW_ACTION = 'view'.freeze
-
-
 
     # This hash contains the details about the inconsistencies of how
     # Self Service data is dealt with in the API data of the different
@@ -481,7 +478,7 @@ module JSS
       new_val, pw = *new_val if new_val.is_a? Array
       pw = nil unless new_val == :with_auth
 
-      return nil if new_val == self_service_user_removable && pw == self_service_removal_password
+      return if new_val == self_service_user_removable && pw == self_service_removal_password
 
       validate_user_removable new_val
 
