@@ -22,7 +22,6 @@
 #
 #
 
-#
 module JSS
 
   # A collection of methods for validating values. Mostly for
@@ -67,6 +66,11 @@ module JSS
 
     # Validate that a value doesn't already exist for a given identifier of a given class
     #
+    # e.g. when klass = JSS::Computer, identifier = :name, and val = 'foo'
+    # will raise an error when a computer named 'foo' exists
+    #
+    # Otherwise returns val.
+    #
     # @param klass[JSS::APIObject] A subclass of JSS::APIObject, e.g. JSS::Computer
     #
     # @param identifier[Symbol] One of the keys of an Item of the class's #all Array
@@ -76,8 +80,8 @@ module JSS
     # @return [Object] the validated unique value
     #
     def self.unique_identifier(klass, identifier, val, api: JSS.api)
-      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'" if klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
-      val
+      return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'"
     end
 
     # Confirm that the given value is a boolean value, accepting
@@ -108,7 +112,7 @@ module JSS
     # @return [void]
     #
     def self.integer(val)
-      val = val.to_i if val.is_a? String && val.jss_integer?
+      val = val.to_i if val.is_a?(String) && val.jss_integer?
       raise JSS::InvalidDataError, 'Value must be an integer' unless val.is_a? Integer
       val
     end
