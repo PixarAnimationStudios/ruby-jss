@@ -395,29 +395,37 @@ module JSS
     ### These are the computer maint. tasks
     ### that might be performed by this policy
     ### All are boolean
-    ### TODO: make individial getters/setters as for @files_processes
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy verify the startup disk?
+    # @return [Boolean] client maintenance task
     attr_reader :verify_startup_disk
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy run a permission repair?
+    # @return [Boolean] client maintenance task
     attr_reader :permissions_repair
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy run a recon?
+    # @return [Boolean] client maintenance task
     attr_reader :recon
+    alias update_inventory recon
 
-    ### @return [Boolean] client maintenance task
+    # Shouls this policy fix the ByHost prefs?
+    # @return [Boolean] client maintenance task
     attr_reader :fix_byhost
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy reset the local hostname?
+    # @return [Boolean] client maintenance task
     attr_reader :reset_name
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy flush the system cache?
+    # @return [Boolean] client maintenance task
     attr_reader :flush_system_cache
 
-    ### @return [Boolean] client maintenance task
+    # Should this policy install any cached JSS packages?
+    # @return [Boolean] client maintenance task
     attr_reader :install_cached_pkgs
 
+    # Should this policy flush the user cache?
     ### @return [Boolean] client maintenance task
     attr_reader :flush_user_cache
 
@@ -786,6 +794,66 @@ module JSS
       @server_side_limitations[:expiration] = expiration
       @need_to_update = true
     end
+
+    # Maintenance tasks
+
+
+    # see attr_reader :verify_startup_disk
+    #
+    def verify_startup_disk=(bool)
+      @verify_startup_disk = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :permissions_repair
+    #
+    def permissions_repair=(bool)
+      @permissions_repair = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :recon
+    #
+    def recon=(bool)
+      @recon = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :fix_byhost
+    #
+    def fix_byhost=(bool)
+      @fix_byhost = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :reset_name
+    #
+    def reset_name=(bool)
+      @reset_name = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :flush_system_cache
+    #
+    def flush_system_cache=(bool)
+      @flush_system_cache = JSS::Validate.boolean bool
+      @need_to_update = true
+    end# see attr_reader :recon
+
+    # see attr_reader :install_cached_pkgs
+    #
+    def install_cached_pkgs=(bool)
+      @install_cached_pkgs = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
+    # see attr_reader :flush_user_cache
+    #
+    def flush_user_cache=(bool)
+      @flush_user_cache = JSS::Validate.boolean bool
+      @need_to_update = true
+    end
+
 
     ### Reboot Options
     ### Set Reboot Message
@@ -1351,6 +1419,16 @@ module JSS
       reboot.add_element('user_logged_in').text = @reboot_options[:user_logged_in] if @reboot_options[:user_logged_in]
       reboot.add_element('minutes_until_reboot').text = @reboot_options[:minutes_until_reboot] if @reboot_options[:minutes_until_reboot]
       reboot.add_element('file_vault_2_reboot').text = @reboot_options[:file_vault_2_reboot] if @reboot_options[:file_vault_2_reboot]
+
+      maint = obj.add_element 'maintenance'
+      maint.add_element('recon').text = @recon.to_s
+      maint.add_element('reset_name').text = @reset_name.to_s
+      maint.add_element('install_all_cached_packages').text = @install_cached_pkgs.to_s
+      maint.add_element('permissions').text = @permissions_repair.to_s
+      maint.add_element('byhost').text = @fix_byhost.to_s
+      maint.add_element('system_cache').text = @flush_system_cache.to_s
+      maint.add_element('user_cache').text = @user_cache.to_s
+      maint.add_element('verify').text = @verify_startup_disk.to_s
 
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
