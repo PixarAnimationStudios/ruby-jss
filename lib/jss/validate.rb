@@ -80,6 +80,23 @@ module JSS
       val
     end
 
+    # Confirm that the given value is a boolean value, accepting
+    # strings and symbols and returning real booleans as needed
+    # Accepts: true, false, 'true', 'false', :true, :false, 'yes', 'no', :yes,
+    # or :no (all Strings and Symbols are case insensitive)
+    #
+    #
+    # @param bool [Boolean,String,Symbol] The value to validate
+    #
+    # @return [Boolean] the valid boolean
+    #
+    def self.boolean(bool)
+      return bool if JSS::TRUE_FALSE.include? bool
+      return true if bool.to_s =~ /^(true|yes)$/i
+      return false if bool.to_s =~ /^(false|no)$/i
+      raise JSS::InvalidDataError, 'Value must be boolean true or false'
+    end
+
   end # module validate
 
 end # module JSS
