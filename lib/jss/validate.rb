@@ -60,7 +60,7 @@ module JSS
       ok = true
       parts = val.strip.split '.'
       ok = false unless parts.size == 4
-      parts.each { |p| ok = false unless p.jss_integer? && p.to_i < 256 }
+      parts.each { |p| ok = false unless p.jss_integer? && p.to_i < 256 && p.to_i >= 0 }
       raise JSS::InvalidDataError, "Not a valid IPv4 address: '#{val}'" unless ok
       val
     end
