@@ -80,28 +80,37 @@ module JSS
       val
     end
 
-    # Raise exception if a value is neither boolean true or boolean false
+    # Confirm that the given value is a boolean value, accepting
+    # strings and symbols and returning real booleans as needed
+    # Accepts: true, false, 'true', 'false', :true, :false, 'yes', 'no', :yes,
+    # or :no (all Strings and Symbols are case insensitive)
     #
-    # TODO: use this throughout.
+    # TODO: use this throughout ruby-jss
     #
-    # @param val[Object] the value to validate
+    # @param bool [Boolean,String,Symbol] The value to validate
     #
-    # @return [void]
+    # @return [Boolean] the valid boolean
     #
-    def self.boolean(val)
-      raise JSS::InvalidDataError, 'Value must be Boolean true or false' unless JSS::TRUE_FALSE.include? val
+    def self.boolean(bool)
+      return bool if JSS::TRUE_FALSE.include? bool
+      return true if bool.to_s =~ /^(true|yes)$/i
+      return false if bool.to_s =~ /^(false|no)$/i
+      raise JSS::InvalidDataError, 'Value must be boolean true or false'
     end
 
-    # Raise exception if a value is neither boolean true or boolean false
+    # Confirm that a value is an integer or a string representation of an
+    # integer. Return the integer, or raise an error
     #
-    # TODO: use this throughout.
+    # TODO: use this throughout ruby-jss
     #
     # @param val[Object] the value to validate
     #
     # @return [void]
     #
     def self.integer(val)
+      val = val.to_i if val.is_a? String && val.jss_integer?
       raise JSS::InvalidDataError, 'Value must be an integer' unless val.is_a? Integer
+      val
     end
 
   end # module validate
