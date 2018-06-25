@@ -69,6 +69,7 @@ class App
     ['--db-port', '-P', GetoptLong::REQUIRED_ARGUMENT],
     ['--db-user', '-U', GetoptLong::REQUIRED_ARGUMENT],
     ['--gem-dir', '-g', '-i', GetoptLong::REQUIRED_ARGUMENT],
+    ['--saved-data', '-d', GetoptLong::NO_ARGUMENT],
     ['--help', '-h', '-H', GetoptLong::NO_ARGUMENT]
   )
 
@@ -119,6 +120,8 @@ class App
         @db_port = arg
       when '--gem-dir'
         @custom_gem_dir = arg
+      when '--saved-data'
+        @show_saved_data = true
       when '--help'
         @show_help = true
       end # case
@@ -135,6 +138,7 @@ class App
 
   def run
     return if show_help
+    return if show_saved_data
     connect_to_servers
     return unless prod_server_confirmed_if_needed?
     run_tests
@@ -204,6 +208,20 @@ class App
     end # each
   end # run tests
 
+  # display saved keychain data if asked
+  def show_saved_data
+    return false unless @show_saved_data
+    jss_keychain_creds = JSSTestHelper::Auth.rw_credentials_from_keychain(:jss)
+    msg =
+      if jss_keychain_creds
+        "JSS API Tests will run as user '#{jss_keychain_creds[:user]}' on server '#{jss_keychain_creds[:server]}', port #{jss_keychain_creds[:port]}"
+      else
+        'No JSS API credentials saved, please use --server, --user and --port (if needed)'
+      end
+    puts msg
+    true
+  end
+
   # display help if asked
   def show_help
     return false unless @show_help
@@ -249,6 +267,8 @@ Options
   --db-user, -U <user>        the API username for the connection
   --gem-dir, -g, -i <path>    the path from which to require ruby-jss
                                 (sets GEM_HOME to this path before requiring)
+  --saved-data, -d            show the connection data saved in the keychain,
+                                if any. (no tests run, password not shown)
   --help, -h, -H              show this help
     USAGEBLURB
     true
