@@ -27,8 +27,6 @@ describe JSS::PatchTitle do
 
   ##### Constants
 
-  TEST_NAME = 'rubyjss-testPatchTitle'.freeze
-
   ##### Class Methods
 
   # this effectively makes the tests run in the order defined, which is
@@ -37,32 +35,20 @@ describe JSS::PatchTitle do
     :alpha
   end
 
-  def self.unused_name_ids
-    return @unused_name_ids if @unused_name_ids
-    src = JSS::PatchInternalSource.fetch id: 1
-    @unused_name_ids = src.available_name_ids - JSS::PatchTitle.all_name_ids
-  end
-
-  def self.test_title
-    @test_title ||= JSS::PatchTitle.make name: TEST_NAME
-  end
-
-  def self.refetch
-    @test_title = JSS::PatchTitle.fetch name: TEST_NAME
-  end
-
-  def self.test_version
-    @tv ||= test_title.versions.values.sample
-  end
-
   ##### Instance Methods
 
+  # shortcuts
+
   def tt
-    self.class.test_title
+    JSSTestHelper::PatchMgmt.title
+  end
+
+  def name_id
+    JSSTestHelper::PatchMgmt.name_id
   end
 
   def tv
-    self.class.test_version
+    JSSTestHelper::PatchMgmt.version
   end
 
   def prompt_for_name_id
@@ -85,31 +71,37 @@ describe JSS::PatchTitle do
   ##### Specs
 
   it 'can delete crufty objects from earlier tests' do
-    break unless JSS::PatchTitle.all_names(:refresh).include? TEST_NAME
-    puts 'Deleting crufty Patch Title from Previous Tests'
-    deleted = JSS::PatchTitle.delete JSS::PatchTitle.map_all_ids_to(:name).invert[TEST_NAME]
+    crufty_name = JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+    break unless JSS::PatchTitle.all_names(:refresh).include? crufty_name
+
+    puts 'Found crufty Patch Title from previous tests - deleting'
+
+    deleted = JSS::PatchTitle.delete JSS::PatchTitle.map_all_ids_to(:name).invert[crufty_name]
     deleted.must_be_instance_of Array
     deleted.must_be_empty
-    JSS::PatchTitle.all_names(:refresh).wont_include TEST_NAME
+    JSS::PatchTitle.all_names(:refresh).wont_include crufty_name
   end
 
   it 'can list all patch titles' do
-    JSS::PatchTitle.all.must_be_instance_of Array
+    titles = JSS::PatchTitle.all
+    titles.must_be_instance_of Array
     break if JSS::PatchTitle.all.empty?
-    JSS::PatchTitle.all.first.must_be_instance_of Hash
-    JSS::PatchTitle.all.first[:id].must_be_kind_of Integer
+    titles.first.must_be_instance_of Hash
+    titles.first[:id].must_be_kind_of Integer
   end
 
   it 'can list all patch title name_ids' do
-    JSS::PatchTitle.all_names.must_be_instance_of Array
-    break if JSS::PatchTitle.all_names.empty?
-    JSS::PatchTitle.all_names.first.must_be_instance_of String
+    nameids = JSS::PatchTitle.all_name_ids
+    nameids.must_be_instance_of Array
+    break if nameids.empty?
+    nameids.first.must_be_instance_of String
   end
 
   it 'can list source_ids in use' do
-    JSS::PatchTitle.all_source_ids.must_be_instance_of Array
-    break if JSS::PatchTitle.all_source_ids.empty?
-    JSS::PatchTitle.all_source_ids.first.must_be_kind_of Integer
+    srcids = JSS::PatchTitle.all_source_ids
+    srcids.must_be_instance_of Array
+    break if srcids.empty?
+    srcids.first.must_be_kind_of Integer
   end
 
   # TODO: simplify this when we aren't reading the data via
@@ -134,11 +126,12 @@ describe JSS::PatchTitle do
   end
 
   it 'can be made' do
-    self.class.test_title.name == TEST_NAME
+    # calling tt the first time does a #make
+    tt.name == JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
   end
 
   it 'must have a source_id before a name_id' do
-    proc { self.class.test_title.name_id = 'foo' }.must_raise JSS::NoSuchItemError
+    proc { tt.name_id = 'foo' }.must_raise JSS::NoSuchItemError
   end
 
   it 'cannot be created without a name_id' do
@@ -209,7 +202,7 @@ describe JSS::PatchTitle do
     tt = self.class.test_title
     tt.delete
     tt.in_jss.must_be_instance_of FalseClass
-    JSS::PatchTitle.all_names(:refresh).wont_include TEST_NAME
+    JSS::PatchTitle.all_names(:refresh).wont_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
   end
 
 end

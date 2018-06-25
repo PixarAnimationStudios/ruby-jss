@@ -58,15 +58,11 @@ describe JSS::PatchInternalSource do
 
   ##### Class Methods
 
-  def self.src
-    @src ||= JSS::PatchInternalSource.fetch(id: 1)
-  end
-
   ##### Instance Methods
 
-  # instance access to self.src
+  # shortcut
   def src
-    self.class.src
+    JSSTestHelper::PatchMgmt.internal_src
   end
 
   ##### Specs
@@ -126,9 +122,6 @@ describe JSS::PatchExternalSource do
 
   ##### Constants
 
-  TEST_NAME = 'rubyjss-testPatchSource.company.com'.freeze
-  TEST_PORT = 8843
-
   ##### Class methods
 
   # this effectively makes the tests run in the order defined, which is
@@ -137,34 +130,30 @@ describe JSS::PatchExternalSource do
     :alpha
   end
 
-  # hold a single instance of the class for all tests.
-  def self.src
-    @src ||= JSS::PatchExternalSource.make name: TEST_NAME
-  end
-
-  def self.refetch
-    @src = JSS::PatchExternalSource.fetch name: TEST_NAME
-  end
-
   ##### Instance Methods
 
-  # instance access to self.src
+  # shortcut
   def src
-    self.class.src
+    JSSTestHelper::PatchMgmt.external_src
   end
 
   ##### Specs
 
   it 'can delete crufty objects from earlier tests' do
-    break unless JSS::PatchExternalSource.all_names(:refresh).include? TEST_NAME
-    puts 'Deleting crufty External Source from Previous Tests'
-    deleted = JSS::PatchExternalSource.delete JSS::PatchExternalSource.map_all_ids_to(:name).invert[TEST_NAME]
+    crufty_name = JSSTestHelper::PatchMgmt::EXT_SRC_NAME
+    break unless JSS::PatchExternalSource.all_names(:refresh).include? crufty_name
+
+    puts 'Found crufty External Source from Previous Tests - deleting'
+
+    crufty_id = JSS::PatchExternalSource.map_all_ids_to(:name).invert[crufty_name]
+    deleted = JSS::PatchExternalSource.delete crufty_id
+
     deleted.must_be_instance_of Array
     deleted.must_be_empty
-    JSS::PatchExternalSource.all_names(:refresh).wont_include TEST_NAME
+    JSS::PatchExternalSource.all_names(:refresh).wont_include crufty_name
   end
 
-  it 'can be created' do
+  it 'can be made' do
     src.must_be_instance_of JSS::PatchExternalSource
   end
 
@@ -173,13 +162,13 @@ describe JSS::PatchExternalSource do
   end
 
   it 'can be created with a host' do
-    src.host_name = TEST_NAME
+    src.host_name = JSSTestHelper::PatchMgmt::EXT_SRC_NAME
     src.save.must_be_kind_of Integer
   end
 
   it 'can set the port' do
-    src.port = TEST_PORT
-    src.port.must_equal TEST_PORT
+    src.port = JSSTestHelper::PatchMgmt::EXT_SRC_PORT
+    src.port.must_equal JSSTestHelper::PatchMgmt::EXT_SRC_PORT
   end
 
   it 'can be enabled and disabled' do
@@ -201,16 +190,16 @@ describe JSS::PatchExternalSource do
   end
 
   it 'can be fetched by name' do
-    self.class.refetch
+    JSSTestHelper::PatchMgmt.refetch_external_src
     src.must_be_instance_of JSS::PatchExternalSource
   end
 
   it 'tells us its host' do
-    src.host_name.must_equal TEST_NAME
+    src.host_name.must_equal JSSTestHelper::PatchMgmt::EXT_SRC_NAME
   end
 
   it 'tells us its port' do
-    src.port.must_equal TEST_PORT
+    src.port.must_equal JSSTestHelper::PatchMgmt::EXT_SRC_PORT
   end
 
   it 'tells us if it is enabled' do
@@ -219,10 +208,6 @@ describe JSS::PatchExternalSource do
 
   it 'tells us if ssl is enabled' do
     JSS::TRUE_FALSE.must_include src.ssl_enabled?
-  end
-
-  it 'can be deleted' do
-    src.delete.must_equal :deleted
   end
 
 end # describe JSS::PatchInternalSource
