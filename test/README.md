@@ -21,7 +21,7 @@ tldr:
 
   `/path/to/your/ruby-jss/gem/installation/test/bin/runtests --server myjss.company.com --user myjssusername`
 
-Must be run on a mac, it uses your keychain to store credentials.
+Must be run on a mac, it uses your keychain to store connection data and credentials, so you only have to provide them the first time or when changing them.
 
 See below for the help output
 
@@ -46,8 +46,9 @@ See below for the help output
    - If any commandline options are different from whats in the keychain, the keychain will be updated,
      prompting for new passwords if needed.
 
+-  The JSSTestHelper module also provides ways for tests to share data.
 
- - The runtest command will run the spec files listed on the command line, or all of them if none are listed.
+ - The runtesst command will run the spec files listed on the command line, or all of them if none are listed.
  - The tests are run verbosely, so you can see what tests are being run.
  - Some tests are interactive - they will ask you to make choices about what's happening.
 
@@ -61,12 +62,10 @@ As the license text for ruby-jss states:
     Unless required by applicable law or agreed to in writing, software
     distributed under the Apache License with the above modification is
     distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied. See the Apache License for the specific
-    language governing permissions and limitations under the Apache License.
+    KIND, either express or implied.
 ```
 
 As a reminder, if you connect to the same server that's listed in your /etc/ruby-jss.conf, you'll be asked for confirmation before the tests are run.
-
 
 
  ### The Spec Files
@@ -84,8 +83,6 @@ However, here's some info that wasn't obvious when I first started, and makes li
  - by default, the 'it' blocks are run in a random order. See below if you need them to run in the defined order.
 
  All of the above means that you can use constants, class methods, class-instance variables and instance methods in concert for passing things between the individual tests.
-
-For examples of this, see the file 'patch_title_spec.rb' in the specs folder.
 
 ### Running tests in order
 
