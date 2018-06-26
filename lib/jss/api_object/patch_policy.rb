@@ -589,7 +589,6 @@ module JSS
       doc = REXML::Document.new JSS::APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
 
-
       general = obj.add_element 'general'
       general.add_element('target_version').text = target_version
       general.add_element('name').text = name
