@@ -1,5 +1,36 @@
 # Change History
 
+## v 1.0.0b2, 2018-06-x26
+
+Finally we're going to version 1.0, which we should have done when we went opensource.
+
+- requirement: Jamf Pro API version must be 10.4 or higher
+
+- add: JSS::PatchSource metaclass and the subclassses JSS::PatchInternalSource, and JSS::PatchExternalSource. These provide acecss to the patchavailabletitles enpoint, which is needed to acquire name_id's for creating/activating JSS::PatchTitles
+
+- add: JSS::PatchTitle, which also gives access to the patchreports endpoint. Also uses the JSS::PatchTitle::Version class to handle patch versions within a title, and assign packages to them.
+
+- add: JSS::PatchPolicy. PatchPolicies are creatable when providing an active PatchTitle and an approiate PatchTitle::Version that has a package assigned to it.
+
+- add: the Group metaclass now has a calculate_members option (bool) to the #create method. When true, the membership of the group will be updated in the existing ruby instance immediately after the group is created in the JSS. Doesn't do much for static groups, but is useful for smart groups. Defaults to true. If you don't care about the membership immediately, or don't want to wait for the membership to be calculated on the server, set this to false.
+
+- improvement: better handling of http error responses
+
+- add: more generic data validation methods in JSS::Validate module, and more use of them throughout the code.
+
+- add: 'support' in SelfServable for notifications - note that there are API bugs limiting the usefulness of this.
+
+- add: regex options to JSS::Criteriable::Criterion objects
+
+- remove: the .new class method on APIObject subclasses no longer works. Even thought its the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use .fetch to instantiate existing objects and .make to instantiate local instances of objects to be created in the JSS.
+
+- update: API connections now default to TLSv1.2. If you're connecting from a machine that doesn't support  TLSv1.2 (like the os-supplied ruby in macOS < 10.13) then you can specify `ssl_version: 'TLSv1'` when you connect, as long as your Jamf Pro server supports it.
+
+- add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, its wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
+
+- fix: as Apple says: various bugfixes and improvements.
+
+
 ## v 0.14.0, 2018-05-30
 
 - Fix: RestClient no longer uses RestClient::Request::Unauthorized, only RestClient::Unauthorized
