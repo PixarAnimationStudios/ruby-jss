@@ -33,6 +33,8 @@ module JSSTestHelper
 
     PATCH_TITLE_NAME = 'rubyjss-testPatchTitle'.freeze
 
+    PATCHCPOL_NAME = 'rubyjss-testPatchPolicy'.freeze
+
     module_function
 
     # Sources
@@ -49,44 +51,69 @@ module JSSTestHelper
       @external_src = JSS::PatchExternalSource.fetch name: EXT_SRC_NAME
     end
 
+    def delete_external_src
+      return [] unless JSS::PatchExternalSource.all_names(:refresh).include? EXT_SRC_NAME
+      JSS::PatchExternalSource.delete JSS::PatchExternalSource.map_all_ids_to(:name).invert[EXT_SRC_NAME]
+    end
+
     # Titles
 
-    def title
-      @title ||= JSS::PatchTitle.make name: PATCH_TITLE_NAME
-    end
-
     def name_id
-      @name_id ||= prompt_for_name_id
+      @name_id ||= JSS::PatchInternalSource.available_name_ids(1).sample
     end
 
-    def unused_name_ids
-      return @unused_name_ids if @unused_name_ids
-      @unused_name_ids = internal_src.available_name_ids - JSS::PatchTitle.all_name_ids
+    def title(refresh = false)
+      @title = nil if refresh
+      return @title if @title
+      @title =
+        if JSS::PatchTitle.all_names.include? PATCH_TITLE_NAME
+          JSS::PatchTitle.fetch name: PATCH_TITLE_NAME
+        else
+          JSS::PatchTitle.make name: PATCH_TITLE_NAME
+        end
     end
 
-    def prompt_for_name_id
-      puts '***************************'
-      puts 'Enter an unused Patch Title name_id for testing.'
-      puts 'Must be one of the following:'
-      unused_name_ids.each { |ni| puts "  #{ni}" }
-      puts
-      print 'which one?: '
-      chosen = $stdin.gets.chomp
-      until unused_name_ids.include? chosen
-        puts 'that one isnt on the list'
-        print 'which one?: '
-        chosen = $stdin.gets.chomp
+    def delete_title
+      return [] unless JSS::PatchTitle.all_names(:refresh).include? PATCH_TITLE_NAME
+      JSS::PatchTitle.delete JSS::PatchTitle.map_all_ids_to(:name).invert[PATCH_TITLE_NAME]
+    end
+
+    # Versions
+
+    def version_key
+      @version_key ||= title.versions.keys.sample
+    end
+
+    # Patch Policies
+
+    def policy(refresh = false)
+      @policy = nil if refresh
+      return @policy if @policy
+
+      unless title.in_jss
+        title.source_id = 1 unless title.source_id
+        title.name_id = name_id unless title.name_id
+        title.save
       end
-      chosen
+
+      unless title.versions[version_key].package_id.is_a? Integer
+        title.versions[version_key].package = JSS::Package.all_ids.sample
+        title.save
+      end
+
+      @policy =
+        if JSS::PatchPolicy.all_names.include? PATCH_TITLE_NAME
+          JSS::PatchPolicy.fetch name: PATCH_TITLE_NAME
+        else
+          JSS::PatchPolicy.make name: PATCH_TITLE_NAME, patch_title: title
+        end
     end
 
-    def refetch_test_title
-      @test_title = JSS::PatchTitle.fetch name: PATCH_TITLE_NAME
+    def delete_policy
+      return [] unless JSS::PatchPolicy.all_names(:refresh).include? PATCHCPOL_NAME
+      JSS::PatchPolicy.delete JSS::PatchPolicy.map_all_ids_to(:name).invert[PATCHCPOL_NAME]
     end
 
-    def test_version
-      @tv ||= title.versions.values.sample
-    end
 
   end # module PatchMgmt
 

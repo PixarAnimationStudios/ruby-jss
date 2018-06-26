@@ -386,7 +386,7 @@ module JSS
 
     def name_id=(new_id)
       return if new_id == name_id
-      raise JSS::NoSuchItemError, 'source_id must be set before setting name_id' if source_id.to_s.empty?
+      raise JSS::MissingDataError, 'source_id must be set before setting name_id' if source_id.to_s.empty?
       raise JSS::NoSuchItemError, "source_id #{source_id} doesn't offer name_id '#{new_id}'" unless JSS::PatchSource.available_name_ids(source_id).include? new_id
       @name_id = new_id
       @need_to_update = true
@@ -434,7 +434,7 @@ module JSS
     private
 
     def validate_for_saving
-      raise JSS::InvalidDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? || name_id.to_s.empty?
+      raise JSS::MissingDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? || name_id.to_s.empty?
     end
 
     # Return the REST XML for this title, with the current values,

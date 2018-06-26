@@ -43,12 +43,8 @@ describe JSS::PatchTitle do
     JSSTestHelper::PatchMgmt.title
   end
 
-  def name_id
-    JSSTestHelper::PatchMgmt.name_id
-  end
-
   def tv
-    JSSTestHelper::PatchMgmt.version
+    tt.versions[JSSTestHelper::PatchMgmt.version_key]
   end
 
   def prompt_for_name_id
@@ -70,24 +66,11 @@ describe JSS::PatchTitle do
 
   ##### Specs
 
-  it 'can delete crufty objects from earlier tests' do
-    crufty_name = JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
-    break unless JSS::PatchTitle.all_names(:refresh).include? crufty_name
-
-    puts 'Found crufty Patch Title from previous tests - deleting'
-
-    deleted = JSS::PatchTitle.delete JSS::PatchTitle.map_all_ids_to(:name).invert[crufty_name]
+  it 'can delete crufty title from earlier tests' do
+    deleted = JSSTestHelper::PatchMgmt.delete_title
     deleted.must_be_instance_of Array
     deleted.must_be_empty
-    JSS::PatchTitle.all_names(:refresh).wont_include crufty_name
-  end
-
-  it 'can list all patch titles' do
-    titles = JSS::PatchTitle.all
-    titles.must_be_instance_of Array
-    break if JSS::PatchTitle.all.empty?
-    titles.first.must_be_instance_of Hash
-    titles.first[:id].must_be_kind_of Integer
+    JSS::PatchTitle.all_names(:refresh).wont_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
   end
 
   it 'can list all patch title name_ids' do
@@ -104,12 +87,41 @@ describe JSS::PatchTitle do
     srcids.first.must_be_kind_of Integer
   end
 
+  it 'can be made' do
+    # calling tt the first time does a #make
+    tt.name == JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+  end
+
+  it 'must have a source_id before a name_id' do
+    proc { tt.name_id = JSSTestHelper::PatchMgmt.name_id }.must_raise JSS::MissingDataError
+  end
+
+  it 'must check that the name_id is available in the source' do
+    tt.source_id = 1
+    proc { tt.name_id = 'NoSuchNameId-IsincerelyHope' }.must_raise JSS::NoSuchItemError
+  end
+
+  it 'cannot be created without a name_id' do
+    proc { tt.create }.must_raise JSS::MissingDataError
+  end
+
+  it 'can be created with a name_id' do
+    tt.name_id = JSSTestHelper::PatchMgmt.name_id
+    tt.create
+    JSS::PatchTitle.all_names(:refresh).must_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+    tt.in_jss.must_be_instance_of TrueClass
+  end
+
+  it 'can be fetched by name' do
+    id = tt.id
+    JSSTestHelper::PatchMgmt.title(:refetch)
+    tt.id.must_equal id
+  end
+
   # TODO: simplify this when we aren't reading the data via
   # XMLWorkaround
   it 'can get a patch report' do
-    break if JSS::PatchTitle.all.empty?
-
-    report = JSS::PatchTitle.patch_report JSS::PatchTitle.all_ids.sample
+    report = JSS::PatchTitle.patch_report tt.id
     report.must_be_instance_of Hash
     report.keys.must_include :versions
     report[:versions].must_be_instance_of Hash
@@ -123,35 +135,6 @@ describe JSS::PatchTitle do
     client = report[:versions][vers_name].sample
     client.must_be_instance_of Hash
     client[:id].must_be_kind_of Integer
-  end
-
-  it 'can be made' do
-    # calling tt the first time does a #make
-    tt.name == JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
-  end
-
-  it 'must have a source_id before a name_id' do
-    proc { tt.name_id = 'foo' }.must_raise JSS::NoSuchItemError
-  end
-
-  it 'cannot be created without a name_id' do
-    proc { tt.create }.must_raise JSS::InvalidDataError
-    tt.source_id = 1
-    proc { tt.create }.must_raise JSS::InvalidDataError
-  end
-
-  it 'can be created with a name_id' do
-    tt.name_id = prompt_for_name_id
-    new_id = tt.create
-    new_id.must_equal tt.id
-    JSS::PatchTitle.all_names(:refresh).must_include TEST_NAME
-    tt.in_jss.must_be_instance_of TrueClass
-  end
-
-  it 'can be fetched by name' do
-    id = tt.id
-    self.class.refetch
-    tt.id.must_equal id
   end
 
   it 'has an array of Version objects' do
@@ -192,17 +175,12 @@ describe JSS::PatchTitle do
   end
 
   it 'has the saved values when re-fetched' do
-    self.class.refetch
+    JSSTestHelper::PatchMgmt.title :refetch
     tt.email_notification.must_be_instance_of TrueClass
     tt.web_notification.must_be_instance_of TrueClass
-    tt.versions_with_packages.size.must_be :==, 1
-  end
-
-  it 'can be deleted' do
-    tt = self.class.test_title
-    tt.delete
-    tt.in_jss.must_be_instance_of FalseClass
-    JSS::PatchTitle.all_names(:refresh).wont_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+    verss = tt.versions_with_packages
+    verss.size.must_be :==, 1
+    verss.keys.first.must_equal tv.version
   end
 
 end

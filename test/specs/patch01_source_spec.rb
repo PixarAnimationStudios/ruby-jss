@@ -23,10 +23,32 @@
 ###
 ###
 
-describe JSSTestHelper do
+# Patch Source MetaClass
+#
+describe JSS::PatchSource do
 
-  it 'can delete external source' do
-    JSSTestHelper::PatchMgmt.external_src.delete.must_equal :deleted
+  ##### Specs
+
+  it 'can list all patch sources' do
+    JSS::PatchSource.all.must_be_instance_of Array
+    JSS::PatchSource.all.first.must_be_instance_of Hash
   end
 
-end
+  it 'can be used to fetch subclass' do
+    JSS::PatchSource.fetch(id: 1).must_be_instance_of JSS::PatchInternalSource
+  end
+
+  it 'can list available titles for a subclass from class method' do
+    titles = JSS::PatchSource.available_titles 1
+    titles.must_be_instance_of Array
+    titles.first.must_be_instance_of Hash
+    titles.first[:last_modified].must_be_instance_of Time
+  end
+
+  it 'can list available name_ids for a subclass from class method' do
+    name_ids = JSS::PatchSource.available_name_ids 1
+    name_ids.must_be_instance_of Array
+    name_ids.first.must_be_instance_of String
+  end
+
+end # describe JSS::PatchSource
