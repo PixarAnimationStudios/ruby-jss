@@ -876,6 +876,7 @@ module JSS
 
     # Private Instance Methods
     #####################################
+
     private
 
     # Raise an exception if object history is not
@@ -1195,6 +1196,7 @@ require 'jss/api_object/advanced_search'
 require 'jss/api_object/configuration_profile'
 require 'jss/api_object/extension_attribute'
 require 'jss/api_object/group'
+require 'jss/api_object/patch_source'
 
 ### APIObject SubClasses without SubClasses
 require 'jss/api_object/account'
@@ -1214,7 +1216,6 @@ require 'jss/api_object/network_segment'
 require 'jss/api_object/package'
 require 'jss/api_object/patch_title'
 require 'jss/api_object/patch_policy'
-require 'jss/api_object/patch_source'
 require 'jss/api_object/peripheral_type'
 require 'jss/api_object/peripheral'
 require 'jss/api_object/policy'

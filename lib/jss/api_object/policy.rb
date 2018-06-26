@@ -1343,6 +1343,7 @@ module JSS
 
     # Private Instance Methods
     #####################################
+
     private
 
     # raise an error if a package being added isn't valid
