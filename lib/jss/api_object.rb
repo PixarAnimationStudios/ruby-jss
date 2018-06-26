@@ -949,6 +949,7 @@ module JSS
           args[:fetch_rsrc]
         else
           # what lookup key are we using?
+          # TODO: simplify this, see the notes at #find_rsrc_keys
           rsrc_key, lookup_value = find_rsrc_keys(args)
           "#{self.class::RSRC_BASE}/#{rsrc_key}/#{lookup_value}"
         end
@@ -962,7 +963,7 @@ module JSS
           # if we're here, the API JSON is borked, so use the XML
           JSS::XMLWorkaround.data_via_xml rsrc, self.class::USE_XML_WORKAROUND, @api
         else
-          # othereise
+          # otherwise
           @api.get_rsrc(rsrc)
         end
       raw_json[args[:rsrc_object_key]]
@@ -977,6 +978,13 @@ module JSS
     # can be used to create the resrouce
     # '/things/id/345'
     #
+    # CHANGE: some the new patch-related objects don't have
+    # GET resources by name, only id. So this method now always
+    # returns the id-based resource.
+    #
+    # TODO: clean up this and the above methods, since the
+    # id-only get rsrcs actually should simplify the code.
+    #
     # @param args[Hash] The args passed to #initialize
     #
     # @return [Array] Two item array: [ rsrc_key, lookup_value]
@@ -984,9 +992,16 @@ module JSS
     def find_rsrc_keys(args)
       lookup_keys = self.class.lookup_keys
       lookup_key = (self.class.lookup_keys & args.keys)[0]
+
       raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
-      rsrc_key = self.class.rsrc_keys[lookup_key]
-      [rsrc_key, args[lookup_key]]
+
+      vid = self.class.valid_id args[lookup_key]
+
+      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found with #{lookup_key} '#{args[lookup_key]}'" unless vid
+
+      [:id, vid]
+      # rsrc_key = self.class.rsrc_keys[lookup_key]
+      # [rsrc_key, args[lookup_key]]
     end
 
     # Start examining the @init_data recieved from the API
