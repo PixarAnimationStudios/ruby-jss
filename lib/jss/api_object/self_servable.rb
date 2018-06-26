@@ -656,9 +656,39 @@ module JSS
       @self_service_data_config[:payload]
     end
 
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def update
+      resp = super
+      force_notifications_on if @need_ss_notification_activation_hack
+      resp
+    end
+
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def create
+      resp = super
+      force_notifications_on if @need_ss_notification_activation_hack
+      resp
+    end
+
     #  Mixed-in Private Instance Methods
     #####################################
     private
+
+    # HACK: ity hack hack...
+    # remove when jamf fixes these bugs
+    def force_notifications_on
+      xml = <<-ENDXML
+<#{self.class::RSRC_OBJECT_KEY}>
+  <self_service>
+    <notification>true</notification>
+  </self_service>
+</#{self.class::RSRC_OBJECT_KEY}>
+      ENDXML
+      @api.put_rsrc rest_rsrc, xml
+      @need_ss_notification_activation_hack = nil
+    end
 
     # Call this during initialization of
     # objects that have a self_service subset
@@ -880,37 +910,6 @@ module JSS
       reminds.add_element('notification_reminders_enabled').text = self_service_reminders_enabled.to_s
       reminds.add_element('notification_reminder_frequency').text = self_service_reminder_frequency.to_s if self_service_reminder_frequency
 
-    end
-
-
-    # HACK: ity hack hack...
-    # remove when jamf fixes these bugs
-    def update
-      resp = super
-      force_notifications_on if @need_ss_notification_activation_hack
-      resp
-    end
-
-    # HACK: ity hack hack...
-    # remove when jamf fixes these bugs
-    def create
-      resp = super
-      force_notifications_on if @need_ss_notification_activation_hack
-      resp
-    end
-
-    # HACK: ity hack hack...
-    # remove when jamf fixes these bugs
-    def force_notifications_on
-      xml = <<-ENDXML
-<#{self.class::RSRC_OBJECT_KEY}>
-  <self_service>
-    <notification>true</notification>
-  </self_service>
-</#{self.class::RSRC_OBJECT_KEY}>
-      ENDXML
-      @api.put_rsrc rest_rsrc, xml
-      @need_ss_notification_activation_hack = nil
     end
 
     # Raise an error if user_removable settings are wrong
