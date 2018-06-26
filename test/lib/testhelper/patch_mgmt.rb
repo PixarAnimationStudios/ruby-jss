@@ -90,22 +90,25 @@ module JSSTestHelper
       @policy = nil if refresh
       return @policy if @policy
 
+      # make sure we have a title with which to create a patch pol
       unless title.in_jss
         title.source_id = 1 unless title.source_id
         title.name_id = name_id unless title.name_id
         title.save
       end
 
+      # make sre the desired version has a package
       unless title.versions[version_key].package_id.is_a? Integer
         title.versions[version_key].package = JSS::Package.all_ids.sample
         title.save
       end
 
+      # if the policy exists fetch it, otherwise make it
       @policy =
-        if JSS::PatchPolicy.all_names.include? PATCH_TITLE_NAME
-          JSS::PatchPolicy.fetch name: PATCH_TITLE_NAME
+        if JSS::PatchPolicy.all_names(:refresh).include? PATCHCPOL_NAME
+          JSS::PatchPolicy.fetch name: PATCHCPOL_NAME
         else
-          JSS::PatchPolicy.make name: PATCH_TITLE_NAME, patch_title: title
+          JSS::PatchPolicy.make name: PATCHCPOL_NAME, patch_title: title
         end
     end
 
@@ -113,7 +116,6 @@ module JSSTestHelper
       return [] unless JSS::PatchPolicy.all_names(:refresh).include? PATCHCPOL_NAME
       JSS::PatchPolicy.delete JSS::PatchPolicy.map_all_ids_to(:name).invert[PATCHCPOL_NAME]
     end
-
 
   end # module PatchMgmt
 

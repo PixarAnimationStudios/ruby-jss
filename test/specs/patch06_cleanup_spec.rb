@@ -25,20 +25,26 @@
 
 describe JSSTestHelper do
 
+  # this effectively makes the tests run in the order defined, which is
+  # needed in this situattion.
+  def self.test_order
+    :alpha
+  end
+
   it 'can delete external source' do
     gone = JSSTestHelper::PatchMgmt.delete_external_src
     gone.must_be_instance_of Array
     gone.must_be_empty
   end
 
-  it 'can delete patch title' do
-    gone = JSSTestHelper::PatchMgmt.delete_title
+  it 'can delete patch policy' do
+    gone = JSSTestHelper::PatchMgmt.delete_policy
     gone.must_be_instance_of Array
     gone.must_be_empty
   end
 
-  it 'can delete external source' do
-    gone = JSSTestHelper::PatchMgmt.delete_policy
+  it 'can delete patch title' do
+    gone = JSSTestHelper::PatchMgmt.delete_title
     gone.must_be_instance_of Array
     gone.must_be_empty
   end

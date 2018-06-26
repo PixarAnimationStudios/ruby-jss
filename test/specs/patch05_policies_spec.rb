@@ -67,7 +67,6 @@ describe JSS::PatchPolicy do
   end
 
   it 'can be created with a target_version that has a package' do
-
     JSSTestHelper::PatchMgmt.policy.target_version = JSSTestHelper::PatchMgmt.version_key
     JSSTestHelper::PatchMgmt.policy.create
     JSS::PatchPolicy.all_names(:refresh).must_include JSSTestHelper::PatchMgmt::PATCHCPOL_NAME
