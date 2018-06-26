@@ -81,7 +81,6 @@ module JSS
       NO_CATEGORY_ID
     ].freeze
 
-
     # Mixed-in Public Instance Methods
     #####################################
 
@@ -220,6 +219,7 @@ module JSS
     # @return [void]
     #
     def add_category_to_xml(xmldoc)
+      return if category_name.to_s.empty?
       cat_elem = REXML::Element.new('category')
 
       if self.class::CATEGORY_DATA_TYPE == String
