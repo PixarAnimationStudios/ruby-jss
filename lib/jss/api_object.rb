@@ -995,7 +995,7 @@ module JSS
 
       raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
 
-      vid = self.class.valid_id args[lookup_key]
+      vid = self.class.valid_id args[lookup_key], :refresh
 
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found with #{lookup_key} '#{args[lookup_key]}'" unless vid
 
