@@ -1,6 +1,5 @@
 # Copyright 2018 Pixar
 
-#
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
 #    compliance with the Apache License and the following modification to it:
@@ -237,21 +236,24 @@ module JSS
         @container.should_update if @container
       end
 
-      # Replace a list of item names for inclusion in this scope.
+      # Replace a list of item names for as targets in this scope.
       #
-      # The list must be an Array of names of items of the Class represented by the key.
-      # Each will be checked for existence in the JSS, and an exception raised if the item doesn't exist.
+      # The list must be an Array of names of items of the Class represented by
+      # the key.
+      # Each will be checked for existence in the JSS, and an exception raised
+      # if the item doesn't exist.
       #
-      # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of items being included, :computer, :building, etc...
+      # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of items
+      # being included, :computer, :building, etc...
       #
       # @param list[Array] the names of the items being added
       #
       # @example
-      #   set_inclusion(:computers, ['kimchi','mantis'])
+      #   set_targets(:computers, ['kimchi','mantis'])
       #
       # @return [void]
       #
-      def set_inclusion(key, list)
+      def set_targets(key, list)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
         raise JSS::InvalidDataError, "List must be an Array of #{key} names, it may be empty." unless list.is_a? Array
 
@@ -276,8 +278,9 @@ module JSS
         @all_targets = false
         @container.should_update if @container
       end # sinclude_in_scope
+      alias set_inclusion set_targets
 
-      # Add a single item for this inclusion in this scope.
+      # Add a single item a a target in this scope.
       #
       # The item name will be checked for existence in the JSS, and an exception raised if the item doesn't exist.
       #
@@ -286,11 +289,11 @@ module JSS
       # @param item[String] the name of the item being added
       #
       # @example
-      #   add_inclusion(:computer, "mantis")
+      #   add_target(:computer, "mantis")
       #
       # @return [void]
       #
-      def add_inclusion(key, item)
+      def add_target(key, item)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
         raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
@@ -304,19 +307,20 @@ module JSS
         @all_targets = false
         @container.should_update if @container
       end
+      alias add_inclusion add_target
 
-      # Remove a single item for this scope.
+      # Remove a single item as a target for this scope.
       #
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of item being removed, :computer, :building, etc...
       #
       # @param item[String] the name of the item being removed
       #
       # @example
-      #   remove_inclusion(:computer, "mantis")
+      #   remove_target(:computer, "mantis")
       #
       # @return [void]
       #
-      def remove_inclusion(key, item)
+      def remove_target(key, item)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
         raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
@@ -329,6 +333,7 @@ module JSS
 
         @container.should_update if @container
       end
+      alias remove_inclusion remove_target
 
       # Replace a limitation list for this scope.
       #

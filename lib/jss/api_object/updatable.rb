@@ -76,7 +76,7 @@ module JSS
     #
     def name=(newname)
       return nil if @name == newname
-      raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless UPDATABLE
+      raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
       raise JSS::InvalidDataError, "Names can't be empty!" if newname.to_s.empty?
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS" \
         if self.class.all_names(:refresh, api: @api).include? newname
@@ -91,7 +91,7 @@ module JSS
     #
     def update
       return nil unless @need_to_update
-      raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless UPDATABLE
+      raise JSS::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
       raise JSS::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
       @api.put_rsrc @rest_rsrc, rest_xml
       @need_to_update = false

@@ -22,7 +22,6 @@
 #
 #
 
-#
 module JSS
 
   # A collection of methods for validating values. Mostly for
@@ -67,6 +66,11 @@ module JSS
 
     # Validate that a value doesn't already exist for a given identifier of a given class
     #
+    # e.g. when klass = JSS::Computer, identifier = :name, and val = 'foo'
+    # will raise an error when a computer named 'foo' exists
+    #
+    # Otherwise returns val.
+    #
     # @param klass[JSS::APIObject] A subclass of JSS::APIObject, e.g. JSS::Computer
     #
     # @param identifier[Symbol] One of the keys of an Item of the class's #all Array
@@ -76,7 +80,51 @@ module JSS
     # @return [Object] the validated unique value
     #
     def self.unique_identifier(klass, identifier, val, api: JSS.api)
-      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'" if klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+      return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'"
+    end
+
+    # Confirm that the given value is a boolean value, accepting
+    # strings and symbols and returning real booleans as needed
+    # Accepts: true, false, 'true', 'false', :true, :false, 'yes', 'no', :yes,
+    # or :no (all Strings and Symbols are case insensitive)
+    #
+    # TODO: use this throughout ruby-jss
+    #
+    # @param bool [Boolean,String,Symbol] The value to validate
+    #
+    # @return [Boolean] the valid boolean
+    #
+    def self.boolean(bool)
+      return bool if JSS::TRUE_FALSE.include? bool
+      return true if bool.to_s =~ /^(true|yes)$/i
+      return false if bool.to_s =~ /^(false|no)$/i
+      raise JSS::InvalidDataError, 'Value must be boolean true or false'
+    end
+
+    # Confirm that a value is an integer or a string representation of an
+    # integer. Return the integer, or raise an error
+    #
+    # TODO: use this throughout ruby-jss
+    #
+    # @param val[Object] the value to validate
+    #
+    # @return [void]
+    #
+    def self.integer(val)
+      val = val.to_i if val.is_a?(String) && val.jss_integer?
+      raise JSS::InvalidDataError, 'Value must be an integer' unless val.is_a? Integer
+      val
+    end
+
+    # validate that the given value is a non-empty string
+    #
+    # @param val [Object] the thing to validate
+    #
+    # @return [String] the valid non-empty string
+    #
+    def self.non_empty_string(val)
+      raise JSS::InvalidDataError, 'value must be a non-empty String' unless val.is_a?(String) && !val.empty?
       val
     end
 

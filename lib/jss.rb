@@ -65,9 +65,9 @@ module JSS
   ### Constants
   #####################################
 
-  ### The minimum JSS version that works with this gem, as returned by the API
+  ### The minimum JSS version that works with this module, as returned by the API
   ### in the deprecated 'jssuser' resource
-  MINIMUM_SERVER_VERSION = '9.4'.freeze
+  MINIMUM_SERVER_VERSION = '10.4.0'.freeze
 
   ### The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
   ### 60*60*24 is the seconds in a day)
@@ -120,8 +120,7 @@ module JSS
   class Server; end
   class Icon; end
   class Preferences; end
-  class Client; end
-
+  class Client; end # TODO: see if this can be made into a module.
 
   ### SubClasses
   #####################################
@@ -192,6 +191,7 @@ module JSS
   module MDM; end
   module ManagementHistory; end
 
+
 end # module JSS
 
 ### Load the rest of the module
@@ -209,3 +209,4 @@ require 'jss/configuration'
 require 'jss/db_connection'
 require 'jss/validate'
 require 'jss/version'
+require 'jss/xml_workaround'

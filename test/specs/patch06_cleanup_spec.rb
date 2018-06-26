@@ -23,10 +23,30 @@
 ###
 ###
 
-###
-module JSS
+describe JSSTestHelper do
 
-  ### The version of the JSS ruby gem
-  VERSION = '1.0.0b2'.freeze
+  # this effectively makes the tests run in the order defined, which is
+  # needed in this situattion.
+  def self.test_order
+    :alpha
+  end
 
-end # module
+  it 'can delete external source' do
+    gone = JSSTestHelper::PatchMgmt.delete_external_src
+    gone.must_be_instance_of Array
+    gone.must_be_empty
+  end
+
+  it 'can delete patch policy' do
+    gone = JSSTestHelper::PatchMgmt.delete_policy
+    gone.must_be_instance_of Array
+    gone.must_be_empty
+  end
+
+  it 'can delete patch title' do
+    gone = JSSTestHelper::PatchMgmt.delete_title
+    gone.must_be_instance_of Array
+    gone.must_be_empty
+  end
+
+end

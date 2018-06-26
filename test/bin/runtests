@@ -1,0 +1,290 @@
+#!/usr/bin/ruby
+
+### Copyright 2018 Pixar
+
+###
+###    Licensed under the Apache License, Version 2.0 (the "Apache License")
+###    with the following modification; you may not use this file except in
+###    compliance with the Apache License and the following modification to it:
+###    Section 6. Trademarks. is deleted and replaced with:
+###
+###    6. Trademarks. This License does not grant permission to use the trade
+###       names, trademarks, service marks, or product names of the Licensor
+###       and its affiliates, except as required to comply with Section 4(c) of
+###       the License and to reproduce the content of the NOTICE file.
+###
+###    You may obtain a copy of the Apache License at
+###
+###        http://www.apache.org/licenses/LICENSE-2.0
+###
+###    Unless required by applicable law or agreed to in writing, software
+###    distributed under the Apache License with the above modification is
+###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+###    KIND, either express or implied. See the Apache License for the specific
+###    language governing permissions and limitations under the Apache License.
+###
+###
+
+# Uses the MiniTest::Spec infrastructure to run one or tests of ruby-jss
+#
+# We do not use minitest/autorun, so that we have more control over which tests
+# are run and how. But the individual spec files are standard MiniTest::Spec
+# 'describe' blocks
+#
+# Those blocks become classes when the tests are run, and for each test,
+# an instance of the class is created.
+# As such, the interior of the blocks can be treated like class definitions,
+# defining constants, class methods, instance methods and so on.
+#
+# As well as that class-based infratructure, this tool includes a JSSTestHelper
+# module which defines usefule constants and helper methods, accessible from
+# anywhere via the module name.
+#
+
+require 'pathname'
+require 'getoptlong'
+require 'keychain'
+require 'minitest/spec'
+# require 'minitest/autorun' # DO NOT REQUIRE AUTORUN - we manually run each file below.
+
+# app
+class App
+
+  SPEC_SUFFIX = '_spec.rb'.freeze
+
+  # Server and port come from CLI opts or ruby-jss.conf
+  #
+  # User comes from CLI opt or keychain
+  #
+  # pw come from keychain, or is prompted and stored
+  # in keychain with user.
+  #
+  # TODO: support for other APIConnection options
+  #
+  OPTS = GetoptLong.new(
+    ['--server', '-s', GetoptLong::REQUIRED_ARGUMENT],
+    ['--port', '-p', GetoptLong::REQUIRED_ARGUMENT],
+    ['--user', '-u', GetoptLong::REQUIRED_ARGUMENT],
+    ['--db-server', '-S', GetoptLong::REQUIRED_ARGUMENT],
+    ['--db-port', '-P', GetoptLong::REQUIRED_ARGUMENT],
+    ['--db-user', '-U', GetoptLong::REQUIRED_ARGUMENT],
+    ['--gem-dir', '-g', '-i', GetoptLong::REQUIRED_ARGUMENT],
+    ['--saved-data', '-d', GetoptLong::NO_ARGUMENT],
+    ['--help', '-h', '-H', GetoptLong::NO_ARGUMENT]
+  )
+
+  # Setup
+  def initialize
+    load_ruby_jss
+    parse_opts
+
+    @bindir = Pathname.new File.dirname(__FILE__)
+    @appdir = @bindir.parent
+    @libdir = @appdir + 'lib'
+    @specdir = @appdir + 'specs'
+
+    @tests_to_run = ARGV.dup
+    @tests_to_run = @specdir.children.map { |c| c.basename.to_s }.sort if @tests_to_run .empty?
+
+    @minitest_opts = ['--verbose']
+
+    helper_module = @libdir + 'testhelper.rb'
+    load helper_module.to_s
+  end # init
+
+  # Load the gem
+  def load_ruby_jss
+    if @custom_gem_dir
+      ENV['GEM_HOME'] = @custom_gem_dir
+      ENV['GEM_PATH'] = "#{@custom_gem_dir}:#{ENV['GEM_PATH']}"
+      Gem.paths = ENV
+    end
+    require 'ruby-jss'
+  end
+
+  # Parse ARGV
+  def parse_opts
+    OPTS.each do |opt, arg|
+      case opt
+      when '--server'
+        @api_server = arg
+      when '--user'
+        @api_user = arg
+      when '--port'
+        @api_port = arg
+      when '--db-server'
+        @db_server = arg
+      when '--db-user'
+        @db_user = arg
+      when '--db-port'
+        @db_port = arg
+      when '--gem-dir'
+        @custom_gem_dir = arg
+      when '--saved-data'
+        @show_saved_data = true
+      when '--help'
+        @show_help = true
+      end # case
+    end # opts.each
+  end
+
+  # the default values
+  def apply_defaults
+    @api_server ||= JSS::CONFIG.api_server_name
+    @api_port ||= JSS::CONFIG.api_server_port
+    @db_server ||= JSS::CONFIG.db_server_name
+    @db_port ||= JSS::CONFIG.db_server_port
+  end
+
+  def run
+    return if show_help
+    return if show_saved_data
+    connect_to_servers
+    return unless prod_server_confirmed_if_needed?
+    run_tests
+  end
+
+  # if @api_server == matches the one in /etc/ruby-jss.conf
+  # get confirmation before running tests on the production server.
+  # If a local ~/.ruby-jss.conf defines a diferent server,
+  # or a different server if given with --server, no confirmation is needed
+  def prod_server_confirmed_if_needed?
+    conf = Pathname.new '/etc/ruby-jss.conf'
+    return true unless conf.file?
+
+    prod_server_line = conf.readlines.select { |l| l.start_with? 'api_server_name' }.first
+    return true unless prod_server_line
+
+    prod_server = prod_server_line.chomp.split(': ').last
+    return true unless prod_server == @api_server
+
+    print "Really run the tests on the production server '#{prod_server}'? (y/n): "
+    doit = gets.chomp
+    doit == 'y'
+  end
+
+  def connect_to_servers
+    jss_keychain_creds = JSSTestHelper::Auth.rw_credentials_from_keychain(:jss)
+    if jss_keychain_creds
+      @api_server ||= jss_keychain_creds[:server]
+      @api_port ||= jss_keychain_creds[:port]
+      @api_user ||= jss_keychain_creds[:user]
+      pw = jss_keychain_creds[:pw]
+    else
+      apply_defaults
+      raise 'Please specify a server with --server' unless @api_server
+      raise 'Please specify a user with --user' unless @api_user
+      pw = 'nopw'
+    end
+
+    JSSTestHelper::Auth.connect_to_api(server: @api_server, port: @api_port, user: @api_user, pw: pw )
+  end
+
+  def run_tests
+    JSSTestHelper.say "Starting tests of ruby-jss v #{JSS::VERSION}"
+    JSSTestHelper.say "API Connection: #{@api_user}@#{@api_server}:#{@api_port} running Jamf Pro #{JSS.api.server.version}"
+
+    base_runnables = MiniTest::Runnable.runnables.dup
+
+    @tests_to_run.each do |t|
+      t += SPEC_SUFFIX unless t.end_with? SPEC_SUFFIX
+      specfile = @specdir + t
+
+      puts
+
+      if specfile.file?
+        JSSTestHelper.say "Running test #{specfile.basename}: "
+        load specfile.to_s
+
+        MiniTest.run @minitest_opts.dup
+
+        # clear this files specs from the run list..
+        MiniTest::Runnable.runnables.select! { |r| base_runnables.include? r }
+        puts
+      else
+        JSSTestHelper.say "Skipping unknown test #{specfile.basename}"
+      end # if
+
+    end # each
+  end # run tests
+
+  # display saved keychain data if asked
+  def show_saved_data
+    return false unless @show_saved_data
+    jss_keychain_creds = JSSTestHelper::Auth.rw_credentials_from_keychain(:jss)
+    msg =
+      if jss_keychain_creds
+        "JSS API Tests will run as user '#{jss_keychain_creds[:user]}' on server '#{jss_keychain_creds[:server]}', port #{jss_keychain_creds[:port]}"
+      else
+        'No JSS API credentials saved, please use --server, --user and --port (if needed)'
+      end
+    puts msg
+    true
+  end
+
+  # display help if asked
+  def show_help
+    return false unless @show_help
+    puts <<-USAGEBLURB
+Usage: #{File.basename __FILE__} [options] [spec [spec ...]]
+
+Runs one or more specification tests of ruby-jss.
+
+The specifications are files in the directory:
+    #{@specdir}
+
+The files must have a _spec.rb suffix, however you need not use the suffix when
+listing tests to run on the command line, e.g. 'patch_source' will run
+'patch_source_spec.rb'
+
+If no specs files are listed on the command line, all will be run, in
+alphabetical order.
+
+By default, JSS connection settings are used from your /etc/ruby-jss.conf file
+and/or ~/.ruby-jss.conf. Connection settings from the command line will be used
+if provided.
+
+WARNING: These tests create, modify, and delete objects in the JSS.
+  While no existing objects should be changed, * Be Careful * running them on
+  a production server.
+  If the server you're connecting to matches one defined in /etc/ruby-jss.conf
+  you will be asked for confirmation before proceding.
+
+The first time you connect from this machine to a given server, you must provide
+a username for the connection with --user, and will be prompted for the password.
+Once authenticated, credentials for the server are saved in your keychain, and
+future connections to that server will read the user & password from there.
+If a different user is later specified for that server, you'll be prompted again
+for a password, and the keychain will be updated.
+
+Options
+  --server, -s <host>         the hostname for the JSS API connection
+  --port, -p <port>           the port for the API connection
+  --user, -u <user>           the API username for the connection
+                                NOTE: must have permissions to perform the tests!
+  --db-server, -S <host>      the hostname for the JSS API connection
+  --db-port, -P <port>        the port for the API connectino
+  --db-user, -U <user>        the API username for the connection
+  --gem-dir, -g, -i <path>    the path from which to require ruby-jss
+                                (sets GEM_HOME to this path before requiring)
+  --saved-data, -d            show the connection data saved in the keychain,
+                                if any. (no tests run, password not shown)
+  --help, -h, -H              show this help
+    USAGEBLURB
+    true
+  end # show_help
+
+end # class app
+
+#################  The main block  ########################
+if $PROGRAM_NAME == __FILE__
+  begin
+    app = App.new
+    app.run
+    exit 0
+  rescue => the_exception
+    warn "An error occurred: #{the_exception.message}"
+    warn the_exception.backtrace
+    exit 1
+  end # begin
+end # if $0 == __FILE__

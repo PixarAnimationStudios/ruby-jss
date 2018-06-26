@@ -26,12 +26,6 @@
 ###
 module JSS
 
-  ### Module Variables
-  #####################################
-
-  ### Module Methods
-  #####################################
-
   ### Sub-Modules
   #####################################
 
@@ -42,8 +36,8 @@ module JSS
   ### can be instantiated with :id => :new, and :name => "some_new_name".
   ###
   ###
-  ### Classes mixing this module *must* provide a #rest_xml instance method that returns the XML
-  ### String to be submitted to the API for object creation.
+  ### Classes mixing this module *must* provide a #rest_xml instance method that
+  ### returns the XML String to be submitted to the API for object creation.
   ###
   ### The instance can be used to set desired values for the new object, and
   ### once everything's good, use #create to create it in the JSS.
@@ -52,6 +46,7 @@ module JSS
   ### the subclass may want to redefine #initialize to require those data before
   ### calling super, or may want to redefine #create or #rest_xml to check
   ### the data for consistency, and then call super
+  ###
   ### It is also wise to have the individual setter methods do data validation
   ###
   ### @see APIObject#save
@@ -78,9 +73,9 @@ module JSS
     #
     def create(api: nil)
       api ||= @api
-      raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless respond_to? :create
+      raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless creatable?
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
-      api.post_rsrc(@rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      api.post_rsrc(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
@@ -99,7 +94,7 @@ module JSS
     ###
     def clone(new_name, api: nil)
       api ||= @api
-      raise JSS::UnsupportedError, 'This class is not creatable in via ruby-jss' unless respond_to? :create
+      raise JSS::UnsupportedError, 'This class is not creatable in via ruby-jss' unless creatable?
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with that name" if \
         self.class.all_names(:refresh, api: api).include? new_name
 

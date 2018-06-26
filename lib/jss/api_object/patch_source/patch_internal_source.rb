@@ -26,7 +26,30 @@
 ###
 module JSS
 
-  ### The version of the JSS ruby gem
-  VERSION = '1.0.0b2'.freeze
+  # An 'Internal' patch source. These sources are defined by
+  # Jamf themselves, as a part of the JSS, and cannot be created, modified
+  #  or deleted.
+  #
+  # @see JSS::APIObject
+  #
+  class PatchInternalSource < JSS::PatchSource
 
-end # module
+    # Constants
+    #####################################
+
+    ### The base for REST resources of this class
+    RSRC_BASE = 'patchinternalsources'.freeze
+
+    ### the hash key used for the JSON list output of all objects in the JSS
+    RSRC_LIST_KEY = :patch_internal_sources
+
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
+    RSRC_OBJECT_KEY = :patch_internal_source
+
+    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
+    VALID_DATA_KEYS = %i[enabled endpoint].freeze
+
+  end # class PatchInternalSource
+
+end # module JSS

@@ -41,14 +41,21 @@ module JSS
   # Objects in the JSS present category data in two different ways:
   #
   # 1) An 'old' style, where the top-level Hash of the API data contains a
-  #    :category which contains a String, being the category name.
+  #    :category key which contains a String, being the category name.
   #
-  # 2) A 'new' style, where the top-level :general Hash contains a :category key
-  #    which is a Hash with a :name and :id key.
-  #
-  # This module can detect and handle either type.
+  # 2) A 'new' style, where the :category key is a Hash with a :name and :id key.
+  #    This Hash is usually in the :general subset, but may be elsewhere.
   #
   # Classes mixing in this module MUST:
+  #
+  # - Define the constant CATEGORY_SUBSET as a symbol indicating where in
+  #   the API data the :category key will be found. The symbol is either
+  #   :top for the top-level of the API data, or the name of the subsection
+  #   Hash containing :category, e.g. :general.
+  #
+  # - Define the constant CATEGORY_DATA_TYPE as either String or Hash
+  #   (the class names) which indicate if the contents of the :category key
+  #   is a String (The category name) or a Hash (containing :name and :id)
   #
   # - call {#add_category_to_xml(xmldoc)} from their #rest_xml method if they are
   #   {Updatable} or {Creatable}
@@ -60,8 +67,9 @@ module JSS
 
     CATEGORIZABLE = true
 
-    # When no category has been assigned, this is the 'name' and id used
+    # When no category has been assigned, this is the 'name'
     NO_CATEGORY_NAME = 'No category assigned'.freeze
+    # When no category has been assigned, this is the id
     NO_CATEGORY_ID = -1
 
     # Setting the category to any of these values will unset the category
@@ -71,12 +79,6 @@ module JSS
       0,
       NO_CATEGORY_NAME,
       NO_CATEGORY_ID
-    ].freeze
-
-    # These classes use old-style categories in their data.
-    OLD_STYLE_CATEGORY_CLASSES = [
-      JSS::Script,
-      JSS::Package
     ].freeze
 
     # Mixed-in Public Instance Methods
@@ -107,7 +109,7 @@ module JSS
     #
     def category_object
       return nil unless category_assigned?
-      JSS::Category.new id: @category_id
+      JSS::Category.fetch id: @category_id
     end # cat obj
 
     # Does this object have a category assigned?
@@ -187,17 +189,28 @@ module JSS
     # @return [void] description_of_returned_object
     #
     def parse_category
-      if @init_data[:category]
-        @category_name = @init_data[:category]
+      cat =
+        if self.class::CATEGORY_SUBSET == :top
+          @init_data[:category]
+        else
+          @init_data[self.class::CATEGORY_SUBSET][:category]
+        end
+
+      if cat.is_a? String
+        @category_name = cat
         @category_id = JSS::Category.category_id_from_name @category_name
-      elsif @init_data[:general] && @init_data[:general][:category]
-        @category_name = @init_data[:general][:category][:name]
-        @category_id = @init_data[:general][:category][:id]
+      else
+        @category_name = cat[:name]
+        @category_id = cat[:id]
       end
-      @category_data_style = OLD_STYLE_CATEGORY_CLASSES.include?(self.class) ? :old : :new
-      @category_name = nil if @category_name.to_s.casecmp(NO_CATEGORY_NAME).zero?
-      @category_id = nil if @category_id == NO_CATEGORY_ID
+      clean_raw_categories
     end # parse category
+
+    # Set the category name and id to nil, if need be.
+    def clean_raw_categories
+      @category_name = nil if @category_name && @category_name.to_s.casecmp(NO_CATEGORY_NAME).zero?
+      @category_id = nil if @category_id == NO_CATEGORY_ID
+    end
 
     # Add the category to the XML for POSTing or PUTting to the API.
     #
@@ -206,15 +219,27 @@ module JSS
     # @return [void]
     #
     def add_category_to_xml(xmldoc)
-      return if @category_name.to_s.empty?
-      root = xmldoc.root
-      if @category_data_style == :old
-        root.add_element('category').text = @category_name.to_s
-      else
-        gen_elem = root.elements['general'] ? root.elements['general'] : root.add_element('general')
-        cat_elem = gen_elem.add_element 'category'
+      return if category_name.to_s.empty?
+      cat_elem = REXML::Element.new('category')
+
+      if self.class::CATEGORY_DATA_TYPE == String
+        cat_elem.text = @category_name.to_s
+      elsif self.class::CATEGORY_DATA_TYPE == Hash
         cat_elem.add_element('name').text = @category_name.to_s
+      else
+        raise JSS::InvalidDataError, "Uknown CATEGORY_DATA_TYPE for class #{self.class}"
       end
+
+      root = xmldoc.root
+
+      if self.class::CATEGORY_SUBSET == :top
+        root.add_element cat_elem
+        return
+      end
+
+      parent = root.elements[self.class::CATEGORY_SUBSET.to_s]
+      parent ||= root.add_element self.class::CATEGORY_SUBSET.to_s
+      parent.add_element cat_elem
     end # add_category_to_xml
 
   end # module categorizable

@@ -23,16 +23,32 @@
 ###
 ###
 
-###
-module JSS
+# Patch Source MetaClass
+#
+describe JSS::PatchSource do
 
-  # This is a stub - Patch data in the API is still borked.
-  # Waiting for fixes from Jamf.
-  #
-  # @see JSS::APIObject
-  #
-  class Patch < JSS::APIObject
+  ##### Specs
 
-  end # class Patch
+  it 'can list all patch sources' do
+    JSS::PatchSource.all.must_be_instance_of Array
+    JSS::PatchSource.all.first.must_be_instance_of Hash
+  end
 
-end # module JSS
+  it 'can be used to fetch subclass' do
+    JSS::PatchSource.fetch(id: 1).must_be_instance_of JSS::PatchInternalSource
+  end
+
+  it 'can list available titles for a subclass from class method' do
+    titles = JSS::PatchSource.available_titles 1
+    titles.must_be_instance_of Array
+    titles.first.must_be_instance_of Hash
+    titles.first[:last_modified].must_be_instance_of Time
+  end
+
+  it 'can list available name_ids for a subclass from class method' do
+    name_ids = JSS::PatchSource.available_name_ids 1
+    name_ids.must_be_instance_of Array
+    name_ids.first.must_be_instance_of String
+  end
+
+end # describe JSS::PatchSource

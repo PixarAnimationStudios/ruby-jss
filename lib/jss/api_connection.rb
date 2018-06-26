@@ -320,17 +320,16 @@ module JSS
     DFT_TIMEOUT = 60
 
     # The Default SSL Version
-    # As of Casper 9.61 we can't use SSL, must use TLS, since SSLv3 was susceptible to poodles.
-    # NOTE - this requires rest-client v 1.7.0 or higher
-    # which requires mime-types 2.0 or higher, which requires ruby 1.9.2 or higher!
-    # That means that support for ruby 1.8.7 stops with Casper 9.6
-    DFT_SSL_VERSION = 'TLSv1'.freeze
+    DFT_SSL_VERSION = 'TLSv1_2'.freeze
+
+    RSRC_NOT_FOUND_MSG = 'The requested resource was not found'.freeze
 
     # Attributes
     #####################################
 
     # @return [String] the username who's connected to the JSS API
-    attr_reader :jss_user
+    attr_reader :user
+    alias jss_user user
 
     # @return [RestClient::Resource] the underlying connection resource
     attr_reader :cnx
@@ -433,7 +432,7 @@ module JSS
       # parse our ssl situation
       verify_ssl args
 
-      @jss_user = args[:user]
+      @user = args[:user]
 
       @rest_url = build_rest_url args
 
@@ -445,7 +444,7 @@ module JSS
 
       verify_server_version
 
-      @name = "#{@jss_user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
+      @name = "#{@user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
       @connected ? hostname : nil
     end # connect
 
@@ -454,7 +453,7 @@ module JSS
     # @return [String]
     #
     def to_s
-      @connected ? "Using #{@rest_url} as user #{@jss_user}" : 'not connected'
+      @connected ? "Using #{@rest_url} as user #{@user}" : 'not connected'
     end
 
     # Reset the response timeout for the rest connection
@@ -483,7 +482,7 @@ module JSS
     # @return [void]
     #
     def disconnect
-      @jss_user = nil
+      @user = nil
       @rest_url = nil
       @server_host = nil
       @cnx = nil
@@ -509,10 +508,16 @@ module JSS
     #
     def get_rsrc(rsrc, format = :json)
       # puts object_id
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
+      raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
+
       rsrc = URI.encode rsrc
-      @last_http_response = @cnx[rsrc].get(accept: format)
-      return JSON.parse(@last_http_response, symbolize_names: true) if format == :json
+      begin
+        @last_http_response = @cnx[rsrc].get(accept: format)
+      rescue RestClient::ExceptionWithResponse => e
+        handle_http_error e
+      end
+      format == :json ? JSON.parse(@last_http_response, symbolize_names: true) : @last_http_response
     end
 
     # Change an existing JSS resource
@@ -524,15 +529,15 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def put_rsrc(rsrc, xml)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;')
 
       # send the data
       @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
-    rescue RestClient::Conflict => exception
-      raise_conflict_error(exception)
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end
 
     # Create a new JSS resource
@@ -544,15 +549,15 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def post_rsrc(rsrc, xml = '')
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
 
       # convert CRs & to &#13;
       xml.gsub!(/\r/, '&#13;') if xml
 
       # send the data
       @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
-    rescue RestClient::Conflict => exception
-      raise_conflict_error(exception)
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # post_rsrc
 
     # Delete a resource from the JSS
@@ -562,7 +567,7 @@ module JSS
     # @return [String] the xml response from the server.
     #
     def delete_rsrc(rsrc, xml = nil)
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless @connected
+      validate_connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # payload?
@@ -570,6 +575,8 @@ module JSS
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # delete_rsrc
 
     # Test that a given hostname & port is a JSS API server
@@ -623,7 +630,6 @@ module JSS
     alias connected? connected
     alias host hostname
 
-
     #################
 
     # Call one of the 'all*' methods on a JSS::APIObject subclass
@@ -641,7 +647,7 @@ module JSS
     #
     # @return [Array] The list of items for the class
     #
-    def all(class_name, refresh = false, only: nil )
+    def all(class_name, refresh = false, only: nil)
       the_class = JSS.api_object_class(class_name)
       list_method = only ? :"all_#{only}" : :all
 
@@ -813,7 +819,7 @@ module JSS
       @master_distribution_point =
         case all_dps.size
         when 0
-          raise JSS::NoSuchItemError, "No distribution points defined"
+          raise JSS::NoSuchItemError, 'No distribution points defined'
         when 1
           JSS::DistributionPoint.fetch id: all_dps.first[:id], api: self
         else
@@ -919,6 +925,11 @@ module JSS
     ####################################
     private
 
+    # raise exception if not connected
+    def validate_connected
+      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless connected?
+    end
+
     # Apply defaults from the JSS::CONFIG,
     # then from the JSS::Client,
     # then from the module defaults
@@ -1020,11 +1031,12 @@ module JSS
       begin
         @server = JSS::Server.new get_rsrc('jssuser')[:user], self
       rescue RestClient::Unauthorized
-        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@jss_user}@#{@server_host}:#{@port}'."
+        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@user}@#{@server_host}:#{@port}'."
       end
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
-      return unless @server.version < min_vers
+      return if @server.version >= min_vers # we're good...
+
       err_msg = "JSS version #{@server.raw_version} to low. Must be >= #{min_vers}"
       @connected = false
       raise JSS::UnsupportedError, err_msg
@@ -1091,19 +1103,37 @@ module JSS
         end
     end
 
-    # Parses the HTTP body of a RestClient::Conflict (409 conflict)
-    # exception and re-raises a JSS::ConflictError with a more
+    # Parses the HTTP body of a RestClient::ExceptionWithResponse
+    # (the parent of all HTTP error responses) and its subclasses
+    # and re-raises a JSS::APIError with a more
     # useful error message.
     #
-    # @param exception[RestClient::Conflict] the exception to parse
+    # @param exception[RestClient::ExceptionWithResponse] the exception to parse
     #
     # @return [void]
     #
-    def raise_conflict_error(exception)
-      exception.http_body =~ %r{<p>Error:(.*)</p>}
-      conflict_reason = Regexp.last_match(1)
-      conflict_reason ||= exception.http_body
-      raise JSS::ConflictError, conflict_reason
+    def handle_http_error(exception)
+      @last_http_response = exception.response
+      case exception
+      when RestClient::ResourceNotFound
+        # other methods catch this and report more details
+        raise exception
+      when RestClient::Conflict
+        err = JSS::ConflictError
+        msg_matcher = /<p>Error:(.*)(<|$)/m
+      when RestClient::BadRequest
+        err = JSS::BadRequestError
+        msg_matcher = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+      when RestClient::Unauthorized
+        raise
+      else
+        err = JSS::APIRequestError
+        msg_matcher = %r{<body.*?>(.*)</body>}m
+      end
+      exception.http_body =~ msg_matcher
+      msg = Regexp.last_match(1)
+      msg ||= exception.http_body
+      raise err, msg
     end
 
     # RestClient::Resource#delete doesn't take an HTTP payload,
@@ -1134,6 +1164,8 @@ module JSS
         ),
         &(block || @block)
       )
+    rescue RestClient::ExceptionWithResponse => e
+      handle_http_error e
     end # delete_with_payload
 
   end # class APIConnection
@@ -1186,6 +1218,7 @@ module JSS
 
   # aliases of module methods
   class << self
+
     alias api_connection api
     alias connection api
     alias active_connection api
@@ -1196,6 +1229,7 @@ module JSS
     alias use_api use_api_connection
     alias use_connection use_api_connection
     alias activate_connection use_api_connection
+
   end
 
   # create the default connection

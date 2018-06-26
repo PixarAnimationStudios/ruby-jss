@@ -97,6 +97,13 @@ module JSS
     # See {APIObject#add_object_history_entry}
     OBJECT_HISTORY_OBJECT_TYPE = 90
 
+    # Where is the Category in the API JSON?
+    CATEGORY_SUBSET = :top
+
+    # How is the category stored in the API data?
+    CATEGORY_DATA_TYPE = String
+
+
     ### Class Variables
     #####################################
 
@@ -118,7 +125,7 @@ module JSS
     ### @return [Boolean] does this pkg also get install in the OS user homedir template
     attr_reader :fill_user_template
 
-    ### @return [Boolean] does this item require a reboot after installation? If so, it'll be a puppy-install in d3
+    ### @return [Boolean] does this item require a reboot after installation?
     attr_reader :reboot_required
 
     ### @return [Array<String>] the OS versions this can be installed onto. For all minor versions, the format is 10.5.x
