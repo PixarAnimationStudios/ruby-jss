@@ -211,7 +211,7 @@ module JSS
     # if we're here, its a Pathname
     raise JSS::MissingDataError, "No such file: #{plist}" unless plist.file?
 
-    Plist.parse_xml `/usr/libexec/PlistBuddy -x -c print #{Shellwords.escape(plist.to_s)}`
+    Plist.parse_xml `/usr/libexec/PlistBuddy -x -c print #{Shellwords.escape(plist.to_s)}`.force_encoding('UTF-8')
   end # parse_plist
 
   # Converts anything that responds to #to_s to a Time, or nil
