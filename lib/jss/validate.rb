@@ -55,12 +55,13 @@ module JSS
     #
     # @return [String] The valid value
     #
-    def self.ip_address(val)
+    def self.ip_address(val, msg = nil)
+      msg ||= "Not a valid IPv4 address: '#{val}'"
       ok = true
       parts = val.strip.split '.'
       ok = false unless parts.size == 4
       parts.each { |p| ok = false unless p.jss_integer? && p.to_i < 256 && p.to_i >= 0 }
-      raise JSS::InvalidDataError, "Not a valid IPv4 address: '#{val}'" unless ok
+      raise JSS::InvalidDataError, msg unless ok
       val
     end
 
@@ -79,9 +80,10 @@ module JSS
     #
     # @return [Object] the validated unique value
     #
-    def self.unique_identifier(klass, identifier, val, api: JSS.api)
+    def self.unique_identifier(klass, identifier, val, msg = nil, api: JSS.api)
+      msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
       return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
-      raise JSS::AlreadyExistsError, "A #{klass} already exists with #{identifier} '#{val}'"
+      raise JSS::AlreadyExistsError, msg
     end
 
     # Confirm that the given value is a boolean value, accepting
@@ -95,11 +97,12 @@ module JSS
     #
     # @return [Boolean] the valid boolean
     #
-    def self.boolean(bool)
+    def self.boolean(bool, msg = nil)
+      msg ||= 'Value must be boolean true or false'
       return bool if JSS::TRUE_FALSE.include? bool
       return true if bool.to_s =~ /^(true|yes)$/i
       return false if bool.to_s =~ /^(false|no)$/i
-      raise JSS::InvalidDataError, 'Value must be boolean true or false'
+      raise JSS::InvalidDataError, msg
     end
 
     # Confirm that a value is an integer or a string representation of an
@@ -111,9 +114,10 @@ module JSS
     #
     # @return [void]
     #
-    def self.integer(val)
+    def self.integer(val, msg = nil)
+      msg ||= 'Value must be an integer'
       val = val.to_i if val.is_a?(String) && val.jss_integer?
-      raise JSS::InvalidDataError, 'Value must be an integer' unless val.is_a? Integer
+      raise JSS::InvalidDataError, msg unless val.is_a? Integer
       val
     end
 
@@ -123,26 +127,10 @@ module JSS
     #
     # @return [String] the valid non-empty string
     #
-    def self.non_empty_string(val)
-      raise JSS::InvalidDataError, 'value must be a non-empty String' unless val.is_a?(String) && !val.empty?
+    def self.non_empty_string(val, msg = nil)
+      msg ||= 'value must be a non-empty String'
+      raise JSS::InvalidDataError, msg unless val.is_a?(String) && !val.empty?
       val
-    end
-
-    # Confirm that the given value is a boolean value, accepting
-    # strings and symbols and returning real booleans as needed
-    # Accepts: true, false, 'true', 'false', :true, :false, 'yes', 'no', :yes,
-    # or :no (all Strings and Symbols are case insensitive)
-    #
-    #
-    # @param bool [Boolean,String,Symbol] The value to validate
-    #
-    # @return [Boolean] the valid boolean
-    #
-    def self.boolean(bool)
-      return bool if JSS::TRUE_FALSE.include? bool
-      return true if bool.to_s =~ /^(true|yes)$/i
-      return false if bool.to_s =~ /^(false|no)$/i
-      raise JSS::InvalidDataError, 'Value must be boolean true or false'
     end
 
   end # module validate
