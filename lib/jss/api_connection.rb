@@ -510,13 +510,16 @@ module JSS
       # puts object_id
       validate_connected
       raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
-
+      # TODO: fix what rubocop is complaining about in the line below.
+      # (I doubt we want to CGI.escape the whole resource)
       rsrc = URI.encode rsrc
       begin
         @last_http_response = @cnx[rsrc].get(accept: format)
       rescue RestClient::ExceptionWithResponse => e
         handle_http_error e
       end
+      # TODO: make sure we're returning the String version of the
+      # response (i.e. its body) here and in POST, PUT, DELETE.
       format == :json ? JSON.parse(@last_http_response, symbolize_names: true) : @last_http_response
     end
 
