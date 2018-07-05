@@ -123,6 +123,9 @@ module JSS
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = %i[notifications name_id source_id].freeze
 
+    # can be looked up by these as well as id and name
+    OTHER_LOOKUP_KEYS = { name_id: { rsrc_key: :name_id, list: :all_name_ids } }.freeze
+
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
@@ -283,13 +286,16 @@ module JSS
     # for some reason, patch titles can't be fetched by name.
     # only by id. SO, look up the id if given a name.
     #
-    def self.fetch(id: nil, name: nil, api: JSS.api)
-      unless id
-        id =  JSS::PatchTitle.map_all_ids_to(:name).invert[name]
-        raise NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found" unless id
-      end
+    def self.fetch(identifier = nil, id: nil, name: nil, name_id: nil, api: JSS.api)
+      return super identifier, api: api if identifier
+      return super id: id, api: api if id
 
-      super id: id, api: api
+      id = valid_id name if name
+      id = valid_id name_id if name_id
+      raise NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found" unless id
+
+      super id: id, api: api if id
+
     end
 
     # Attributes
