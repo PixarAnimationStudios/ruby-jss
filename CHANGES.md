@@ -2,19 +2,41 @@
 
 ## v 1.0.0b2, 2018-06-x26
 
-Finally we're going to version 1.0, which we should have done when we went opensource.
+Finally we're going to version 1.0, which we should have done when we went opensource. Future releases will try to adhere to [Semantic Versioning](https://semver.org/) as described in the [rubygems.org guidelines](https://guides.rubygems.org/patterns/#semantic-versioning)
 
 - requirement: Jamf Pro API version must be 10.4 or higher
+
+- Defaults to using TLSv1.2 for API connections.
+
+  As of Jamf Pro 10.5. the server requires TLSv1.2 and will not accept connections using TLSv1.
+
+  **IMPORTANT:** MacOS 10.12 and lower have an old version of the openssl library, used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.
+
+  If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.
+
+  `JSS.api.connect server: 'myjss.myschool.edu', user: 'username', pw: :prompt, ssl_version: :TLSv1`
+
+  Machines running macOS 10.12 or lower will not be able to connect to Jamf Pro > v10.4 with the built-in ruby openssl library. If you specify `ssl_version: :TLSv1` you will get an error because the server won't accept it. If you leave the default :TLSv1_2, ruby's openssl library will complain that it doesn't know about that.
+
+  If you have 10.12 or older machines that must connect to newer Jamf Pro servers with ruby-jss, there are a few options.
+
+  - upgade the machines to 10.13
+  - install a newer openssl, then install a your own ruby using that openssl (both can be done with homebrew)
+  - do the above, then extract the openssl library and modify it to work with the built-in ruby.
+
+  If you have questions about this, feel free to reach out to ruby-jss@pixar.com, or in the #ruby or #jss-api channels in MacAdmins slack space, for some advice.
 
 - add: JSS::PatchSource metaclass and the subclassses JSS::PatchInternalSource, and JSS::PatchExternalSource. These provide acecss to the patchavailabletitles enpoint, which is needed to acquire name_id's for creating/activating JSS::PatchTitles
 
 - add: JSS::PatchTitle, which also gives access to the patchreports endpoint. Also uses the JSS::PatchTitle::Version class to handle patch versions within a title, and assign packages to them.
 
-- add: JSS::PatchPolicy. PatchPolicies are creatable when providing an active PatchTitle and an approiate PatchTitle::Version that has a package assigned to it.
+- add: JSS::PatchPolicy. PatchPolicies are creatable when providing an active PatchTitle and an appropriate PatchTitle::Version that has a package assigned to it.
 
 - add: the Group metaclass now has a calculate_members option (bool) to the #create method. When true, the membership of the group will be updated in the existing ruby instance immediately after the group is created in the JSS. Doesn't do much for static groups, but is useful for smart groups. Defaults to true. If you don't care about the membership immediately, or don't want to wait for the membership to be calculated on the server, set this to false.
 
 - improvement: better handling of http error responses
+
+- improvement: JSS::Policy objects now have setters for the 'Maintenence' subset, e.g. recons ('update inventory'), reset_name, fix_byhost, etc.
 
 - add: more generic data validation methods in JSS::Validate module, and more use of them throughout the code.
 
@@ -22,13 +44,11 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
 - add: regex options to JSS::Criteriable::Criterion objects
 
-- remove: the .new class method on APIObject subclasses no longer works. Even thought its the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use .fetch to instantiate existing objects and .make to instantiate local instances of objects to be created in the JSS.
+- remove: the .new class method on APIObject subclasses no longer works. Even though it's the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use .fetch to instantiate existing objects and .make to instantiate local instances of objects to be created in the JSS.
 
-- update: API connections now default to TLSv1.2. If you're connecting from a machine that doesn't support  TLSv1.2 (like the os-supplied ruby in macOS < 10.13) then you can specify `ssl_version: 'TLSv1'` when you connect, as long as your Jamf Pro server supports it.
+- add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, it's wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
 
-- add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, its wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
-
-- fix: as Apple says: various bugfixes and improvements.
+- misc: as Apple says: various bugfixes and improvements.
 
 
 ## v 0.14.0, 2018-05-30
