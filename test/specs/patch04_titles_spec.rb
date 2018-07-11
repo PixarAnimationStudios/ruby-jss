@@ -73,11 +73,11 @@ describe JSS::PatchTitle do
     JSS::PatchTitle.all_names(:refresh).wont_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
   end
 
-  it 'can list all patch title name_ids' do
-    nameids = JSS::PatchTitle.all_name_ids
-    nameids.must_be_instance_of Array
-    break if nameids.empty?
-    nameids.first.must_be_instance_of String
+  it 'can list all patch title source_name_ids' do
+    source_name_ids = JSS::PatchTitle.all_source_name_ids
+    source_name_ids.must_be_instance_of Array
+    break if source_name_ids.empty?
+    source_name_ids.first.must_be_instance_of String
   end
 
   it 'can list source_ids in use' do
@@ -87,32 +87,53 @@ describe JSS::PatchTitle do
     srcids.first.must_be_kind_of Integer
   end
 
-  it 'can be made' do
-    # calling tt the first time does a #make
-    tt.name == JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+  it 'cannot be made without a source and name_id' do
+    proc {
+      JSS::PatchTitle.make name: JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
+    }.must_raise JSS::MissingDataError
+
+    proc {
+      JSS::PatchTitle.make name: JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME,
+      source: 'Foobar'
+    }.must_raise JSS::MissingDataError
+
+    proc {
+      JSS::PatchTitle.make name: JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME,
+      name_id: 'Foobar'
+    }.must_raise JSS::MissingDataError
   end
 
-  it 'must have a source_id before a name_id' do
-    proc { tt.name_id = JSSTestHelper::PatchMgmt.name_id }.must_raise JSS::MissingDataError
+  it 'must check that the source exists' do
+    proc {
+      JSS::PatchTitle.make(
+        name: JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME,
+        source: 'Foobar',
+        name_id: 'FoobarNoSuchNameId'
+      )
+    }.must_raise JSS::NoSuchItemError
   end
 
   it 'must check that the name_id is available in the source' do
-    tt.source_id = 1
-    proc { tt.name_id = 'NoSuchNameId-IsincerelyHope' }.must_raise JSS::NoSuchItemError
+    proc {
+      JSS::PatchTitle.make(
+        name: JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME,
+        source: JSSTestHelper::PatchMgmt::PATCH_TITLE_SOURCE,
+        name_id: 'FoobarNoSuchNameId'
+      )
+    }.must_raise JSS::NoSuchItemError
   end
 
-  it 'cannot be created without a name_id' do
-    proc { tt.create }.must_raise JSS::MissingDataError
+  it 'can be made with name, source, and name_id' do
+    tt.must_be_instance_of JSS::PatchTitle
   end
 
-  it 'can be created with a name_id' do
-    tt.name_id = JSSTestHelper::PatchMgmt.name_id
+  it 'can be created' do
     tt.create
     JSS::PatchTitle.all_names(:refresh).must_include JSSTestHelper::PatchMgmt::PATCH_TITLE_NAME
     tt.in_jss.must_be_instance_of TrueClass
   end
 
-  it 'can be fetched by name' do
+  it 'can be fetched by souce and name_id' do
     id = tt.id
     JSSTestHelper::PatchMgmt.title(:refetch)
     tt.id.must_equal id

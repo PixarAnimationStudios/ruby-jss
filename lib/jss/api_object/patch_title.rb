@@ -36,8 +36,20 @@ module JSS
   # attribute, a Hash of versions keyed by the version string. The values are
   # JSS::PatchTitle::Version objects.
   #
-  # Use the patch_report method on the PatchTitle class, an instance of it, or
-  # a PatchTitle::Version, to retrieve a report of computers with a
+  # When creating/activating new Patch Titles, with .make, a unique name:, a
+  # source: and a name_id: must be provided - the source must be the name or id
+  # of an existing PatchSource, and the name_id must be offered by that source.
+  # Once created, the source_id and name_id cannot be changed.
+  #
+  # When fetching titles, they can be fetched by id:, source_name_id:, or both
+  # source: and name_id:
+  #
+  # WARNING: While they can be fetched by name, beware: the JSS does not enforce
+  # unique names of titles even thought ruby-jss does. If there are duplicates
+  # of the name you fetch, which one you get is undefined.
+  #
+  # Use the patch_report class or instance method, or
+  # PatchTitle::Version.patch_report, to retrieve a report of computers with a
   # specific version of the title installed, or :all, :latest, or :unknown
   # versions. Reports called on the class or an instance default to :all
   # versions, and are slower to retrieve than a specific version,
@@ -123,9 +135,6 @@ module JSS
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
     VALID_DATA_KEYS = %i[notifications name_id source_id].freeze
 
-    # can be looked up by these as well as id and name
-    OTHER_LOOKUP_KEYS = { name_id: { rsrc_key: :name_id, list: :all_name_ids } }.freeze
-
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
@@ -155,7 +164,10 @@ module JSS
     # source_id: parameter, which limites the results to
     # patch titles with the specified source_id.
     #
-    # ALSO, JAMF BUG: More broken json - the id is coming as a string.
+    # Also - since the combined source_id and name_id are unique, create an
+    # identifier key ':source_name_id' by joining them with '-'
+    #
+    # JAMF BUG: More broken json - the id is coming as a string.
     # so here we turn it into an integer manually :-(
     # Ditto for source_id
     #
@@ -163,6 +175,7 @@ module JSS
       data = super refresh, api: api
       data.each do |info|
         info[:id] = info[:id].to_i
+        info[:source_name_id] = "#{info[:source_id]}-#{info[:name_id]}"
         info[:source_id] = info[:source_id].to_i
       end
       return data unless source_id
@@ -185,12 +198,6 @@ module JSS
       all(refresh, source_id: source_id, api: api).map { |i| i[:id] }
     end
 
-    # @return [Array<String>] all 'name_id' values for active patches
-    #
-    def self.all_name_ids(refresh = false, source_id: nil, api: JSS.api)
-      all(refresh, source_id: source_id, api: api).map { |i| i[:name_id] }
-    end
-
     # Returns an Array of unique source_ids used by active Patches
     #
     # e.g. if there are patches that come from one internal source
@@ -208,6 +215,12 @@ module JSS
     #
     def self.all_source_ids(refresh = false, api: JSS.api)
       all(refresh, api: api).map { |i| i[:source_id] }.sort.uniq
+    end
+
+    # @return [Array<String>] all 'source_name_id' values for active patches
+    #
+    def self.all_source_name_ids(refresh = false, api: JSS.api)
+      all(refresh, api: api).map { |i| i[:source_name_id] }
     end
 
     # Get a patch report for a softwaretitle, withouth fetching an instance.
@@ -283,19 +296,48 @@ module JSS
     end
     private_class_method :patch_report_rsrc
 
-    # for some reason, patch titles can't be fetched by name.
-    # only by id. SO, look up the id if given a name.
+    # Patch titles only have an id-based GET resource in the API.
+    # so all other lookup values have to be converted to ID before
+    # the call to super
     #
-    def self.fetch(identifier = nil, id: nil, name: nil, name_id: nil, api: JSS.api)
-      return super identifier, api: api if identifier
-      return super id: id, api: api if id
+    def self.fetch(identifier = nil, **params)
+      # default api
+      api = params[:api] ? params[:api] : JSS.api
 
-      id = valid_id name if name
-      id = valid_id name_id if name_id
-      raise NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found" unless id
+      # source: and source_id: are considered the same, source_id: wins
+      params[:source_id] ||= params[:source]
 
-      super id: id, api: api if id
+      # if given a source name, this converts it to an id
+      params[:source_id] = JSS::PatchSource.valid_id params[:source_id]
 
+      # build a possible source_name_id
+      params[:source_name_id] ||= "#{params[:source_id]}-#{params[:name_id]}"
+
+      id =
+        if identifier
+          valid_id identifier
+        elsif params[:id]
+          all_ids.include?(params[:id]) ? params[:id] : nil
+        elsif params[:source_name_id]
+          map_all_ids_to(:source_name_id).invert[params[:source_name_id]]
+        elsif params[:name]
+          map_all_ids_to(:name).invert[params[:name]]
+        end
+
+      raise JSS::NoSuchItemError, "No matching #{name} found" unless id
+
+      super id: id, api: api
+    end
+
+    # Override the {APIObject.valid_id}, since patch sources are so non-standard
+    # Accept id, source_name_id, or name.
+    # Note name may not be unique, and if not, ymmv
+    #
+    def self.valid_id(ident, refresh = false, api: JSS.api)
+      id = all_ids(refresh, api: api).include?(ident) ? ident : nil
+      id ||= map_all_ids_to(:source_name_id).invert[ident]
+      id ||= map_all_ids_to(:name).invert[ident]
+      id
     end
 
     # Attributes
@@ -309,6 +351,9 @@ module JSS
     #   for this title
     attr_reader :source_id
 
+    # @return [String] the source_id and name_id joined by '-', a unique identifier
+    attr_reader :source_name_id
+
     # @return [Boolean] Are new patches announced in the JSS web ui?
     attr_reader :web_notification
     alias web_notification? web_notification
@@ -317,17 +362,31 @@ module JSS
     attr_reader :email_notification
     alias email_notification? email_notification
 
-    # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
-    #   this title, keyed by version string
-    attr_reader :versions
-
-    # PatchTitles may be fetched by name: or id:
     #
     def initialize(**args)
       super
 
-      @name_id = @init_data[:name_id]
-      @source_id = @init_data[:source_id]
+      if in_jss
+        @name_id = @init_data[:name_id]
+        @source_id = @init_data[:source_id]
+      else
+        # source: and source_id: are considered the same, source_id: wins
+        @init_data[:source_id] ||= @init_data[:source]
+
+        raise JSS::MissingDataError, 'source: and name_id: must be provided' unless @init_data[:name_id] && @init_data[:source_id]
+
+        @source_id = JSS::PatchSource.valid_id(@init_data[:source_id])
+
+        raise JSS::NoSuchItemError, "No Patch Sources match '#{@init_data[:source]}'" unless source_id
+
+        @name_id = @init_data[:name_id]
+
+        valid_name_id = JSS::PatchSource.available_name_ids(@source_id).include? @name_id
+
+        raise JSS::NoSuchItemError, "source #{@init_data[:source]} doesn't offer name_id '#{@init_data[:name_id]}'" unless valid_name_id
+      end
+
+      @source_name_id = "#{@source_id}-#{@name_id}"
 
       @init_data[:notifications] ||= {}
       notifs = @init_data[:notifications]
@@ -342,6 +401,16 @@ module JSS
 
       @changed_pkgs = []
     end
+
+    # @return [Hash{String => JSS::PatchTitle::Version}] The JSS::PatchVersions fetched for
+    #   this title, keyed by version string
+    def versions
+      return @versions unless in_jss
+      return @versions unless @versions.empty?
+      # if we are in jss, and versions is empty, re-fetch them
+      @versions = self.class.fetch(id: id).versions
+    end
+
 
     # @return [Hash] Subset of @versions, containing those which have packages
     #   assigned
@@ -382,33 +451,14 @@ module JSS
       @need_to_update = true
     end
 
-    def source_id=(new_id)
-      sid = JSS::PatchSource.valid_patch_source_id new_id
-      raise JSS::NoSuchItemError, "No active Patch Sources matche '#{new_id}'" unless sid
-      return if sid == source_id
-      @source_id = sid
-      @need_to_update = true
-    end
-
-    def name_id=(new_id)
-      return if new_id == name_id
-      raise JSS::MissingDataError, 'source_id must be set before setting name_id' if source_id.to_s.empty?
-      raise JSS::NoSuchItemError, "source_id #{source_id} doesn't offer name_id '#{new_id}'" unless JSS::PatchSource.available_name_ids(source_id).include? new_id
-      @name_id = new_id
-      @need_to_update = true
-    end
-
     # wrapper to fetch versions after creating
     def create
-      validate_for_saving
       response = super
-      @versions = self.class.fetch(id: id).versions
       response
     end
 
     # wrapper to clear @changed_pkgs after updating
     def update
-      validate_for_saving
       response = super
       @changed_pkgs.clear
       response
@@ -438,10 +488,6 @@ module JSS
 
     #################################
     private
-
-    def validate_for_saving
-      raise JSS::MissingDataError, 'PatchTitles must have valid source_id and name_id' if source_id.to_s.empty? || name_id.to_s.empty?
-    end
 
     # Return the REST XML for this title, with the current values,
     # for saving or updating.

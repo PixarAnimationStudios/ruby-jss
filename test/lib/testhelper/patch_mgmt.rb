@@ -32,6 +32,7 @@ module JSSTestHelper
     EXT_SRC_PORT = 8843
 
     PATCH_TITLE_NAME = 'rubyjss-testPatchTitle'.freeze
+    PATCH_TITLE_SOURCE = 'Jamf'.freeze
 
     PATCHCPOL_NAME = 'rubyjss-testPatchPolicy'.freeze
 
@@ -67,9 +68,9 @@ module JSSTestHelper
       return @title if @title
       @title =
         if JSS::PatchTitle.all_names.include? PATCH_TITLE_NAME
-          JSS::PatchTitle.fetch name: PATCH_TITLE_NAME
+          JSS::PatchTitle.fetch source: PATCH_TITLE_SOURCE, name_id: name_id
         else
-          JSS::PatchTitle.make name: PATCH_TITLE_NAME
+          JSS::PatchTitle.make name: PATCH_TITLE_NAME, source: PATCH_TITLE_SOURCE, name_id: name_id
         end
     end
 
