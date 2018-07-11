@@ -28,7 +28,10 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
 - add: JSS::PatchSource metaclass and the subclassses JSS::PatchInternalSource, and JSS::PatchExternalSource. These provide acecss to the patchavailabletitles enpoint, which is needed to acquire name_id's for creating/activating JSS::PatchTitles
 
-- add: JSS::PatchTitle, which also gives access to the patchreports endpoint. Also uses the JSS::PatchTitle::Version class to handle patch versions within a title, and assign packages to them.
+- add: JSS::PatchTitle, which also gives access to the patchreports endpoint. Also uses the JSS::PatchTitle::Version class to handle patch versions within a title, and assign packages to them. **WARNING**: ruby-jss will now allow duplicate 'display names' (the #name of the JSS::PatchTitle instance) - but the Jamf Web UI will allow duplicates. If you have duplicates, and retrieve PatchTitles by name, which one gets returned to you is undefined.
+
+  - The 'source_id' and 'name_id' of a patch title are, when combined, a unique identifier in the JSS (i.e. name_id's are unique within sources) As such, the PatchTitle.all list provides a :source_name_id key, which is a String made by joining the two values with a '-', e.g. '1-GoogleChrome'.  This value can be used as a lookup for .fetch, e.g. `JSS::PatchTitle.fetch source_name_id: '1-GoogleChrome'`. There is also a matching .all_source_name_ids method, and the .map_all_ids_to() method takes :source_name_id as a mapping parameter. You can also use .fetch and .make with both source: (id or name) and  name_id: specified.
+
 
 - add: JSS::PatchPolicy. PatchPolicies are creatable when providing an active PatchTitle and an appropriate PatchTitle::Version that has a package assigned to it.
 
