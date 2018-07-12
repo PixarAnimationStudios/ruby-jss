@@ -210,7 +210,7 @@ module JSS
       @api.timeout = 1800
       @api.open_timeout = 1800
       begin
-        requery = self.class.new(id: @id)
+        requery = self.class.fetch(id: @id)
         @search_results = requery.search_results
         @result_display_keys = requery.result_display_keys
       ensure

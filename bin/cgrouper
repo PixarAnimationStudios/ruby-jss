@@ -207,9 +207,9 @@ class App
 
      # get the group from the API
       if @options.action == :create_group
-        @group = JSS::ComputerGroup.new :id => :new, :name => @options.group, :type => :static
+        @group = JSS::ComputerGroup.make :name => @options.group, :type => :static
       else
-        @group = JSS::ComputerGroup.new :name => @options.group
+        @group = JSS::ComputerGroup.fetch :name => @options.group
       end
 
     end # if ACTIONS_NEEDING_GROUP

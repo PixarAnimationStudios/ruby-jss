@@ -157,8 +157,8 @@ Some classes can use more than just the :id and :name keys for lookups, e.g. com
 
 You can even fetch objects without specifying the kind of identifier, e.g. `JSS::Computer.fetch 3241`, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.
 
-*NOTE*: A class's '.fetch' method is now the preferred method to use for retrieving existing objects.
-The '.new' method still works as before, but is deprecated for object retrieval and doing so may raise errors in the future. See below for using .make to create new objects in the JSS.
+*NOTE*: For APIObject subclasses, the '.fetch' class method is now the required method to use for retrieving existing objects
+from the API. The '.new' method no longer works. See below for using .make to create new objects in the JSS.
 
 --------
 
@@ -185,7 +185,9 @@ Then use the #create method to create it in the JSS. The #save method is an alia
 new_pkg.create # returns 453, the id number of the object just created
 ```
 
-*NOTE*: A class's '.make' method is now the preferred method to use for creating new objects. The '.new id: :new' method still works as before, but is deprecated for object creation and doing so may raise errors in the future.
+*NOTE*: For APIObject subclasses, the '.make' class method is now the required method to use for making ruby instances to be
+created in the JSS. The '.new' method no longer works.
+
 
 --------
 

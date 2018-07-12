@@ -148,7 +148,7 @@ module JSS
       @init_data[:general][:fields].each{|f| @fields[f[:name]] = f[:value] }
 
       ### get the field defs for this PeriphType, omitting the leading nil
-      @field_defs ||= JSS::PeripheralType.new(:name => @type).fields.compact
+      @field_defs ||= JSS::PeripheralType.fetch(:name => @type).fields.compact
 
 
     end # initialize
@@ -269,7 +269,7 @@ module JSS
     ###
     def check_field(field, value)
       ### get the field defs for this PeriphType, omitting the leading nil
-      @field_defs ||= JSS::PeripheralType.new(:name => @type, api: @api).fields.compact
+      @field_defs ||= JSS::PeripheralType.fetch(:name => @type, api: @api).fields.compact
 
       ### we must have the right number of fields, and they must have the same names
       ### as the definition

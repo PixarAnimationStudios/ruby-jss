@@ -322,8 +322,7 @@ Notes:
       end # if noop
 
       ender = @use_cidr ? :cidr : :ending_address
-      new_seg = JSS::NetworkSegment.new(
-        :id => :new,
+      new_seg = JSS::NetworkSegment.make(
         :name => seg,
         :starting_address => seg_data[:starting],
         ender => seg_data[:ending]
@@ -339,7 +338,7 @@ Notes:
         puts "Without --no-op this would: Delete segment named '#{seg}',"
         next
       end # if noop
-      JSS::NetworkSegment.new(name: seg).delete
+      JSS::NetworkSegment.fetch(name: seg).delete
       puts "Deleted Network Segment '#{seg}' from the JSS"
     end #  @segments_to_delete.each do |seg|
   end # delete_segments
@@ -354,7 +353,7 @@ Notes:
                    IPAddr.new(seg_data[:ending])
                  end
 
-      this_seg = JSS::NetworkSegment.new name: seg
+      this_seg = JSS::NetworkSegment.fetch name: seg
       data_range = data_start..data_end
       next if this_seg.range == data_range
 

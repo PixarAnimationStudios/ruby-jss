@@ -98,7 +98,7 @@ module JSS
     #
     def site_object
       return nil unless site_assigned?
-      JSS::Site.new id: @site_id
+      JSS::Site.fetch id: @site_id
     end # cat obj
 
     # Does this object have a site assigned?

@@ -172,7 +172,7 @@ module JSS
     def create
       new_invitation_id = super
 
-      jss_me = ComputerInvitation.new(id: new_invitation_id, name: 'set_by_request')
+      jss_me = ComputerInvitation.fetch(id: new_invitation_id, name: 'set_by_request')
       @name = jss_me.name
       @invitation_type = jss_me.invitation_type
       @create_account_if_does_not_exist = jss_me.create_account_if_does_not_exist

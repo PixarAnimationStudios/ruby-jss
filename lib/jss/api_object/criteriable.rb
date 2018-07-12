@@ -81,7 +81,7 @@ module JSS
   ###   crta = JSS::Criteriable::Criteria.new [crtn_0, crtn_1]
   ###
   ###   # create a new Advanced Search
-  ###   srch = JSS::AdvancedComputerSearch.new :id => :new, :name => "my computer search"
+  ###   srch = JSS::AdvancedComputerSearch.make, :name => "my computer search"
   ###   srch.display_fields = ["Computer Name"]
   ###
   ###   # add our Criteria to it

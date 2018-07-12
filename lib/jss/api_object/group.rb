@@ -106,7 +106,7 @@ module JSS
     # Constructor
     #####################################
 
-    # When creating a new group in the JSS, you must call .new with a :type key
+    # When creating a new group in the JSS, you must call .make with a :type key
     # and a value of :smart or :static, as well as a :name and the :id => :new
     #
     # @see JSS::APIObject
