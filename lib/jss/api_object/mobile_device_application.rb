@@ -424,7 +424,7 @@ module JSS
     #
     def upload_ipa(path)
       new_ipa = Pathname.new path
-      upload(:app, new_icon)
+      upload(:app, new_ipa)
       refresh_ipa
     end
 
