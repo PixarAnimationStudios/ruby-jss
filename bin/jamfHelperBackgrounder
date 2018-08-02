@@ -40,8 +40,6 @@
 # == Author
 #   Chris Lasell <chrisl@pixar.com>
 #
-# == Copyright
-#   Copyright (c) 2017 Pixar Animation Studios
 ##############################
 
 require 'ruby-jss'

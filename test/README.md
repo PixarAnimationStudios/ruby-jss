@@ -48,7 +48,7 @@ See below for the help output
 
 -  The JSSTestHelper module also provides ways for tests to share data.
 
- - The runtesst command will run the spec files listed on the command line, or all of them if none are listed.
+ - The runtests command will run the spec files listed on the command line, or all of them if none are listed.
  - The tests are run verbosely, so you can see what tests are being run.
  - Some tests are interactive - they will ask you to make choices about what's happening.
 
@@ -70,11 +70,11 @@ As a reminder, if you connect to the same server that's listed in your /etc/ruby
 
  ### The Spec Files
 
- Each spec file defines one or more MiniTest::Spec, each one being a 'describe SomeClass' block, containing methods and individual tests in 'it' blocks.
+ Each spec file defines one or more MiniTest::Spec's, each one being a 'describe SomeClass' block, containing methods and individual tests in 'it' blocks.
 
  If you plan to write any tests, please read up on how to write MiniTest Specs.
 
-However, here's some info that wasn't obvious when I first started, and makes life much easier when writing specs:
+ However, here's some info that wasn't obvious when I first started, and makes life much easier when writing specs:
 
  - the 'describe' blocks eventually become classes
    - you can do anything inside them that you would do in a class definition.
@@ -82,7 +82,7 @@ However, here's some info that wasn't obvious when I first started, and makes li
  - the 'it' blocks are run one at a time, each in a separate instance of the class defined by the 'describe' block.
  - by default, the 'it' blocks are run in a random order. See below if you need them to run in the defined order.
 
- All of the above means that you can use constants, class methods, class-instance variables and instance methods in concert for passing things between the individual tests.
+ All of the above means that you can use constants, class methods, class-instance variables and instance methods in concert for processing and passing things between the individual tests.
 
 ### Running tests in order
 
@@ -99,7 +99,6 @@ If you need the tests to run in order within a 'describe' block, then define thi
        end
 
 The presence of that method will cause MiniTest to run them in the order defined.
-
 
 ### Help output from 'runtests -H'
 

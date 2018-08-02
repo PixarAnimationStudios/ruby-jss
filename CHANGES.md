@@ -10,7 +10,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
   As of Jamf Pro 10.5. the server requires TLSv1.2 and will not accept connections using TLSv1.
 
-  **IMPORTANT:** MacOS 10.12 and lower have an old version of the openssl library, used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.
+  **IMPORTANT:** MacOS 10.12 and lower have an old version of the openssl library which used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.
 
   If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.
 
@@ -20,7 +20,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
   If you have 10.12 or older machines that must connect to newer Jamf Pro servers with ruby-jss, there are a few options.
 
-  - upgade the machines to 10.13
+  - upgade the machines to 10.13 or higher
   - install a newer openssl, then install a your own ruby using that openssl (both can be done with homebrew)
   - do the above, then extract the openssl library and modify it to work with the built-in ruby.
 
@@ -52,7 +52,6 @@ Finally we're going to version 1.0, which we should have done when we went opens
 - add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, it's wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
 
 - misc: as Apple says: various bugfixes and improvements.
-
 
 ## v 0.14.0, 2018-05-30
 

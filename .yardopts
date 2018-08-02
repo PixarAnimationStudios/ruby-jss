@@ -1,4 +1,4 @@
---title "The JSS API Ruby Gem - access to the Casper Suite API"
+--title "ruby-jss: access to the Jamf Pro 'Classic' API"
 --readme README.md
 --embed-mixins
 -
