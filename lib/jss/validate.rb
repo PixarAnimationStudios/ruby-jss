@@ -42,16 +42,21 @@ module JSS
     #
     # @param val[String] The value to validate
     #
+    # @param msg[String] A custom error message when the value is invalid
+    #
     # @return [String] The valid value
     #
-    def self.mac_address(val)
-      raise JSS::InvalidDataError, "Not a valid MAC address: '#{val}'" unless val =~ MAC_ADDR_RE
+    def self.mac_address(val, msg = nil)
+      msg ||= "Not a valid MAC address: '#{val}'"
+      raise JSS::InvalidDataError, msg unless val =~ MAC_ADDR_RE
       val
     end
 
     # Validate the format and content of an IPv4 address
     #
     # @param val[String] The value to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
     #
     # @return [String] The valid value
     #
@@ -78,6 +83,10 @@ module JSS
     #
     # @param val[Object] The value to check for uniqueness
     #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @param api[JSS::APIConnection] The api connection to use for validation
+    #
     # @return [Object] the validated unique value
     #
     def self.unique_identifier(klass, identifier, val, msg = nil, api: JSS.api)
@@ -94,6 +103,8 @@ module JSS
     # TODO: use this throughout ruby-jss
     #
     # @param bool [Boolean,String,Symbol] The value to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
     #
     # @return [Boolean] the valid boolean
     #
@@ -112,6 +123,8 @@ module JSS
     #
     # @param val[Object] the value to validate
     #
+    # @param msg[String] A custom error message when the value is invalid
+    #
     # @return [void]
     #
     def self.integer(val, msg = nil)
@@ -124,6 +137,8 @@ module JSS
     # validate that the given value is a non-empty string
     #
     # @param val [Object] the thing to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
     #
     # @return [String] the valid non-empty string
     #
