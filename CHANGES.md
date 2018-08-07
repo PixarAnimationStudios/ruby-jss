@@ -1,16 +1,22 @@
 # Change History
 
-## v 1.0.0b2, 2018-06-x26
+## v 1.0.0, 2018-08-10
 
 Finally we're going to version 1.0, which we should have done when we went opensource. Future releases will try to adhere to [Semantic Versioning](https://semver.org/) as described in the [rubygems.org guidelines](https://guides.rubygems.org/patterns/#semantic-versioning)
 
+**IMPORTANT** This version is not backward compatible with 0.x version. Please read the details below and test your code before deploying widely.
+
+
+
 - requirement: Jamf Pro API version must be 10.4 or higher
 
-- Defaults to using TLSv1.2 for API connections.
+- change: defaults to using TLSv1.2 for API connections.
 
   As of Jamf Pro 10.5. the server requires TLSv1.2 and will not accept connections using TLSv1.
 
-  **IMPORTANT:** MacOS 10.12 and lower have an old version of the openssl library which used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.
+  **COMPATIBILITY:**
+
+  MacOS 10.12 and lower have an old version of the openssl library which used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.
 
   If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.
 
@@ -47,9 +53,19 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
 - add: regex options to JSS::Criteriable::Criterion objects
 
-- remove: the .new class method on APIObject subclasses no longer works. Even though it's the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use .fetch to instantiate existing objects and .make to instantiate local instances of objects to be created in the JSS.
+- remove: the .new class method on APIObject subclasses no longer works. Even though it's the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use the .fetch class method to instantiate existing objects and the .make class method to instantiate local instances of objects to be created in the JSS.
+
+  **COMPATIBILITY:**
+
+  `existingcomp = JSS::Computer.new id: 1234` and `new_pol = JSS::Policy.new id: :new, name: 'mypolicy'` will now raise an error.
+
+  Instead you must use `existingcomp = JSS::Computer.fetch id: 1234` and `new_pol = JSS::Policy.make name: 'mypolicy'`
+
+  Note that the instance methods #create (create the current instance as a new object in the JSS) and #update (send changes in the current instance to the JSS) remain unchanged, and both continue handled by #save
 
 - add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, it's wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
+
+- add: JSS::Client now has a .management_action class method, which wraps around the 'Management Action.app' tool that comes with Jamf Pro and creates Notification Center notifications. At the moment support is minimal, and the notification type (alert vs. banner) is up to the User.
 
 - misc: as Apple says: various bugfixes and improvements.
 
