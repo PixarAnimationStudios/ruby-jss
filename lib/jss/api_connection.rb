@@ -336,6 +336,7 @@ module JSS
 
     # @return [Boolean] are we connected right now?
     attr_reader :connected
+    alias connected? connected
 
     # @return [JSS::Server] the details of the JSS to which we're connected.
     attr_reader :server
@@ -509,7 +510,9 @@ module JSS
     def get_rsrc(rsrc, format = :json)
       # puts object_id
       validate_connected
+
       raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
+
       # TODO: fix what rubocop is complaining about in the line below.
       # (I doubt we want to CGI.escape the whole resource)
       rsrc = URI.encode rsrc
@@ -628,9 +631,6 @@ module JSS
       srvr ||= JSS::Client.jss_server
       srvr
     end
-
-    # aliases
-    alias connected? connected
     alias host hostname
 
     #################
