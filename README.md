@@ -27,13 +27,13 @@
 
 ## DESCRIPTION
 
-The ruby-jss project provides a Ruby module called JSS, which is used for accessing the REST API of
+ruby-jss defines a Ruby module called JSS, which is used for accessing the 'classic' REST API of
 the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple
 devices from [Jamf.com](http://www.jamf.com/). It is available as a
 [rubygem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
-The module abstracts API resources as Ruby objects, and provides methods for interacting with those
+The module abstracts many API resources as Ruby objects, and provides methods for interacting with those
 resources. It also provides some features that aren't a part of the API itself, but come with other
 Jamf-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution
 point, and the installation of {JSS::Package} objects on client machines. (See [BEYOND THE API](#beyond-the-api))
@@ -46,7 +46,6 @@ We've implemented the things we need in our environment, and as our needs grow, 
 Hopefully others will find it useful, and add more to it as well.
 
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
-
 
 ## SYNOPSIS
 
@@ -242,6 +241,7 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 * {JSS::ComputerExtensionAttribute}
 * {JSS::ComputerGroup}
 * {JSS::Department}
+* {JSS::DistributionPoint}
 * {JSS::MobileDeviceApplication}
 * {JSS::MobileDeviceExtensionAttribute}
 * {JSS::MobileDeviceGroup}
@@ -260,6 +260,10 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 * {JSS::Computer}
 * {JSS::MobileDevice}
 * {JSS::Policy} (still not fully implemented)
+* {JSS::PatchInternalSource}
+* {JSS::PatchExternalSource}
+* {JSS::PatchTitle}
+* {JSS::PatchPolicy}
 
 **NOTE** Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
@@ -370,26 +374,6 @@ While the Jamf Pro API provides access to object data in the JSS, this gem tries
 * Extension Attributes
   * {JSS::ExtensionAttribute} work with {JSS::AdvancedSearch} subclasses to provide extra reporting about Ext. Attrib. values.
 
-## REQUIREMENTS
-
-ruby-jss was written for:
-
-* Mac OS X 10.9 or higher
-* Ruby 2.0 or higher
-* Casper Suite version 9.4 or higher
-
-It also requires these gems, which will be installed automatically if you install JSS with `gem install jss`
-
-* rest-client >=1.6.7  ( >= 1.7.0 with Casper >= 9.6.1) http://rubygems.org/gems/rest-client
-* json or json\_pure >= 1.6.5 http://rubygems.org/gems/json or http://rubygems.org/gems/json_pure
-  * (only in ruby 1.8.7.  Ruby >= 1.9 has json in its standard library)
-* ruby-mysql >= 2.9.12 http://rubygems.org/gems/ruby-mysql
-  * (only for a few things that still require direct SQL access to the JSS database)
-* plist =3.1.0 http://rubygems.org/gems/plist
-  * for the {JSS::Composer} module and {JSS::Client} class
-* net-ldap >= 0.3.1 http://rubygems.org/gems/net-ldap
-  * for accessing the LDAP servers defined in the JSS, to check for user and group info.
-
 ## INSTALL
 
 NOTE: You may need to install XCode, and it's CLI tools, in order to install the required gems.
@@ -398,10 +382,23 @@ In general, you can install ruby-jss with this command:
 
 `gem install ruby-jss`
 
+## REQUIREMENTS
+
+ruby-jss was written for:
+
+* Mac OS X 10.9 or higher
+* Ruby 2.0 or higher
+* Casper Suite version 10.4 or higher
+
+It also requires other ruby gems, which will be installed automatically if you install with `gem install ruby-jss`
+See the .gemspec file for details
+
 
 ## HELP
 
-Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/)
+Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/).
+
+There's a [wiki on the github page](https://github.com/PixarAnimationStudios/ruby-jss/wiki), feel free to contribute examples and tidbits.
 
 [Email the developers](mailto:ruby-jss@pixar.com)
 
