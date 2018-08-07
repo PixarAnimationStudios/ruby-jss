@@ -295,7 +295,7 @@ module JSS
       return identifier if all_ids(refresh, api: api).include? identifier
       all_lookup_keys.keys.each do |key|
         next if key == :id
-        id = map_all_ids_to(key).invert[identifier]
+        id = map_all_ids_to(key, api: api).invert[identifier]
         return id if id
       end # do key
       nil
@@ -996,7 +996,7 @@ module JSS
 
       raise JSS::MissingDataError, "Args must include a lookup key, one of: :#{lookup_keys.join(', :')}" unless lookup_key
 
-      vid = self.class.valid_id args[lookup_key], :refresh
+      vid = self.class.valid_id args[lookup_key], :refresh, api: args[:api]
 
       raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found with #{lookup_key} '#{args[lookup_key]}'" unless vid
 
