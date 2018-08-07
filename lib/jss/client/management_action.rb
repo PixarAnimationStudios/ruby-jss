@@ -63,8 +63,8 @@ module JSS
 
     # Skipping all the force-alerts stuff until we figure out cleaner
     # ways to do it in 10.13+
-    # The plan is to make the NotificationCenter notification always be an
-    # 'alert' (which stays visible til the user clicks) rather than a
+    # The plan is to be able to make the NotificationCenter notification be an
+    # 'alert' (which stays visible til the user clicks) or a
     # 'banner' (which vanishes in a few seconds), regardless of the user's
     # setting in the NC prefs.
 
