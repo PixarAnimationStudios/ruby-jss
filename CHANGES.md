@@ -6,8 +6,6 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
 **IMPORTANT** This version is not backward compatible with 0.x version. Please read the details below and test your code before deploying widely.
 
-
-
 - requirement: Jamf Pro API version must be 10.4 or higher
 
 - change: defaults to using TLSv1.2 for API connections.
@@ -29,6 +27,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
   - upgade the machines to 10.13 or higher
   - install a newer openssl, then install a your own ruby using that openssl (both can be done with homebrew)
   - do the above, then extract the openssl library and modify it to work with the built-in ruby.
+
 
   If you have questions about this, feel free to reach out to ruby-jss@pixar.com, or in the #ruby or #jss-api channels in MacAdmins slack space, for some advice.
 
@@ -53,7 +52,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
 - add: regex options to JSS::Criteriable::Criterion objects
 
-- remove: the .new class method on APIObject subclasses no longer works. Even though it's the standard ruby way to create instances of a class, it was confusing, since it implied creating new objects in the JSS.  Instead you must now use the .fetch class method to instantiate existing objects and the .make class method to instantiate local instances of objects to be created in the JSS.
+- remove: the .new class method on APIObject subclasses no longer works. Even though it's the standard ruby way to create instances of a class, `.new` for APIObjects was confusing, since it implied creating new objects in the JSS.  Instead you must now use the `.fetch` class method to instantiate existing objects and the `.make` class method to instantiate local instances of objects to be created in the JSS. Both .fetch and .make have existed for some time.
 
   **COMPATIBILITY:**
 
@@ -61,7 +60,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
   Instead you must use `existingcomp = JSS::Computer.fetch id: 1234` and `new_pol = JSS::Policy.make name: 'mypolicy'`
 
-  Note that the instance methods #create (create the current instance as a new object in the JSS) and #update (send changes in the current instance to the JSS) remain unchanged, and both continue handled by #save
+  Note that the instance methods `#create` (create the current instance as a new object in the JSS) and `#update` (send changes in the current instance to the JSS) remain unchanged, and both continue handled by `#save`
 
 - add: there is now a, sort-of, spec/testing framework. While based on ruby's minitest specifications, it's wrapped in a very custom executable with a helper module. See the README in the test directory for details.  Specs will be added slowly over time.
 
