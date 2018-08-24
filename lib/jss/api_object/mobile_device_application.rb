@@ -197,8 +197,8 @@ module JSS
       general = @init_data[:general]
       @display_name = general[:display_name]
       @description = general[:description]
-      @bundle_id = general[:bundle_id] # TODO: does this get set automatically when uploading a .ipa?
-      @version = general[:version] # TODO: does this get set automatically when uploading a .ipa?
+      @bundle_id = general[:bundle_id]
+      @version = general[:version]
       @ipa = general[:ipa]
       @provisioning_profile = general[:provisioning_profile]
       @url = general[:url]
@@ -357,6 +357,30 @@ module JSS
       @need_to_update = true
     end
 
+    # Sets the version (only necessary if you are hosting the .ipa externally)
+    #
+    # @param new_val[String] the version
+    #
+    # @return [void]
+    #
+    def version=(new_val)
+      return nil if new_val == @version
+      @version = new_val
+      @need_to_update = true
+    end
+
+    # Sets the bundle_id (only necessary if you are hosting the .ipa externally)
+    #
+    # @param new_val[String] the bundle id
+    #
+    # @return [void]
+    #
+    def bundle_id=(new_val)
+      return nil if new_val == @bundle_id
+      @bundle_id = new_val
+      @need_to_update = true
+    end
+
     # Set whether or not this app's .ipa is hosted outside the Jamf server
     #
     # @param new_val[Boolean] The new value
@@ -457,6 +481,8 @@ module JSS
       gen.add_element('free').text = @free
       gen.add_element('take_over_management').text = @take_over_management
       gen.add_element('host_externally').text = @host_externally
+      gen.add_element('bundle_id').text = @bundle_id if @host_externally
+      gen.add_element('version').text = @version if @host_externally
       gen.add_element('external_url').text = @external_url
       config = gen.add_element('configuration')
       config.add_element('preferences').text = @configuration_prefs
