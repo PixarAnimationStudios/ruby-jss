@@ -1,5 +1,9 @@
 # Change History
 
+## v 1.0.1, 2018-08-27
+
+- add:  `JSS::MobileDeviceApplication#version=` and `#bundle_id=` These two attributes are now settable and will be saved to the server if the application is hosted externally. Thanks to [ctaintor](https://github.com/ctaintor) for providing this patch.
+
 ## v 1.0.0, 2018-08-10
 
 Finally we're going to version 1.0, which we should have done when we went opensource. Future releases will try to adhere to [Semantic Versioning](https://semver.org/) as described in the [rubygems.org guidelines](https://guides.rubygems.org/patterns/#semantic-versioning)
