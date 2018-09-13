@@ -1,4 +1,4 @@
-# ruby-jss: Working with the Jamf Pro API in Ruby
+# ruby-jss: Working with the Jamf Pro Classic API in Ruby
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
 ### Table of contents
@@ -354,7 +354,7 @@ JSS.api.connect pw: password   # other arguments used from the config settings
 
 ## BEYOND THE API
 
-While the Jamf Pro API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
+While the Jamf Pro Classic API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
 
 * Client Machine Access
   * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts
