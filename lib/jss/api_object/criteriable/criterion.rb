@@ -96,7 +96,7 @@ module JSS
       #  This is maintained automaticaly by the enclosing Criteria object
       attr_accessor :priority
 
-      # @return [Symbol] :and or :or - the and_or value for associating this criterion with the previous one
+      # @return [Symbol] :and or :or - the and_or value for associating this criterion with the previous one, defaults to :and
       attr_reader :and_or
 
       # @return [String] the name of the field being searched
@@ -109,7 +109,12 @@ module JSS
       # @return [String] the value being searched for in the field named by :name
       attr_reader :value
 
-      #
+      # @return [Boolean] Is there an opening paren before this criterion
+      attr_reader :opening_paren
+
+      # @return [Boolean] Is there a closing paren after this criterion
+      attr_reader :closing_paren
+
       # @param args[Hash] a hash of settings for the new criterion
       # @option args :and_or [String, Symbol] :and, or :or. How should this criterion be join with its predecessor?
       # @option args :name [String] the name of a Criterion as is visible in the JSS webapp.
@@ -131,10 +136,21 @@ module JSS
           @search_type = args[:search_type]
         end
 
+        # from the API, parens come like this
+        @opening_paren = args[:opening_paren]
+        @closing_paren = args[:closing_paren]
+
+        # but from a user, they might come as a single :paren key, which
+        # will be handled by the setter below
+        send 'paren=', args[:paren] if args.key? :paren
+
+        # default to false
+        @opening_paren ||= false
+        @closing_paren ||= false
+
         @value = args[:value]
       end # init
 
-      #
       # Set a new and_or for the criteron
       #
       # @param new_val[Symbol] the new and_or
@@ -146,7 +162,27 @@ module JSS
         raise JSS::InvalidDataError, ":and_or must be 'and' or 'or'." unless AND_OR.include? @and_or.to_sym
       end
 
+      # set the parenthesis for the criteria
       #
+      # @param side[Symbol] :opening, :closing, or nil to remove
+      #
+      # @return [void]
+      def paren=(new_val)
+        case new_val
+        when :opening
+          @opening_paren = true
+          @closing_paren = false
+        when :closing
+          @opening_paren = false
+          @closing_paren = true
+        when nil
+          @opening_paren = false
+          @closing_paren = false
+        else
+          raise JSS::InvalidDataError, 'paren must be :opening, :closing, or nil.'
+        end
+      end
+
       # Set a new search type for the criteron
       #
       # @param new_val[String] the new search type
@@ -158,7 +194,6 @@ module JSS
         @search_type = new_val
       end
 
-      #
       # Set a new value for the criteron
       #
       # @param new_val[Integer,String] the new value
@@ -179,7 +214,6 @@ module JSS
         @value = new_val
       end
 
-      #
       # @return [String] All our values except priority joined together
       #   for comparing this Criterion to another for equality and order
       #
@@ -189,7 +223,6 @@ module JSS
         [@and_or, @name, @search_type, @value].join ','
       end
 
-      #
       # Comparison - allows the Comparable module to do its work
       #
       # @return [Integer]  -1, 0, or 1
@@ -200,7 +233,6 @@ module JSS
         signature <=> other.signature
       end
 
-      #
       # @api private
       #
       # @return [REXML::Element] The xml element for the criterion, to be embeded in that of
@@ -215,6 +247,8 @@ module JSS
         crn.add_element('name').text = @name
         crn.add_element('search_type').text = @search_type
         crn.add_element('value').text = @value
+        crn.add_element('opening_paren').text = @opening_paren ? 'true' : 'false'
+        crn.add_element('closing_paren').text = @closing_paren ? 'true' : 'false'
         crn
       end
 
