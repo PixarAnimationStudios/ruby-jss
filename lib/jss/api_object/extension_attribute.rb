@@ -290,7 +290,7 @@ module JSS
       raise JSS::InvalidDataError, 'Invalid search_type, see JSS::Criteriable::Criterion::SEARCH_TYPES' unless JSS::Criteriable::Criterion::SEARCH_TYPES.include? search_type.to_s
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.new api: @api, id: :new, name: "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
+        acs = search_class.make api: @api, name: "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
         acs.display_fields = [@name]
         crit_list = [JSS::Criteriable::Criterion.new(and_or: 'and', name: @name, search_type: search_type.to_s, value: desired_value)]
         acs.criteria = JSS::Criteriable::Criteria.new crit_list
@@ -308,7 +308,7 @@ module JSS
           results << { id: i[:id], name: i[:name], value: value }
         end
       ensure
-        acs.delete
+        acs.delete if acs.is_a? self.class::TARGET_CLASS::SEARCH_CLASS
       end
       results
     end # Return an Array of Hashes showing the most recent value
