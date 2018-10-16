@@ -71,7 +71,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'recursive-open-struct', '~> 1.1', '>= 1.1.0'
 
   # Rdoc
-  s.has_rdoc = true
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
 end
