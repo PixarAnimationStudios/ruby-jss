@@ -1,5 +1,11 @@
 # Change History
 
+## v 1.0.2 2018-10-16
+
+- add: Support for parentheses (opening_paren and closing_paren) in JSS::Criteriable::Criterion objects
+- add: Support for patch-related criterion comparisons "greater than", "less than",  "greater than or equal",  "less than or equal"
+- fix: a couple lingering calls to `.new` on APIObject classes, now `.fetch`
+
 ## v 1.0.1, 2018-08-27
 
 - add:  `JSS::MobileDeviceApplication#version=` and `#bundle_id=` These two attributes are now settable and will be saved to the server if the application is hosted externally. Thanks to [ctaintor](https://github.com/ctaintor) for providing this patch.

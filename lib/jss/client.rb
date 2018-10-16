@@ -195,7 +195,7 @@ module JSS
     # @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
     #
     def self.jss_record
-      JSS::Computer.new udid: udid
+      JSS::Computer.fetch udid: udid
     rescue JSS::NoSuchItemError
       nil
     end
