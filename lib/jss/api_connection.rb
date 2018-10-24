@@ -425,6 +425,7 @@ module JSS
     # @return [true]
     #
     def connect(args = {})
+      args[:no_port_specified] = args[:port].to_s.empty?
       args = apply_connection_defaults args
 
       # confirm we know basics
@@ -993,7 +994,7 @@ module JSS
     # @return [Hash] The args with defaults applied
     #
     def apply_module_defaults(args)
-      args[:port] ||= args[:server].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : SSL_PORT
+      args[:port] = args[:server].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : SSL_PORT if args[:no_port_specified]
       args[:timeout] ||= DFT_TIMEOUT
       args[:open_timeout] ||= DFT_OPEN_TIMEOUT
       args[:ssl_version] ||= DFT_SSL_VERSION
