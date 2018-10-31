@@ -90,28 +90,58 @@ module JSS
     #
     # @param user[String] a username to search for in all LDAP servers
     #
-    # @return [Boolean] does the user exist in any LDAP server?
+    # @param api[JSS::APIConnection] the API connection to use for the search#
+
+    # @return [Integer, nil] the id of the first LDAP server with the user,
+    #  nil if not found
     #
-    def self.user_in_ldap?(user, api: JSS.api)
+    def self.server_for_user(user, api: JSS.api)
       all_objects(:refresh, api: api).each do |ldap|
         next if ldap.find_user(user, :exact).empty?
-        return true
+        return ldap.id
       end
-      false
+      nil
+    end
+
+    # For Backward Compatibility,
+    #
+    # @param user[String] a username to search for in all LDAP servers
+    #
+    # @param api[JSS::APIConnection] the API connection to use for the search
+    #
+    # @return [Boolean] Does the user exist in any LDAP server?
+    #
+    def self.user_in_ldap?(user, api: JSS.api)
+      server_for_user(user, api: api) ? true : false
     end
 
     # Does a group exist in any ldap server?
     #
     # @param group[String] a group to search for in all LDAP servers
     #
-    # @return [Boolean] does the group exist in any LDAP server?
+    # @param api[JSS::APIConnection] the API connection to use for the search
     #
-    def self.group_in_ldap?(group, api: JSS.api)
+    # @return [Integer, nil] the id of the first LDAP server with the group,
+    #  nil if not found
+    #
+    def self.server_for_group(group, api: JSS.api)
       all_objects(:refresh, api: api).each do |ldap|
         next if ldap.find_group(group, :exact).empty?
-        return true
+        return ldap.id
       end
-      false
+      nil
+    end
+
+    # For Backward Compatibility,
+    #
+    # @param user[String] a group name to search for in all LDAP servers
+    #
+    # @param api[JSS::APIConnection] the API connection to use for the search
+    #
+    # @return [Boolean] Does the group exist in any LDAP server?
+    #
+    def self.group_in_ldap?(group, api: JSS.api)
+      server_for_group(group, api: api) ? true : false
     end
 
     # On a given server, does a given group contain a given user?
