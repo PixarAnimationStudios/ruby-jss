@@ -245,7 +245,8 @@ module JSS
     #
     def self.primary_console_user
       `#{CONSOLE_USERS_SCUTIL_CMD}` =~ /^\s*Name : (\S+)$/
-      Regexp.last_match(1) == LOGINWINDOW_USER ? nil : user
+      user = Regexp.last_match(1)
+      user == LOGINWINDOW_USER ? nil : user
     end
 
     # alias for primary_console_user
