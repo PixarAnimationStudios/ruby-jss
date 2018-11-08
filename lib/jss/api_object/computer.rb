@@ -415,9 +415,7 @@ module JSS
       end_date ||= start_date
       start_date = Time.parse start_date if start_date.is_a? String
       end_date = Time.parse end_date if end_date.is_a? String
-      unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
-        raise JSS::InvalidDataError, 'Invalid Start or End Date'
-      end
+      raise JSS::InvalidDataError, 'Invalid Start or End Date' unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
       start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
       end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
       data = api.get_rsrc(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
@@ -720,6 +718,16 @@ module JSS
     #
     attr_reader :software
 
+    # @return [Array<Hash>] Data about all the certificates on the computer.
+    #
+    # Each Hash represents a certificate and has these keys:
+    #  common_name: [String] the name of the cert
+    #  identity: [Boolean] Is this an identiry cert?
+    #  expires: [Time] the certificate expiration time
+    #  name: [String] Display name for the certificate, if any
+    #
+    attr_reader :certificates
+
     # Constructor
     #####################################
 
@@ -763,11 +771,19 @@ module JSS
         @sus = @init_data[:general][:sus]
 
         @configuration_profiles = @init_data[:configuration_profiles]
-        @certificates = @init_data[:certificates]
+
         @groups_accounts = @init_data[:groups_accounts]
         @hardware = @init_data[:hardware]
         @peripherals = @init_data[:peripherals]
         @software = @init_data[:software]
+        @certificates = @init_data[:certificates].map do |cert|
+          {
+            expires: JSS.epoch_to_time(cert[:expires_epoch]),
+            common_name: cert[:common_name],
+            identity: cert[:identity],
+            name: cert[:name]
+          }
+        end
 
         # Freeze immutable things.
         # These are updated via recon, and aren't sent
@@ -956,7 +972,6 @@ module JSS
       @unmange_at_update = true
     end
 
-    #
     def asset_tag=(new_val)
       return nil if @asset_tag == new_val
       new_val.strip!
@@ -964,7 +979,6 @@ module JSS
       @need_to_update = true
     end
 
-    #
     def barcode1=(new_val)
       return nil if @barcode1 == new_val
       new_val.strip!
@@ -972,7 +986,6 @@ module JSS
       @need_to_update = true
     end
 
-    #
     def barcode2=(new_val)
       return nil if @barcode2 == new_val
       new_val.strip!
@@ -980,35 +993,30 @@ module JSS
       @need_to_update = true
     end
 
-    #
     def ip_address=(new_val)
       return nil if @ip_address == new_val
       @ip_address = new_val.empty? ? new_val : JSS::Validate.ip_address(new_val)
       @need_to_update = true
     end
 
-    #
     def mac_address=(new_val)
       return nil if new_val == @mac_address
       @mac_address =  new_val.empty? ? new_val : JSS::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
-    #
     def alt_mac_address=(new_val)
       return nil if new_val == @alt_mac_address
       @alt_mac_address = new_val.empty? ? new_val : JSS::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
-    #
     def serial_number=(new_val)
       return nil if new_val == @serial_number
       @serial_number =  new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :serial_number, new_val, api: api)
       @need_to_update = true
     end
 
-    #
     def udid=(new_val)
       return nil if new_val == @udid
       @udid = new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :udid, new_val, api: api)
