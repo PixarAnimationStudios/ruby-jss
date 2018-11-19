@@ -23,17 +23,7 @@
 #
 #
 
-#
 module JSS
-
-  # Module Constants
-  #####################################
-
-  # Module Variables
-  #####################################
-
-  # Module Methods
-  #####################################
 
   # Classes
   #####################################
@@ -69,13 +59,13 @@ module JSS
     RSRC_OBJECT_KEY = :package
 
     # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:fill_existing_users, :fill_user_template, :reboot_required].freeze
+    VALID_DATA_KEYS = %i[fill_existing_users fill_user_template reboot_required].freeze
 
     # The pkg storage folder on the distribution point
     DIST_POINT_PKGS_FOLDER = 'Packages'.freeze
 
     # The possible values for cpu_type (required_processor) in a JSS package
-    CPU_TYPES = %w(None x86 ppc).freeze
+    CPU_TYPES = %w[None x86 ppc].freeze
 
     # the possible priorities
     PRIORITIES = (1..20)
@@ -102,7 +92,6 @@ module JSS
 
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = String
-
 
     # Class Methods
     #####################################
@@ -293,7 +282,7 @@ module JSS
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      $stderr.puts 'WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename.' if @in_jss
+      warn 'WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename.' if @in_jss
       @filename = new_val
       @need_to_update = true
     end
@@ -556,7 +545,6 @@ module JSS
           zipfile = zipdir + (local_path_to_upload.basename.to_s + '.zip')
 
           raise 'There was a problem zipping the pkg bundle' unless system "/usr/bin/zip -qr '#{zipfile}' '#{local_path_to_upload}'"
-
         ensure
           # rename the source to the original name
           local_path_to_upload.rename local_path if local_path_to_upload.exist? && local_path_to_upload != local_path
