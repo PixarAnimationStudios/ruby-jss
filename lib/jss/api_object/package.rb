@@ -104,11 +104,71 @@ module JSS
     CATEGORY_DATA_TYPE = String
 
 
-    ### Class Variables
-    #####################################
-
     ### Class Methods
     #####################################
+
+    # An array of all dist-point filenames used by all JSS packages
+    #
+    # Slow cuz we have to instantiate every pkg
+    #
+    # @param api[JSS::APIConnection] an API connection to use
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<String>] The current file names
+    #
+    def self.all_filenames(api: JSS.api)
+      pkgs_in_use = []
+      all_ids.each { |pkg_id| pkgs_in_use << fetch(id: pkg_id, api: api).filename }
+      pkgs_in_use.compact
+    end
+
+    # An array of String filenames for all files DIST_POINT_PKGS_FOLDER
+    # that aren't used by a JSS::Package
+    #
+    # Slow cuz we have to instantiate every pkg
+    #
+    # @param ro_pw[String] the password for the readonly account
+    #  on the master Distribution Point,
+    #
+    # @param unmount[Boolean] whether or not ot unount the
+    #   distribution point when finished.
+    #
+    # @param api[JSS::APIConnection] an API connection to use
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<String>] The orphaned files
+    #
+    def self.orphaned_files(ro_pw, unmount = true, api: JSS.api)
+      mdp = JSS::DistributionPoint.master_distribution_point api: api
+      pkgs_dir = mdp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
+      files_on_mdp = pkgs_dir.children.map { |f| f.basename.to_s }
+      mdp.unmount if unmount
+      files_on_mdp - all_filenames(api: api)
+    end
+
+    # An array of String filenames for all filenames in any
+    # JSS::Package that don't exist on DIST_POINT_PKGS_FOLDER
+    #
+    # Slow cuz we have to instantiate every pkg
+    #
+    # @param ro_pw[String] the password for the readonly account
+    #  on the master Distribution Point,
+    #
+    # @param unmount[Boolean] whether or not ot unount the
+    #   distribution point when finished.
+    #
+    # @param api[JSS::APIConnection] an API connection to use
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Array<String>] The orphaned files
+    #
+    def self.missing_files(ro_pw, unmount = true, api: JSS.api)
+      mdp = JSS::DistributionPoint.master_distribution_point api: api
+      pkgs_dir = mdp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
+      files_on_mdp = pkgs_dir.children.map { |f| f.basename.to_s }
+      mdp.unmount if unmount
+      all_filenames(api: api) - files_on_mdp
+    end
 
     ### Attributes
     #####################################
