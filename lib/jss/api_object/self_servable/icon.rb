@@ -144,7 +144,11 @@ module JSS
         # decode the icon data, or grab from
         # the URI if needed
         @data = Base64.decode64(@data) if @data
-        @data ||= open(@uri).read if @uri
+        begin
+          @data ||= open(@uri).read if @uri
+        rescue OpenURI::HTTPError
+          @data = nil
+        end
 
       end
 
