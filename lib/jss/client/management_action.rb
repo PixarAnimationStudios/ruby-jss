@@ -26,7 +26,7 @@
 ###
 module JSS
 
-  #
+  # jamf client computer
   class Client
 
     #  Constants

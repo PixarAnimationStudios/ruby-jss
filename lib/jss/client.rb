@@ -75,6 +75,9 @@ module JSS
     # the ps command used to figure out who's running Self Service
     PS_USER_COMM = 'ps -A -o user,comm'.freeze
 
+    # the path to a users byhost folder from home
+    USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'
+
     # Class Methods
     #####################################
 
@@ -245,7 +248,8 @@ module JSS
     #
     def self.primary_console_user
       `#{CONSOLE_USERS_SCUTIL_CMD}` =~ /^\s*Name : (\S+)$/
-      Regexp.last_match(1) == LOGINWINDOW_USER ? nil : user
+      user = Regexp.last_match(1)
+      user == LOGINWINDOW_USER ? nil : user
     end
 
     # alias for primary_console_user
@@ -261,6 +265,31 @@ module JSS
     def self.self_service_users
       ss_userlines = `#{PS_USER_COMM}`.lines.select { |l| l.include? SELF_SERVICE_EXECUTABLE_END }
       ss_userlines.map { |ssl| ssl.split(' ').first }
+    end
+
+    # @param user[String, nil] The user to query, the current user if nil.
+    #
+    # @return [Boolean, nil] Is 'Do Not Disturb' enabled for the user?
+    #  nil if unknown/not-applicable
+    #
+    def self.do_not_disturb?(user = nil)
+      home = user ? homedir(user) : Dir.home
+      myudid = udid
+      nc_prefs_file = Pathname.new "#{home}/#{USER_PREFS_BYHOST_FOLDER}/com.apple.notificationcenterui.#{myudid}.plist"
+      return nil unless nc_prefs_file.readable?
+      JSS.parse_plist(nc_prefs_file)['doNotDisturb']
+    end
+
+    # The home dir of the specified user, nil if
+    # no homedir in local dscl.
+    #
+    # @param user[String] the user whose homedir to look up
+    #
+    # @return [Pathname, nil] The user's homedir or nil if no such user
+    #
+    def self.homedir(user)
+      dir = `/usr/bin/dscl . -read /Users/#{user} NFSHomeDirectory 2>/dev/null`.chomp.split(': ').last
+      dir ? Pathname.new(dir) : nil
     end
 
   end # class Client
