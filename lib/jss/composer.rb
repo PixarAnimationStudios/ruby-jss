@@ -49,7 +49,7 @@ module JSS
     PKGBUILD = Pathname.new '/usr/bin/pkgbuild'
 
     ### the default bundle identifier prefix for pkgs
-    PKG_BUNDLE_ID_PFX = 'jss_gem_composer'.freeze
+    PKG_BUNDLE_ID_PFX = 'ruby-jss-composer'.freeze
 
     ### Apple's hdiutil for making dmgs
     HDI_UTIL = '/usr/bin/hdiutil'.freeze
