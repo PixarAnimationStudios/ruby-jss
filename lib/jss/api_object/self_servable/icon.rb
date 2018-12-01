@@ -145,8 +145,8 @@ module JSS
         # the URI if needed
         @data = Base64.decode64(@data) if @data
         begin
-          @data ||= open(@uri).read if @uri
-        rescue OpenURI::HTTPError
+          @data ||= URI.parse(@uri).read if @uri
+        rescue
           @data = nil
         end
 
