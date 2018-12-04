@@ -290,8 +290,8 @@ Options:
 
 Notes:
 
- - If no API settings are provided, they will be read from /etc/jss_gem.conf
-   and ~/.jss_gem.conf. See the JSS Gem docs for details.
+ - If no API settings are provided, they will be read from /etc/ruby-jss.conf
+   and ~/.ruby-jss.conf. See the ruby-jss docs for details.
 
  - The password for the connection will be read from STDIN or prompted if needed
 
@@ -307,7 +307,7 @@ Notes:
    (spaces, tabs, & returns in any number or combination)
 
     FULLHELP
-    return
+
   end
 
   #####################################
