@@ -578,17 +578,16 @@ module JSS
     # * :uuid => the ConfigurationProfile uuid
     #
     attr_reader :configuration_profiles
-    
+
     # @return [Array<Hash>]
     #
     # A Hash for each Certificate on the computer
     #
     # The Hash keys are:
-    # * :common_name
-    # * :identity
-    # * :expires_utc
-    # * :expires_epoch
-    # * :name
+    # * :common_name [String] the name of the cert
+    # * :identity [Boolean] Is this an identiry cert?
+    # * :expires [Time] the certificate expiration time
+    # * :name[String] Display name for the certificate, if any
     #
     attr_reader :certificates
 
@@ -730,16 +729,6 @@ module JSS
     # * :unix_executables => DEPRECATED
     #
     attr_reader :software
-
-    # @return [Array<Hash>] Data about all the certificates on the computer.
-    #
-    # Each Hash represents a certificate and has these keys:
-    #  common_name: [String] the name of the cert
-    #  identity: [Boolean] Is this an identiry cert?
-    #  expires: [Time] the certificate expiration time
-    #  name: [String] Display name for the certificate, if any
-    #
-    attr_reader :certificates
 
     # Constructor
     #####################################
