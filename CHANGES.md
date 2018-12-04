@@ -1,5 +1,16 @@
 # Change History
 
+## v 1.0.2b1 2018-12-04
+
+- fix: default port number choice for on-prem vs. JamfCloud connections
+- update: use new(er) API resources for LDAP lookups, don't go directly to LDAP via net/ldap
+- add: LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
+- fix Client.primary_console_user returns nil when at the loginwindow
+- add: Client.homdir(user) and Client.do_not_disturb?(user)
+- fix: Computer#certificates attribute is now readable
+- add: Package.all_filenames, .orphaned_files, and .missing_files class methods. WARNING - these are very slow since they must instantiate every package.
+- fix: error when SelfService icon is not available where expected, returns nil instead. (Thanks to @cybertunnel for finding this)
+
 ## v 1.0.2 2018-10-16
 
 - add: Support for parentheses (opening_paren and closing_paren) in JSS::Criteriable::Criterion objects
