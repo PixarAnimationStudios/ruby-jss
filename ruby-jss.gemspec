@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   EOD
   s.name        = proj_name
   s.version     = JSS::VERSION
-  s.license     = 'Apache-2.0 WITH Modifications'
+  s.license     = 'NonStandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST API'
   s.authors     = ['Chris Lasell', 'Aurica Hayes']
