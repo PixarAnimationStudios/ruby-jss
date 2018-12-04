@@ -7,7 +7,7 @@
 - add: LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
 - fix Client.primary_console_user returns nil when at the loginwindow
 - add: Client.homdir(user) and Client.do_not_disturb?(user)
-- fix: Computer#certificates attribute is now readable
+- fix: Computer#certificates attribute is now readable (Thanks to @Nick Taylor and @Lulu-sheng)
 - add: Package.all_filenames, .orphaned_files, and .missing_files class methods. WARNING - these are very slow since they must instantiate every package.
 - fix: error when SelfService icon is not available where expected, returns nil instead. (Thanks to @cybertunnel for finding this)
 

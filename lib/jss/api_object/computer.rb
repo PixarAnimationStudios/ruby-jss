@@ -578,6 +578,19 @@ module JSS
     # * :uuid => the ConfigurationProfile uuid
     #
     attr_reader :configuration_profiles
+    
+    # @return [Array<Hash>]
+    #
+    # A Hash for each Certificate on the computer
+    #
+    # The Hash keys are:
+    # * :common_name
+    # * :identity
+    # * :expires_utc
+    # * :expires_epoch
+    # * :name
+    #
+    attr_reader :certificates
 
     # @return [Hash]
     #
