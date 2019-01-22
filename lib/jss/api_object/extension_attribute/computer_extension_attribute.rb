@@ -307,9 +307,6 @@ module JSS
       FROM extension_attribute_values eav JOIN reports r ON eav.report_id = r.report_id
       WHERE r.computer_id = #{computer_id}
         AND eav.extension_attribute_id = #{@id}
-        AND eav.value_on_client != ''
-        AND eav.value_on_client IS NOT NULL
-        AND eav.value_on_client != '(null)'
       ORDER BY timestamp_epoch
       END_Q
 
