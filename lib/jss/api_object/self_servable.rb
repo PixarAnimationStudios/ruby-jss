@@ -177,10 +177,12 @@ module JSS
         notifications_supported: :ssvc_and_nctr,
         notification_reminders: true
       },
-      JSS::MacApplication => { # TODO: add the correct values when Jamf fixes this bug
-        in_self_service_data_path: nil, # [:general, :distribution_method],
-        in_self_service: nil, # MAKE_AVAILABLE,
-        not_in_self_service: nil, # AUTO_INSTALL_OR_PROMPT,
+      JSS::MacApplication => {
+        # in_self_service_data_path was finally implemnted in JamfPro 10.9
+        # Jamf Product Issue [PI-003773]
+        in_self_service_data_path: [:general, :deployment_type],
+        in_self_service: MAKE_AVAILABLE,
+        not_in_self_service: AUTO_INSTALL_OR_PROMPT,
         targets: [:macos],
         payload: :app,
         can_display_in_categories: true,
