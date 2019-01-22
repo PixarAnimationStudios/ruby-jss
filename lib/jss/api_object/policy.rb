@@ -403,7 +403,7 @@ module JSS
     attr_reader :recon
     alias update_inventory recon
 
-    # Shouls this policy fix the ByHost prefs?
+    # Should this policy fix the ByHost prefs?
     # @return [Boolean] client maintenance task
     attr_reader :fix_byhost
 
