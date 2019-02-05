@@ -344,6 +344,9 @@ module JSS
     # @return [String] the hostname of the JSS to which we're connected.
     attr_reader :server_host
 
+    # @return [String] any path in the URL below the hostname. See {#connect}
+    attr_reader :server_path
+
     # @return [Integer] the port used for the connection
     attr_reader :port
 
@@ -396,11 +399,19 @@ module JSS
     # Instance Methods
     #####################################
 
-    # Connect to the JSS API.
+    # Connect to the JSS Classic API.
     #
     # @param args[Hash] the keyed arguments for connection.
     #
     # @option args :server[String] the hostname of the JSS API server, required if not defined in JSS::CONFIG
+    #
+    # @option args :server_path[String] If your JSS is not at the root of the server, e.g.
+    #   if it's at
+    #     https://myjss.myserver.edu:8443/dev_mgmt/jssweb
+    #   rather than
+    #     https://myjss.myserver.edu:8443/
+    #   then use this parameter to specify the path below the root e.g:
+    #     server_path: 'dev_mgmt/jssweb'
     #
     # @option args :port[Integer] the port number to connect with, defaults to 8443
     #
@@ -1053,18 +1064,26 @@ module JSS
     # @return [String] The URI encoded URL
     #
     def build_rest_url(args)
+      @server_host = args[:server]
+      @port = args[:port].to_i
+
+      if args[:server_path]
+        # remove leading & trailing slashes in serverpath if any
+        @server_path = args[:server_path].sub %r{^/*(.*?)/*$}, Regexp.last_match(1)
+        # re-add single trailing slash
+        @server_path << '/'
+      end
+
       # we're using ssl if:
       #  1) args[:use_ssl] is anything but false
       # or
-      #  2) the port is the default casper ssl port.
-      (args[:use_ssl] = (args[:use_ssl] != false)) || (args[:port] == SSL_PORT)
+      #  2) the port is a known ssl port.
+      args[:use_ssl] = args[:use_ssl] != false || SSL_PORTS.include?(@port)
 
-      # and here's the URL
       @protocol = 'http'
       @protocol << 's' if args[:use_ssl]
-      @server_host = args[:server]
-      @port = args[:port].to_i
-      URI.encode "#{@protocol}://#{@server_host}:#{@port}/#{RSRC_BASE}"
+      # and here's the URL
+      "#{@protocol}://#{@server_host}:#{@port}/#{@server_path}#{RSRC_BASE}"
     end
 
     # From whatever was given in args[:pw], figure out the real password
