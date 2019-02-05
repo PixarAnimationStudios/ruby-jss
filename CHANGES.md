@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Package.all_filenames, .orphaned_files, and .missing_files class methods. WARNING - these are very slow since they must instantiate every package.
 
+- The JSS::APIConnection.connect method, used for making all classic API connections, now takes a `server_path:` parameter.
+  If your JSS is not at the root of the server, e.g. if it's at
+    `https://myjss.myserver.edu:8443/dev_mgmt/jssweb/`
+  rather than
+    `https://myjss.myserver.edu:8443/`
+  then use this parameter to specify the path below the root e.g:
+    `JSS.api.connect server: 'myjss.myserver.edu', server_path: 'dev_mgmt/jssweb', port: 8443 [...]`
+  (Thanks @christopher.kemp!)
+
 ### Fixed
 - default port number choice for on-prem vs. JamfCloud connections
 
@@ -20,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Computer#certificates attribute is now readable (Thanks to @Nick Taylor and @Lulu-sheng)
 
 - error when SelfService icon is not available where expected, returns nil instead. (Thanks to @cybertunnel for finding this)
+
+- JSS::Script.category now returns category name, not nil. (Thanks @cybertunnel for this one too!)
 
 ### Changed
 - This file reformatted based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
