@@ -124,9 +124,6 @@ module JSS
     ### @return [String] the notes field for this script
     attr_reader :notes
 
-    ### @return [String] the category of this script, stored in the JSS as the id number from the categories table
-    attr_reader :category
-
     ### @return [Hash] script parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username
     attr_reader :parameters
 
