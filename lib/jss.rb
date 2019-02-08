@@ -162,7 +162,6 @@ module JSS
   class NetBootServer < JSS::APIObject; end
   class NetworkSegment < JSS::APIObject; end
   class Package < JSS::APIObject; end
-  class Patch < JSS::APIObject; end
   class PatchPolicy < JSS::APIObject; end
   class PeripheralType < JSS::APIObject; end
   class Peripheral < JSS::APIObject; end
