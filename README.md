@@ -238,17 +238,24 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 * {JSS::AdvancedUserSearch}
 * {JSS::Building}
 * {JSS::Category}
+* {JSS::Computer}
 * {JSS::ComputerExtensionAttribute}
 * {JSS::ComputerGroup}
 * {JSS::Department}
 * {JSS::DistributionPoint}
+* {JSS::MobileDevice}
 * {JSS::MobileDeviceApplication}
 * {JSS::MobileDeviceExtensionAttribute}
 * {JSS::MobileDeviceGroup}
 * {JSS::NetworkSegment}
 * {JSS::Package}
+* {JSS::PatchTitle}
+* {JSS::PatchTitle::Version}
+* {JSS::PatchExternalSource}
+* {JSS::PatchPolicy}
 * {JSS::Peripheral}
 * {JSS::PeripheralType}
+* {JSS::Policy} (not fully implemented)
 * {JSS::RemovableMacAddress}
 * {JSS::RestrictedSoftware}
 * {JSS::Script}
@@ -257,19 +264,15 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 * {JSS::UserExtensionAttribute}
 * {JSS::UserGroup}
 * {JSS::WebHook}
-* {JSS::Computer}
-* {JSS::MobileDevice}
-* {JSS::Policy} (still not fully implemented)
-* {JSS::PatchInternalSource}
-* {JSS::PatchExternalSource}
-* {JSS::PatchTitle}
-* {JSS::PatchPolicy}
+
 
 **NOTE** Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
 ### Updatable, but must be created in the Web UI
 
 * {JSS::OSXConfigurationProfile}
+* {JSS::MobileDeviceConfigurationProfile}
+* {JSS::PatchInternalSource}
 
 ### Creatable only
 
@@ -288,7 +291,7 @@ These must be created and edited via the JSS WebApp
 
 All supported API Objects can be deleted
 
-Other useful classes & modules:
+#### Other useful classes & modules:
 
 * {JSS::APIConnection} - An object representing the connection to the REST API
 * {JSS::DBConnection} - An object representing the connection to MySQL database, if used.
@@ -297,6 +300,19 @@ Other useful classes & modules:
 * {JSS::ManagementHistory} - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine's history.
 * {JSS::Scopable} - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects.
 * {JSS::MDM} - a module that handles sending MDM commands to Computers and Mobile Devices
+
+## Object-related API endpoints
+
+The classic API provides many endpoints not just for objects stored in Jamd Pro, but also for accessing data *about* those  objects or interacting with the machines they represent. Ruby-jss embeds access to those endpoints into their related classes.
+
+For example:
+
+* /computerapplications, /computerapplicationusage, /computerhardwaresoftwarereports, /computerhistory, etc.
+  - The data provided by these endpoints are accessible via class and instance methods for {JSS::Computer}
+* /computercheckin, /computerinventorycollection
+  - These endpoints deal with server-wide settings regarding computer management, and are available via {JSS::Computer} class methods
+* /computercommands, /mobiledevicecommands, /commandflush, etc.
+  - These endpoints provide access to the MDM infrastructure, and can be used to send MDM commands. Ruby-jss provides these as class and instance methods in {JSS::Computer}, {JSS::ComputerGroup}, {JSS::MobileDevice}, and {JSS::MobileDeviceGroup}
 
 ## CONFIGURATION
 
@@ -348,13 +364,13 @@ And here's an example of how to read a password from a web server and use it.
 
 ```ruby
 require 'open-uri'
-password =  open('https://server.org.org/path/to/password').read
+password =  URI.parse('https://server.org.org/path/to/password').read
 JSS.api.connect pw: password   # other arguments used from the config settings
 ```
 
 ## BEYOND THE API
 
-While the Jamf Pro Classic API provides access to object data in the JSS, this gem tries to use that data to provide more than just information exchange. Here are some examples of how we use the API data to provide functionality found in various Casper tools:
+While the Jamf Pro Classic API provides access to object data in the JSS, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss use the API to provide functionality found in various Casper tools:
 
 * Client Machine Access
   * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts
@@ -367,8 +383,6 @@ While the Jamf Pro Classic API provides access to object data in the JSS, this g
   * {JSS::Package} objects can upload their .pkg or .dmg files to the master distribution point ({JSS::Script} objects can also if you store them there.)
 * Reporting/AdvancedSearch exporting
   * {JSS::AdvancedSearch} subclasses can export their results to csv, tab, and xml files.
-* LDAP Access
-  * {JSS::LDAPServer} objects can query the LDAP servers for user, group, and membership data.
 * MDM Commands
   * {JSS::MobileDevice}s (and eventually {JSS::Computer}s) can be sent MDM commands
 * Extension Attributes
@@ -376,7 +390,7 @@ While the Jamf Pro Classic API provides access to object data in the JSS, this g
 
 ## INSTALL
 
-NOTE: You may need to install XCode, and it's CLI tools, in order to install the required gems.
+NOTE: You may need to install XCode, or it's CLI tools, in order to install the required gems.
 
 In general, you can install ruby-jss with this command:
 
@@ -406,7 +420,6 @@ There's a [wiki on the github page](https://github.com/PixarAnimationStudios/rub
 
 ## LICENSE
 
-Copyright 2018 Pixar
+Copyright 2019 Pixar
 
-Licensed under the Apache License, Version 2.0 (the "Apache License") with
-modifications. See LICENSE.txt for details
+Licensed under the Apache License, Version 2.0 (the "Apache License") with modifications. See LICENSE.txt for details
