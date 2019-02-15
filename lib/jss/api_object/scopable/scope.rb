@@ -22,7 +22,6 @@
 #
 #
 
-#
 module JSS
 
   module Scopable
@@ -176,13 +175,13 @@ module JSS
       # If raw_scope is empty, a default scope, scoped to all targets, is created, and can be modified
       # as needed.
       #
-      # @param target_key[Symbol] the kind of thing we're scopeing, one of {TARGETS_AND_GROUPS}
+      # @param target_key[Symbol] the kind of thing we're scoping, one of {TARGETS_AND_GROUPS}
       #
       # @param raw_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
       #
       def initialize(target_key, raw_scope = nil)
         raw_scope ||= DEFAULT_SCOPE
-        raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.keys.include? target_key
+        raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.key?(target_key)
 
         @target_key = target_key
         @target_class = SCOPING_CLASSES[@target_key]
@@ -195,19 +194,28 @@ module JSS
         @all_key = "all_#{target_key}".to_sym
         @all_targets = raw_scope[@all_key]
 
-        # Everything gets mapped from an Array of Hashes to an Array of names (or an empty array)
-        # since names are all that really matter when submitting the scope.
+        # Everything gets mapped from an Array of Hashes to
+        # an Array of ids
         @inclusions = {}
-        @inclusion_keys.each { |k| @inclusions[k] = raw_scope[k] ? raw_scope[k].map { |n| n[:name] } : [] }
+        @inclusion_keys.each do |k|
+          raw_scope[k] ||= []
+          @inclusions[k] = raw_scope[k].map { |n| n[:id] }
+        end
 
         @limitations = {}
         if raw_scope[:limitations]
-          LIMITATIONS.each { |k| @limitations[k] = raw_scope[:limitations][k] ? raw_scope[:limitations][k].map { |n| n[:name] } : [] }
+          LIMITATIONS.each do |k|
+            raw_scope[:limitations][k] ||= []
+            @limitations[k] = raw_scope[:limitations][k].map { |n| n[:id] }
+          end
         end
 
         @exclusions = {}
         if raw_scope[:exclusions]
-          @exclusion_keys.each { |k| @exclusions[k] = raw_scope[:exclusions][k] ? raw_scope[:exclusions][k].map { |n| n[:name] } : [] }
+          @exclusion_keys.do |k|
+            raw_scope[:exclusions][k] ||= []
+            @exclusions[k] =  raw_scope[:exclusions][k].map { |n| n[:id] }
+          end
         end
 
         @container = nil
@@ -246,7 +254,7 @@ module JSS
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of items
       # being included, :computer, :building, etc...
       #
-      # @param list[Array] the names of the items being added
+      # @param list[Array]  identifiers of the items being added
       #
       # @example
       #   set_targets(:computers, ['kimchi','mantis'])
@@ -255,55 +263,53 @@ module JSS
       #
       def set_targets(key, list)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
-        raise JSS::InvalidDataError, "List must be an Array of #{key} names, it may be empty." unless list.is_a? Array
+        raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
+
+        # check the idents
+        list.map! do |ident|
+          item_id = SCOPING_CLASSES[key].valid_id ident
+          raise JSS::NoSuchItemError, "No existing #{key} matches '#{ident}'" unless item_id
+          raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{ident}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+          item_id
+        end # each
 
         return nil if list.sort == @inclusions[key].sort
-
-        # emptying the list?
-        if list.empty?
-          @inclusion[key] = list
-          # if ALL the @inclusion keys are empty, then set all targets to true.
-          @all_targets =  @inclusions.values.reject { |a| a.nil? || a.empty? }.empty?
-          @container.should_update if @container
-          return list
-        end
-
-        # check the names
-        list.each do |name|
-          raise JSS::NoSuchItemError, "No existing #{key} with name '#{name}'" unless check_name key, name
-          raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(name)
-        end # each
 
         @inclusions[key] = list
         @all_targets = false
         @container.should_update if @container
       end # sinclude_in_scope
+      alias set_target set_targets
       alias set_inclusion set_targets
+      alias set_inclusions set_targets
 
-      # Add a single item a a target in this scope.
+      # Add a single item as a target in this scope.
       #
-      # The item name will be checked for existence in the JSS, and an exception raised if the item doesn't exist.
+      # The item name will be checked for existence in the JSS, and an exception
+      #  raised if the item doesn't exist.
       #
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of item being added, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being added
+      # @param item[String,integer] a valid identifier of the item being added
       #
       # @example
-      #   add_target(:computer, "mantis")
+      #   add_target(:computers, "mantis")
+      #
+      # @example
+      #   add_target(:computer_groups, 2342)
       #
       # @return [void]
       #
       def add_target(key, item)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
-        return nil if @inclusions[key] && @inclusions[key].include?(item)
+        item_id = SCOPING_CLASSES[key].valid_id item
+        return if @inclusions[key] && @inclusions[key].include?(item_id)
 
-        # check the name
-        raise JSS::NoSuchItemError, "No existing #{key} with name '#{item}'" unless check_name key, item
-        raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item)
+        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
+        raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        @inclusions[key] << item
+        @inclusions[key] << item_id
         @all_targets = false
         @container.should_update if @container
       end
@@ -313,7 +319,7 @@ module JSS
       #
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of item being removed, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being removed
+      # @param item[String,integer] a valid identifier of the item being removed
       #
       # @example
       #   remove_target(:computer, "mantis")
@@ -322,14 +328,11 @@ module JSS
       #
       def remove_target(key, item)
         raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
-        return nil unless @inclusions[key] && @inclusions[key].include?(item)
+        item_id = SCOPING_CLASSES[key].valid_id item
 
-        @inclusions[key] -= [item]
-
-        # if ALL the @inclusion keys are empty, then set all targets to true.
-        @all_targets = @inclusions.values.reject { |a| a.nil? || a.empty? }.empty?
+        return unless @inclusions[key] && @inclusions[key].include?(item_id)
+        @inclusions[key].delete item_id
 
         @container.should_update if @container
       end
@@ -342,10 +345,10 @@ module JSS
       #
       # @param key[Symbol] the type of items being set as limitations, :network_segments, :users, etc...
       #
-      # @param list[Array] the names of the items being set as limitations
+      # @param list[Array] the identifiers of the items being set as limitations
       #
       # @example
-      #   set_limitation(:network_segments, ['foo','bar'])
+      #   set_limitation(:network_segments, ['foo',231])
       #
       # @return [void]
       #
@@ -353,24 +356,22 @@ module JSS
       #
       def set_limitation(key, list)
         raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
-        raise JSS::InvalidDataError, "List must be an Array of #{key} names, it may be empty." unless list.is_a? Array
-        return nil if list.sort == @limitations[key].sort
+        raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
-        if list.empty?
-          @limitations[key] = []
-          @container.should_update if @container
-          return list
-        end
-
-        # check the names
-        list.each do |name|
-          raise JSS::NoSuchItemError, "No existing #{key} with name '#{name}'" unless check_name key, name
-          raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(name)
+        # check the idents
+        list.map! do |ident|
+          item_id = SCOPING_CLASSES[key].valid_id ident
+          raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" unless item_id
+          raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+          item_id
         end # each
+
+        return nil if list.sort == @limitations[key].sort
 
         @limitations[key] = list
         @container.should_update if @container
-      end # limit scope
+      end # set_limitation
+      alias set_limitations set_limitation
 
       # Add a single item for limiting this scope.
       #
@@ -378,7 +379,7 @@ module JSS
       #
       # @param key[Symbol] the type of item being added, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being added
+      # @param item[String,integer] a valid identifier of the item being added
       #
       # @example
       #   add_limitation(:network_segments, "foo")
@@ -389,15 +390,15 @@ module JSS
       #
       def add_limitation(key, item)
         raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
-        return nil if @limitations[key] && @limitations[key].include?(item)
+        item_id = SCOPING_CLASSES[key].valid_id item
+        return nil if @limitations[key] && @limitations[key].include?(item_id)
 
         # check the name
-        raise JSS::NoSuchItemError, "No existing #{key} with name '#{item}'" unless check_name key, item
-        raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item)
+        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
+        raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        @limitations[key] << item
+        @limitations[key] << item_id
         @container.should_update if @container
       end
 
@@ -405,7 +406,7 @@ module JSS
       #
       # @param key[Symbol] the type of item being removed, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being removed
+      # @param item[String,integer] a valid identifier of the item being removed
       #
       # @example
       #   remove_limitation(:network_segments, "foo")
@@ -416,11 +417,11 @@ module JSS
       #
       def remove_limitation(key, item)
         raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
+        item_id = SCOPING_CLASSES[key].valid_id item
 
-        return nil unless @limitations[key] && @limitations[key].include?(item)
+        return nil unless @limitations[key] && @limitations[key].include?(item_id)
 
-        @limitations[key] -= [item]
+        @limitations[key].delete item_id
         @container.should_update if @container
       end ###
 
@@ -431,7 +432,7 @@ module JSS
       #
       # @param key[Symbol] the type of item being excluded, :computer, :building, etc...
       #
-      # @param list[Array] the names of the items being added
+      # @param list[Array] the identifiers of the items being set
       #
       # @example
       #   set_exclusion(:network_segments, ['foo','bar'])
@@ -440,25 +441,22 @@ module JSS
       #
       def set_exclusion(key, list)
         raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
-        raise JSS::InvalidDataError, "List must be an Array of #{key} names, it may be empty." unless list.is_a? Array
-        return nil if list.sort == @exclusions[key].sort
+        raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
-        if list.empty?
-          @exclusions[key] = []
-          @container.should_update if @container
-          return list
-        end
-
-        # check the names
-        list.each do |name|
-          raise JSS::NoSuchItemError, "No existing #{key} with name '#{name}'" unless check_name key, name
+        # check the idents
+        list.map! do |ident|
+          item_id = SCOPING_CLASSES[key].valid_id ident
+          raise JSS::NoSuchItemError, "No existing #{key} matches '#{ident}'" unless item_id
           case key
           when *@inclusion_keys
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{name}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(name)
+            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item_id)
           when *LIMITATIONS
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{name}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(name)
+            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item_id)
           end
+          item_id
         end # each
+
+        return nil if list.sort == @exclusions[key].sort
 
         @exclusions[key] = list
         @container.should_update if @container
@@ -470,7 +468,7 @@ module JSS
       #
       # @param key[Symbol] the type of item being added to the exclusions, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being added
+      # @param item[String,integer] a valid identifier of the item being added
       #
       # @example
       #   add_exclusion(:network_segments, "foo")
@@ -479,16 +477,16 @@ module JSS
       #
       def add_exclusion(key, item)
         raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
+        item_id = SCOPING_CLASSES[key].valid_id item
 
-        return nil if @exclusions[key] && @exclusions[key].include?(item)
+        return nil if @exclusions[key] && @exclusions[key].include?(item_id)
 
         # check the name
-        raise JSS::NoSuchItemError, "No existing #{key} with name '#{item}'" unless check_name key, item
+        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
         raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item)
         raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
 
-        @exclusions[key] << item
+        @exclusions[key] << item_id
         @container.should_update if @container
       end
 
@@ -496,7 +494,7 @@ module JSS
       #
       # @param key[Symbol] the type of item being removed from the excludions, :computer, :building, etc...
       #
-      # @param item[String] the name of the item being removed
+      # @param item[String,integer] a valid identifier of the item being removed
       #
       # @example
       #   remove_exclusion(:network_segments, "foo")
@@ -505,11 +503,12 @@ module JSS
       #
       def remove_exclusion(key, item)
         raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
-        raise JSS::InvalidDataError, "Item must be a #{key} name." unless item.is_a? String
 
-        return nil unless @exclusions[key] && @exclusions[key].include?(item)
+        item_id = SCOPING_CLASSES[key].valid_id item
 
-        @exclusions[key] -= [item]
+        return nil unless @exclusions[key] && @exclusions[key].include?(item_id)
+
+        @exclusions[key].delete item_id
         @container.should_update if @container
       end
 
@@ -524,23 +523,35 @@ module JSS
         scope.add_element(@all_key.to_s).text = @all_targets
 
         @inclusions.each do |klass, list|
-          list_as_hash = list.map { |i| { name: i } }
-          scope << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
+          list_as_hash = list.map { |i| { id: i } }
+          scope << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
 
         limitations = scope.add_element('limitations')
         @limitations.each do |klass, list|
-          list_as_hash = list.map { |i| { name: i } }
-          limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
+          list_as_hash = list.map { |i| { id: i } }
+          limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
 
         exclusions = scope.add_element('exclusions')
         @exclusions.each do |klass, list|
-          list_as_hash = list.map { |i| { name: i } }
-          exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
+          list_as_hash = list.map { |i| { id: i } }
+          exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
         scope
       end # scope_xml
+
+      # Remove the init_data and api object from
+      # the instance_variables used to create
+      # pretty-print (pp) output.
+      #
+      # @return [Array] the desired instance_variables
+      #
+      def pretty_print_instance_variables
+        vars = instance_variables.sort
+        vars.delete :@container
+        vars
+      end
 
       # Aliases
 
