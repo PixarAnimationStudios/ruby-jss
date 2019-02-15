@@ -439,6 +439,9 @@ module JSS
       args[:no_port_specified] = args[:port].to_s.empty?
       args = apply_connection_defaults args
 
+      # ensure an integer
+      args[:port] &&= args[:port].to_i
+
       # confirm we know basics
       verify_basic_args args
 
@@ -1113,17 +1116,12 @@ module JSS
     # @return [Type] description_of_returned_object
     #
     def verify_ssl(args)
-      # use SSL for those ports unless specifically told not to
+      # use SSL for SSL ports unless specifically told not to
       if SSL_PORTS.include? args[:port]
-        args[:use_ssl] = true if args[:use_ssl].nil?
+        args[:use_ssl] = true unless args[:use_ssl] == false
       end
       # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] =
-        if args[:verify_cert] == false
-          OpenSSL::SSL::VERIFY_NONE
-        else
-          OpenSSL::SSL::VERIFY_PEER
-        end
+      args[:verify_ssl] = args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
     end
 
     # Parses the HTTP body of a RestClient::ExceptionWithResponse
