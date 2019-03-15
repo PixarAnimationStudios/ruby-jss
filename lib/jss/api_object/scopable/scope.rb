@@ -200,21 +200,21 @@ module JSS
         @inclusion_keys.each do |k|
           raw_scope[k] ||= []
           @inclusions[k] = raw_scope[k].map { |n| n[:id] }
-        end
+        end # @inclusion_keys.each do |k|
 
         @limitations = {}
         if raw_scope[:limitations]
           LIMITATIONS.each do |k|
             raw_scope[:limitations][k] ||= []
             @limitations[k] = raw_scope[:limitations][k].map { |n| n[:id] }
-          end
-        end
+          end # LIMITATIONS.each do |k|
+        end # if raw_scope[:limitations]
 
         @exclusions = {}
         if raw_scope[:exclusions]
-          @exclusion_keys.do |k|
+          @exclusion_keys.each do |k|
             raw_scope[:exclusions][k] ||= []
-            @exclusions[k] =  raw_scope[:exclusions][k].map { |n| n[:id] }
+            @exclusions[k] = raw_scope[:exclusions][k].map { |n| n[:id] }
           end
         end
 
