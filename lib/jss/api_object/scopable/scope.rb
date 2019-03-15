@@ -29,22 +29,17 @@ module JSS
     # Classes
     #####################################
 
+    # This class represents a Scope in the JSS, as can be applied to Scopable
+    # objects like Policies, Profiles, etc. Instances of this class are
+    # generally used as the value of the @scope attribute of those objects.
     #
-    # This class represents a Scope in the JSS, as can be applied to Scopable objects like
-    # Policies, Profiles, etc. Instances of this class are generally used as the value of the @scope attribute
-    # of those objects.
-    #
-    # Scope data comes from the API as a hash within the overall object data. The main keys of the hash
-    # define the included targets of the scope. A sub-hash defines limitations on those inclusions,
-    # and another sub-hash defines explicit exclusions.
+    # Scope data comes from the API as a hash within the overall object data.
+    # The main keys of the hash define the included targets of the scope. A
+    # sub-hash defines limitations on those inclusions, and another sub-hash
+    # defines explicit exclusions.
     #
     # This class provides methods for adding, removing, or fully replacing the
-    # various parts of the scope's inclusions, limitations, and exclusions.
-    #
-    # @todo Implement simple LDAP queries using the defined {LDAPServer}s to confirm the
-    #   existance of users or groups used in limitations and exclusions. As things are now
-    #   if you add invalid user or group names, you'll get a 409 conflict error when you try
-    #   to save your changes to the JSS.
+    # various items in scope's realms: targets, limitations, and exclusions.
     #
     # @see JSS::Scopable
     #
