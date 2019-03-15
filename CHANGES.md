@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## \[Unreleased]
 ### Added
 - LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
 
@@ -36,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This file reformatted based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - use new(er) API resources for LDAP lookups, don't go directly to LDAP via net/ldap
+
+- Scopable::Scope objects now accept any valid identifier, not just names, when adding or removing items from scope.
+  Also, item keys don't need to be plural (e.g. `:network_segment` works as well as `:network_segments`)
+  (Thanks to @cybertunnel for pointing out that this was still not modernized)
 
 ## [1.0.2] - 2018-10-16
 ### Added
