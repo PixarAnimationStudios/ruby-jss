@@ -99,7 +99,7 @@ ns.save
 
 Before you can work with JSS Objects via the API, you have to connect to it.
 
-The method `JSS.api` retruns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
+The method `JSS.api` returns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
 
 When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `JSS.api.connect`, passing it values for the connection. In this example, those values are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
@@ -145,7 +145,7 @@ Some Classes provide other ways to list objects, depending on the data available
 
 #### Retrieving Objects
 
-To retrieve a single object call the class's `.fetch` method and provide a name:,  id:, or other valid identfier.
+To retrieve a single object call the class's `.fetch` method and provide a name:,  id:, or other valid identifier.
 
 
 ```ruby
