@@ -85,6 +85,9 @@ module JSS
       # their corresponding target group keys from SCOPING_CLASSES.
       TARGETS_AND_GROUPS = { computers: :computer_groups, mobile_devices: :mobile_device_groups }.freeze
 
+      # added to the ends of singular key names if needed, e.g. computer_group => computer_groups
+      ESS = 's'.freeze
+
       # These can be part of the base inclusion list of the scope,
       # along with the appropriate target and target group keys
       INCLUSIONS = %i[buildings departments].freeze
@@ -199,14 +202,14 @@ module JSS
         @inclusions = {}
         @inclusion_keys.each do |k|
           raw_scope[k] ||= []
-          @inclusions[k] = raw_scope[k].map { |n| n[:id] }
+          @inclusions[k] = raw_scope[k].compact.map { |n| n[:id].to_i  }
         end # @inclusion_keys.each do |k|
 
         @limitations = {}
         if raw_scope[:limitations]
           LIMITATIONS.each do |k|
             raw_scope[:limitations][k] ||= []
-            @limitations[k] = raw_scope[:limitations][k].map { |n| n[:id] }
+            @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:id].to_i }
           end # LIMITATIONS.each do |k|
         end # if raw_scope[:limitations]
 
@@ -214,7 +217,7 @@ module JSS
         if raw_scope[:exclusions]
           @exclusion_keys.each do |k|
             raw_scope[:exclusions][k] ||= []
-            @exclusions[k] = raw_scope[:exclusions][k].map { |n| n[:id] }
+            @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:id].to_i }
           end
         end
 
@@ -262,14 +265,16 @@ module JSS
       # @return [void]
       #
       def set_targets(key, list)
-        raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
+        key = pluralize_key(key)
         raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
         list.map! do |ident|
-          item_id = SCOPING_CLASSES[key].valid_id ident
-          raise JSS::NoSuchItemError, "No existing #{key} matches '#{ident}'" unless item_id
-          raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{ident}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+          item_id = validate_item(:target, key, ident)
+          if @exclusions[key] && @exclusions[key].include?(item_id)
+            raise JSS::AlreadyExistsError, \
+              "Can't set #{key} target to '#{ident}' because it's already an explicit exclusion."
+          end
           item_id
         end # each
 
@@ -301,13 +306,11 @@ module JSS
       # @return [void]
       #
       def add_target(key, item)
-        raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
-
-        item_id = SCOPING_CLASSES[key].valid_id item
+        key = pluralize_key(key)
+        item_id = validate_item(:target, key, item)
         return if @inclusions[key] && @inclusions[key].include?(item_id)
 
-        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
-        raise JSS::AlreadyExistsError, "Can't set #{key} scope to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+        raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
         @inclusions[key] << item_id
         @all_targets = false
@@ -327,13 +330,11 @@ module JSS
       # @return [void]
       #
       def remove_target(key, item)
-        raise JSS::InvalidDataError, "Inclusion key must be one of :#{@inclusion_keys.join(', :')}" unless @inclusion_keys.include? key
-
-        item_id = SCOPING_CLASSES[key].valid_id item
-
+        key = pluralize_key(key)
+        item_id = validate_item :target, key, item, error_if_not_found: false
+        return unless item_id
         return unless @inclusions[key] && @inclusions[key].include?(item_id)
         @inclusions[key].delete item_id
-
         @container.should_update if @container
       end
       alias remove_inclusion remove_target
@@ -355,13 +356,12 @@ module JSS
       # @todo  handle ldap user group lookups
       #
       def set_limitation(key, list)
-        raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
+        key = pluralize_key(key)
         raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
         list.map! do |ident|
-          item_id = SCOPING_CLASSES[key].valid_id ident
-          raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" unless item_id
+          item_id = validate_item(:limitation, key, ident)
           raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
           item_id
         end # each
@@ -389,13 +389,10 @@ module JSS
       # @todo  handle ldap user/group lookups
       #
       def add_limitation(key, item)
-        raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
-
-        item_id = SCOPING_CLASSES[key].valid_id item
+        key = pluralize_key(key)
+        item_id = validate_item(:limitation, key, item)
         return nil if @limitations[key] && @limitations[key].include?(item_id)
 
-        # check the name
-        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
         raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
         @limitations[key] << item_id
@@ -416,11 +413,10 @@ module JSS
       # @todo  handle ldap user/group lookups
       #
       def remove_limitation(key, item)
-        raise JSS::InvalidDataError, "Limitation key must be one of :#{LIMITATIONS.join(', :')}" unless LIMITATIONS.include? key
-        item_id = SCOPING_CLASSES[key].valid_id item
-
-        return nil unless @limitations[key] && @limitations[key].include?(item_id)
-
+        key = pluralize_key(key)
+        item_id = validate_item :limitation, key, item, error_if_not_found: false
+        return unless item_id
+        return unless @limitations[key] && @limitations[key].include?(item_id)
         @limitations[key].delete item_id
         @container.should_update if @container
       end ###
@@ -440,13 +436,12 @@ module JSS
       # @return [void]
       #
       def set_exclusion(key, list)
-        raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
+        key = pluralize_key(key)
         raise JSS::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
         list.map! do |ident|
-          item_id = SCOPING_CLASSES[key].valid_id ident
-          raise JSS::NoSuchItemError, "No existing #{key} matches '#{ident}'" unless item_id
+          item_id = validate_item(:exclusion, key, ident)
           case key
           when *@inclusion_keys
             raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item_id)
@@ -476,13 +471,9 @@ module JSS
       # @return [void]
       #
       def add_exclusion(key, item)
-        raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
-        item_id = SCOPING_CLASSES[key].valid_id item
-
-        return nil if @exclusions[key] && @exclusions[key].include?(item_id)
-
-        # check the name
-        raise JSS::NoSuchItemError, "No existing #{key} found for '#{item}'" unless item_id
+        key = pluralize_key(key)
+        item_id = validate_item(:exclusion, key, item)
+        return if @exclusions[key] && @exclusions[key].include?(item_id)
         raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item)
         raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
 
@@ -502,12 +493,9 @@ module JSS
       # @return [void]
       #
       def remove_exclusion(key, item)
-        raise JSS::InvalidDataError, "Exclusion key must be one of :#{@exclusion_keys.join(', :')}" unless @exclusion_keys.include? key
-
-        item_id = SCOPING_CLASSES[key].valid_id item
-
-        return nil unless @exclusions[key] && @exclusions[key].include?(item_id)
-
+        key = pluralize_key(key)
+        item_id = validate_item :exclusion, key, item, error_if_not_found: false
+        return unless @exclusions[key] && @exclusions[key].include?(item_id)
         @exclusions[key].delete item_id
         @container.should_update if @container
       end
@@ -523,18 +511,24 @@ module JSS
         scope.add_element(@all_key.to_s).text = @all_targets
 
         @inclusions.each do |klass, list|
+          list.compact!
+          list.delete 0
           list_as_hash = list.map { |i| { id: i } }
           scope << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
 
         limitations = scope.add_element('limitations')
         @limitations.each do |klass, list|
+          list.compact!
+          list.delete 0
           list_as_hash = list.map { |i| { id: i } }
           limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
 
         exclusions = scope.add_element('exclusions')
         @exclusions.each do |klass, list|
+          list.compact!
+          list.delete 0
           list_as_hash = list.map { |i| { id: i } }
           exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
@@ -561,29 +555,43 @@ module JSS
       #####################################
       private
 
-      # Given a name of some class of item to be used in the scope, check that it
-      # exists in the JSS.
+      # look up a valid id or nil, for use in a scope type
       #
-      # @return [Boolean] does the name exist for the key in JSS or LDAP?
+      # @param realm [Symbol] How is this key being used in the scope?
+      #   :target, :limitation, or :exclusion
       #
-      def check_name(key, name)
-        found_in_jss = SCOPING_CLASSES[key].all_names(api: container.api).include?(name)
+      # @param key [Symbol] What kind of thing are we adding to the scope?
+      #  e.g computer, network_segment, etc.
+      #
+      # @param ident [String, Integer] A unique identifier for the item being
+      #   validated, jss id, name, serial number, etc.
+      #
+      # @return [Integer, nil] the valid id for the item, or nil if not found
+      #
+      def validate_item(realm, key, ident, error_if_not_found: true)
+        # which keys allowed depends on how the item is used...
+        possible_keys =
+          case realm
+          when :target then @inclusion_keys
+          when :limitation then LIMITATIONS
+          when :exclusion then @exclusion_keys
+          else
+            raise ArgumentError, 'Unknown realm, must be :target, :limitation, or :exclusion'
+          end
+        key = pluralize_key(key)
+        raise JSS::InvalidDataError, "#{realm} key must be one of :#{possible_keys.join(', :')}" \
+          unless possible_keys.include? key
 
-        return true if found_in_jss
+        # return nil or a valid id
+        id = SCOPING_CLASSES[key].valid_id ident
+        raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
+        id
+      end # validate_item(type, key, ident)
 
-        return false unless CHECK_LDAP_KEYS.include?(key)
-
-        begin
-          return JSS::LDAPServer.user_in_ldap?(name, api: container.api) if LDAP_USER_KEYS.include?(key)
-          return JSS::LDAPServer.group_in_ldap?(name, api: container.api) if LDAP_GROUP_KEYS.include?(key)
-
-        # if an ldap server isn't connected, make a note of it and return true
-        rescue JSS::InvalidConnectionError
-          @unable_to_verify_ldap_entries = true
-          return true
-        end # begin
-
-        false
+      # the symbols used in the API data are plural, e.g. 'network_segments'
+      # this will pluralize them, allowing us to use singulars as well.
+      def pluralize_key(key)
+        key.to_s.end_with?(ESS) ? key : "#{key}s".to_sym
       end
 
     end # class Scope
