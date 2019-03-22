@@ -37,8 +37,13 @@ module JSS
   # When changing the criteria of a smart group, use the #criteria attribute,
   # which is a {JSS::Criteria} instance.
   #
-  # Subclasses must define the constant MEMBER_CLASS which indicates Ruby class
-  # to which the group members belong (e.g. JSS::MobileDevice)
+  # Subclasses must define these constants:
+  # - MEMBER_CLASS: the ruby-jss class to which the group
+  #   members belong (e.g. JSS::MobileDevice)
+  # - ADD_MEMBERS_ELEMENT: the XML element tag for adding members to the group
+  #   wuth a PUT call to the API, e.g. 'computer_additions'
+  # - REMOVE_MEMBERS_ELEMENT: the XML element tag for removing members from the
+  #   group wuth a PUT call to the API, e.g. 'computer_deletions'
   #
   # @see JSS::APIObject
   #
@@ -62,6 +67,9 @@ module JSS
     # Where is the Site data in the API JSON?
     SITE_SUBSET = :top
 
+    # the 'id' xml element tag
+    ID_XML_TAG = 'id'.freeze
+
     # Class Methods
     #####################################
 
@@ -78,6 +86,103 @@ module JSS
     def self.all_static(refresh = false, api: JSS.api)
       all(refresh, api: api).select { |g| (g[:is_smart]) }
     end
+
+    # Immediatly add and/or remove members in a static group without
+    # instantiating it first. Uses the <x_additions> and <x_deletions>
+    # XML elements available when sending a PUT request to the API.
+    #
+    # @param group [String, Integer] The name or id of the group being changed
+    #
+    # @param add_members [String, Integer, Array<String, Integer>] valid
+    #   identifier(s) for members to add
+    #
+    # @param remove_members [String, Integer, Array<String, Integer>] valid
+    #   identifier(s) for members to remove
+    #
+    # @param api [JSS::APIConnection] The API connetion to use, uses the default
+    #   connection if not specified
+    #
+    # @return [void]
+    #
+    def self.change_membership(group, add_members: [], remove_members: [], api: JSS.api)
+      raise JSS::NoSuchItemError, "No #{self} matching '#{ident}'" unless (group_id = valid_id group, api: api)
+      raise JSS::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, api: api)[group_id]
+
+      add_members = [add_members].flatten
+      remove_members = [remove_members].flatten
+      return if add_members.empty? && remove_members.empty?
+
+      # we must know the current group membership, because the API
+      # will raise a conflict error if we try to remove a member
+      # that isn't in the group (which is kinda lame - it should just
+      # ignore this, like it does when we add a member that's already
+      # in the group.)
+      current_member_ids = fetch(id: group_id).member_ids
+
+      # nil if no changes to be made
+      xml_doc = change_membership_xml add_members, remove_members, current_member_ids
+      return unless xml_doc
+
+      api.put_rsrc "#{self::RSRC_BASE}/id/#{group_id}", xml_doc.to_s
+    end
+
+    # return [REXML::Document, nil]
+    #
+    def self.change_membership_xml(add_members, remove_members, current_member_ids)
+      # these are nil if there are no changes to make
+      addx = member_additions_xml(add_members, current_member_ids)
+      remx = member_removals_xml(remove_members, current_member_ids)
+      return nil unless addx || remx
+
+      doc = REXML::Document.new JSS::APIConnection::XML_HEADER
+      groupelem = doc.add_element self::RSRC_OBJECT_KEY.to_s
+      groupelem << addx if addx
+      groupelem << remx if remx
+      doc
+    end
+    private_class_method :change_membership_xml
+
+    # @return [REXML::Element, nil]
+    #
+    def self.member_additions_xml(add_members, current_member_ids)
+      return nil if add_members.empty?
+
+      additions = REXML::Element.new self::ADD_MEMBERS_ELEMENT
+      member_added = false
+      add_members.each do |am|
+        am_id = self::MEMBER_CLASS.valid_id am
+        raise JSS::NoSuchItemError, "No #{self::MEMBER_CLASS} matching '#{am}'" unless am_id
+        next if current_member_ids.include? am_id
+
+        xam = additions.add_element self::MEMBER_CLASS::RSRC_OBJECT_KEY.to_s
+        xam.add_element(ID_XML_TAG).text = am_id.to_s
+        member_added = true
+      end # each
+
+      member_added ? additions : nil
+    end
+    private_class_method :member_additions_xml
+
+    # @return [REXML::Element, nil]
+    #
+    def self.member_removals_xml(remove_members, current_member_ids)
+      return nil if remove_members.empty?
+
+      removals = REXML::Element.new self::REMOVE_MEMBERS_ELEMENT
+      member_removed = false
+      remove_members.each do |rm|
+        rm_id = self::MEMBER_CLASS.valid_id rm
+        next unless rm_id && current_member_ids.include?(rm_id)
+
+        xrm = removals.add_element self::MEMBER_CLASS::RSRC_OBJECT_KEY.to_s
+        xrm.add_element(ID_XML_TAG).text = rm_id.to_s
+        member_removed = true
+      end # each
+
+      member_removed ? removals : nil
+    end
+    private_class_method :member_removals_xml
+
 
     # Attributes
     #####################################
@@ -251,6 +356,26 @@ module JSS
       return if @members.empty?
       @members.clear
       @need_to_update = true
+    end
+
+    # Immediatly add and/or remove members in this static group
+    #
+    # IMPORTANT: This method changes the group in the JSS immediately,
+    #   there is no need to call #update/#save
+    #
+    # @param add_members [String, Integer, Array<String, Integer>] valid
+    #   identifier(s) for members to add
+    #
+    # @param remove_members [String, Integer, Array<String, Integer>] valid
+    #   identifier(s) for members to remove
+    #
+    # @param api [JSS::APIConnection] The API connetion to use, uses the default
+    #   connection if not specified
+    #
+    # @return [void]
+    #
+    def change_membership(add_members: [], remove_members: [])
+      self.class.change_membership(@id, add_members: add_members, remove_members: remove_members, api: @api)
     end
 
     # Refresh the membership from the API

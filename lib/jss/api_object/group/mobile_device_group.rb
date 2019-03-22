@@ -78,6 +78,12 @@ module JSS
     ### this allows the parent Group class to do things right
     MEMBER_CLASS = JSS::MobileDevice
 
+    # the XML element for immediate member additions via PUT
+    ADD_MEMBERS_ELEMENT = 'mobile_device_additions'.freeze
+
+    # the XML element for immediate member removals via PUT
+    REMOVE_MEMBERS_ELEMENT = 'mobile_device_deletions'.freeze
+
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}
