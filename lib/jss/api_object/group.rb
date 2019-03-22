@@ -372,6 +372,7 @@ module JSS
     #
     def change_membership(add_members: [], remove_members: [])
       self.class.change_membership(@id, add_members: add_members, remove_members: remove_members, api: @api)
+      refresh_members
     end
 
     # Refresh the membership from the API
