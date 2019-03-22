@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## \[Unreleased]
 ### Added
+- JSS::Group (and its subclasses) now have a `change_membership` class and instance method for static groups.
+  - The class method allows adding and removing members without fetching an instance of the group.
+  - The instance method adds and/or removes members immediately, without needing to call #update or #save
+
 - LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
 
 - Client.homdir(user) and Client.do_not_disturb?(user)
@@ -22,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (Thanks @christopher.kemp!)
 
 ### Fixed
+- JSS::MobileDevice.update now returns the device's jss id, as advertised.
+
 - default port number choice for on-prem vs. JamfCloud connections
 
 - Client.primary_console_user returns nil when at the loginwindow
