@@ -205,8 +205,6 @@ module JSS
     # @return [Boolean] does this group send notifications when it changes?
     attr_reader :notify_on_change
 
-    # @return [String] the :name of the site for this group
-    attr_reader :site
 
     # Constructor
     #####################################
@@ -231,8 +229,6 @@ module JSS
         else
           []
         end
-
-      @site = JSS::APIObject.get_name(@init_data[:site])
     end # init
 
     # Public Instance Methods
@@ -384,18 +380,6 @@ module JSS
     #
     def refresh_members
       @members = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
-    end
-
-    # Change the site for this group
-    #
-    # @param new_val[String] the name of the new site
-    #
-    # @return [void]
-    #
-    def site=(new_val)
-      raise JSS::NoSuchItemError, "No site named #{new_val} in the JSS" unless JSS::Site.all_names(api: @api).include? new_val
-      @site = new_val
-      @need_to_update = true
     end
 
     # aliases
