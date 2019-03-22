@@ -149,7 +149,7 @@ module JSS
     def update
       super
       refresh_members
-      true
+      @id
     end
 
     # @see APIObject#delete

@@ -523,9 +523,10 @@ module JSS
     #
     def update
       super
-      return unless @needs_mdm_name_change
+      return @id unless @needs_mdm_name_change
       set_device_name @name if managed? && supervised?
       @needs_mdm_name_change = false
+      @id
     end
 
     # private methods
