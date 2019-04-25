@@ -23,6 +23,9 @@
 #
 #
 
+# TEMPPORARY
+require 'digest'
+
 module JSS
 
   # Classes
@@ -81,6 +84,21 @@ module JSS
 
     # The table in the database for this object
     DB_TABLE = 'packages'.freeze
+
+    # The hash_type value in the API for md5
+    CHECKSUM_HASH_TYPE_MD5 = 'MD5'.freeze
+
+    # The hash_type value in the API for sha512
+    CHECKSUM_HASH_TYPE_SHA512 = 'SHA_512'.freeze
+
+    # Mapping of the hash types to the maching Digest modules
+    # See {#calculate_checksum}
+    CHECKSUM_HASH_TYPES = {
+      CHECKSUM_HASH_TYPE_MD5 => Digest::MD5,
+      CHECKSUM_HASH_TYPE_SHA512 => Digest::SHA512
+    }.freeze
+
+    DEFAULT_CHECKSUM_HASH_TYPE = CHECKSUM_HASH_TYPE_SHA512
 
     # the object type for this object in
     # the object history table.
@@ -159,6 +177,21 @@ module JSS
       all_filenames(api: api) - files_on_mdp
     end
 
+    # Given a file path, and hash type, generate the checksum for an arbitrary
+    # file.
+    #
+    # @param filepath [String, Pathname] The file to checksum
+    #
+    # @param type [String ] One of the keys of CHECKSUM_HASH_TYPES, either
+    #    CHECKSUM_HASH_TYPE_MD5 or CHECKSUM_HASH_TYPE_SHA512
+    #
+    # @return [String] The checksum of the file
+    #
+    def self.calculate_checksum(filepath, type = DEFAULT_CHECKSUM_HASH_TYPE )
+      raise ArgumentError, 'Unknown checksum hash type' unless CHECKSUM_HASH_TYPES.key? type
+      CHECKSUM_HASH_TYPES[type].file(filepath).hexdigest
+    end
+
     # Attributes
     #####################################
 
@@ -207,6 +240,14 @@ module JSS
     # @return [Boolean] does this pkg cause a notification to be sent on self-heal?
     attr_reader :send_notification
 
+    # @ @return [Symbol] The checksum hash type used to generate the checksum value,
+    #  either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.
+    attr_reader :checksum_type
+
+    # @return [String, nil] the checksum value for the package file on the
+    #   dist. point, if it's been calculated.
+    attr_reader :checksum
+
     # @see JSS::APIObject#initialize
     #
     def initialize(args = {})
@@ -230,6 +271,10 @@ module JSS
       @required_processor = nil if @required_processor.to_s.casecmp('none').zero?
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
+
+      @checksum = @init_data[:hash_value] #ill be nil if no checksum
+      @checksum_type = @checksum ? @init_data[:hash_type] : DEFAULT_CHECKSUM_HASH_TYPE
+
 
       # the receipt is the filename with any .zip extension removed.
       @receipt = @filename ? (JSS::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
@@ -516,9 +561,12 @@ module JSS
     #
     # @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     #
+    # @param chksum [String] the constants CHECKSUM_HASH_TYPE_SHA512 or
+    #   CHECKSUM_HASH_TYPE_MD5. Anything else means don't calc.
+    #
     # @return [void]
     #
-    def upload_master_file(local_file_path, rw_pw, unmount = true)
+    def upload_master_file(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE )
       raise JSS::NoSuchItemError, 'Please create this package in the JSS before uploading it.' unless @in_jss
 
       mdp = JSS::DistributionPoint.master_distribution_point api: @api
@@ -557,13 +605,125 @@ module JSS
         destination = destination.to_s + '.zip'
         @filename = zipfile.basename.to_s
         @need_to_update = true
-        update
       end # if directory
 
       FileUtils.copy_entry local_path, destination
 
+      if CHECKSUM_HASH_TYPES.keys.include? chksum
+        @checksum_type = chksum
+        @checksum = calculate_checksum local_path, chksum
+        @need_to_update = true
+      end
+
+      update if @need_to_update
+
       mdp.unmount if unmount
     end # upload
+
+    # Using either a local file, or the file on the master dist. point,
+    # re-set the checksum for this package. Call #update to save the
+    # new one to the JSS.
+    #
+    # BE VERY CAREFUL if using a local copy of the file - make sure its
+    # identical to the one on the dist point.
+    #
+    # This can be used to change the checksum type, and by default will use
+    # DEFAULT_CHECKSUM_HASH_TYPE ('SHA_512')
+    #
+    # @param @see calculate_checksum
+    #
+    # @return [void]
+    #
+    def reset_checksum(type: nil, local_file: nil,  rw_pw: nil, ro_pw: nil, unmount: true)
+      type ||= DEFAULT_CHECKSUM_HASH_TYPE
+
+      new_checksum = calculate_checksum(
+        type: type,
+        local_file: local_file,
+        rw_pw: rw_pw,
+        ro_pw: ro_pw,
+        unmount: unmount
+      )
+      return if @checksum == new_checksum
+
+      @checksum_type = type
+      @checksum = new_checksum
+      @need_to_update = true
+    end
+
+    # Caclulate and return the checksum hash for a given local file, or the file
+    # on the master dist point if no local file is given.
+    #
+    # @param type [String] The checksum hash type, one of the keys of
+    #   CHECKSUM_HASH_TYPES
+    #
+    # @param local_file [String, Pathname] A local copy of the pkg file. BE SURE
+    #   it's identical to the one on the server. If omitted, the master dist.
+    #   point will be mounted and the file read from there.
+    #
+    # @param rw_pw [String] The read-write password for mounting the master dist
+    #   point. Either this or the ro_pw must be provided if no local_file
+    #
+    # @param ro_pw [String] The read-onlypassword for mounting the master dist
+    #   point. Either this or the rw_pw must be provided if no local_file
+    #
+    # @param unmount [Boolean] Unmount the master dist point after using it.
+    #   Only used if the dist point is mounted. default: true
+    #
+    # @return [String] The calculated checksum
+    #
+    def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true )
+      type ||= DEFAULT_CHECKSUM_HASH_TYPE
+      mdp = JSS::DistributionPoint.master_distribution_point api: @api
+
+      if local_file
+        file_to_calc = local_file
+      else
+        if rw_pw
+          dppw = rw_pw
+          mnt = :rw
+        elsif ro_pw
+          dppw = ro_pw
+          mnt = :ro
+        else
+          raise ArgumentError, 'Either rw_pw: or ro_pw: must be provided'
+        end
+        file_to_calc = mdp.mount(dppw, mnt) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+      end
+      new_checksum = self.class.calculate_checksum(file_to_calc, type)
+      mdp.unmount if unmount && mdp.mounted?
+      new_checksum
+    end
+
+    # Is the checksum for this pkg is valid?
+    #
+    # @param local_file [String, Pathname] A local copy of the pkg file. BE SURE
+    #   it's identical to the one on the server. If omitted, the master dist.
+    #   point will be mounted and the file read from there.
+    #
+    # @param rw_pw [String] The read-write password for mounting the master dist
+    #   point. Either this or the ro_pw must be provided if no local_file
+    #
+    # @param ro_pw [String] The read-onlypassword for mounting the master dist
+    #   point. Either this or the rw_pw must be provided if no local_file
+    #
+    # @param unmount [Boolean] Unmount the master dist point after using it.
+    #   Only used if the dist point is mounted. default: true
+    #
+    # @return [Boolean] false if there is no checksum for this pkg, otherwise,
+    #   does the calculated checksum match the one stored for the pkg?
+    #
+    def checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)
+      return false unless @checksum
+      new_checksum = calculate_checksum(
+        type: @checksum_type,
+        local_file: local_file,
+        rw_pw: rw_pw,
+        ro_pw: ro_pw,
+        unmount: unmount
+      )
+      new_checksum == @checksum
+    end
 
     # Change the name of a package file on the master distribution point.
     #
@@ -594,6 +754,8 @@ module JSS
       mdp.unmount if unmount
       nil
     end # update_master_filename
+
+
 
     # Delete the filename from the master distribution point, if it exists.
     #
@@ -856,6 +1018,13 @@ module JSS
       pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? 'None' : @required_processor
       pkg.add_element('send_notification').text = @send_notification
       pkg.add_element('switch_with_package').text = @switch_with_package
+      # if there's no checksum value for this pkg, don't even include the
+      # hash_type and hash_value in the XML, they'll stay whatever
+      # the JSS already has (which is usuall type=MD5, and value='')
+      if @checksum
+        pkg.add_element('hash_type').text = @checksum_type
+        pkg.add_element('hash_value').text = @checksum
+      end
       add_category_to_xml(doc)
       doc.to_s
     end # rest xml
