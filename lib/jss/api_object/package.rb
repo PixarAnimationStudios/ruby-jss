@@ -396,9 +396,38 @@ module JSS
     #
     def notes=(new_val)
       return nil if new_val == @notes
+
       # line breaks should be \r
       new_val = new_val.to_s.tr("\n", "\r")
       @notes = new_val
+      @need_to_update = true
+    end
+
+    # Change the  checksum type
+    #
+    # @param new_val[String]
+    #
+    # @return [void]
+    #
+    def checksum_type=(new_val)
+      return if new_val == @checksum_type
+      raise JSS::InvalidDataError, "Checksum type must be one of: #{CHECKSUM_HASH_TYPES.keys.join ', '} " unless CHECKSUM_HASH_TYPES.key? new_val
+
+      @checksum_type = new_val
+      @need_to_update = true
+    end
+
+    # Change the  checksum type
+    #
+    # @param new_val[String]
+    #
+    # @return [void]
+    #
+    def checksum=(new_val)
+      return if new_val == @checksum
+      raise JSS::InvalidDataError, 'Checksum must be a String or nil' unless new_val.is_a?(String) || new_val.nil?
+
+      @checksum = new_val
       @need_to_update = true
     end
 
@@ -1016,13 +1045,10 @@ module JSS
       pkg.add_element('required_processor').text = @required_processor.to_s.empty? ? 'None' : @required_processor
       pkg.add_element('send_notification').text = @send_notification
       pkg.add_element('switch_with_package').text = @switch_with_package
-      # if there's no checksum value for this pkg, don't even include the
-      # hash_type and hash_value in the XML, they'll stay whatever
-      # the JSS already has (which is usuall type=MD5, and value='')
-      if @checksum
-        pkg.add_element('hash_type').text = @checksum_type
-        pkg.add_element('hash_value').text = @checksum
-      end
+
+      pkg.add_element('hash_type').text = @checksum_type
+      pkg.add_element('hash_value').text = @checksum.to_s
+
       add_category_to_xml(doc)
       doc.to_s
     end # rest xml
