@@ -611,14 +611,12 @@ module JSS
 
       if CHECKSUM_HASH_TYPES.keys.include? chksum
         @checksum_type = chksum
-        @checksum = calculate_checksum local_path, chksum
+        @checksum = calculate_checksum local_file: local_path, type: chksum, unmount: false
         @need_to_update = true
       end
-
       update if @need_to_update
-
       mdp.unmount if unmount
-    end # upload
+    end # upload master file
 
     # Using either a local file, or the file on the master dist. point,
     # re-set the checksum for this package. Call #update to save the
@@ -634,7 +632,7 @@ module JSS
     #
     # @return [void]
     #
-    def reset_checksum(type: nil, local_file: nil,  rw_pw: nil, ro_pw: nil, unmount: true)
+    def reset_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
 
       new_checksum = calculate_checksum(
