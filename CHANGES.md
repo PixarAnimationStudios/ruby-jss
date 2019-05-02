@@ -26,17 +26,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (Thanks @christopher.kemp!)
 
 - Packages in Jamf Pro 10.10 and higher now include checksum data (`hash_type` and `hash_value` in the raw data) via the classic API. This has been integrated into JSS::Package via the following methods:
-  - New Class Method `JSS::Package.calculate_checksum(filepath, type)` calcuates an MD5 or SHA_512 hash for an arbtrary file.
+  - New Class Method
+    - `JSS::Package.calculate_checksum(filepath, type)` calcuates an MD5 or SHA_512 hash for an arbtrary file.
+  - New Instance Attributes:
+    - `JSS::Package#checksum`  the checksum value, read-write
+    - `JSS::Package#checksum_type` the string 'MD5' or 'SHA_512' ('SHA_512' if no checksum is set), read-write
   - New Instance Methods:
-    - `JSS::Package#checksum` returns the checksum value
-    - `JSS::Package#checksum_type` returns the string 'MD5' or 'SHA_512' ('SHA_512' if no checksum is set)
     - `JSS::Package#caluclate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true )` recalculates and returns the checksum from a local file or the master dist. point. Doesn't change the Package instance
     - `JSS::Package#checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)` recalculates the checksum from a local file or the master dist. point, and returns Boolean true if it matches the stored one, false if not. Always false if there is no stored checksum. Doesn't change the Package instance
     - `JSS::Package#reset_checksum(type: nil, local_file: nil,  rw_pw: nil, ro_pw: nil, unmount: true)` recalculates and resets the checksum from a local file or the master dist. point. The instance must be saved back to the server for the new checksum to stick,
-  - Modified Instance Method `JSS::Package#upload_master_file` now takes a `cksum:` parameter, 'MD5' or 'SHA_512' ('SHA_512' by default)  Any other value means 'don't use a checksum on this package'
+  - Modified Instance Method
+    - `JSS::Package#upload_master_file` now takes a `cksum:` parameter, the String 'MD5' or 'SHA_512'. Any other value means 'don't use a checksum on this package' Defaults to 'SHA_512' and a checksum will be calculated. Be sure to set `cksum:` to some other value if you don't want a checksum.
 
-  NOTE: Checksum calculation can be slow.
-  WARNING: when using a local file to calculate checksums, BE 100% SURE it is identical to the file on the master distribution point, or you will get an invalid checksum.
+  NOTE: Checksum calculation can be slow, especially for large packages on a network server.
+
+  _WARNING_: when using a local file to calculate checksums, BE 100% SURE it is identical to the file on the distribution point, or you will get an invalid checksum.
 
 
 ### Fixed
