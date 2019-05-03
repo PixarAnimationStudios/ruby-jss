@@ -26,8 +26,6 @@
 ###
 module JSS
 
-
-
   #####################################
   ### Constants
   #####################################
@@ -43,7 +41,6 @@ module JSS
   ####################################
   ### Classes
   #####################################
-
 
   ###
   ### An extension attribute as defined in the JSS
@@ -67,7 +64,7 @@ module JSS
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "mobiledeviceextensionattributes"
+    RSRC_BASE = 'mobiledeviceextensionattributes'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :mobile_device_extension_attributes
@@ -77,13 +74,13 @@ module JSS
     RSRC_OBJECT_KEY = :mobile_device_extension_attribute
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:description, :inventory_display, :recon_display]
+    VALID_DATA_KEYS = %i[description inventory_display recon_display].freeze
 
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::MobileDevice
 
     ### A criterion that will return all members of the TARGET_CLASS
-    ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Last Inventory Update", :search_type => "after (yyyy-mm-dd)", :value => "2003-01-01")
+    ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(and_or: 'and', name: 'Last Inventory Update', search_type: 'after (yyyy-mm-dd)', value: '2003-01-01')
 
     # the object type for this object in
     # the object history table.
@@ -97,7 +94,6 @@ module JSS
     ### @return [String] the name of the LDAP attribute to use when the @input Type is "LDAP Attribute Mapping"
     attr_reader :attribute_mapping
 
-
     #####################################
     ### Constructor
     #####################################
@@ -106,14 +102,9 @@ module JSS
     ### See JSS::APIObject.initialize
     ###
     def initialize(args = {})
-
       super args
-
-      if @init_data[:input_type]
-        @attribute_mapping = @init_data[:input_type][:attribute_mapping]
-      end
+      @attribute_mapping = @init_data[:input_type][:attribute_mapping] if @init_data[:input_type]
     end # init
-
 
     #####################################
     ### Public Instance Methods
@@ -129,14 +120,13 @@ module JSS
       super
     end
 
-
     ###
     ### @see JSS::ExtensionAttribute#web_display=
     ###
     def web_display= (new_val)
       raise JSS::InvalidDataError, "web_display cannot be 'Operating System' for Mobile Device Extension Attributes." if new_val == 'Operating System'
       super
-    end #
+    end # end web_display
 
 
     ###
@@ -152,7 +142,7 @@ module JSS
       else
         @attribute_mapping = nil
       end
-    end #
+    end # end input_type
 
     ###
     ### Set the ldap attribute to use for input_type 'LDAP Attribute Mapping'
@@ -237,7 +227,7 @@ module JSS
       doc = REXML::Document.new APIConnection::XML_HEADER
       doc << mdea
 
-      return doc.to_s
+      doc.to_s
     end # rest xml
 
   end # class ExtAttrib
