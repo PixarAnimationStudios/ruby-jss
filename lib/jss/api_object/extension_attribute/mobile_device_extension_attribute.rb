@@ -26,8 +26,6 @@
 ###
 module JSS
 
-
-
   #####################################
   ### Constants
   #####################################
@@ -43,7 +41,6 @@ module JSS
   ####################################
   ### Classes
   #####################################
-
 
   ###
   ### An extension attribute as defined in the JSS
@@ -67,7 +64,7 @@ module JSS
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "mobiledeviceextensionattributes"
+    RSRC_BASE = 'mobiledeviceextensionattributes'.freeze
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :mobile_device_extension_attributes
@@ -77,13 +74,13 @@ module JSS
     RSRC_OBJECT_KEY = :mobile_device_extension_attribute
 
     ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:description, :inventory_display, :recon_display]
+    VALID_DATA_KEYS = %i[description inventory_display recon_display].freeze
 
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::MobileDevice
 
     ### A criterion that will return all members of the TARGET_CLASS
-    ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(:and_or => "and", :name => "Last Inventory Update", :search_type => "after (yyyy-mm-dd)", :value => "2003-01-01")
+    ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(and_or: 'and', name: 'Last Inventory Update', search_type: 'after (yyyy-mm-dd)', value: '2003-01-01')
 
     # the object type for this object in
     # the object history table.
@@ -97,7 +94,6 @@ module JSS
     ### @return [String] the name of the LDAP attribute to use when the @input Type is "LDAP Attribute Mapping"
     attr_reader :attribute_mapping
 
-
     #####################################
     ### Constructor
     #####################################
@@ -106,14 +102,9 @@ module JSS
     ### See JSS::APIObject.initialize
     ###
     def initialize(args = {})
-
       super args
-
-      if @init_data[:input_type]
-        @attribute_mapping = @init_data[:input_type][:attribute_mapping]
-      end
+      @attribute_mapping = @init_data[:input_type][:attribute_mapping] if @init_data[:input_type]
     end # init
-
 
     #####################################
     ### Public Instance Methods
@@ -129,14 +120,13 @@ module JSS
       super
     end
 
-
     ###
     ### @see JSS::ExtensionAttribute#web_display=
     ###
     def web_display= (new_val)
       raise JSS::InvalidDataError, "web_display cannot be 'Operating System' for Mobile Device Extension Attributes." if new_val == 'Operating System'
       super
-    end #
+    end # end web_display
 
 
     ###
@@ -152,7 +142,7 @@ module JSS
       else
         @attribute_mapping = nil
       end
-    end #
+    end # end input_type
 
     ###
     ### Set the ldap attribute to use for input_type 'LDAP Attribute Mapping'
@@ -166,6 +156,56 @@ module JSS
       @attribute_mapping = ldap_attrib
       @need_to_update = true
     end
+
+    ### Return an Array of Hashes showing the history of reported values for this EA on one MobileDevice.
+    ###
+    ### Each hash contains these 2 keys:
+    ### * :value - String, Integer, or Time, depending on @data_type
+    ### * :timestamp - Time
+    ###
+    ### This method requires a MySQL database connection established via JSS::DB_CNX.connect
+    ###
+    ### @see JSS::DBConnection
+    ###
+    ### @param mobiledevice[Integer,String] the id or name of the MobileDevice.
+    ###
+    ### @return [Array<Hash{:timestamp=>Time,:value=>String,Integer,Time}>]
+    ###
+    def history(mobiledevice)
+      raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}." unless @in_jss
+      raise JSS::InvalidConnectionError, "Database connection required for 'history' query." unless JSS::DB_CNX.connected?
+
+      mobile_device_id = case mobiledevice
+                         when *JSS::MobileDevice.all_ids(api: @api)
+                           mobiledevice
+                         when *JSS::MobileDevice.all_names(api: @api)
+                           JSS::MobileDevice.map_all_ids_to(:name, api: @api).invert[mobiledevice]
+                         end # case
+
+      raise JSS::NoSuchItemError, "No MobileDevice found matching '#{mobiledevice}'" unless mobile_device_id
+
+      the_query = <<-END_Q
+      SELECT eav.value_on_client AS value, r.date_entered_epoch AS timestamp_epoch
+      FROM mobile_device_extension_attribute_values eav JOIN reports r ON eav.report_id = r.report_id
+      WHERE r.mobile_device_id = #{mobile_device_id}
+        AND eav.mobile_device_extension_attribute_id = #{@id}
+      ORDER BY timestamp_epoch
+      END_Q
+
+      qrez = JSS::DB_CNX.db.query the_query
+      history = []
+      qrez.each_hash do |entry|
+        value = case @data_type
+                when 'String' then entry['value']
+                when 'Integer' then entry['value'].to_i
+                when 'Date' then JSS.parse_datetime(entry['value'])
+                end # case
+        newhash = { value: value, timestamp: JSS.epoch_to_time(entry['timestamp_epoch']) }
+        history << newhash
+      end # each hash
+
+      history
+    end # history
 
     ######################
     ### Private Instance Methods
@@ -187,7 +227,7 @@ module JSS
       doc = REXML::Document.new APIConnection::XML_HEADER
       doc << mdea
 
-      return doc.to_s
+      doc.to_s
     end # rest xml
 
   end # class ExtAttrib
