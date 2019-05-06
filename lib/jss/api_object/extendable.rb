@@ -77,9 +77,6 @@ module JSS
     # @return [Array<Hash>] The extension attribute values for the object
     attr_reader :extension_attributes
 
-    # @return [Hash] A mapping of Ext Attrib names to their values
-    attr_reader :ext_attrs
-
     #  Mixed-in Instance Methods
     ###################################
 
@@ -93,8 +90,19 @@ module JSS
     def parse_ext_attrs
       @extension_attributes = @init_data[:extension_attributes]
       @extension_attributes ||= []
-      @ext_attrs = {}
 
+      # remember changes as they happen so
+      # we only send changes back to the server.
+      @changed_eas = []
+    end
+
+    # An easier-to-use hash of EA name to EA value.
+    # This isn't created until its needed, to speed up instantiation.
+    #
+    def ext_attrs
+      return @ext_attrs if @ext_attrs
+
+      @ext_attrs = {}
       @extension_attributes.each do |ea|
         case ea[:type]
 
@@ -111,11 +119,9 @@ module JSS
 
         @ext_attrs[ea[:name]] = ea[:value]
       end # each do ea
-
-      # remember changes as they happen so
-      # we only send changes back to the server.
-      @changed_eas = []
+      @ext_attrs
     end
+
 
     # Set the value of an extension attribute
     #
@@ -158,6 +164,7 @@ module JSS
       been_set = false
       @extension_attributes.each do |ea|
         next unless ea[:name] == name
+
         ea[:value] = value
         been_set = true
       end
@@ -165,7 +172,7 @@ module JSS
         @extension_attributes << { id: ea_def.id, name: name, type: ea_def.data_type, value: value }
       end
 
-      @ext_attrs[name] = value
+      @ext_attrs[name] = value if @ext_attrs
       @changed_eas << name
       @need_to_update = true
     end
