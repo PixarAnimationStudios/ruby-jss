@@ -785,7 +785,7 @@ module JSS
             identity: cert[:identity],
             name: cert[:name]
           }
-        end
+        end # map do cert
 
         # Freeze immutable things.
         # These are updated via recon, and aren't sent
@@ -798,6 +798,8 @@ module JSS
         @software.freeze
 
         @management_password = nil
+
+      # not in jss
       else
         @udid = args[:udid]
         @serial_number = args[:serial_number]
@@ -806,8 +808,42 @@ module JSS
         @alt_mac_address = args[:alt_mac_address]
         @barcode1 = args[:barcode_1]
         @barcode2 = args[:barcode_2]
-      end
+      end # if in jss
     end # initialize
+
+    # Make all the keys of the @hardware hash available as top-level methods
+    # on the Computer instance.
+    #
+    # This is done by catching method_missing and seeing if the method exists
+    # as key of @hardware, and if so, retuning that value, if not, passing on
+    # the method_missing call.
+    # So:
+    #    comp.processor_type
+    # is now the same as:
+    #    comp.hardware[:processor_type]
+    #
+    # The reason for using `method_missing` rather than looping through the
+    # @hardware hash during initialization and doing `define_method` is
+    # speed. When instantiating lots of computers, defining the methods
+    # for each one, when those methods may not be needed, just slows things
+    # down. This way, they're only used when needed.
+    #
+    # This method may be expanded in the future to handle other ad-hoc,
+    # top-level methods.
+    #
+    def method_missing(method, *args, &block)
+      if @hardware.key? method
+        @hardware[method]
+      else
+        super
+      end # if
+    end # def
+
+    # Companion to method_missing, allows for easier debugging in backtraces
+    # that involve missing methods.
+    def respond_to_missing?(method, *)
+      @hardware.key?(method) || super
+    end
 
     # @return [Array] the JSS groups to which thismachine belongs (smart and static)
     #
