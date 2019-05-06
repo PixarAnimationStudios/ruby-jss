@@ -278,8 +278,17 @@ module JSS
       !valid_id(identifier, refresh, api: api).nil?
     end
 
-    # Return an id or nil if an object of this subclass
-    # with the given name or id exists on the server
+    # Return the id of the object of this subclass with the given identifier.
+    #
+    # Return nil if no object has an identifier that matches.
+    #
+    # For all objects the 'name' is an identifier. Some objects have more, e.g.
+    # udid, mac_address & serial_number. Matches are case-insensitive.
+    #
+    # NOTE: while name is an identifier, for Computers and MobileDevices, it
+    # need not be unique in Jamf. If name is matched, which one gets returned
+    # is undefined. In short - dont' use names here unless you know they are
+    # unique.
     #
     # @param identfier [String,Integer] An identifier for an object, a value for
     # one of the available lookup_keys
@@ -293,11 +302,14 @@ module JSS
     #
     def self.valid_id(identifier, refresh = false, api: JSS.api)
       return identifier if all_ids(refresh, api: api).include? identifier
+
       all_lookup_keys.keys.each do |key|
         next if key == :id
-        id = map_all_ids_to(key, api: api).invert[identifier]
-        return id if id
-      end # do key
+
+        map_all_ids_to(key, api: api).invert.each do |ident, id|
+          return id if ident.to_s.casecmp(identifier.to_s).zero?
+        end
+      end
       nil
     end
 
