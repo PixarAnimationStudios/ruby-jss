@@ -319,7 +319,7 @@ module JSS
     #   :id - the jss id
     #   :name - the object (computer, user, mobiledevice) name
     #   :value - the most recent ext attr value for the object.
-    #   :as_of - the timestamp of when the value was collected (nil for User EAs)
+    #   :as_of - the timestamp of when the value was collected (nil for User EAs, or for devices that have never collected inventory)
     #   :username - the username associated with the object
     #
     # This is done by creating a temporary {AdvancedSearch}
@@ -362,7 +362,7 @@ module JSS
                   else i[@symbolized_name]
           end # case
 
-          as_of = Time.parse(i[LAST_RECON_FIELD_SYM]) if i[LAST_RECON_FIELD_SYM]
+          as_of = Time.parse(i[LAST_RECON_FIELD_SYM]) if i[LAST_RECON_FIELD_SYM] != ''
 
           results << { id: i[:id], name: i[:name], username: i[USERNAME_FIELD_SYM], value: value, as_of: as_of }
         end # acs.search_results.each
