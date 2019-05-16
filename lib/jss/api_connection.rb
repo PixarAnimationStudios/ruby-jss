@@ -1070,11 +1070,11 @@ module JSS
       @server_host = args[:server]
       @port = args[:port].to_i
 
+      # trim any potential  leading slash on server_path, ensure a trailing slash
       if args[:server_path]
-        # remove leading & trailing slashes in serverpath if any
-        @server_path = args[:server_path].sub %r{^/*(.*?)/*$}, Regexp.last_match(1)
-        # re-add single trailing slash
-        @server_path << '/'
+        @server_path = args[:server_path]
+        @server_path = @server_path[1..-1] if @server_path.start_with? '/'
+        @server_path << '/' unless @server_path.end_with? '/'
       end
 
       # we're using ssl if:
