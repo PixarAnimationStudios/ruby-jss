@@ -70,9 +70,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :user
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:position, :full_name, :email]
-
     ### This class lets us seach for users
     SEARCH_CLASS = JSS::AdvancedUserSearch
 

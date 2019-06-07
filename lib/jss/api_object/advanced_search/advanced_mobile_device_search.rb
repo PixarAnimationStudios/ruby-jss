@@ -59,9 +59,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :advanced_mobile_device_search
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:sql_text, :display_fields, :mobile_devices].freeze
-
     # what kind of thing is returned by this search?
     RESULT_CLASS = JSS::MobileDevice
 

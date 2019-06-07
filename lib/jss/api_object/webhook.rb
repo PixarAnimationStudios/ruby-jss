@@ -54,9 +54,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :webhook
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:event, :contact_type, :url, :enabled].freeze
-
     # the content types available for webhooks, internally we use Symbols,
     # but the API wants the proper MIME strings
     CONTENT_TYPES = {

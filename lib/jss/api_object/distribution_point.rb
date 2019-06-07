@@ -71,9 +71,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :distribution_point
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:read_only_username, :ssh_username, :is_master ]
-
     ### what  are the mount options? these are comma-separated, and are passed with -o
     MOUNT_OPTIONS = 'nobrowse'
 

@@ -904,32 +904,6 @@ module JSS
       raise JSS::UnsupportedError, "Object History access is not supported for #{self.class} objects at this time" unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
     end
 
-    # If we were passed pre-lookedup API data, validate it,
-    # raising exceptions if not valid.
-    #
-    # DEPRECATED: pre-lookedup data is never used
-    # and support for it will be going away.
-    #
-    # TODO: delete this and all defined VALID_DATA_KEYS
-    #
-    # @return [void]
-    #
-    def validate_external_init_data
-      # data must include all they keys in REQUIRED_DATA_KEYS + VALID_DATA_KEYS
-      # in either the main hash keys or the :general sub-hash, if it exists
-      hash_to_check = @init_data[:general] ? @init_data[:general] : @init_data
-      combined_valid_keys = self.class::REQUIRED_DATA_KEYS + self.class::VALID_DATA_KEYS
-      keys_ok = (hash_to_check.keys & combined_valid_keys).count == combined_valid_keys.count
-      unless keys_ok
-        raise(
-          JSS::InvalidDataError,
-          ":data is not valid JSON for a #{self.class::RSRC_OBJECT_KEY} from the API. It needs at least the keys :#{combined_valid_keys.join ', :'}"
-        )
-      end
-      # and the id must be in the jss
-      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} with JSS id: #{@init_data[:id]}" unless \
-        self.class.all_ids(api: @api).include? hash_to_check[:id]
-    end # validate_init_data
 
     # If we're making a new object in the JSS, make sure we were given
     # valid data to do so, raise exceptions otherwise.

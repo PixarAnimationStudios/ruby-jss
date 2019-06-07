@@ -73,9 +73,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :mobile_device_extension_attribute
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = %i[description inventory_display recon_display].freeze
-
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::MobileDevice
 

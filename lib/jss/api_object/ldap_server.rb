@@ -60,9 +60,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :ldap_server
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [].freeze
-
     # the default LDAP port
     DEFAULT_PORT = 389
 

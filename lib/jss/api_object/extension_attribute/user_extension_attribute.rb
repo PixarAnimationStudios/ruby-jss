@@ -75,9 +75,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :user_extension_attribute
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:description, :data_type, :input_type]
-
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::User
 

@@ -72,9 +72,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :mobile_device_group
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:is_smart, :mobile_devices ]
-
     ### this allows the parent Group class to do things right
     MEMBER_CLASS = JSS::MobileDevice
 

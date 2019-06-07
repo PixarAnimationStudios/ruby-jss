@@ -59,9 +59,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :advanced_user_search
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:criteria, :display_fields, :users].freeze
-
     # what kind of thing is returned by this search?
     RESULT_CLASS = JSS::User
 

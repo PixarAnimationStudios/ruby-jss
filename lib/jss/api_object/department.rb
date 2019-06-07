@@ -70,9 +70,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :department
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = []
-
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}

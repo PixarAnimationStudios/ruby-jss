@@ -79,9 +79,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :script
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:parameters, :filename, :os_requirements].freeze
-
     ### The script storage folder on the distribution point, if used
     DIST_POINT_SCRIPTS_FOLDER = 'Scripts'.freeze
 

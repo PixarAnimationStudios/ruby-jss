@@ -100,9 +100,6 @@ module JSS
     # Where is the Site data in the API JSON?
     SITE_SUBSET = :general
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = %i[device_name capacity tethered].freeze
-
     # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
     OTHER_LOOKUP_KEYS = {
       udid: { rsrc_key: :udid, list: :all_udids },

@@ -48,8 +48,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :patch_external_source
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = %i[enabled ssl_enabled host_name].freeze
 
     # Instance Methods
     #####################################

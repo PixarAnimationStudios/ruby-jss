@@ -76,9 +76,6 @@ module JSS
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :computer_extension_attribute
 
-    ### these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:description, :inventory_display, :recon_display]
-
     ### these ext attribs are related to these kinds of objects
     TARGET_CLASS = JSS::Computer
 

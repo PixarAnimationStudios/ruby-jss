@@ -73,9 +73,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :computer_invitation
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:invitation].freeze
-
     # See JSS::APIObject
     OTHER_LOOKUP_KEYS = {
       invitation: {rsrc_key: :invitation, list: :all_invitations}

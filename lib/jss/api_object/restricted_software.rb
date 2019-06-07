@@ -50,9 +50,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :restricted_software
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = [:scope].freeze
-
     # Our scopes deal with computers
     SCOPE_TARGET_KEY = :computers
 

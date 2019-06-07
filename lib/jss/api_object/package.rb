@@ -61,9 +61,6 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :package
 
-    # these keys, as well as :id and :name,  are present in valid API JSON data for this class
-    VALID_DATA_KEYS = %i[fill_existing_users fill_user_template reboot_required].freeze
-
     # The pkg storage folder on the distribution point
     DIST_POINT_PKGS_FOLDER = 'Packages'.freeze
 
