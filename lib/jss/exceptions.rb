@@ -55,6 +55,11 @@ module JSS
   ###
   class AlreadyExistsError < RuntimeError; end
 
+  ### AmbiguousError - raise this error when a search
+  ### term that should find one object finds more.
+  ###
+  class AmbiguousError < RuntimeError; end
+
   ### FileServiceError - raise this error when
   ### there's a problem accessing file service on a
   ### distribution point.
