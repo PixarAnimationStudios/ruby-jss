@@ -180,14 +180,18 @@ module JSS
     # Where is the Site data in the API JSON?
     SITE_SUBSET = :general
 
-    # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    # these keys,  as well as :id and :name, can be used to look up objects
+    # of this class in the JSS
+    #
+    # the wierd alises mac_addresse and macaddresse
+    # are for proper pluralization of 'mac_address' and such
     OTHER_LOOKUP_KEYS = {
-      udid: { rsrc_key: :udid, list: :all_udids },
-      serialnumber: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-      serial_number: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-      macaddress: { rsrc_key: :macaddress, list: :all_mac_addresses },
-      mac_address: { rsrc_key: :macaddress, list: :all_mac_addresses }
+      udid: %i[uuid guid],
+      serial_number: %i[serialnumber sn],
+      mac_address: %i[mac_addresse macaddress macaddresse macaddr]
     }.freeze
+
+    NON_UNIQUE_NAMES = true
 
     # This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedComputerSearch
@@ -304,25 +308,28 @@ module JSS
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
     def self.all(refresh = false, api: JSS.api)
-      api.object_list_cache[RSRC_LIST_KEY] = nil if refresh
-      return api.object_list_cache[RSRC_LIST_KEY] if api.object_list_cache[RSRC_LIST_KEY]
-      api.object_list_cache[RSRC_LIST_KEY] = api.get_rsrc(self::LIST_RSRC)[self::RSRC_LIST_KEY]
+      cache = api.object_list_cache
+      cache_key = self::RSRC_LIST_KEY
+      cache[cache_key] = nil if refresh
+      return cache[cache_key] if cache[cache_key]
+
+      cache[cache_key] = api.get_rsrc(self::LIST_RSRC)[cache_key]
     end
 
-    # @return [Array<String>] all computer serial numbers in the jss
-    def self.all_serial_numbers(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:serial_number] }
-    end
-
-    # @return [Array<String>] all computer mac_addresses in the jss
-    def self.all_mac_addresses(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:mac_address] }
-    end
-
-    # @return [Array<String>] all computer udids in the jss
-    def self.all_udids(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:udid] }
-    end
+    # # @return [Array<String>] all computer serial numbers in the jss
+    # def self.all_serial_numbers(refresh = false, api: JSS.api)
+    #   all(refresh, api: api).map { |i| i[:serial_number] }
+    # end
+    #
+    # # @return [Array<String>] all computer mac_addresses in the jss
+    # def self.all_mac_addresses(refresh = false, api: JSS.api)
+    #   all(refresh, api: api).map { |i| i[:mac_address] }
+    # end
+    #
+    # # @return [Array<String>] all computer udids in the jss
+    # def self.all_udids(refresh = false, api: JSS.api)
+    #   all(refresh, api: api).map { |i| i[:udid] }
+    # end
 
     # @return [Array<Hash>] all managed computers in the jss
     def self.all_managed(refresh = false, api: JSS.api)

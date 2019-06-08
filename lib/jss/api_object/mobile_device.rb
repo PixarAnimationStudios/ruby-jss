@@ -100,14 +100,17 @@ module JSS
     # Where is the Site data in the API JSON?
     SITE_SUBSET = :general
 
-    # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    # these keys,  as well as :id and :name, can be used to look up objects
+    # of this class in the JSS
+    # the wierd alises wifi_mac_addresse,  mac_addresse and macaddresse
+    # are for proper pluralization of 'mac_address' and such
     OTHER_LOOKUP_KEYS = {
-      udid: { rsrc_key: :udid, list: :all_udids },
-      serialnumber: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-      serial_number: { rsrc_key: :serialnumber, list: :all_serial_numbers },
-      macaddress: { rsrc_key: :macaddress, list: :all_wifi_mac_addresses },
-      mac_address: { rsrc_key: :macaddress, list: :all_wifi_mac_addresses }
+      udid: %i[uuid guid],
+      serial_number: %i[serialnumber sn],
+      wifi_mac_address: %i[wifi_mac_addresse mac_address mac_addresse macaddress macaddresse macaddr]
     }.freeze
+
+    NON_UNIQUE_NAMES = true
 
     # This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
@@ -126,29 +129,9 @@ module JSS
     # Class Methods
     #####################################
 
-    # @return [Array<String>] all mobiledevice serial_numbers
-    def self.all_serial_numbers(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:serial_number] }
-    end
-
     # @return [Array<String>] all mobiledevice phone numbers
     def self.all_phone_numbers(refresh = false, api: JSS.api)
       all(refresh, api: api).map { |i| i[:phone_number] }.reject(&:empty?)
-    end
-
-    # @return [Array<String>] all mobiledevice wifi mac addrs
-    def self.all_wifi_mac_addresses(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:wifi_mac_address] }
-    end
-
-    # @return [Array<String>] all mobiledevice wifi mac addrs
-    def self.all_mac_addresses(refresh = false, api: JSS.api)
-      all_wifi_mac_addresses(refresh, api: api)
-    end
-
-    # @return [Array<String>] all mobiledevice udids
-    def self.all_udids(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |i| i[:udid] }
     end
 
     # @return [Array<Hash>] the list of all managed mobile devices

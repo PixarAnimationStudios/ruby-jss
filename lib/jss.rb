@@ -92,6 +92,9 @@ module JSS
   ### Module Methods
   #####################################
 
+  # TODO: Find a better way to do all this - possibly with
+  # autoloading.
+
   ### Define classes and submodules here so that they don't
   ### generate errors when referenced during the loading of
   ### the library.
@@ -115,7 +118,21 @@ module JSS
   ### Classes
   #####################################
 
-  class APIObject; end
+  class APIObject
+
+    # Builtin ruby callback, whenver a subclass is created.
+    #
+    # Just store the subclass name, at the end of
+    # all the requires, we'll call define_identifier_list_methods
+    # on everything we stored here.
+    #
+    def self.inherited(subclass)
+      @subclasses ||= []
+      @subclasses << subclass
+    end
+
+  end
+
   class APIConnection; end
   class DBConnection; end
   class Server; end

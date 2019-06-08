@@ -132,6 +132,8 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :patch_software_title
 
+    NON_UNIQUE_NAMES = true
+
     # the object type for this object in
     # the object history table.
     # See {APIObject#add_object_history_entry}

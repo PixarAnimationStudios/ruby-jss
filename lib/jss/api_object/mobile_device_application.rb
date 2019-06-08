@@ -54,10 +54,6 @@ module JSS
     # Class Methods
     #####################################
 
-    def self.all_bundle_ids(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |mda| mda[:bundle_id] }
-    end
-
     # Class Constants
     #####################################
 
@@ -83,8 +79,7 @@ module JSS
 
     # see JSS::APIObject
     OTHER_LOOKUP_KEYS = {
-      bundleid: {rsrc_id: :bundleid, list: :all_bundle_ids},
-      bundle_id: {rsrc_id: :bundleid, list: :all_bundle_ids}
+      bundle_id: %i[bundleid]
     }.freeze
 
     # the object type for this object in

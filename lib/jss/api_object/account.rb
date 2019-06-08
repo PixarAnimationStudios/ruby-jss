@@ -37,6 +37,9 @@ module JSS
 
   # A User or group in the JSS.
   #
+  # TODO: Split this into 2 classes, with lots of custom code.
+  # Thanks Jamf!
+  #
   # @see JSS::APIObject
   #
   class Account < JSS::APIObject
@@ -60,16 +63,27 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :account
 
-    # these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS
+    # these keys,  as well as :id and :name, can be used to look up objects of
+    # this class in the JSS
     OTHER_LOOKUP_KEYS = {
-      userid: {rsrc_key: :userid, list: :all_user_ids},
-      username: {rsrc_key: :username, list: :all_user_names},
-      groupid: {rsrc_key: :groupid, list: :all_group_ids},
-      groupname: {rsrc_key: :groupname, list: :all_group_names}
+      userid: nil,
+      username: nil,
+      groupid: nil,
+      groupname: nil
     }.freeze
 
     # Class Methods
     #####################################
+
+    # override auto-defined method
+    def self.all_ids(_refresh = false, **_bunk)
+      raise '.all_ids is not valid for JSS::Account, use .all_user_ids or .all_group_ids'
+    end
+
+    # override auto-defined method
+    def self.all_names(_refresh = false, **_bunk)
+      raise '.all_names is not valid for JSS::Account, use .all_user_names or .all_group_names'
+    end
 
     # @return [Array<Hash>] all JSS account users
     def self.all_users(refresh = false, api: JSS.api)

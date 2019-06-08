@@ -53,13 +53,6 @@ module JSS
     include JSS::Creatable
     include JSS::Sitable
 
-    # Class Methods
-    #####################################
-
-    def self.all_invitations(refresh = false, api: JSS.api)
-      all(refresh, api: api).map { |ci| ci[:invitation]  }
-    end
-
     # Class Constants
     #####################################
 
@@ -75,7 +68,7 @@ module JSS
 
     # See JSS::APIObject
     OTHER_LOOKUP_KEYS = {
-      invitation: {rsrc_key: :invitation, list: :all_invitations}
+      invitation: nil
     }.freeze
 
     # the object type for this object in
