@@ -20,54 +20,10 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
 
-#
-class String
 
-  # Convert the strings "true" and "false"
-  # (after stripping whitespace and downcasing)
-  # to TrueClass and FalseClass respectively
-  #
-  # Return nil if any other string.
-  #
-  # @return [Boolean,nil] the boolean value
-  #
-  def jss_to_bool
-    case strip.downcase
-    when 'true' then true
-    when 'false' then false
-    end # case
-  end # to bool
+require 'jss/ruby_extensions/string/conversions.rb'
+require 'jss/ruby_extensions/string/predicates.rb'
 
-  # Convert a string to a Time object
-  #
-  # returns nil if not parsable by JSS::parse_datetime
-  #
-  # @return [Time] the time represented by the string.
-  #
-  def jss_to_time
-    JSS.parse_time self
-  rescue
-    return nil
-  end
-
-  # Convert a String to a Pathname object
-  #
-  # @return [Pathname]
-  #
-  def jss_to_pathname
-    Pathname.new self
-  end
-
-  # Is this string also a positive integer?
-  # (i.e. it consists only of numberic digits)
-  #
-  # @return [Boolean]
-  #
-  def jss_integer?
-    self =~ /\A[0-9]+\Z/ ? true : false
-  end
-
-end # class
+String.include JSSRubyExtensions::String::Predicates
+String.include JSSRubyExtensions::String::Conversions
