@@ -9,7 +9,7 @@ For example, the tests *must* be very interactive from the start - you have to t
 
 Once connected, objects have to be created before they can be listed, fetched, updated, or deleted - so test order matters.
 
-Also, you need to be able to have later tests refer to the same objects you created in earlier tests. Once I've tested that I can create an object on the server and re-fetch it once, I shuold be able to use that object for all future tests without fetching every time.
+Also, you need to be able to have later tests refer to the same objects you created in earlier tests. Once I've tested that I can create an object on the server and re-fetch it once, I should be able to use that object for all future tests without fetching every time, much less re-creating it every time!
 
 Reading most tutorials about ruby testing just leads you in circles when you consider needs such as these.
 
@@ -56,11 +56,9 @@ WARNING: **Be very careful about running these tests on your production JSS !!!*
 
 These tests create and delete objects in the JSS. While they _shouldn't_ hurt any of the existing data - we cannot make any guarantees that they won't hurt something you care about.
 
-As the license text for ruby-jss states:
+As the license text for ruby-jss states, ruby-jss is...
 
 ```
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the Apache License with the above modification is
     distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.
 ```
