@@ -79,7 +79,7 @@ module JSS
 
     # see JSS::APIObject
     OTHER_LOOKUP_KEYS = {
-      bundle_id: %i[bundleid]
+      bundle_id: { aliases: %i[bundleid], rsrc_key: :bundleid }
     }.freeze
 
     # the object type for this object in

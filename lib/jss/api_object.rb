@@ -111,18 +111,18 @@ module JSS
   # only happen when NON_UNIQUE_NAMES is true. If the check  doesn't happen
   # and multiple objects have the same name, which one is returned is undefined.
   #
-  # === Lookup Keys
+  # === List Resources and Lookup Keys
   #
   # All APIObjects have a 'list-resource' URL that returns an Array of Hashes
   # with some basic summary info about all items of that class in the JSS. For
-  # example, '../computers' returns an Array of Hashes, one per computer.
-  # the {APIObject.all} class method retrieves this Array.
+  # example, '../JSSResource/computers' returns an Array of Hashes, one per
+  # computer. The {APIObject.all} class method retrieves this Array.
   # (see RSRC_LIST_KEY above).
   #
   # The summary hash about each object always contains at least :id and :name.
   #
   # The class methods '.all_ids' and '.all_names' use the list-resource data
-  # to return Arrays of the desired values - which can be used to check for
+  # to extract Arrays of the desired values - which can be used to check for
   # existance without retrieving an entire object, among other uses.
   #
   # Here's an example of one summary-hash for a mobile device:
@@ -132,14 +132,14 @@ module JSS
   #    :name=>"Bear",
   #    :device_name=>"Bear",
   #    :udid=>"XXX",
-  #    :serial_number=>"YYY",
+  #    :serial_number=>"YYY2244MM60",
   #    :phone_number=>"510-555-1212",
   #    :wifi_mac_address=>"00:00:00:00:00:00",
   #    :managed=>true,
   #    :supervised=>false,
   #    :model=>"iPad Pro (9.7-inch Cellular)",
   #    :model_identifier=>"iPad6,4",
-  #     :modelDisplay=>"iPad Pro (9.7-inch Cellular)",
+  #    :modelDisplay=>"iPad Pro (9.7-inch Cellular)",
   #    :model_display=>"iPad Pro (9.7-inch Cellular)",
   #    :username=>"fred"
   #  }
@@ -152,16 +152,39 @@ module JSS
   # OTHER_LOOKUP_KEYS containing a Hash of Arrays, like so:
   #
   #   OTHER_LOOKUP_KEYS = {
-  #      serial_number: [:serialnumber, :sn],
-  #      udid: nil
+  #      serial_number: { aliases: [:serialnumber, :sn], rsrc_key: :serialnumber },
+  #      udid:  { rsrc_key: :udid },
+  #      wifi_mac_address: { aliases: [:macaddress, :macaddr], rsrc_key: :macaddress }
   #   }
   #
-  # The keys in OTHER_LOOKUP_KEYS are the keys in a summary-hash that hold
-  # a unique identifier.
+  # The keys in OTHER_LOOKUP_KEYS are the keys in a summary-hash data from .all
+  # that hold a unique identifier. Each value is a hash with one or two keys:
   #
-  # The values in OTHER_LOOKUP_KEYS are Arrays of Symbols to use as aliases
-  # for that identifier - abbreviations or spelling varients. If no aliases
-  # are needed, the value should be an explicit 'nil'
+  #   - aliases [Array<Symbol>]
+  #      Aliases for that identifier, i.e. abbreviations or spelling variants.
+  #      If no aliases are needed, don't specify anything, as with the udid:
+  #      in the example above
+  #
+  #   - rsrc_key [Symbol]
+  #     Often a unique identifier can be used to build a URL for fetching (or
+  #     updating or deleteing) an object with that value, rather than with id.
+  #     For example, while the MobileDevice in the example data above would
+  #     normally be fetched at the resource 'JSSResource/mobiledevices/id/3964'
+  #     it can also be fetched at 'JSSResource/mobiledevices/serialnumber/YYY2244MM60'
+  #     Since the URL is built using 'serialnumber', the symbol :serialnumber
+  #     is used as the rsrc_key.
+  #
+  #     Setting a rsrc_key: for one of the OTHER_LOOKUP_KEYS tells ruby-jss that
+  #     such a URL is available, and fetching by that lookup key will be faster
+  #     when using that URL.
+  #
+  #     If a rsrc_key is not set, fetching will be slower, since the fetch
+  #     method must first refresh the list of available objects to find the
+  #     id to use for building the resource URL.
+  #     This is also true when fetching without specifying which lookup key to
+  #     use, e.g. `.fetch 'foo'` vs. `.fetch sn: 'foo'`
+  #
+  #
   #
   # The OTHER_LOOKUP_KEYS, if defined, are merged with the DEFAULT_LOOKUP_KEYS
   # defined below via the {APIObject.lookup_keys} class method, They are used for:
@@ -173,14 +196,15 @@ module JSS
   #
   # - finding valid ids:
   #   The {APIObject.valid_id} class method looks at the known lookup keys to
-  #   findan object's id.
+  #   find an object's id.
   #
   # - fetching:
-  #   When an indentifier is given to `.fetch`, the lookup_keys and aliases
-  #   are used to find the matching id directly, e.g.
-  #   JSS::Computer.fetch sn: 'XYXY123'
+  #   When an indentifier is given to `.fetch`, the rsrc_key is used to build
+  #   the resource URL for fetching the object. If there is no rsrc_key, the
+  #   lookup_keys and aliases are used to find the matching id, which is used
+  #   to build the URL.
   #
-  #   When no identifier is specified, .fetch uses .valid_id
+  #   When no identifier is specified, .fetch uses .valid_id, described above.
   #
   # ==== Name Ambiguity
   #
@@ -200,13 +224,12 @@ module JSS
     # '.new' can only be called from these methods:
     OK_INSTANTIATORS = ['make', 'fetch', 'block in fetch'].freeze
 
-
     # See the discussion of 'Lookup Keys' in the comments/docs
     # for {JSS::APIObject}
     #
     DEFAULT_LOOKUP_KEYS = {
-      id: :id,
-      name: :name
+      id: { rsrc_key: :id },
+      name: { rsrc_key: :name }
     }.freeze
 
     # This table holds the object history for JSS objects.
@@ -217,7 +240,8 @@ module JSS
     # Class Methods
     #####################################
 
-    # What are all the lookup keys & aliases available for this class?
+    # What are all the lookup keys available for this class, with
+    # all their aliases (or optionally not) or with their rsrc_keys
     #
     # This method combines the DEFAULT_LOOOKUP_KEYS defined above, with the
     # optional OTHER_LOOKUP_KEYS from a subclass (See 'Lookup Keys' in the
@@ -230,8 +254,9 @@ module JSS
     # For example, when
     #
     #   OTHER_LOOKUP_KEYS = {
-    #      serial_number: [:serialnumber, :sn],
-    #      udid: nil
+    #      serial_number: { aliases: [:serialnumber, :sn], rsrc_key: :serialnumber },
+    #      udid: { rsrc_key: :udid },
+    #      wifi_mac_address: { aliases: [:macaddress, :macaddr], rsrc_key: :macaddress }
     #   }
     #
     # It is combined with DEFAULT_LOOKUP_KEYS to produce:
@@ -242,13 +267,16 @@ module JSS
     #     serial_number: :serial_number,
     #     serialnumber: :serial_number,
     #     sn: :serial_number,
-    #     udid: :udid
+    #     udid: :udid,
+    #     wifi_mac_address: :wifi_mac_address,
+    #     macaddress: :wifi_mac_address,
+    #     macaddr: :wifi_mac_address
     #   }
     #
     # If the optional parameter no_aliases: is truthy, only the real keynames
     # are returned in an array, so the above would become
     #
-    #   [:id, :name, :serial_number, :udid]
+    #   [:id, :name, :serial_number, :udid, :wifi_mac_address]
     #
     # @param no_aliases [Boolean] Only return the real keys, no aliases.
     #
@@ -258,21 +286,44 @@ module JSS
     # @return [Array<Symbol>] when no_aliases is truthy, the lookup keys for this
     #   subclass
     #
-    def self.lookup_keys(no_aliases: false)
+    def self.lookup_keys(no_aliases: false, rsrc_keys: false)
       parse_lookup_keys unless @lookup_keys
       no_aliases ? @lookup_keys.values.uniq : @lookup_keys
+    end
+
+    # Given a lookup or, or an alias of one, return the matching rsrc_key
+    # for building a 'fetch' resource URL, or nil if no rsrc_key is defined.
+    #
+    # See 'Lookup Keys' in the APIObject class comments/docs above for details.
+    #
+    # @param lookup_key [Symbol] A lookup key, or an aliases of one, for this
+    #   subclass.
+    #
+    # @return [Symbol, nil] the rsrc_key for that lookup key.
+    #
+    def self.fetch_rsrc_key(lookup_key)
+      parse_lookup_keys unless @fetch_rsrc_keys
+      @fetch_rsrc_keys[lookup_key]
     end
 
     # Used by .lookup_keys
     #
     def self.parse_lookup_keys
-      @lookup_keys = DEFAULT_LOOKUP_KEYS.dup
-      return unless defined? self::OTHER_LOOKUP_KEYS
-      self::OTHER_LOOKUP_KEYS.each do |key, aliases|
-        @lookup_keys[key] = key
-        next unless aliases
+      @lookup_keys = {}
+      @fetch_rsrc_keys = {}
 
-        aliases.each { |a| @lookup_keys[a] = key }
+      hsh = DEFAULT_LOOKUP_KEYS.dup
+      hsh.merge!(self::OTHER_LOOKUP_KEYS) if defined? self::OTHER_LOOKUP_KEYS
+
+      hsh.each do |key, info|
+        @lookup_keys[key] = key
+        @fetch_rsrc_keys[key] = info[:rsrc_key]
+        next unless info[:aliases]
+
+        info[:aliases].each do |a|
+          @lookup_keys[a] = key
+          @fetch_rsrc_keys[a] = info[:rsrc_key]
+        end
       end # self::OTHER_LOOKUP_KEYS.each
     end
 
@@ -342,7 +393,7 @@ module JSS
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
     def self.all(refresh = false, api: JSS.api)
-      raise JSS::UnsupportedError, '.all can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
+      validate_not_metaclass(self)
 
       cache = api.object_list_cache
       cache_key = self::RSRC_LIST_KEY
@@ -663,49 +714,73 @@ module JSS
     # subclass.
     #
     # @example
-    #   # computer where 'xyxyxyxy'  is in any of the lookup key fiels
+    #   # computer where 'xyxyxyxy'  is in any of the lookup key fields
     #   JSS::Computer.fetch 'xyxyxyxy'
     #
-    #   # computer where 'xyxyxyxy' is the serial numbers
+    #   # computer where 'xyxyxyxy' is the serial number
     #   JSS::Computer.fetch serial_number: 'xyxyxyxy'
+    #
+    # Fetching is faster when specifying a lookup key, and that key has a
+    # rsrc_key defined in its OTHER_LOOKUP_KEYS constant, as in the second
+    # example above.
+    #
+    # When no lookup key is given, as in the first example above, or when that
+    # key doesn't have a defined rsrc_key, ruby-jss uses the currently cached
+    # list resource data to find the id matching the value given, and that id
+    # is used to fetch the object. (see 'List Resources and Lookup Keys' in the
+    # APIObject comments/docs above)
+    #
+    # Since that cached list data may be out of date, you can provide the param
+    # `refrsh: true`, to reload the list from the server. This will cause the
+    # fetch to be slower still, so use with caution.
     #
     # For creating new objects in the JSS, use {APIObject.make}
     #
-    # @param searchterm[Hash] An optional single value to search for in all the
-    #  lookup keys for this clsss.
+    # @param searchterm[String, Integer] An single value to
+    #   search for in all the lookup keys for this clsss. This is slower
+    #   than specifying a lookup key
     #
     # @param args[Hash] the remaining options for fetching an object.
-    #   If no searchterm is provided, one of the parameters must be a valid
-    #   lookup key and value to find in that key.
+    #   If no searchterm is provided, one of the args must be a valid
+    #   lookup key and value to find in that key, e.g. `serial_number: '1234567'`
     #
     # @option args api[JSS::APIConnection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
     # @option args refresh[Boolean] should the summary list of all objects be
     #   reloaded from the API before being used to look for this object.
-    #   Set this to false when doing lots of fetches close together to speed
-    #   things up
     #
     # @return [APIObject] The ruby-instance of a JSS object
     #
     def self.fetch(searchterm = nil, **args)
-      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self == JSS::APIObject
+      validate_not_metaclass(self)
 
       # which connection?
       api = args.delete :api
       api ||= JSS.api
 
       # refresh the .all list if needed
-      puts :refreshing if (args.key?(:refresh) ? args[:refresh] : true)
-      all(:refresh, api: api) if (args.key?(:refresh) ? args[:refresh] : true)
-      args.delete :refresh
+      all(:refresh, api: api) if args.delete :refresh
 
+      # get the lookup key and value, if given
+      lookup_key, lookup_val = args.to_a.first
+
+      if lookup_key
+        # does this lookup key have a rsrc_key?
+        rsrc_key = fetch_rsrc_key(lookup_key)
+        return new fetch_rsrc: "#{self::RSRC_BASE}/#{rsrc_key}/#{lookup_val}", api: api if rsrc_key
+      end
+
+      # if we'ere here, we need to get the id from either the lookup key/val or
+      # the searchterm
+      #
       id =
-        if searchterm
+        if fetch_key
+          id_for_identifier fetch_key, fetch_val, api: api
+        elsif searchterm
           valid_id searchterm, api: api
         else
-          fetch_key, fetch_val = args.to_a.first
-          id_for_identifier fetch_key, fetch_val, api: api
+          raise ArgumentError, "Missing searchterm or lookup key"
         end
       raise JSS::NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found" unless id
 
@@ -729,9 +804,10 @@ module JSS
     # @return [APIObject] The un-created ruby-instance of a JSS object
     #
     def self.make(**args)
-      args[:api] ||= JSS.api
-      raise JSS::UnsupportedError, 'JSS::APIObject cannot be instantiated' if self == JSS::APIObject
+      validate_not_metaclass(self)
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
+
+      args[:api] ||= JSS.api
       args[:id] = :new
       new args
     end
@@ -739,6 +815,8 @@ module JSS
     # Disallow direct use of ruby's .new class method for creating instances.
     # Require use of .fetch or .make
     def self.new(**args)
+      validate_not_metaclass(self)
+
       calling_method = caller_locations(1..1).first.label
       unless OK_INSTANTIATORS.include? calling_method
         raise JSS::UnsupportedError, 'Use .fetch or .make to instantiate APIObject classes'
@@ -762,7 +840,8 @@ module JSS
     #   delete them.
     #
     def self.delete(victims, refresh = true, api: JSS.api)
-      raise JSS::UnsupportedError, '.delete can only be called on subclasses of JSS::APIObject' if self == JSS::APIObject
+      validate_not_metaclass(self)
+
       raise JSS::InvalidDataError, 'Parameter must be an Integer ID or an Array of them' unless victims.is_a?(Integer) || victims.is_a?(Array)
 
       case victims
@@ -785,6 +864,10 @@ module JSS
       skipped
     end # self.delete
 
+    # Can't use APIObject directly.
+    def self.validate_not_metaclass(klass)
+      raise JSS::UnsupportedError, 'JSS::APIObject is a metaclass. Do not use it directly' if klass == JSS::APIObject
+    end
 
 
     # Attributes
@@ -837,10 +920,8 @@ module JSS
     #
     #
     def initialize(**args)
-      args[:api] ||= JSS.api
-
       @api = args[:api]
-      raise JSS::UnsupportedError, 'JSS::APIObject is a metaclass and cannot be instantiated' if self.class == JSS::APIObject
+      @api ||= JSS.api
 
       # we're making a new one in the JSS
       if args[:id] == :new
@@ -1126,7 +1207,8 @@ module JSS
 
     # Given initialization args, perform an API lookup for an object.
     #
-    # @param args[Hash] The args passed to #initialize
+    # @param args[Hash] The args passed to #initialize, which must have either
+    #  key :id or key :fetch_rsrc
     #
     # @return [Hash] The parsed JSON data for the object from the API
     #

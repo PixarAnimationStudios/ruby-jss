@@ -186,9 +186,25 @@ module JSS
     # the wierd alises mac_addresse and macaddresse
     # are for proper pluralization of 'mac_address' and such
     OTHER_LOOKUP_KEYS = {
-      udid: %i[uuid guid],
-      serial_number: %i[serialnumber sn],
-      mac_address: %i[mac_addresse macaddress macaddresse macaddr]
+      udid: {
+        aliases: [:uuid, :guid],
+        rsrc_key: :udid
+      },
+      serial_number: {
+        aliases: [:serialnumber, :sn],
+        rsrc_key: :serialnumber
+      },
+      mac_address: {
+        aliases: [
+          :mac_address,
+          :mac_addresse,
+          :macaddress,
+          :macaddresse,
+          :macaddr
+        ],
+        rsrc_key: :macaddress
+      }
+
     }.freeze
 
     NON_UNIQUE_NAMES = true
