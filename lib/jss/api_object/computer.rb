@@ -188,11 +188,11 @@ module JSS
     OTHER_LOOKUP_KEYS = {
       udid: {
         aliases: [:uuid, :guid],
-        rsrc_key: :udid
+        fetch_rsrc_key: :udid
       },
       serial_number: {
         aliases: [:serialnumber, :sn],
-        rsrc_key: :serialnumber
+        fetch_rsrc_key: :serialnumber
       },
       mac_address: {
         aliases: [
@@ -202,7 +202,7 @@ module JSS
           :macaddresse,
           :macaddr
         ],
-        rsrc_key: :macaddress
+        fetch_rsrc_key: :macaddress
       }
 
     }.freeze
