@@ -105,45 +105,68 @@ module JSS
 
   module Composer; end
 
+  ### Mix-in Sub Modules
+
+  module Creatable; end
+  module FileUpload; end
+  module Locatable; end
+  module Matchable; end
+  module Purchasable; end
+  module Updatable; end
+  module Extendable; end
+  module SelfServable; end
+  module Categorizable; end
+  module VPPable; end
+  module Sitable; end
+  module MDM; end
+  module ManagementHistory; end
+
   ### Mix-in Sub Modules with Classes
 
   module Criteriable
+
     class Criteria; end
     class Criterion; end
+
   end
+
   module Scopable
-    class Scope ; end
+
+    class Scope; end
+
   end
 
   ### Classes
   #####################################
-
-  class APIObject
-
-    # Builtin ruby callback, whenver a subclass is created.
-    #
-    # Just store the subclass name, at the end of
-    # all the requires, we'll call define_identifier_list_methods
-    # on everything we stored here.
-    #
-    def self.inherited(subclass)
-      @subclasses ||= []
-      @subclasses << subclass
-    end
-
-  end
 
   class APIConnection; end
   class DBConnection; end
   class Server; end
   class Icon; end
   class Preferences; end
-  class Client; end # TODO: see if this can be made into a module.
+  # TODO: see if this can be made into a module:
+  class Client; end
 
-  ### SubClasses
+  # Parent of all fetchable objects.
+  #
+  class APIObject
+
+    # Builtin ruby callback, whenver a subclass is created.
+    #
+    # Just store the subclass name, at the end of all the requires, we'll
+    # call define_identifier_list_methods  on everything we stored here.
+    #
+    def self.inherited(subclass)
+      @subclasses ||= []
+      @subclasses << subclass
+    end
+
+  end # class APIObject
+
+  ### APIObject SubClasses
   #####################################
 
-  ### APIObject Classes with SubClasses
+  ### APIObject SubClasses with SubClasses
 
   class AdvancedSearch < JSS::APIObject; end
   class AdvancedComputerSearch < JSS::AdvancedSearch; end
@@ -164,7 +187,7 @@ module JSS
   class OSXConfigurationProfile < JSS::ConfigurationProfile; end
   class MobileDeviceConfigurationProfile < JSS::ConfigurationProfile; end
 
-  ### APIObject Classes without SubClasses
+  ### APIObject SubClasses without SubClasses
 
   class Account < JSS::APIObject; end
   class Building < JSS::APIObject; end
@@ -191,23 +214,6 @@ module JSS
   class SoftwareUpdateServer < JSS::APIObject; end
   class User < JSS::APIObject; end
   class WebHook < JSS::APIObject; end
-
-  ### Mix-in Sub Modules
-
-  module Creatable; end
-  module FileUpload; end
-  module Locatable; end
-  module Matchable; end
-  module Purchasable; end
-  module Updatable; end
-  module Extendable; end
-  module SelfServable; end
-  module Categorizable; end
-  module VPPable; end
-  module Sitable; end
-  module MDM; end
-  module ManagementHistory; end
-
 
 end # module JSS
 
