@@ -178,7 +178,7 @@ module JSS
       # @param raw_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
       #
       def initialize(target_key, raw_scope = nil)
-        raw_scope ||= DEFAULT_SCOPE
+        raw_scope ||= DEFAULT_SCOPE.dup
         raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.key?(target_key)
 
         @target_key = target_key
