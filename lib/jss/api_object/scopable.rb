@@ -54,27 +54,19 @@ module JSS
   ###
   module Scopable
 
-    #####################################
     ###  Constants
     #####################################
 
     SCOPABLE = true
 
-    #####################################
-    ###  Variables
-    #####################################
-
-    #####################################
     ###  Attribtues
     #####################################
 
     attr_reader :scope
 
-    #####################################
     ###  Mixed-in Instance Methods
     #####################################
 
-    ###
     ### @api private
     ###
     ### Call this during initialization of objects that have a scope
@@ -87,8 +79,6 @@ module JSS
       @scope.container = self
     end
 
-
-    ###
     ### Change the scope
     ###
     ### @param new_scope[JSS::Scopable::Scope] the new scope
@@ -102,7 +92,6 @@ module JSS
       @need_to_update = true
     end
 
-    ###
     ### When the scope changes, it calls this to tell us that an update is needed.
     ###
     ### @return [void]
@@ -112,7 +101,6 @@ module JSS
     end
 
 
-    ###
     ### A wrapper around the update method, to try catching RestClient::Conflict
     ### 409 errors when we couldn't verify all ldap users/groups due to lack of ldap connections
     ###

@@ -154,7 +154,7 @@ module JSS
     # Builtin ruby callback, whenver a subclass is created.
     #
     # Just store the subclass name, at the end of all the requires, we'll
-    # call define_identifier_list_methods  on everything we stored here.
+    # call define_identifier_list_methods on everything we stored here.
     #
     def self.inherited(subclass)
       @subclasses ||= []

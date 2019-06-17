@@ -40,16 +40,18 @@ module JSS
   # === Initilize / Constructor
   #
   # All subclasses must call `super` in their initialize method, which will
-  # call the method as defined here. Not only does this retrieve the data from
-  # the API, it parses the raw JSON data into a Hash, stored in @init_data.
+  # call the method defined here in APIObject. Not only does this retrieve the
+  # data from the API, it parses the raw JSON data into a Hash, & stores it in
+  # @init_data.
   #
   # In general, subclasses should do any class-specific argument checking before
-  # calling super, and then afterwards, use the contents of @init_data to
+  # calling super, and then afterwards use the contents of @init_data to
   # populate any class-specific attributes. Populating @id, @name, @rest_rsrc,
   # and @in_jss are handled here.
   #
   # This class also handles parsing @init_data for any mixed-in modules, e.g.
-  # Scopable, Categorizable or Extendable.
+  # Scopable, Categorizable or Extendable. See those modules for any
+  # requirements they have when including them.
   #
   # === Object Creation
   #
@@ -71,8 +73,8 @@ module JSS
   #
   # === Required Constants
   #
-  # Subclasses *must* provide certain constants in order to correctly interpret API data and
-  # communicate with the API.
+  # Subclasses *must* provide certain constants in order to correctly interpret
+  # API data and communicate with the API:
   #
   # ==== RSRC_BASE [String]
   #
@@ -96,7 +98,7 @@ module JSS
   #     [{:id=>1020, :name=>"config-no-turnstile", :is_smart=>true},
   #      {:id=>1357, :name=>"10.8 Laptops", :is_smart=>true},
   #      {:id=>1094, :name=>"wifi_cert-expired", :is_smart=>true},
-  #      {:id=>1144, :name=>"chrisltest", :is_smart=>false},
+  #      {:id=>1144, :name=>"mytestgroup", :is_smart=>false},
   #      ...
   #
   # Notice that the Array we want is embedded in a one-item Hash, and the
@@ -116,7 +118,7 @@ module JSS
   #
   # As with the list-resource output mentioned above, when GETting a specific
   # object resource, there's an extra layer of encapsulation in a one-item Hash.
-  # Here's the top of the output for a single computer group fetched
+  # Here's the top of the JSON for a single computer group fetched
   # from '...computergroups/id/1043'
   #
   #   {:computer_group=>
@@ -152,7 +154,9 @@ module JSS
   # fetching individual objects.  When this is the case, those values always
   # appear in the objects list-resource data (See {RSRC_LIST_KEY} above).
   #
-  # For example, here's a summary-hash for a single MobileDevice:
+  # For example, here's a summary-hash for a single MobileDevice from the
+  # list-resource  '...JSSResource/mobiledevices', which you might get in the
+  # Array returned by JSS::MobileDevice.all:
   #
   #   {
   #     :id=>3964,
@@ -190,7 +194,7 @@ module JSS
   #        aliases: [:macaddress, :macaddr],
   #        fetch_rsrc_key: :macaddress
   #      }
-  #   }
+  #   }.freeze
   #
   # The keys in OTHER_LOOKUP_KEYS are the keys in a summary-hash data from .all
   # that hold a unique identifier. Each value is a Hash with one or two keys:
@@ -208,21 +212,20 @@ module JSS
   #     updating or deleteing) an object with that value, rather than with id.
   #     For example, while the MobileDevice in the example data above would
   #     normally be fetched at the resource 'JSSResource/mobiledevices/id/3964'
-  #     it can also be fetched at 'JSSResource/mobiledevices/serialnumber/YYY2244MM60'
+  #     it can also be fetched at
+  #    'JSSResource/mobiledevices/serialnumber/YYY2244MM60'.
   #     Since the URL is built using 'serialnumber', the symbol :serialnumber
   #     is used as the fetch_rsrc_key.
   #
-  #     Setting a fetch_rsrc_key: for one of the OTHER_LOOKUP_KEYS tells ruby-jss that
-  #     such a URL is available, and fetching by that lookup key will be faster
-  #     when using that URL.
+  #     Setting a fetch_rsrc_key: for one of the OTHER_LOOKUP_KEYS tells ruby-jss
+  #     that such a URL is available, and fetching by that lookup key will be
+  #     faster when using that URL.
   #
   #     If a fetch_rsrc_key is not set, fetching will be slower, since the fetch
-  #     method must first refresh the list of available objects to find the
+  #     method must first refresh the list of all available objects to find the
   #     id to use for building the resource URL.
   #     This is also true when fetching without specifying which lookup key to
   #     use, e.g. `.fetch 'foo'` vs. `.fetch sn: 'foo'`
-  #
-  #
   #
   # The OTHER_LOOKUP_KEYS, if defined, are merged with the DEFAULT_LOOKUP_KEYS
   # defined below via the {APIObject.lookup_keys} class method, They are used for:
@@ -237,10 +240,10 @@ module JSS
   #   find an object's id.
   #
   # - fetching:
-  #   When an indentifier is given to `.fetch`, the fetch_rsrc_key is used to build
-  #   the resource URL for fetching the object. If there is no fetch_rsrc_key, the
-  #   lookup_keys and aliases are used to find the matching id, which is used
-  #   to build the URL.
+  #   When an indentifier is given to `.fetch`, the fetch_rsrc_key is used to
+  #   build the resource URL for fetching the object. If there is no
+  #   fetch_rsrc_key, the lookup_keys and aliases are used to find the matching
+  #   id, which is used to build the URL.
   #
   #   When no identifier is specified, .fetch uses .valid_id, described above.
   #
@@ -255,17 +258,17 @@ module JSS
   # JSS::AmbiguousError exception will be raised when trying to fetch by name
   # and the name isn't unique.
   #
-  # Because of the extra processing, the check for this state will
-  # only happen when NON_UNIQUE_NAMES is set. If not set at all,
-  # the check  doesn't happen and if multiple objects have the same name, which
-  # one is returned is undefined.
+  # Because of the extra processing, the check for this state will only happen
+  # when NON_UNIQUE_NAMES is set. If not set at all, the check  doesn't happen
+  # and if multiple objects have the same name, which one is returned is
+  # undefined.
   #
   # When that's the case, fetching explicitly by name, or when fetching with a
   # plain search term that matches a non-unique name, will raise a
   # JSS::AmbiguousError exception,when the name isn't unique. If that happens,
   # you'll have to use some other identifier to fetch the desired object.
   #
-  # Note: Fetching & name collisions are case-insensitive.
+  # Note: Fetching, finding valid id, and name collisions are case-insensitive.
   #
   class APIObject
 
@@ -544,13 +547,13 @@ module JSS
     # @return [Array<APIObject>] the objects requested
     #
     def self.all_objects(refresh = false, api: JSS.api)
-      @objects_cache_key ||= "#{self::RSRC_LIST_KEY}_objects".to_sym
+      objects_cache_key ||= "#{self::RSRC_LIST_KEY}_objects".to_sym
       api_cache = api.object_list_cache
-      api_cache[@objects_cache_key] = nil if refresh
+      api_cache[objects_cache_key] = nil if refresh
 
-      return api_cache[@objects_cache_key] if api_cache[@objects_cache_key]
+      return api_cache[objects_cache_key] if api_cache[objects_cache_key]
       all = all(refresh, api: api)
-      api_cache[@objects_cache_key] = all.map do |o|
+      api_cache[objects_cache_key] = all.map do |o|
         fetch id: o[:id], api: api, refresh: false
       end
     end
@@ -835,7 +838,7 @@ module JSS
         id = valid_id searchterm, api: api
         err_detail = "matching #{searchterm}"
       else
-        raise ArgumentError, 'Missing searchterm or lookup key'
+        raise ArgumentError, 'Missing searchterm or fetch key'
       end
       raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless id
 
@@ -1321,11 +1324,6 @@ module JSS
       end
 
       @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
-
-      # many things have  a :site
-      # TODO: Implement a Sitable mixin module
-      #
-      # @site = JSS::APIObject.get_name(@main_subset[:site]) if @main_subset[:site]
 
       ##### Handle Mix-ins
       initialize_category
