@@ -365,15 +365,45 @@ module JSS
     attr_reader :name
 
     # @return [Hash]
-    # This Hash holds the most recent API query for a list of all items in any
-    # APIObject subclass, keyed by the subclass's RSRC_LIST_KEY.
+    # This Hash caches the result of the the first API query for an APIObject
+    # subclass's .all summary list, keyed by the subclass's RSRC_LIST_KEY.
     # See the APIObject.all class method.
     #
-    # When the APIObject.all method is called without an argument,
+    # It also holds related data items for speedier processing:
+    #
+    # - The Hashes created by APIObject.map_all_ids_to(foo), keyed by
+    #   "#{RSRC_LIST_KEY}_map_#{other_key}".to_sym
+    #
+    # - This hash also holds a cache of the rarely-used APIObject.all_objects
+    #   hash, keyed by "#{RSRC_LIST_KEY}_objects".to_sym
+    #
+    #
+    # When APIObject.all, and related methods are called without an argument,
     # and this hash has a matching value, the value is returned, rather than
     # requerying the API. The first time a class calls .all, or whnever refresh
     # is not false, the API is queried and the value in this hash is updated.
     attr_reader :object_list_cache
+
+    # @return [Hash{Class: Hash{String => JSS::ExtensionAttribute}}]
+    # This Hash caches the Extension Attribute
+    # definition objects for the three types of ext. attribs:
+    # ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and
+    # UserExtensionAttribute, whenever they are fetched for parsing or
+    # validating extention attribute data.
+    #
+    # The top-level keys are the EA classes themselves:
+    # - ComputerExtensionAttribute
+    # - MobileDeviceExtensionAttribute
+    # - UserExtensionAttribute
+    #
+    # These each point to a Hash of their instances, keyed by name, e.g.
+    #   {
+    #    "A Computer EA" => <JSS::ComputerExtensionAttribute...>,
+    #    "A different Computer EA" => <JSS::ComputerExtensionAttribute...>,
+    #    ...
+    #   }
+    #
+    attr_reader :ext_attr_definition_cache
 
     # Constructor
     #####################################
@@ -393,6 +423,7 @@ module JSS
       @name ||= :disconnected
       @connected = false
       @object_list_cache = {}
+      @ext_attr_definition_cache = {}
       connect args unless args.empty?
     end # init
 
@@ -936,6 +967,7 @@ module JSS
       vars.delete :@network_ranges
       vars.delete :@my_distribution_point
       vars.delete :@master_distribution_point
+      vars.delete :@ext_attr_definition_cache
       vars
     end
 
