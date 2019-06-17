@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## \[Unreleased]
 ### Added
+- MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access
+- JSS::AmbiguousError exception class
+- More caching of API data to improve general speed
+  - The hashes created by `APIObject.map_all_ids_to(blah)`
+  - ExtensionAttribute definitions
+
+### Fixed
+- Can't Modify Frozen Hash error when instantiating JSS::Scopbable::Scope. Thanks to @shahn for reporting this one.
+- MobileDeviceExtensionAttribute now handles empty `as_of` timestamp
+
+### Changed
+- Monkey Patching being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
+- MobileDevices and Computers now raise JSS::AmbiguousError when being fetched by explicitly by name, e.g. `JSS::Computer.fetch name: 'foo'` and that name is not unique in the JSS. Previously, you'd get an object back, but no guarantee as to which one it was. You'll still get an undefined object if you use a bare searchterm, e.g. `JSS::Computer.fetch 'foo'`
+- Documentation for subclassing APIObject is updated & expanded. See the comments above the class definition in api_object.rb
+
+## \[1.0.4] - 2019-05-06
+### Added
 - JSS::Group (and its subclasses) now have a `change_membership` class and instance method for static groups.
   - The class method allows adding and removing members without fetching an instance of the group.
   - The instance method adds and/or removes members immediately, without needing to call #update or #save
