@@ -816,6 +816,11 @@ module JSS
       # refresh the .all list if needed
       all(:refresh, api: api) if args.delete :refresh
 
+      # a random object?
+      if searchterm == :random
+        return new id: all_ids.sample, api: api
+      end
+
       # get the lookup key and value, if given
       fetch_key, fetch_val = args.to_a.first
 
