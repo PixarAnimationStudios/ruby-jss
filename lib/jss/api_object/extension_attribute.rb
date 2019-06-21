@@ -67,13 +67,20 @@ module JSS
     # What kinds of data can be created by EAs?
     # Note, Dates must be in the format "YYYY-MM-DD hh:mm:ss"
 
-    DATA_TYPE_STRING = 'String'.freese
+    DATA_TYPE_STRING = 'String'.freeze
     DATA_TYPE_NUMBER = 'Number'.freeze
     DATA_TYPE_INTEGER = 'Integer'.freeze
     DATA_TYPE_DATE = 'Date'.freeze
 
     DATA_TYPES = [DATA_TYPE_STRING, DATA_TYPE_DATE, DATA_TYPE_INTEGER].freeze
+
     DEFAULT_DATA_TYPE = DATA_TYPE_STRING
+
+    # ExtensionAttributes refer to the numeric data type as "Integer"
+    # but the ext. attr values that come with extendable objects refer to
+    # that data type as "Number".  Here's an array with both, so we can
+    # work with ether more easily.
+    NUMERIC_TYPES = [DATA_TYPE_NUMBER, DATA_TYPE_INTEGER].freeze
 
     # Where does the data come from?
 

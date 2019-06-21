@@ -65,13 +65,7 @@ module JSS
 
     EXTENDABLE = true
 
-    # ExtensionAttributes refer to the numeric data type as "Integer"
-    # but the ext. attr values that come with extendable objects refer to
-    # that data type as "Number".  Here's an array with both, so we can
-    # work with ether more easily.
-    NUMERIC_TYPES = [JSS::ExtensionAttribute::DATA_TYPE_NUMBER, JSS::ExtensionAttribute::DATA_TYPE_INTEGER].freeze
-
-    INVALID_DATE = '-- INVALIDLY FORMATED DATE --'.freeze
+    INVALID_DATE = '-- INVALIDLY FORMATtED DATE --'.freeze
 
     #  Attribtues
     ###################################
@@ -132,7 +126,7 @@ module JSS
               INVALID_DATE
             end
 
-          when *NUMERIC_TYPES
+          when *JSS::ExtensionAttribute::NUMERIC_TYPES
             ea[:value].to_i unless ea[:value].to_s.empty?
 
           else # String
@@ -198,7 +192,7 @@ module JSS
 
         value = JSS.parse_datetime value
 
-      when *NUMERIC_TYPES
+      when *JSS::ExtensionAttribute::NUMERIC_TYPES
         raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
 
       else # String
