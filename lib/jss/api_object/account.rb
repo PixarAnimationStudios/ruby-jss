@@ -66,10 +66,10 @@ module JSS
     # these keys,  as well as :id and :name, can be used to look up objects of
     # this class in the JSS
     OTHER_LOOKUP_KEYS = {
-      userid: { rsrc_key: :userid },
-      username: { rsrc_key: :username },
-      groupid: { rsrc_key: :groupid },
-      groupname: { rsrc_key: :groupname }
+      userid: { fetch_rsrc_key: :userid },
+      username: { fetch_rsrc_key: :username },
+      groupid: { fetch_rsrc_key: :groupid },
+      groupname: { fetch_rsrc_key: :groupname }
     }.freeze
 
     # Class Methods

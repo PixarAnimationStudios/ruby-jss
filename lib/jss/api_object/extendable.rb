@@ -69,7 +69,9 @@ module JSS
     # but the ext. attr values that come with extendable objects refer to
     # that data type as "Number".  Here's an array with both, so we can
     # work with ether more easily.
-    NUMERIC_TYPES = %w[Number Integer].freeze
+    NUMERIC_TYPES = [JSS::ExtensionAttribute::DATA_TYPE_NUMBER, JSS::ExtensionAttribute::DATA_TYPE_INTEGER].freeze
+
+    INVALID_DATE = '-- INVALIDLY FORMATED DATE --'.freeze
 
     #  Attribtues
     ###################################
@@ -96,6 +98,22 @@ module JSS
       @changed_eas = []
     end
 
+    # @return [Array<String>] the names of all known EAs
+    #
+    def ea_names
+      ea_types.keys
+    end
+
+    # @return [Hash{String => String}] EA names => data type
+    #   (one of 'String', 'Number', or 'Date')
+    def ea_types
+      return @ea_types if @ea_types
+
+      @ea_types = {}
+      extension_attributes.each { |ea| @ea_types[ea[:name]] = ea[:type] }
+      @ea_types
+    end
+
     # An easier-to-use hash of EA name to EA value.
     # This isn't created until its needed, to speed up instantiation.
     #
@@ -104,74 +122,93 @@ module JSS
 
       @ext_attrs = {}
       @extension_attributes.each do |ea|
-        case ea[:type]
+        @ext_attrs[ea[:name]] =
+          case ea[:type]
 
-        when 'Date'
-          begin # if there's random non-date data, the parse will fail
-            ea[:value] = JSS.parse_datetime ea[:value]
-          rescue
-            true
-          end
+          when 'Date'
+            begin # if there's random non-date data, the parse will fail
+              JSS.parse_datetime ea[:value]
+            rescue
+              INVALID_DATE
+            end
 
-        when *NUMERIC_TYPES
-          ea[:value] = ea[:value].to_i unless ea[:value].to_s.empty?
-        end # case
+          when *NUMERIC_TYPES
+            ea[:value].to_i unless ea[:value].to_s.empty?
 
-        @ext_attrs[ea[:name]] = ea[:value]
+          else # String
+            ea[:value]
+          end # case
       end # each do ea
+
       @ext_attrs
     end
 
-
     # Set the value of an extension attribute
     #
-    # If the extension attribute is defined as a popup menu, the value must be one of the
-    # defined popup choices, or an empty string
+    # The new value is validated based on the data type of the
+    # Ext. Attrib:
     #
-    # If the ext. attrib. is defined with a data type of Integer, the value must be an Integer.
+    # - If the ext. attrib. is defined with a data type of Integer/Number, the
+    #   value must be an Integer.
+    # - If defined with a data type of Date, the value will be parsed as a
+    #   timestamp, and parsing may raise an exception. Dates can't be blank.
+    # - If defined wth data type of String, `to_s` will be called on the value.
     #
-    # If the ext. attrib. is defined with a data type of Date, the value will be converted to a Time
+    # By default, the full EA definition object is fetched to see if the EA's
+    # input type is 'popup menu', and if so, the new value must be one of the
+    # defined popup choices, or blank.
     #
-    # Note that while the Jamf Pro Web interface does not allow editing the values of
-    # Extension Attributes populated by Scripts or LDAP,  the API does allow it.
-    # Bear in mind however that those values will be reset again at the next recon.
+    # The EA definitions used for popup validation are cached, so we don't have
+    # to reach out to the server every time. If you expect the definition to
+    # have changed since it was cached, provide a truthy value to the refresh:
+    # parameter
+    #
+    # To bypass popup validation complepletely, provide a falsey value to the
+    # validate_popup_choice: parameter.
+    # WARNING: beware that your value is the correct type and format, or you might
+    # get errors when saving back to the API.
+    #
+    # Note that while the Jamf Pro Web interface does not allow editing the
+    # values of Extension Attributes populated by Scripts or LDAP,  the API does
+    # allow it. Bear in mind however that those values will be reset again at
+    # the next recon.
     #
     # @param name[String] the name of the extension attribute to set
     #
-    # @param value[String,Time,Time,Integer] the new value for the extension attribute for this user
+    # @param value[String,Time,Integer] the new value for the extension
+    #   attribute for this user
+    #
+    # @param validate_popup_choice[Boolean] validate the new value against the E.A. definition.
+    #   Defaults to true.
+    #
+    # @param refresh[Boolean] Re-read the ext. attrib definition from the API,
+    #   for popup validation.
     #
     # @return [void]
     #
-    def set_ext_attr(name, value)
-      # this will raise an exception if the name doesn't exist
-      ea_def = self.class::EXT_ATTRIB_CLASS.fetch name: name, api: api
+    def set_ext_attr(name, value, validate_popup_choice: true, refresh: false)
+      raise ArgumentError, "Unknown Extension Attribute Name: '#{name}'" unless ea_types.key? name
 
-      if ea_def.input_type == 'Pop-up Menu' && (!ea_def.popup_choices.include? value.to_s)
-        raise JSS::UnsupportedError, "The value for #{name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
-      end
+      value ||= JSS::BLANK
+      validate_popup_value(name, value, refresh) if validate_popup_choice
 
-      unless value == JSS::BLANK
-        case ea_def.data_type
-        when 'Date'
-          value = JSS.parse_datetime value
+      case ea_types[name]
+      when JSS::ExtensionAttribute::DATA_TYPE_DATE
+        raise JSS::InvalidDataError, "The value for #{name} must be a date, cannot be blank" if value == JSS::BLANK
 
-        when *NUMERIC_TYPES
-          raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
+        value = JSS.parse_datetime value
 
-        end # case
-      end # unless blank
+      when *NUMERIC_TYPES
+        raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
 
-      been_set = false
-      @extension_attributes.each do |ea|
-        next unless ea[:name] == name
+      else # String
+        value = value.to_s
+      end # case
 
-        ea[:value] = value
-        been_set = true
-      end
-      unless been_set
-        @extension_attributes << { id: ea_def.id, name: name, type: ea_def.data_type, value: value }
-      end
+      # update this ea hash in the @extension_attributes array
+      @extension_attributes.each { |ea| ea[:value] = value if ea[:name] == name }
 
+      # update the shortcut hash too
       @ext_attrs[name] = value if @ext_attrs
       @changed_eas << name
       @need_to_update = true
@@ -217,6 +254,24 @@ module JSS
       eaxml
     end
 
-  end # module Purchasable
+    # Used by set_ext_attr
+    def validate_popup_value(name, value, refresh)
+      # all popups can take blanks
+      return if value == JSS::BLANK
+
+      # get the ea def. instance from the api cache, or the api
+      api.ext_attr_definition_cache[self.class] ||= {}
+      api.ext_attr_definition_cache[self.class][name] = nil if refresh
+      api.ext_attr_definition_cache[self.class][name] ||= self.class::EXT_ATTRIB_CLASS.fetch name: name, api: api
+
+      ea_def = api.ext_attr_definition_cache[self.class][name]
+      return unless ea_def.from_popup_menu?
+
+      return if ea_def.popup_choices.include? value.to_s
+
+      raise JSS::UnsupportedError, "The value for #{name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
+    end
+
+  end # module extendable
 
 end # module JSS

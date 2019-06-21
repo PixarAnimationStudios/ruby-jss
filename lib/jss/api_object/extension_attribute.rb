@@ -66,12 +66,24 @@ module JSS
 
     # What kinds of data can be created by EAs?
     # Note, Dates must be in the format "YYYY-MM-DD hh:mm:ss"
-    DATA_TYPES = %w[String Date Integer].freeze
-    DEFAULT_DATA_TYPE = 'String'.freeze
+
+    DATA_TYPE_STRING = 'String'.freese
+    DATA_TYPE_NUMBER = 'Number'.freeze
+    DATA_TYPE_INTEGER = 'Integer'.freeze
+    DATA_TYPE_DATE = 'Date'.freeze
+
+    DATA_TYPES = [DATA_TYPE_STRING, DATA_TYPE_DATE, DATA_TYPE_INTEGER].freeze
+    DEFAULT_DATA_TYPE = DATA_TYPE_STRING
 
     # Where does the data come from?
-    INPUT_TYPES = ['Text Field', 'Pop-up Menu', 'script', 'LDAP Attribute Mapping'].freeze
-    DEFAULT_INPUT_TYPE = 'Text Field'.freeze
+
+    INPUT_TYPE_FIELD = 'Text Field'.freeze
+    INPUT_TYPE_POPUP = 'Pop-up Menu'.freeze
+    INPUT_TYPE_SCRIPT = 'script'.freeze
+    INPUT_TYPE_LDAP = 'LDAP Attribute Mapping'.freeze
+
+    INPUT_TYPES = [INPUT_TYPE_FIELD, INPUT_TYPE_POPUP, INPUT_TYPE_SCRIPT, INPUT_TYPE_LDAP].freeze
+    DEFAULT_INPUT_TYPE = INPUT_TYPE_FIELD
 
     # Where can it be displayed in the WebApp?
     # subclasses can add to this list
@@ -142,15 +154,13 @@ module JSS
       @symbolized_name = @name.gsub(/-| /, '_').to_sym
     end # init
 
-
     # Public Instance Methods
     ###################################
-
 
     # @see JSS::Creatable#create
     #
     def create
-      if @input_type == 'Pop-up Menu'
+      if @input_type == INPUT_TYPE_POPUP
         raise MissingDataError, 'No popup_choices set for Pop-up Menu input_type.' unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
       end
       super
@@ -159,7 +169,7 @@ module JSS
     # @see JSS::Updatable#update
     #
     def update
-      if @input_type == 'Pop-up Menu'
+      if @input_type == INPUT_TYPE_POPUP
         raise MissingDataError, 'No popup_choices set for Pop-up Menu input_type.' unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
       end
       super
@@ -178,6 +188,22 @@ module JSS
         @api.timeout = orig_timeout
         @api.open_timeout = orig_open_timeout
       end
+    end
+
+    def from_text_field?
+      @input_type == INPUT_TYPE_FIELD
+    end
+
+    def from_popup_menu?
+      @input_type == INPUT_TYPE_POPUP
+    end
+
+    def from_ldap?
+      @input_type == INPUT_TYPE_LDAP
+    end
+
+    def from_script?
+      @input_type == INPUT_TYPE_SCRIPT
     end
 
     # Change the description of this EA
@@ -228,7 +254,7 @@ module JSS
       return nil if @input_type == new_val
       raise JSS::InvalidDataError, "input_type must be a string, one of: #{INPUT_TYPES.join(', ')}" unless INPUT_TYPES.include? new_val
       @input_type = new_val
-      @popup_choices = nil if @input_type == 'Text Field'
+      @popup_choices = nil if @input_type == INPUT_TYPE_FIELD
       @need_to_update = true
     end #
 
@@ -253,14 +279,14 @@ module JSS
       new_val.map! do |v|
         v = v.to_s.strip
         case @data_type
-        when 'Date'
+        when DATA_TYPE_DATE
           raise JSS::InvalidDataError, "data_type is Date, but '#{v}' is not formatted 'YYYY-MM-DD hh:mm:ss'" unless v =~ /^\d{4}(-\d\d){2} (\d\d:){2}\d\d$/
         when 'Integer'
           raise JSS::InvalidDataError, "data_type is Integer, but '#{v}' is not one" unless v =~ /^\d+$/
         end
         v
       end
-      self.input_type = 'Pop-up Menu'
+      self.input_type = INPUT_TYPE_POPUP
       @popup_choices = new_val
       @need_to_update = true
     end #

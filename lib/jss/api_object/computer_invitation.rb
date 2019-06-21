@@ -68,7 +68,7 @@ module JSS
 
     # See JSS::APIObject
     OTHER_LOOKUP_KEYS = {
-      invitation: { rsrc_key: :invitation }
+      invitation: { fetch_rsrc_key: :invitation }
     }.freeze
 
     # the object type for this object in

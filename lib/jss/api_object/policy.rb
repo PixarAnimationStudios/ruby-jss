@@ -92,6 +92,27 @@ module JSS
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :policy
 
+    # subsets available for fetching
+    # TODO: FilesProcesses and Maintenance don't seem to work
+    SUBSETS = %i[
+      general
+      scope
+      selfservice
+      self_service
+      packages
+      scripts
+      printers
+      dockitems
+      dock_items
+      reboot
+      userinteraction
+      user_interaction
+      disk_encryption
+      diskencryption
+      accountmaintenance
+      account_maintenance
+    ].freeze
+
     # policies can take uploaded icons
     UPLOAD_TYPES = { icon: :policies }.freeze
 
