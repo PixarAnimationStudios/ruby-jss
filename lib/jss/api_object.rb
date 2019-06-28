@@ -591,8 +591,8 @@ module JSS
       keys_to_check = lookup_keys(no_aliases: true)
       keys_to_check.delete :id # we've already checked :id
 
-      # downcase for speedy case-insensitivity - include?, and I assume value?,
-      # is faster with downcasing. See
+      # downcase for speedy case-insensitivity -
+      # include?, and I assume value?, is faster with downcasing. See
       # https://stackoverflow.com/questions/9333952/case-insensitive-arrayinclude/9334066#9334066
       identifier.downcase! if identifier.is_a? String
 
