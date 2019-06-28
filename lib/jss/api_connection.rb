@@ -978,7 +978,12 @@ module JSS
     end
 
     # Empty all cached lists from this connection
-    # then run garbage collection to
+    # then run garbage collection to clear any available memory
+    #
+    # NOTE if you've referenced objects in these caches, those objects
+    # won't be removed from memory, but all cached data will be recached
+    # as needed.
+    #
     # @return [void]
     #
     def flushcache
