@@ -65,7 +65,7 @@ module JSS
 
     EXTENDABLE = true
 
-    INVALID_DATE = '-- INVALIDLY FORMATtED DATE --'.freeze
+    INVALID_DATE = '-- INVALIDLY FORMATTED DATE --'.freeze
 
     #  Attribtues
     ###################################
