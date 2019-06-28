@@ -684,6 +684,9 @@ module JSS
     # Call one of the 'all*' methods on a JSS::APIObject subclass
     # using this APIConnection.
     #
+    #
+    # @deprecated please use the .all class method of the desired class
+    #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
     #
@@ -709,6 +712,9 @@ module JSS
     # Call the 'map_all_ids_to' method on a JSS::APIObject subclass
     # using this APIConnection.
     #
+    # @deprecated please use the .map_all_ids_to  class method of the desired class
+    #
+    #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
     #
@@ -726,6 +732,9 @@ module JSS
 
     # Call the 'valid_id' method on a JSS::APIObject subclass
     # using this APIConnection. See {JSS::APIObject.valid_id}
+    #
+    # @deprecated please use the .valid_id class method of the desired class
+    #
     #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass,
     #   see {JSS.api_object_class}
@@ -745,6 +754,8 @@ module JSS
     # Call the 'exist?' method on a JSS::APIObject subclass
     # using this APIConnection. See {JSS::APIObject.exist?}
     #
+    # @deprecated please use the .exist class method of the desired class
+    #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
     #
@@ -763,6 +774,8 @@ module JSS
     #
     # See {Matchable.match}
     #
+    # @deprecated Please use the .match class method of the desired class
+    #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
     #
@@ -776,6 +789,9 @@ module JSS
 
     # Retrieve an object of a given class from the API
     # See {APIObject.fetch}
+    #
+    # @deprecated Please use the .fetch class method of the desired class
+    #
     #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
@@ -791,6 +807,8 @@ module JSS
     # of the given class
     # See {APIObject.make}
     #
+    # @deprecated Please use the .make class method of the desired class
+    #
     # @param class_name[String,Symbol] The name of a JSS::APIObject subclass
     #   see {JSS.api_object_class}
     #
@@ -804,6 +822,7 @@ module JSS
 
     # Call {JSS::Computer.checkin_settings} q.v.,  passing this API
     # connection
+    # @deprecated Please use JSS::Computer.checkin_settings
     #
     def computer_checkin_settings
       JSS::Computer.checkin_settings api: self
@@ -811,6 +830,7 @@ module JSS
 
     # Call {JSS::Computer.inventory_collection_settings} q.v., passing this API
     # connection
+    # @deprecated Please use JSS::Computer.inventory_collection_settings
     #
     def computer_inventory_collection_settings
       JSS::Computer.inventory_collection_settings api: self
@@ -818,6 +838,7 @@ module JSS
 
     # Call {JSS::Computer.application_usage} q.v., passing this API
     # connection
+    # @deprecated Please use JSS::Computer.application_usage
     #
     def computer_application_usage(ident, start_date, end_date = nil)
       JSS::Computer.application_usage ident, start_date, end_date, api: self
@@ -825,6 +846,8 @@ module JSS
 
     # Call {JSS::Computer.management_data} q.v., passing this API
     # connection
+    #
+    # @deprecated Please use JSS::Computer.management_data
     #
     def computer_management_data(ident, subset: nil, only: nil)
       JSS::Computer.management_data ident, subset: subset, only: only, api: self
@@ -952,6 +975,16 @@ module JSS
     #
     def send_mobiledevice_mdm_command(targets, command, data = {})
       JSS::MobileDevice.send_mdm_command(targets, command, opts: data, api: self)
+    end
+
+    # Empty all cached lists from this connection
+    # then run garbage collection to
+    # @return [void]
+    #
+    def flushcache
+      @object_list_cache = {}
+      @ext_attr_definition_cache = {}
+      GC.start
     end
 
     # Remove the various cached data
