@@ -307,7 +307,8 @@ module JSS
       params[:source_id] ||= params[:source]
 
       # if given a source name, this converts it to an id
-      params[:source_id] = JSS::PatchSource.valid_id params[:source_id]
+      params[:source_id] = JSS::PatchInternalSource.valid_id params[:source_id]
+      params[:source_id] ||= JSS::PatchExternalSource.valid_id params[:source_id]
 
       # build a possible source_name_id
       params[:source_name_id] ||= "#{params[:source_id]}-#{params[:name_id]}"
