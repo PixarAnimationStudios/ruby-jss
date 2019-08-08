@@ -191,7 +191,7 @@ module JSS
       after: 'After'
     }.freeze
 
-    PRINTER_ACTIIONS = {
+    PRINTER_ACTIONS = {
       map: 'install',
       unmap: 'uninstall'
     }.freeze
