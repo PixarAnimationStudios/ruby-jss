@@ -30,7 +30,7 @@
 ruby-jss defines a Ruby module called JSS, which is used for accessing the 'classic' REST API of
 the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple
 devices from [Jamf.com](http://www.jamf.com/). It is available as a
-[rubygem](https://rubygems.org/gems/ruby-jss), and the
+[ruby gem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
 The module abstracts many API resources as Ruby objects, and provides methods for interacting with those
@@ -38,9 +38,7 @@ resources. It also provides some features that aren't a part of the API itself, 
 Jamf-related tools, such as uploading .pkg and .dmg {JSS::Package} data to the master distribution
 point, and the installation of {JSS::Package} objects on client machines. (See [BEYOND THE API](#beyond-the-api))
 
-The module is not a complete implementation of the Jamf API. Only some API objects are modeled, some
-only minimally. Of those, some are read-only, some partially writable, some fully read-write (all
-implemented objects can be deleted) See [OBJECTS IMPLEMENTED](#objects-implemented) for a list.
+The module is not a complete implementation of the Jamf Pro Classic API. Only some API objects are modeled, some only minimally. Of those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted) See [OBJECTS IMPLEMENTED](#objects-implemented) for a list.
 
 We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
@@ -101,7 +99,7 @@ Before you can work with JSS Objects via the API, you have to connect to it.
 
 The method `JSS.api` returns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
 
-When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `JSS.api.connect`, passing it values for the connection. In this example, those values are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
+When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `JSS.api.connect`, passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
 JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
@@ -111,27 +109,29 @@ Make sure the user has privileges in the JSS to do things with desired objects. 
 
 If the server name given ends with 'jamfcloud.com' the port number will default to 443 via SSL.  Otherwise, it defaults to 8443 with SSL (the default port for locally-hosted servers). In other situations, you can specify it with the `port:` and `use_ssl:` parameters.
 
-The connect method also accepts the symbols :stdin and :prompt as values for :pw, which will cause it to read the
+The connect method also accepts the symbols :stdin and :prompt as values for pw:, which will cause it to read the
 password from stdin, or prompt for it in the shell. See the {JSS::APIConnection} class for more connection options and details about its methods.
 
 Also see JSS::Configuration, and the [CONFIGURATION](#configuration) section below, for how to store
 server connection parameters in a simple config file.
 
-### Working with JSS Objects (a.k.a REST Resources)
+### Working with JSS Objects
 
 All of the ruby classes representing objects in Jamf Pro are subclasse of, or modules within, JSS::APIObject and share methods for creating, listing, retrieving, updating, and deleting via the API. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.
+
+Some of those objects also provide access to more 'functional' API resources. For example, the API resources for sending MDM commands to computers and mobile devices are available as class and instance methods of JSS::Computer and JSS::MobileDevice, as are the API resources for accessing management history.
 
 --------
 
 #### Listing Objects
 
-To get an Array of every object in the JSS of some Class, call that Class's .all method:
+To get an Array with a summary of every object in the JSS of some Class, call that Class's .all method:
 
 ```ruby
 JSS::Computer.all # => [{:name=>"cephei", :id=>1122},{:name=>"peterparker", :id=>1218}, {:name=>"rowdy", :id=>931}, ...]
 ```
 
-The Array will contain a Hash for each item, with at least a :name and an :id.  Some classes provide more data for each item.
+The Array will contain a Hash for each item, with at least a :name and an :id.  Some classes provide more summary data for each item.
 To get just the names or just the ids in an Array, use the .all\_names or .all\_ids Class method
 
 ```ruby
@@ -139,7 +139,11 @@ JSS::Computer.all_names # =>  ["cephei", "peterparker", "rowdy", ...]
 JSS::Computer.all_ids # =>  [1122, 1218, 931, ...]
 ```
 
-Some Classes provide other ways to list objects, depending on the data available, e.g. JSS::MobileDevice.all\_udids or JSS::Computer.all\_laptops
+Some Classes provide other ways to list objects, or subsets of them, depending on the data available, e.g. JSS::MobileDevice.all\_udids or JSS::Computer.all\_laptops
+
+You can also perform simple searches for JSS::Computer, JSS::MobileDevice and JSS::User with the `.match` class method. This is the API equivalent of using the simple search field at the top of the Computers, Devices, or Users pages in the Jamf Pro Web interface. This method will return an Array of Hashes for the matching items. Each Hash is a summary of info about a matching item, similar to the summaries returned by the `.all` methods for those items.
+
+To create, modify, or perform advanced searches, use the classes JSS::AdvancedComputerSearch, JSS::AdvancedMobileDeviceSearch, and JSS::AdvancedUserSearch.
 
 --------
 
@@ -152,12 +156,9 @@ To retrieve a single object call the class's `.fetch` method and provide a name:
 a_dept = JSS::Department.fetch name: 'Payroll'# =>  #<JSS::Department:0x10b4c0818...
 ```
 
-Some classes can use more than just the :id and :name keys for lookups, e.g. computers can be looked up with :udid, :serial_number, or :mac_address.
+Some classes can use more than just the :id and name: keys for lookups, e.g. computers can be looked up with udid:, serial_number:, or mac_address:.
 
-You can even fetch objects without specifying the kind of identifier, e.g. `JSS::Computer.fetch 3241`, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.
-
-*NOTE*: For APIObject subclasses, the '.fetch' class method is now the required method to use for retrieving existing objects
-from the API. The '.new' method no longer works. See below for using .make to create new objects in the JSS.
+You can even fetch objects without specifying the kind of identifier, e.g. `JSS::Computer.fetch 'VM3X9483HD78'`, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.
 
 --------
 
@@ -168,7 +169,7 @@ Some Objects can be created anew in the JSS via ruby. To do so, first make a Rub
 ```ruby
 new_pkg = JSS::Package.make name: "transmogrifier-2.3-1.pkg"
 ```
-*NOTE*: some classes require more data than just a :name when created with .make.
+*NOTE*: some classes require more data than just a name: when created with .make
 
 Then set the attributes of the new object as needed
 
@@ -178,15 +179,11 @@ new_pkg.category = "CoolTools"
 # etc..
 ```
 
-Then use the #create method to create it in the JSS. The #save method is an alias of #create
+Then use the #save method to create it in the JSS. The #create method is the same
 
 ```ruby
-new_pkg.create # returns 453, the id number of the object just created
+new_pkg.save # returns 453, the id number of the object just created
 ```
-
-*NOTE*: For APIObject subclasses, the '.make' class method is now the required method to use for making ruby instances to be
-created in the JSS. The '.new' method no longer works.
-
 
 --------
 
@@ -199,10 +196,10 @@ existing_script = JSS::Script.fetch id: 321
 existing_script.name = "transmogrifier-2.3-1.post-install"
 ```
 
-After changing any attributes, use the #update method (also aliased to #save) to push the changes to the JSS.
+After changing any attributes, use the #save method (also aliased to #update) to push the changes to the JSS.
 
 ```ruby
-existing_script.update #  => returns the id number of the object just saved
+existing_script.save #  => returns the id number of the object just saved
 ```
 
 --------
@@ -266,7 +263,7 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 * {JSS::WebHook}
 
 
-**NOTE** Computer and Mobile Device data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
+**NOTE** Most Computer and MobileDevice data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
 ### Updatable, but must be created in the Web UI
 
@@ -293,17 +290,17 @@ All supported API Objects can be deleted
 
 #### Other useful classes & modules:
 
-* {JSS::APIConnection} - An object representing the connection to the REST API
+* {JSS::APIConnection} - An object representing a connection to the Classic API on some server. The 'default' connection object is available via `JSS.api` but you can create others, and pass them into calls like `.fetch` as needed. This is useful when working with multiple servers at a time, such as a production and a test server. Objects retrieved from a connection know which connection they came from, and will only send changes via that connection.
 * {JSS::DBConnection} - An object representing the connection to MySQL database, if used.
-* {JSS::Server} - An encapsulation of some info about the JamfPro server, such as the version and license. An instance is available as an attribute of the {JSS::APIConnection} singleton.
-* {JSS::Client} - An object representing the local machine as a Casper-managed client, and JAMF-related info and methods
-* {JSS::ManagementHistory} - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine's history.
+* {JSS::Server} - An object representing the Jamf Pro server being used by a connection. An instance is available in the #server attribute of a {JSS::APIConnection}.
+* {JSS::Client} - An object representing the local machine as a Jamf-managed client, and provifing Jamf-related info and methods
+* {JSS::ManagementHistory} - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine's history. It is accessed via the Computer and MobileDevice classes and their instances.
 * {JSS::Scopable} - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects.
-* {JSS::MDM} - a module that handles sending MDM commands to Computers and Mobile Devices
+* {JSS::MDM} - a module that handles sending MDM commands. It is accessed via the Computer and MobileDevice classes and their instances.
 
 ## Object-related API endpoints
 
-The classic API provides many endpoints not just for objects stored in Jamd Pro, but also for accessing data *about* those  objects or interacting with the machines they represent. Ruby-jss embeds access to those endpoints into their related classes.
+The classic API provides many endpoints not just for objects stored in Jamf Pro, but also for accessing data *about* those  objects or interacting with the machines they represent. ruby-jss embeds access to those endpoints into their related classes.
 
 For example:
 
@@ -338,7 +335,7 @@ The currently known attributes are:
 To put a standard server & username on all client machines, and auto-accept the JSS's self-signed https certificate, create the file /etc/ruby-jss.conf containing three lines like this:
 
 ```
-api_server_name: casper.myschool.edu
+api_server_name: jamfpro.myschool.edu
 api_username: readonly-api-user
 api_verify_cert: false
 ```
@@ -370,7 +367,7 @@ JSS.api.connect pw: password   # other arguments used from the config settings
 
 ## BEYOND THE API
 
-While the Jamf Pro Classic API provides access to object data in the JSS, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss use the API to provide functionality found in various Casper tools:
+While the Jamf Pro Classic API provides access to object data in the JSS, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss uses the API to provide functionality found in various Jamf tools:
 
 * Client Machine Access
   * The {JSS::Client} module provides the ability to run jamf binary commands, and access the local cache of package receipts

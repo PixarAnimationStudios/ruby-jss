@@ -40,18 +40,6 @@ module JSSRubyExtensions
         self =~ INTEGER_RE ? true : false
       end
 
-      # Case-insensitive == because I'm to lazy to
-      # type foo.casecmp(other).zero? all the time.
-      # Its easier to type foo ** other
-      #
-      # @param other[String] the string we're comparing to.
-      #
-      # @return [Boolean] are the strings the same, ignoring case?
-      #
-      def **(other)
-        casecmp(other.to_s).zero?
-      end
-
     end # module
 
   end # module

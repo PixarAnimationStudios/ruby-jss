@@ -6,20 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## \[Unreleased]
 ### Added
-- MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access
+- MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access. Thanks @aurica!
 - JSS::AmbiguousError exception class
 - More caching of API data to improve general speed
   - The hashes created by `APIObject.map_all_ids_to(blah)`
-  - ExtensionAttribute definitions
+  - ExtensionAttribute definitions when used by extendable classes
+- Implemented Ruby2.4's `String#casecmp?` in older Rubies
+- APIObject.fetch can take the search term `:random` and you'll get a randomly selected object. Example: `a_random_computer = JSS::Computer.fetch :random`
+- Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So instead of `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
+
 
 ### Fixed
 - Can't Modify Frozen Hash error when instantiating JSS::Scopbable::Scope. Thanks to @shahn for reporting this one.
-- MobileDeviceExtensionAttribute now handles empty `as_of` timestamp
+- MobileDeviceExtensionAttribute now handles empty `as_of` timestamp. Thanks @aurica!
+- A couple of typos. Thanks to @cybertunnel for finding one.
+- A bug when parsing the `server_path` parameter to `API::Connection.new`
 
 ### Changed
-- Monkey Patching being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
+- Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
 - MobileDevices and Computers now raise JSS::AmbiguousError when being fetched by explicitly by name, e.g. `JSS::Computer.fetch name: 'foo'` and that name is not unique in the JSS. Previously, you'd get an object back, but no guarantee as to which one it was. You'll still get an undefined object if you use a bare searchterm, e.g. `JSS::Computer.fetch 'foo'`
 - Documentation for subclassing APIObject is updated & expanded. See the comments above the class definition in api_object.rb
+- `APIObject.valid_id` is now case-insensitive
+- Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses
+- Various changes in APIObject and its subclasses to try making `.fetch` and other lookup-methods faster.
 
 ## \[1.0.4] - 2019-05-06
 ### Added

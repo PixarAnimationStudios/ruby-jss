@@ -142,6 +142,7 @@ module JSS
       ongoing: 'Ongoing',
       once_per_computer: 'Once per computer',
       once_per_user: 'Once per user',
+      once_per_user_per_computer: 'Once per user per computer',
       daily: 'Once every day',
       weekly: 'Once every week',
       monthly: 'Once every month'
