@@ -503,8 +503,8 @@ module JSS
       raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
       subset_rsrc = MGMT_DATA_RSRC + "/id/#{id}/subset/#{subset}"
       subset_data = api.get_rsrc(subset_rsrc)[MGMT_DATA_KEY]
-      return subset_data unless only
-      subset_data.map { |d| d[only] }
+      return subset_data[subset] unless only
+      subset_data[subset].map { |d| d[only] }
     end
     private_class_method :management_data_subset
 
