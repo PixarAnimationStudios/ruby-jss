@@ -556,6 +556,9 @@ module JSS
     # @return [Boolean] doesit support MDM?
     attr_reader :mdm_capable
 
+    # @return [Hash] some MDM status details in general
+    attr_reader :management_status
+
     # @return [Array] user accts that support MDM?
     #  NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data
     #  bug and only shows the last listed user, cuz it comes from the API
@@ -792,6 +795,8 @@ module JSS
         @sus = @init_data[:general][:sus]
 
         @configuration_profiles = @init_data[:configuration_profiles]
+
+        @management_status = @init_data[:general][:management_status]
 
         @groups_accounts = @init_data[:groups_accounts]
         @hardware = @init_data[:hardware]
