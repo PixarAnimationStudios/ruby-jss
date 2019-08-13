@@ -13,14 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ExtensionAttribute definitions when used by extendable classes
 - Implemented Ruby2.4's `String#casecmp?` in older Rubies
 - APIObject.fetch can take the search term `:random` and you'll get a randomly selected object. Example: `a_random_computer = JSS::Computer.fetch :random`
-- Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So instead of `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
+- Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So as well as `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
+- Policy now recognizes the frequency Symbol `:once_per_user_per_computer`
+- Attribute reader :management_status added to Computer class
 
 
 ### Fixed
 - Can't Modify Frozen Hash error when instantiating JSS::Scopbable::Scope. Thanks to @shahn for reporting this one.
 - MobileDeviceExtensionAttribute now handles empty `as_of` timestamp. Thanks @aurica!
-- A couple of typos. Thanks to @cybertunnel for finding one.
+- A few typos. Thanks to @cybertunnel for finding some.
 - A bug when parsing the `server_path` parameter to `API::Connection.new`
+- Bugs in handling blank values in Policy#search_by_path and Policy#printer_ids. Thanks @cybertunnel
+- Computer.management_data with a specified subset returned one level too high in the data structure.
+- NetworkSegment.my_network_segment: error in number of params passed to other methods.
 
 ### Changed
 - Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
@@ -29,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `APIObject.valid_id` is now case-insensitive
 - Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses
 - Various changes in APIObject and its subclasses to try making `.fetch` and other lookup-methods faster.
+- All of the NetworkSegment-related methods in APIConnection have been moved back to NetworkSegment. The methods in APIConnection still work, but are marked deprecated and will go away eventually.
 
 ## \[1.0.4] - 2019-05-06
 ### Added
