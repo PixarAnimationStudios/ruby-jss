@@ -1304,16 +1304,22 @@ module JSS
       @dock_items.map { |p| p[:name] }
     end
 
-    ###### Printers
-
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
-      @printers.map { |p| p[:id] }
+        begin
+            @printers.map { |p| p[:id] }
+            rescue TypeError
+            return []
+        end
     end
-
+    
     # @return [Array] the names of the printers handled by the policy
     def printer_names
-      @printers.map { |p| p[:name] }
+        begin
+            @printers.map { |p| p[:name] }
+            rescue TypeError
+            return []
+        end
     end
 
     ###### Actions
