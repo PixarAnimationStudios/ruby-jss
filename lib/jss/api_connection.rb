@@ -917,49 +917,25 @@ module JSS
       @my_distribution_point
     end
 
-    # All NetworkSegments in this jss as IPAddr object Ranges representing the
-    # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
-    # the range looks like:
-    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    # @deprecated
     #
-    # Using the #include? method on those Ranges is very useful.
-    #
-    # @param refresh[Boolean] should the data be re-queried?
-    #
-    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
+    # @see {JSS::NetworkSegment.network_ranges}
     #
     def network_ranges(refresh = false)
-      @network_ranges = nil if refresh
-      return @network_ranges if @network_ranges
-      @network_ranges = {}
-      JSS::NetworkSegment.all(refresh, api: self).each do |ns|
-        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
-      end
-      @network_ranges
+      JSS::NetworkSegment.network_ranges refresh, api: self
     end # def network_segments
 
-    # Find the ids of the network segments that contain a given IP address.
+    # @deprecated
     #
-    # Even tho IPAddr.include? will take a String or an IPAddr
-    # I convert the ip to an IPAddr so that an exception will be raised if
-    # the ip isn't a valid ip.
+    # @see {JSS::NetworkSegment.network_segments_for_ip}
     #
-    # @param ip[String, IPAddr] the IP address to locate
-    #
-    # @param refresh[Boolean] should the data be re-queried?
-    #
-    # @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
-    #
-    def network_segments_for_ip(ip)
-      ok_ip = IPAddr.new(ip)
-      matches = []
-      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
-      matches
+    def network_segments_for_ip(ip, refresh = false)
+      JSS::NetworkSegment.network_segments_for_ip ip, refresh, api: self
     end
 
-    # Find the current network segment ids for the machine running this code
+    # @deprecated
     #
-    # @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
+    # @see {JSS::NetworkSegment.my_network_segments}
     #
     def my_network_segments
       network_segments_for_ip JSS::Client.my_ip_address

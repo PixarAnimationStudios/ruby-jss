@@ -177,6 +177,7 @@ module JSS
     ###
     def self.validate_ip_range(startip, endip)
       return nil if IPAddr.new(startip.to_s) <= IPAddr.new(endip.to_s)
+
       raise JSS::InvalidDataError, "Starting IP #{startip} is higher than ending ip #{endip} "
     end
 
@@ -195,28 +196,59 @@ module JSS
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
     def self.network_segments_for_ip(ip, refresh = false, api: JSS.api)
-      api.network_segments_for_ip ip, refresh
+      ok_ip = IPAddr.new(ip)
+      matches = []
+      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
+      matches
     end
 
     # @deprecated use network_segments_for_ip
-    # Backward compatibility
+    # Here for Backward compatibility
     def self.network_segment_for_ip(ip, api: JSS.api)
       network_segments_for_ip(ip, api: api)
     end
 
     ### Find the current network segment ids for the machine running this code
     ###
-    ### @return [Array<Integer>]  the NetworkSegment ids for this machine right now.
+    ### @return [Array<Integer>] the NetworkSegment ids for this machine right now.
     ###
-    def self.my_network_segments(api: JSS.api)
-      network_segment_for_ip JSS::Client.my_ip_address, api: api
+    def self.my_network_segments(refresh = false, names: false, api: JSS.api)
+      ids = network_segments_for_ip JSS::Client.my_ip_address, refresh, api: api
+      return ids unless names
+
+      ids_to_names = map_all_ids_to :name
+      ids.map { |id| ids_to_names[id] }
     end
 
     # @deprecated use my_network_segments
-    # Backward compatibility
+    # Here for backward compatibility
     def self.my_network_segment(api: JSS.api)
       my_network_segments api: api
     end
+
+    # All NetworkSegments in this jss as IPAddr object Ranges representing the
+    # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
+    # the range looks like:
+    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    #
+    # Using the #include? method on those Ranges is very useful.
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @param api[JSS::APIConnection] the API to query
+    #
+    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
+    #   keyed by id
+    #
+    def self.network_ranges(refresh = false, api: JSS.api)
+      @network_ranges = nil if refresh
+      return @network_ranges if @network_ranges
+      @network_ranges = {}
+      all(refresh, api: api).each do |ns|
+        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
+      end
+      @network_ranges
+    end # def network_segments
 
     ### Attributes
     #####################################
