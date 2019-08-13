@@ -1051,7 +1051,11 @@ module JSS
     # @return [Pathname] The path to search for
     #
     def search_by_path
-      Pathname.new @files_processes[:search_by_path]
+      if @files_processes[:search_by_path].nil?
+        return nil
+      else
+        Pathname.new @files_processes[:search_by_path]
+      end
     end
 
     # @return [Boolean] Should the searched-for path be deleted if found?
