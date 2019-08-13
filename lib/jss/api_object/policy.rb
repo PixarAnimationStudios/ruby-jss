@@ -191,7 +191,7 @@ module JSS
       after: 'After'
     }.freeze
 
-    PRINTER_ACTIIONS = {
+    PRINTER_ACTIONS = {
       map: 'install',
       unmap: 'uninstall'
     }.freeze
@@ -1051,7 +1051,11 @@ module JSS
     # @return [Pathname] The path to search for
     #
     def search_by_path
-      Pathname.new @files_processes[:search_by_path]
+      if @files_processes[:search_by_path].nil?
+        return nil
+      else
+        Pathname.new @files_processes[:search_by_path]
+      end
     end
 
     # @return [Boolean] Should the searched-for path be deleted if found?
@@ -1300,16 +1304,22 @@ module JSS
       @dock_items.map { |p| p[:name] }
     end
 
-    ###### Printers
-
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
-      @printers.map { |p| p[:id] }
+        begin
+            @printers.map { |p| p[:id] }
+            rescue TypeError
+            return []
+        end
     end
-
+    
     # @return [Array] the names of the printers handled by the policy
     def printer_names
-      @printers.map { |p| p[:name] }
+        begin
+            @printers.map { |p| p[:name] }
+            rescue TypeError
+            return []
+        end
     end
 
     ###### Actions
