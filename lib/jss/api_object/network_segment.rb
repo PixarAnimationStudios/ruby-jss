@@ -198,7 +198,7 @@ module JSS
     def self.network_segments_for_ip(ip, refresh = false, api: JSS.api)
       ok_ip = IPAddr.new(ip)
       matches = []
-      network_ranges.each { |id, subnet| matches << id if subnet.include?(ok_ip) }
+      network_ranges(refresh, api: api).each { |id, subnet| matches << id if subnet.include?(ok_ip) }
       matches
     end
 
@@ -226,7 +226,7 @@ module JSS
       my_network_segments api: api
     end
 
-    # All NetworkSegments in this jss as IPAddr object Ranges representing the
+    # All NetworkSegments in the given API as IPAddr object Ranges representing the
     # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
     # the range looks like:
     #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
