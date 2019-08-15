@@ -173,12 +173,13 @@ module JSS
     ### @return [void]
     ###
     def name=(new_val)
-      return nil if new_val == @name
-      new_val = nil if new_val == ''
-      raise JSS::MissingDataError, "Name can't be empty" unless new_val
-      raise JSS::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if JSS.send(LIST_METHOD).values.include?
+      new_val = new_val.to_s
+      return if new_val == @name
 
-      ### if the filename is the same, keep it the same
+      raise JSS::MissingDataError, "Name can't be empty" if new_val.empty?
+      raise JSS::AlreadyExistsError, "A script already exists with the name '#{new_val}'" if JSS::Script.all_names.include? new_val
+
+      ### if the filename matches the name, change that too.
       @filename = new_val if @filename == @name
       @name = new_val
 

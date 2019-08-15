@@ -24,8 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A few typos. Thanks to @cybertunnel for finding some.
 - A bug when parsing the `server_path` parameter to `API::Connection.new`
 - Bugs in handling blank values in Policy#search_by_path and Policy#printer_ids. Thanks @cybertunnel
-- Computer.management_data with a specified subset returned one level too high in the data structure.
-- NetworkSegment.my_network_segment: error in number of params passed to other methods.
+- Computer.management_data with a specified subset returned one level too high in the data structure
+- NetworkSegment.my_network_segment: error in number of params passed to other methods
+- Script#name= now works again, no longer uses a constant from an ancient version. Thanks @shahn
 
 ### Changed
 - Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
@@ -35,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses
 - Various changes in APIObject and its subclasses to try making `.fetch` and other lookup-methods faster.
 - All of the NetworkSegment-related methods in APIConnection have been moved back to NetworkSegment. The methods in APIConnection still work, but are marked deprecated and will go away eventually.
+
 
 ## \[1.0.4] - 2019-05-06
 ### Added
