@@ -1035,7 +1035,8 @@ module JSS
     end
 
     def asset_tag=(new_val)
-      return nil if @asset_tag == new_val
+      new_val = '' if new_val.nil?
+      return nil if @asset_tag.to_s == new_val
       new_val.strip!
       @asset_tag = new_val
       @need_to_update = true
