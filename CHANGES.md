@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So as well as `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
 - Policy now recognizes the frequency Symbol `:once_per_user_per_computer`
 - Attribute reader :management_status added to Computer class
+- Implemented some useful String methods from newer versions of Ruby into older Rubies: casecmp?, delete_prefix, & delete_suffix
 
 
 ### Fixed
@@ -27,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Computer.management_data with a specified subset returned one level too high in the data structure
 - NetworkSegment.my_network_segment: error in number of params passed to other methods
 - Script#name= now works again, no longer uses a constant from an ancient version. Thanks @shahn
+- Computer#asset_tag= now accepts nil to erase the value
+- APIConnection.my_distribution_point & DistributionPoint.my_distribution_point now return the master_distribution_point object if there isn't one assigned to the current network segment.
 
 ### Changed
 - Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/

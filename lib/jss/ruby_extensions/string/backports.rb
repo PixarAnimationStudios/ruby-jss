@@ -21,11 +21,48 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
+module JSSRubyExtensions
 
-require 'jss/ruby_extensions/string/conversions.rb'
-require 'jss/ruby_extensions/string/predicates.rb'
-require 'jss/ruby_extensions/string/backports.rb'
+  module String
 
-String.include JSSRubyExtensions::String::Predicates
-String.include JSSRubyExtensions::String::Conversions
-String.include JSSRubyExtensions::String::BackPorts
+    module BackPorts
+
+      BLANK = ''.freeze
+
+      # Ruby 2.5 + has these handy delete_* methods
+      unless BLANK.respond_to? :delete_prefix
+
+        def delete_prefix(pfx)
+          sub /\A#{pfx}/, BLANK
+        end
+
+        def delete_prefix!(pfx)
+          sub! /\A#{pfx}/, BLANK
+        end
+
+        def delete_suffix(sfx)
+          sub /#{sfx}\z/, BLANK
+        end
+
+        def delete_suffix!(sfx)
+          sub! /#{sfx}\z/, BLANK
+        end
+
+      end # unless
+
+      # String#casecmp? - its in Ruby 2.4+
+      unless BLANK.respond_to? :casecmp?
+
+        def casecmp?(other)
+          return nil unless other.is_a? String
+
+          casecmp(other).zero?
+        end
+
+      end # unless
+
+    end # module
+
+  end # module
+
+end # module
