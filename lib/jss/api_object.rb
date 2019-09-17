@@ -829,7 +829,7 @@ module JSS
 
         # does this lookup key have a fetch_rsrc_key?
         fetch_rsrc_key = fetch_rsrc_key(fetch_key)
-        return new fetch_rsrc: "#{self::RSRC_BASE}/#{fetch_rsrc_key}/#{CGI.escape fetch_val}", api: api if fetch_rsrc_key
+        return new fetch_rsrc: "#{self::RSRC_BASE}/#{fetch_rsrc_key}/#{CGI.escape fetch_val.to_s}", api: api if fetch_rsrc_key
       end
 
       # if we'ere here, we need to get the id from either the lookup key/val or
