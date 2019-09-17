@@ -539,7 +539,8 @@ module JSS
     # Get an arbitrary JSS resource
     #
     # The first argument is the resource to get (the part of the API url
-    # after the 'JSSResource/' )
+    # after the 'JSSResource/' ) The resource must be properly URL escaped
+    # beforehand. Note: URL.encode is deprecated, use CGI.escape
     #
     # By default we get the data in JSON, and parse it
     # into a ruby data structure (arrays, hashes, strings, etc)
@@ -559,9 +560,6 @@ module JSS
 
       raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
 
-      # TODO: fix what rubocop is complaining about in the line below.
-      # (I doubt we want to CGI.escape the whole resource)
-      rsrc = URI.encode rsrc
       begin
         @last_http_response = @cnx[rsrc].get(accept: format)
         @last_http_response.body

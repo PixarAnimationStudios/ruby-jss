@@ -96,11 +96,10 @@ module JSS
     def self.application_installs(appname, fields: [], version: nil, ids_only: false, api: JSS.api)
       fields = [fields] unless fields.is_a? Array
 
-      rsrc = "#{COMPUTER_APPLICATIONS_RSRC}/#{appname}"
-      rsrc << "/version/#{version}" if version
-      rsrc << "/inventory/#{fields.join ','}" unless ids_only || fields.empty?
+      rsrc = "#{COMPUTER_APPLICATIONS_RSRC}/#{CGI.escape appname}"
+      rsrc << "/version/#{CGI.escape version}" if version
+      rsrc << "/inventory/#{CGI.escape fields.join(',')}" unless ids_only || fields.empty?
 
-      # get_rsrc will URI.encode the rsrc
       result = api.get_rsrc(rsrc)[:computer_applications]
 
       return result[:unique_computers].map { |c| c[:id] } if ids_only

@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses
 - Various changes in APIObject and its subclasses to try making `.fetch` and other lookup-methods faster.
 - All of the NetworkSegment-related methods in APIConnection have been moved back to NetworkSegment. The methods in APIConnection still work, but are marked deprecated and will go away eventually.
+- Removed last call to deprecated `URI.encode`, replaced with `CGI.escape`
 
 
 ## \[1.0.4] - 2019-05-06
