@@ -11,12 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - More caching of API data to improve general speed
   - The hashes created by `APIObject.map_all_ids_to(blah)`
   - ExtensionAttribute definitions when used by extendable classes
-- Implemented Ruby2.4's `String#casecmp?` in older Rubies
 - APIObject.fetch can take the search term `:random` and you'll get a randomly selected object. Example: `a_random_computer = JSS::Computer.fetch :random`
 - Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So as well as `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
 - Policy now recognizes the frequency Symbol `:once_per_user_per_computer`
 - Attribute reader :management_status added to Computer class
-- Implemented some useful String methods from newer versions of Ruby into older Rubies: casecmp?, delete_prefix, & delete_suffix
+- Implemented some useful String methods from newer versions of Ruby into older Rubies: `casecmp?`, `delete_prefix`, & `delete_suffix`
 
 
 ### Fixed
@@ -30,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Script#name= now works again, no longer uses a constant from an ancient version. Thanks @shahn
 - Computer#asset_tag= now accepts nil to erase the value
 - APIConnection.my_distribution_point & DistributionPoint.my_distribution_point now return the master_distribution_point object if there isn't one assigned to the current network segment.
+- RestClient no longer warns about calling 'to_i' on Responses when calling APIConnection#put_rsrc & #post_rsrc
 
 ### Changed
 - Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/

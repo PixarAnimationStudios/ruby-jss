@@ -564,6 +564,7 @@ module JSS
       rsrc = URI.encode rsrc
       begin
         @last_http_response = @cnx[rsrc].get(accept: format)
+        @last_http_response.body
       rescue RestClient::ExceptionWithResponse => e
         handle_http_error e
       end
@@ -588,6 +589,7 @@ module JSS
 
       # send the data
       @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
+      @last_http_response.body
     rescue RestClient::ExceptionWithResponse => e
       handle_http_error e
     end
@@ -607,7 +609,8 @@ module JSS
       xml.gsub!(/\r/, '&#13;') if xml
 
       # send the data
-      @last_http_response = @cnx[rsrc].post xml, content_type: 'text/xml', accept: :json
+      @last_http_response = @cnx[rsrc].post(xml, content_type: 'text/xml', accept: :json)
+      @last_http_response.body
     rescue RestClient::ExceptionWithResponse => e
       handle_http_error e
     end # post_rsrc
@@ -627,6 +630,7 @@ module JSS
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
+      @last_http_response.body
     rescue RestClient::ExceptionWithResponse => e
       handle_http_error e
     end # delete_rsrc
