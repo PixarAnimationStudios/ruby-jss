@@ -510,7 +510,7 @@ module JSS
       # TODO: prepare for more cases where the POST rsrc is
       # different from the PUT/GET/DELETE.
       orig_rsrc = @rest_rsrc
-      @rest_rsrc = "#{RSRC_BY_PATCH_TITLE}#{patch_title_id}"
+      @rest_rsrc = "#{RSRC_BY_PATCH_TITLE}#{CGI.escape patch_title_id.to_s}"
       super
       @rest_rsrc = orig_rsrc
       refetch_version_info

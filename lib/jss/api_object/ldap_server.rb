@@ -159,7 +159,7 @@ module JSS
     def self.check_membership(ldap_server, user, group, api: JSS.api)
       ldap_server_id = valid_id ldap_server
       raise JSS::NoSuchItemError, "No LDAPServer matching #{ldap_server}" unless ldap_server_id
-      rsrc = "#{RSRC_BASE}/id/#{ldap_server_id}/group/#{CGI.escape group}/user/#{CGI.escape user}"
+      rsrc = "#{RSRC_BASE}/id/#{ldap_server_id}/group/#{CGI.escape group.to_s}/user/#{CGI.escape user.to_s}"
       member_check = api.get_rsrc rsrc
       return false if member_check[:ldap_users].empty?
       true
@@ -302,7 +302,7 @@ module JSS
     #
     def find_user(user, exact = false)
       raise JSS::NoSuchItemError, 'LDAPServer not yet saved in the JSS' unless @in_jss
-      raw = api.get_rsrc("#{RSRC_BASE}/id/#{@id}/user/#{user}")[:ldap_users]
+      raw = api.get_rsrc("#{RSRC_BASE}/id/#{@id}/user/#{CGI.escape user.to_s}")[:ldap_users]
       exact ? raw.select { |u| u[:username] == user } : raw
     end
 
@@ -314,7 +314,7 @@ module JSS
     #
     def find_group(group, exact = false)
       raise JSS::NoSuchItemError, 'LDAPServer not yet saved in the JSS' unless @in_jss
-      raw = api.get_rsrc("#{RSRC_BASE}/id/#{@id}/group/#{group}")[:ldap_groups]
+      raw = api.get_rsrc("#{RSRC_BASE}/id/#{@id}/group/#{CGI.escape group.to_s}")[:ldap_groups]
       exact ? raw.select { |u| u[:groupname] == group } : raw
     end
 

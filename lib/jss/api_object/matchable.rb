@@ -88,7 +88,7 @@ module JSS
     ###
     def match(term, api: JSS.api )
       raise JSS::InvalidDataError, "Match term may not be empty" if term.to_s.empty?
-      rsrc = "#{self::RSRC_BASE}/#{JSS::Matchable::MATCH_RSRC}/#{CGI.escape term}"
+      rsrc = "#{self::RSRC_BASE}/#{JSS::Matchable::MATCH_RSRC}/#{CGI.escape term.to_s}"
       api.get_rsrc(rsrc)[self::RSRC_LIST_KEY]
     end
 

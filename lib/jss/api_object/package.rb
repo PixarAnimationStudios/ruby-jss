@@ -899,7 +899,7 @@ module JSS
             raise JSS::InvaldDatatError, 'Incorrect password for http access to distribution point.' unless mdp.check_pw(:http, ro_pw)
             # insert the name and pw into the uri
             # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username}:#{CGI.escape ro_pw}@#{Regexp.last_match(2)}")
+            src_path = src_path.sub(%r{(https?://)(\S)}, "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username.to_s}:#{CGI.escape ro_pw.to_s}@#{Regexp.last_match(2)}")
           end
 
         # or with filesharing?

@@ -103,7 +103,7 @@ module JSS
       orig_id = @id
       @id = nil
       orig_rsrc = @rest_rsrc
-      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name}"
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name.to_s}"
       orig_api = @api
       @api = api
 

@@ -96,8 +96,8 @@ module JSS
     def self.application_installs(appname, fields: [], version: nil, ids_only: false, api: JSS.api)
       fields = [fields] unless fields.is_a? Array
 
-      rsrc = "#{COMPUTER_APPLICATIONS_RSRC}/#{CGI.escape appname}"
-      rsrc << "/version/#{CGI.escape version}" if version
+      rsrc = "#{COMPUTER_APPLICATIONS_RSRC}/#{CGI.escape appname.to_s}"
+      rsrc << "/version/#{CGI.escape version.to_s}" if version
       rsrc << "/inventory/#{CGI.escape fields.join(',')}" unless ids_only || fields.empty?
 
       result = api.get_rsrc(rsrc)[:computer_applications]

@@ -81,7 +81,7 @@ module JSS
       raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS" \
         if self.class.all_names(:refresh, api: @api).include? newname
       @name = newname
-      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name}" if @rest_rsrc.include? '/name/'
+      @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}" if @rest_rsrc.include? '/name/'
       @need_to_update = true
     end #  name=(newname)
 

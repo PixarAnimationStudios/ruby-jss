@@ -323,7 +323,7 @@ module JSS
           # drop down below to try the password for mounting.
           # we'll escape all the chars that aren't unreserved
           # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
-          user_pass = "#{CGI.escape @http_username}:#{CGI.escape ro_pw}@"
+          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape ro_pw.to_s}@"
           url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
         else
           url = @http_url
@@ -410,7 +410,7 @@ module JSS
 
       username = access == :ro ? @read_only_username : @read_write_username
 
-      safe_pw = CGI.escape password
+      safe_pw = CGI.escape password.to_s
 
       @mount_url = "#{@connection_type.downcase}://#{username}:#{safe_pw}@#{@ip_address}/#{@share_name}"
       @mnt_cmd = case @connection_type.downcase
