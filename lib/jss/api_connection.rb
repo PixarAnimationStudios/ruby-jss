@@ -888,17 +888,19 @@ module JSS
       @master_distribution_point = nil if refresh
       return @master_distribution_point if @master_distribution_point
 
-      all_dps = JSS::DistributionPoint.all refresh, api: self
-
-      @master_distribution_point =
-        case all_dps.size
-        when 0
-          raise JSS::NoSuchItemError, 'No distribution points defined'
-        when 1
-          JSS::DistributionPoint.fetch id: all_dps.first[:id], api: self
-        else
-          JSS::DistributionPoint.fetch id: :master, api: self
+      JSS::DistributionPoint.all_ids.each do |dp_id|
+        dp = JSS::DistributionPoint.fetch id: dp_id, api: self
+        if dp.master?
+          @master_distribution_point = dp
+          break
         end
+      end
+
+      return @master_distribution_point if @master_distribution_point
+
+      # If we're here, the Cloud DP might be master, but there's no
+      # access to it in the API :/
+      raise JSS::NoSuchItemError, 'No Master Distribtion Point defined. It could be the Cloud Dist Point, which is not available in the classic API'
     end
 
     # Get the DistributionPoint instance for the machine running

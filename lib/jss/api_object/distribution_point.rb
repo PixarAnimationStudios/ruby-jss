@@ -463,6 +463,7 @@ module JSS
     #### aliases
     alias hostname ip_address
     alias umount unmount
+    alias master? is_master
 
     # Private Instance Methods
     ######################################

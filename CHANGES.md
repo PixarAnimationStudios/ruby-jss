@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[1.1.0] - 2019-09-19
+## \[1.1.1] - 2019-09-20
 ### Added
 - MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access. Thanks @aurica!
 - JSS::AmbiguousError exception class
@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Policy now recognizes the frequency Symbol `:once_per_user_per_computer`
 - Attribute reader :management_status added to Computer class
 - Implemented some useful String methods from newer versions of Ruby into older Rubies: `casecmp?`, `delete_prefix`, & `delete_suffix`
+- master_distribution_point class method in APIConnection & DistribtutionPoint now raise an error when no dist. point is 'master'
+  - The error states that the cloud dist. point may be the master, and there's no classic API access to it.
 
 
 ### Fixed
