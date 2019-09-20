@@ -914,9 +914,11 @@ module JSS
       return @my_distribution_point if @my_distribution_point
 
       my_net_seg_id = my_network_segments[0]
+
       if my_net_seg_id
         my_net_seg = JSS::NetworkSegment.fetch(id: my_net_seg_id, api: self)
-        @my_distribution_point = JSS::DistributionPoint.fetch(name: my_net_seg.distribution_point)
+        my_dp_name = my_net_seg.distribution_point
+        @my_distribution_point = JSS::DistributionPoint.fetch(name: my_dp_name) if my_dp_name
       end # if my_net_seg_id
 
       @my_distribution_point ||= master_distribution_point refresh
