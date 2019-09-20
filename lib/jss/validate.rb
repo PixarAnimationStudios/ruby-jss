@@ -49,8 +49,12 @@ module JSS
     def self.mac_address(val, msg = nil)
       msg ||= "Not a valid MAC address: '#{val}'"
       raise JSS::InvalidDataError, msg unless val =~ MAC_ADDR_RE
+
       val
     end
+
+    # Segments of a valid IPv4 address are integers in this range.
+    IP_SEGMENT_RANGE = 0..255
 
     # Validate the format and content of an IPv4 address
     #
@@ -65,8 +69,9 @@ module JSS
       ok = true
       parts = val.strip.split '.'
       ok = false unless parts.size == 4
-      parts.each { |p| ok = false unless p.jss_integer? && p.to_i < 256 && p.to_i >= 0 }
+      parts.each { |p| ok = false unless p.jss_integer? && IP_SEGMENT_RANGE.include?(p.to_i) }
       raise JSS::InvalidDataError, msg unless ok
+
       val
     end
 
@@ -92,6 +97,7 @@ module JSS
     def self.unique_identifier(klass, identifier, val, msg = nil, api: JSS.api)
       msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
       return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+
       raise JSS::AlreadyExistsError, msg
     end
 
@@ -113,6 +119,7 @@ module JSS
       return bool if JSS::TRUE_FALSE.include? bool
       return true if bool.to_s =~ /^(true|yes)$/i
       return false if bool.to_s =~ /^(false|no)$/i
+
       raise JSS::InvalidDataError, msg
     end
 
@@ -131,6 +138,7 @@ module JSS
       msg ||= 'Value must be an integer'
       val = val.to_i if val.is_a?(String) && val.jss_integer?
       raise JSS::InvalidDataError, msg unless val.is_a? Integer
+
       val
     end
 
@@ -145,6 +153,42 @@ module JSS
     def self.non_empty_string(val, msg = nil)
       msg ||= 'value must be a non-empty String'
       raise JSS::InvalidDataError, msg unless val.is_a?(String) && !val.empty?
+
+      val
+    end
+
+    UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.freeze
+
+    # validate that the given value is a valid uuid string
+    #
+    # @param val [Object] the thing to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the valid uuid string
+    #
+    def self.uuid(val, msg = nil)
+      msg ||= 'value must be valid uuid'
+      raise JSS::InvalidDataError, msg unless val.is_a?(String) && val =~ UUID_RE
+
+      val
+    end
+
+    # validate that the given value is an integer in the JSS::IBeacon::MAJOR_MINOR_RANGE
+    #
+    # @param val [Object] the thing to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the valid integer
+    #
+    def self.ibeacon_major_minor(val, msg = nil)
+      msg ||= "value must be an integer in the range #{JSS::IBeacon::MAJOR_MINOR_RANGE}"
+      val = val.to_i if val.is_a?(String) && val.jss_integer?
+      ok = val.is_a? Integer
+      ok = JSS::IBeacon::MAJOR_MINOR_RANGE.include? val if ok
+      raise JSS::InvalidDataError, msg unless ok
+
       val
     end
 

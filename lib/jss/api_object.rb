@@ -1462,6 +1462,7 @@ module JSS
     end
 
     # Meta Programming
+    ####################################################
 
     # Loop through the defined lookup keys and make
     # .all_<key>s methods for each one, with
@@ -1537,6 +1538,7 @@ require 'jss/api_object/computer_invitation'
 require 'jss/api_object/department'
 require 'jss/api_object/distribution_point'
 require 'jss/api_object/ebook'
+require 'jss/api_object/ibeacon'
 require 'jss/api_object/ldap_server'
 require 'jss/api_object/mac_application'
 require 'jss/api_object/mobile_device'
