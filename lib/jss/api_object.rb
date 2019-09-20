@@ -586,7 +586,7 @@ module JSS
       all(refresh, api: api) if refresh
 
       # it its a valid id, return it
-      return identifier if all_ids.include? identifier
+      return identifier if all_ids(api: api).include? identifier
 
       keys_to_check = lookup_keys(no_aliases: true)
       keys_to_check.delete :id # we've already checked :id
