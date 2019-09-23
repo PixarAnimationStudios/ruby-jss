@@ -21,11 +21,15 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
-
 require 'jss/ruby_extensions/string/conversions.rb'
 require 'jss/ruby_extensions/string/predicates.rb'
 require 'jss/ruby_extensions/string/backports.rb'
 
-String.include JSSRubyExtensions::String::Predicates
-String.include JSSRubyExtensions::String::Conversions
-String.include JSSRubyExtensions::String::BackPorts
+# include the modules loaded above
+class String
+
+  include JSSRubyExtensions::String::Predicates
+  include JSSRubyExtensions::String::Conversions
+  include JSSRubyExtensions::String::BackPorts
+
+end
