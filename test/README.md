@@ -2,8 +2,8 @@
 
 For years, I've attempted to use some ruby testing framework to automate testing of ruby-jss.
 
-Every time I've run into walls because unit testing suites are designed for unit testing, and that's not really what we need to do.  Yes we need to test individual methods of classes and so on, but when working with a REST API, there's a lot of
-scaffolding that needs to happen before tests can even start - and that scaffolding itself is testing the code. And the details of the scaffolding will vary in different environments.
+Every time I've run into walls because unit testing suites are designed for unit testing, and that's not really what we need to do. Yes we need to test individual methods of classes and so on, but when working with a REST API, there's a lot of
+scaffolding that needs to happen before tests can even start - and that scaffolding itself is testing the code. And the details of the scaffolding will vary in different environments. We need to run integration tests.
 
 For example, the tests *must* be very interactive from the start - you have to tell them what server to connect with, what credentials to use, and so on.
 
