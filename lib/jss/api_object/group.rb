@@ -84,7 +84,7 @@ module JSS
     # groups.
     #
     def self.all_static(refresh = false, api: JSS.api)
-      all(refresh, api: api).select { |g| (g[:is_smart]) }
+      all(refresh, api: api).reject { |g| g[:is_smart] }
     end
 
     # Immediatly add and/or remove members in a static group without
