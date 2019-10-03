@@ -241,7 +241,15 @@ module JSS
         raise JSS::MissingDataError, 'No criteria specified for smart group' unless @criteria
       end
       super()
-      refresh_members if calculate_members
+      if calculate_members
+        begin
+          refresh_members
+        rescue RestClient::NotFound
+          # pause a moment to let the API finish creating the group
+          sleep 1
+          refresh_members
+        end # begin
+      end
       @id
     end
 
