@@ -914,7 +914,8 @@ module JSS
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      all :refresh, api: api
+      api.flushcache self::RSRC_LIST_KEY
+      # all :refresh, api: api
 
       skipped
     end # self.delete
@@ -1117,7 +1118,8 @@ module JSS
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      self.class.all :refresh, api: @api
+      @api.flushcache self.class::RSRC_LIST_KEY
+      # self.class.all :refresh, api: @api
 
       :deleted
     end # delete
