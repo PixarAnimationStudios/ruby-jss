@@ -452,7 +452,7 @@ module JSS
 
       cache = api.object_list_cache
       cache_key = self::RSRC_LIST_KEY
-      cache[cache_key] = nil if refresh
+      api.flushcache(cache_key) if refresh
       return cache[cache_key] if cache[cache_key]
 
       cache[cache_key] = api.get_rsrc(self::RSRC_BASE)[cache_key]
