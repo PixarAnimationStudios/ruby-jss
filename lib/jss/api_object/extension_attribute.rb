@@ -233,7 +233,7 @@ module JSS
     #
     def data_type=(new_val)
       return nil if @data_type == new_val
-      raise JSS::InvalidDataError, "data_type must be a string, one of: #{DATA_TYPES.join(', ')}" unless DATA_TYPES.include? new_val
+      raise JSS::InvalidDataError, "data_type must be a string, one of: '#{DATA_TYPES.join("', '")}'" unless DATA_TYPES.include? new_val
       @data_type = new_val
       @need_to_update = true
     end #
