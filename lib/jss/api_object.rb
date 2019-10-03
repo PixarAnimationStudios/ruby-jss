@@ -1276,7 +1276,12 @@ module JSS
 
       raise JSS::MissingDataError, "You must provide a :name to create a #{self.class::RSRC_OBJECT_KEY}." unless args[:name]
 
-      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" if self.class.all_names(:refresh, api: @api).include? args[:name]
+      return if defined? self.class::NON_UNIQUE_NAMES
+
+      matches = self.class.all_names(:refresh, api: @api).select { |n| n.casecmp? args[:name] }
+
+      raise JSS::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" unless matches.empty?
+
     end
 
     # Given initialization args, perform an API lookup for an object.
