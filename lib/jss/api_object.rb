@@ -613,7 +613,9 @@ module JSS
     #   # => the Integer id, or nil if no such serial number
     #
     # Raises a JSS::Ambiguous error if NON_UNIQUE_NAMES is set and
-    #  a :name isn't unique
+    #  a :name isn't unique, or if there's more than one matching value for any key
+    #
+    # This is similar to .valid_id, except only one key is searched
     #
     # @param key [Symbol] they key in which to look for the identifier. Must be
     #   a valid lookup key for this subclass.
@@ -637,17 +639,16 @@ module JSS
       # get the real key if an alias was used
       key = real_lookup_key key
 
+      # do id's expicitly, they are integers
       return all_ids.include?(ident) ? ident : nil if key == :id
 
       validate_unique_name(ident) if key == :name
 
-      # downcase for speed
-      ident.downcase! if ident.is_a? String
       mapped_ids = map_all_ids_to key, api: api
-      mapped_ids.each { |_k, v| v.downcase! if v.is_a? String }
-      return nil unless mapped_ids.value? ident
-
-      mapped_ids.invert[ident]
+      matches = mapped_ids.select { |id, val| ident.casecmp? val }
+      raise JSS::AmbiguousError, "Key #{key}: value '#{name}' is not unique for #{self}" if matches.size > 1
+      return nil if matches.size.zero?
+      matches.keys.first
     end
 
     # Return true or false if an object of this subclass
@@ -925,9 +926,7 @@ module JSS
     # unique. Case Insensitive
     def self.validate_unique_name(name, refresh = false)
       return unless defined? self::NON_UNIQUE_NAMES
-
-      name.downcase!
-      matches = all_names(refresh).map(&:downcase).select { |n| n == name }
+      matches = all_names(refresh).select { |n| n.casecmp? name }
       raise JSS::AmbiguousError, "Name '#{name}' is not unique for #{self}" if matches.size > 1
     end
 
