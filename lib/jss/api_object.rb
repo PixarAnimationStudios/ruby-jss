@@ -612,8 +612,8 @@ module JSS
     #
     #   # => the Integer id, or nil if no such serial number
     #
-    # Raises a JSS::Ambiguous error if NON_UNIQUE_NAMES is set and
-    #  a :name isn't unique, or if there's more than one matching value for any key
+    # Raises a JSS::Ambiguous error if there's more than one matching value
+    # for any key, which might be true of names for Computers and Devices
     #
     # This is similar to .valid_id, except only one key is searched
     #
