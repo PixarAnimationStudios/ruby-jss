@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Group#create with calculate_members = true, would sometimes try to read the new group before the JSS finished creating it, causing a 404 not Found error. If that happens, we now pause 1 second and try again.
 - Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached `all` lists for that class, so subseqent uses of the `all` lists will refresh the data from the API. This means that `APIObject.valid_id` will work immediately upon object creation.
+- Case-insentive lookup & validation methods in APIObject now use `String#casecmp?` for much simpler code
 
 ## \[1.1.3] - 2019-09-23
 ### Added
