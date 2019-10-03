@@ -914,7 +914,7 @@ module JSS
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      api.flushcache self::RSRC_LIST_KEY
+      all :refresh, api: api
 
       skipped
     end # self.delete
@@ -926,8 +926,12 @@ module JSS
 
     # Raise an exception if a name is being used for fetching and it isn't
     # unique. Case Insensitive
-    def self.validate_unique_name(name, refresh = false)
+    def self.validate_unique_name(name, refresh = false, api: JSS.api)
       return unless defined? self::NON_UNIQUE_NAMES
+
+      JSS::Validate.unique_identifier self, :name, name, api: api
+
+
       matches = all_names(refresh).select { |n| n.casecmp? name }
       raise JSS::AmbiguousError, "Name '#{name}' is not unique for #{self}" if matches.size > 1
     end
@@ -1113,7 +1117,7 @@ module JSS
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      @api.flushcache self.class::RSRC_LIST_KEY
+      self.class.all :refresh, api: @api
 
       :deleted
     end # delete
