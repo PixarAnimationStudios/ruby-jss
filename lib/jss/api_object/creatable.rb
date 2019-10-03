@@ -80,6 +80,11 @@ module JSS
       @in_jss = true
       @need_to_update = false
       @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
+
+      # clear any cached all-lists or id-maps for this class
+      # so they'll re-cache as needed
+      api.flushcache self.class::RSRC_LIST_KEY
+
       @id
     end
 

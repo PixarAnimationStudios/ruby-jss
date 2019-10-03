@@ -966,15 +966,28 @@ module JSS
     # Empty all cached lists from this connection
     # then run garbage collection to clear any available memory
     #
+    # If an APIObject Subclass's RSRC_LIST_KEY is specified, only the caches
+    # for that class are flushed (e.g. :computers, :comptuer_groups)
+    #
     # NOTE if you've referenced objects in these caches, those objects
     # won't be removed from memory, but all cached data will be recached
     # as needed.
     #
+    # @param key[Symbol] Flush only the caches for the given RSRC_LIST_KEY
+    #  if nil (the default) flushes all caches
+    #
     # @return [void]
     #
-    def flushcache
-      @object_list_cache = {}
-      @ext_attr_definition_cache = {}
+    def flushcache(key = nil)
+      if key
+        @object_list_cache.delete_if do |cache_key, _cache|
+          cache_key == key || cache_key.to_s.start_with?("#{key}_map_")
+        end
+      else
+        @object_list_cache = {}
+        @ext_attr_definition_cache = {}
+      end
+
       GC.start
     end
 

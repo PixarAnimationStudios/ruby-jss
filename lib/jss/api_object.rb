@@ -921,8 +921,12 @@ module JSS
           api.delete_rsrc "#{self::RSRC_BASE}/id/#{vid}"
         else
           skipped << vid
-        end # if current_ids include v
+        end # if current_ids include vid
       end # each victim
+
+      # clear any cached all-lists or id-maps for this class
+      # so they'll re-cache as needed
+      api.flushcache self::RSRC_LIST_KEY
 
       skipped
     end # self.delete
@@ -1120,6 +1124,11 @@ module JSS
       @id = nil
       @in_jss = false
       @need_to_update = false
+
+      # clear any cached all-lists or id-maps for this class
+      # so they'll re-cache as needed
+      @api.flushcache self.class::RSRC_LIST_KEY
+
       :deleted
     end # delete
 
