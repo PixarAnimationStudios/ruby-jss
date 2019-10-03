@@ -210,7 +210,7 @@ module JSS
     #####################################
 
     # When creating a new group in the JSS, you must call .make with a :type key
-    # and a value of :smart or :static, as well as a :name and the :id => :new
+    # and a value of :smart or :static, as well as a :name
     #
     # @see JSS::APIObject
     #
