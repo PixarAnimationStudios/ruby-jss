@@ -422,8 +422,6 @@ module JSS
       @name = args.delete :name
       @name ||= :disconnected
       @connected = false
-      @object_list_cache = {}
-      @ext_attr_definition_cache = {}
       connect args unless args.empty?
     end # init
 
@@ -467,6 +465,9 @@ module JSS
     # @return [true]
     #
     def connect(args = {})
+      # new connections always get new caches
+      flushcache
+
       args[:no_port_specified] = args[:port].to_s.empty?
       args = apply_connection_defaults args
 
@@ -1272,7 +1273,6 @@ module JSS
   #
   def self.new_api_connection(args = {})
     @api = APIConnection.new args
-    @api
   end
 
   # Switch the connection used for all API interactions to the
@@ -1323,7 +1323,7 @@ module JSS
   end
 
   # create the default connection
-  new_api_connection(name: :default) unless @api
+  new_api_connection unless @api
 
   # Save the default connection in the API constant,
   # mostly for backward compatibility.
