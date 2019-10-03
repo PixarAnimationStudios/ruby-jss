@@ -632,7 +632,7 @@ module JSS
     # @return [Integer, nil] the id of the matching object, or nil if it
     #   doesn't exist
     #
-    def self.id_for_identifier(key, ident, refresh = false, api: JSS.api)
+    def self.id_for_identifier(key, val, refresh = false, api: JSS.api)
       # refresh if needed
       all(refresh, api: api) if refresh
 
@@ -640,13 +640,11 @@ module JSS
       key = real_lookup_key key
 
       # do id's expicitly, they are integers
-      return all_ids.include?(ident) ? ident : nil if key == :id
-
-      validate_unique_name(ident) if key == :name
+      return all_ids.include?(val) ? val : nil if key == :id
 
       mapped_ids = map_all_ids_to key, api: api
-      matches = mapped_ids.select { |id, val| ident.casecmp? val }
-      raise JSS::AmbiguousError, "Key #{key}: value '#{ident}' is not unique for #{self}" if matches.size > 1
+      matches = mapped_ids.select { |id, map_val| val.casecmp? map_val }
+      raise JSS::AmbiguousError, "Key #{key}: value '#{val}' is not unique for #{self}" if matches.size > 1
 
       return nil if matches.size.zero?
 
@@ -802,40 +800,54 @@ module JSS
       api ||= JSS.api
 
       # refresh the .all list if needed
-      all(:refresh, api: api) if args.delete :refresh
+      if args.delete(:refresh) || searchterm == :random
+        all(:refresh, api: api)
+        just_refreshed = true
+      else
+        just_refreshed = false
+      end
 
       # a random object?
-      if searchterm == :random
-        return new id: all_ids.sample, api: api
-      end
+      return new id: all.sample[:id], api: api if searchterm == :random
 
       # get the lookup key and value, if given
       fetch_key, fetch_val = args.to_a.first
+      fetch_rsrc_key = fetch_rsrc_key(fetch_key)
 
-      if fetch_key
-        validate_unique_name(fetch_val) if fetch_key == :name
+      err_detail = "where #{fetch_key} = #{fetch_val}"
 
-        # does this lookup key have a fetch_rsrc_key?
-        fetch_rsrc_key = fetch_rsrc_key(fetch_key)
-        return new fetch_rsrc: "#{self::RSRC_BASE}/#{fetch_rsrc_key}/#{CGI.escape fetch_val.to_s}", api: api if fetch_rsrc_key
-      end
+      # names should raise an error if more than one exists,
+      # so we always have to do id_for_identifier, which will do so.
+      if fetch_rsrc_key == :name
+        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, api: api
+        fetch_rsrc = id ? "#{self::RSRC_BASE}/name/#{CGI.escape fetch_val.to_s}" : nil
 
-      # if we'ere here, we need to get the id from either the lookup key/val or
-      # the searchterm
-      if fetch_key
-        # it has an OTHER_LOOKUP_KEY but that key doesn't have a fetch_rsrc
-        # so we look in the .map_all_ids_to_* hash for it.
-        id = id_for_identifier fetch_key, fetch_val, api: api
-        err_detail = "where #{fetch_key} = #{fetch_val}"
+      # if the fetch rsrc key exists, it can be used directly in an endpoint path
+      # so, use it directly, rather than looking up the id first.
+      elsif fetch_rsrc_key
+        fetch_rsrc = "#{self::RSRC_BASE}/#{fetch_rsrc_key}/#{CGI.escape fetch_val.to_s}"
+
+      # it has an OTHER_LOOKUP_KEY but that key doesn't have a fetch_rsrc
+      # so we look in the .map_all_ids_to_* hash for it.
+      elsif fetch_key
+        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, api: api
+        fetch_rsrc = id ? "#{self::RSRC_BASE}/id/#{id}" : nil
+
+      # no fetch key was given in the args, so try a search term
       elsif searchterm
         id = valid_id searchterm, api: api
+        fetch_rsrc = id ? "#{self::RSRC_BASE}/id/#{id}" : nil
         err_detail = "matching #{searchterm}"
+
       else
         raise ArgumentError, 'Missing searchterm or fetch key'
       end
-      raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless id
 
-      new id: id, api: api
+      begin
+        return new fetch_rsrc: fetch_rsrc, api: api
+      rescue RestClient::NotFound
+        raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless fetch_rsrc
+      end
     end # fetch
 
     # Make a ruby instance of a not-yet-existing APIObject.
@@ -856,6 +868,7 @@ module JSS
     #
     def self.make(**args)
       validate_not_metaclass(self)
+      raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."  unless constants.include? :CREATABLE
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
 
       args[:api] ||= JSS.api
@@ -924,19 +937,6 @@ module JSS
     def self.validate_not_metaclass(klass)
       raise JSS::UnsupportedError, 'JSS::APIObject is a metaclass. Do not use it directly' if klass == JSS::APIObject
     end
-
-    # Raise an exception if a name is being used for fetching and it isn't
-    # unique. Case Insensitive
-    def self.validate_unique_name(name, refresh = false, api: JSS.api)
-      return unless defined? self::NON_UNIQUE_NAMES
-
-      JSS::Validate.unique_identifier self, :name, name, api: api
-
-
-      matches = all_names(refresh).select { |n| n.casecmp? name }
-      raise JSS::AmbiguousError, "Name '#{name}' is not unique for #{self}" if matches.size > 1
-    end
-
 
     # Attributes
     #####################################
