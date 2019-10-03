@@ -105,7 +105,7 @@ module JSS
     # @return [void]
     #
     def self.change_membership(group, add_members: [], remove_members: [], api: JSS.api)
-      raise JSS::NoSuchItemError, "No #{self} matching '#{ident}'" unless (group_id = valid_id group, api: api)
+      raise JSS::NoSuchItemError, "No #{self} matching '#{group}'" unless (group_id = valid_id group, api: api)
       raise JSS::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, api: api)[group_id]
 
       add_members = [add_members].flatten
