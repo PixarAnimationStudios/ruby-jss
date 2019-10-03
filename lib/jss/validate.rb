@@ -92,6 +92,14 @@ module JSS
     def self.unique_identifier(klass, identifier, val, msg = nil, api: JSS.api)
       msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
       return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+
+      key = klass.real_lookup_key identifier
+
+      # use map_all_ids_to cuz it works with any identifer, even non-existing
+      existing_values = klass.map_all_ids_to( key, api: api).values
+      matches = existing_values.select { |existing_val| existing_val.casecmp? val }
+      return val if matches.empty?
+
       raise JSS::AlreadyExistsError, msg
     end
 
