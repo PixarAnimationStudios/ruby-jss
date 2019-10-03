@@ -345,7 +345,7 @@ module JSS
       no_aliases ? @lookup_keys.values.uniq : @lookup_keys
     end
 
-    # Given a lookup or, or an alias of one, return the matching fetch_rsrc_key
+    # Given a lookup key, or an alias of one, return the matching fetch_rsrc_key
     # for building a fetch/GET resource URL, or nil if no fetch_rsrc_key is defined.
     #
     # See {OTHER_LOOKUP_KEYS} in the APIObject class comments/docs above for details.
@@ -591,26 +591,11 @@ module JSS
       keys_to_check = lookup_keys(no_aliases: true)
       keys_to_check.delete :id # we've already checked :id
 
-      # downcase for speedy case-insensitivity -
-      # include?, and I assume value?, is faster with downcasing. See
-      # https://stackoverflow.com/questions/9333952/case-insensitive-arrayinclude/9334066#9334066
-      identifier.downcase! if identifier.is_a? String
-
       keys_to_check.each do |key|
         mapped_ids = map_all_ids_to key, api: api
-        # downcase - see comment above
-        mapped_ids.each { |_k, v| v.downcase! if v.is_a? String }
-
-        # if name is not unique, skip to the next key, there is no
-        # valid id for a non-unique name
-        if key == :name
-          num_name_matches = mapped_ids.values.select { |n| n == identifier }.size
-          next unless num_name_matches == 1
-        else
-          next unless mapped_ids.value? identifier
-        end
-
-        return mapped_ids.invert[identifier]
+        matches = mapped_ids.select { |id, ident| ident.casecmp? identifier }
+        # If exactly one match, return the id
+        return matches.keys.first if matches.size == 1
       end
 
       nil
