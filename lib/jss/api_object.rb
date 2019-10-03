@@ -646,8 +646,10 @@ module JSS
 
       mapped_ids = map_all_ids_to key, api: api
       matches = mapped_ids.select { |id, val| ident.casecmp? val }
-      raise JSS::AmbiguousError, "Key #{key}: value '#{name}' is not unique for #{self}" if matches.size > 1
+      raise JSS::AmbiguousError, "Key #{key}: value '#{ident}' is not unique for #{self}" if matches.size > 1
+
       return nil if matches.size.zero?
+
       matches.keys.first
     end
 
