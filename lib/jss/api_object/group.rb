@@ -236,28 +236,41 @@ module JSS
 
     # @see Creatable#create
     #
-    def create(calculate_members: true)
+    # @param calculate_members [Boolan] should the local membership list be
+    #   re-read from the API after the group is created?
+    #
+    # @param retries [Integer] If calculate_members is true, refetching the
+    #   group to re-read the membership can happen too fast, the JSS won't know
+    #   it exists yet and will throw a RestClient::NotFound error.  If that
+    #   happens, try again this many times with a 1 second pause between attempts.
+    #
+    def create(calculate_members: true, retries: 10)
       if @is_smart
         raise JSS::MissingDataError, 'No criteria specified for smart group' unless @criteria
       end
       super()
+
       if calculate_members
-        begin
-          refresh_members
-        rescue RestClient::NotFound
-          # pause a moment to let the API finish creating the group
-          sleep 1
-          refresh_members
-        end # begin
-      end
+        tries = 0
+        while tries < retries
+          begin
+            refresh_members
+            break
+          rescue RestClient::NotFound
+            sleep 1
+            tries += 1
+          end # begin
+        end # while
+      end # if calc members
+
       @id
     end
 
     # @see Updatable#update
     #
-    def update
+    def update(refresh: true)
       super
-      refresh_members
+      refresh_members if refresh
       @id
     end
 
@@ -277,6 +290,7 @@ module JSS
     #
     def criteria=(new_criteria)
       raise InvalidDataError, 'Only smart groups have criteria.' unless @is_smart
+
       super
     end
 
