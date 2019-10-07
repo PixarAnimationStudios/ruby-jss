@@ -101,7 +101,6 @@ module JSS
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
       @api.flushcache self.class::RSRC_LIST_KEY
-      # self.class.all :refresh, api: @api
 
       @id
     end # update
