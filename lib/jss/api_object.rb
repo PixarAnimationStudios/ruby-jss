@@ -582,6 +582,7 @@ module JSS
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
     def self.valid_id(identifier, refresh = false, api: JSS.api)
+
       # refresh if needed
       all(refresh, api: api) if refresh
 
@@ -593,7 +594,7 @@ module JSS
 
       keys_to_check.each do |key|
         mapped_ids = map_all_ids_to key, api: api
-        matches = mapped_ids.select { |id, ident| ident.casecmp? identifier }
+        matches = mapped_ids.select { |_id, ident| ident.casecmp? identifier }
         # If exactly one match, return the id
         return matches.keys.first if matches.size == 1
       end
@@ -643,7 +644,7 @@ module JSS
       return all_ids.include?(val) ? val : nil if key == :id
 
       mapped_ids = map_all_ids_to key, api: api
-      matches = mapped_ids.select { |id, map_val| val.casecmp? map_val }
+      matches = mapped_ids.select { |_id, map_val| val.casecmp? map_val }
       raise JSS::AmbiguousError, "Key #{key}: value '#{val}' is not unique for #{self}" if matches.size > 1
 
       return nil if matches.size.zero?
