@@ -324,6 +324,9 @@ module JSS
 
     RSRC_NOT_FOUND_MSG = 'The requested resource was not found'.freeze
 
+    # These classes are extendable, and may need cache flushing for EA definitions
+    EXTENDABLE_CLASSES = [JSS::Computer, JSS::MobileDevice, JSS::User].freeze
+
     # Attributes
     #####################################
 
@@ -974,16 +977,21 @@ module JSS
     # won't be removed from memory, but all cached data will be recached
     # as needed.
     #
-    # @param key[Symbol] Flush only the caches for the given RSRC_LIST_KEY
-    #  if nil (the default) flushes all caches
+    # @param key[Symbol] Flush only the caches for the given RSRC_LIST_KEY. or
+    #   the EAdef cache for the given extendable class. If nil (the default)
+    #   flushes all caches
     #
     # @return [void]
     #
     def flushcache(key = nil)
-      if key
+      if EXTENDABLE_CLASSES.include? key
+        @ext_attr_definition_cache[key] = {}
+      elsif key
+        map_key_pfx = "#{key}_map_"
         @object_list_cache.delete_if do |cache_key, _cache|
-          cache_key == key || cache_key.to_s.start_with?("#{key}_map_")
+          cache_key == key || cache_key.to_s.start_with?(map_key_pfx)
         end
+        @ext_attr_definition_cache
       else
         @object_list_cache = {}
         @ext_attr_definition_cache = {}

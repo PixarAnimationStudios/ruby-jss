@@ -180,6 +180,7 @@ module JSS
         raise MissingDataError, 'No popup_choices set for Pop-up Menu input_type.' unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
       end
       super
+      @api.flushcache self.class
     end
 
     # @see JSS::APIObject#delete
@@ -191,6 +192,7 @@ module JSS
       @api.open_timeout = orig_open_timeout + 1800
       begin
         super
+        @api.flushcache self.class
       ensure
         @api.timeout = orig_timeout
         @api.open_timeout = orig_open_timeout
