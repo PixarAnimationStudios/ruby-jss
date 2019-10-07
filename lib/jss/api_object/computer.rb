@@ -1076,13 +1076,13 @@ module JSS
 
     def serial_number=(new_val)
       return nil if new_val == @serial_number
-      @serial_number =  new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :serial_number, new_val, api: api)
+      @serial_number =  new_val.empty? ? new_val : JSS::Validate.doesnt_already_exist(JSS::Computer, :serial_number, new_val, api: api)
       @need_to_update = true
     end
 
     def udid=(new_val)
       return nil if new_val == @udid
-      @udid = new_val.empty? ? new_val : JSS::Validate.unique_identifier(JSS::Computer, :udid, new_val, api: api)
+      @udid = new_val.empty? ? new_val : JSS::Validate.doesnt_already_exist(JSS::Computer, :udid, new_val, api: api)
       @need_to_update = true
     end
 

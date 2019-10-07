@@ -70,7 +70,8 @@ module JSS
       val
     end
 
-    # Validate that a value doesn't already exist for a given identifier of a given class
+    # Validate that a value doesn't already exist for a given identifier of a
+    # given class
     #
     # e.g. when klass = JSS::Computer, identifier = :name, and val = 'foo'
     # will raise an error when a computer named 'foo' exists
@@ -89,7 +90,7 @@ module JSS
     #
     # @return [Object] the validated unique value
     #
-    def self.unique_identifier(klass, identifier, val, msg = nil, api: JSS.api)
+    def self.doesnt_already_exist(klass, identifier, val, msg = nil, api: JSS.api)
       msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
       return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
 
