@@ -28,6 +28,8 @@ To change the number of retries, provide an integer with the `retries:` paramete
 
 - Creatable#create no longer takes an `api:` parameter (it never should have) The API connection given in #make is always used for creating the object in the API.
 
+- Added class JSS::IBeacon, implementing the ibeacons endpoints
+
 ## \[1.1.3] - 2019-09-23
 ### Added
 - MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access. Thanks @aurica!
