@@ -274,6 +274,23 @@ module JSS
       @id
     end
 
+    # Wrapper/alias for both create and update
+    def save(**params)
+      params[:calculate_members] = true if params[:calculate_members].nil?
+      params[:retries] = 10 if params[:retries].nil?
+      params[:refresh] = true if params[:refresh].nil?
+
+      if @in_jss
+        raise JSS::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+
+
+        update refresh: params[:refresh]
+      else
+        raise JSS::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+        create calculate_members: params[:calculate_members], retries: params[:retries]
+      end
+    end
+
     # @see APIObject#delete
     #
     def delete
