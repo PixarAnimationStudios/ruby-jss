@@ -853,14 +853,18 @@ module JSS
 
     # Make a ruby instance of a not-yet-existing APIObject.
     #
-    # This is the preferred way to create new objects in the JSS.
-    # It's a wrapper for using APIObject.new with the 'id: :new' parameter.
-    # and helps avoid the confusion of using ruby's .new class method for making
-    # ruby instances.
+    # This is how to create new objects in the JSS. A name: must be provided,
+    # and different subclasses can take other named parameters.
     #
     # For retrieving existing objects in the JSS, use {APIObject.fetch}
     #
-    # For actually creating the object in the JSS, see {APIObject#create}
+    # After calling this you'll have a local instance, which will be created
+    # in the JSS when you call #create on it. see {APIObject#create}
+    #
+    # @param name[String] The name of this object, generally must be uniqie
+    #
+    # @param api[JSS::APIConnection] the connection thru which to make this
+    #   object. Defaults to the deault API connection in JSS.api
     #
     # @param args[Hash] The data for creating an object, such as name:
     #  See {APIObject#initialize}
@@ -869,7 +873,9 @@ module JSS
     #
     def self.make(**args)
       validate_not_metaclass(self)
-      raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."  unless constants.include? :CREATABLE
+      unless constants.include?(:CREATABLE)
+        raise JSS::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
+      end
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
 
       args[:api] ||= JSS.api
@@ -1020,9 +1026,11 @@ module JSS
     def save
       if @in_jss
         raise JSS::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+
         update
       else
         raise JSS::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+
         create
       end
     end
