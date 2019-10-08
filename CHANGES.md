@@ -4,55 +4,90 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[Current]
+## \[1.2.0] - Unreleased
 ### Added
+- APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often automatically throughout ruby-jss.
 
 ### Fixed
 - Group.all_static was returning all_smart,  now actually returns all_static
+
 - Fix in error message raised in Group.change_membership
 
+- APIConnection#connect now flushes all cached data, so if you use it to change which server is being used by an existing connection, you don't keep the cached data from the old server.
+
 ### Changed
-- Group#create with calculate_members = true, would sometimes try to read the new group before the JSS finished creating it, causing a 404 not Found error. If that happens, we now pause 1 second and try again.
-- Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached `all` lists for that class, so subseqent uses of the `all` lists will refresh the data from the API. This means that `APIObject.valid_id` will work immediately upon object creation.
+- Group#create with `calculate_members: true`, will sometimes try to re-read the new group before the JSS knows it exists, causing a `404 Not Found` error.  This is especially common when using a clustered environment behind a load-balanced hostname (like _something.jamfcloud.com_).
+Now, if a 404 happens when trying to refresh the membership using calculate_members, ruby-jss will retry every second for up to 10 seconds.
+To change the number of retries, provide an integer with the `retries:` parameter. If you don't need to know the group members after creation, pass `calculate_members: false` when calling Group#create or Group#save
+
+- Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached `all` lists for that class, so subseqent uses of the `all` lists will refresh the data from the API. This means that `APIObject.valid_id` will work immediately upon object creation. NOTE: However, when using a clustered environment behind a load-balanced hostname (like jamfcloud.com), it may take some time for the `all` list to update on all nodes of the cluster, so you might still need to pause up to the number of seconds defined for the cluster's sync interval to ensure valid lists.
+
 - Case-insentive lookup & validation methods in APIObject now use `String#casecmp?` for much simpler code
+
+- Creatable#create no longer takes an `api:` parameter (it never should have) The API connection given in #make is always used for creating the object in the API.
 
 ## \[1.1.3] - 2019-09-23
 ### Added
 - MobileDeviceExtensionAttribute now has a `.history` class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access. Thanks @aurica!
+
 - JSS::AmbiguousError exception class
+
 - More caching of API data to improve general speed
   - The hashes created by `APIObject.map_all_ids_to(blah)`
   - ExtensionAttribute definitions when used by extendable classes
+
 - APIObject.fetch can take the search term `:random` and you'll get a randomly selected object. Example: `a_random_computer = JSS::Computer.fetch :random`
+
 - Keys of the hash returned by `Computer#hardware` are now available as instance methods on Computer objects. So as well as `a_computer.hardware[:total_ram]` you can also do `a_computer.total_ram`
+
 - Policy now recognizes the frequency Symbol `:once_per_user_per_computer`
+
 - Attribute reader :management_status added to Computer class
+
 - Implemented some useful String methods from newer versions of Ruby into older Rubies: `casecmp?`, `delete_prefix`, & `delete_suffix`
+
 - master_distribution_point class method in APIConnection & DistribtutionPoint now raise an error when no dist. point is 'master'
   - The error states that the cloud dist. point may be the master, and there's no classic API access to it.
 
 
 ### Fixed
 - Can't Modify Frozen Hash error when instantiating JSS::Scopbable::Scope. Thanks to @shahn for reporting this one.
+
 - MobileDeviceExtensionAttribute now handles empty `as_of` timestamp. Thanks @aurica!
+
 - A few typos. Thanks to @cybertunnel for finding some.
+
 - A bug when parsing the `server_path` parameter to `API::Connection.new`
+
 - Bugs in handling blank values in Policy#search_by_path and Policy#printer_ids. Thanks @cybertunnel
+
 - Computer.management_data with a specified subset returned one level too high in the data structure
+
 - NetworkSegment.my_network_segment: error in number of params passed to other methods
+
 - Script#name= now works again, no longer uses a constant from an ancient version. Thanks @shahn
+
 - Computer#asset_tag= now accepts nil to erase the value
+
 - APIConnection.my_distribution_point & DistributionPoint.my_distribution_point now return the master_distribution_point object if there isn't one assigned to the current network segment.
+
 - RestClient no longer warns about calling 'to_i' on Responses when calling APIConnection#put_rsrc & #post_rsrc
 
 ### Changed
 - Monkey Patches are being moved to a better, more traceable technique, see https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess/
+
 - MobileDevices and Computers now raise JSS::AmbiguousError when being fetched by explicitly by name, e.g. `JSS::Computer.fetch name: 'foo'` and that name is not unique in the JSS. Previously, you'd get an object back, but no guarantee as to which one it was. You'll still get an undefined object if you use a bare searchterm, e.g. `JSS::Computer.fetch 'foo'`
+
 - Documentation for subclassing APIObject is updated & expanded. See the comments above the class definition in api_object.rb
+
 - `APIObject.valid_id` is now case-insensitive
+
 - Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses
+
 - Various changes in APIObject and its subclasses to try making `.fetch` and other lookup-methods faster.
+
 - All of the NetworkSegment-related methods in APIConnection have been moved back to NetworkSegment. The methods in APIConnection still work, but are marked deprecated and will go away eventually.
+
 - Removed last call to deprecated `URI.encode`, replaced with `CGI.escape`
 
 
