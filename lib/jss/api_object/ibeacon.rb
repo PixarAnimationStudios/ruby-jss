@@ -35,9 +35,7 @@ module JSS
   # Classes
   #####################################
 
-  # A Building in the JSS.
-  # These are simple, in that they only have an ID and a name.
-  #
+  # An iBeacon in the JSS.
   # @see JSS::APIObject
   #
   class IBeacon < JSS::APIObject
@@ -49,16 +47,6 @@ module JSS
 
     # Class Methods
     #####################################
-
-    # TEMP
-    def all_nams
-      all(:refresh, api: api).map { |i| i[:name] }
-    end
-
-    def all_ids
-      all(:refresh, api: api).map { |i| i[:id] }
-    end
-
 
     # Class Constants
     #####################################
