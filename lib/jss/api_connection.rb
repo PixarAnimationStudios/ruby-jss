@@ -977,7 +977,7 @@ module JSS
     # won't be removed from memory, but all cached data will be recached
     # as needed.
     #
-    # @param key[Symbol] Flush only the caches for the given RSRC_LIST_KEY. or
+    # @param key[Symbol, Class] Flush only the caches for the given RSRC_LIST_KEY. or
     #   the EAdef cache for the given extendable class. If nil (the default)
     #   flushes all caches
     #
