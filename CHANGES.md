@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - APIConnection#connect now flushes all cached data, so if you use it to change which server is being used by an existing connection, you don't keep the cached data from the old server.
 
+- PatchPolicy now overrides APIObject.fetch to still allow for fetching by name, even there's no patchpolicies/name/... endpoint
+
 ### Changed
 - Group#create with `calculate_members: true`, will sometimes try to re-read the new group before the JSS knows it exists, causing a `404 Not Found` error.  This is especially common when using a clustered environment behind a load-balanced hostname (like _something.jamfcloud.com_).
 Now, if a 404 happens when trying to refresh the membership using calculate_members, ruby-jss will retry every second for up to 10 seconds.
