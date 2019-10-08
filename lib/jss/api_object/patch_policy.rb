@@ -255,6 +255,21 @@ module JSS
       api.get_rsrc("#{RSRC_BY_PATCH_TITLE}#{title_id}")[RSRC_BY_PATCH_TITLE_LIST_KEY]
     end
 
+    # Override APIObject.fetch, since there's no .../patchpolicies/name/... endpoint
+    # @see APIObject#fetch
+    #
+    def self.fetch(searchterm = nil, **args)
+      name_search = args.delete :name
+      if name_search
+        id = valid_id name_search
+        raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless id
+
+        args[:id] = id
+      end
+      super
+    end # fetch
+
+
     # Attributes
     ################################
 
