@@ -252,6 +252,7 @@ module JSS
     def self.all_for_title(title, api: JSS.api)
       title_id = JSS::PatchTitle.valid_id title
       raise JSS::NoSuchItemError, "No PatchTitle matching '#{title}'" unless title_id
+
       api.get_rsrc("#{RSRC_BY_PATCH_TITLE}#{title_id}")[RSRC_BY_PATCH_TITLE_LIST_KEY]
     end
 
@@ -268,7 +269,6 @@ module JSS
       end
       super
     end # fetch
-
 
     # Attributes
     ################################
