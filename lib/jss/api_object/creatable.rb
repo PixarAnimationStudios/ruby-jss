@@ -71,22 +71,20 @@ module JSS
     #
     # @return [Integer] the jss ID of the newly created object
     #
-    def create(api: nil)
-      api ||= @api
+    def create
       raise JSS::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless creatable?
 
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
 
-      api.post_rsrc(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      @api.post_rsrc(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
       @rest_rsrc = "#{self.class::RSRC_BASE}/id/#{@id}"
 
-      # clear any cached all-lists or id-maps for this class
+      # clear any caches for this class
       # so they'll re-cache as needed
-      api.flushcache self.class::RSRC_LIST_KEY
-      # self.class.all :refresh, api: api
+      @api.flushcache self.class::RSRC_LIST_KEY
 
       @id
     end
