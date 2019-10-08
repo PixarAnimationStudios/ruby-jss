@@ -198,6 +198,18 @@ module JSS
       @id # remember to return the id
     end
 
+    # Wrapper/alias for both create and update
+    def save(get_results = false)
+      if @in_jss
+        raise JSS::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+        update get_results
+      else
+        raise JSS::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+        create get_results
+      end
+    end
+
+
     # Requery the API for the search results.
     #
     # This can be very slow, so temporarily reset the API timeout to 30 minutes
