@@ -423,7 +423,7 @@ module JSS
     #
     def initialize(args = {})
       @name = args.delete :name
-      @name ||= :disconnected
+      @name ||= :unknown
       @connected = false
       connect args unless args.empty?
     end # init
@@ -1023,7 +1023,7 @@ module JSS
 
     # raise exception if not connected
     def validate_connected
-      raise JSS::InvalidConnectionError, 'Not Connected. Use .connect first.' unless connected?
+      raise JSS::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use .connect first." unless connected?
     end
 
     # Apply defaults from the JSS::CONFIG,
@@ -1280,6 +1280,7 @@ module JSS
   # @return [APIConnection] the new, active connection
   #
   def self.new_api_connection(args = {})
+    args[:name] ||= :default
     @api = APIConnection.new args
   end
 
@@ -1303,7 +1304,7 @@ module JSS
   # @return [void]
   #
   def self.use_default_connection
-    use_api_connection API
+    use_api_connection @api
   end
 
   # The currently active JSS::APIConnection instance.
@@ -1311,7 +1312,7 @@ module JSS
   # @return [JSS::APIConnection]
   #
   def self.api
-    @api
+    @api ||= APIConnection.new name: :default
   end
 
   # aliases of module methods
