@@ -269,7 +269,7 @@ module JSS
     # @see Updatable#update
     #
     def update(refresh: true)
-      super
+      super()
       refresh_members if refresh
       @id
     end
