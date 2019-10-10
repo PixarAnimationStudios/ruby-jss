@@ -437,6 +437,9 @@ module JSS
       def raw_targets_to_ids(targets, api: JSS.api, expand_groups: true)
         targets = targets.is_a?(Array) ? targets : [targets]
 
+        # flush caches before checking ids and managment
+        api.flushcache self::RSRC_LIST_KEY
+
         # make sure its an array of ids
         targets.map! do |md|
           id = valid_id md, api: api
@@ -453,7 +456,7 @@ module JSS
 
         # make sure all of them are managed, or else the API will raise a 400
         # 'Bad Request' when sending the command to an unmanaged target
-        all_mgd = self.map_all_ids_to(:managed, api: api).select { |_id, mgd| mgd }.keys
+        all_mgd = map_all_ids_to(:managed, api: api).select { |_id, mgd| mgd }.keys
 
         targets.each do |target_id|
           raise JSS::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
