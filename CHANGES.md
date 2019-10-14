@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## \[1.2.0] - Unreleased
 ### Added
-- APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often automatically throughout ruby-jss.
+- APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often throughout ruby-jss.
 
 ### Fixed
 - Group.all_static was returning all_smart,  now actually returns all_static
@@ -22,13 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Now, if a 404 happens when trying to refresh the membership using calculate_members, ruby-jss will retry every second for up to 10 seconds.
 To change the number of retries, provide an integer with the `retries:` parameter. If you don't need to know the group members after creation, pass `calculate_members: false` when calling Group#create or Group#save
 
-- Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached `all` lists for that class, so subseqent uses of the `all` lists will refresh the data from the API. This means that `APIObject.valid_id` will work immediately upon object creation. NOTE: However, when using a clustered environment behind a load-balanced hostname (like jamfcloud.com), it may take some time for the `all` list to update on all nodes of the cluster, so you might still need to pause up to the number of seconds defined for the cluster's sync interval to ensure valid lists.
+- Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached `all` lists for that class, so subseqent uses of the `all` lists will refresh the data from the API. This means that `APIObject.valid_id` will work immediately upon object creation. NOTE: However, when using a clustered environment behind a load-balanced hostname (like jamfcloud.com), it may take some time for the `all` list to update on all nodes of the cluster, so you might still need to pause up to the number of seconds defined of the cluster's sync interval to ensure valid lists.
 
 - Case-insentive lookup & validation methods in APIObject now use `String#casecmp?` for much simpler code
 
 - Creatable#create no longer takes an `api:` parameter (it never should have) The API connection given in #make is always used for creating the object in the API.
 
-- Added class JSS::IBeacon, implementing the ibeacons endpoints
+- Added class JSS::IBeacon, implementing the .../ibeacons/... endpoints
 
 ## \[1.1.3] - 2019-09-23
 ### Added
