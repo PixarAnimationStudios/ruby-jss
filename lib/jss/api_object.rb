@@ -873,7 +873,9 @@ module JSS
       data = api.get_rsrc rsrc, format
       return data if format == :json
 
-      REXML::Document.new(data).root
+      REXML::Document.new(data)
+    rescue RestClient::NotFound
+      raise JSS::NoSuchItemError, "No #{self} with id #{id}"
     end
 
     # Make a ruby instance of a not-yet-existing APIObject.
