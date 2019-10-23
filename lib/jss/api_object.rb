@@ -851,13 +851,18 @@ module JSS
       end
     end # fetch
 
-    # Fetch the mostly-raw JSON or XML data for this object, returning a Hash, not
-    # a subcclass of APIObject.
+    # Fetch the mostly-raw JSON or XML data for this an object of this subclass
+    # returning a Hash, for a JSON request (the default) or a REXML::Document
+    # if format: is :xml. This will not return a subcclass of APIObject.
     #
-    # The JSON data will have the hash keys symbolized, the XML will be
-    # a REXML::Document
-    # This can be WAY faster than instantiating, esp when you don't need
-    # all the ruby goodness of a full instance.
+    # When fetching raw JSON, the returned Hash will have its keys symbolized.
+    #
+    # This can be substantialy faster than instantiating, especially when you don't need
+    # all the ruby goodness of a full instance, but just want a few values for
+    # an object that aren't available in the `all` data
+    #
+    # This is really just a wrapper around {APIConnection.get_rsrc} that
+    # automatically fills in the RSRC::BASE value for you.
     #
     # @param id [Integer] the id of the object to fetch
     #
@@ -866,9 +871,10 @@ module JSS
     # @param api[JSS::APIConnection] the connection thru which to fetch this
     #   object. Defaults to the deault API connection in JSS.api
     #
-    # @return [Hash,ReXML::Document] the raw data for the object
+    # @return [Hash,REXML::Document] the raw data for the object
     #
-    def self.fetch_raw(id, format: :json, api: JSS.api)
+    def self.get_raw(id, format: :json, api: JSS.api)
+      validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
       data = api.get_rsrc rsrc, format
       return data if format == :json
@@ -876,6 +882,62 @@ module JSS
       REXML::Document.new(data)
     rescue RestClient::NotFound
       raise JSS::NoSuchItemError, "No #{self} with id #{id}"
+    end
+
+    # PUT some raw XML to the API for a given id in this subclass.
+    #
+    # WARNING: You must create or acquire the XML to be sent, and no validation
+    # will be performed on it. It must be a String, or something that returns
+    # an XML string with #to_s, such as a REXML::Document, or
+    # a REXML::Element.
+    #
+    # In some cases, where you're making simpe changes to simple XML,
+    # this can be faster than fetching a full instance and the re-saving it.
+    #
+    # This is really just a wrapper around {APIConnection.put_rsrc} that
+    # automatically fills in the RSRC::BASE value for you.
+    #
+    # @param id [Integer] the id of the object to PUT
+    #
+    # @param xml [String, #to_s] The XML to send
+    #
+    # @param api[JSS::APIConnection] the connection thru which to fetch this
+    #   object. Defaults to the deault API connection in JSS.api
+    #
+    # @return [REXML::Document] the XML response from the API
+    #
+    def self.put_raw(id, xml, api: JSS.api)
+      validate_not_metaclass(self)
+      rsrc = "#{self::RSRC_BASE}/id/#{id}"
+      REXML::Document.new(api.put_rsrc rsrc, xml.to_s)
+    rescue RestClient::NotFound
+      raise JSS::NoSuchItemError, "No #{self} with id #{id}"
+    end
+
+    # POST some raw XML to the API for a given id in this subclass.
+    #
+    # WARNING: You must create or acquire the XML to be sent, and no validation
+    # will be performed on it. It must be a String, or something that returns
+    # an XML string with #to_s, such as a REXML::Document, or
+    # a REXML::Element.
+    #
+    # This probably isn't as much of a speed gain as get_raw or put_raw, as
+    # opposed to instantiating a ruby object, but might still be useful.
+    #
+    # This is really just a wrapper around {APIConnection.post_rsrc} that
+    # automatically fills in the RSRC::BASE value for you.
+    #
+    # @param xml [String, #to_s] The XML to send
+    #
+    # @param api[JSS::APIConnection] the connection thru which to fetch this
+    #   object. Defaults to the deault API connection in JSS.api
+    #
+    # @return [REXML::Document] the XML response from the API
+    #
+    def self.post_raw( xml, api: JSS.api)
+      validate_not_metaclass(self)
+      rsrc = "#{self::RSRC_BASE}/id/-1"
+      REXML::Document.new(api.post_rsrc rsrc, xml.to_s)
     end
 
     # Make a ruby instance of a not-yet-existing APIObject.
