@@ -891,7 +891,7 @@ module JSS
     # an XML string with #to_s, such as a REXML::Document, or
     # a REXML::Element.
     #
-    # In some cases, where you're making simpe changes to simple XML,
+    # In some cases, where you're making simple changes to simple XML,
     # this can be faster than fetching a full instance and the re-saving it.
     #
     # This is really just a wrapper around {APIConnection.put_rsrc} that
