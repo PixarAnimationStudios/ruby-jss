@@ -1219,7 +1219,7 @@ module JSS
         raise exception
       when RestClient::Conflict
         err = JSS::ConflictError
-        msg_matcher = /<p>Error:(.*)(<|$)/m
+        msg_matcher = /<p>Error:(.*?)(<|$)/m
       when RestClient::BadRequest
         err = JSS::BadRequestError
         msg_matcher = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
@@ -1227,7 +1227,7 @@ module JSS
         raise
       else
         err = JSS::APIRequestError
-        msg_matcher = %r{<body.*?>(.*)</body>}m
+        msg_matcher = %r{<body.*?>(.*?)</body>}m
       end
       exception.http_body =~ msg_matcher
       msg = Regexp.last_match(1)
