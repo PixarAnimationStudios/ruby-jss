@@ -851,6 +851,31 @@ module JSS
       end
     end # fetch
 
+    # Fetch the mostly-raw JSON or XML data for this object, returning a Hash, not
+    # a subcclass of APIObject.
+    #
+    # The JSON data will have the hash keys symbolized, the XML will be
+    # a REXML::Document
+    # This can be WAY faster than instantiating, esp when you don't need
+    # all the ruby goodness of a full instance.
+    #
+    # @param id [Integer] the id of the object to fetch
+    #
+    # @param format[Symbol] :json or :xml, defaults to :json
+    #
+    # @param api[JSS::APIConnection] the connection thru which to fetch this
+    #   object. Defaults to the deault API connection in JSS.api
+    #
+    # @return [Hash,ReXML::Document] the raw data for the object
+    #
+    def self.fetch_raw(id, format: :json, api: JSS.api)
+      rsrc = "#{self::RSRC_BASE}/id/#{id}"
+      data = api.get_rsrc rsrc, format
+      return data if format == :json
+
+      REXML::Document.new(data).root
+    end
+
     # Make a ruby instance of a not-yet-existing APIObject.
     #
     # This is how to create new objects in the JSS. A name: must be provided,
