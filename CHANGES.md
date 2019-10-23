@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.1] - UNRELEASED
+### Added
+- the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a `last_mdm_contact` class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don't have anything like the `last_checkin` that computers have, indication real communication between the device and Jamf Pro.
+  Note that the `last_inventory_update` value does NOT indicate such communication, since that timestamp is updated when values are changed via the API
+
+- All APIObject Subclasses (Policy, Computer, MobileDevice, ComputerGroup, etc..) now have a `fetch_raw` class method, which takes an object's id, and returns the 'raw' JSON (parsed into a ruby Hash with symbolized keys) or a REXML::Document (from which you'll probably want to use the `root` element).
+  This can be useful when you need to retrieve the full object, to get some data not available in the summary-list, but instantiating the full ruby class is too slow.
+
 ## \[1.2.0] - 2019-10-17
 ### Added
 - APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often throughout ruby-jss.

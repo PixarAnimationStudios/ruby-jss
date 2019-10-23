@@ -27,6 +27,6 @@
 module JSS
 
   ### The version of ruby-jss
-  VERSION = '1.2.0'.freeze
+  VERSION = '1.2.1a1'.freeze
 
 end # module
