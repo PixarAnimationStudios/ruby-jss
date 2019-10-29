@@ -20,10 +20,7 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
 
-#
 module JSS
 
   # Classes
@@ -147,10 +144,8 @@ module JSS
     # @return [String] In which part of the web UI does the data appear?
     attr_reader :web_display
 
-
     # Constructor
     ###################################
-
 
     # @see JSS::APIObject#initialize
     #
@@ -247,9 +242,10 @@ module JSS
     def description=(new_val)
       new_val = new_val.to_s
       return if @description == new_val
+
       @description = new_val
       @need_to_update = true
-    end #  name=(newname)
+    end # name=(newname)
 
     # Change the data type of this EA
     #
@@ -258,11 +254,12 @@ module JSS
     # @return [void]
     #
     def data_type=(new_val)
-      return nil if @data_type == new_val
+      return if @data_type == new_val
       raise JSS::InvalidDataError, "data_type must be a string, one of: '#{DATA_TYPES.join("', '")}'" unless DATA_TYPES.include? new_val
+
       @data_type = new_val
       @need_to_update = true
-    end #
+    end
 
     # Change the inventory_display of this EA
     #
@@ -271,11 +268,14 @@ module JSS
     # @return [void]
     #
     def web_display=(new_val)
-      return nil if @web_display == new_val
-      raise JSS::InvalidDataError, "inventory_display must be a string, one of: #{INVENTORY_DISPLAY_CHOICES.join(', ')}" unless WEB_DISPLAY_CHOICES.include? new_val
+      return if @web_display == new_val
+      unless WEB_DISPLAY_CHOICES.include? new_val
+        raise JSS::InvalidDataError, "inventory_display must be a string, one of: #{INVENTORY_DISPLAY_CHOICES.join(', ')}"
+      end
+
       @web_display = new_val
       @need_to_update = true
-    end #
+    end
 
     # Change the input type of this EA
     #
@@ -289,25 +289,25 @@ module JSS
 
       @input_type = new_val
       case @input_type
-        when INPUT_TYPE_FIELD
-          @script = nil
-          @scripting_language = nil
-          @platform = nil
-          @popup_choices = nil
-          @attribute_mapping = nil
-        when INPUT_TYPE_POPUP
-          @script = nil
-          @scripting_language = nil
-          @platform = nil
-          @attribute_mapping = nil
-        when INPUT_TYPE_SCRIPT
-          @popup_choices = nil
-          @attribute_mapping = nil
-        when INPUT_TYPE_LDAP
-          @script = nil
-          @scripting_language = nil
-          @platform = nil
-          @popup_choices = nil
+      when INPUT_TYPE_FIELD
+        @script = nil
+        @scripting_language = nil
+        @platform = nil
+        @popup_choices = nil
+        @attribute_mapping = nil
+      when INPUT_TYPE_POPUP
+        @script = nil
+        @scripting_language = nil
+        @platform = nil
+        @attribute_mapping = nil
+      when INPUT_TYPE_SCRIPT
+        @popup_choices = nil
+        @attribute_mapping = nil
+      when INPUT_TYPE_LDAP
+        @script = nil
+        @scripting_language = nil
+        @platform = nil
+        @popup_choices = nil
       end # case
 
       @need_to_update = true
@@ -342,15 +342,10 @@ module JSS
         v
       end
 
-      @input_type = INPUT_TYPE_POPUP
+      self.input_type = INPUT_TYPE_POPUP
       @popup_choices = new_val
-      @attribute_mapping = nil
-      @script = nil
-      @scripting_language = nil
-      @platform = nil
       @need_to_update = true
-    end #
-
+    end
 
     # Change the LDAP Attribute Mapping of this EA
     # New value must be a String, or respond correctly to #to_s
@@ -365,12 +360,10 @@ module JSS
       new_mapping = JSS::Validate.non_empty_string new_mapping.to_s
       return if new_mapping == @attribute_mapping
 
-      @input_type = INPUT_TYPE_LDAP
+      self.input_type = INPUT_TYPE_LDAP
       @attribute_mapping = new_mapping
-      @popup_choices = nil
       @need_to_update = true
     end
-
 
     # Get an Array of Hashes for all inventory objects
     # with a desired result in their latest report for this EA.
@@ -394,7 +387,10 @@ module JSS
     #
     def all_with_result(search_type, desired_value)
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY}." unless @in_jss
-      raise JSS::InvalidDataError, 'Invalid search_type, see JSS::Criteriable::Criterion::SEARCH_TYPES' unless JSS::Criteriable::Criterion::SEARCH_TYPES.include? search_type.to_s
+      unless JSS::Criteriable::Criterion::SEARCH_TYPES.include? search_type.to_s
+        raise JSS::InvalidDataError, 'Invalid search_type, see JSS::Criteriable::Criterion::SEARCH_TYPES'
+      end
+
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
         acs = search_class.make api: @api, name: "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
@@ -407,13 +403,14 @@ module JSS
         results = []
 
         acs.search_results.each do |i|
-          value = case @data_type
-                  when 'Date' then JSS.parse_datetime i[@symbolized_name]
-                  when 'Integer' then i[@symbolized_name].to_i
-                  else i[@symbolized_name]
-          end # case
+          value =
+            case @data_type
+            when 'Date' then JSS.parse_datetime i[@symbolized_name]
+            when 'Integer' then i[@symbolized_name].to_i
+            else i[@symbolized_name]
+            end # case
           results << { id: i[:id], name: i[:name], value: value }
-        end
+        end # each
       ensure
         acs.delete if acs.is_a? self.class::TARGET_CLASS::SEARCH_CLASS
       end
@@ -447,6 +444,7 @@ module JSS
     #
     def latest_values
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY}." unless @in_jss
+
       tmp_advsrch = "ruby-jss-EA-latest-search-#{Time.now.to_jss_epoch}"
 
       begin
@@ -463,11 +461,12 @@ module JSS
         results = []
 
         acs.search_results.each do |i|
-          value = case @data_type
-                  when 'Date' then JSS.parse_datetime i[@symbolized_name]
-                  when 'Integer' then i[@symbolized_name].to_i
-                  else i[@symbolized_name]
-          end # case
+          value =
+            case @data_type
+            when 'Date' then JSS.parse_datetime i[@symbolized_name]
+            when 'Integer' then i[@symbolized_name].to_i
+            else i[@symbolized_name]
+            end # case
 
           as_of = Time.parse(i[LAST_RECON_FIELD_SYM]) if i[LAST_RECON_FIELD_SYM] != ''
 
@@ -476,8 +475,8 @@ module JSS
       ensure
         if defined? acs
           acs.delete if acs
-        else
-          search_class.fetch(name: tmp_advsrch, api: @api).delete if search_class.all_names(:refresh, api: @api).include? tmp_advsrch
+        elsif search_class.all_names(:refresh, api: @api).include? tmp_advsrch
+          search_class.fetch(name: tmp_advsrch, api: @api).delete
         end
       end
 
@@ -501,15 +500,12 @@ module JSS
 
         # Next two lines DEPRECATED
         @platform ||= 'Mac'
-        raise MissingDataError, "No scripting_language set for Windows script input_type." if @platform == 'Windows' && !@scripting_language
+        raise MissingDataError, "No scripting_language set for Windows '#{INPUT_TYPE_SCRIPT}' input_type." if @platform == 'Windows' && !@scripting_language
       end
     end
 
-    # Return a REXML element for this ext attr, with the current values.
-    # Subclasses should augment this in their rest_xml methods
-    # then return it .to_s, for saving or updating
-    #
-    def rest_rexml
+    # Return a REXML doc string for this ext attr, with the current values.
+    def rest_xml
       ea = REXML::Element.new self.class::RSRC_OBJECT_KEY.to_s
       ea.add_element('name').text = @name
       ea.add_element('description').text = @description
