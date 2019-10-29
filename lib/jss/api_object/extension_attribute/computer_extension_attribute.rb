@@ -262,39 +262,6 @@ module JSS
       history
     end # history
 
-
-    ### Aliases here, since YARD seems to have issues with them above
-    alias code script
-    alias code= script=
-
-    ######################
-    ### Private Instance Methods
-    #####################
-
-    private
-
-    ###
-    ### Return the REST XML for this pkg, with the current values,
-    ### for saving or updating
-    ###
-    def rest_xml
-
-      cea = rest_rexml # See parent class
-      cea.add_element('recon_display').text = @recon_display
-
-      if @input_type == 'script'
-        it = cea.elements["input_type"]
-        it.add_element('script').text = @script
-        it.add_element('platform').text = @platform
-        it.add_element('scripting_language').text = @scripting_language if @scripting_language
-      end
-
-      doc = REXML::Document.new APIConnection::XML_HEADER
-      doc << cea
-
-      return doc.to_s
-    end # rest xml
-
   end # class ExtAttrib
 
 

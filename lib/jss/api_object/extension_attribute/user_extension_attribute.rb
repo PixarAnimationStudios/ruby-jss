@@ -113,24 +113,6 @@ module JSS
       raise JSS::UnsupportedError, "User Extension Attributes web_display cannot be set"
     end
 
-
-    ######################
-    ### Private Instance Methods
-    #####################
-    private
-
-    ###
-    ### Return the REST XML for this item, with the current values,
-    ### for saving or updating
-    ###
-    def rest_xml
-      uea = rest_rexml
-      doc = REXML::Document.new APIConnection::XML_HEADER
-      doc << uea
-      return doc.to_s
-    end # rest xml
-
   end # class ExtAttrib
-
 
 end # module

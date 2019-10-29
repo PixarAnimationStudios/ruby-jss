@@ -505,7 +505,7 @@ module JSS
       end
     end
 
-    # Return a REXML object for this ext attr, with the current values.
+    # Return a REXML element for this ext attr, with the current values.
     # Subclasses should augment this in their rest_xml methods
     # then return it .to_s, for saving or updating
     #
@@ -515,6 +515,7 @@ module JSS
       ea.add_element('description').text = @description
       ea.add_element('data_type').text = @data_type
       ea.add_element('inventory_display').text = @web_display
+      ea.add_element('recon_display').text = @recon_display if @recon_display
 
       it = ea.add_element('input_type')
       it.add_element('type').text = @input_type
@@ -522,12 +523,18 @@ module JSS
       case @input_type
       when INPUT_TYPE_POPUP
         pcs = it.add_element('popup_choices')
-        @popup_choices.each { |pc| pcs.add_element('choice').text = pc }
+        @popup_choices.each { |pc| pcs.add_element('choice').text = pc } if @popup_choices.is_a? Array
       when INPUT_TYPE_LDAP
         it.add_element('attribute_mapping').text = @attribute_mapping
+      when INPUT_TYPE_SCRIPT
+        it.add_element('script').text = @script
+        it.add_element('platform').text = @platform || 'Mac'
+        it.add_element('scripting_language').text = @scripting_language if @scripting_language
       end
 
-      ea
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      doc << ea
+      doc.to_s
     end # rest xml
 
   end # class ExtAttrib

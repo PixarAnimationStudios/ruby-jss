@@ -161,28 +161,6 @@ module JSS
       history
     end # history
 
-    ######################
-    ### Private Instance Methods
-    #####################
-
-    private
-
-    ###
-    ### Return the REST XML for this item, with the current values,
-    ### for saving or updating
-    ###
-    def rest_xml
-      mdea = rest_rexml
-      if @input_type == 'LDAP Attribute Mapping'
-        it = mdea.elements["input_type"]
-        it.add_element('attribute_mapping').text = @attribute_mapping
-      end
-
-      doc = REXML::Document.new APIConnection::XML_HEADER
-      doc << mdea
-
-      doc.to_s
-    end # rest xml
 
   end # class ExtAttrib
 
