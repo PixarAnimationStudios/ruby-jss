@@ -245,7 +245,8 @@ module JSS
     # @return [void]
     #
     def description=(new_val)
-      return nil if @description == new_val
+      new_val = new_val.to_s
+      return if @description == new_val
       @description = new_val
       @need_to_update = true
     end #  name=(newname)
@@ -482,10 +483,6 @@ module JSS
 
       results
     end
-
-    # aliases
-
-    alias desc description
 
     # Private Instance Methods
     ###################
