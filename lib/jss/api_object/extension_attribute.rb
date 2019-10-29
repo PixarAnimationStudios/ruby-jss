@@ -89,20 +89,33 @@ module JSS
     INPUT_TYPE_SCRIPT = 'script'.freeze
     INPUT_TYPE_LDAP = 'LDAP Attribute Mapping'.freeze
 
-    INPUT_TYPES = [INPUT_TYPE_FIELD, INPUT_TYPE_POPUP, INPUT_TYPE_SCRIPT, INPUT_TYPE_LDAP].freeze
+    INPUT_TYPES = [
+      INPUT_TYPE_FIELD,
+      INPUT_TYPE_POPUP,
+      INPUT_TYPE_SCRIPT,
+      INPUT_TYPE_LDAP
+    ].freeze
+
     DEFAULT_INPUT_TYPE = INPUT_TYPE_FIELD
 
     # Where can it be displayed in the WebApp?
-    # subclasses can add to this list
+    WEB_DISPLAY_CHOICE_GENERAL = 'General'.freeze
+    WEB_DISPLAY_CHOICE_OS = 'Operating System'.freeze
+    WEB_DISPLAY_CHOICE_HW = 'Hardware'.freeze
+    WEB_DISPLAY_CHOICE_USER_LOC = 'User and Location'.freeze
+    WEB_DISPLAY_CHOICE_PURCHASING = 'Purchasing'.freeze
+    WEB_DISPLAY_CHOICE_EAS = 'Extension Attributes'.freeze
+
     WEB_DISPLAY_CHOICES = [
-      'General',
-      'Operating System',
-      'Hardware',
-      'User and Location',
-      'Purchasing',
-      'Extension Attributes'
+      WEB_DISPLAY_CHOICE_GENERAL,
+      WEB_DISPLAY_CHOICE_OS,
+      WEB_DISPLAY_CHOICE_HW,
+      WEB_DISPLAY_CHOICE_USER_LOC,
+      WEB_DISPLAY_CHOICE_PURCHASING,
+      WEB_DISPLAY_CHOICE_EAS
     ].freeze
-    DEFAULT_WEB_DISPLAY_CHOICE = 'Extension Attributes'.freeze
+
+    DEFAULT_WEB_DISPLAY_CHOICE = WEB_DISPLAY_CHOICE_EAS
 
     LAST_RECON_FIELD = 'Last Inventory Update'.freeze
     LAST_RECON_FIELD_SYM = LAST_RECON_FIELD.tr(' ', '_').to_sym
@@ -117,6 +130,7 @@ module JSS
 
     # @return [String] description of the ext attrib
     attr_reader :description
+    alias desc description
 
     # @return [String] the type of data created by the EA. Must be one of DATA_TYPES
     attr_reader :data_type
