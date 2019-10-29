@@ -107,28 +107,28 @@ module JSS
     ### Attributes
     ######################
 
+    ### @return [String] the script code that will be executed when the @input_type is "script",
+    attr_reader :script
+    alias code script
+
     ### When the  @input_type is "script", The platform on which a script will run.
     ###
     ### NOTE: The web app seems to let you have both Mac and Windows
     ### scripts defined when the type is "script",
     ### however the API will only return the Mac script info if both are defined.
-    ### NOTE ALSO: This is deprecated, windows EAs are no longer supported
+    ### DEPRECATED: windows EAs are no longer supported
     ###
     ### @return [String]
     attr_reader :platform
 
-    ### @return [String] the script code that will be executed when the @input_type is "script",
-    attr_reader :script
-
-
     ### The scripting language of the @script when @input_type is "script",
     ### and the @platform is "Windows"
     ###
-    ### NOTE: This is deprecated, windows EAs are no longer supported
+    ### DEPRECATED: windows EAs are no longer supported
     ### @return [String]
     attr_reader :scripting_language
 
-    ### DEPRECATED = this is no longer separate from the web_display.
+    ### DEPRECATED: this is no longer separate from the web_display.
     ### @return [String] In which part of the Recon App does the data appear?
     attr_reader :recon_display
 
@@ -148,21 +148,7 @@ module JSS
       @need_to_update = true
     end #
 
-    ###
-    ### This unsets any script-related attributes
-    ###
-    ### @param (see JSS::ExtensionAttribute#popup_choices=)
-    ###
-    ### @return [void]
-    ###
-    def popup_choices= (new_val)
-      super
-      @script = nil
-      @scripting_language = nil
-      @platform = nil
-    end #
-
-    ###
+    ### DEPRECATED: windows EAs are no longer supported
     ### Change the platform of this EA.
     ### Setting this automatically sets input_type to script
     ###
@@ -191,15 +177,15 @@ module JSS
       self.input_type = INPUT_TYPE_SCRIPT
       @script = new_val
       @need_to_update = true
-    end #
-
+    end
+    alias code= script=
 
     ###
     ### Change the scripting_language of this EA.
     ### Setting this automatically sets input_type to 'script'
     ### and the platform to "Windows"
     ###
-    ### DEPRECATED - jamf no longer supports EAs for windows
+    ### DEPRECATED: windows EAs are no longer supported
     ###
     ### @param new_val[String] the new value, which must be one of {WINDOWS_SCRIPTING_LANGUAGES}
     ###
@@ -213,9 +199,6 @@ module JSS
       @scripting_language = new_val
       @need_to_update = true
     end #
-
-
-
 
     ### Return an Array of Hashes showing the history of reported values for this EA on one computer.
     ###
