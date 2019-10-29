@@ -230,14 +230,7 @@ module JSS
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}." unless @in_jss
       raise JSS::InvalidConnectionError, "Database connection required for 'history' query." unless JSS::DB_CNX.connected?
 
-      computer_id = case computer
-        when *JSS::Computer.all_ids(api: @api)
-          computer
-        when *JSS::Computer.all_names(api: @api)
-          JSS::Computer.map_all_ids_to(:name, api: @api).invert[computer]
-        else nil
-        end # case
-
+      computer_id = JSS::Computer.valid_id computer, api: @api
       raise JSS::NoSuchItemError, "No computer found matching '#{computer}'" unless computer_id
 
       the_query = <<-END_Q

@@ -135,13 +135,7 @@ module JSS
       raise JSS::NoSuchItemError, "EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}." unless @in_jss
       raise JSS::InvalidConnectionError, "Database connection required for 'history' query." unless JSS::DB_CNX.connected?
 
-      mobile_device_id = case mobiledevice
-                         when *JSS::MobileDevice.all_ids(api: @api)
-                           mobiledevice
-                         when *JSS::MobileDevice.all_names(api: @api)
-                           JSS::MobileDevice.map_all_ids_to(:name, api: @api).invert[mobiledevice]
-                         end # case
-
+      mobile_device_id = JSS::MobileDevice.valid_id mobiledevice, api: @api
       raise JSS::NoSuchItemError, "No MobileDevice found matching '#{mobiledevice}'" unless mobile_device_id
 
       the_query = <<-END_Q
