@@ -185,7 +185,7 @@ module JSS
     ###
     def script= (new_val)
       return nil if @script == new_val
-      self.input_type = "script"
+      self.input_type = INPUT_TYPE_SCRIPT
       @script = new_val
       @need_to_update = true
     end #
