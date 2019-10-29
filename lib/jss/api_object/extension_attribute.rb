@@ -173,7 +173,9 @@ module JSS
         @platform = @init_data[:input_type][:platform]
         @scripting_language = @init_data[:input_type][:scripting_language]
       end
+
       @input_type ||= DEFAULT_INPUT_TYPE
+      @enabled = @init_data[:enabled]
 
       @recon_display = @init_data[:recon_display] || @web_display
 
@@ -523,6 +525,7 @@ module JSS
       when INPUT_TYPE_LDAP
         it.add_element('attribute_mapping').text = @attribute_mapping
       when INPUT_TYPE_SCRIPT
+        ea.add_element('enabled').text = @enabled ? 'true' : 'false'
         it.add_element('script').text = @script
         it.add_element('platform').text = @platform || 'Mac'
         it.add_element('scripting_language').text = @scripting_language if @scripting_language

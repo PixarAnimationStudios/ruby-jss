@@ -86,6 +86,10 @@ module JSS
     attr_reader :script
     alias code script
 
+    # @return [Boolean] if the input type is 'script', is this EA enabled?
+    attr_reader :enabled
+    alias enabled? enabled
+
     # When the  @input_type is "script", The platform on which a script will run.
     #
     # NOTE: The web app seems to let you have both Mac and Windows
@@ -118,6 +122,28 @@ module JSS
       raise JSS::InvalidDataError, "recon_display must be a string, one of: #{RECON_DISPLAY_CHOICES.join(', ')}" unless RECON_DISPLAY_CHOICES.include? new_val
 
       @recon_display = new_val
+      @need_to_update = true
+    end
+
+    # enable this script ea
+    #
+    # @return [void]
+    #
+    def enable
+      return if enabled?
+
+      @enabled = true
+      @need_to_update = true
+    end
+
+    # disable this script ea
+    #
+    # @return [void]
+    #
+    def disable
+      return unless enabled?
+
+      @enabled = false
       @need_to_update = true
     end
 
