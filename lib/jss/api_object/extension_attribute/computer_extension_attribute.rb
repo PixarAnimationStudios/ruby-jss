@@ -38,7 +38,7 @@ module JSS
     #####################################
 
     # The base for REST resources of this class
-    RSRC_BASE = 'computerextensionattributes'
+    RSRC_BASE = 'computerextensionattributes'.freeze
 
     # the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :computer_extension_attributes
@@ -54,20 +54,25 @@ module JSS
     ALL_TARGETS_CRITERION = JSS::Criteriable::Criterion.new(and_or: 'and', name: 'Username', search_type: 'like', value: '')
 
     # When the intput type is script, what platforms can they run on?
-    PLATFORMS = ["Mac","Windows"]
+    PLATFORM_MAC = 'Mac'.freeze
+    PLATFORM_WINDOWS = 'Windows'.freeze
+    PLATFORMS = [PLATFORM_MAC, PLATFORM_WINDOWS].freeze
 
     # When the platform is Windows, what languages can be user?
-    WINDOWS_SCRIPTING_LANGUAGES = ['VBScript', 'Batch File', 'PowerShell']
+    LANGUAGE_VBS = 'VBScript'.freeze
+    LANGUAGE_BAT = 'Batch File'.freeze
+    LANGUAGE_PSH = 'PowerShell'.freeze
+    WINDOWS_SCRIPTING_LANGUAGES = [LANGUAGE_VBS, LANGUAGE_BAT, LANGUAGE_PSH].freeze
 
     # Where can it be displayed in the Recon App?
     RECON_DISPLAY_CHOICES = [
       'Computer',
       'User and Location',
       'Purchasing',
-      "Extension Attributes"
-    ]
+      'Extension Attributes'
+    ].freeze
 
-    DEFAULT_RECON_DISPLAY_CHOICE = 'Extension Attributes'
+    DEFAULT_RECON_DISPLAY_CHOICE = 'Extension Attributes'.freeze
 
     # the object type for this object in
     # the object history table.
