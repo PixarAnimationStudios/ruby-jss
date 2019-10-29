@@ -106,6 +106,14 @@ module JSS
 
       super
     end # end input_type
+
+    ### @see JSS::ExtensionAttribute#web_display=
+    ###
+    def web_display=(new_val)
+      raise JSS::UnsupportedError, "User Extension Attributes web_display cannot be set"
+    end
+
+
     ######################
     ### Private Instance Methods
     #####################

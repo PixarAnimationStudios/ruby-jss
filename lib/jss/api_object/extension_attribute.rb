@@ -180,6 +180,7 @@ module JSS
       end
       @input_type ||= DEFAULT_INPUT_TYPE
 
+      @recon_display = @init_data[:recon_display] || @web_display
 
       # the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
       # as underscores, like this.

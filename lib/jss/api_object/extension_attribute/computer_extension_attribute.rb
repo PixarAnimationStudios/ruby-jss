@@ -136,6 +136,7 @@ module JSS
 
     ###
     ### Change the recon_display of this EA
+    ### DEPRECATED, no longer separate from web_display in jamf pro.
     ###
     def recon_display= (new_val)
       return nil if @recon_display == new_val

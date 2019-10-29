@@ -102,8 +102,8 @@ module JSS
     ###
     ### @see JSS::ExtensionAttribute#web_display=
     ###
-    def web_display= (new_val)
-      raise JSS::InvalidDataError, "web_display cannot be 'Operating System' for Mobile Device Extension Attributes." if new_val == 'Operating System'
+    def web_display=(new_val)
+      raise JSS::InvalidDataError, "Mobile Device Extension Attributes web_display cannot be '#{WEB_DISPLAY_CHOICE_OS}'" if new_val == WEB_DISPLAY_CHOICE_OS
       super
     end # end web_display
 
