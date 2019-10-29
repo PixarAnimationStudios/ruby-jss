@@ -15,6 +15,11 @@ Note that the `last_inventory_update` value does NOT indicate such communication
   - `post_raw` & `put_raw` can send raw XML to the API without instantiating objects. In some cases, where you're making simple changes to simple XML, this can be faster than fetching a full instance and the re-saving it.
   WARNING You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String of XML, or something that returns such a string with #to_s, such as a REXML::Document, or a REXML::Element.
 
+- ExtensionAttribute#attribute_mapping getter & setter for EAs that have the 'LDAP Attribute Mapping' input type.
+
+### Changed
+- Cleaned up and modernized ExtensionAttribute and its subclasses. Marked a few things as deprecated: recon_display, scripting_language, and platform, all in ComputerExtensionAttribute.
+
 ## \[1.2.0] - 2019-10-17
 ### Added
 - APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often throughout ruby-jss.
