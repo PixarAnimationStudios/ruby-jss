@@ -98,6 +98,14 @@ module JSS
     ### Public Instance Methods
     #####################################
 
+    ### @see JSS::ExtensionAttribute#input_type=
+    ###
+    def input_type=(new_val)
+      raise JSS::InvalidDataError, "User Extension Attribute input_type cannot be '#{INPUT_TYPE_SCRIPT}'" if new_val == INPUT_TYPE_SCRIPT
+      raise JSS::InvalidDataError, "User Extension Attribute input_type cannot be '#{INPUT_TYPE_LDAP}'" if new_val == INPUT_TYPE_LDAP
+
+      super
+    end # end input_type
     ######################
     ### Private Instance Methods
     #####################

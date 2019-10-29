@@ -88,34 +88,16 @@ module JSS
     ### Attributes
     ######################
 
-    ### @return [String] the name of the LDAP attribute to use when the @input Type is "LDAP Attribute Mapping"
-    attr_reader :attribute_mapping
 
     #####################################
     ### Constructor
     #####################################
 
-    ###
-    ### See JSS::APIObject.initialize
-    ###
-    def initialize(args = {})
-      super args
-      @attribute_mapping = @init_data[:input_type][:attribute_mapping] if @init_data[:input_type]
-    end # init
 
     #####################################
     ### Public Instance Methods
     #####################################
 
-    ###
-    ### @see JSS::Creatable#create
-    ###
-    def create
-      if @input_type == 'LDAP Attribute Mapping'
-        raise MissingDataError, "No attribute_mapping defined for 'LDAP Attribute Mapping' input_type." unless @attribute_mapping
-      end
-      super
-    end
 
     ###
     ### @see JSS::ExtensionAttribute#web_display=
@@ -129,30 +111,11 @@ module JSS
     ###
     ### @see JSS::ExtensionAttribute#input_type=
     ###
-    def input_type= (new_val)
-      raise JSS::InvalidDataError, "Mobile Device Extension Attribute input_type cannot be 'script'" if new_val == 'script'
-
+    def input_type=(new_val)
+      raise JSS::InvalidDataError, "Mobile Device Extension Attribute input_type cannot be '#{INPUT_TYPE_SCRIPT}'" if new_val == INPUT_TYPE_SCRIPT
       super
-
-      if @input_type == 'LDAP Attribute Mapping'
-        @popup_choices = nil
-      else
-        @attribute_mapping = nil
-      end
     end # end input_type
 
-    ###
-    ### Set the ldap attribute to use for input_type 'LDAP Attribute Mapping'
-    ###
-    ### @param ldap_attrib[String] the attribute to use
-    ###
-    ### @return [void]
-    ###
-    def attribute_mapping= (ldap_attrib)
-      return nil if ldap_attrib == @attribute_mapping
-      @attribute_mapping = ldap_attrib
-      @need_to_update = true
-    end
 
     ### Return an Array of Hashes showing the history of reported values for this EA on one MobileDevice.
     ###

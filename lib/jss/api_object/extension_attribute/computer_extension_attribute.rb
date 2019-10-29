@@ -129,47 +129,10 @@ module JSS
     ### @return [String] In which part of the Recon App does the data appear?
     attr_reader :recon_display
 
-    #####################################
-    ### Constructor
-    #####################################
-
-    ###
-    ### @see JSS::APIObject#initialize
-    ###
-    def initialize(args = {})
-
-      super args
-
-      @recon_display = @init_data[:recon_display] || DEFAULT_RECON_DISPLAY_CHOICE
-
-      if @init_data[:input_type]
-        @platform = @init_data[:input_type][:platform]
-        @script = @init_data[:input_type][:script]
-        @scripting_language = @init_data[:input_type][:scripting_language]
-      end
-    end # init
-
 
     #####################################
     ### Public Instance Methods
     #####################################
-
-    ###
-    ### @see JSS::Creatable#create
-    ###
-    ### @return [Integer] the JSS id of the newly created object
-    ###
-    def create
-      if @input_type ==  "script"
-          raise MissingDataError, "No platform set for script input_type." unless @platform
-          raise MissingDataError, "No script set for script input_type." unless @script
-          if @platform == "Windows"
-            raise MissingDataError, "No scripting_language set for Windows script input_type." unless @scripting_language
-          end
-      end # case
-
-      super
-    end
 
     ###
     ### Change the recon_display of this EA
@@ -179,29 +142,6 @@ module JSS
       raise JSS::InvalidDataError, "recon_display must be a string, one of: #{RECON_DISPLAY_CHOICES.join(", ")}" unless RECON_DISPLAY_CHOICES.include? new_val
       @recon_display = new_val
       @need_to_update = true
-    end #
-
-
-    ###
-    ### Change the input type of this EA
-    ###
-    ### @see JSS::ExtensionAttribute#input_type=
-    ###
-    ### @return [void]
-    ###
-    def input_type= (new_val)
-      raise JSS::InvalidDataError, "ComputerExtensionAttribute input_types cannot be 'LDAP Attribute Mapping'" if new_val == 'LDAP Attribute Mapping'
-
-      super
-
-      case @input_type
-        when *["Text Field","Pop-up Menu"]
-          @script = nil
-          @scripting_language = nil
-          @platform = nil
-        when "script"
-          @popup_choices = nil
-      end # case
     end #
 
     ###

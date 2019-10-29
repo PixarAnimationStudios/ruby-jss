@@ -141,6 +141,9 @@ module JSS
     # @return [Array<String>] the choices available in the UI when the @input_type is "Pop-up Menu"
     attr_reader :popup_choices
 
+    # @return [String] the LDAP attribute for the User's ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP
+    attr_reader :attribute_mapping
+
     # @return [String] In which part of the web UI does the data appear?
     attr_reader :web_display
 
@@ -162,13 +165,21 @@ module JSS
       @web_display = @init_data[:inventory_display] || DEFAULT_WEB_DISPLAY_CHOICE
 
       if @init_data[:input_type]
-        @input_type = @init_data[:input_type][:type] || DEFAULT_INPUT_TYPE
+        @input_type = @init_data[:input_type][:type]
+
+        @script = @init_data[:input_type][:script]
+
+        @attribute_mapping = @init_data[:input_type][:attribute_mapping]
         @popup_choices = @init_data[:input_type][:popup_choices]
         # popups can always contain blank
         @popup_choices << JSS::BLANK if @popup_choices
-      else
-        @input_type = DEFAULT_INPUT_TYPE
+
+        # These two are deprecated - windows won't be supported for long
+        @platform = @init_data[:input_type][:platform]
+        @scripting_language = @init_data[:input_type][:scripting_language]
       end
+      @input_type ||= DEFAULT_INPUT_TYPE
+
 
       # the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
       # as underscores, like this.
@@ -181,19 +192,16 @@ module JSS
     # @see JSS::Creatable#create
     #
     def create
-      if @input_type == INPUT_TYPE_POPUP
-        raise MissingDataError, 'No popup_choices set for Pop-up Menu input_type.' unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
-      end
+      validate_for_save
       super
     end
 
     # @see JSS::Updatable#update
     #
     def update
-      if @input_type == INPUT_TYPE_POPUP
-        raise MissingDataError, 'No popup_choices set for Pop-up Menu input_type.' unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
-      end
+      validate_for_save
       super
+      # this flushes the cached EA itself, used for validating ea values.
       @api.flushcache self.class
     end
 
@@ -274,17 +282,39 @@ module JSS
     # @return [void]
     #
     def input_type=(new_val)
-      return nil if @input_type == new_val
+      return if @input_type == new_val
       raise JSS::InvalidDataError, "input_type must be a string, one of: #{INPUT_TYPES.join(', ')}" unless INPUT_TYPES.include? new_val
+
       @input_type = new_val
-      @popup_choices = nil if @input_type == INPUT_TYPE_FIELD
+      case @input_type
+        when INPUT_TYPE_FIELD
+          @script = nil
+          @scripting_language = nil
+          @platform = nil
+          @popup_choices = nil
+          @attribute_mapping = nil
+        when INPUT_TYPE_POPUP
+          @script = nil
+          @scripting_language = nil
+          @platform = nil
+          @attribute_mapping = nil
+        when INPUT_TYPE_SCRIPT
+          @popup_choices = nil
+          @attribute_mapping = nil
+        when INPUT_TYPE_LDAP
+          @script = nil
+          @scripting_language = nil
+          @platform = nil
+          @popup_choices = nil
+      end # case
+
       @need_to_update = true
-    end #
+    end
 
     # Change the Popup Choices of this EA
     # New value must be an Array, the items will be converted to Strings.
     #
-    # This automatically sets input_type to "Pop-up Menu"
+    # This automatically sets input_type to INPUT_TYPE_POPUP
     #
     # Values are checked to ensure they match the @data_type
     # Note, Dates must be in the format "YYYY-MM-DD hh:mm:ss"
@@ -294,7 +324,7 @@ module JSS
     # @return [void]
     #
     def popup_choices=(new_val)
-      return nil if @popup_choices == new_val
+      return if @popup_choices == new_val
       raise JSS::InvalidDataError, 'popup_choices must be an Array' unless new_val.is_a?(Array)
 
       # convert each one to a String,
@@ -309,10 +339,36 @@ module JSS
         end
         v
       end
-      self.input_type = INPUT_TYPE_POPUP
+
+      @input_type = INPUT_TYPE_POPUP
       @popup_choices = new_val
+      @attribute_mapping = nil
+      @script = nil
+      @scripting_language = nil
+      @platform = nil
       @need_to_update = true
     end #
+
+
+    # Change the LDAP Attribute Mapping of this EA
+    # New value must be a String, or respond correctly to #to_s
+    #
+    # This automatically sets input_type to INPUT_TYPE_LDAP
+    #
+    # @param new_val[String, #to_s] the new value
+    #
+    # @return [void]
+    #
+    def attribute_mapping=(new_mapping)
+      new_mapping = JSS::Validate.non_empty_string new_mapping.to_s
+      return if new_mapping == @attribute_mapping
+
+      @input_type = INPUT_TYPE_LDAP
+      @attribute_mapping = new_mapping
+      @popup_choices = nil
+      @need_to_update = true
+    end
+
 
     # Get an Array of Hashes for all inventory objects
     # with a desired result in their latest report for this EA.
@@ -435,7 +491,22 @@ module JSS
 
     private
 
-    #
+    # make sure things are OK for saving to Jamf
+    def validate_for_save
+      case @input_type
+      when INPUT_TYPE_POPUP
+        raise MissingDataError, "No popup_choices set for input type: #{INPUT_TYPE_POPUP}" unless @popup_choices.is_a?(Array) && !@popup_choices.empty?
+      when INPUT_TYPE_LDAP
+        raise MissingDataError, "No attribute_mapping set for input type: #{INPUT_TYPE_LDAP}" if @attribute_mapping.to_s.empty?
+      when INPUT_TYPE_SCRIPT
+        raise MissingDataError, "No script set for input_type: #{INPUT_TYPE_SCRIPT}" unless @script
+
+        # Next two lines DEPRECATED
+        @platform ||= 'Mac'
+        raise MissingDataError, "No scripting_language set for Windows script input_type." if @platform == 'Windows' && !@scripting_language
+      end
+    end
+
     # Return a REXML object for this ext attr, with the current values.
     # Subclasses should augment this in their rest_xml methods
     # then return it .to_s, for saving or updating
@@ -449,10 +520,15 @@ module JSS
 
       it = ea.add_element('input_type')
       it.add_element('type').text = @input_type
-      if @input_type == 'Pop-up Menu'
+
+      case @input_type
+      when INPUT_TYPE_POPUP
         pcs = it.add_element('popup_choices')
         @popup_choices.each { |pc| pcs.add_element('choice').text = pc }
+      when INPUT_TYPE_LDAP
+        it.add_element('attribute_mapping').text = @attribute_mapping
       end
+
       ea
     end # rest xml
 
