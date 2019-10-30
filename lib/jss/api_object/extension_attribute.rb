@@ -265,14 +265,14 @@ module JSS
 
     # Change the inventory_display of this EA
     #
-    # @param new_val[String] the new value, which must be a member of INVENTORY_DISPLAY_CHOICES
+    # @param new_val[String] the new value, which must be a member of WEB_DISPLAY_CHOICES
     #
     # @return [void]
     #
     def web_display=(new_val)
       return if @web_display == new_val
       unless WEB_DISPLAY_CHOICES.include? new_val
-        raise JSS::InvalidDataError, "inventory_display must be a string, one of: #{INVENTORY_DISPLAY_CHOICES.join(', ')}"
+        raise JSS::InvalidDataError, "inventory_display must be a string, one of: #{WEB_DISPLAY_CHOICES.join(', ')}"
       end
 
       @web_display = new_val
