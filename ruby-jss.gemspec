@@ -62,7 +62,7 @@ Gem::Specification.new do |s|
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
   # https://github.com/rest-client/rest-client & dependencies: MIT License
-  s.add_runtime_dependency 'rest-client', '>= 1.8.0', '< 2.1'
+  s.add_runtime_dependency 'rest-client', '>= 2.0.0', '< 2.1'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
   s.add_runtime_dependency 'net-ldap', '~> 0.16'
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
