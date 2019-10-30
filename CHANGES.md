@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[1.2.1] - UNRELEASED
+## \[1.2.1] - 2019-10-30
 ### Added
 - the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a `last_mdm_contact` class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don't have anything like the `last_checkin` value for comptuers, indicating real communication between the device and Jamf Pro.
 Note that the `last_inventory_update` value does NOT indicate such communication, since that timestamp is updated when values are changed via the API
