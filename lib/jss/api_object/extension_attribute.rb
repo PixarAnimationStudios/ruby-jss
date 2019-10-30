@@ -154,10 +154,8 @@ module JSS
 
       # @init_data now has the raw data
       # so fill in our attributes or set defaults
-
       @description = @init_data[:description]
       @data_type = @init_data[:data_type] || DEFAULT_DATA_TYPE
-      @web_display = @init_data[:inventory_display] || DEFAULT_WEB_DISPLAY_CHOICE
 
       if @init_data[:input_type]
         @input_type = @init_data[:input_type][:type]
@@ -173,10 +171,12 @@ module JSS
         @platform = @init_data[:input_type][:platform]
         @scripting_language = @init_data[:input_type][:scripting_language]
       end
-
       @input_type ||= DEFAULT_INPUT_TYPE
+
       @enabled = @init_data[:enabled]
 
+      @web_display = @init_data[:inventory_display] || DEFAULT_WEB_DISPLAY_CHOICE
+      # deprecated - no longer in the UI
       @recon_display = @init_data[:recon_display] || @web_display
 
       # the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
@@ -510,10 +510,13 @@ module JSS
     def rest_xml
       ea = REXML::Element.new self.class::RSRC_OBJECT_KEY.to_s
       ea.add_element('name').text = @name
-      ea.add_element('description').text = @description
+      ea.add_element('description').text = @description if @description
       ea.add_element('data_type').text = @data_type
-      ea.add_element('inventory_display').text = @web_display
-      ea.add_element('recon_display').text = @recon_display if @recon_display
+
+      unless self.class == JSS::UserExtensionAttribute
+        ea.add_element('inventory_display').text = @web_display if @web_display
+        ea.add_element('recon_display').text = @recon_display if @recon_display
+      end
 
       it = ea.add_element('input_type')
       it.add_element('type').text = @input_type
