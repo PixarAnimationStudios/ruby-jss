@@ -240,6 +240,7 @@ module JSS
     def valid_server?(server, port = DFT_PORT)
       mysql = Mysql.init
       mysql.options Mysql::OPT_CONNECT_TIMEOUT, 5
+      mysql.charset = DFT_CHARSET
 
       begin
         # this connection should get an access denied error if there is
