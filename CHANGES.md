@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[1.2.2] - 2019-10-31
+## \[1.2.3] - 2019-10-31
 ### Added
 - the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a `last_mdm_contact` class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don't have anything like the `last_checkin` value for comptuers, indicating real communication between the device and Jamf Pro.
 Note that the `last_inventory_update` value does NOT indicate such communication, since that timestamp is updated when values are changed via the API
@@ -21,7 +21,7 @@ Note that the `last_inventory_update` value does NOT indicate such communication
 - ExtensionAttribute#attribute_mapping getter & setter for EAs that have the 'LDAP Attribute Mapping' input type.
 
 ### Fixed
-- DB_CNX.valid_server? now specifies utf8 charset, needed for newer versions of mysql.
+- DB_CNX.valid_server? now specifies utf8 charset, and catches NotSupportedAuthMode errors, needed for newer versions of mysql
 
 ### Changed
 - Cleaned up and modernized ExtensionAttribute and its subclasses. Marked a few things as deprecated: recon_display, scripting_language, and platform, all in ComputerExtensionAttribute.

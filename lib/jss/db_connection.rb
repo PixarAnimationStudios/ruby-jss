@@ -246,9 +246,15 @@ module JSS
         # this connection should get an access denied error if there is
         # a mysql server there. I'm assuming no one will use this username
         # and pw for anything real
+        # Also with newer versions of mysql, a Mysql instance that has
+        # never authenticated will raise Mysql::ServerError::NotSupportedAuthMode
+        # rather than Mysql::ServerError::AccessDeniedError, until a
+        # successful connection is made. After that, re-connecting will
+        # raise AccessDeniedError when credentials are invalid.
+
         mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port
 
-      rescue Mysql::ServerError::AccessDeniedError
+      rescue Mysql::ServerError::AccessDeniedError, Mysql::ServerError::NotSupportedAuthMode
         return true
       rescue
         return false
