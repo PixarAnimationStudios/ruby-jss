@@ -809,7 +809,12 @@ module JSS
       end
 
       # a random object?
-      return new id: all.sample[:id], api: api if searchterm == :random
+      if searchterm == :random
+        rnd_thing = all.sample
+        raise JSS::NoSuchItemError, "No #{self::RSRC_LIST_KEY} found" unless rnd_thing
+
+        return new id: rnd_thing[:id], api: api
+      end
 
       # get the lookup key and value, if given
       fetch_key, fetch_val = args.to_a.first
