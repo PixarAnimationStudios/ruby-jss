@@ -327,6 +327,9 @@ module JSS
     # These classes are extendable, and may need cache flushing for EA definitions
     EXTENDABLE_CLASSES = [JSS::Computer, JSS::MobileDevice, JSS::User].freeze
 
+    # values for the format param of get_rsrc
+    GET_FORMATS = %i[json xml].freeze
+
     # Attributes
     #####################################
 
@@ -546,36 +549,40 @@ module JSS
     # after the 'JSSResource/' ) The resource must be properly URL escaped
     # beforehand. Note: URL.encode is deprecated, use CGI.escape
     #
-    # By default we get the data in JSON, and parse it
-    # into a ruby data structure (arrays, hashes, strings, etc)
+    # By default we get the data in JSON, and parse it into a ruby Hash
     # with symbolized Hash keys.
+    #
+    # If the second parameter is :xml then the XML version is retrieved and
+    # returned as a String.
+    #
+    # To get the raw JSON string as it comes from the API, pass raw_json: true
     #
     # @param rsrc[String] the resource to get
     #   (the part of the API url after the 'JSSResource/' )
     #
     # @param format[Symbol] either ;json or :xml
-    #  If the second argument is :xml, the XML data is returned as a String.
+    #   If the second argument is :xml, the XML data is returned as a String.
+    #
+    # @param raw_json[Boolean] When GETting JSON, return the raw unparsed string
+    #   (the XML is always returned as a raw string)
     #
     # @return [Hash,String] the result of the get
     #
-    def get_rsrc(rsrc, format = :json)
-      # puts object_id
+    def get_rsrc(rsrc, format = :json, raw_json: false)
       validate_connected
-
-      raise JSS::InvalidDataError, 'format must be :json or :xml' unless %i[json xml].include? format
+      raise JSS::InvalidDataError, 'format must be :json or :xml' unless GET_FORMATS.include? format
 
       begin
         @last_http_response = @cnx[rsrc].get(accept: format)
+        return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
+
         @last_http_response.body
       rescue RestClient::ExceptionWithResponse => e
         handle_http_error e
       end
-      # TODO: make sure we're returning the String version of the
-      # response (i.e. its body) here and in POST, PUT, DELETE.
-      format == :json ? JSON.parse(@last_http_response, symbolize_names: true) : @last_http_response
     end
 
-    # Change an existing JSS resource
+    # Update an existing JSS resource
     #
     # @param rsrc[String] the API resource being changed, the URL part after 'JSSResource/'
     #
