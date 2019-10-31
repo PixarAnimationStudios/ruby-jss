@@ -4,16 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[1.2.1] - 2019-10-30
+## \[1.2.2] - 2019-10-31
 ### Added
 - the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a `last_mdm_contact` class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don't have anything like the `last_checkin` value for comptuers, indicating real communication between the device and Jamf Pro.
 Note that the `last_inventory_update` value does NOT indicate such communication, since that timestamp is updated when values are changed via the API
 
 - All APIObject Subclasses (Policy, Computer, MobileDevice, ComputerGroup, etc..) now have `get_raw`, `post_raw` & `put_raw` class methods, which are simpler wrappers for APIConnection#get_rsrc, #post_rsrc, and #put_rsrc.
-  - `get_raw`  takes an object's id, and returns the 'raw' JSON (parsed into a ruby Hash with symbolized keys) or a REXML::Document (from which you'll probably want to use the `root` element).
+  - `get_raw`  takes an object's id, and returns the 'raw' JSON (parsed into a ruby Hash with symbolized keys) or a REXML::Document (from which you'll probably want to use the `root` element). If you pass `as_string: true` you'll get the un-parsed JSON or XML string directly from the API
   This can be useful when you need to retrieve the full object, to get some data not available in the summary-list, but instantiating the full ruby class is too slow.
   - `post_raw` & `put_raw` can send raw XML to the API without instantiating objects. In some cases, where you're making simple changes to simple XML, this can be faster than fetching a full instance and the re-saving it.
   WARNING You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String of XML, or something that returns such a string with #to_s, such as a REXML::Document, or a REXML::Element.
+
+- APIConnection#get_rsrc now takes the boolean raw_json: parameter (defaults to false). If true, the raw JSON string is
+  returned, not parsed into a Hash. When requesting XML, it already comes as a string.
 
 - ExtensionAttribute#attribute_mapping getter & setter for EAs that have the 'LDAP Attribute Mapping' input type.
 
@@ -22,6 +25,7 @@ Note that the `last_inventory_update` value does NOT indicate such communication
 
 ### Changed
 - Cleaned up and modernized ExtensionAttribute and its subclasses. Marked a few things as deprecated: recon_display, scripting_language, and platform, all in ComputerExtensionAttribute.
+- Better error message when using `APIObject.fetch :random` on a subclass with no objects
 
 ## \[1.2.0] - 2019-10-17
 ### Added
