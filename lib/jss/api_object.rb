@@ -856,9 +856,16 @@ module JSS
       end
     end # fetch
 
-    # Fetch the mostly-raw JSON or XML data for this an object of this subclass
-    # returning a Hash, for a JSON request (the default) or a REXML::Document
-    # if format: is :xml. This will not return a subcclass of APIObject.
+    # Fetch the mostly- or fully-raw JSON or XML data for an object of this
+    # subclass.
+    #
+    # By default, returns the JSON data parsed into a Hash.
+    #
+    # When format: is anything but :json, returns the XML data parsed into
+    # a REXML::Document
+    #
+    # When as_string: is truthy, returns an unparsed JSON String (or XML String
+    # if format: is not :json) as it comes directly from the API.
     #
     # When fetching raw JSON, the returned Hash will have its keys symbolized.
     #
@@ -873,16 +880,19 @@ module JSS
     #
     # @param format[Symbol] :json or :xml, defaults to :json
     #
+    # @param as_string[Boolean] return the raw JSON or XML string as it comes
+    #   from the API, do not parse into a Hash or REXML::Document
+    #
     # @param api[JSS::APIConnection] the connection thru which to fetch this
     #   object. Defaults to the deault API connection in JSS.api
     #
-    # @return [Hash,REXML::Document] the raw data for the object
+    # @return [Hash, REXML::Document, String] the raw data for the object
     #
-    def self.get_raw(id, format: :json, api: JSS.api)
+    def self.get_raw(id, format: :json, as_string: false, api: JSS.api)
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      data = api.get_rsrc rsrc, format
-      return data if format == :json
+      data = api.get_rsrc rsrc, format, raw_json: as_string
+      return data if format == :json || as_string
 
       REXML::Document.new(data)
     rescue RestClient::NotFound
