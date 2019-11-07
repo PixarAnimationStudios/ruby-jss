@@ -25,9 +25,14 @@
 
 module Jamf
 
-  # The client checkin settings for the Jamf Pro Server
+  # The API endpoint for country codes.
+  #
+  # Probably more useful is the Jamf.app_store_country_codes method
+  # which parses this into a hash of Code => Name
   #
   class AppStoreCountryCodes < Jamf::SingletonResource
+
+    extend Jamf::Immutable
 
     # Constants
     #####################################
@@ -42,13 +47,49 @@ module Jamf
       #   @return [integer]
       countryCodes: {
         class: Jamf::Country,
-        multi: true
+        multi: true,
+        read_only: true
       }
 
     }.freeze # end OBJECT_MODEL
 
     parse_object_model
 
+    # Class Methods
+    #####################################
+
+    # Class level wrapper for #names
+    def self.names(refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).names
+    end
+
+    # Class level wrapper for #codes
+    def self.codes(refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).codes
+    end
+
+    # Class level wrapper for #codes_by_name
+    def self.codes_by_name(refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).codes_by_name
+    end
+
+    # Class level wrapper for #names_by_code
+    def self.names_by_code(refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).names_by_code
+    end
+
+    # Class level wrapper for #code_for_name
+    def self.code_for_name(name, refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).code_for_name name
+    end
+
+    # Class level wrapper for #name_for_code
+    def self.name_for_code(code, refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).name_for_code code
+    end
+
+    # Instance Methods
+    #####################################
 
     # @return [Array<String>] the available country names
     def names
