@@ -1,0 +1,11 @@
+inherit_from:
+  - ~/.rubocop.yml
+
+Naming/MethodName:
+  Enabled: false
+
+Naming/VariableName:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false

@@ -23,10 +23,15 @@
 ###
 ###
 
+### All monkey-patched convenience methods are either prefixed with "jss_"  or
+### if they are type coercions, "to_jss_"
 ###
-module JSS
 
-  ### The version of ruby-jss
-  VERSION = '1.2.4a1'.freeze
-
-end # module
+require 'jamf/ruby_extensions/filetest.rb'
+require 'jamf/ruby_extensions/hash.rb'
+require 'jamf/ruby_extensions/ipaddr.rb'
+require 'jamf/ruby_extensions/object.rb'
+require 'jamf/ruby_extensions/pathname.rb'
+require 'jamf/ruby_extensions/time.rb'
+require 'jamf/ruby_extensions/string.rb'
+require 'jamf/ruby_extensions/array.rb'
