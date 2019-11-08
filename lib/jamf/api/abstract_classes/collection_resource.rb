@@ -122,6 +122,7 @@ module Jamf
         end
 
       return cnx.collection_cache[self] unless instantiate
+
       cnx.collection_cache[self].map { |m| new m }
     end
 

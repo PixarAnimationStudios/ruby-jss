@@ -56,27 +56,18 @@ module Jamf
     # @return [Jamf::SingletonResource] The ruby-instance of a Jamf resource
     #
     def self.fetch(reload = false, cnx: Jamf.cnx)
-      resource_cache[self] = nil if reload
-      cached = resource_cache[self]
+      cnx.singleton_cache[self] = nil if reload
+      cached = cnx.singleton_cache[self]
       return cached if cached
 
       data = cnx.get "#{self::RSRC_VERSION}/#{self::RSRC_PATH}"
-      resource_cache[self] = new data, cnx: cnx
+      cnx.singleton_cache[self] = new data, cnx: cnx
     end # fetch
 
-    def self.flushcache
+    def self.flushcache(cnx: Jamf.cnx)
       validate_not_abstract
-      resource_cache[self] = nil
+      cnx.singleton_cache[self] = nil
     end
-
-    # Private Class Methods
-    #####################################
-
-    # A hash of fetched singleton resources
-    def self.resource_cache
-      @resource_cache ||= {}
-    end
-    private_class_method :resource_cache
 
     # Instance Methods
     #####################################

@@ -107,6 +107,15 @@ module Jamf
     attr_reader :rest_cnx
 
     # @return [Hash]
+    # This Hash holds the most recently fetched instance of a SingletonResource
+    # subclass.
+    #
+    # SingletonResource.fetch will return the instance from here, if it exists,
+    # unless the first parameter is truthy.
+    #
+    attr_reader :singleton_cache
+
+    # @return [Hash]
     # This Hash holds the most recent API query for a list of all items in any
     # CollectionResource subclass, keyed by the subclass itself.
     # See the CollectionResource.all class method.
@@ -135,6 +144,7 @@ module Jamf
     #####################################
 
     def connect(**params)
+      # This sets all the instance vars to nil, and flushes/creates the caches
       disconnect
 
       # apply defaults from config, client, and then this class.
@@ -188,8 +198,7 @@ module Jamf
       @timeout = nil
       @base_url = nil
       @rest_cnx = nil
-      @collection_cache = {}
-      @ext_attr_cache = {}
+      flushcache
     end
 
     def get(rsrc, symbolize: true)
@@ -256,9 +265,11 @@ module Jamf
     def flushcache(klass = nil)
       if klass
         @collection_cache.delete klass
+        @singleton_cache.delete klass
         @ext_attr_cache.delete klass
       else
         @collection_cache = {}
+        @singleton_cache = {}
         @ext_attr_cache = {}
       end
     end
