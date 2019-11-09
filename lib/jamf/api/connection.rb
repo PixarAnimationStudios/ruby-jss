@@ -95,6 +95,21 @@ module Jamf
 
     NOT_CONNECTED = 'Not Connected'.freeze
 
+    # Only these variables are displayed with PrettyPrint
+    PP_VARS = %i[
+      @name
+      @connected
+      @host
+      @port
+      @user
+      @base_url
+      @ssl_options
+      @open_timeout
+      @timeout
+      @login_time
+      @keep_alive
+    ].freeze
+
     # Attributes
     #####################################
 
@@ -375,19 +390,7 @@ module Jamf
     # @return [Array] the desired instance_variables
     #
     def pretty_print_instance_variables
-      %i[
-        @name
-        @connected
-        @host
-        @port
-        @user
-        @base_url
-        @ssl_options
-        @open_timeout
-        @timeout
-        @login_time
-        @keep_alive
-      ]
+      PP_VARS
     end
 
     # Private Insance Methods
