@@ -56,6 +56,9 @@ module Jamf
         end
       end # ErrorInfo
 
+      # @return [Faraday::Response]
+      attr_reader :http_response
+
       # @return [integer]
       #
       attr_reader :httpStatus
@@ -69,11 +72,10 @@ module Jamf
       attr_reader :rest_error
 
       # @param rest_error [RestClient::ExceptionWithResponse]
-      def initialize(rest_error)
-        @rest_error = rest_error
-        data = JSON.parse rest_error.response.body, symbolize_names: true
-        @httpStatus = data[:httpStatus]
-        @errors = data[:errors].map { |e| ErrorInfo.new e }
+      def initialize(http_response)
+        @http_response = http_response
+        @httpStatus = http_response.status
+        @errors = @http_response.body[:errors].map { |e| ErrorInfo.new e }
         super
       end
 

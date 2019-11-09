@@ -20,7 +20,6 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
 
 require 'faraday' # >= 0.17.0
 require 'faraday_middleware' # >= 0.13.0
@@ -32,7 +31,9 @@ require 'jamf/api/connection/api_error'
 module Jamf
 
   # Changes from classic Jamf::APIconnection
-  #   - only support https
+  #   - uses Faraday as the REST engine
+  #   - accepts a url with connect/initialize
+  #   - only supports https, no http
   #   - no xml
   #   - tokens & keep_alive
   #   - no object class method wrappers in connection objects,
@@ -49,11 +50,13 @@ module Jamf
     # The API version must be this or higher
     MIN_API_VERSION = Gem::Version.new('1.0')
 
-    # The Jamf default SSL port, default for on-prem servers
-    ON_PREM_SSL_PORT = 8443
+    HTTPS_SCHEME = 'https'.freeze
 
     # The https default SSL port, default for Jamf Cloud servers
     HTTPS_SSL_PORT = 443
+
+    # The Jamf default SSL port, default for on-prem servers
+    ON_PREM_SSL_PORT = 8443
 
     # if either of these is specified, we'll default to SSL
     SSL_PORTS = [ON_PREM_SSL_PORT, HTTPS_SSL_PORT].freeze
@@ -86,9 +89,17 @@ module Jamf
 
     MIME_JSON = 'application/json'
 
+    SLASH = '/'.freeze
+
+    VALID_URL_REGEX = /\A#{URI.regexp(%w[https])}\z/.freeze
+
+    NOT_CONNECTED = 'Not Connected'.freeze
 
     # Attributes
     #####################################
+
+    # @return [String, nil]
+    attr_reader :name
 
     # @return [String, nil]
     attr_reader :host
@@ -102,7 +113,7 @@ module Jamf
     # @return [Integer, nil]
     attr_reader :timeout
 
-    # @return [String, nil]
+    # @return [Jamf::Connection::Token, nil]
     attr_reader :token
 
     # @return [String, nil]
@@ -114,6 +125,9 @@ module Jamf
 
     # @return [RestClient::Resource] the underlying rest resource
     attr_reader :rest_cnx
+
+    # when was this connection logged in?
+    attr_reader :login_time
 
     # @return [Hash]
     # This Hash holds the most recently fetched instance of a SingletonResource
@@ -140,57 +154,116 @@ module Jamf
     # for validating values passed to Extendable.set_ext_attr.
     attr_reader :ext_attr_cache
 
+    attr_reader :last_http_response
+
     # Constructor
     #####################################
 
     # @see #connect
-    def initialize(**params)
+    def initialize(url = nil, **params)
       @name = params.delete :name
-      connect(params) if params[:token] || params[:user]
+      @name ||= NOT_CONNECTED
+      connect(params)
     end
 
     # Public Instance Methods
     #####################################
 
-    def connect(**params)
+    # Connect this Connection object to an Jamf Pro API
+    #
+    # The first parameter may be a URL (must be https) from which
+    # the host & port will be used, and if present, the user and password
+    # E.g.
+    #   connect 'https://myuser:pass@host.domain.edu:8443'
+    #
+    # which is the same as:
+    #   connect host: 'host.domain.edu', port: 8443, user: 'myuser', pw: 'pass'
+    #
+    # When using a URL, other parameters below may be specified, however
+    # host: and port: parameters will be ignored, since they came from the URL,
+    # as will user: and :pw, if they are present in the URL. If the URL doesn't
+    # contain user and pw, they can be provided via the parameters, or left
+    # to default values.
+    #
+    # ### Passwords
+    # The pw: parameter also accepts the symbols :prompt, and :stdin[X]
+    #
+    # If :prompt, the user is promted on the commandline to enter the password
+    # for the :user.
+    #
+    # If :stdin the password is read from the first line of stdin
+    #
+    # If :stdinX (where X is an integer) the password is read from the Xth
+    # line of stdin.see {Jamf.stdin}
+    #
+    # If omitted, and running from an interactive terminal, the user is
+    # prompted as with :prompt
+    #
+    # ### Tokens
+    # Instead of a user and password, you may specify a valid 'token:', either:
+    #
+    # A Jamf::Connection::Token object, which  can be extracted from an active
+    # Jamf::Connection via its #token method
+    #
+    # or
+    #
+    # A token string e.g. "eyJhdXR...6EKoo" from any source can also be used.
+    #
+    #
+    # Any values available via Jamf.config will be used if they are not provided
+    # in the parameters.
+    #
+    # @param host: [String] The API server hostname. The param 'server:' is a
+    #   synonym
+    #
+    # @param port: [Integer] The API server port. If omitted, the value from
+    #   Jamf.config will be used. If no config value, defaults to 443 if the
+    #   host ends with 'jamfcloud.com' or 8443 otherwise
+    #
+    # @param user: [String] The username for the API connection
+    #
+    # @param pw: [String, Symbol] The password for the user, :prompt, or :stdin[X]
+    #
+    # @param token: [Jamf::Connection::Token, String] An existing, valid token.
+    #   When used, there's no need to provide user: or pw:.
+    #
+    # @param open_timeout: [Integer] The number of seconds for initial contact
+    #   with the host.
+    #
+    # @param timeout: [Integer] The number of seconds for a full response from
+    #   the host.
+    #
+    # @param ssl_version: [Symbol] The SSL version, e.g. :TLSv1_2
+    #
+    # @param verify_cert: [Boolean] Should the SSL certificate be verified?
+    #   Default is true, should only be set to false if using a on-prem
+    #   server with a self-signed certificate, which is rare
+    #
+    def connect(url = nil, **params)
       # This sets all the instance vars to nil, and flushes/creates the caches
       disconnect
+
+      # parse the url if one was given
+      params[:url] = url
+      parse_url params if params[:url]
 
       # apply defaults from config, client, and then this class.
       apply_connection_defaults params
 
-      # parse our ssl situation
-      verify_ssl params
+      # confirm we know a host, port, user and pw
+      verify_basic_params params
+      parse_connect_params params
 
-      if params[:token]
-        verify_token(params[:token])
-        parse_token params[:token]
-      else
-        # figure out :password from :pw
-        params[:password] = acquire_password(params)
-
-        # confirm we know a host, port, user and pw
-        verify_basic_params params
-        parse_raw_params params
-
-        # this does the authentication
-        @token = self.class::Token.new @user, params[:password], @base_url, timeout: @timeout
-      end
+      @token = acquire_token params
+      @login_time = @token.login_time
+      @user ||= @token.user
 
       # if we're here we have a valid token
-      @rest_cnx = RestClient::Resource.new(
-        @base_url.to_s,
-        headers: {
-          authorization: @token.auth_token,
-          accept: :json,
-          content_type: :json
-        }
-      )
-      @connected = true
+      @rest_cnx = create_connection
 
       validate_api_version
 
-      @name = "#{@user}@#{@host}:#{@port}"
+      @connected = true
 
       @keep_alive = params[:keep_alive].nil? ? false : params[:keep_alive]
       @keep_alive && start_keep_alive
@@ -198,51 +271,63 @@ module Jamf
     end # connect
 
     def disconnect
-      # reset everything exceot the name
+      # reset everything exceot the name & timeouts
       @connected = false
+      @login_time = nil
       @host = nil
       @port = nil
       @user = nil
       @token = nil
-      @timeout = nil
       @base_url = nil
       @rest_cnx = nil
+      @ssl_version = nil
       flushcache
     end
 
-    def get(rsrc, symbolize: true)
+    def get(rsrc)
       validate_connected
-      response_to_ruby @rest_cnx[rsrc].get, symbolize: symbolize
-    rescue RestClient::ExceptionWithResponse => e
-      raise Jamf::Connection::APIError.new(e)
+      @last_http_response = @rest_cnx.get rsrc
+      return @last_http_response.body if @last_http_response.success?
+
+      raise Jamf::Connection::APIError.new(@last_http_response)
     end
 
-    def post(rsrc, data, symbolize: true)
+    def post(rsrc, data)
       validate_connected
-      response_to_ruby @rest_cnx[rsrc].post(data.to_json), symbolize: symbolize
-    rescue RestClient::ExceptionWithResponse => e
-      raise Jamf::Connection::APIError.new(e)
+      @last_http_response = @rest_cnx.post(rsrc) do |req|
+        req.body = data
+      end
+      return @last_http_response.body if @last_http_response.success?
+
+      raise Jamf::Connection::APIError.new(@last_http_response)
     end
 
-    def put(rsrc, data, symbolize: true)
+    def put(rsrc, data)
       validate_connected
-      response_to_ruby @rest_cnx[rsrc].put(data.to_json), symbolize: symbolize
-    rescue RestClient::ExceptionWithResponse => e
-      raise Jamf::Connection::APIError.new(e)
+      @last_http_response = @rest_cnx.put(rsrc) do |req|
+        req.body = data
+      end
+      return @last_http_response.body if @last_http_response.success?
+
+      raise Jamf::Connection::APIError.new(@last_http_response)
     end
 
-    def patch(rsrc, data, symbolize: true)
+    def patch(rsrc, data)
       validate_connected
-      response_to_ruby @rest_cnx[rsrc].patch(data.to_json), symbolize: symbolize
-    rescue RestClient::ExceptionWithResponse => e
-      raise Jamf::Connection::APIError.new(e)
+      @last_http_response = @rest_cnx.patch(rsrc) do |req|
+        req.body = data
+      end
+      return @last_http_response.body if @last_http_response.success?
+
+      raise Jamf::Connection::APIError.new(@last_http_response)
     end
 
-    def delete(rsrc, symbolize: true)
+    def delete(rsrc)
       validate_connected
-      response_to_ruby @rest_cnx[rsrc].delete, symbolize: symbolize
-    rescue RestClient::ExceptionWithResponse => e
-      raise Jamf::Connection::APIError.new(e)
+      @last_http_response = @rest_cnx.delete rsrc
+      return @last_http_response.body if @last_http_response.success?
+
+      raise Jamf::Connection::APIError.new(@last_http_response)
     end
 
     # A useful string about this connection
@@ -250,7 +335,7 @@ module Jamf
     # @return [String]
     #
     def to_s
-      connected? ? "Using #{@base_url} as user #{@user}" : 'not connected'
+      "Jamf::Connection: https://#{@user}@#{@host}:#{@port}"
     end
 
     def keep_alive?
@@ -262,7 +347,7 @@ module Jamf
     end
 
     def api_version
-      get('/')[:version]
+      @token.api_version
     end
 
     # Flush the collection and/or ea cache for the given class,
@@ -297,7 +382,10 @@ module Jamf
         @port
         @user
         @base_url
-        @imeout
+        @ssl_options
+        @open_timeout
+        @timeout
+        @login_time
         @keep_alive
       ]
     end
@@ -306,6 +394,26 @@ module Jamf
     ####################################
     private
 
+    # given a token string or a password, get a valid token
+    # Token.new will raise an exception if the token string or
+    # credentials are invalid
+    def token_from(type, data)
+      token_params = {
+        user: @user,
+        base_url: @base_url,
+        timeout: @timeout,
+        ssl_options: @ssl_options
+      }
+
+      case type
+      when :token_string
+        token_params[:token_string] = data
+      when :pw
+        token_params[:pw] = data
+      end
+      self.class::Token.new token_params
+    end
+
     # raise exception if not connected
     def validate_connected
       raise Jamf::InvalidConnectionError, 'Not Connected. Use .connect first.' unless connected?
@@ -313,34 +421,50 @@ module Jamf
 
     # raise exception if API version is too low.
     def validate_api_version
-      return if Gem::Version.new(api_version) >= MIN_API_VERSION
-      raise Jamf::InvalidConnectionError, "API version too low, must be >= #{MIN_API_VERSION}"
+      vers = api_version
+      return if Gem::Version.new(vers) >= MIN_API_VERSION
+
+      raise Jamf::InvalidConnectionError, "API version '#{vers}' too low, must be >= '#{MIN_API_VERSION}'"
+    end
+
+    def parse_url(params)
+      url = URI.parse params[:url].to_s
+      raise ArgumentError, 'Invalid url, scheme must be https' unless url.scheme == HTTPS_SCHEME
+
+      params[:user] = url.user
+      params[:pw] = url.password
+      params[:host] = url.host
+      params[:port] = url.port
     end
 
     # Apply defaults from the Jamf.config,
     # then from the Jamf::Client,
     # then from the module defaults
-    # to the args for the #connect method
+    # to the params for the #connect method
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
-    # @return [Hash] The args with defaults applied
+    # @return [Hash] The params with defaults applied
     #
     def apply_connection_defaults(params)
       apply_defaults_from_config(params)
-      # apply_defaults_from_client(args) TODO: when clients are moved over
+      # TODO: when clients are moved over
+      # apply_defaults_from_client(params)
       apply_module_defaults(params)
+
+      # if we have a TTY, pw defaults to :prompt
+      params[:pw] ||= :prompt if STDIN.tty?
     end
 
     # Apply defaults from the Jamf.config
-    # to the args for the #connect method
+    # to the params for the #connect method
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
-    # @return [Hash] The args with defaults applied
+    # @return [Hash] The params with defaults applied
     #
     def apply_defaults_from_config(params)
-      # settings from config if they aren't in the args
+      # settings from config if they aren't in the params
       params[:host] ||= Jamf.config.api_server_name
       params[:port] ||= Jamf.config.api_server_port
       params[:user] ||= Jamf.config.api_username
@@ -348,33 +472,32 @@ module Jamf
       params[:open_timeout] ||= Jamf.config.api_timeout_open
       params[:ssl_version] ||= Jamf.config.api_ssl_version
 
-      # if verify cert was not in the args, get it from the prefs.
+      # if verify cert was not in the params, get it from the prefs.
       # We can't use ||= because the desired value might be 'false'
       params[:verify_cert] = Jamf.config.api_verify_cert if params[:verify_cert].nil?
-      params
     end # apply_defaults_from_config
 
     # Apply defaults from the Jamf::Client
-    # to the args for the #connect method
+    # to the params for the #connect method
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
-    # @return [Hash] The args with defaults applied
+    # @return [Hash] The params with defaults applied
     #
     def apply_defaults_from_client(params)
       return unless Jamf::Client.installed?
 
-      # these settings can come from the jamf binary config, if this machine is a Jamf client.
+      # these settings can come from the jamf binary config,
+      # if this machine is a Jamf client.
       params[:host] ||= Jamf::Client.jss_server
       params[:port] ||= Jamf::Client.jss_port.to_i
-      params[:use_ssl] ||= Jamf::Client.jss_protocol.to_s.end_with? 's'
     end
 
-    # Apply the module defaults to the args for the #connect method
+    # Apply the module defaults to the params for the #connect method
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
-    # @return [Hash] The args with defaults applied
+    # @return [Hash] The params with defaults applied
     #
     def apply_module_defaults(params)
       params[:port] ||= params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
@@ -383,72 +506,89 @@ module Jamf
       params[:ssl_version] ||= DFT_SSL_VERSION
     end
 
-    # From whatever was given in args[:pw], figure out the real password
+    # From whatever was given in params[:pw], figure out the real password
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
     # @return [String] The password for the connection
     #
-    def acquire_password(args)
-      if args[:pw] == :prompt
-        Jamf.prompt_for_password "Enter the password for Jamf user #{args[:user]}@#{args[:host]}:"
-      elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
-        args[:pw].to_s =~ /^stdin(\d+)$/
+    def acquire_password(params)
+      if params[:pw] == :prompt
+        Jamf.prompt_for_password "Enter the password for Jamf user #{params[:user]}@#{params[:host]}:"
+      elsif params[:pw].is_a?(Symbol) && params[:pw].to_s.start_with?('stdin')
+        params[:pw].to_s =~ /^stdin(\d+)$/
         line = Regexp.last_match(1)
         line ||= 1
         Jamf.stdin line
       else
-        args[:pw]
+        params[:pw]
       end
     end
 
     # Raise execeptions if we don't have essential data for a new connection
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
     # @return [void]
     #
     def verify_basic_params(params)
+      # if given a Token object, it has host, port, user, and base_url
+      # and will be verified and parsed
+      return if params[:token].is_a? self.class::Token
+
+      # must have a host, accept :server as well as :host
       params[:host] ||= params[:server]
-      # must have server, user, and pw
       raise Jamf::MissingDataError, 'No Jamf :host specified, or in configuration.' unless params[:host]
+
+      # no need for user or pass if using a token string
+      return if params[:token]
+
       raise Jamf::MissingDataError, 'No Jamf :user specified, or in configuration.' unless params[:user]
-      raise Jamf::MissingDataError, "Missing :pw for user '#{params[:user]}'" unless params[:pw]
+      raise Jamf::MissingDataError, "No :pw specified for user '#{params[:user]}'" unless params[:pw]
+    end
+
+    def parse_connect_params(params)
+      @host = params[:host]
+      @port = params[:port]
+      @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
+      @user = params[:user]
+      @timeout = params[:timeout] || DFT_TIMEOUT
+      @open_timeout = params[:open_timeout] || DFT_TIMEOUT
+      @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
+      # ssl opts for faraday
+      # TODO: implement all of faraday's options
+      @ssl_options = {
+        verify: params[:verify_cert],
+        version: params[:ssl_version]
+      }
+      @name = "#{@user}@#{@host}:#{@port}" if @name == NOT_CONNECTED
+    end
+
+    # Get our token either from a passwd or another token or token string
+    def acquire_token(params)
+      if params[:token]
+        if params[:token].is_a? self.class::Token
+          verify_token params[:token]
+          parse_token params[:token]
+          params[:token]
+        else
+          token_from :token_string, params[:token].to_s
+        end
+      else
+        token_from :pw, acquire_password(params)
+      end
     end
 
     # Raise execeptions if we were given an unusable token
     #
-    # @param args[Hash] The args for #connect
+    # @param params[Hash] The params for #connect
     #
     # @return [void]
     #
     def verify_token(token)
-      raise 'Token must be an existing Jamf::Connection::Token object' unless token.is_a? Jamf::Connection::Token
       raise 'Cannot use token: it has expired' if token.expired?
       raise 'Cannot use token: it is invalid' unless token.valid?
       raise "Cannot use token: it expires in less than #{TOKEN_REUSE_MIN_LIFE} seconds" if token.secs_remaining < TOKEN_REUSE_MIN_LIFE
-    end
-
-    # Get the appropriate OpenSSL::SSL constant for
-    # certificate verification.
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Type] description_of_returned_object
-    #
-    def verify_ssl(args)
-      # use SSL for those ports unless specifically told not to
-      if SSL_PORTS.include? args[:port]
-        args[:use_ssl] = true if args[:use_ssl].nil?
-      end
-
-      # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] =
-        if args[:verify_cert] == false
-          OpenSSL::SSL::VERIFY_NONE
-        else
-          OpenSSL::SSL::VERIFY_PEER
-        end
     end
 
     def parse_token(token)
@@ -456,17 +596,19 @@ module Jamf
       @port = token.port
       @user = token.user
       @base_url = token.base_url
-      @token = token
     end
 
-    def parse_raw_params(params)
-      @host = params[:host] # || Jamf.config.host
-      @port = params[:port] # || Jamf.config.port
-      @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
-      @user = params[:user]
-      @timeout = params[:timeout]
-      @timeout ||= DFT_TIMEOUT
-      @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
+    # create the faraday connection object
+    def create_connection
+      Faraday.new(@base_url, ssl: @ssl_options) do |cnx|
+        cnx.headers[HTTP_ACCEPT_HEADER] = MIME_JSON
+        cnx.headers[:authorization] = @token.auth_token
+        cnx.request :json
+        cnx.response :json, parser_options: { symbolize_names: true }
+        cnx.options[:timeout] = @timeout
+        cnx.options[:open_timeout] = @open_timeout
+        cnx.use Faraday::Adapter::NetHttp
+      end
     end
 
     # creates a thread that loops forever, sleeping until just before
@@ -479,6 +621,7 @@ module Jamf
     def start_keep_alive
       return if @keep_alive_thread
       raise 'Token expired' if @token.expired?
+
       @keep_alive_thread =
         Thread.new do
           loop do
@@ -495,18 +638,9 @@ module Jamf
     #
     def stop_keep_alive
       return unless @keep_alive_thread
+
       @keep_alive_thread.kill
       @keep_alive_thread = nil
-    end
-
-    # This is mainly a wrapper to ensure symbolize_names: true
-    #
-    # @param raw_json[String] the raw json
-    #
-    # @return [Hash,Array,String,Integer,Boolean,Float] the parsed json
-    #
-    def response_to_ruby(resp, symbolize: true )
-      JSON.parse resp.body, symbolize_names: symbolize
     end
 
   end # class Connection
@@ -529,8 +663,8 @@ module Jamf
   #
   # @return [APIConnection] the new, active connection
   #
-  def self.connect(args)
-    @active_connection = Connection.new args
+  def self.connect(**params)
+    @active_connection = Connection.new params
   end
 
   # Switch the connection used for all API interactions to the

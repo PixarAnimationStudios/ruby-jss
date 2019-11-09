@@ -42,129 +42,174 @@ module Jamf
       # transaction authorization.
       AUTH_TOKEN_PFX = 'jamf-token '.freeze
 
+      # @return [String] The user who generated this token
       attr_reader :user
-      attr_reader :token_data
+
+      # @return [Jamf::Timestamp]
       attr_reader :expires
+      alias expiration expires
+
+      # @return [String] The AUTH_TOKEN_PFX with the token data, used in the
+      #   Authorization header of a request
       attr_reader :auth_token
+
+      # @return [URI] The base API url, e.g. https://myjamf.jamfcloud.com/uapi
       attr_reader :base_url
 
-      def initialize(user, pw, base_url, timeout: Jamf::Connection::DFT_TIMEOUT)
-        @user = user
-        @base_url = base_url
+      # when was this token created?
+      attr_reader :login_time
 
-        resp = token_connection(NEW_TOKEN_RSRC, pw: pw, timeout: timeout).post
+      def initialize(**params)
+        @valid = false
+        @user = params[:user]
+        @base_url = params[:base_url].is_a?(String) ? URI.parse(params[:base_url]) : params[:base_url]
+        @timeout = params[:timeout] || Jamf::Connection::DFT_TIMEOUT
+        @ssl_options = params[:ssl_options] || {}
+
+        if params[:pw]
+          init_from_pw params[:pw]
+        elsif params[:token_string]
+          init_from_token_string params[:token_string]
+        else
+          raise ArgumentError, 'Must provide either pw: or token_string:'
+        end
+
+      end # init
+
+      # Initialize from password
+      def init_from_pw(pw)
+        resp = token_connection(
+          NEW_TOKEN_RSRC,
+          pw: pw,
+          timeout: @timeout,
+          ssl_opts: @ssl_options
+        ).post
 
         if  resp.success?
           parse_token_from_response resp
+        elsif resp.status == 401
+          raise Jamf::AuthenticationError, 'Incorrect name or password'
         else
-          raise Jamf::AuthenticationError, 'Incorrect name or password' if resp.status == 401
-
           # TODO: better error reporting here
           raise 'An error occurred while authenticating'
         end
-      end # init
+      end # init_from_pw
 
-      def expired?
-        Time.now >= @expires
-      end
+      # Initialize from token string
+      def init_from_token_string(str)
+        str = "#{AUTH_TOKEN_PFX}#{str}" unless str.start_with? AUTH_TOKEN_PFX
+        resp = token_connection(AUTH_RSRC, token: str).get
+        raise Jamf::InvalidDataError, 'Token string is not valid' unless resp.success?
 
-      def secs_remaining
-        @expires - Time.now
-      end
+        @auth_token = str
+        @user = resp.body.dig :account, :username
+        # use this token to get a fresh one with a known expiration
+        keep_alive
+      end # init_from_token_string
 
-      def valid?
-        return false if expired?
-        return false unless @auth_token
-
-        token_connection(AUTH_RSRC, token: @token_data ).get.success?
-      end
-
-      # the Jamf::Account object assciated with this token
-      def account
-        resp = token_connection(AUTH_RSRC, token: @token).get
-        return unless resp.success?
-
-        Jamf::APIAccount.new resp.body
-      end
-
+      # @return [String]
       def host
         @base_url.host
       end
 
+      # @return [Integer]
       def port
         @base_url.port
       end
 
+      # @return [String]
+      def api_version
+        token_connection(Jamf::Connection::SLASH, token: @auth_token ).get.body[:version]
+      end
+
+      # @return [Boolean]
+      def expired?
+        return unless @expires
+        Time.now >= @expires
+      end
+
+      # @return [Float]
       def secs_remaining
+        return unless @expires
         @expires - Time.now
       end
 
+      # @return [String] e.g. "1 week 6 days 23 hours 49 minutes 56 seconds"
+      def time_remaining
+        return unless @expires
+        Jamf.humanize_secs secs_remaining
+      end
+
+      # @return [Boolean]
+      def valid?
+        @valid =
+          if expired?
+            false
+          elsif !@auth_token
+            false
+          else
+            token_connection(AUTH_RSRC, token: @auth_token).get.success?
+          end
+      end
+
+      # the Jamf::Account object assciated with this token
+      def account
+        return @account if @account
+        resp = token_connection(AUTH_RSRC, token: @auth_token).get
+        return unless resp.success?
+
+         @account = Jamf::APIAccount.new resp.body
+      end
+
+      # Use this token to get a fresh one
       def keep_alive
         raise 'Token has expired' if expired?
+
         keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
         # TODO: better error reporting here
         raise 'An error occurred while authenticating' unless keep_alive_token_resp.success?
-        parse_token_from_response alive_token_resp
+
+        parse_token_from_response keep_alive_token_resp
         # parse_token_from_response keep_alive_rsrc.post('')
       end
+      alias refresh keep_alive
 
+      # Make this token invalid
       def invalidate
-        token_connection(INVALIDATE_RSRC, token: @auth_token).post.success?
+        @valid = !token_connection(INVALIDATE_RSRC, token: @auth_token).post.success?
       end
-
-      # Remove large cached items from
-      # the instance_variables used to create
-      # pretty-print (pp) output.
-      #
-      # @return [Array] the desired instance_variables
-      #
-      def pretty_print_instance_variables
-        vars = instance_variables.sort
-        vars.delete :@parsed_token
-        vars.delete :@token_data
-        vars
-      end
+      alias destroy invalidate
 
       # Private instance methods
       #################################
-      public
+      private
 
       # a generic, one-time Faraday connection for token
       # acquision & manipulation
       #
-      def token_connection(rsrc, token: nil, pw: nil, timeout: Jamf::Connection::DFT_TIMEOUT)
-        # con = Faraday.new url: "#{@base_url}/#{rsrc}"
-        # con.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_JSON
-        # con.response :json, parser_options: { symbolize_names: true }
-        # con.options[:timeout] = timeout
-        # con.options[:open_timeout] = timeout
-        # if token
-        #   con.token_auth token
-        # else
-        #   con.basic_auth @user, pw
-        # end
-        # con
+      def token_connection(rsrc, token: nil, pw: nil, timeout: nil, ssl_opts: nil)
 
-        Faraday.new("#{@base_url}/#{rsrc}") do |con|
+        Faraday.new("#{@base_url}/#{rsrc}", ssl: ssl_opts ) do |con|
           con.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_JSON
           con.response :json, parser_options: { symbolize_names: true }
           con.options[:timeout] = timeout
           con.options[:open_timeout] = timeout
           if token
-            con.token_auth token
+            con.headers[:authorization] = token
           else
             con.basic_auth @user, pw
           end
           con.use Faraday::Adapter::NetHttp
-        end
+        end # Faraday.new
+      end # token_connection
 
-      end
-
+      # Parse the API token data into instance vars.
       def parse_token_from_response(resp)
         @token_response_body = resp.body
-        @token_data = @token_response_body[:token]
-        @auth_token = AUTH_TOKEN_PFX + @token_data
+        @auth_token = AUTH_TOKEN_PFX + @token_response_body[:token]
         @expires = Jamf::Timestamp.new @token_response_body[:expires]
+        @login_time = Jamf::Timestamp.new Time.now
+        @valid = true
       end
 
     end # class Token

@@ -386,6 +386,20 @@ module Jamf
     pw
   end
 
+  # Very handy!
+  # lifted from
+  # http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails
+  #
+  def self.humanize_secs(secs)
+    [[60, :second], [60, :minute], [24, :hour], [7, :day], [52.179, :week], [1_000_000, :year]].map do |count, name|
+      next unless secs > 0
+
+      secs, n = secs.divmod(count)
+      n = n.to_i
+      "#{n} #{n == 1 ? name : (name.to_s + 's')}"
+    end.compact.reverse.join(' ')
+  end
+
   # un/set devmode mode.
   # Useful when coding - methods can call JSS.devmode? and then
   # e.g. spit out something instead of performing some action.
