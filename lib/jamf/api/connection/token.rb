@@ -48,27 +48,43 @@ module Jamf
       attr_reader :auth_token
       attr_reader :base_url
 
-      def initialize(user, pw, base_url, timeout: Jamf::Conection::DFT_TIMEOUT)
+      def initialize(user, pw, base_url, timeout: Jamf::Connection::DFT_TIMEOUT)
         @user = user
         @base_url = base_url
-        parse_new_token_response new_token_rsrc(pw, timeout).post('')
+
+        resp = token_connection(NEW_TOKEN_RSRC, pw: pw, timeout: timeout).post
+
+        if  resp.success?
+          parse_token_from_response resp
+        else
+          raise Jamf::AuthenticationError, 'Incorrect name or password' if resp.status == 401
+
+          # TODO: better error reporting here
+          raise 'An error occurred while authenticating'
+        end
       end # init
 
       def expired?
         Time.now >= @expires
       end
 
+      def secs_remaining
+        @expires - Time.now
+      end
+
       def valid?
-        auth_rsrc.get
-        true
-      rescue RestClient::Unauthorized
-        false
+        return false if expired?
+        return false unless @auth_token
+
+        token_connection(AUTH_RSRC, token: @token_data ).get.success?
       end
 
       # the Jamf::Account object assciated with this token
       def account
-        cooked_json = JSON.parse auth_rsrc.get.body, symbolize_names: true
-        Jamf::APIAccount.new cooked_json
+        resp = token_connection(AUTH_RSRC, token: @token).get
+        return unless resp.success?
+
+        Jamf::APIAccount.new resp.body
       end
 
       def host
@@ -85,13 +101,15 @@ module Jamf
 
       def keep_alive
         raise 'Token has expired' if expired?
-        parse_new_token_response keep_alive_rsrc.post('')
+        keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
+        # TODO: better error reporting here
+        raise 'An error occurred while authenticating' unless keep_alive_token_resp.success?
+        parse_token_from_response alive_token_resp
+        # parse_token_from_response keep_alive_rsrc.post('')
       end
 
       def invalidate
-        return unless valid?
-        invalidate_rsrc.post ''
-        @valid = false
+        token_connection(INVALIDATE_RSRC, token: @auth_token).post.success?
       end
 
       # Remove large cached items from
@@ -107,52 +125,46 @@ module Jamf
         vars
       end
 
-      private
+      # Private instance methods
+      #################################
+      public
 
-      def new_token_rsrc(pw, timeout)
-        RestClient::Resource.new(
-          "#{@base_url}/#{NEW_TOKEN_RSRC}",
-          user: @user,
-          password: pw,
-          accept: :json,
-          content_type: :json,
-          timeout: timeout
-        )
+      # a generic, one-time Faraday connection for token
+      # acquision & manipulation
+      #
+      def token_connection(rsrc, token: nil, pw: nil, timeout: Jamf::Connection::DFT_TIMEOUT)
+        # con = Faraday.new url: "#{@base_url}/#{rsrc}"
+        # con.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_JSON
+        # con.response :json, parser_options: { symbolize_names: true }
+        # con.options[:timeout] = timeout
+        # con.options[:open_timeout] = timeout
+        # if token
+        #   con.token_auth token
+        # else
+        #   con.basic_auth @user, pw
+        # end
+        # con
+
+        Faraday.new("#{@base_url}/#{rsrc}") do |con|
+          con.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_JSON
+          con.response :json, parser_options: { symbolize_names: true }
+          con.options[:timeout] = timeout
+          con.options[:open_timeout] = timeout
+          if token
+            con.token_auth token
+          else
+            con.basic_auth @user, pw
+          end
+          con.use Faraday::Adapter::NetHttp
+        end
+
       end
 
-      def auth_rsrc
-        RestClient::Resource.new(
-          "#{@base_url}/#{AUTH_RSRC}",
-          accept: :json,
-          content_type: :json,
-          headers: { authorization: @auth_token }
-        )
-      end
-
-      def keep_alive_rsrc
-        RestClient::Resource.new(
-          "#{@base_url}/#{KEEP_ALIVE_RSRC}",
-          accept: :json,
-          content_type: :json,
-          headers: { authorization: @auth_token }
-        )
-      end
-
-      def invalidate_rsrc
-        RestClient::Resource.new(
-          "#{@base_url}/#{INVALIDATE_RSRC}",
-          accept: :json,
-          content_type: :json,
-          headers: { authorization: @auth_token }
-        )
-      end
-
-      def parse_new_token_response(resp)
-        @parsed_token = JSON.parse resp.body, symbolize_names: true
-        @token_data = @parsed_token[:token]
+      def parse_token_from_response(resp)
+        @token_response_body = resp.body
+        @token_data = @token_response_body[:token]
         @auth_token = AUTH_TOKEN_PFX + @token_data
-        @expires = Time.strptime @parsed_token[:expires].to_s[0..-4], '%s'
-        @valid = true
+        @expires = Jamf::Timestamp.new @token_response_body[:expires]
       end
 
     end # class Token

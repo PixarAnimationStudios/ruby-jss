@@ -22,9 +22,6 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-require 'faraday' # >= 0.17.0
-require 'faraday_middleware' # >= 0.13.0
-
 require 'jamf/api/connection/token'
 require 'jamf/api/connection/api_error'
 
@@ -80,12 +77,6 @@ module Jamf
     # pre-existing tokens must have this many seconds before
     # before they expire
     TOKEN_REUSE_MIN_LIFE = 60
-
-    HTTP_ACCEPT_HEADER = 'Accept'
-    HTTP_CONTENT_TYPE_HEADER = 'Content-Type'
-
-    MIME_JSON = 'application/json'
-
 
     # Attributes
     #####################################
