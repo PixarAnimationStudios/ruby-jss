@@ -167,13 +167,20 @@ module Jamf
     # rubocop:enable Naming/UncommunicativeMethodParamName
 
     # Given any identfier value for this collection, return the valid
-    # primary identifier, or nil if there's no match for the given value.
+    # id, or nil if there's no match for the given value.
     #
-    # E.g. if the primary identfier is :id, and others are :name and :serialnumber
-    # then the given value is checked to see if it matches an existing :id, or
-    # :name or :serialnumber. If so, the :id for the matching object is returned.
+    # If you know the value is a certain identifier, e.g. a serial_number
+    # then you can specify the identifier, for a faster search:
     #
-    # If no match is found, nil is returned.
+    #   valid_id serial_number: 'AB12DE34' # => Int or nil
+    #
+    # If you don't know wich identifier you have, just pass the value and
+    # all identifiers are searched
+    #
+    #   valid_id 'AB12DE34' # => Int or nil
+    #   valid_id 'SomeComputerName' # => Int or nil
+    #
+    # When the value is a string, the seach is case-insensitive
     #
     # TODO: When 'Searchability' is more dialed in via the searchable
     # mixin, which implements enpoints like 'POST /v1/search-mobile-devices'
@@ -192,19 +199,22 @@ module Jamf
     # @return [Object, nil] the primary identifier of the matching object,
     #   or nil if it doesn't exist
     #
-    def self.valid_id(value, refresh = true, ident: nil, cnx: Jamf.cnx)
-      if ident
-        raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifier_attributes.include? ident
-
-        return map_all(ident, to: :id, cnx: cnx, refresh: refresh)[value]
+    def self.valid_id(value = nil, refresh: true, cnx: Jamf.cnx, **ident_hash)
+      unless ident_hash.empty?
+        ident, value = ident_hash.first
+        return id_from_other_ident ident, value, refresh, cnx: cnx
       end
 
-      # check the primary id first, and refresh
+      # check the id itself first
       return value if all_ids(refresh, cnx: cnx).include? value
 
       idents = identifier_attributes - [:id]
-      idents.each do |identifier|
-        match = all(cnx: cnx).select { |m| m[identifier] == value }.first
+      val_is_str = value.is_a? String
+
+      idents.each do |ident|
+        match = all(cnx: cnx).select do |m|
+          val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
+        end.first
         return match[:id] if match
       end # identifier_attributes.each do |ident|
 
@@ -333,6 +343,26 @@ module Jamf
       end
     end
     private_class_method :validate_required_attributes
+
+    # Given an indentier attr. key, and a value,
+    # return the id where that ident has that value, or nil
+    #
+    def self.id_from_other_ident(ident, value, refresh = true, cnx: Jamf.cnx)
+      raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifier_attributes.include? ident
+
+      # check the id itself first
+      return value if ident == :id && all_ids(refresh, cnx: cnx).include?(value)
+
+      # all ident values => ids
+      ident_map = map_all(ident, to: :id, cnx: cnx, refresh: refresh)
+
+      # case-insensitivity for string values
+      value = ident_map.keys.j_ci_fetch_string(value) if value.is_a? String
+
+      ident_map[value]
+    end
+    private_class_method :id_from_other_ident
+
 
     # Instance Methods
     #####################################
