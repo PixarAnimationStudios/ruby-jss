@@ -23,7 +23,7 @@
 #
 #
 
-module JSSRubyExtensions
+module JamfRubyExtensions
 
   module String
 

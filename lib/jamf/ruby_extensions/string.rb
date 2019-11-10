@@ -21,15 +21,15 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
-require 'jamf/ruby_extensions/string/conversions.rb'
-require 'jamf/ruby_extensions/string/predicates.rb'
-require 'jamf/ruby_extensions/string/backports.rb'
+require 'jamf/ruby_extensions/string/conversions'
+require 'jamf/ruby_extensions/string/predicates'
+require 'jamf/ruby_extensions/string/backports'
 
 # include the modules loaded above
 class String
 
-  include JSSRubyExtensions::String::Predicates
-  include JSSRubyExtensions::String::Conversions
-  include JSSRubyExtensions::String::BackPorts
+  include JamfRubyExtensions::String::Predicates
+  include JamfRubyExtensions::String::Conversions
+  include JamfRubyExtensions::String::BackPorts
 
 end
