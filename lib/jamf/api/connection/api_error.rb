@@ -32,7 +32,9 @@ module Jamf
     # and maybe AuthenticationError
     class APIError < RuntimeError
 
-      # Struct to hold the info for each individual error
+      # Struct to hold the info for each individual error in an API error
+      # response body.
+      #
       # Has these attributes (descriptions from developer.jamf.com):
       #
       # code: String

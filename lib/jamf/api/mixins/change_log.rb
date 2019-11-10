@@ -36,8 +36,8 @@ module Jamf
   # other kinds of history that some objects can have, like management
   # history, application usage history, and so on.
   #
-  # Jamf::Resource instances can GET RSRC_BASE/{primary_identifier}/history
-  # and notes POSTed to RSRC_BASE/{primary_identifier}/history/notes
+  # Jamf::Resource instances can GET RSRC_BASE/{id}/history
+  # and notes POSTed to RSRC_BASE/{id}/history/notes
   #
   # This module will add two instance methods:
   #

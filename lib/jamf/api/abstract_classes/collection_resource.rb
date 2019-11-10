@@ -72,12 +72,6 @@ module Jamf
       self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] }.keys
     end
 
-    # @return [Symbol] the attribute name of the primary identifier for this subclass
-    #
-    def self.primary_identifier_attribute
-      self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] == :primary }.keys.first
-    end
-
     # An array of attribute names that are required when
     # making new CollectionResources
     # See the OBJECT_MODEL documentation in {Jamf::JSONObject}
@@ -126,20 +120,16 @@ module Jamf
       cnx.collection_cache[self].map { |m| new m }
     end
 
-    # An array of the primary_identifiers for collection members
-    # regardless of the name of the primary_identifier_attribute.
-    #
-    # If the primary_identifier_attribute is `:udid`, then this
-    # is identical to calling  `.all_udids`.
+    # An array of the ids for all collection members
     #
     # @param refresh (see .all)
     #
     # @param cnx (see .all)
     #
-    # @return [Array]
+    # @return [Array<Integer>]
     #
-    def self.all_primary_identifiers(refresh = false, cnx: Jamf.cnx)
-      all(refresh, cnx: cnx).map { |m|  m[primary_identifier_attribute] }
+    def self.all_ids(refresh = false, cnx: Jamf.cnx)
+      all(refresh, cnx: cnx).map { |m|  m[:id] }
     end
 
     # rubocop:disable Naming/UncommunicativeMethodParamName
@@ -185,24 +175,37 @@ module Jamf
     #
     # If no match is found, nil is returned.
     #
-    # @param possible_ident [Object] A value to search for as an identifier.
+    # TODO: When 'Searchability' is more dialed in via the searchable
+    # mixin, which implements enpoints like 'POST /v1/search-mobile-devices'
+    # then use that before using the 'all' list.
     #
-    # @param cnx (see .all)
+    # @param value [Object] A value to search for as an identifier.
+    #
+    # @param refresh[Boolean] Reload the list data from the API
+    #
+    # @param ident: [Symbol] Restrict the search to this identifier.
+    #  E.g. if :serial_number, then the value must be
+    #  a known serial number, it is not checked against other identifiers
+    #
+    # @param cnx: (see .all)
     #
     # @return [Object, nil] the primary identifier of the matching object,
     #   or nil if it doesn't exist
     #
-    def self.valid_id(possible_ident, cnx: Jamf.cnx)
+    def self.valid_id(value, refresh = true, ident: nil, cnx: Jamf.cnx)
+      if ident
+        raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifier_attributes.include? ident
+
+        return map_all(ident, to: :id, cnx: cnx, refresh: refresh)[value]
+      end
+
       # check the primary id first, and refresh
-      return possible_ident if all_primary_identifiers(:refresh, cnx: cnx).include? possible_ident
+      return value if all_ids(refresh, cnx: cnx).include? value
 
-      identifier_attributes.each do |ident|
-        # we already checked the primary
-        next if primary_identifier_attribute == ident
-
-        match = all(cnx: cnx).select { |m| m[ident] == possible_ident }.first
-
-        return match[primary_identifier_attribute] if match
+      idents = identifier_attributes - [:id]
+      idents.each do |identifier|
+        match = all(cnx: cnx).select { |m| m[identifier] == value }.first
+        return match[:id] if match
       end # identifier_attributes.each do |ident|
 
       nil
@@ -211,9 +214,12 @@ module Jamf
     # Make a new thing to be added to the API
     def self.create(params, cnx: Jamf.cnx)
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" if defined? self::NOT_CREATABLE
+
       validate_not_abstract
+
       validate_required_attributes params
-      params.delete primary_identifier_attribute # no such animal when .making
+
+      params.delete :id # no such animal when .creating
       params[:creating_from_create] = true
       new params, cnx: cnx
     end
@@ -234,32 +240,29 @@ module Jamf
     # @param ident_value[Object] A value for any identifier for this subclass.
     #  All identifier attributes will be searched for a match.
     #
-    # @param version[String] the API resource version to use.
-    #   Defaults to the RSRC_VERSION for the class.
-    #
     # @param cnx[Jamf::Connection] the connection to use to fetch the object
     #
     # @param ident_hash[Hash] an identifier attribute key and a search value
     #
     # @return [CollectionResource] The ruby-instance of a Jamf object
     #
-    def self.fetch(ident_value = nil, version: nil, cnx: Jamf.cnx, **ident_hash)
+    def self.fetch(ident_value = nil, cnx: Jamf.cnx, **ident_hash)
       validate_not_abstract
-      version ||= self::RSRC_VERSION
+      id =
+        if ident_value == :random
+          all_ids.sample
+        elsif ident_value
+          valid_id ident_value
+        elsif ident_hash.empty?
+          nil
+        else
+          ident, lookup_value = ident_hash.first
+          valid_id lookup_value, ident: ident
+        end
 
-      if ident_hash.empty?
-        lookup_value = ident_value
-      else
-        ident, lookup_value = ident_hash.first
-        identifier_to_search = attr_key_for_alias(ident)
-        raise ArgumentError, "Unknown Identifier for #{self}: #{ident}" unless identifier_to_search
-      end
+      raise Jamf::NoSuchItemError, "No matching #{self}" unless id
 
-      raise Jamf::MissingDataError, 'No search value specified' unless lookup_value
-
-      data = fetch_data identifier_to_search, lookup_value, version, cnx
-      raise Jamf::NoSuchItemError, "No matching #{self}" unless data
-
+      data = cnx.get "#{rsrc_path}/#{id}"
       new data, cnx: cnx
     end # fetch
 
@@ -267,7 +270,8 @@ module Jamf
     # Any valid identifier for the class can be used (id, name, udid, etc)
     # Identifiers can be provided as an array or as separate parameters
     #
-    # e.g. .delete [1,3, 34, 4]  or .delete 'myComputer', 'that-computer', 'OtherComputer'
+    # e.g. .delete [1,3, 34, 4]
+    # or .delete 'myComputer', 'that-computer', 'OtherComputer'
     #
     # @param idents[Array<integer>, Integer]
     #
@@ -276,8 +280,6 @@ module Jamf
     # @return [Array] the identifiers that were not found, so couldn't be deleted
     #
     def self.delete(*idents, cnx: Jamf.cnx)
-      raise Jamf::UnsupportedError, "#{self}'s are not currently deletable via the API" if defined? self::NOT_DELETABLE
-
       idents.flatten!
       no_valid_ids = []
 
@@ -288,15 +290,11 @@ module Jamf
       end
       idents.compact!
 
-      if defined? self::BULK_DELETE_RSRC
-        cnx.post self::BULK_DELETE_RSRC idents
-      else
-        idents.each { |id| cnx.delete "#{rsrc_path}/#{id}" }
-      end
+      # TODO: some rsrcs have a 'bulk delete' version...
+      idents.each { |id| cnx.delete "#{rsrc_path}/#{id}" }
 
-      skipped
+      no_valid_ids
     end
-
 
     # Private Class Methods
     #####################################
@@ -323,7 +321,6 @@ module Jamf
           send list_method_name, refresh, cnx: cnx
         end # define_singleton_method
       end # each alias
-
     end # create_list_methods
     private_class_method :create_list_methods
 
@@ -337,101 +334,25 @@ module Jamf
     end
     private_class_method :validate_required_attributes
 
-    # used by fetch
-    def self.fetch_data(identifier_to_search, lookup_value, version, cnx)
-      #### Search by known primary ident
-      if identifier_to_search == primary_identifier_attribute
-        fetch_data_by_primary_ident lookup_value, version, cnx
-
-      ### Search by known ident other than primary
-      elsif identifier_to_search
-        fetch_data_by_known_ident_search identifier_to_search, lookup_value, cnx
-
-      # Search by arbitrary ident using Searchable
-      elsif include? Jamf::Searchable
-        fetch_data_by_arbitrary_ident_api_search lookup_value, cnx
-
-      # Search by arbitrary ident using Collection Cache
-      else
-        fetch_data_by_arbitrary_ident_collection_search lookup_value, cnx
-
-      end # if ...
-    end
-    private_class_method :fetch_data
-
-    # used by fetch
-    def self.fetch_data_by_primary_ident(ident, version, cnx)
-      cnx.get "#{rsrc_path}/#{ident}"
-    rescue RestClient::NotFound, RestClient::BadRequest
-      nil
-    end
-    private_class_method :fetch_data_by_primary_ident
-
-    # used by fetch
-    def self.fetch_data_by_known_ident_search(ident, value, cnx)
-      if include? Jamf::Searchable
-        matches = search key: ident, value: value, cnx: cnx
-        raise 'Ambiguous Search' if matches.size > 1
-        matches.first
-      else
-        all(:refresh, cnx: cnx).select { |m| m[ident] == value }.first
-      end # if searchable?
-    end
-    private_class_method :fetch_data_by_known_ident_search
-
-    # used by fetch
-    def self.fetch_data_by_arbitrary_ident_api_search(value, cnx)
-      # the value might be the primary identifier, which isn't in the
-      # searchablekeys, so we have to look it up directly
-      data = fetch_data_by_primary_ident value, cnx
-      return data if data
-
-      # now loop thru the other identifiers
-      identifier_attributes.each do |search_key|
-        matches = search key: search_key, value: value, cnx: cnx
-        data = matches.first
-        return data if data
-      end
-      nil
-    end
-    private_class_method :fetch_data_by_arbitrary_ident_api_search
-
-    # used by fetch
-    def self.fetch_data_by_arbitrary_ident_collection_search(value, cnx)
-      list = all(:refresh, cnx: cnx)
-      identifier_attributes.each do |iden_to_search|
-        data = list.select { |m| m[iden_to_search] == value }.first
-        return data if data
-      end
-
-      nil
-    end
-    private_class_method :fetch_data_by_arbitrary_ident_collection_search
-
     # Instance Methods
     #####################################
 
-    def primary_identifier
-      send self.class.primary_identifier_attribute
-    end
-
     def exist?
-      !primary_identifier.nil?
+      !@id.nil?
     end
-
 
     def rsrc_path
-      "#{self.class.rsrc_path}/#{primary_identifier}"
+      return unless exist?
+      "#{self.class.rsrc_path}/#{@id}"
     end
 
     def delete
-      self.class.delete @id, cnx: @cnx
+      @cnx.delete rsrc_path
     end
 
-    # Two collection resource objects are the same if their primary
-    # identifiers (usually 'id') are the same.
+    # Two collection resource objects are the same if their id's are the same
     def <=>(other)
-      primary_identifier <=> other.primary_identifier
+      id <=> other.id
     end
 
     # Private Instance Methods
@@ -439,13 +360,8 @@ module Jamf
     private
 
     def create_in_jamf
-      return unless defined? self.class::CREATABLE
-      return unless is_a? Jamf::CollectionResource
-
-      result = @cnx.post self.class::RSRC_PATH, to_jamf
-
-      id_attr = self.class.primary_identifier_attribute
-      instance_variable_set "@#{id_attr}", result[id_attr]
+      result = @cnx.post self.class.rsrc_path, to_jamf
+      @id = result[:id]
     end
 
   end # class CollectionResource

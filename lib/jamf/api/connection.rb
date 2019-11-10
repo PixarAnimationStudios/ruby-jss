@@ -96,6 +96,8 @@ module Jamf
     NOT_CONNECTED = 'Not Connected'.freeze
 
     # Only these variables are displayed with PrettyPrint
+    # This avoids, especially, the caches, which are available
+    # as attr_readers
     PP_VARS = %i[
       @name
       @connected
@@ -146,29 +148,28 @@ module Jamf
 
     # @return [Hash]
     # This Hash holds the most recently fetched instance of a SingletonResource
-    # subclass.
+    # subclass, keyed by the subclass itself.
     #
     # SingletonResource.fetch will return the instance from here, if it exists,
     # unless the first parameter is truthy.
-    #
+
     attr_reader :singleton_cache
 
     # @return [Hash]
-    # This Hash holds the most recent API query for a list of all items in any
-    # CollectionResource subclass, keyed by the subclass itself.
-    # See the CollectionResource.all class method.
+    # This Hash holds the most recent API data (an Array of Hashes) for the list
+    # of all items in a CollectionResource subclass, keyed by the subclass itself.
     #
-    # When the CollectionResource.all method is called without an argument,
-    # and this hash has a matching value, the value is returned, rather than
-    # requerying the API. The first time a class calls .all, or whnever refresh
-    # is not false, the API is queried and the value in this hash is updated.
+    # CollectionResource.all return the appropriate data from here, if it exists,
+    #
+    # See the CollectionResource.all class method.
     attr_reader :collection_cache
 
     # @return [Hash]
-    # This hash holds Extension Attribute Objects, which are used
+    # This hash holds ExtensionAttribute instances, which are used
     # for validating values passed to Extendable.set_ext_attr.
     attr_reader :ext_attr_cache
 
+    # @return [Faraday::Response] The response object from the last API access.
     attr_reader :last_http_response
 
     # Constructor
@@ -178,7 +179,7 @@ module Jamf
     def initialize(url = nil, **params)
       @name = params.delete :name
       @name ||= NOT_CONNECTED
-      connect(params)
+      connect(url, params) unless params[:at_load]
     end
 
     # Public Instance Methods
@@ -301,48 +302,53 @@ module Jamf
 
     def get(rsrc)
       validate_connected
-      @last_http_response = @rest_cnx.get rsrc
-      return @last_http_response.body if @last_http_response.success?
+      resp = @rest_cnx.get rsrc
+      @last_http_response = resp
+      return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(@last_http_response)
+      raise Jamf::Connection::APIError.new(resp)
     end
 
     def post(rsrc, data)
       validate_connected
-      @last_http_response = @rest_cnx.post(rsrc) do |req|
+      resp = @rest_cnx.post(rsrc) do |req|
         req.body = data
       end
-      return @last_http_response.body if @last_http_response.success?
+      @last_http_response = resp
+      return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(@last_http_response)
+      raise Jamf::Connection::APIError.new(resp)
     end
 
     def put(rsrc, data)
       validate_connected
-      @last_http_response = @rest_cnx.put(rsrc) do |req|
+      resp = @rest_cnx.put(rsrc) do |req|
         req.body = data
       end
-      return @last_http_response.body if @last_http_response.success?
+      @last_http_response = resp
+      return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(@last_http_response)
+      raise Jamf::Connection::APIError.new(resp)
     end
 
     def patch(rsrc, data)
       validate_connected
-      @last_http_response = @rest_cnx.patch(rsrc) do |req|
+      resp = @rest_cnx.patch(rsrc) do |req|
         req.body = data
       end
-      return @last_http_response.body if @last_http_response.success?
+      @last_http_response = resp
+      return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(@last_http_response)
+      raise Jamf::Connection::APIError.new(resp)
     end
 
     def delete(rsrc)
       validate_connected
-      @last_http_response = @rest_cnx.delete rsrc
-      return @last_http_response.body if @last_http_response.success?
+      resp = @rest_cnx.delete rsrc
+      @last_http_response = resp
+      return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(@last_http_response)
+      raise Jamf::Connection::APIError.new(resp)
     end
 
     # A useful string about this connection
@@ -682,10 +688,11 @@ module Jamf
   #
   def self.cnx=(connection)
     raise 'API connections must be instances of Jamf::Connection' unless connection.is_a? Jamf::Connection
+
     @active_connection = connection
   end
 
   # create the default connection
-  connect(name: :default) unless @active_connection
+  connect(at_load: true) unless @active_connection
 
 end # module Jamf

@@ -25,17 +25,11 @@
 module Jamf
 
   # This mixin overrides JSONObject.mutable? to return false,
-  # meaning that no setters are ever defined for classes that include this.
+  # meaning that no setters are ever defined, and if the
+  # object is a Jamf::Resource, #save will raise an error
   #
   module Immutable
 
-    # By default, JSONObjects (as a whole) are mutable,
-    # although some attributes may not be (see OBJECT_MODEL in the JSONObject
-    # docs)
-    #
-    # When an entire sublcass of JSONObject is read-only/immutable,
-    # extend Jamf::Immutable, which will override this to return false
-    #
     def mutable?
       false
     end

@@ -72,14 +72,14 @@ module Jamf
     # Instance Methods
     #####################################
 
-    # singltons always exist
-    def exist?
-      true
-    end
-
     # only have one path
     def rsrc_path
       self.class.rsrc_path
+    end
+
+    # singltons always exist
+    def exist?
+      true
     end
 
   end # class APIObject

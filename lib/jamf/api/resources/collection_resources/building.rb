@@ -45,10 +45,6 @@ module Jamf
 
     RSRC_PATH = 'buildings'.freeze
 
-    ## DEFUNCT? This still exists for some things, but in a different form
-    BULK_DELETE_RSRC = 'settings/deleteBuildings'.freeze
-
-
     # Object Model / Attributes
     # See APIObject class documentation for details
     # of how the OBJECT_MODEL hash works.
@@ -101,7 +97,7 @@ module Jamf
       #   @return [String]
       zipPostalCode: {
         class: :string,
-        aliases: %i[zip zipcode postal_code postalcode]
+        aliases: %i[zip zipcode zip_code postal_code postalcode]
       },
 
       # @!attribute country
@@ -112,19 +108,6 @@ module Jamf
     }.freeze
 
     parse_object_model
-
-    # def to_jamf
-    #
-    #   {
-    #     name: @name,
-    #     streetAddress1: @streetAddress1,
-    #     streetAddress2: @streetAddress2,
-    #     city: @city,
-    #     stateProvince: @stateProvince,
-    #     zipPostalCode: @zipPostalCode,
-    #     country: @country
-    #   }
-    # end
 
   end # class
 

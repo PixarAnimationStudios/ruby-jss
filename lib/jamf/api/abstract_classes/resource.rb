@@ -157,12 +157,24 @@ module Jamf
   #
   #         https://your.jamf.server:port/uapi/v1/mobile-devices
   #
-  #      and that URL is used to GET lists of mobileDevice data. It is also the
-  #      base URL for GET, POST, PUT and DELETE for individual mobileDevices,
-  #      and their details and change log data.
+  #      and that URL is used to GET lists of mobileDevice data and POST data
+  #      to create a new mobile device.
+  #      It is also the base URL for GET, PATCH, PUT and DELETE for individual
+  #      mobileDevices, and their details and change log data.
   #
   #      The constant {Jamf::MobileDevice::RSRC_PATH} must be
   #      `'mobile-devices'`
+  #
+  # ## Required Constant: RSRC_VERSION
+  #
+  # As shown in the examples above, the URL paths for resources have a
+  # version number between 'uapi' and the RSRC_PATH
+  #
+  # Both SingletonResources and CollectionResources must defing the constant
+  # RSRC_VERSION as a string containing that version, e.g. 'v1'
+  #
+  # ruby-jss doesn't support the older resource paths that don't have a version
+  # in their path.
   #
   # @abstract
   #
@@ -214,30 +226,23 @@ module Jamf
 
     # TODO: error handling
     def save
+      raise Jamf::UnsupportedError, "#{self.class} objects cannot be changed" unless self.class.mutable?
+
       return unless unsaved_changes?
 
       exist? ? update_in_jamf : create_in_jamf
-
       clear_unsaved_changes
+
+      @id ? @id : :saved
     end
 
     # Private Instance Methods
     #####################################
     private
 
+    # TODO: handle PATCH when it becomes a thing
     def update_in_jamf
-      return unless defined? self.class::UPDATABLE
-
-      @cnx.put rsrc_path, to_jamf
-
-      meth = :put
-      path = rsrc_path
-      if defined? self.class::UPDATE_RESOURCE
-        meth = self.class::UPDATE_RESOURCE[:method]
-        path = "#{rsrc_path}/#{self.class::UPDATE_RESOURCE[:path_suffix]}"
-      end
-
-      @cnx.send meth, path, to_jamf
+      @cnx.put( rsrc_path, to_jamf)
     end
 
   end # class APIObject
