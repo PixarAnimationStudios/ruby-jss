@@ -183,7 +183,7 @@ module Jamf
 
     SCOPE_RSRC = 'scope'.freeze
 
-    SERIALS_KEY = 'serialsByPrestageId'.freeze
+    SERIALS_KEY = :serialsByPrestageId
 
     SYNC_RSRC = 'sync'.freeze
 
@@ -199,7 +199,7 @@ module Jamf
     #
     def self.serials_by_prestage_id(cnx: Jamf.cnx)
       @serials_by_prestage_rsrc ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{SCOPE_RSRC}"
-      cnx.get(@serials_by_prestage_rsrc, symbolize: false)[SERIALS_KEY]
+      cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
     end
 
     # Instance Methods
