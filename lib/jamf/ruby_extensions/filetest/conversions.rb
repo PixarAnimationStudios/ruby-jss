@@ -20,20 +20,46 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
 
-############################################
-# Some handy additions to the Pathname class.
-# Why aren't they there already?
+module JamfRubyExtensions
 
-require 'jamf/ruby_extensions/string/utils'
-require 'jamf/ruby_extensions/string/predicates'
+  module String
 
-# include the modules loaded above
-class Pathname
+    module Conversions
 
-  include JamfRubyExtensions::Pathname::Predicates
-  include JamfRubyExtensions::Pathname::Utils
+      # Convert the strings "true" and "false"
+      # (after stripping whitespace and downcasing)
+      # to TrueClass and FalseClass respectively
+      #
+      # Return nil if any other string.
+      #
+      # @return [Boolean,nil] the boolean value
+      #
+      def j_to_bool
+        case strip.downcase
+        when 'true' then true
+        when 'false' then false
+        end # case
+      end # to bool
 
-end
+      # Convert a string to a Jamf::Timestamp object
+      #
+      # @return [Time] the time represented by the string.
+      #
+      def j_to_timestamp
+        Jamf::Timestamp.new self
+      end
+
+      # Convert a String to a Pathname object
+      #
+      # @return [Pathname]
+      #
+      def j_to_pathname
+        Pathname.new self
+      end
+
+    end # module
+
+  end # module
+
+end # module

@@ -25,10 +25,10 @@
 
 module Jamf
 
-  # a timestamp as used in the JAMF API JSON data
+  # A timestamp as used in the JAMF API JSON data
   #
   # Instantiate with a String in iso6801 format (used in the API JSON for
-  # all time/date values), or with a Time or Jamf::Timestamp instance, or with
+  # all(?) time/date values), or with a Time or Jamf::Timestamp instance, or with
   # an Integer unix epoch, which is treated Jamf-style if 1_000_000_000_000 or
   # higher
   #
@@ -47,42 +47,35 @@ module Jamf
   # - use .to_i for a unix epoch in seconds
   # - use .to_f for a unix epoch with fractions
   #
-  # Use #to_jamf to get the formated string to use in API JSON.
+  # Use #to_jamf to get the formated string to use in JSON for sending to the
+  # API - it *should* always be in ISO8601 format
   #
-  class Timestamp < Time
+  class Timestamp < ::Time
 
     # When we are unsetting a timestamp by intializing with nil,
     # we still have to have a time object - so use the unix epoch
     NIL_TIMESTAMP = Time.at 0
 
-    # Integers with this value or higher are jamf-style epoch,
+    # Integers with this value or higher are a jamf-style epoch,
     # meaning the first 10 digits are a unix epoch, and the last 3
-    # are milliseconds
-    EPOCH_WITH_MSECS = 1_000_000_000_000
+    # are milliseconds. Integers below this shouldn't appear, but
+    # will be treated as a regular unix epoch.
+    # (999_999_999_999 = 33658-09-27 01:46:39 UTC)
+    J_EPOCH_INT_START = 1_000_000_000_000
 
-    # @param stamp[String,Integer,Time]
+    # Stings containing integers of this length are a jamf-style epoch,
+    # meaning the first 10 digits are a unix epoch, and the last 3
+    # are milliseconds. This length-test will be valid until the year 2286.
+    J_EPOCH_STR_LEN = 13
+
+    # @param tstamp[String,Integer,Time] A representation of a timestampe
     #
     # @param _args [void] unused, but required for JSONObject init.
     #
-    def initialize(stamp, **_args)
-      time =
-        case stamp
-        when Time
-          stamp
-
-        when Integer
-          Time.at(stamp >= EPOCH_WITH_MSECS ? (stamp / 1000.0) : stamp)
-
-        when Jamf::BLANK
-          @empty_timestamp = true
-          NIL_TIMESTAMP
-
-        when /^\d+$/
-          Time.at(stamp.length == 13 ? (stamp.to_i / 1000.0) : stamp.to_i)
-
-        else
-          Time.parse stamp.to_s
-        end # case
+    def initialize(tstamp, **_args)
+      # use a Time object to parse the input and generate our own
+      # object
+      time = parse_init_tstamp(tstamp)
 
       super(
         time.year,
@@ -90,7 +83,7 @@ module Jamf
         time.day,
         time.hour,
         time.min,
-        "#{time.sec}.#{time.usec / 1000}".to_f,
+        (time.sec + (time.usec/1_000_000.0)).round(3),
         time.utc_offset
       )
     end
@@ -111,6 +104,39 @@ module Jamf
 
     def to_jamf_epoch
       (to_f.round(3) * 1000).to_i
+    end
+
+    # Private Instance Methods
+    ################################
+    private
+
+    # @param tstamp @see #initialize
+    # @return [Time]
+    def parse_init_tstamp(tstamp)
+      case tstamp
+      when Time
+        tstamp
+
+      when Integer
+        Time.at real_epoch_from_j_epoch(tstamp)
+
+      when /^\d+$/
+        Time.at real_epoch_from_j_epoch(tstamp.to_i)
+
+      when Jamf::BLANK, nil
+        @empty_timestamp = true
+        NIL_TIMESTAMP
+
+      else
+        Time.parse tstamp.to_s
+      end # case
+    end
+
+    # convert an integer into a float if needed for parsing
+    # @param j_epoch [Integer]
+    # @return [Integer, Float]
+    def real_epoch_from_j_epoch(j_epoch)
+      j_epoch >= J_EPOCH_INT_START ? (j_epoch / 1000.0) : j_epoch
     end
 
   end # class  Timestamp

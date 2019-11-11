@@ -20,20 +20,47 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
 
-############################################
-# Some handy additions to the Pathname class.
-# Why aren't they there already?
+module JamfRubyExtensions
 
-require 'jamf/ruby_extensions/string/utils'
-require 'jamf/ruby_extensions/string/predicates'
+  module String
 
-# include the modules loaded above
-class Pathname
+    module BackPorts
 
-  include JamfRubyExtensions::Pathname::Predicates
-  include JamfRubyExtensions::Pathname::Utils
+      # Ruby 2.5 + has these handy delete_* methods
+      unless Jamf::BLANK.respond_to? :delete_prefix
 
-end
+        def delete_prefix(pfx)
+          sub /\A#{pfx}/, Jamf::BLANK
+        end
+
+        def delete_prefix!(pfx)
+          sub! /\A#{pfx}/, Jamf::BLANK
+        end
+
+        def delete_suffix(sfx)
+          sub /#{sfx}\z/, Jamf::BLANK
+        end
+
+        def delete_suffix!(sfx)
+          sub! /#{sfx}\z/, Jamf::BLANK
+        end
+
+      end # unless
+
+      # String#casecmp? - its in Ruby 2.4+
+      unless Jamf::BLANK.respond_to? :casecmp?
+
+        def casecmp?(other)
+          return nil unless other.is_a? String
+
+          casecmp(other).zero?
+        end
+
+      end # unless
+
+    end # module
+
+  end # module
+
+end # module

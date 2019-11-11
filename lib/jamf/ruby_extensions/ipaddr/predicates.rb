@@ -23,17 +23,25 @@
 #
 #
 
-############################################
-# Some handy additions to the Pathname class.
-# Why aren't they there already?
+module JamfRubyExtensions
 
-require 'jamf/ruby_extensions/string/utils'
-require 'jamf/ruby_extensions/string/predicates'
+  module String
 
-# include the modules loaded above
-class Pathname
+    module Predicates
 
-  include JamfRubyExtensions::Pathname::Predicates
-  include JamfRubyExtensions::Pathname::Utils
+      INTEGER_RE = /\A[0-9]+\Z/.freeze
 
-end
+      # Is this string also a positive integer?
+      # (i.e. it consists only of numberic digits)
+      #
+      # @return [Boolean]
+      #
+      def j_integer?
+        self =~ INTEGER_RE ? true : false
+      end
+
+    end # module
+
+  end # module
+
+end # module

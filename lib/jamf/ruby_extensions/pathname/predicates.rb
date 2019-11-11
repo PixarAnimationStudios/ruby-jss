@@ -23,17 +23,28 @@
 #
 #
 
-############################################
-# Some handy additions to the Pathname class.
-# Why aren't they there already?
+module JamfRubyExtensions
 
-require 'jamf/ruby_extensions/string/utils'
-require 'jamf/ruby_extensions/string/predicates'
+  module Pathname
 
-# include the modules loaded above
-class Pathname
+    module Predicates
 
-  include JamfRubyExtensions::Pathname::Predicates
-  include JamfRubyExtensions::Pathname::Utils
+      # Is this a real file rather than a symlink?
+      # @see FileTest.real_file
+      def j_real_file?
+        FileTest.real_file? self
+      end # real_file?
 
-end
+      # does a path include another?
+      # i.e. is 'other' a descendant of self ?
+      def j_include?(other)
+        eps = expand_path.to_s
+        oeps = other.expand_path.to_s
+        oeps != eps && oeps.start_with?(eps)
+      end
+
+    end # module
+
+  end # module
+
+end # module
