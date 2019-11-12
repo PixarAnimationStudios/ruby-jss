@@ -25,20 +25,19 @@
 
 module JamfRubyExtensions
 
-  module String
+  module FileTest
 
     module Predicates
 
-      INTEGER_RE = /\A[0-9]+\Z/.freeze
-
-      # Is this string also a positive integer?
-      # (i.e. it consists only of numberic digits)
+      # FileTest.file? returns true if
+      # the item is a symlink pointing to a regular file.
       #
-      # @return [Boolean]
+      # This test, real_file?, returns true if the item is
+      # a regular file but NOT a symlink.
       #
-      def j_integer?
-        self =~ INTEGER_RE ? true : false
-      end
+      def j_real_file?(path)
+        FileTest.file?(path) && !FileTest.symlink?(path)
+      end # real_file?
 
     end # module
 

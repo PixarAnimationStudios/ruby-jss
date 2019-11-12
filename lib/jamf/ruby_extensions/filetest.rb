@@ -23,17 +23,10 @@
 #
 #
 
-#
+require 'jamf/ruby_extensions/filetest/predicates'
+
 module FileTest
 
-  # FileTest.file? returns true if
-  # the item is a symlink pointing to a regular file.
-  #
-  # This test, real_file?, returns true if the item is
-  # a regular file but NOT a symlink.
-  #
-  def self.j_real_file?(path)
-    FileTest.file?(path) && !FileTest.symlink?(path)
-  end # real_file?
+  extend JamfRubyExtensions::FileTest::Predicates
 
 end # module FileTest

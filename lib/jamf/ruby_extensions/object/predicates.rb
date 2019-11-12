@@ -25,20 +25,24 @@
 
 module JamfRubyExtensions
 
-  module String
+  module Object
 
     module Predicates
 
-      INTEGER_RE = /\A[0-9]+\Z/.freeze
-
-      # Is this string also a positive integer?
-      # (i.e. it consists only of numberic digits)
+      # is an object an explict true or false?
+      #
+      # TODO: globally replace
+      #      `JSS::TRUE_FALSE.include? xxx`
+      #   with
+      #      `xxx.j_boolean?`
+      #
       #
       # @return [Boolean]
       #
-      def j_integer?
-        self =~ INTEGER_RE ? true : false
+      def j_boolean?
+        [true, false].include? self
       end
+      alias j_bool? j_boolean?
 
     end # module
 
