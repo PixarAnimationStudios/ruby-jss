@@ -27,8 +27,8 @@
 # Some handy additions to the Pathname class.
 # Why aren't they there already?
 
-require 'jamf/ruby_extensions/string/utils'
-require 'jamf/ruby_extensions/string/predicates'
+require 'jamf/ruby_extensions/pathname/utils'
+require 'jamf/ruby_extensions/pathname/predicates'
 
 # include the modules loaded above
 class Pathname

@@ -25,19 +25,18 @@
 
 module JamfRubyExtensions
 
-  module String
+  module Array
 
     module Predicates
 
-      INTEGER_RE = /\A[0-9]+\Z/.freeze
-
-      # Is this string also a positive integer?
-      # (i.e. it consists only of numberic digits)
+      # A case-insensitive version of #include? for Arrays of Strings.
       #
-      # @return [Boolean]
+      # @param somestring [String] the String to search for
       #
-      def j_integer?
-        self =~ INTEGER_RE ? true : false
+      # @return [Boolean] Does the Array contain the String, ignoring case?
+      #
+      def j_ci_include_string?(somestring)
+        any? { |s| s.to_s.casecmp? somestring }
       end
 
     end # module

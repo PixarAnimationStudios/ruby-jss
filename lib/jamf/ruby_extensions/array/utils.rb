@@ -23,40 +23,22 @@
 
 module JamfRubyExtensions
 
-  module String
+  module Array
 
-    module Conversions
+    module Utils
 
-      # Convert the strings "true" and "false"
-      # (after stripping whitespace and downcasing)
-      # to TrueClass and FalseClass respectively
-      #
-      # Return nil if any other string.
-      #
-      # @return [Boolean,nil] the boolean value
-      #
-      def j_to_bool
-        case strip.downcase
-        when 'true' then true
-        when 'false' then false
-        end # case
-      end # to bool
-
-      # Convert a string to a Jamf::Timestamp object
-      #
-      # @return [Time] the time represented by the string.
-      #
-      def j_to_timestamp
-        Jamf::Timestamp.new self
-      end
-
-      # Convert a String to a Pathname object
-      #
-      # @return [Pathname]
-      #
-      def j_to_pathname
-        Pathname.new self
-      end
+        # Fetch a string from an Array of Strings case-insensitively,
+        # e.g. my_array.j_ci_fetch_string('ThRashEer') will return 'thrasher'
+        # or nil if no match
+        #
+        # @param somestring [String] the String to search for
+        #
+        # @return [String, nil] The matching string as it exists in the Array, nil if it doesn't exist
+        #
+        def j_ci_fetch_string(somestring)
+          idx = index { |s| s.to_s.casecmp? somestring }
+          idx ? self[idx] : nil
+        end
 
     end # module
 
