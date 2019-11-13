@@ -68,7 +68,7 @@ module Jamf
 
     # @return [Array<Symbol>] the attribute names that are marked as identifiers
     #
-    def self.identifier_attributes
+    def self.identifiers
       self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] }.keys
     end
 
@@ -150,7 +150,7 @@ module Jamf
     #
     def self.map_all(ident, to:, cnx: Jamf.cnx, refresh: false)
       raise Jamf::InvalidDataError, "No identifier #{ident} for class #{self}" unless
-      identifier_attributes.include? ident
+      identifiers.include? ident
 
       raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OBJECT_MODEL.key? to
 
@@ -208,7 +208,7 @@ module Jamf
       # check the id itself first
       return value if all_ids(refresh, cnx: cnx).include? value
 
-      idents = identifier_attributes - [:id]
+      idents = identifiers - [:id]
       val_is_str = value.is_a? String
 
       idents.each do |ident|
@@ -216,7 +216,7 @@ module Jamf
           val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
         end.first
         return match[:id] if match
-      end # identifier_attributes.each do |ident|
+      end # identifiers.each do |ident|
 
       nil
     end
@@ -348,7 +348,7 @@ module Jamf
     # return the id where that ident has that value, or nil
     #
     def self.id_from_other_ident(ident, value, refresh = true, cnx: Jamf.cnx)
-      raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifier_attributes.include? ident
+      raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifiers.include? ident
 
       # check the id itself first
       return value if ident == :id && all_ids(refresh, cnx: cnx).include?(value)
