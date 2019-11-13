@@ -267,7 +267,7 @@ module Jamf
           nil
         else
           ident, lookup_value = ident_hash.first
-          valid_id lookup_value, ident: ident
+          valid_id ident => lookup_value
         end
 
       raise Jamf::NoSuchItemError, "No matching #{self}" unless id
