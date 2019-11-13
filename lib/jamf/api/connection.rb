@@ -672,8 +672,9 @@ module Jamf
   #
   # @return [APIConnection] the new, active connection
   #
-  def self.connect(**params)
-    @active_connection = Connection.new params
+  def self.connect(url = nil, **params)
+    @active_connection = Connection.new url, params
+    @active_connection.to_s
   end
 
   # Switch the connection used for all API interactions to the
