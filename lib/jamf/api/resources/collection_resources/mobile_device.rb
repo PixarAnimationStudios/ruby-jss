@@ -57,12 +57,12 @@ module Jamf
     IPAD = 'iPad'.freeze
 
     # The enum for the 'type' attribute
-    TYPES = {
-      ios: IOS,
-      appleTv: APPLETV,
-      android: ANDROID,
-      unknown: UNKNOWN
-    }.freeze
+    TYPES = [
+      IOS,
+      APPLETV,
+      ANDROID,
+      UNKNOWN
+    ].freeze
 
     APPLE_TYPES = [IOS, APPLETV].freeze
 
