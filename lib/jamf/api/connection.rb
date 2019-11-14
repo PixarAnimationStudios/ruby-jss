@@ -309,6 +309,17 @@ module Jamf
       raise Jamf::Connection::APIError.new(resp)
     end
 
+    # GET a rsrc without doing any JSON parsing, using
+    # a temporary Faraday connection object
+    def download(rsrc)
+      temp_cnx = create_connection(false)
+      resp = temp_cnx.get rsrc
+      @last_http_response = resp
+      return resp.body if resp.success?
+
+      raise Jamf::Connection::APIError.new(resp)
+    end
+
     def post(rsrc, data)
       validate_connected
       resp = @rest_cnx.post(rsrc) do |req|
@@ -608,12 +619,12 @@ module Jamf
     end
 
     # create the faraday connection object
-    def create_connection
+    def create_connection(parse_json = true)
       Faraday.new(@base_url, ssl: @ssl_options) do |cnx|
         cnx.headers[HTTP_ACCEPT_HEADER] = MIME_JSON
         cnx.headers[:authorization] = @token.auth_token
-        cnx.request :json
-        cnx.response :json, parser_options: { symbolize_names: true }
+        cnx.request :json if parse_json
+        cnx.response :json, parser_options: { symbolize_names: true } if parse_json
         cnx.options[:timeout] = @timeout
         cnx.options[:open_timeout] = @open_timeout
         cnx.use Faraday::Adapter::NetHttp
