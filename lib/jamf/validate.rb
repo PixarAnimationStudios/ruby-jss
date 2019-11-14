@@ -204,6 +204,21 @@ module Jamf
       val
     end
 
+    SCRIPT_SHEBANG = '#!'.freeze
+
+    # validate that the given value is a string that starts with #!
+    #
+    # @param val [Object] the thing to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the validated string
+    #
+    def self.script_contents(val, msg = nil)
+      msg ||= "value must be a String starting with '#!'"
+      raise Jamf::InvalidDataError, msg unless val.is_a?(String) && val.start_with?(SCRIPT_SHEBANG)
+      val
+    end
   end # module validate
 
 end # module JSS

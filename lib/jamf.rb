@@ -158,6 +158,7 @@ module Jamf
   autoload :MobileDevice, 'jamf/api/resources/collection_resources/mobile_device'
   autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/md_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'
+  autoload :Script, 'jamf/api/resources/collection_resources/script'
 
   # other classes used as attributes inside the resource classes
   autoload :IPAddress, 'jamf/api/attribute_classes/ip_address'

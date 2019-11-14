@@ -41,13 +41,19 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_PATH = 'settings/scripts'.freeze
+    RSRC_PATH = 'scripts'.freeze
 
-    PRIORTIES = {
-      before: 'BEFORE',
-      after: 'AFTER',
-      at_reboot: 'AT_REBOOT'
-    }.freeze
+    RSRC_VERSION = 'v1'.freeze
+
+    PRIORITY_BEFORE = 'BEFORE'.freeze
+    PRIORITY_AFTER = 'AFTER'.freeze
+    PRIORITY_AT_REBOOT = 'AT_REBOOT'.freeze
+
+    PRIORTIES = [
+      PRIORITY_BEFORE,
+      PRIORITY_AFTER,
+      PRIORITY_AT_REBOOT
+    ].freeze
 
     # Object Model / Attributes
     # See APIObject class documentation for details
@@ -88,30 +94,96 @@ module Jamf
         class: :string,
         enum: Jamf::Script::PRIORTIES
       },
+
+      # TODO: Jamf should standardize object references
+      # this should be a Category::Reference object
+
+      # @!attribute categoryId
+      #   @return [Integer]
+      categoryId: {
+        class: :integer
+      },
+
+      # @!attribute categoryName
+      #   @return [String]
+      categoryName: {
+        class: :string
+      },
+
+      # @!attribute osRequirements
+      #   @return [String]
+      osRequirements: {
+        class: :string
+      },
+
+      # @!attribute scriptContents
+      #   @return [String]
+      scriptContents: {
+        class: :string,
+        validate: :script_contents,
+        aliases: %i[code]
+      },
+
+      # @!attribute parameter4
+      #   @return [String]
+      parameter4: {
+        class: :string
+      },
+
+      # @!attribute parameter5
+      #   @return [String]
+      parameter5: {
+        class: :string
+      },
+
+      # @!attribute parameter6
+      #   @return [String]
+      parameter6: {
+        class: :string
+      },
+
+      # @!attribute parameter7
+      #   @return [String]
+      parameter7: {
+        class: :string
+      },
+
+      # @!attribute parameter8
+      #   @return [String]
+      parameter8: {
+        class: :string
+      },
+
+      # @!attribute parameter9
+      #   @return [String]
+      parameter9: {
+        class: :string
+      },
+
+      # @!attribute parameter10
+      #   @return [String]
+      parameter10: {
+        class: :string
+      },
+
+      # @!attribute parameter11
+      #   @return [String]
+      parameter11: {
+        class: :string
+      }
     }.freeze
+
     parse_object_model
 
 
-   #    {
-   # id (integer, optional),
-   # name (string, optional),
-   # info (string, optional),
-   # notes (string, optional),
-   # priority (string, optional) = ['BEFORE', 'AFTER', 'AT_REBOOT'],
-   # categoryId (integer, optional),
-   # categoryName (string, optional),
-   # parameter1 (string, optional),
-   # parameter2 (string, optional),
-   # parameter3 (string, optional),
-   # parameter4 (string, optional),
-   # parameter5 (string, optional),
-   # parameter6 (string, optional),
-   # parameter7 (string, optional),
-   # parameter8 (string, optional),
-   # osRequirements (string, optional),
-   # scriptContents (string, optional)
-   # }
+    # Class Methods
+    ##################################
 
+    def self.scriptContents(scr_ident, cnx: Jamf.cnx)
+      id = valid_id scr_ident
+      raise Jamf::NoSuchItemError, "No script matches '#{scr_ident}'" unless id
+      cnx.download "#{RSRC_VERSION}/#{RSRC_PATH}/#{id}/download"
+    end
 
   end # class
 
