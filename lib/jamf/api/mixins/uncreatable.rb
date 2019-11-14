@@ -1,5 +1,4 @@
 # Copyright 2018 Pixar
-
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -23,57 +22,19 @@
 #
 #
 
-# The Module
 module Jamf
 
-  # Classes
-  #####################################
+  # This mixin overrides CollectionResource.creatable? to return false,
+  # meaning that CollectionResource.create will raise an exception
+  # It should be extended into appropriate subclasses of CollectionResource
+  #
+  # Note that SingletonResource subclasses are never creatable
+  module UnCreatable
 
-  # A building defined in the JSS
-  class Department < Jamf::CollectionResource
+    def creatable?
+      false
+    end
 
-    # Mix-Ins
-    #####################################
+  end # Lockable
 
-    include Jamf::ChangeLog
-    include Jamf::Referable
-
-    # Constants
-    #####################################
-
-    RSRC_VERSION = 'v1'.freeze
-
-    RSRC_PATH = 'departments'.freeze
-
-    # TODO: Jamf - will this be standard for collections?
-    BULK_DELETE_RSRC = 'delete-departments'.freeze
-
-    # Object Model / Attributes
-    # See APIObject class documentation for details
-    # of how the OBJECT_MODEL hash works.
-    #####################################
-    OBJECT_MODEL = {
-
-      # @!attribute [r] id
-      #   @return [Integer]
-      id: {
-        class: :integer,
-        identifier: :primary,
-        readonly: true
-      },
-
-      # @!attribute name
-      #   @return [String]
-      name: {
-        class: :string,
-        identifier: true,
-        validator: :non_empty_string,
-        required: true
-      }
-    }.freeze
-    parse_object_model
-
-
-  end # class
-
-end # module
+end # Jamf

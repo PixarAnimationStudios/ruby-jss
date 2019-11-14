@@ -37,15 +37,17 @@ module Jamf
   #
   # # Subclassing
   #
-  # ## Creatability & Deletability
+  # ## Creatability, & Deletability
   #
   # Sometimes the API doesn't support creation of new members of the collection.
-  # If that's the case, just set the constant NOT_CREATABLE to true (or any
-  # truthy value, but just use true :)
+  # If that's the case, just extend the subclass with Jamf::UnCreatable
   # and the '.create' class method will raise an error.
   #
   # Similarly for deletion of members: if the API doesn't have a way to delete
-  # them, set NOT_DELETABLE
+  # them, extend the subclass with Jamf::UnDeletable
+  #
+  # See also Jamf::JSONObject, which talks about extending subclasses
+  # with Jamf::Immutable
   #
   # ## Bulk Deletion
   #
@@ -221,9 +223,20 @@ module Jamf
       nil
     end
 
+    # Bu default, subclasses are creatable, i.e. new instances can be created
+    # with .create, and added to the JSS with .save
+    # If a subclass is NOT creatble for any reason, just add
+    #   extend Jamf::UnCreatable
+    # and this method will return false
+    #
+    # @return [Boolean]
+    def creatable?
+      true
+    end
+
     # Make a new thing to be added to the API
     def self.create(params, cnx: Jamf.cnx)
-      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" if defined? self::NOT_CREATABLE
+      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
 
       validate_not_abstract
 
@@ -276,6 +289,13 @@ module Jamf
       new data, cnx: cnx
     end # fetch
 
+    # By default, CollectionResource subclass instances are deletable.
+    # If not, just extend the subclass with Jamf::UnDeletable, and this
+    # will return false, and .delete & #delete will raise errors
+    def deletable?
+      true
+    end
+
     # Delete one or more objects by identifier
     # Any valid identifier for the class can be used (id, name, udid, etc)
     # Identifiers can be provided as an array or as separate parameters
@@ -290,6 +310,8 @@ module Jamf
     # @return [Array] the identifiers that were not found, so couldn't be deleted
     #
     def self.delete(*idents, cnx: Jamf.cnx)
+      raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
+
       idents.flatten!
       no_valid_ids = []
 
@@ -377,6 +399,7 @@ module Jamf
     end
 
     def delete
+      raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
       @cnx.delete rsrc_path
     end
 

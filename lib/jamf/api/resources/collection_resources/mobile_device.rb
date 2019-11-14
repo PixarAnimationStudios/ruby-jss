@@ -36,6 +36,14 @@ module Jamf
     include Jamf::Locatable
     include Jamf::Extendable
 
+    # currently not creatable via API
+    # TODO: remove this when it's time
+    extend Jamf::UnCreatable
+
+    # currently not creatable via API
+    # TODO: remove this when it's time
+    extend Jamf::UnDeletable
+
     # Class Constants
     #####################################
 
@@ -59,12 +67,6 @@ module Jamf
     APPLE_TYPES = [IOS, APPLETV].freeze
 
     RSRC_PATH = '/inventory/obj/mobileDevice'.freeze
-
-    # currently not creatable via API TODO: remove this when it's time
-    NOT_CREATABLE = true
-
-    # currently not creatable via API TODO: remove this when it's time
-    NOT_DELETABLE = true
 
     # This has a non-std update resource
     # we POST to /inventory/obj/mobileDevice/{id}/update

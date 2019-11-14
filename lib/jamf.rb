@@ -108,7 +108,9 @@ module Jamf
   autoload :Referable, 'jamf/api/mixins/referable'
   autoload :Searchable, 'jamf/api/mixins/searchable'
   autoload :Lockable, 'jamf/api/mixins/lockable'
+  autoload :UnCreatable, 'jamf/api/mixins/uncreatable'
   autoload :Immutable, 'jamf/api/mixins/immutable'
+  autoload :UnDeletable, 'jamf/api/mixins/undeletable'
   autoload :Abstract, 'jamf/api/mixins/abstract'
 
   # Utility modules
