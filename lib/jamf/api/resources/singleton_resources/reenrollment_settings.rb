@@ -37,14 +37,21 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_PATH = 'settings/obj/reenrollment'.freeze
+    RSRC_VERSION = 'v1'.freeze
 
-    FLUSH_MDM_QUEUE_OPTIONS = {
-      nothing: 'DELETE_NOTHING',
-      errors: 'DELETE_ERRORS',
-      all_but_ackd: 'DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED',
-      everything: 'DELETE_EVERYTHING'
-    }.freeze
+    RSRC_PATH = 'reenrollment'.freeze
+
+    FLUSH_MDM_QUEUE_NOTHING = 'DELETE_NOTHING'.freeze
+    FLUSH_MDM_QUEUE_ERRORS = 'DELETE_ERRORS'.freeze
+    FLUSH_MDM_QUEUE_NOT_ACKD = 'DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED'.freeze
+    FLUSH_MDM_QUEUE_EVERYTHING = 'DELETE_EVERYTHING'.freeze
+
+    FLUSH_MDM_QUEUE_OPTIONS = [
+      FLUSH_MDM_QUEUE_NOTHING,
+      FLUSH_MDM_QUEUE_ERRORS,
+      FLUSH_MDM_QUEUE_NOT_ACKD,
+      FLUSH_MDM_QUEUE_EVERYTHING
+    ].freeze
 
     OBJECT_MODEL = {
 
