@@ -29,7 +29,7 @@ module Jamf
   # Classes
   #####################################
 
-  # A building defined in the JSS
+  # A Computer Prestage
   class ComputerPrestage < Jamf::Prestage
 
     # Constants

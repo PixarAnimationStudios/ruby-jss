@@ -26,7 +26,10 @@
 # The module
 module Jamf
 
-  # A 'location' for a computer prestage in Jamf Pro
+  # A class that represents the 'Skip' settings for
+  # various Setup options in a DEP prestage
+  # The object model here includes the attributes common
+  # to both Computer and MobileDevice prestages
   class PrestageSkipSetupItems < Jamf::JSONObject
 
     extend Jamf::Abstract
