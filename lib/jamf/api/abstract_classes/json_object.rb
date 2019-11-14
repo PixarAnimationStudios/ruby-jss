@@ -483,7 +483,9 @@ module Jamf
     # docs)
     #
     # When an entire sublcass of JSONObject is read-only/immutable,
-    # `extend Jamf::Immutable`, which will override this to return false
+    # `extend Jamf::Immutable`, which will override this to return false.
+    # Doing so will prevent any setters from being created for the subclass
+    # and will cause Jamf::Resource.save to raise an error
     #
     def self.mutable?
       true
