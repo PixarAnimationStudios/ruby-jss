@@ -25,7 +25,8 @@
 module Jamf
 
   # Classes mixing this in have a 'versionLock' attribute and implement
-  # 'Optimistic Locking' (https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397)
+  # 'Optimistic Locking'
+  #  https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397
   #
   # When the object is saved, the versionLock is sent back with the data
   # and if it doesn't match whats on the server, then the object has been updated
