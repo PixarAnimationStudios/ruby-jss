@@ -1,4 +1,4 @@
-# Copyright 2018 Pixar
+# Copyright 2019 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -77,7 +77,15 @@ module Jamf
       def initialize(http_response)
         @http_response = http_response
         @httpStatus = http_response.status
-        @errors = @http_response.body[:errors].map { |e| ErrorInfo.new e }
+        @errors =
+          if @http_response.body
+            @http_response.body[:errors].map { |e| ErrorInfo.new e }
+          elsif !@http_response.reason_phrase.empty?
+            [ErrorInfo.new(@http_response.status, nil, @http_response.reason_phrase, nil)]
+          else
+            []
+          end
+
         super
       end
 

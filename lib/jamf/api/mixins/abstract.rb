@@ -1,4 +1,4 @@
-# Copyright 2018 Pixar
+# Copyright 2019 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -39,6 +39,10 @@ module Jamf
     # Classes will be added to this array as they are exteded by Abstract
     def self.abstract_classes
       @abstract_classes ||= []
+    end
+
+    def self.abstract?
+      abstract_classes.include? self
     end
 
     # when any extended class or subclass of an extended class is instntiated

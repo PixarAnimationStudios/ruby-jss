@@ -1,4 +1,4 @@
-# Copyright 2018 Pixar
+# Copyright 2019 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -230,13 +230,13 @@ module Jamf
     # and this method will return false
     #
     # @return [Boolean]
-    def creatable?
+    def self.creatable?
       true
     end
 
     # Make a new thing to be added to the API
     def self.create(params, cnx: Jamf.cnx)
-      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
+      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless self.creatable?
 
       validate_not_abstract
 
@@ -292,7 +292,7 @@ module Jamf
     # By default, CollectionResource subclass instances are deletable.
     # If not, just extend the subclass with Jamf::UnDeletable, and this
     # will return false, and .delete & #delete will raise errors
-    def deletable?
+    def self.deletable?
       true
     end
 

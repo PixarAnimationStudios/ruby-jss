@@ -28,50 +28,25 @@ module Jamf
 
   # Classes
   #####################################
-
-  # A building defined in the JSS
-  class Site < Jamf::CollectionResource
-
-    # Mix-Ins
-    #####################################
-
-    include Jamf::ChangeLog
-    include Jamf::Referable
-
-    # Constants
-    #####################################
-
-    RSRC_PATH = 'settings/sites'.freeze
-
-    NO_SITE_ID = -1
-
-    NO_SITE_NAME = 'None'.freeze
-
-    # Object Model / Attributes
-    # See APIObject class documentation for details
-    # of how the OBJECT_MODEL hash works.
-    #####################################
-    OBJECT_MODEL = {
-
-      # @!attribute [r] id
-      #   @return [Integer]
-      id: {
-        class: :integer,
-        identifier: :primary,
-        readonly: true
-      },
+  class InventoryPreloadExtensionAttribute < Jamf::JSONObject
+    OBJECT_MODEL= {
 
       # @!attribute name
       #   @return [String]
       name: {
         class: :string,
-        identifier: true,
-        validator: :non_empty_string,
         required: true
-      }
-    }.freeze
-    parse_object_model
+      },
 
+      # @!attribute value
+      #   @return [#to_s]
+      value: {
+        class: :string
+      }
+
+    }.freeze
+
+    parse_object_model
   end # class
 
 end # module

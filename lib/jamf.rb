@@ -1,4 +1,4 @@
-# Copyright 2018 Pixar
+# Copyright 2019 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -129,6 +129,7 @@ module Jamf
   autoload :InstalledConfigurationProfile, 'jamf/api/json_objects/installed_configuration_profile'
   autoload :InstalledEBook, 'jamf/api/json_objects/installed_ebook'
   autoload :InstalledProvisioningProfile, 'jamf/api/json_objects/installed_provisioning_profile'
+  autoload :InventoryPreloadExtensionAttribute, 'jamf/api/json_objects/inventory_preload_extension_attribute'
   autoload :IosDetails, 'jamf/api/json_objects/ios_details'
   autoload :Location, 'jamf/api/json_objects/location'
   autoload :PrestageLocation, 'jamf/api/json_objects/prestage_location'
@@ -155,6 +156,7 @@ module Jamf
   autoload :ComputerPrestage, 'jamf/api/resources/collection_resources/computer_prestage'
   autoload :Department, 'jamf/api/resources/collection_resources/department'
   autoload :ExtensionAttribute, 'jamf/api/resources/collection_resources/extension_attribute'
+  autoload :InventoryPreloadRecord, 'jamf/api/resources/collection_resources/inventory_preload_record'
   autoload :MobileDevice, 'jamf/api/resources/collection_resources/mobile_device'
   autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/md_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'

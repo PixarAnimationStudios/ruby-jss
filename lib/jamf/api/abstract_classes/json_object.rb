@@ -1,4 +1,4 @@
-# Copyright 2018 Pixar
+# Copyright 2019 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -550,7 +550,10 @@ module Jamf
     def self.create_getters(attr_name, attr_def)
       # multi_value - only return a frozen dup, no direct editing of Array
       if attr_def[:multi]
-        define_method(attr_name) { instance_variable_get("@#{attr_name}").dup.freeze }
+        define_method(attr_name) do
+          instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
+          instance_variable_get("@#{attr_name}").dup.freeze
+        end
 
       # single value
       else
@@ -599,6 +602,7 @@ module Jamf
       create_prepend_setters(attr_name, attr_def)
       create_insert_setters(attr_name, attr_def)
       create_delete_at_setters(attr_name, attr_def)
+      create_delete_if_setters(attr_name, attr_def)
     end # def create_multi_setters
     private_class_method :create_array_setters
 
@@ -606,6 +610,7 @@ module Jamf
     ##############################
     def self.create_full_array_setters(attr_name, attr_def)
       define_method("#{attr_name}=") do |new_value|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         raise Jamf::InvalidDataError, 'Value must be an Array' unless new_value.is_a? Array
         new_value.map! { |item| validate_attr attr_name, item }
         old_value = instance_variable_get("@#{attr_name}")
@@ -615,6 +620,7 @@ module Jamf
       end # define method
 
       return unless attr_def[:aliases]
+
       attr_def[:aliases].each { |al| alias_method "#{al}=", "#{attr_name}=" }
     end # create_full_array_setter
     private_class_method :create_full_array_setters
@@ -623,6 +629,7 @@ module Jamf
     ##############################
     def self.create_append_setters(attr_name, attr_def)
       define_method("#{attr_name}_append") do |new_value|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         new_value = validate_attr attr_name, new_value
         old_array = instance_variable_get("@#{attr_name}").dup
         instance_variable_get("@#{attr_name}") << new_value
@@ -633,6 +640,7 @@ module Jamf
       alias_method "#{attr_name}<<", "#{attr_name}_append"
 
       return unless attr_def[:aliases]
+
       attr_def[:aliases].each do |al|
         alias_method "#{al}_append", "#{attr_name}_append"
         alias_method "#{al}<<", "#{attr_name}_append"
@@ -644,6 +652,7 @@ module Jamf
     ##############################
     def self.create_prepend_setters(attr_name, attr_def)
       define_method("#{attr_name}_prepend") do |new_value|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         new_value = validate_attr attr_name, new_value
         old_array = instance_variable_get("@#{attr_name}").dup
         instance_variable_get("@#{attr_name}").unshift new_value
@@ -651,6 +660,7 @@ module Jamf
       end # define method
 
       return unless attr_def[:aliases]
+
       attr_def[:aliases].each { |al| alias_method "#{al}_prepend", "#{attr_name}_prepend" }
     end # create_prepend_setters
     private_class_method :create_prepend_setters
@@ -658,6 +668,7 @@ module Jamf
     # The  attr_insert(index, newval) setter method for array values
     def self.create_insert_setters(attr_name, attr_def)
       define_method("#{attr_name}_insert") do |index, new_value|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         new_value = validate_attr attr_name, new_value
         old_array = instance_variable_get("@#{attr_name}").dup
         instance_variable_get("@#{attr_name}").insert index, new_value
@@ -665,6 +676,7 @@ module Jamf
       end # define method
 
       return unless attr_def[:aliases]
+
       attr_def[:aliases].each { |al| alias_method "#{al}_insert", "#{attr_name}_insert" }
     end # create_insert_setters
     private_class_method :create_insert_setters
@@ -673,13 +685,31 @@ module Jamf
     ##############################
     def self.create_delete_at_setters(attr_name, attr_def)
       define_method("#{attr_name}_delete_at") do |index|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         old_array = instance_variable_get("@#{attr_name}").dup
         deleted = instance_variable_get("@#{attr_name}").delete_at index
         note_unsaved_change attr_name, old_array if deleted
       end # define method
 
       return unless attr_def[:aliases]
+
       attr_def[:aliases].each { |al| alias_method "#{al}_delete_at", "#{attr_name}_delete_at" }
+    end # create_insert_setters
+    private_class_method :create_delete_at_setters
+
+    # The  attr_delete_at(index) setter method for array values
+    ##############################
+    def self.create_delete_if_setters(attr_name, attr_def)
+      define_method("#{attr_name}_delete_if") do |index, &block|
+        instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
+        old_array = instance_variable_get("@#{attr_name}").dup
+        instance_variable_get("@#{attr_name}").delete_if &block
+        note_unsaved_change attr_name, old_array if old_array != instance_variable_get("@#{attr_name}")
+      end # define method
+
+      return unless attr_def[:aliases]
+
+      attr_def[:aliases].each { |al| alias_method "#{al}_delete_if", "#{attr_name}_delete_if" }
     end # create_insert_setters
     private_class_method :create_delete_at_setters
 
@@ -731,12 +761,10 @@ module Jamf
       # convert the value to the required type.
       good_value =
 
-        # by enum, must be a key or value of the enum
-        # the key is returned.
+        # by enum, must be a value of the enum
         if attr_def[:enum]
-          return value if attr_def[:enum].key? value
-          return attr_def[:enum].invert[value] if attr_def[:enum].value? value
-          raise Jamf::InvalidDataError, "Value must be one of: :#{attr_def[:enum].keys.join ', :'}"
+          return value if attr_def[:enum].include? value
+          raise Jamf::InvalidDataError, "Value must be one of: :#{attr_def[:enum].join ', :'}"
 
         # by class, the class validates the value passed with .new
         elsif attr_def[:class].is_a? Class
@@ -953,7 +981,9 @@ module Jamf
       self.class::OBJECT_MODEL.each do |attr_name, attr_def|
         value =
           if attr_def[:multi]
-            data[attr_name].map! { |v| parse_single_init_value v, attr_name, attr_def }
+            raw_array = data[attr_name] || []
+
+            raw_array.map! { |v| parse_single_init_value v, attr_name, attr_def }
           else
             parse_single_init_value data[attr_name], attr_name, attr_def
           end
@@ -1011,10 +1041,6 @@ module Jamf
         data = raw_value.to_jamf
         data.is_a?(Hash) && data.empty? ? nil : data
 
-      # if its an enum value, retrieve the value from the enum
-      elsif attr_def[:enum]
-        attr_def[:enum][raw_value]
-
       # otherwise, use the value as-is
       else
         raw_value
@@ -1024,6 +1050,7 @@ module Jamf
     # Call to_jamf on an array value
     #
     def multi_to_jamf(raw_array, attr_def)
+      raw_array ||= []
       raw_array.map { |raw_value| single_to_jamf(raw_value, attr_def) }.compact
     end
 
