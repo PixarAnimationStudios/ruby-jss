@@ -73,7 +73,6 @@ module Jamf
         else
           raise ArgumentError, 'Must provide either pw: or token_string:'
         end
-
       end # init
 
       # Initialize from password
@@ -103,8 +102,9 @@ module Jamf
 
         @auth_token = str
         @user = resp.body.dig :account, :username
+
         # use this token to get a fresh one with a known expiration
-        keep_alive
+        refresh
       end # init_from_token_string
 
       # @return [String]
@@ -162,7 +162,7 @@ module Jamf
       end
 
       # Use this token to get a fresh one
-      def keep_alive
+      def refresh
         raise 'Token has expired' if expired?
 
         keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
@@ -173,7 +173,7 @@ module Jamf
         # parse_token_from_response keep_alive_rsrc.post('')
         expires
       end
-      alias refresh keep_alive
+      alias keep_alive refresh
 
       # Make this token invalid
       def invalidate
