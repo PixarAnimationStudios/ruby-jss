@@ -6,7 +6,24 @@ Because the JP-API is so fundamentally different from the Classic API, it's bein
 
 This README is a quick overview of the big changes, for both using the Jamf module, and for contributing to its development.
 
-IMPORTANT: As with the JP-API, this is an early work-in-progress, and things might change drastically at any point. The original work on the JP-API code was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack #jamf-api or #ruby, or email ruby-jss@pixar.com if you have questions or want to contribute.
+**IMPORTANT:** As with the JP-API, this is an early work-in-progress, and things might change drastically at any point. The original work on the JP-API code was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
+
+## Requirements
+
+##### Ruby 2.3 or higher
+  Some features of ruby 2.3 are used throughout. macOS 10.12.6 or higher can use the /usr/bin/ruby that comes with the OS.
+
+##### Manully install Faraday and Faraday Middleware
+
+The Jamf module uses the [Faraday Gem](https://github.com/lostisland/faraday) and its companion [faraday_middleware](https://github.com/lostisland/faraday_middleware), as its underlying HTTP connector. You will need to install two gems manually:
+
+`gem install faraday`
+
+and
+
+`gem install faraday_middleware`
+
+The plan is to migrate the original classic API connection to also use Faraday, moving away from the 'rest-client' gem. The primary reason being that Faraday has fewer dependencies, none of which require being compiled. This means that installing ruby-jss on a Mac will no longer need the XCode CommandLine tools. When that happens, the ruby-jss gem will be updated to automatically install faraday when ruby-jss is installed.  Until then, please install it manually before using the new JP-API code.
 
 ## The Jamf module
 
@@ -16,7 +33,29 @@ The ruby-jss gem now contains two modules, which can be 'required' separately:
 
 - `require 'jamf'` will load the 'Jamf' module, which is where access to the JP-API will happen.
 
-Because everything is separated between the two modules, they can be used side by side, but remember when doing so, that objects are not compatible between them. So you if do `classicPol = JSS::Policy.fetch name: 'myPolicy'` and `jpPol = Jamf::Policy.fetch name: 'myPolicy'`, the objects of `classicPol` and `jpPol` are very different things, even tho they represent the same policy.
+Because everything is separated between the two modules, they can be used side by side, but remember when doing so, that objects are not compatible between them. So you if do `classicPol = JSS::Policy.fetch name: 'myPolicy'` and `jpPol = Jamf::Policy.fetch name: 'myPolicy'`, the objects in `classicPol` and `jpPol` are very different things, even tho they represent the same policy.
+
+## Overview of differences between JSS and Jamf modules
+
+While the general concepts will be the same (working with lists, fetching objects, updating them,), the start-from-scratch aspect of coding the Jamf module allows for some changes that I wish I could have made before, including the names of some classes, methods and attributes.
+
+- The active connection object is available in `Jamf.cnx` vs. the older `JSS.api`, and when passing a connection object as a named parameter, the name is `cnx:`.  This more accurately reflects what the object is - a 'connection' not an 'api'
+
+- Creating a connection can take a URL as a first positional parameter, e.g. `Jamf.connect 'https://myjamf.mysch.edu/'`. See 'Connection Parameters' below
+
+- As with the JSS module, classes representing API Resources don't accept the `.new` method for creating instances, since the word 'new' is ambiguous in this context (are you making a new instance in ruby, or a new object in Jamf Pro?). The `.fetch` method is still the way to retrieve a resource and instantuate an object in ruby with it. However, to create a new object in ruby to then add to Jamf Pro, you should now use `.create` instead of `.make`. Saving changes to the server is always done with `.save`. Here are some examples:
+
+ Action | Classic API with JSS |  JP-API with Jamf
+ -------|----------------------|------------------
+Fetch a Computer | `JSS::Computer.fetch name: 'compName'` | `Jamf::Computer.fetch name: 'compName'
+Update a Policy after making changes | `mypol.update` or `mypol.save` | `mypol.save`
+Make a new static User group | `new_grp = JSS::UserGroup.make name: 'ngrp', type: :static` |  `new_grp = Jamf::UserGroup.create name: 'ngrp', type: :static`
+Save the new static group to the server  | `new_grp.create` or `new_grp.save` | `new_grp.save`
+
+
+- Most attribute & method names for resources are in lowerCamelCase. While the ruby standard for method names is snake_case, the JSON data from the api uses lowerCamelCase for the names of attributes. The Jamf module mirrors those names, for better alignement with the actual data. Example: JSS::Computer has an instance method `serial_number`, while Jamf::Computer has `serialNumber`
+
+
 
 ## Connecting to the JP-API
 
