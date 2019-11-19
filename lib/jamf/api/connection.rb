@@ -76,9 +76,9 @@ module Jamf
     # The Default SSL Version
     DFT_SSL_VERSION = 'TLSv1_2'.freeze
 
-    # refresh token if less than this many seconds till
-    # expiration,
-    TOKEN_REFRESH_THRESHOLD = 60 * 60 * 24
+    # refresh token if less than this many seconds until
+    # expiration. Default is 30 minutes if not specified
+    DFT_TOKEN_REFRESH = 60 * 30
 
     # pre-existing tokens must have this many seconds before
     # before they expire
@@ -110,6 +110,7 @@ module Jamf
       @timeout
       @login_time
       @keep_alive
+      @token_refresh
     ].freeze
 
     # Attributes
@@ -132,6 +133,9 @@ module Jamf
 
     # @return [Jamf::Connection::Token, nil]
     attr_reader :token
+
+    # @return [Integer] Refresh the token this many seconds before it expires
+    attr_reader :token_refresh
 
     # @return [String, nil]
     attr_reader :base_url
@@ -287,7 +291,7 @@ module Jamf
     end # connect
 
     def disconnect
-      # reset everything exceot the name & timeouts
+      # reset everything except the name & timeouts
       @connected = false
       @login_time = nil
       @host = nil
@@ -298,6 +302,12 @@ module Jamf
       @rest_cnx = nil
       @ssl_version = nil
       flushcache
+    end
+
+    # Same as disconnect, but invalidates the token
+    def logout
+      @token.destroy
+      disconnect
     end
 
     def get(rsrc)
@@ -376,6 +386,14 @@ module Jamf
 
     def keep_alive=(bool)
       bool ? start_keep_alive : stop_keep_alive
+    end
+
+    # This should take effect even if we're already running the keep_alive thread
+    #
+    def token_refresh=(secs)
+      raise ArgumentError, 'Value must be an Integer number of seconds' unless secs.is_a? Integer
+
+      @token_refresh = secs
     end
 
     def api_version
@@ -572,6 +590,7 @@ module Jamf
       @port = params[:port]
       @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
       @user = params[:user]
+      @token_refresh = params[:token_refresh] || DFT_TOKEN_REFRESH
       @timeout = params[:timeout] || DFT_TIMEOUT
       @open_timeout = params[:open_timeout] || DFT_TIMEOUT
       @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
@@ -631,8 +650,11 @@ module Jamf
       end
     end
 
-    # creates a thread that loops forever, sleeping until just before
-    # the token expires then refreshing the token and sleeping again.
+    # creates a thread that loops forever, sleeping most of the time, but
+    # waking up every 60 seconds to see if the token is expiring in the
+    # next @token_refresh seconds.
+    #
+    # If so, the token is refreshed, and we keep looping and sleeping.
     #
     # Sets @keep_alive_thread to the Thread object
     #
@@ -645,7 +667,9 @@ module Jamf
       @keep_alive_thread =
         Thread.new do
           loop do
-            sleep(@token.secs_remaining - TOKEN_REFRESH_THRESHOLD)
+            sleep 60
+            next if @token.secs_remaining > @token_refresh
+
             @token.keep_alive
           end # loop
         end # thread
