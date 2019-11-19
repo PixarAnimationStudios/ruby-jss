@@ -171,6 +171,7 @@ module Jamf
 
         parse_token_from_response keep_alive_token_resp
         # parse_token_from_response keep_alive_rsrc.post('')
+        expires
       end
       alias refresh keep_alive
 
