@@ -81,7 +81,7 @@ comp2 = Jamf::Computer.fetch id: 12, cnx: cnx2
 
 The older connection parameters should still work as before, although `host: 'myjss.hostname.com'` is preferred over `server: 'myjss.hostname.com'`.
 
-However, thee connection can be made using a URL as the first positional parameter, e.g.
+However, the connection can be made using a URL as the first positional parameter, e.g.
 
     Jamf.connect 'https://myAPIuser:myAPIpasswd@myjss.hostname.com:8443'
 
@@ -90,11 +90,11 @@ When a URL is provided like this, the following parameters are parsed from it:
 - use_ssl:  true if the URL is 'https' scheme
 - user: extracted from the URL if provided. Otherwise, must be passed as a param, or available from the config file.
 - pw: extracted from the URL if provided. Otherwise, must be passed as a param, or if not, defaults to :prompt
-  - WARNING: beware of hard-coding passwords in any code that
+  - WARNING: beware of hard-coding passwords anywhere
 - host: extracted from the URL
-  - any host: param will be ignored if a URL is used.
+  - any `host:` param will be ignored if a URL is used.
 - port: extracted from the URL explicitly if provided, or via the URL scheme if not (https = port 443, http = port 80)
-  - any port: param will be ignored if a URL is used
+  - any `port:` param will be ignored if a URL is used
 
 If a URL is used, any values present in the URL override any that might be given as a parameter.
 
@@ -116,7 +116,7 @@ Tokens come with an expiration time, defined by the server. After that time, the
 
 #### Tokens can be refreshed
 
-As long as you have a valid token, you can use it to refresh itself, which replaces the internally-stored token data and resets the expiration. Just use, e.g. `Jamf.cnx.token.refresh` which will return the new expiration time.
+As long as you have a valid token, you can use it to refresh itself, which replaces the internally-stored token data and resets the expiration. Just use, e.g. `Jamf.cnx.token.refresh` which will return the new expiration time. Once refreshed, the original token data is no longer valid.
 
 #### Connections can refresh the token automatically
 
@@ -126,7 +126,24 @@ You can set token_refresh when you create your connection using the `token_refre
 
 #### Using a token to make a new connection
 
-Since tokens are objects, they can be used instead of a user and password to make a connection. Just use `token: my_token` in the connection parameters. As long as the token is valid on the API host, and hasn't expired, it will work until it expires, or is invalidated from elsewhere.
+Since tokens are objects, they can be used to make a connection. Just use `token: <token object>` in the connection parameters. As long as the token is valid on the API host, and hasn't expired, it will work until it expires, or is invalidated from elsewhere.
+
+When using a token object this way, you don't need to provide any host, port, user, pw, or use_ssl values, and any provided via URL or parameters will be ignored.
+
+#### Token strings work too
+
+In the actual HTTP transactions, the token is actually a long string of gibberish-looking characters. If you don't have a `Jamf::Connection::Token` object, but you have a valid, not-expired token string, you can provide that in place of a user: and pw: value when making a connection. You still have to provide the correct host, port, and other values, which can be done via a url or parameters.
+
+e.g.
+```ruby
+tk_str = '<long token string here>'
+
+Jamf.connect 'https://myjamf.mysch.edu:8443/', token: tk_str
+# or
+Jamf.connect host: 'myjamf.mysch.edu', port: 8443, token: tk_str
+
+```
+Once the connection is made, a fresh token is generated using the token string, and the string itself will be invalidated.
 
 #### Tokens can be invalidated
 
@@ -160,3 +177,6 @@ To summarize:
 #### Autoloading
 
 Since the number of classes is so huge, and they aren't always needed in any given project, the Jamf module is using ruby's autoloading feature to load most of the files only as they are used.  See the file .../lib/jamf.rb  to see how that all works
+
+
+## More to come.....
