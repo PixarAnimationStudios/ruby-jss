@@ -27,19 +27,29 @@ module Jamf
 
   # a mix-in module for Jamf::Resource subclasses.
   #
-  # When included, the instances of Jamf::Resource have change-log
-  # available by GET RSRC_BASE/history and notes can be added to the history
-  # by POST RSRC_BASE/history
+  # Many Jamf resources maintain an 'object history', available in the WebUI via
+  # the 'History' button at the bottom of a page. Ad-hoc history entries can
+  # be added containing textual notes, which is useful for objects that don't
+  # have a real 'notes' or 'description' field, like policies.
   #
-  # NOTE: ruby-jss uses the term 'change log' to refer to a Jamf object's
-  # 'object history'.  This is to help differentiate it from the many
-  # other kinds of history that some objects can have, like management
-  # history, application usage history, and so on.
+  # In the Jamf Pro API, this history is usually available at a resource path
+  # ending with '/history'
   #
-  # Jamf::Resource instances can GET RSRC_BASE/{id}/history
-  # and notes POSTed to RSRC_BASE/{id}/history/notes
+  # Due to the many kinds of history available in Jamf,  like management
+  # history, application usage history, and so on, ruby-jss uses the term
+  # 'change log' to refer to a Jamf resource's 'object history', and access
+  # to the change log is provided by this module.
   #
-  # This module will add two instance methods:
+  # The change log can be available in different places:
+  #
+  # - instances of a CollectionResources (e.g. individual policies)
+  #   - mix-in this module by including it, to get instance methods
+  # - CollectionResources as a whole (e.g. Inventory Preload Records)
+  #   - mix-in this module by extending it, to get class methods
+  # - SingletonResources (e.g. Client Checkin Settings )
+  #   - mix-in this module by including AND extending, to get both
+  #
+  # This module will add two methods:
   #
   #   1) #change_log,  will fetch and cache an Array of readonly
   #     Jamf::ChangeLogEntry instances. passing any truthy parameter will
@@ -60,7 +70,10 @@ module Jamf
     # @return [Array<Jamf::ChangeHistoryEntry>] The change and note history for
     #   this resource
     #
-    def change_log(refresh = false)
+    def change_log(refresh = false, cnx: Jamf.cnx)
+      # this should only be true for instances of CollectionResources
+      cnx = @cnx if @cnx
+
       @change_log = nil if refresh
       @change_log ||= cnx.get(change_log_rsrc)[:results].map! do |l|
         #
@@ -70,7 +83,7 @@ module Jamf
         l[:note] ||= Jamf::BLANK
 
         Jamf::ChangeLogEntry.new l
-      end
+      end # map!
     end
 
     # Add a note to this resource's change log.
@@ -82,7 +95,10 @@ module Jamf
     #
     # @return [void]
     #
-    def add_change_log_note(note)
+    def add_change_log_note(note, cnx: Jamf.cnx)
+      # this should only be true for instances of CollectionResources
+      cnx = @cnx if @cnx
+
       note = Jamf::Validate.non_empty_string note
       note_to_send = { note: note }
       cnx.post change_log_rsrc, note_to_send
@@ -90,24 +106,30 @@ module Jamf
       @change_log = nil
     end
 
+    # Private methods
+    ###########################
     private
 
-    def change_log_rsrc(page: nil, size: nil)
-      params = ''
-      params << '?' if page || size
-      if page
-
-      end
-
-      if size
-
-      end
-      params << '?' if page || size
-      params << '?' if page || size
-
+    # TODO: Implement paging
+    def change_log_rsrc
       @change_log_rsrc ||= "#{rsrc_path}/history"
     end
 
+    # def change_log_rsrc(page: nil, size: nil)
+    #   params = ''
+    #   params << '?' if page || size
+    #   if page
+    #
+    #   end
+    #
+    #   if size
+    #
+    #   end
+    #   params << '?' if page || size
+    #   params << '?' if page || size
+    #
+    #   @change_log_rsrc ||= "#{rsrc_path}/history"
+    # end
 
   end # module ChangeHistory
 

@@ -32,6 +32,7 @@ module Jamf
     # Mix-Ins
     #####################################
 
+    extend Jamf::ChangeLog
     include Jamf::ChangeLog
 
     # Constants
