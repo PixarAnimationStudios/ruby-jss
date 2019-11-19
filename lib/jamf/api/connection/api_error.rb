@@ -32,6 +32,8 @@ module Jamf
     # and maybe AuthenticationError
     class APIError < RuntimeError
 
+      RSRC_NOT_FOUND = 'Resource Not Found'.freeze
+
       # Struct to hold the info for each individual error in an API error
       # response body.
       #
@@ -54,7 +56,11 @@ module Jamf
       #
       ErrorInfo = ImmutableStruct.new(:code, :field, :description, :id) do
         def to_s
-          "#{description} (#{code}:#{field}:#{id})"
+          deets = "{code: #{code}"
+          deets << ", field: #{field}" if field
+          deets << ", id: #{id}" if id
+          deets << '}'
+          "#{description} #{deets}"
         end
       end # ErrorInfo
 
@@ -77,14 +83,19 @@ module Jamf
       def initialize(http_response)
         @http_response = http_response
         @httpStatus = http_response.status
+
         @errors =
-          if @http_response.body
+          if @http_response.body.dig :errors
             @http_response.body[:errors].map { |e| ErrorInfo.new e }
-          elsif !@http_response.reason_phrase.empty?
-            [ErrorInfo.new(@http_response.status, nil, @http_response.reason_phrase, nil)]
           else
             []
           end
+
+        if @errors.empty?
+          code = @httpStatus
+          desc = @httpStatus == 404 ? RSRC_NOT_FOUND : @http_response.reason_phrase
+          @errors << ErrorInfo.new(code: code, field: nil, description: desc, id: nil)
+        end
 
         super
       end
