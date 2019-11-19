@@ -284,11 +284,7 @@ module Jamf
   # enum: \[Constant -> Array<Constants> ]
   # -----------------
   # This is a constant defined somewhere in the Jamf module. The constant
-  # must contain an Array of other Constant values, usually Strings. The
-  # data stored in the Ruby instance are pointers to the constants in the Array.
-  #
-  # Setters for attributes with an enum require that the new value is
-  # a member of the array.
+  # must contain an Array of other Constant values, usually Strings.
   #
   # Example:
   # > Attribute `:type` has enum: Jamf::ExtentionAttribute::DATA_TYPES
@@ -306,10 +302,24 @@ module Jamf
   # >      ]
   # >
   # > When setting the type attribute via `#type = newval`,
-  # > `DATA_TYPES.include? newval` must be true
+  # > `Jamf::ExtentionAttribute::DATA_TYPES.include? newval` must be true
   # >
   #
-  # see also: [Data Validation](#data_validation) below.
+  # Setters for attributes with an enum require that the new value is
+  # a member of the array as seen above. When using such setters, its wise to
+  # use the array members themselves rather than a different but identical string,
+  # however either will work.  In other words, this:
+  #
+  #   my_ea.dataType = Jamf::ExtentionAttribute::DATA_TYPE_INTEGER
+  #
+  # is preferred over:
+  #
+  #   my_ea.dataType = 'INTEGER'
+  #
+  # since the second version creates a new string in memory, but the first uses
+  # the one already stored in a constant.
+  #
+  # See also: [Data Validation](#data_validation) below.
   #
   # validator: \[Symbol]
   # -----------------
