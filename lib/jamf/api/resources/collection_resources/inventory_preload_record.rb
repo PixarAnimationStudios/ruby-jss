@@ -29,13 +29,24 @@ module Jamf
   # Classes
   #####################################
 
-  # A building defined in the JSS
+  # An Inventory Preload record for a Computer or Mobile Device in Jamf.
+  #
+  # Since the JPAPI offers access to these records via JSON as well as CSV
+  # uploads, we are implementing JSON access, to stay in line with the rest
+  # of how ruby-jss works, and keep things simple.
+  #
+  # If you want to use a CSV as your data source, you should use a ruby
+  # CSV library, such as the one built in to ruby, and loop thru your CSV
+  # records, creating or fetching instances of this class as needed,
+  # manipulating them, and saving them.
+  #
+  #
   class InventoryPreloadRecord < Jamf::CollectionResource
 
     # Mix-Ins
     #####################################
 
-    include Jamf::ChangeLog
+    extend Jamf::ChangeLog
 
     # Constants
     #####################################
@@ -53,6 +64,10 @@ module Jamf
       DEVICE_TYPE_MOBILE_DEV,
       DEVICE_TYPE_UNKNOWN
     ].freeze
+
+    # The 'clear' instance method won't change these attrs
+    UNCLEARABLE_ATTRS = %i[id serialNumber deviceType].freeze
+
 
     # Object Model / Attributes
     # See APIObject class documentation for details
@@ -216,7 +231,8 @@ module Jamf
 
     parse_object_model
 
-    # TODO - validation for ea's existance and value data type
+    # TODO: validation for ea's existance and value data type, once EAs are
+    # implemented in JPAPI
     #
     # @param ea_name[String] The name of the EA being set
     #
@@ -229,9 +245,28 @@ module Jamf
       extensionAttributes_append Jamf::InventoryPreloadExtensionAttribute.new(name: ea_name, value: new_val)
     end
 
+    # remove an EA value
     def remove_ext_attr(ea_name)
       idx = extensionAttributes.index { |ea| ea.name == ea_name }
       extensionAttributes_delete_at idx if idx
+    end
+
+    # clear all values for this record except id, serialNumber, and deviceType
+    def clear
+      OBJECT_MODEL.keys.each do |attr|
+        next if UNCLEARABLE_ATTRS.include? attr
+
+        # skip nils
+        curr_val = send attr
+        next unless curr_val
+
+        if attr == :extensionAttributes
+          extensionAttributes = []
+          next
+        end
+
+        send "#{attr}=", nil
+      end
     end
 
   end # class
