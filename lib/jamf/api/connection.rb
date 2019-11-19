@@ -263,30 +263,50 @@ module Jamf
       # This sets all the instance vars to nil, and flushes/creates the caches
       disconnect
 
-      # parse the url if one was given
-      params[:url] = url
-      parse_url params if params[:url]
+      # This sets @token, and adds host, port, user to params from a Token object
+      parse_token params
+
+      # Get host, port, user and pw from a URL, add to params if needed
+      parse_url url, params
 
       # apply defaults from config, client, and then this class.
       apply_connection_defaults params
 
-      # confirm we know a host, port, user and pw
+      # make sure we have the minimum needed params for a connection
       verify_basic_params params
+
+      # turn the params into instance vars
       parse_connect_params params
 
-      @token = acquire_token params
-      @login_time = @token.login_time
-      @user ||= @token.user
+      # if no @token already, get one from from
+      # either a token string or a pw
+      @token ||=
+        if params[:token].is_a? String
+          tk = token_from :token_string, params[:token]
+          # get the user from the token
+          @user = tk.user
+          tk
+        else
+          token_from :pw, acquire_password(params[:pw])
+        end
 
-      # if we're here we have a valid token
+      # Now get some values from our token
+      @base_url = @token.base_url
+      @login_time = @token.login_time
+
+      # and make our actual connection
       @rest_cnx = create_connection
 
+      # make sure versions are good
       validate_api_version
 
       @connected = true
 
+      # start keepalive if needed
       @keep_alive = params[:keep_alive].nil? ? false : params[:keep_alive]
-      @keep_alive && start_keep_alive
+      start_keep_alive if @keep_alive
+
+      # return our string output
       to_s
     end # connect
 
@@ -300,7 +320,8 @@ module Jamf
       @token = nil
       @base_url = nil
       @rest_cnx = nil
-      @ssl_version = nil
+      @ssl_options = {}
+      @keep_alive = nil
       flushcache
     end
 
@@ -432,25 +453,6 @@ module Jamf
     ####################################
     private
 
-    # given a token string or a password, get a valid token
-    # Token.new will raise an exception if the token string or
-    # credentials are invalid
-    def token_from(type, data)
-      token_params = {
-        user: @user,
-        base_url: @base_url,
-        timeout: @timeout,
-        ssl_options: @ssl_options
-      }
-
-      case type
-      when :token_string
-        token_params[:token_string] = data
-      when :pw
-        token_params[:pw] = data
-      end
-      self.class::Token.new token_params
-    end
 
     # raise exception if not connected
     def validate_connected
@@ -465,14 +467,47 @@ module Jamf
       raise Jamf::InvalidConnectionError, "API version '#{vers}' too low, must be >= '#{MIN_API_VERSION}'"
     end
 
-    def parse_url(params)
-      url = URI.parse params[:url].to_s
+    #####  Parse Params
+    ###################################
+
+    # Get host, port, & user from a Token object
+    # or just the user from a token string.
+    def parse_token(params)
+      return unless params[:token].is_a? self.class::Token
+
+      verify_token params[:token]
+      @token = params[:token]
+      params[:host] = @token.host
+      params[:port] = @token.port
+      params[:user] = @token.user
+    end
+
+    # Raise execeptions if we were given an unusable token object
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [void]
+    #
+    def verify_token(token)
+      raise 'Cannot use token: it has expired' if token.expired?
+      raise 'Cannot use token: it is invalid' unless token.valid?
+      raise "Cannot use token: it expires in less than #{TOKEN_REUSE_MIN_LIFE} seconds" if token.secs_remaining < TOKEN_REUSE_MIN_LIFE
+    end
+
+    # Get host, port, user and pw from a URL, unless they are already in the params
+    #
+    # @return [String, nil] the pw if present
+    #
+    def parse_url(url, params)
+      return unless url
+
+      url = URI.parse url.to_s
       raise ArgumentError, 'Invalid url, scheme must be https' unless url.scheme == HTTPS_SCHEME
 
-      params[:user] = url.user
-      params[:pw] = url.password
-      params[:host] = url.host
-      params[:port] = url.port
+      params[:host] ||= url.host
+      params[:port] ||= url.port
+      params[:user] ||= url.user if url.user
+      params[:pw] ||= url.password if url.password
     end
 
     # Apply defaults from the Jamf.config,
@@ -486,12 +521,11 @@ module Jamf
     #
     def apply_connection_defaults(params)
       apply_defaults_from_config(params)
+
       # TODO: when clients are moved over
       # apply_defaults_from_client(params)
-      apply_module_defaults(params)
 
-      # if we have a TTY, pw defaults to :prompt
-      params[:pw] ||= :prompt if STDIN.tty?
+      apply_module_defaults(params)
     end
 
     # Apply defaults from the Jamf.config
@@ -542,44 +576,27 @@ module Jamf
       params[:timeout] ||= DFT_TIMEOUT
       params[:open_timeout] ||= DFT_OPEN_TIMEOUT
       params[:ssl_version] ||= DFT_SSL_VERSION
-    end
-
-    # From whatever was given in params[:pw], figure out the real password
-    #
-    # @param params[Hash] The params for #connect
-    #
-    # @return [String] The password for the connection
-    #
-    def acquire_password(params)
-      if params[:pw] == :prompt
-        Jamf.prompt_for_password "Enter the password for Jamf user #{params[:user]}@#{params[:host]}:"
-      elsif params[:pw].is_a?(Symbol) && params[:pw].to_s.start_with?('stdin')
-        params[:pw].to_s =~ /^stdin(\d+)$/
-        line = Regexp.last_match(1)
-        line ||= 1
-        Jamf.stdin line
-      else
-        params[:pw]
-      end
+      # if we have a TTY, pw defaults to :prompt
+      params[:pw] ||= :prompt if STDIN.tty?
     end
 
     # Raise execeptions if we don't have essential data for a new connection
-    #
+    # namely a host, user, and pw
     # @param params[Hash] The params for #connect
     #
     # @return [void]
     #
     def verify_basic_params(params)
       # if given a Token object, it has host, port, user, and base_url
-      # and will be verified and parsed
-      return if params[:token].is_a? self.class::Token
+      # and is already parsed
+      return if @token
 
-      # must have a host, accept :server as well as :host
+      # must have a host, but accept legacy :server as well as :host
       params[:host] ||= params[:server]
       raise Jamf::MissingDataError, 'No Jamf :host specified, or in configuration.' unless params[:host]
 
       # no need for user or pass if using a token string
-      return if params[:token]
+      return if params[:token].is_a? String
 
       raise Jamf::MissingDataError, 'No Jamf :user specified, or in configuration.' unless params[:user]
       raise Jamf::MissingDataError, "No :pw specified for user '#{params[:user]}'" unless params[:pw]
@@ -603,39 +620,44 @@ module Jamf
       @name = "#{@user}@#{@host}:#{@port}" if @name == NOT_CONNECTED
     end
 
-    # Get our token either from a passwd or another token or token string
-    def acquire_token(params)
-      if params[:token]
-        if params[:token].is_a? self.class::Token
-          verify_token params[:token]
-          parse_token params[:token]
-          params[:token]
-        else
-          token_from :token_string, params[:token].to_s
-        end
-      else
-        token_from :pw, acquire_password(params)
+    # given a token string or a password, get a valid token
+    # Token.new will raise an exception if the token string or
+    # credentials are invalid
+    def token_from(type, data)
+      token_params = {
+        user: @user,
+        base_url: @base_url,
+        timeout: @timeout,
+        ssl_options: @ssl_options
+      }
+
+      case type
+      when :token_string
+        token_params[:token_string] = data
+      when :pw
+        token_params[:pw] = data
       end
+      self.class::Token.new token_params
     end
 
-    # Raise execeptions if we were given an unusable token
+    # From whatever was given in params[:pw], figure out the password to use
     #
     # @param params[Hash] The params for #connect
     #
-    # @return [void]
+    # @return [String] The password for the connection
     #
-    def verify_token(token)
-      raise 'Cannot use token: it has expired' if token.expired?
-      raise 'Cannot use token: it is invalid' unless token.valid?
-      raise "Cannot use token: it expires in less than #{TOKEN_REUSE_MIN_LIFE} seconds" if token.secs_remaining < TOKEN_REUSE_MIN_LIFE
-    end
-
-    def parse_token(token)
-      @host = token.host
-      @port = token.port
-      @user = token.user
-      @base_url = token.base_url
-    end
+    def acquire_password(param_pw)
+      if param_pw == :prompt
+        Jamf.prompt_for_password "Enter the password for Jamf user #{@user}@#{@host}:"
+      elsif param_pw.is_a?(Symbol) && param_pw.to_s.start_with?('stdin')
+        param_pw.to_s =~ /^stdin(\d+)$/
+        line = Regexp.last_match(1)
+        line ||= 1
+        Jamf.stdin line
+      else
+        param_pw
+      end # if
+    end # acquire pw
 
     # create the faraday connection object
     def create_connection(parse_json = true)
