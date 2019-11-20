@@ -241,8 +241,7 @@ module Jamf
   # required: \[Boolean]
   # -----------------
   # If true, this attribute must be provided when creating a new local instance
-  # with .make, and cannot be nil or empty when sending a new instance to the
-  # API with \#create
+  # and cannot be set to nil or empty
   #
   #
   # readonly: \[Boolean]
@@ -499,6 +498,13 @@ module Jamf
     #
     def self.mutable?
       true
+    end
+
+    # An array of attribute names that are required when
+    # making new instances
+    # See the OBJECT_MODEL documentation in {Jamf::JSONObject}
+    def self.required_attributes
+      self::OBJECT_MODEL.select { |_attr, deets| deets[:required] }.keys
     end
 
     # Given a Symbol that might be an alias of a key fron OBJECT_MODEL

@@ -74,13 +74,6 @@ module Jamf
       self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] }.keys
     end
 
-    # An array of attribute names that are required when
-    # making new CollectionResources
-    # See the OBJECT_MODEL documentation in {Jamf::JSONObject}
-    def self.required_attributes
-      self::OBJECT_MODEL.select { |_attr, deets| deets[:required] }.keys
-    end
-
     # The Collection members Array for this class, retrieved from
     # the RSRC_PATH as Parsed JSON, but not instantiated into instances
     # unless instantiate: is truthy.
@@ -122,7 +115,9 @@ module Jamf
       cnx.collection_cache[self].map { |m| new m }
     end
 
-    # An array of the ids for all collection members
+    # An array of the ids for all collection members. According to the
+    # specs ALL collection resources must have an ID, which is used in the
+    # resource path.
     #
     # @param refresh (see .all)
     #
