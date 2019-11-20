@@ -183,7 +183,12 @@ module Jamf
     def initialize(url = nil, **params)
       @name = params.delete :name
       @name ||= NOT_CONNECTED
-      connect(url, params) unless params[:at_load]
+
+      @singleton_cache = {}
+      @collection_cache = {}
+      @ext_attr_cache = {}
+
+      connect(url, params) unless params[:do_not_connect]
     end
 
     # Public Instance Methods
