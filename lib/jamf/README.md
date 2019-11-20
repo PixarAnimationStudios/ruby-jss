@@ -11,7 +11,9 @@ This README is a quick overview of the big changes, for both using the Jamf modu
 ## Requirements
 
 ##### Ruby 2.3 or higher
-  Some features of ruby 2.3 are used throughout. macOS 10.12.6 or higher can use the /usr/bin/ruby that comes with the OS.
+Some features of ruby 2.3 are used throughout the Jamf module.
+
+macOS 10.12.6 or higher can use the ruby that comes with the OS, at /usr/bin/ruby.
 
 ##### Manully install Faraday and Faraday Middleware
 
@@ -53,8 +55,9 @@ Make a new static User group | `new_grp = JSS::UserGroup.make name: 'ngrp', type
 Save the new static group to the server  | `new_grp.create` or `new_grp.save` | `new_grp.save`
 
 
-- Most attribute & method names for resources are in lowerCamelCase. While the ruby standard for method names is snake_case, the JSON data from the api uses lowerCamelCase for the names of attributes. The Jamf module mirrors those names, for better alignement with the actual data. Example: JSS::Computer has an instance method `serial_number`, while Jamf::Computer has `serialNumber`
+- Most attribute names for resources are in lowerCamelCase. While the ruby standard for attribute & method names is snake_case, the JSON data from the api uses lowerCamelCase for the names of attributes. The Jamf module mirrors those names, for better alignement with the actual data.
 
+  Example: JSS::Computer has an instance method `serial_number`, while Jamf::Computer has `serialNumber`
 
 
 ## Connecting to the JP-API
@@ -126,9 +129,13 @@ You can set token_refresh when you create your connection using the `token_refre
 
 #### Using a token to make a new connection
 
-Since tokens are objects, they can be used to make a connection. Just use `token: <token object>` in the connection parameters. As long as the token is valid on the API host, and hasn't expired, it will work until it expires, or is invalidated from elsewhere.
+Since tokens are objects, they can be used to make a connection. Just use `token: <token object>` in the connection parameters. E.g.
 
-When using a token object this way, you don't need to provide any host, port, user, pw, or use_ssl values, and any provided via URL or parameters will be ignored.
+  `Jamf.connect token: my_token`
+
+As long as the token is valid on the API host, and hasn't expired, it will work until it expires, or is invalidated from elsewhere.
+
+When using a token object this way, any host, port, user, pw, or use_ssl parameters are ignored, whether explicitly set, or in a URL.
 
 #### Token strings work too
 
@@ -147,9 +154,31 @@ Once the connection is made, a fresh token is generated using the token string, 
 
 #### Tokens can be invalidated
 
-If you know you're done using a token, and want to be sure a copy of it cant be used from anywhere else, use the token's `invalidate` method, which will tell the server to stop accepting it as valid. The Connection object also has a `logout` method which will invalidate the token before reseting all the connection values.
+If you know you're done using a token, and want to be sure a copy of it cant be used from anywhere else, use the token's `invalidate` method, which will tell the server to stop accepting it as valid. The Connection object also has a `logout` method which will invalidate the token before disconnecting.
 
-Be careful if you use tokens in multiple places, since you could break some other connection using the token.
+Be careful if you use tokens in multiple places, since invalidating a token would break any other connection using it.
+
+
+### Endpoints Implemented
+
+As the Jamf Pro API evolves during its early stages, many enpoints are coming and going and changing.
+
+All of the more-recent, stable endpoints have a version number in their path, e.g. 'v1'. Ruby-jss will only implement endpoints that have a version number, since the others are deprecated. The only current exception to this is the /auth endpoint, needed for authentication to the API.  Once it is updated, ruby-jss will use the new endpoint.
+
+Even among those that have version numbers, ruby-jss will probably never implement all of them. The developers at Pixar will focus on those useful to them.  If you would like to see others, feel free to contribute your own code, or send us a note asking for what you'd like. If you want to contribute, we'll be happy to help out if you're just learning ruby.
+
+As of this writing, here are the endpoints/resources that are at least partially implemented in the Jamf module:
+
+- /auth
+- /v1/app-store-country-codes
+- /v1/buildings
+- /v2/categories
+- /v1/computer-prestages
+- /v1/departments
+- /v1/inventory-preload
+- /v1/mobile-device-prestages
+
+
 
 ## Under the Hood
 
@@ -158,7 +187,7 @@ Be careful if you use tokens in multiple places, since you could break some othe
 
 Because of the more modern standards being used as the JP-API is developed, implementing endpoints in ruby-jss is in some ways far easier than it was in the classic API.
 
-The primary discussion of how this works is in the documentation/comments for the JSONObect abstract class, in the file lib/jamf/api/abstract_classes/json_obect.rb
+The primary discussion of how this works is in the documentation/comments for the JSONObect abstract class, in the file [lib/jamf/api/abstract_classes/json_obect.rb](https://github.com/PixarAnimationStudios/ruby-jss/blob/master/lib/jamf/api/abstract_classes/json_object.rb)
 
 Please read that for more details.
 
@@ -166,17 +195,16 @@ To summarize:
 
 - All JSON Objects (ruby Hashes) that come from or are sent to the JP-API are defined as ruby classes in the Jamf module, even those that are tiny and deeply embedded in other data structures.
 
-- Each ruby class that represents a JSON Object from the API has a constant 'OBJECT_MODEL' which tells ruby how to turn the JSON into a class instance, and turn that back into the JSON needed for the API.
+- Each ruby class that represents a JSON Object from the API has a constant 'OBJECT_MODEL' which is a Hash that tells ruby how to turn the JSON into a class instance, and turn that back into the JSON needed for the API.
 
 - The info in the OBJECT_MODEL is used to automatically create getters, setters, validators, and do other 'meta-programming'
 
-- Other abstract classes 'SingletonResource' and 'CollectionResource' are used to define API interaction via the Resource class.
+- Other abstract classes 'SingletonResource' and 'CollectionResource' are used to define API interaction via the abstract 'Resource' class.
 
 - Mixins are more heavily used to encapsulate shared behavior across classes.
 
 #### Autoloading
 
 Since the number of classes is so huge, and they aren't always needed in any given project, the Jamf module is using ruby's autoloading feature to load most of the files only as they are used.  See the file .../lib/jamf.rb  to see how that all works
-
 
 ## More to come.....
