@@ -749,6 +749,11 @@ module Jamf
     # If the attribute is defined as a :string, :integer, :float or :bool
     # without an enum or validator, it is confirmed to be the correct type
     #
+    # If the attribute is required, it can't be nil or empty
+    #
+    # If the attribute is an identifier, and the class is a subclass of
+    # CollectionResource, it must be unique among the collection
+    #
     # Otherwise, the value is returned unchanged.
     #
     # If the attribute is defined as an identifier, it must be unique among
@@ -767,9 +772,11 @@ module Jamf
     def self.validate_attr(attr_name, value, cnx: Jamf.cnx)
       attr_def = self::OBJECT_MODEL[attr_name]
 
+      raise ArgumentError, "Unknown attribute: #{attr_name} for #{self} objects" unless attr_def
+
       # validate our value, which will raise an error or
       # convert the value to the required type.
-      good_value =
+      value =
 
         # by enum, must be a value of the enum
         if attr_def[:enum]
@@ -778,16 +785,15 @@ module Jamf
 
         # by class, the class validates the value passed with .new
         elsif attr_def[:class].is_a? Class
-
           klass = attr_def[:class]
           # validation happens in klass.new
           value.is_a?(klass) ? value : klass.new(value, cnx: cnx)
 
-        # by Validate method - pass to the method
+        # by specified Validate method - pass to the method
         elsif attr_def[:validator]
           Jamf::Validate.send(attr_def[:validator], value)
 
-        # By json type - pass to the matching validate method
+        # By json primative type - pass to the matching validate method
         elsif JSON_TYPE_CLASSES.include? attr_def[:class]
           Jamf::Validate.send(attr_def[:class], value)
 
@@ -796,10 +802,15 @@ module Jamf
           value
         end # if
 
-      # if this is an identifier, it must be unique
-      Jamf::Validate.send(:unique_identifier, good_value, self.class, attr_name, cnx: @cnx) if attr_def[:identfier]
+      # if this is required, it can't be nil or empty
+      if attr_def[:required]
+        raise Jamf::MissingDataError, "Required attribute '#{attr_name}:' may not be nil or empty" if value.to_s.empty?
+      end
 
-      good_value
+      # if this is an identifier, it must be unique
+      Jamf::Validate.doesnt_exist(value, self, attr_name, cnx: cnx) if attr_def[:identifier] && superclass == Jamf::CollectionResource
+
+      value
     end # validate_attr(attr_name, value)
     private_class_method :validate_attr
 

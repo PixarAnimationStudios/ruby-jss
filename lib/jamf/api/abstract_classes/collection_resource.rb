@@ -239,10 +239,10 @@ module Jamf
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless self.creatable?
 
       validate_not_abstract
-
-      validate_required_attributes params
-
       params.delete :id # no such animal when .creating
+
+      validate_create_params(params, cnx)
+
       params[:creating_from_create] = true
       new params, cnx: cnx
     end
@@ -356,15 +356,16 @@ module Jamf
     end # create_list_methods
     private_class_method :create_list_methods
 
-    # validate that our .create data has the required attribute values.
-    # They can't be nil or empty.
+    # validate that our .create data is OK
     #
-    def self.validate_required_attributes(data)
-      required_attributes.each do |atr|
-        raise Jamf::MissingDataError, "Required attribute '#{atr}:' may not be nil or empty" if data[atr].to_s.empty?
+    def self.validate_create_params(params, cnx)
+      params.keys.each do |param|
+        raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
+
+        params[param] = validate_attr param, params[param], cnx: cnx
       end
     end
-    private_class_method :validate_required_attributes
+    private_class_method :validate_create_params
 
     # Given an indentier attr. key, and a value,
     # return the id where that ident has that value, or nil
@@ -384,7 +385,6 @@ module Jamf
       ident_map[value]
     end
     private_class_method :id_from_other_ident
-
 
     # Instance Methods
     #####################################

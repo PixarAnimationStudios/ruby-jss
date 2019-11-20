@@ -106,12 +106,12 @@ module Jamf
     #
     # @return [Object] the validated unique value
     #
-    def self.unique_identifier(val, klass, identifier, msg = nil, cnx: Jamf.cnx)
+    def self.doesnt_exist(val, klass, identifier, msg = nil, cnx: Jamf.cnx)
       msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
 
-      raise Jamf::InvalidDataError, "No identifier '#{identfier}' for #{klass}" unless klass.identifiers.include? identifier
+      raise Jamf::InvalidDataError, "No identifier '#{identifier}' for #{klass}" unless klass.identifiers.include? identifier
 
-      return val unless klass.send("all_#{identfier}s", refresh: true, cnx: cnx).include? val
+      return val unless klass.send("all_#{identifier}s", :refresh, cnx: cnx).include? val
 
       raise Jamf::AlreadyExistsError, msg
     end
