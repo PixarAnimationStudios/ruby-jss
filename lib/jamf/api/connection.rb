@@ -517,17 +517,23 @@ module Jamf
 
     # Apply defaults from the Jamf.config,
     # then from the Jamf::Client,
-    # then from the module defaults
-    # to the params for the #connect method
+    # then from the Jamf module defaults
+    # to the unset params for the #connect method
     #
     # @param params[Hash] The params for #connect
     #
     # @return [Hash] The params with defaults applied
     #
     def apply_connection_defaults(params)
+      # if no port given, either directly or via URL, and the host
+      # is a jamfcloud host, always set the port to 443
+      # This should happen before the config is applied, so
+      # on-prem users can still get to jamfcoud without specifying the port
+      params[:port] = JAMFCLOUD_PORT if params[:port].nil? && params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN)
+
       apply_defaults_from_config(params)
 
-      # TODO: when clients are moved over
+      # TODO: when clients are moved over to Jamf module
       # apply_defaults_from_client(params)
 
       apply_module_defaults(params)
@@ -577,7 +583,8 @@ module Jamf
     # @return [Hash] The params with defaults applied
     #
     def apply_module_defaults(params)
-      params[:port] ||= params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
+      # if we have no port set by this point, assume on-prem
+      params[:port] ||= ON_PREM_SSL_PORT
       params[:timeout] ||= DFT_TIMEOUT
       params[:open_timeout] ||= DFT_OPEN_TIMEOUT
       params[:ssl_version] ||= DFT_SSL_VERSION
@@ -717,11 +724,12 @@ module Jamf
   end # class Connection
 
   # Jamf module methods dealing with the active connection
+  ########################################################
 
   # @return [Jamf::Connection] the active connection
   #
   def self.cnx
-    @active_connection ||= Connection.new
+    @active_connection ||= Connection.new do_not_connect: true
   end
 
   # Create a new Connection object and use it as the active_connection,
@@ -754,8 +762,5 @@ module Jamf
 
     @active_connection = connection
   end
-
-  # create the default connection
-  connect(at_load: true) unless @active_connection
 
 end # module Jamf
