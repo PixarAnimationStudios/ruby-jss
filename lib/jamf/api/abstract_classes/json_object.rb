@@ -51,7 +51,7 @@ module Jamf
   # you will make a subclass of either Jamf::JSONObject, Jamf::SingletonResource
   # or Jamf::CollectionResource.
   #
-  # Here's the relationship between these MetaClasses:
+  # Here's the relationship between these abstract classes:
   #
   #                      Jamf::JSONObject
   #                         (abstract)
