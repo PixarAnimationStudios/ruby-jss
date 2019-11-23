@@ -1,5 +1,50 @@
  Implementing the Jamf Pro API in ruby-jss
 
+ <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+ - [Requirements](#requirements)
+ 	- [Ruby 2.3 or higher](#ruby-23-or-higher)
+ 	- [Manully install Faraday and Faraday Middleware](#manully-install-faraday-and-faraday-middleware)
+ - [The Jamf module](#the-jamf-module)
+ - [Overview of differences between JSS and Jamf modules](#overview-of-differences-between-jss-and-jamf-modules)
+ - [Connecting to the JP-API](#connecting-to-the-jp-api)
+ 	- [Connection Objects](#connection-objects)
+ 	- [Connection Parameters](#connection-parameters)
+ 	- [Connection Tokens](#connection-tokens)
+ 		- [Tokens are objects](#tokens-are-objects)
+ 		- [Tokens Expire](#tokens-expire)
+ 		- [Tokens can be refreshed](#tokens-can-be-refreshed)
+ 		- [Connections can refresh the token automatically](#connections-can-refresh-the-token-automatically)
+ 		- [Using a token to make a new connection](#using-a-token-to-make-a-new-connection)
+ 		- [Token strings work too](#token-strings-work-too)
+ 		- [Tokens can be invalidated](#tokens-can-be-invalidated)
+ 	- [Endpoints Implemented](#endpoints-implemented)
+ - [Under the Hood](#under-the-hood)
+ 	- [Classes classes everywhere](#classes-classes-everywhere)
+ 		- [Jamf::JSONObject](#jamfjsonobject)
+ 		- [Jamf::Resource](#jamfresource)
+ 		- [Jamf::SingletonResource](#jamfsingletonresource)
+ 		- [Jamf::CollectionResource](#jamfcollectionresource)
+ 		- [MixIns](#mixins)
+ 		- [The OBJECT_MODEL constant](#the-objectmodel-constant)
+ 			- [class: \[Symbol or Class]](#class-symbol-or-class)
+ 			- [identifier: \[Boolean, or Symbol :primary]](#identifier-boolean-or-symbol-primary)
+ 			- [required: \[Boolean]](#required-boolean)
+ 			- [readonly: \[Boolean]](#readonly-boolean)
+ 			- [multi: \[Boolean]](#multi-boolean)
+ 			- [enum: \[Constant -> Array<Constants> ]](#enum-constant-arrayconstants-)
+ 			- [validator: \[Symbol]](#validator-symbol)
+ 			- [aliases: \[Array of Symbols]](#aliases-array-of-symbols)
+ 			- [Documenting OBJECT_MODEL](#documenting-objectmodel)
+ 			- [Sub-subclassing and OBJECT_MODEL](#sub-subclassing-and-objectmodel)
+ 			- [Data Validation \{#data_validation}](#data-validation-datavalidation)
+ 			- [Constructor / Instantiation](#constructor-instantiation)
+ 		- [Required Instance Methods](#required-instance-methods)
+ 	- [Autoloading](#autoloading)
+ - [More to come.....](#more-to-come)
+
+ <!-- /TOC -->
+
 The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
 
 Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP_API itself. Therefore there are some very big changes afoot.
