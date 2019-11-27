@@ -29,7 +29,11 @@ module Jamf
   # Classes
   #####################################
   class InventoryPreloadExtensionAttribute < Jamf::JSONObject
-    OBJECT_MODEL= {
+
+    OBJECT_MODEL = {
+
+      # TODO: validation for ea's existance and value data type, once EAs are
+      # implemented in JPAPI
 
       # @!attribute name
       #   @return [String]
@@ -47,6 +51,7 @@ module Jamf
     }.freeze
 
     parse_object_model
+
   end # class
 
 end # module
