@@ -98,7 +98,9 @@ Save the new static group to the server  | `new_grp.create` or `new_grp.save` | 
 - Most attribute names for resources are in lowerCamelCase. While the ruby standard for attribute & method names is snake_case, the JSON data from the api uses lowerCamelCase for the names of attributes. The Jamf module mirrors those names, for better alignement with the actual data.
 
   Example: JSS::Computer has an instance method `serial_number`, while Jamf::Computer has `serialNumber`
+
 # Connecting to the JP-API
+
 ## Connection Objects
 
 Connections are instances of Jamf::Connection, analagous to the previous JSS::APIConnection.
@@ -138,25 +140,30 @@ When a URL is provided like this, the following parameters are parsed from it:
 If a URL is used, any values present in the URL override any that might be given as a parameter.
 
 If a pw: parameter is not provided or present in a URL, the default is to prompt in a termminal, the same as `pw: :prompt`
+
 ## Connection Tokens
 
 The JP-API uses token-based access, which is far more secure than sending the password along with every request.
 
 For the most part, dealing with tokens is invisible to the user of ruby-jss. However, here are some things to think about as you work with them:
+
 ### Tokens are objects
 
 Once you are connected, the token is available in the `#token` method of the Connection object. So for the active connection, `my_token = Jamf.cnx.token`
+
 ### Tokens Expire
 
 Tokens come with an expiration time, defined by the server. After that time, the token is no longer valid and API access using it will fail.  To see the expiration time, use the '#expires' method: `Jamf.cnx.token.expires`.
 ### Tokens can be refreshed
 
 As long as you have a valid token, you can use it to refresh itself, which replaces the internally-stored token data and resets the expiration. Just use, e.g. `Jamf.cnx.token.refresh` which will return the new expiration time. Once refreshed, the original token data is no longer valid.
+
 ### Connections can refresh the token automatically
 
 If you have a long-running process that's likely to run longer than the life of a token, you can tell your connection object to automatically refresh its token some number of seconds before the token expires. To do so, just set the connection's 'keep_alive' attribute to true: `Jamf.cnx.keep_alive = true`. This will start a thread in the background that mostly stays asleep. Every 60 seconds it wakes up and checks to see if the current token's expiration is less than 'token_refresh' seconds from now, and if so, will refresh the token.
 
 You can set token_refresh when you create your connection using the `token_refresh:  nnn` param, where nnn is an integer number of seconds. You can also set it dynamically, `Jamf.cnx.token_refresh = nnn`
+
 ### Using a token to make a new connection
 
 Since tokens are objects, they can be used to make a connection. Just use `token: <token object>` in the connection parameters. E.g.
@@ -166,6 +173,8 @@ Since tokens are objects, they can be used to make a connection. Just use `token
 As long as the token is valid on the API host, and hasn't expired, it will work until it expires, or is invalidated from elsewhere.
 
 When using a token object this way, any host, port, user, pw, or use_ssl parameters are ignored, whether explicitly set, or in a URL.
+
+
 ### Token strings work too
 
 In the actual HTTP transactions, the token is actually a long string of gibberish-looking characters. If you don't have a `Jamf::Connection::Token` object, but you have a valid, not-expired token string, you can provide that in place of a user: and pw: value when making a connection. You still have to provide the correct host, port, and other values, which can be done via a url or parameters.
@@ -180,12 +189,14 @@ Jamf.connect host: 'myjamf.mysch.edu', port: 8443, token: tk_str
 
 ```
 Once the connection is made, a fresh token is generated using the token string, and the string itself will be invalidated.
+
 ### Tokens can be invalidated
 
 If you know you're done using a token, and want to be sure a copy of it cant be used from anywhere else, use the token's `invalidate` method, which will tell the server to stop accepting it as valid. The Connection object also has a `logout` method which will invalidate the token before disconnecting.
 
 Be careful if you use tokens in multiple places, since invalidating a token would break any other connection using it.
 ## Endpoints Implemented
+
 
 As the Jamf Pro API evolves during its early stages, many enpoints are coming and going and changing.
 
@@ -210,13 +221,13 @@ As of this writing, here are the endpoints/resources that are at least partially
 
 Because of the more modern standards being used as the JP-API is developed, implementing endpoints in ruby-jss is in some ways far easier, but pickier, than it was in the classic API.
 
-In JSON & Javascript, an 'object' is a data structure equivalent to a hash in ruby, a dictionary in python, a record in applescript, and so on. Almost all of the JSON data exchanged with the API is formatted as these JSON objects.
+In JSON & Javascript, an 'object' is a data structure equivalent to a hash in ruby, a dictionary in python, a record in Applescript, and so on. Almost all of the JSON data exchanged with the API is formatted as these JSON objects.
 
 The Jamf Pro API uses well-defined JSON 'Object Models' to describe and format the objects sent to and from the server. The model gives the name of each key, and the data-type of its value.  The data-type might be a primative like a string, integer, float or boolean, or it might be an array of things, or it might be another JSON object (which will have its own model).
 
 To see these Object Model definitions,, have a look at your Jamf Pro server's documentation at https://your.jamf.server.edu/uapi/doc
 
-Take a look at the GET docs for an endpoint, e.g. Buildings -> GET /v1/buildings, and you click to view either the the 'Model' and the 'Model Schema' (an example of a JSON object matching the model with sample data)
+Take a look at the GET docs for an endpoint, e.g. Buildings -> GET /v1/buildings, and you can click to view either the the 'Model' and the 'Model Schema' (an example of a JSON object matching the model with sample data)
 
 Ruby-jss's Jamf module is built around these object models, using a hierarchy of abstract classes and a representation of the Object Model in ruby. Every 'hash' of data that is sent to or recieved from the API has a matching ruby class that is a descendant of Jamf::JSONObject.
 
