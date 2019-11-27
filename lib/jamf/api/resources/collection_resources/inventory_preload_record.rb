@@ -68,7 +68,6 @@ module Jamf
     # The 'clear' instance method won't change these attrs
     UNCLEARABLE_ATTRS = %i[id serialNumber deviceType].freeze
 
-
     # Object Model / Attributes
     # See APIObject class documentation for details
     # of how the OBJECT_MODEL hash works.
@@ -224,7 +223,8 @@ module Jamf
       #   @return [Jamf::InventoryPreloadExtensionAttribute]
       extensionAttributes: {
         class: Jamf::InventoryPreloadExtensionAttribute,
-        multi: true
+        multi: true,
+        aliases: %i[ext_attrs eas]
       }
 
     }.freeze
@@ -232,7 +232,7 @@ module Jamf
     parse_object_model
 
     # TODO: validation for ea's existance and value data type, once EAs are
-    # implemented in JPAPI
+    # implemented in JPAPI (see inventory_preload_extension_attribute.rb)
     #
     # @param ea_name[String] The name of the EA being set
     #
@@ -256,14 +256,14 @@ module Jamf
       OBJECT_MODEL.keys.each do |attr|
         next if UNCLEARABLE_ATTRS.include? attr
 
-        # skip nils
-        curr_val = send attr
-        next unless curr_val
-
         if attr == :extensionAttributes
           extensionAttributes = []
           next
         end
+
+        # skip nils
+        curr_val = send attr
+        next unless curr_val
 
         send "#{attr}=", nil
       end
