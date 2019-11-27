@@ -190,6 +190,18 @@ module Jamf
     # Class Methods
     #####################################
 
+    # Return the Prestage subclass that is marked as default,
+    # i.e. the one that new SNs are assigned to when first added.
+    # Nil if no default is defined
+    # @return [Jamf::Prestage, nil]
+    #
+    def self.default
+      id = self.all.select{ |ps| ps[:isDefaultPrestage] }.first.dig :id
+      return nil unless id
+
+      fetch id: id
+    end
+
     # Return all scoped computer serial numbers and the id of the prestage
     # they are assigned to
     #
@@ -201,6 +213,7 @@ module Jamf
       @serials_by_prestage_rsrc ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{SCOPE_RSRC}"
       cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
     end
+
 
     # Instance Methods
     #####################################
