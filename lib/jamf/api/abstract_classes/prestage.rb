@@ -33,6 +33,10 @@ module Jamf
   class Prestage < Jamf::CollectionResource
 
     extend Jamf::Abstract
+
+    # for now, subclasses are not creatable, po
+    extend Jamf::UnCreatable
+
     include Jamf::Lockable
 
     # Constants
@@ -95,7 +99,8 @@ module Jamf
       # @!attribute isDefaultPrestage
       #   @return [Boolean]
       isDefaultPrestage: {
-        class: :boolean
+        class: :boolean,
+        aliases: [:default?]
       },
 
       # @!attribute enrollmentSiteId
