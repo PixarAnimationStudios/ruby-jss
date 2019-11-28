@@ -68,7 +68,6 @@ module JSS
         'more than',
         'less than',
         'greater than',
-        'less than',
         'greater than or equal',
         'less than or equal',
         'before (yyyy-mm-dd)',
