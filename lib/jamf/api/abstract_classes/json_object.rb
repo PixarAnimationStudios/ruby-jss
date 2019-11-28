@@ -932,8 +932,8 @@ module Jamf
       data
     end
 
-    # DOESN"T SEEM TO WORK FOR BUILDINGS - need the whole JSON object
-    # not just the changes.
+    # Only works for PATCH endpoints.
+    #
     # @return [Hash] The changes that need to be sent to the API, as a Hash
     #  to be converted to JSON by the Jamf::Connection
     #
