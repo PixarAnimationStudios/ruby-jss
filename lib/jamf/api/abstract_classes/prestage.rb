@@ -34,7 +34,7 @@ module Jamf
 
     extend Jamf::Abstract
 
-    # for now, subclasses are not creatable, po
+    # for now, subclasses are not creatable
     extend Jamf::UnCreatable
 
     include Jamf::Lockable
@@ -218,7 +218,6 @@ module Jamf
       @serials_by_prestage_rsrc ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{SCOPE_RSRC}"
       cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
     end
-
 
     # Instance Methods
     #####################################
