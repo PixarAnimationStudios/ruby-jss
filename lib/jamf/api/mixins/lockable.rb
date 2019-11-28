@@ -43,6 +43,12 @@ module Jamf
       super
     end
 
+    def to_jamf
+      data = super
+      data[:versionLock] = @versionLock
+      data
+    end
+
   end # Lockable
 
 end # Jamf
