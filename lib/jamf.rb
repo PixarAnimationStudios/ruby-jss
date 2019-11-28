@@ -95,6 +95,7 @@ module Jamf
   autoload :CollectionResource, 'jamf/api/abstract_classes/collection_resource'
 
   # Abstract Classes used for JSONObject subclasses
+  autoload :AdvancedSearch, 'jamf/api/abstract_classes/advanced_search'
   autoload :Prestage, 'jamf/api/abstract_classes/prestage'
   autoload :PrestageSkipSetupItems, 'jamf/api/abstract_classes/prestage_skip_setup_items'
 
@@ -123,6 +124,7 @@ module Jamf
   autoload :ChangeLogEntry, 'jamf/api/json_objects/change_log_entry'
   autoload :ComputerPrestageSkipSetupItems, 'jamf/api/json_objects/computer_prestage_skip_setup_items'
   autoload :Country, 'jamf/api/json_objects/country'
+  autoload :Criterion, 'jamf/api/json_objects/criterion'
   autoload :ExtensionAttributeValue, 'jamf/api/json_objects/extension_attribute_value'
   autoload :InstalledApplication, 'jamf/api/json_objects/installed_application'
   autoload :InstalledCertificate, 'jamf/api/json_objects/installed_certificate'
@@ -150,6 +152,8 @@ module Jamf
   autoload :AppStoreCountryCodes, 'jamf/api/resources/singleton_resources/app_store_country_codes'
 
   # Subclasses of CollectionResource
+  autoload :AdvancedMobileDeviceSearch, 'jamf/api/resources/collection_resources/advanced_mobile_device_search'
+  autoload :AdvancedUserSearch, 'jamf/api/resources/collection_resources/advanced_user_search'
   autoload :Attachment, 'jamf/api/resources/collection_resources/attachment'
   autoload :Building, 'jamf/api/resources/collection_resources/building'
   autoload :Computer, 'jamf/api/resources/collection_resources/computer'
