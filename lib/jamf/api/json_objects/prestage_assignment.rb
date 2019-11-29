@@ -29,6 +29,8 @@ module Jamf
   # A 'location' for a managed object in Jamf Pro
   class PrestageAssignment < Jamf::JSONObject
 
+    extend Jamf::Immutable
+
     OBJECT_MODEL = {
 
       # @!attribute serialNumber
@@ -52,8 +54,19 @@ module Jamf
 
     parse_object_model
 
-    def assignmentTimestamp
-      @assignmentTimestamp ||= Jamf::Timestamp.new @assignmentEpoch
+    # The assignment epoch as a Jamf::Timestamp object.
+    #
+    # NOTE: I expct this will go away once Jamf conforms to its own standard
+    # of exchanging ALL timestamp data as ISO6801 strings. At that time
+    # the assignment epoch won't be a thing anymore.
+    #
+    # @return [Jamf::Timestamp]
+    #
+    attr_reader :assignmentTimestamp
+
+    def initialize(*args)
+      super
+      @assignmentTimestamp = Jamf::Timestamp.new @assignmentEpoch
     end
 
   end # class Country

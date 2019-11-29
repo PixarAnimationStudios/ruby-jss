@@ -24,7 +24,7 @@
 
 module Jamf
 
-  # This mixin overrides JSONObject.mutable? to return false,
+  # When extended with this mixin, JSONObject.mutable? returns false,
   # meaning that no setters are ever defined, and if the
   # object is a Jamf::Resource, #save will raise an error
   #

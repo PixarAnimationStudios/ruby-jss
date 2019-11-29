@@ -201,7 +201,7 @@ module Jamf
     # @return [Jamf::Prestage, nil]
     #
     def self.default
-      id = self.all.select{ |ps| ps[:isDefaultPrestage] }.first.dig :id
+      id = all.select{ |ps| ps[:isDefaultPrestage] }.first.dig :id
       return nil unless id
 
       fetch id: id
@@ -219,16 +219,126 @@ module Jamf
       cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
     end
 
+    # Get the assigned serialnumbers for a given prestage
+    def self.serials_for_prestage(ident, cnx: Jamf.cnx)
+      id = valid_id ident, cnx: cnx
+      raise Jamf::NoSuchItemError, "No #{self} matching '#{ident}'" unless id
+
+      serials_by_prestage_id(cnx: cnx).select { |sn, psid| id == psid }.keys
+    end
+
+    # The id of the prestage to which the given serialNumber is assigned.
+    # nil if not assigned
+    #
+    # NOTE: If a serial number isn't assigned to any prestage, it may really be
+    # unassigned or it may not exist in your DEP. At the moment there's no way
+    # via the JP-API to know the SNs in DEP that are not assigned
+    #
+    # @param sn [String] the serial number to look for
+    #
+    # @param cnx[Jamf::Connection] the API connection to use
+    #
+    # @return [Integer, nil] The id of prestage to which the SN is assigned
+    #
+    def self.assigned(sn, cnx: Jamf.cnx)
+      serials_by_prestage_id(cnx: cnx)[sn]
+    end
+
+    # Is the given serialNumber assigned to any prestage, or to the
+    # given prestage if a prestage_ident is specified?
+    #
+    # NOTE: If a serial number isn't assigned to any prestage, it may really be
+    # unassigned or it may not exist in your DEP. At the moment there's no way
+    # via the JP-API to know the SNs in DEP but not assigned
+    #
+    # @param sn [String] the serial number to look for
+    #
+    # @paream prestage_ident [Integer, String] If provided, the id or name of
+    #   an existing prestage in which to look for the sn. if omitted, all
+    #   prestages are searched.
+    #
+    # @param cnx[Jamf::Connection] the API connection to use
+    #
+    # @return [Boolean] Is the sn assigned, at all or to the given prestage?
+    #
+    def self.assigned?(sn, prestage_ident = nil, cnx: Jamf.cnx)
+      assigned_id = assigned(sn, cnx: cnx)
+      return false unless assigned_id
+
+      if prestage_ident
+        id = valid_id prestage_ident, cnx: cnx
+        raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
+
+        return id == assigned_id
+      end
+
+      true
+    end
+
     # Instance Methods
     #####################################
 
+    # The scope data for this prestage
+    #
+    # @param refresh[Boolean] reload fromthe API?
+    #
+    # @return [PrestageScope]
+    #
     def scope(refresh = false)
       @scope = nil if refresh
       return @scope if @scope
 
-      @scope_rsrc ||= "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{@id}/#{SCOPE_RSRC}"
+      @scope = Jamf::PrestageScope.new @cnx.get(scope_rsrc)
+    end
 
-      @scope = Jamf::PrestageScope.new @cnx.get @scope_rsrc
+    # @return [Array<String>] the serialnumbers assigned to this prestage
+    def assigned_sns
+      scope.assignments.map(&:serialNumber)
+    end
+
+    # Is this SN assigned to this prestage?
+    #
+    # @param sn[String] the sn to look for
+    #
+    # @return [Boolean]
+    #
+    def assigned?(sn)
+      assigned_sns.include? sn
+    end
+    alias include? assigned?
+
+    def assign(*sns_to_assign)
+      sns_to_assign.map!(&:to_s)
+      new_scope_sns = assigned_sns
+      new_scope_sns += sns_to_assign
+      new_scope_sns.uniq!
+      update_scope(new_scope_sns)
+    end
+    alias add assign
+
+    def unassign(*sns_to_unassign)
+      sns_to_unassign.map!(&:to_s)
+      new_scope_sns = assigned_sns
+      new_scope_sns -= sns_to_unassign
+      update_scope(new_scope_sns)
+    end
+    alias remove unassign
+
+    # Private Instance Methods
+    ############################
+    private
+
+    def scope_rsrc
+      @scope_rsrc ||= "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{@id}/#{SCOPE_RSRC}"
+    end
+
+    def update_scope(new_scope_sns)
+      assignment_data = {
+        serialNumbers: new_scope_sns,
+        versionLock: scope.versionLock
+      }
+      @scope = Jamf::PrestageScope.new @cnx.put(scope_rsrc, assignment_data)
+      @versionLock = @scope.versionLock
     end
 
   end # class

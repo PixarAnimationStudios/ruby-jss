@@ -38,6 +38,8 @@ module Jamf
   #
   module Lockable
 
+    attr_reader :versionLock
+
     def initialize(data, cnx: Jamf.cnx)
       @versionLock = data[:versionLock]
       super

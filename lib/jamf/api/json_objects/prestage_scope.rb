@@ -26,9 +26,12 @@
 # The module
 module Jamf
 
-  # A 'location' for a managed object in Jamf Pro
+  # A container for an array of Jamf::PrestageAssignment
+  # objects, each of which represents a serial number assigned to the
+  # prestage that contains this scope.
   class PrestageScope < Jamf::JSONObject
 
+    extend Jamf::Immutable
     include Jamf::Lockable
 
     OBJECT_MODEL = {
@@ -49,6 +52,6 @@ module Jamf
 
     parse_object_model
 
-  end # class Country
+  end # class PrestageScope
 
 end # module
