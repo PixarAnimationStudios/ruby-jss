@@ -201,30 +201,43 @@ module Jamf
     # @return [Jamf::Prestage, nil]
     #
     def self.default
-      id = all.select{ |ps| ps[:isDefaultPrestage] }.first.dig :id
+      id = all.select { |ps| ps[:isDefaultPrestage] }.first.dig :id
       return nil unless id
 
       fetch id: id
     end
 
     # Return all scoped computer serial numbers and the id of the prestage
-    # they are assigned to
+    # they are assigned to. Data is cached, use a truthy first param to refresh.
+    #
+    # @param refresh[Boolean] re-read the list from the API?
     #
     # @param cnx[Jamf::Connection] the API connection to use
     #
     # @return [Hash {String => Integer}] The Serials and prestage IDs
     #
-    def self.serials_by_prestage_id(cnx: Jamf.cnx)
+    def self.serials_by_prestage_id(refresh = false, cnx: Jamf.cnx)
       @serials_by_prestage_rsrc ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{SCOPE_RSRC}"
-      cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
+      @serials_by_prestage_id = nil if refresh
+      @serials_by_prestage_id ||= cnx.get(@serials_by_prestage_rsrc)[SERIALS_KEY].transform_keys!(&:to_s)
     end
 
     # Get the assigned serialnumbers for a given prestage
-    def self.serials_for_prestage(ident, cnx: Jamf.cnx)
-      id = valid_id ident, cnx: cnx
+    #
+    # @paream prestage_ident [Integer, String] the id or name of
+    #   an existing prestage.
+    #
+    # @param refresh[Boolean] re-read the list from the API?
+    #
+    # @param cnx[Jamf::Connection] the API connection to use
+    #
+    # @return [Array<String>] the SN's assigned to the prestage
+    #
+    def self.serials_for_prestage(prestage_ident, refresh = false, cnx: Jamf.cnx)
+      id = valid_id prestage_ident, cnx: cnx
       raise Jamf::NoSuchItemError, "No #{self} matching '#{ident}'" unless id
 
-      serials_by_prestage_id(cnx: cnx).select { |sn, psid| id == psid }.keys
+      serials_by_prestage_id(refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
     end
 
     # The id of the prestage to which the given serialNumber is assigned.
@@ -236,12 +249,14 @@ module Jamf
     #
     # @param sn [String] the serial number to look for
     #
+    # @param refresh[Boolean] re-read the list from the API?
+    #
     # @param cnx[Jamf::Connection] the API connection to use
     #
     # @return [Integer, nil] The id of prestage to which the SN is assigned
     #
-    def self.assigned(sn, cnx: Jamf.cnx)
-      serials_by_prestage_id(cnx: cnx)[sn]
+    def self.assigned(sn, refresh = false, cnx: Jamf.cnx)
+      serials_by_prestage_id(refresh, cnx: cnx)[sn]
     end
 
     # Is the given serialNumber assigned to any prestage, or to the
@@ -253,6 +268,8 @@ module Jamf
     #
     # @param sn [String] the serial number to look for
     #
+    # @param refresh[Boolean] re-read the list from the API?
+    #
     # @paream prestage_ident [Integer, String] If provided, the id or name of
     #   an existing prestage in which to look for the sn. if omitted, all
     #   prestages are searched.
@@ -261,8 +278,8 @@ module Jamf
     #
     # @return [Boolean] Is the sn assigned, at all or to the given prestage?
     #
-    def self.assigned?(sn, prestage_ident = nil, cnx: Jamf.cnx)
-      assigned_id = assigned(sn, cnx: cnx)
+    def self.assigned?(sn, prestage_ident = nil, refresh: false, cnx: Jamf.cnx)
+      assigned_id = assigned(sn, refresh, cnx: cnx)
       return false unless assigned_id
 
       if prestage_ident
@@ -307,6 +324,7 @@ module Jamf
     end
     alias include? assigned?
 
+    # Assign
     def assign(*sns_to_assign)
       sns_to_assign.map!(&:to_s)
       new_scope_sns = assigned_sns
@@ -324,6 +342,13 @@ module Jamf
     end
     alias remove unassign
 
+    def save
+      super
+      # the scope needs to be refreshed, since its versionLock will need to be
+      # updated
+      @scope = nil
+    end
+
     # Private Instance Methods
     ############################
     private
@@ -337,7 +362,13 @@ module Jamf
         serialNumbers: new_scope_sns,
         versionLock: scope.versionLock
       }
-      @scope = Jamf::PrestageScope.new @cnx.put(scope_rsrc, assignment_data)
+      begin
+        @scope = Jamf::PrestageScope.new @cnx.put(scope_rsrc, assignment_data)
+      rescue Jamf::Connection::APIError => e
+        raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again" if e.status == 409
+
+        raise e
+      end # begin
       @versionLock = @scope.versionLock
     end
 

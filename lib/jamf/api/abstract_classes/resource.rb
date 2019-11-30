@@ -220,7 +220,6 @@ module Jamf
     # @return [String] the resouce path for this object
     attr_reader :rsrc_path
 
-
     # Instance Methods
     #####################################
 
@@ -233,7 +232,7 @@ module Jamf
       exist? ? update_in_jamf : create_in_jamf
       clear_unsaved_changes
 
-      @id ? @id : :saved
+      @id || :saved
     end
 
     # Private Instance Methods
@@ -242,7 +241,13 @@ module Jamf
 
     # TODO: handle PATCH when it becomes a thing
     def update_in_jamf
-      @cnx.put( rsrc_path, to_jamf)
+      @cnx.put(rsrc_path, to_jamf)
+    rescue Jamf::Connection::APIError => e
+      if e.status == 409 && self.class.included_modules.include?(Jamf::Lockable)
+        raise Jamf::VersionLockError, "The #{self.class} has been modified since it was fetched. Please refetch and try agai.n"
+      end
+
+      raise e
     end
 
   end # class APIObject

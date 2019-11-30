@@ -33,7 +33,7 @@ module Jamf
   # from elsewhere since we fetched it, and a 409 Conflict error is raised with
   # the reason OPTIMISTIC_LOCK_FAILED.
   #
-  # If that happens, the save doesnt happen, the object is re-fetched,
+  # If that happens, the save doesnt happen, the object must be re-fetched,
   # and the user can try again.
   #
   module Lockable

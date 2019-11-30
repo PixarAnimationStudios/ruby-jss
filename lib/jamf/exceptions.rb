@@ -89,6 +89,11 @@ module Jamf
   #
   class ConflictError < RuntimeError; end
 
+  # A 409 error specifically raised when a Lockable resource
+  # has changed between fetching and saving.
+  # See the Jamf::Lockable mixin.
+  class VersionLockError < ConflictError; end
+
   # BadRequestError - raise this when
   # attempts to PUT or PUSH or DELETE to the API
   # result in a 400 Bad Request http error.
