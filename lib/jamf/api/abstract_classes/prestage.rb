@@ -207,7 +207,7 @@ module Jamf
       fetch id: id
     end
 
-    # Return all scoped computer serial numbers and the id of the prestage
+    # Return all scoped serial numbers and the id of the prestage
     # they are assigned to. Data is cached, use a truthy first param to refresh.
     #
     # @param refresh[Boolean] re-read the list from the API?
@@ -255,7 +255,7 @@ module Jamf
     #
     # @return [Integer, nil] The id of prestage to which the SN is assigned
     #
-    def self.assigned(sn, refresh = false, cnx: Jamf.cnx)
+    def self.assigned_prestage_id(sn, refresh = false, cnx: Jamf.cnx)
       serials_by_prestage_id(refresh, cnx: cnx)[sn]
     end
 
@@ -270,7 +270,7 @@ module Jamf
     #
     # @param refresh[Boolean] re-read the list from the API?
     #
-    # @paream prestage_ident [Integer, String] If provided, the id or name of
+    # @paream prestage_ident[Integer, String] If provided, the id or name of
     #   an existing prestage in which to look for the sn. if omitted, all
     #   prestages are searched.
     #
@@ -279,7 +279,7 @@ module Jamf
     # @return [Boolean] Is the sn assigned, at all or to the given prestage?
     #
     def self.assigned?(sn, prestage_ident = nil, refresh: false, cnx: Jamf.cnx)
-      assigned_id = assigned(sn, refresh, cnx: cnx)
+      assigned_id = assigned_prestage_id(sn, refresh, cnx: cnx)
       return false unless assigned_id
 
       if prestage_ident
@@ -360,7 +360,7 @@ module Jamf
     def update_scope(new_scope_sns)
       assignment_data = {
         serialNumbers: new_scope_sns,
-        versionLock: scope.versionLock
+        versionLock: @scope.versionLock
       }
       begin
         @scope = Jamf::PrestageScope.new @cnx.put(scope_rsrc, assignment_data)
