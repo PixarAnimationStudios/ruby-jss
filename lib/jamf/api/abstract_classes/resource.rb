@@ -244,7 +244,7 @@ module Jamf
       @cnx.put(rsrc_path, to_jamf)
     rescue Jamf::Connection::APIError => e
       if e.status == 409 && self.class.included_modules.include?(Jamf::Lockable)
-        raise Jamf::VersionLockError, "The #{self.class} has been modified since it was fetched. Please refetch and try agai.n"
+        raise Jamf::VersionLockError, "The #{self.class} has been modified since it was fetched. Please refetch and try again."
       end
 
       raise e
