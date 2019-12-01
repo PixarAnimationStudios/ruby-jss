@@ -306,6 +306,11 @@ module Jamf
       return @scope if @scope
 
       @scope = Jamf::PrestageScope.new @cnx.get(scope_rsrc)
+      unless @scope.versionLock == @versionLock
+        raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again"
+      end
+
+      @scope
     end
 
     # @return [Array<String>] the serialnumbers assigned to this prestage
