@@ -106,17 +106,18 @@ module Jamf
       names: {
         class: Jamf::MobileDevicePrestageNames
       }
-
     ).freeze
 
     parse_object_model
 
+    # Class Methods
+    ###############################################
 
     def self.sync_status(prestage = nil, latest = false, cnx: Jamf.cnx)
       @sync_rsrc ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{SYNC_RSRC}"
 
       if prestage
-        id = self.valid_id prestage
+        id = valid_id prestage
         raise Jamf::NoSuchItemError, "No #{self.class} matching '#{prestage}'" unless id
 
         rsrc = "#{@sync_rsrc}/#{id}"
@@ -126,9 +127,10 @@ module Jamf
       else
         cnx.get(@sync_rsrc).map { |ss| Jamf::PrestageSyncStatus.new ss }
       end
-
     end # self.sync_status(prestage = nil, latest = false, cnx: Jamf.cnx)
 
+    # Instance Methods
+    ###############################################
 
     def sync_status(latest = false)
       self.class.sync_status @id, latest, cnx: @cnx
