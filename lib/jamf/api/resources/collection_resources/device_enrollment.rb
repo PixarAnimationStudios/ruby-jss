@@ -29,7 +29,8 @@ module Jamf
   # Classes
   #####################################
 
-  # A decvice enrollment defined in the JSS
+  # A decvice enrollment defined in the Jamf Pro.
+  #
   # This is a connection to Apple's Device Enrollment Program.
   # A single Jamf server may have many of them, and they can belong to
   # different sites.
@@ -166,18 +167,7 @@ module Jamf
         raise ArgumentError, "Type must be one of: :#{TYPES.join ', :'}" unless TYPES.include? type
       end
 
-      if instance_ident
-        instance_id = valid_id instance_ident, cnx: cnx
-        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
-
-        devs = devices_for_instance_id instance_id, cnx
-
-      else
-        devs = []
-        all_ids.each do |id|
-          devs += devices_for_instance_id id, cnx
-        end
-      end
+      devs = fetch_devices(instance_ident, cnx)
       return devs unless type
 
       if type == :computers
@@ -188,10 +178,57 @@ module Jamf
     end
 
     # See .devices
-    # Returns just the serial numbers for the devices
+    # @return [Array<String>] just the serial numbers for the devices
+    #
     def self.device_sns(instance_ident = nil, type: nil, cnx: Jamf.cnx)
       devices(instance_ident, type: type, cnx: cnx).map(&:serialNumber)
     end
+
+    # See .devices
+    #
+    # @return [Boolean] is the given SN in a given DeviceEnrollment instance
+    # or in DEP at all?
+    #
+    def self.include?(sn, instance_ident = nil, type: nil, cnx: Jamf.cnx)
+      device_sns(instance_ident, type: type, cnx: cnx).include? sn
+    end
+
+    # See .devices
+    # Returns just those devices with the desired profileStatus, which must be
+    # an item in DeviceEnrollmentDevice::PROFILE_STATUSES
+    #
+    # @param status[String] A member of DeviceEnrollmentDevice::PROFILE_STATUSES
+    #
+    # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices with the desired
+    #   status, associated with the given, or all,  instances
+    #
+    def self.devices_with_status(status, instance_ident = nil, type: nil, cnx: Jamf.cnx)
+      unless Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.include? status
+        raise ArgumentError, "profileStatus must be one of: '#{Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.join "', '"}'"
+      end
+
+      devices(instance_ident, type: type, cnx: cnx).select { |d| d.profileStatus == status }
+    end
+
+    # Private Class Methods
+    ###############################################
+
+    # Private, used by the .devices class method
+    def self.fetch_devices(instance_ident, cnx)
+      if instance_ident
+        instance_id = valid_id instance_ident, cnx: cnx
+        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
+
+        devs = devices_for_instance_id instance_id, cnx
+      else
+        devs = []
+        all_ids.each do |id|
+          devs += devices_for_instance_id id, cnx
+        end
+      end
+      devs
+    end
+    private_class_method :fetch_devices
 
     # Private, used by the .devices class method
     def self.devices_for_instance_id(instance_id, cnx)

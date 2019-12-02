@@ -49,6 +49,17 @@ module Jamf
     # Constants
     #####################################
 
+    PROFILE_STATUS_EMPTY = 'EMPTY'.freeze
+    PROFILE_STATUS_ASSIGNED = 'ASSIGNED'.freeze
+    PROFILE_STATUS_PUSHED = 'PUSHED'.freeze
+    PROFILE_STATUS_REMOVED = 'REMOVED'.freeze
+
+    PROFILE_STATUSES = [
+      PROFILE_STATUS_EMPTY,
+      PROFILE_STATUS_ASSIGNED,
+      PROFILE_STATUS_PUSHED,
+      PROFILE_STATUS_REMOVED
+    ].freeze
 
     # Object Model / Attributes
     # See APIObject class documentation for details
