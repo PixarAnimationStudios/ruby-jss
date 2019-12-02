@@ -70,10 +70,12 @@ module Jamf
         class: :integer,
         multi: true
       }
-
     ).freeze
 
     parse_object_model
+
+    # Class Methods
+    ###############################################
 
   end # class
 

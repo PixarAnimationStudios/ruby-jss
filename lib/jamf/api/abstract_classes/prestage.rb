@@ -292,6 +292,26 @@ module Jamf
       true
     end
 
+    # We subtract the serials_by_prestage_id.keys from all known DEP SNs
+    # rather than just looking for Jamf::DeviceEnrollment.devices  with status
+    # REMOVED, because of the delay in updating the status for
+    # Jamf::DeviceEnrollment::Devices - which must come from apple.
+    #
+    # @return [Array<String>] The serial numbers of devices that are in DEP but
+    #    not assigned to any prestage
+    #
+    def self.unassigned_sns(cnx: Jamf.cnx)
+      type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
+      Jamf::DeviceEnrollment.device_sns(type: type, cnx: cnx) - serials_by_prestage_id(:refresh, cnx: cnx).keys
+    end
+
+    # @return [Array<String>] The serial numbers of devices that are not in DEP
+    #   at all
+    def self.not_in_device_enrollment
+      # type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
+      nil # TODO: this, once MobileDevice is implemented
+    end
+
     # Instance Methods
     #####################################
 

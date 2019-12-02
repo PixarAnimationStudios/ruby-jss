@@ -164,7 +164,7 @@ module Jamf
   autoload :ExtensionAttribute, 'jamf/api/resources/collection_resources/extension_attribute'
   autoload :InventoryPreloadRecord, 'jamf/api/resources/collection_resources/inventory_preload_record'
   autoload :MobileDevice, 'jamf/api/resources/collection_resources/mobile_device'
-  autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/md_prestage'
+  autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/mobile_device_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'
   autoload :Script, 'jamf/api/resources/collection_resources/script'
 
