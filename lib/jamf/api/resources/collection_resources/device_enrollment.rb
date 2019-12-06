@@ -140,6 +140,10 @@ module Jamf
 
     DEVICES_RSRC = 'devices'.freeze
 
+    SYNC_RSRC = 'sync'.freeze
+
+    LATEST_RSRC = 'latest'.freeze
+
     TYPES = %i[computers mobiledevices].freeze
 
     COMPUTERS_RE = /mac/i.freeze
@@ -190,7 +194,7 @@ module Jamf
     # or in DEP at all?
     #
     def self.include?(sn, instance_ident = nil, type: nil, cnx: Jamf.cnx)
-      device_sns(instance_ident, type: type, cnx: cnx).include? sn
+      device_sns(instance_ident, type: type, cnx: cnx).j_ci_include? sn
     end
 
     # See .devices
@@ -208,6 +212,24 @@ module Jamf
       end
 
       devices(instance_ident, type: type, cnx: cnx).select { |d| d.profileStatus == status }
+    end
+
+    #
+    def self.sync_history(instance_ident = nil, latest = false, cnx: Jamf.cnx)
+      if instance_ident
+        instance_id = valid_id instance_ident, cnx: cnx
+        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
+
+        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}/#{instance_id}"
+        rsrc += "/#{LATEST_RSRC}" if latest
+      else
+        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}"
+      end
+      data = cnx.get rsrc
+
+      return Jamf::DeviceEnrollmentSyncStatus.new data if data.is_a? Hash
+
+      data.map! { |s| Jamf::DeviceEnrollmentSyncStatus.new s }
     end
 
     # Private Class Methods
@@ -240,6 +262,30 @@ module Jamf
 
     # Instance Methods
     #########################################
+
+    def devices(type: nil)
+      self.class.devices @id, type: type, cnx: @cnx
+    end
+
+    def device_sns(type: nil)
+      devices(type: type).map(&:serialNumber)
+    end
+
+    def include?(sn, type: nil)
+      device_sns(type: type).j_ci_include? sn
+    end
+
+    def devices_with_status(status, type: nil)
+      self.class.devices_with_status(status, @id, type: type, cnx: @cnx)
+    end
+
+    def sync_history(latest = false)
+      self.class.sync_history(@id, latest, cnx: @cnx)
+    end
+
+    def latest_sync
+      sync_history :latest
+    end
 
   end # class
 
