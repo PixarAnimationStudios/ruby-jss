@@ -27,18 +27,32 @@ module JamfRubyExtensions
 
     module Utils
 
-        # Fetch a string from an Array of Strings case-insensitively,
-        # e.g. my_array.j_ci_fetch_string('ThRashEer') will return 'thrasher'
-        # or nil if no match
-        #
-        # @param somestring [String] the String to search for
-        #
-        # @return [String, nil] The matching string as it exists in the Array, nil if it doesn't exist
-        #
-        def j_ci_fetch_string(somestring)
-          idx = index { |s| s.to_s.casecmp? somestring }
-          idx ? self[idx] : nil
-        end
+      # Fetch a string from an Array case-insensitively,
+      # e.g. if my_array contains 'thrasher',
+      #    my_array.j_ci_fetch('ThRashEr')
+      # will return 'thrasher'
+      #
+      # returns nil if no match
+      #
+      # @param somestring [String] the String to search for
+      #
+      # @return [String, nil] The matching string as it exists in the Array,
+      #   nil if it doesn't exist
+      #
+      def j_ci_fetch(somestring)
+        each { |s| return s if s.is_a?(String) && s.casecmp?(somestring) }
+        nil
+      end
+
+      # case-insensitive version of include?
+      #
+      # @param somestring [String] the String to search for
+      #
+      # @return [Boolean]
+      #
+      def j_ci_include?(somestring)
+        any? { |s| s.casecmp? somestring if s.is_a? String }
+      end
 
     end # module
 
