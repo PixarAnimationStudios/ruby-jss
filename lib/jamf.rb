@@ -168,6 +168,7 @@ module Jamf
   autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/mobile_device_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'
   autoload :Script, 'jamf/api/resources/collection_resources/script'
+  autoload :TimeZone, 'jamf/api/resources/collection_resources/time_zone'
 
   # other classes used as attributes inside the resource classes
   autoload :IPAddress, 'jamf/api/attribute_classes/ip_address'
