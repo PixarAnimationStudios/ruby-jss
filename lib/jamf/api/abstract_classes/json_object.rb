@@ -727,7 +727,7 @@ module Jamf
 
       attr_def[:aliases].each { |al| alias_method "#{al}_delete_if", "#{attr_name}_delete_if" }
     end # create_insert_setters
-    private_class_method :create_delete_at_setters
+    private_class_method :create_delete_if_setters
 
     # Raise an exception if this is an abstract class
     # Used in class methods that are defined in abstract classes.
@@ -762,12 +762,8 @@ module Jamf
     #
     # Otherwise, the value is returned unchanged.
     #
-    # If the attribute is defined as an identifier, it must be unique among
-    # the other objects of this subclass in the JSS.
-    #
     # This method only validates single values. When called from multi-value
     # setters, it is used for each value individually.
-    #
     #
     # @param attr_name[Symbol], a top-level key from OBJECT_MODEL for this class
     #
