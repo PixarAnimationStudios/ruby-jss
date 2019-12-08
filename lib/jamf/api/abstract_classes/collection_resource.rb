@@ -100,7 +100,11 @@ module Jamf
     def self.all(refresh = false, cnx: Jamf.cnx, instantiate: false)
       validate_not_abstract
       cnx.collection_cache[self] = nil if refresh
-      return cnx.collection_cache[self] if cnx.collection_cache[self]
+      if cnx.collection_cache[self]
+        return cnx.collection_cache[self] unless instantiate
+
+        return cnx.collection_cache[self].map { |m| new m }
+      end
 
       raw = cnx.get rsrc_path
       cnx.collection_cache[self] =
@@ -163,13 +167,15 @@ module Jamf
     end
     # rubocop:enable Naming/UncommunicativeMethodParamName
 
-    # Given any identfier value for this collection, return the valid
-    # id, or nil if there's no match for the given value.
+    # Given any identfier value for this collection, return the id of the
+    # object that has such an identifier.
     #
-    # If you know the value is a certain identifier, e.g. a serial_number
-    # then you can specify the identifier, for a faster search:
+    # Return nil if there's no match for the given value.
     #
-    #   valid_id serial_number: 'AB12DE34' # => Int or nil
+    # If you know the value is a certain identifier, e.g. a serialNumber,
+    # then you can specify the identifier for a faster search:
+    #
+    #   valid_id serialNumber: 'AB12DE34' # => Int or nil
     #
     # If you don't know wich identifier you have, just pass the value and
     # all identifiers are searched
@@ -188,7 +194,7 @@ module Jamf
     # @param refresh[Boolean] Reload the list data from the API
     #
     # @param ident: [Symbol] Restrict the search to this identifier.
-    #  E.g. if :serial_number, then the value must be
+    #  E.g. if :serialNumber, then the value must be
     #  a known serial number, it is not checked against other identifiers
     #
     # @param cnx: (see .all)
