@@ -71,6 +71,7 @@ module Jamf
         required: true
       }
     }.freeze
+
     parse_object_model
 
 
