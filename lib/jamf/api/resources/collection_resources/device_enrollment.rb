@@ -261,17 +261,17 @@ module Jamf
 
     # disown one or more serial numbers from a given DeviceEnrollment instance
     #
-    # @param instance [Integer, String] the id or name of the instance
-    #  from which to disown the serial numbers
-    #
     # @param sns[Array<String>] One or more serial numbers to disown
+    #
+    # @param from_instance [Integer, String] the id or name of the instance
+    #  from which to disown the serial numbers
     #
     # @param cnx[Jamf::Connection] The API connection to use
     #
     # @return [void]
     #
-    def self.disown_from(instance, *sns, cnx: Jamf.cnx)
-      instance_id = valid_id instance, cnx: cnx
+    def self.disown(*sns, from_instance:, cnx: Jamf.cnx)
+      instance_id = valid_id from_instance, cnx: cnx
       raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance}'" unless instance_id
 
       sns.flatten!
@@ -338,7 +338,7 @@ module Jamf
     end
 
     def disown(*sns)
-      self.class.disown_from @id, sns, cnx: @cnx
+      self.class.disown sns, from_instance: @id, cnx: @cnx
     end
 
   end # class
