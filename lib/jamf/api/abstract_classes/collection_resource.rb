@@ -139,9 +139,10 @@ module Jamf
     # identifier and values are any other attribute.
     #
     # @param ident [Symbol] An identifier of this Class, used as the key
-    #   for the mapping Hash.
+    #   for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber
     #
-    # @param to [Symbol] The attribute to which the ident will be mapped
+    # @param to [Symbol] The attribute to which the ident will be mapped.
+    #   Aliases are acceptable, e.g. :name for :displayName
     #
     # @param refresh (see .all)
     #
@@ -150,11 +151,15 @@ module Jamf
     # @return [Hash {Symbol: Object}] A Hash of identifier mapped to attribute
     #
     def self.map_all(ident, to:, cnx: Jamf.cnx, refresh: false)
+      real_ident = attr_key_for_alias ident
       raise Jamf::InvalidDataError, "No identifier #{ident} for class #{self}" unless
-      identifiers.include? ident
+      identifiers.include? real_ident
 
-      raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OBJECT_MODEL.key? to
+      real_to = attr_key_for_alias to
+      raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OBJECT_MODEL.key? real_to
 
+      ident = real_ident
+      to = real_to
       list = all refresh, cnx: cnx
       to_class = self::OBJECT_MODEL[to][:class]
       mapped = list.map do |i|
