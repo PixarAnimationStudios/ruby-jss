@@ -327,8 +327,9 @@ module Jamf
       raise Jamf::UnsupportedError, "These SNs are already assigned to a prestage: #{already_assigned.join ', '}" unless already_assigned.empty?
 
       # upcase all sns
-      sns_to_assign.map! &:to_s
-      sns_to_assign.map! &:upcase
+      sns_to_unassign.map!(&:to_s)
+      sns_to_unassign.map!(&:upcase)
+
       # get the prestage name
       prestage_name = map_all(:id, to: :displayName)[prestage_id]
 
@@ -340,8 +341,7 @@ module Jamf
       new_scope_sns += sns_to_assign
       new_scope_sns.uniq!
 
-      new_scope = update_scope(scope_rsrc, new_scope_sns, scope.versionLock, cnx)
-      new_scope
+      update_scope(prestage_name, scope_rsrc, new_scope_sns, scope.versionLock, cnx)
     end # self.assign
 
     # Unassign one or more serialNumber from a prestage
@@ -351,8 +351,9 @@ module Jamf
       raise Jamf::NoSuchItemError, "No #{self} matching '#{from_prestage}'" unless prestage_id
 
       # upcase all sns
-      sns_to_unassign.map! &:to_s
-      sns_to_unassign.map! &:upcase
+      sns_to_unassign.map!(&:to_s)
+      sns_to_unassign.map!(&:upcase)
+
       # get the prestage name
       prestage_name = map_all(:id, to: :displayName)[prestage_id]
 
@@ -362,12 +363,14 @@ module Jamf
       new_scope_sns = scope.assignments.map(&:serialNumber)
       new_scope_sns -= sns_to_unassign
 
-      new_scope = update_scope(scope_rsrc, new_scope_sns, scope.versionLock, cnx)
-      new_scope
+      update_scope(prestage_name, scope_rsrc, new_scope_sns, scope.versionLock, cnx)
     end # self.unassign
 
+    # Provate Class Methods
+    #####################################
+
     # used by assign and unassign
-    def self.update_scope(scope_rsrc, new_scope_sns, vlock, cnx)
+    def self.update_scope(prestage_name, scope_rsrc, new_scope_sns, vlock, cnx)
       assignment_data = {
         serialNumbers: new_scope_sns,
         versionLock: vlock
