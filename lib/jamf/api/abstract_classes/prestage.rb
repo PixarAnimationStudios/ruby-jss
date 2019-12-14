@@ -241,11 +241,11 @@ module Jamf
     end
 
     # The id of the prestage to which the given serialNumber is assigned.
-    # nil if not assigned
+    # nil if not assigned or not in DEP.
     #
     # NOTE: If a serial number isn't assigned to any prestage, it may really be
-    # unassigned or it may not exist in your DEP. At the moment there's no way
-    # via the JP-API to know the SNs in DEP that are not assigned
+    # unassigned or it may not exist in your DEP. To see if a SN exists in one
+    # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
     #
     # @param sn [String] the serial number to look for
     #
@@ -263,8 +263,8 @@ module Jamf
     # given prestage if a prestage_ident is specified?
     #
     # NOTE: If a serial number isn't assigned to any prestage, it may really be
-    # unassigned or it may not exist in your DEP. At the moment there's no way
-    # via the JP-API to know the SNs in DEP but not assigned
+    # unassigned or it may not exist in your DEP. To see if a SN exists in one
+    # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
     #
     # @param sn [String] the serial number to look for
     #
@@ -305,11 +305,11 @@ module Jamf
       Jamf::DeviceEnrollment.device_sns(type: type, cnx: cnx) - serials_by_prestage_id(:refresh, cnx: cnx).keys
     end
 
-    # @return [Array<String>] The serial numbers of devices that are not in DEP
+    # @return [Array<String>] The serial numbers of known hardware not in DEP
     #   at all
     def self.sns_not_in_device_enrollment
       # type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
-      nil # TODO: this, once MobileDevice is implemented
+      nil # TODO: this, once MobileDevice  & Computer classes are implemented
     end
 
     # Instance Methods
