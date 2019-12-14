@@ -184,7 +184,7 @@ e.g.
 tk_str = '<long token string here>'
 
 Jamf.connect 'https://myjamf.mysch.edu:8443/', token: tk_str
- or
+# or
 Jamf.connect host: 'myjamf.mysch.edu', port: 8443, token: tk_str
 
 ```
@@ -214,6 +214,7 @@ As of this writing, here are the endpoints/resources that are at least partially
 - /v1/departments
 - /v1/inventory-preload
 - /v1/mobile-device-prestages
+- /v1/time-zones
 
 # Under the Hood
 

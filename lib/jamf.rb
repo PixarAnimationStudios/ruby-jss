@@ -126,6 +126,7 @@ module Jamf
   autoload :Country, 'jamf/api/json_objects/country'
   autoload :Criterion, 'jamf/api/json_objects/criterion'
   autoload :DeviceEnrollmentDevice, 'jamf/api/json_objects/device_enrollment_device'
+  autoload :DeviceEnrollmentSyncStatus, 'jamf/api/json_objects/device_enrollment_sync_status'
   autoload :ExtensionAttributeValue, 'jamf/api/json_objects/extension_attribute_value'
   autoload :InstalledApplication, 'jamf/api/json_objects/installed_application'
   autoload :InstalledCertificate, 'jamf/api/json_objects/installed_certificate'
@@ -167,6 +168,7 @@ module Jamf
   autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/mobile_device_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'
   autoload :Script, 'jamf/api/resources/collection_resources/script'
+  autoload :TimeZone, 'jamf/api/resources/collection_resources/time_zone'
 
   # other classes used as attributes inside the resource classes
   autoload :IPAddress, 'jamf/api/attribute_classes/ip_address'

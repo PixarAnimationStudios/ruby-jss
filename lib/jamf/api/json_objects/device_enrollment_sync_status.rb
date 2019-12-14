@@ -20,42 +20,52 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
+#
+#
 
-module JamfRubyExtensions
+# The module
+module Jamf
 
-  module Array
+  # A 'location' for a managed object in Jamf Pro
+  class DeviceEnrollmentSyncStatus < Jamf::JSONObject
 
-    module Utils
+    extend Jamf::Immutable
 
-      # Fetch a string from an Array case-insensitively,
-      # e.g. if my_array contains 'thrasher',
-      #    my_array.j_ci_fetch('ThRashEr')
-      # will return 'thrasher'
-      #
-      # returns nil if no match
-      #
-      # @param somestring [String] the String to search for
-      #
-      # @return [String, nil] The matching string as it exists in the Array,
-      #   nil if it doesn't exist
-      #
-      def j_ci_fetch(somestring)
-        each { |s| return s if s.is_a?(String) && s.casecmp?(somestring) }
-        nil
-      end
+    OBJECT_MODEL = {
 
-      # case-insensitive version of include?
-      #
-      # @param somestring [String] the String to search for
-      #
-      # @return [Boolean]
-      #
-      def j_ci_include?(somestring)
-        any? { |s| s.casecmp? somestring if s.is_a? String }
-      end
+      # @!attribute syncState
+      #   @return [String]
+      syncState: {
+        class: :string
+      },
 
-    end # module
+      # @!attribute instanceId
+      #   @return [Integer]
+      instanceId: {
+        class: :integer
+      },
 
-  end # module
+      # @!attribute timestamp
+      #   @return [Jamf::Timestamp]
+      timestamp: {
+        class: Jamf::Timestamp
+      }
+    }.freeze
+
+    parse_object_model
+
+    # TEMPORARY timestamps are in UTC, but
+    # the iso8601 string isn't marked as such, so
+    # they are interpreted as localtime.
+    # i.e. the string comes as "2019-12-06T18:32:47.218"
+    # but is should be "2019-12-06T18:32:47.218Z"
+    #
+    # This resets them to the correct time
+    def initialize(*args)
+      super
+      @timestamp += @timestamp.utc_offset
+    end
+
+  end # class Country
 
 end # module

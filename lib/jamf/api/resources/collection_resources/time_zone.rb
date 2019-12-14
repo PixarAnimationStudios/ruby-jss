@@ -30,23 +30,21 @@ module Jamf
   #####################################
 
   # A building defined in the JSS
-  class Department < Jamf::CollectionResource
+  class TimeZone < Jamf::CollectionResource
 
     # Mix-Ins
     #####################################
 
-    include Jamf::ChangeLog
-    include Jamf::Referable
+    extend Jamf::Immutable
+    extend Jamf::UnCreatable
+    extend Jamf::UnDeletable
 
     # Constants
     #####################################
 
     RSRC_VERSION = 'v1'.freeze
 
-    RSRC_PATH = 'departments'.freeze
-
-    # TODO: Jamf - will this be standard for collections?
-    BULK_DELETE_RSRC = 'delete-departments'.freeze
+    RSRC_PATH = 'time-zones'.freeze
 
     # Object Model / Attributes
     # See APIObject class documentation for details
@@ -54,26 +52,67 @@ module Jamf
     #####################################
     OBJECT_MODEL = {
 
-      # @!attribute [r] id
-      #   @return [Integer]
-      id: {
-        class: :integer,
+      # @!attribute [r] zoneId
+      #   @return [String]
+      zoneId: {
+        class: :string,
         identifier: :primary,
-        readonly: true
+        aliases: [:id]
       },
 
-      # @!attribute name
+      # @!attribute displayName
       #   @return [String]
-      name: {
+      displayName: {
         class: :string,
         identifier: true,
-        validator: :non_empty_string,
-        required: true
+        aliases: [:name]
+      },
+
+      # @!attribute [r] region
+      #   @return [String]
+      region: {
+        class: :string
       }
     }.freeze
-
     parse_object_model
 
+    # The offset from UTC, as a string.
+    #
+    # This is as it would appear at the end of an ISO8601 formatted time,
+    # e.g. -0945 or +1200
+    #
+    # Note that ISO8601 accepts the formats: +/-hh:mm, +/-hhmm, or +/-hh
+    #
+    # @return [Integer] The offset from UTC, as a string
+    #
+    def utc_offset_str
+      return @utc_offset_str if @utc_offset_str
+
+      displayName =~ /\(([+-]\d{4})\)/
+      @utc_offset_str = Regexp.last_match[1]
+    end
+
+    # @return [Integer] The offset from UTC, in seconds
+    #
+    def utc_offset
+      return @utc_offset if @utc_offset
+
+      sign = utc_offset_str[0]
+      secs = utc_offset_str[1..2].to_i * 3600
+      secs += utc_offset_str[3..4].to_i * 60
+      # negate if needed
+      @utc_offset =  sign == '+' ? secs : -secs
+    end
+
+    # Give a Time object, whats the matching local time in this TimeZone?
+    #
+    # @param othertime[Time] a Time or Jamf::Timestamp object
+    #
+    # @return [Time] othertime, in the local time in this time zone
+    #
+    def localtime(othertime)
+      othertime.getlocal utc_offset
+    end
 
   end # class
 
