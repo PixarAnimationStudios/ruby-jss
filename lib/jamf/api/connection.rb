@@ -77,8 +77,8 @@ module Jamf
     DFT_SSL_VERSION = 'TLSv1_2'.freeze
 
     # refresh token if less than this many seconds until
-    # expiration. Default is 30 minutes if not specified
-    DFT_TOKEN_REFRESH = 60 * 30
+    # expiration. Default is 5 minutes if not specified
+    DFT_TOKEN_REFRESH = 300
 
     # pre-existing tokens must have this many seconds before
     # before they expire
@@ -295,6 +295,7 @@ module Jamf
           token_from :pw, acquire_password(params[:pw])
         end
 
+
       # Now get some values from our token
       @base_url = @token.base_url
       @login_time = @token.login_time
@@ -316,8 +317,11 @@ module Jamf
     end # connect
 
     def disconnect
-      # reset everything except the name & timeouts
+      # reset everything except the timeouts
+      stop_keep_alive
+
       @connected = false
+      @name = NOT_CONNECTED
       @login_time = nil
       @host = nil
       @port = nil
@@ -327,6 +331,7 @@ module Jamf
       @rest_cnx = nil
       @ssl_options = {}
       @keep_alive = nil
+
       flushcache
     end
 
@@ -403,13 +408,26 @@ module Jamf
     # @return [String]
     #
     def to_s
-      "Jamf::Connection: https://#{@user}@#{@host}:#{@port}"
+      str =
+        if connected?
+          "#{@base_url}, Token expires: #{@token ? @token.expires : '<token missing>'}"
+        else
+          NOT_CONNECTED
+        end
+      "Jamf::Connection '#{@name == NOT_CONNECTED ? object_id : @name}': #{str}"
     end
 
+    # Reset the name
+    def name=(new_name)
+      @name = new_name.to_s
+    end
+
+    # Are we keeping the connection alive?
     def keep_alive?
       !@keep_alive_thread.nil?
     end
 
+    # Turn keepalive on or offs
     def keep_alive=(bool)
       bool ? start_keep_alive : stop_keep_alive
     end
@@ -619,7 +637,11 @@ module Jamf
       @port = params[:port]
       @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
       @user = params[:user]
-      @token_refresh = params[:token_refresh] || DFT_TOKEN_REFRESH
+
+      @token_refresh = params[:token_refresh].to_i || DFT_TOKEN_REFRESH
+      # token refresh must be at least DFT_TOKEN_REFRESH
+      @token_refresh = DFT_TOKEN_REFRESH if @token_refresh < DFT_TOKEN_REFRESH
+
       @timeout = params[:timeout] || DFT_TIMEOUT
       @open_timeout = params[:open_timeout] || DFT_TIMEOUT
       @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
@@ -702,9 +724,17 @@ module Jamf
         Thread.new do
           loop do
             sleep 60
+            # puts 'checking token...'
+            # puts  "Token expires: #{@token.expires}"
+            # puts  "Token time remaining: #{@token.secs_remaining} (#{@token.time_remaining})"
+            # puts  "Token refresh: #{@token_refresh}"
+            # puts  "Refreshing now?: #{!(@token.secs_remaining > @token_refresh)}"
+
             next if @token.secs_remaining > @token_refresh
 
             @token.keep_alive
+            # make sure faraday uses the new token
+            cnx.headers[:authorization] = @token.auth_token
           end # loop
         end # thread
     end
@@ -715,7 +745,7 @@ module Jamf
     # @return [void]
     #
     def stop_keep_alive
-      return unless @keep_alive_thread
+      return unless @keep_alive_thread&.alive?
 
       @keep_alive_thread.kill
       @keep_alive_thread = nil
@@ -761,6 +791,10 @@ module Jamf
     raise 'API connections must be instances of Jamf::Connection' unless connection.is_a? Jamf::Connection
 
     @active_connection = connection
+  end
+
+  def self.disconnect
+    @active_connection&.disconnect
   end
 
 end # module Jamf

@@ -159,7 +159,7 @@ module Jamf
     # @return [void]
     #
     def read_global
-      read GLOBAL_CONF_FILE if GLOBAL_CONF_FILE.file? && GLOBAL_CONF_FILE.readable?
+      read GLOBAL_CONF_FILE if GLOBAL_CONF_FILE&.file? && GLOBAL_CONF_FILE.readable?
     end
 
     # (Re)read the user prefs, if it exists.
@@ -167,7 +167,7 @@ module Jamf
     # @return [void]
     #
     def read_user
-      read USER_CONF_FILE if USER_CONF_FILE.file? && USER_CONF_FILE.readable?
+      read USER_CONF_FILE if USER_CONF_FILE&.file? && USER_CONF_FILE.readable?
     end
 
     # Clear the settings and reload the prefs files, or another file if provided
