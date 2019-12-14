@@ -144,6 +144,8 @@ module Jamf
 
     LATEST_RSRC = 'latest'.freeze
 
+    DISOWN_RSRC = 'disown'.freeze
+
     TYPES = %i[computers mobiledevices].freeze
 
     COMPUTERS_RE = /mac/i.freeze
@@ -164,7 +166,7 @@ module Jamf
     # @param cnx[Jamf::Connection] The API connection to use
     #
     # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices associated with
-    #   the given, or all,  instances
+    #   the given DeviceEnrollment instance, or all instances
     #
     def self.devices(instance_ident = nil, type: nil, cnx: Jamf.cnx)
       if type
@@ -181,14 +183,23 @@ module Jamf
       end
     end
 
+    # The serial numbers assigned bu Apple to one, or all of your
+    # Device Enrollment instances
+    #
     # See .devices
+    #
     # @return [Array<String>] just the serial numbers for the devices
     #
     def self.device_sns(instance_ident = nil, type: nil, cnx: Jamf.cnx)
       devices(instance_ident, type: type, cnx: cnx).map(&:serialNumber)
     end
 
+    # Is the given serial number in one, or any, or your Device Enrollment
+    # instances?
+    #
     # See .devices
+    #
+    # @param sn [String] the serialNumber to look for
     #
     # @return [Boolean] is the given SN in a given DeviceEnrollment instance
     # or in DEP at all?
@@ -198,6 +209,7 @@ module Jamf
     end
 
     # See .devices
+    #
     # Returns just those devices with the desired profileStatus, which must be
     # an item in DeviceEnrollmentDevice::PROFILE_STATUSES
     #
@@ -214,6 +226,21 @@ module Jamf
       devices(instance_ident, type: type, cnx: cnx).select { |d| d.profileStatus == status }
     end
 
+    # The history of sync operations between Apple and a given DeviceEnrollment
+    # instanace, or all instances.
+    #
+    # @param instance_ident[Integer, String] the id or name of the
+    #   DeviceEnrollment instance for which to get the history. If omitted,
+    #   the history for all instances will be returned.
+    #
+    # @param latest [Boolean] show only the latest sync? Only valid when an
+    #   instance_ident is provided.
+    #
+    # @param cnx[Jamf::Connection] The API connection to use
+    #
+    # @return [Jamf::DeviceEnrollmentSyncStatus] When latest = true, the latest
+    #   sync status.
+    # @return [Array<Jamf::DeviceEnrollmentSyncStatus>] The known sync statuses.
     #
     def self.sync_history(instance_ident = nil, latest = false, cnx: Jamf.cnx)
       if instance_ident
@@ -232,6 +259,29 @@ module Jamf
       data.map! { |s| Jamf::DeviceEnrollmentSyncStatus.new s }
     end
 
+    # disown one or more serial numbers from a given DeviceEnrollment instance
+    #
+    # @param instance [Integer, String] the id or name of the instance
+    #  from which to disown the serial numbers
+    #
+    # @param sns[Array<String>] One or more serial numbers to disown
+    #
+    # @param cnx[Jamf::Connection] The API connection to use
+    #
+    # @return [void]
+    #
+    def self.disown_from(instance, *sns, cnx: Jamf.cnx)
+      instance_id = valid_id instance, cnx: cnx
+      raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance}'" unless instance_id
+
+      sns.flatten!
+      sns.map!(&:to_s)
+      data = { devices: sns }
+      disown_rsrc = "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{instance_id}/#{DISOWN_RSRC}"
+
+      cnx.post(disown_rsrc, data)
+    end
+
     # Private Class Methods
     ###############################################
 
@@ -239,7 +289,7 @@ module Jamf
     def self.fetch_devices(instance_ident, cnx)
       if instance_ident
         instance_id = valid_id instance_ident, cnx: cnx
-        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
+        raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
 
         devs = devices_for_instance_id instance_id, cnx
       else
@@ -252,7 +302,7 @@ module Jamf
     end
     private_class_method :fetch_devices
 
-    # Private, used by the .devices class method
+    # Private, used by the .fetch_devices class method
     def self.devices_for_instance_id(instance_id, cnx)
       data = cnx.get("#{RSRC_VERSION}/#{RSRC_PATH}/#{instance_id}/#{DEVICES_RSRC}")[:results]
 
@@ -285,6 +335,10 @@ module Jamf
 
     def latest_sync
       sync_history :latest
+    end
+
+    def disown(*sns)
+      self.class.disown_from @id, sns, cnx: @cnx
     end
 
   end # class
