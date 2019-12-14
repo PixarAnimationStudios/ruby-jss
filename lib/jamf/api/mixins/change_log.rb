@@ -60,6 +60,8 @@ module Jamf
   #
   module ChangeLog
 
+    # TODO:  note can have a max length of 2500 characters.
+
     # The change and note history for this resource.
     #
     # The history is cached internally and only re-fetched when
