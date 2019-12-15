@@ -77,10 +77,13 @@ module Jamf
       # @!attribute deviceEnrollmentProgramInstanceId
       #   @return [Integer]
       deviceEnrollmentProgramInstanceId: {
-        class: :integer
+        class: :integer,
+        aliases: %i[instanceId]
       },
 
       # @!attribute prestageId
+      #   The most recent prestage this device was assigned to, even if
+      #   currently unassigned to any prestage.
       #   @return [Integer]
       prestageId: {
         class: :integer
@@ -135,6 +138,7 @@ module Jamf
       },
 
       # @!attribute deviceAssignedDate
+      #   When Apple assigned this device to this DevEnrollment instance
       #   @return [Jamf::Timestamp]
       deviceAssignedDate: {
         class: Jamf::Timestamp
