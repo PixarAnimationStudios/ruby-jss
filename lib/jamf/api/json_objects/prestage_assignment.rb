@@ -26,7 +26,8 @@
 # The module
 module Jamf
 
-  # A 'location' for a managed object in Jamf Pro
+  # An assignment of a device to a prestage, placing that
+  # device into the prestage's scope
   class PrestageAssignment < Jamf::JSONObject
 
     extend Jamf::Immutable
@@ -48,7 +49,8 @@ module Jamf
       # @!attribute userAssigned
       #   @return [String]
       userAssigned: {
-        class: :string
+        class: :string,
+        aliases: %i[assignedBy]
       }
     }.freeze
 
