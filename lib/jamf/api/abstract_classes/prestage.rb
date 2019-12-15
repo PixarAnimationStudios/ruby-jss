@@ -283,10 +283,10 @@ module Jamf
       return false unless assigned_id
 
       if prestage_ident
-        id = valid_id prestage_ident, cnx: cnx
-        raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
+        psid = valid_id prestage_ident, cnx: cnx
+        raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless psid
 
-        return id == assigned_id
+        return psid == assigned_id
       end
 
       true
