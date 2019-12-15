@@ -154,7 +154,12 @@ module Jamf
     #########################################
 
     # All devices associated by Apple with a given DeviceEnrollment instance
-    # or all defined DeviceEnrollment instances
+    # or all defined DeviceEnrollment instances.
+    #
+    # This data is cached the first time it is read from the API, similarly to
+    # how CollectionResources are cached. To refresh the cache, pass
+    # a truthy value to the refresh: parameter, or use the Connection's
+    # .flushcache method
     #
     # @param instance_ident[Integer, String] the id or name of the
     #   DeviceEnrollment instance for which to list the devices. If omitted,
@@ -163,17 +168,19 @@ module Jamf
     # @param type[Symbol] Either :computers or :mobiledevices, returns both if
     #  not specified.
     #
+    # @param refresh [Boolean] re-read the data from the API?
+    #
     # @param cnx[Jamf::Connection] The API connection to use
     #
     # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices associated with
     #   the given DeviceEnrollment instance, or all instances
     #
-    def self.devices(instance_ident = nil, type: nil, cnx: Jamf.cnx)
+    def self.devices(instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
       if type
         raise ArgumentError, "Type must be one of: :#{TYPES.join ', :'}" unless TYPES.include? type
       end
 
-      devs = fetch_devices(instance_ident, cnx)
+      devs = fetch_devices(instance_ident, refresh, cnx)
       return devs unless type
 
       if type == :computers
@@ -190,8 +197,8 @@ module Jamf
     #
     # @return [Array<String>] just the serial numbers for the devices
     #
-    def self.device_sns(instance_ident = nil, type: nil, cnx: Jamf.cnx)
-      devices(instance_ident, type: type, cnx: cnx).map(&:serialNumber)
+    def self.device_sns(instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      devices(instance_ident, type: type, refresh: refresh, cnx: cnx).map(&:serialNumber)
     end
 
     # Is the given serial number in one, or any, or your Device Enrollment
@@ -204,8 +211,8 @@ module Jamf
     # @return [Boolean] is the given SN in a given DeviceEnrollment instance
     # or in DEP at all?
     #
-    def self.include?(sn, instance_ident = nil, type: nil, cnx: Jamf.cnx)
-      device_sns(instance_ident, type: type, cnx: cnx).j_ci_include? sn
+    def self.include?(sn, instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      device_sns(instance_ident, type: type, refresh: refresh, cnx: cnx).j_ci_include? sn
     end
 
     # See .devices
@@ -218,12 +225,37 @@ module Jamf
     # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices with the desired
     #   status, associated with the given, or all,  instances
     #
-    def self.devices_with_status(status, instance_ident = nil, type: nil, cnx: Jamf.cnx)
+    def self.devices_with_status(status, instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
       unless Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.include? status
         raise ArgumentError, "profileStatus must be one of: '#{Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.join "', '"}'"
       end
 
-      devices(instance_ident, type: type, cnx: cnx).select { |d| d.profileStatus == status }
+      devices(instance_ident, type: type, refresh: refresh, cnx: cnx).select { |d| d.profileStatus == status }
+    end
+
+    # Fetch a single device from any defined DeviceEnrollment instance.
+    # The instance id containing the device is available in its
+    # .deviceEnrollmentProgramInstanceId attribute.
+    #
+    # @pararm sn [String] the serial number of the device
+    #
+    # @param instance_ident [String, Integer] the name or id of the instance
+    # in which to look for the sn. All instances are searched if omitted.
+    #
+    # @param refresh [Boolean] re-read the data from the API?
+    #
+    # @param cnx[Jamf::Connection] The API connection to use
+    #
+    # @return [Jamf::DeviceEnrollmentDevice] the device as known to DEP
+    #
+    def self.device(sn, instance_ident = nil, refresh: false, cnx: Jamf.cnx)
+      sn.upcase! # SNs from apple are always uppercase
+      devs = devices(instance_ident, refresh: refresh, cnx: cnx)
+      dev = devs.select { |d| d.serialNumber == sn }.first
+      return dev if dev
+
+      searched = instance_ident ? "DeviceEnrollment instance #{instance_ident}" : 'any DeviceEnrollment instance'
+      raise Jamf::NoSuchItemError, "No device with serialNumber '#{sn}' in #{searched}"
     end
 
     # The history of sync operations between Apple and a given DeviceEnrollment
@@ -286,16 +318,16 @@ module Jamf
     ###############################################
 
     # Private, used by the .devices class method
-    def self.fetch_devices(instance_ident, cnx)
+    def self.fetch_devices(instance_ident, refresh, cnx)
       if instance_ident
         instance_id = valid_id instance_ident, cnx: cnx
         raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
 
-        devs = devices_for_instance_id instance_id, cnx
+        devs = devices_for_instance_id instance_id, refresh, cnx
       else
         devs = []
         all_ids.each do |id|
-          devs += devices_for_instance_id id, cnx
+          devs += devices_for_instance_id id, refresh, cnx
         end
       end
       devs
@@ -303,10 +335,16 @@ module Jamf
     private_class_method :fetch_devices
 
     # Private, used by the .fetch_devices class method
-    def self.devices_for_instance_id(instance_id, cnx)
+    def self.devices_for_instance_id(instance_id, refresh, cnx)
+      @device_cache ||= {}
+      @device_cache[cnx] ||= {}
+      @device_cache[cnx][instance_id] = nil if refresh
+      return @device_cache[cnx][instance_id] if @device_cache[cnx][instance_id]
+
       data = cnx.get("#{RSRC_VERSION}/#{RSRC_PATH}/#{instance_id}/#{DEVICES_RSRC}")[:results]
 
-      data.map { |dev| Jamf::DeviceEnrollmentDevice.new dev }
+      data.map! { |dev| Jamf::DeviceEnrollmentDevice.new dev }
+      @device_cache[cnx][instance_id] = data
     end
     private_class_method :devices_for_instance_id
 
