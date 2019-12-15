@@ -327,8 +327,8 @@ module Jamf
       raise Jamf::UnsupportedError, "These SNs are already assigned to a prestage: #{already_assigned.join ', '}" unless already_assigned.empty?
 
       # upcase all sns
-      sns_to_unassign.map!(&:to_s)
-      sns_to_unassign.map!(&:upcase)
+      sns_to_assign.map!(&:to_s)
+      sns_to_assign.map!(&:upcase)
 
       # get the prestage name
       prestage_name = map_all(:id, to: :displayName)[prestage_id]
