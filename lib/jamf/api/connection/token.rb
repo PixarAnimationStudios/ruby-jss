@@ -119,24 +119,27 @@ module Jamf
 
       # @return [String]
       def api_version
-        token_connection(Jamf::Connection::SLASH, token: @auth_token ).get.body[:version]
+        token_connection(Jamf::Connection::SLASH, token: @auth_token).get.body[:version]
       end
 
       # @return [Boolean]
       def expired?
         return unless @expires
+
         Time.now >= @expires
       end
 
       # @return [Float]
       def secs_remaining
         return unless @expires
+
         @expires - Time.now
       end
 
       # @return [String] e.g. "1 week 6 days 23 hours 49 minutes 56 seconds"
       def time_remaining
         return unless @expires
+
         Jamf.humanize_secs secs_remaining
       end
 
@@ -155,18 +158,20 @@ module Jamf
       # the Jamf::Account object assciated with this token
       def account
         return @account if @account
+
         resp = token_connection(AUTH_RSRC, token: @auth_token).get
         return unless resp.success?
 
-         @account = Jamf::APIAccount.new resp.body
+        @account = Jamf::APIAccount.new resp.body
       end
 
       # Use this token to get a fresh one
+      # TODO: better error reporting
       def refresh
         raise 'Token has expired' if expired?
 
         keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
-        # TODO: better error reporting here
+
         raise 'An error occurred while authenticating' unless keep_alive_token_resp.success?
 
         parse_token_from_response keep_alive_token_resp
@@ -189,8 +194,7 @@ module Jamf
       # acquision & manipulation
       #
       def token_connection(rsrc, token: nil, pw: nil, timeout: nil, ssl_opts: nil)
-
-        Faraday.new("#{@base_url}/#{rsrc}", ssl: ssl_opts ) do |con|
+        Faraday.new("#{@base_url}/#{rsrc}", ssl: ssl_opts) do |con|
           con.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_JSON
           con.response :json, parser_options: { symbolize_names: true }
           con.options[:timeout] = timeout
