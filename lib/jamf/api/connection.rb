@@ -84,10 +84,10 @@ module Jamf
     # before they expire
     TOKEN_REUSE_MIN_LIFE = 60
 
-    HTTP_ACCEPT_HEADER = 'Accept'
-    HTTP_CONTENT_TYPE_HEADER = 'Content-Type'
+    HTTP_ACCEPT_HEADER = 'Accept'.freeze
+    HTTP_CONTENT_TYPE_HEADER = 'Content-Type'.freeze
 
-    MIME_JSON = 'application/json'
+    MIME_JSON = 'application/json'.freeze
 
     SLASH = '/'.freeze
 
@@ -295,7 +295,6 @@ module Jamf
           token_from :pw, acquire_password(params[:pw])
         end
 
-
       # Now get some values from our token
       @base_url = @token.base_url
       @login_time = @token.login_time
@@ -347,7 +346,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     # GET a rsrc without doing any JSON parsing, using
@@ -358,7 +357,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     def post(rsrc, data)
@@ -369,7 +368,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     def put(rsrc, data)
@@ -380,7 +379,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     def patch(rsrc, data)
@@ -391,7 +390,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     def delete(rsrc)
@@ -400,7 +399,7 @@ module Jamf
       @last_http_response = resp
       return resp.body if resp.success?
 
-      raise Jamf::Connection::APIError.new(resp)
+      raise Jamf::Connection::APIError, resp
     end
 
     # A useful string about this connection
@@ -424,7 +423,29 @@ module Jamf
 
     # Are we keeping the connection alive?
     def keep_alive?
-      !@keep_alive_thread.nil?
+      @keep_alive_thread&.alive? || false
+    end
+
+    # @return [Jamf::Timestamp, nil]
+    def next_refresh
+      return unless keep_alive?
+
+      @token.expires - @token_refresh
+    end
+
+    # @return [Float, nil]
+    def secs_to_refresh
+      return unless keep_alive?
+
+      next_refresh - Time.now
+    end
+
+    # @return [String, nil] e.g. "1 week 6 days 23 hours 49 minutes 56 seconds"
+    def time_to_refresh
+      return unless keep_alive?
+      return 0 if secs_to_refresh.negative?
+
+      Jamf.humanize_secs secs_to_refresh
     end
 
     # Turn keepalive on or offs
@@ -475,7 +496,6 @@ module Jamf
     # Private Insance Methods
     ####################################
     private
-
 
     # raise exception if not connected
     def validate_connected
@@ -724,17 +744,16 @@ module Jamf
         Thread.new do
           loop do
             sleep 60
-            # puts 'checking token...'
-            # puts  "Token expires: #{@token.expires}"
-            # puts  "Token time remaining: #{@token.secs_remaining} (#{@token.time_remaining})"
-            # puts  "Token refresh: #{@token_refresh}"
-            # puts  "Refreshing now?: #{!(@token.secs_remaining > @token_refresh)}"
+            begin
+              next if @token.secs_remaining > @token_refresh
 
-            next if @token.secs_remaining > @token_refresh
-
-            @token.keep_alive
-            # make sure faraday uses the new token
-            cnx.headers[:authorization] = @token.auth_token
+              @token.refresh
+              # make sure faraday uses the new token
+              @rest_cnx.headers[:authorization] = @token.auth_token
+            rescue
+              # TODO: Some kind of error reporting??
+              next
+            end
           end # loop
         end # thread
     end
@@ -745,9 +764,7 @@ module Jamf
     # @return [void]
     #
     def stop_keep_alive
-      return unless @keep_alive_thread&.alive?
-
-      @keep_alive_thread.kill
+      @keep_alive_thread&.kill
       @keep_alive_thread = nil
     end
 
