@@ -52,7 +52,7 @@ module JamfRubyExtensions
       # @return [Boolean]
       #
       def j_ci_include?(somestring)
-        any? { |s| s.casecmp? somestring if s.is_a? String }
+        any? { |s| s&.casecmp? somestring }
       end
 
     end # module
