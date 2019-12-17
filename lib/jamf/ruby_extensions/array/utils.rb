@@ -40,7 +40,8 @@ module JamfRubyExtensions
       #   nil if it doesn't exist
       #
       def j_ci_fetch(somestring)
-        each { |s| return s if s.is_a?(String) && s.casecmp?(somestring) }
+        # select { |s| s&.casecmp? somestring }.first
+        each { |s| return s if s&.casecmp?(somestring) }
         nil
       end
 

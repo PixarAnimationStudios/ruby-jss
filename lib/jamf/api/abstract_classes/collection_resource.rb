@@ -386,7 +386,7 @@ module Jamf
       ident_map = map_all(ident, to: :id, cnx: cnx, refresh: refresh)
 
       # case-insensitivity for string values
-      value = ident_map.keys.j_ci_fetch_string(value) if value.is_a? String
+      value = ident_map.keys.j_ci_fetch(value) if value.is_a? String
 
       ident_map[value]
     end
