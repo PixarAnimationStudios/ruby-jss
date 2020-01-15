@@ -346,7 +346,7 @@ and then any calls to JSS.api.connect will assume that server and username, and 
 
 The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS.api.connect call.
 
-The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
+The {JSS::APIConnection.connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
 
 If you must store a password in a file, or retrieve it from the network, make sure it's stored securely, and that the JSS user has limited permissions.
 
