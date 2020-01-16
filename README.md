@@ -45,6 +45,8 @@ Hopefully others will find it useful, and add more to it as well.
 
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
 
+NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API in a ruby module called 'Jamf', See  README-JP-API.md in /lib/jamf, or in the 'Files' section of the YARD docs file for details.
+
 ## SYNOPSIS
 
 Here are some simple examples of using ruby-jss
