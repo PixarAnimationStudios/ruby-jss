@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::Criteriable
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Criteriable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Criteriable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::Criteriable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss.rb<span class="defines">,<br />
+  lib/jss/api_object/criteriable.rb,<br /> lib/jss/api_object/criteriable/criteria.rb,<br /> lib/jss/api_object/criteriable/criterion.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A mix-in module that allows objects to handle standardized search Criteria.</p>
+
+<p>Some objects in the JSS, such as Advanced Searches and Smart Groups, include a set of Criteria. (i.e conditions which, when met, signify inclusion in a result set.)</p>
+
+<p>A <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance is a container for one or more <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and provides methods for dealing with them easily.</p>
+
+<p>When a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass includes this module, that subclass will have a :criteria attribute, which holds a <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> object and can be used to manipulate the Criterion objects inside.</p>
+
+<p>The including subclass also gains some instance methods:</p>
+<ul><li>
+<p>#parse_critera - sets up the :criteria attribute during initialization</p>
+</li><li>
+<p>#criteria= - allows the wholesale replacement of the criteria</p>
+</li><li>
+<p>#need_to_update - allows the <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance to inform the subclass instance that it has changed and needs an #update</p>
+</li></ul>
+
+<p>Classes mixing in this module <strong>must</strong></p>
+<ul><li>
+<p>If they are Updatable or Creatable, they must insert self.criteria.rest_xml into their own xml output.</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Working with the criteria of an advanced computer search</p>
+</div></p>
+      
+      <pre class="example code"><code># create three Criterion instances (split over multiple lines for clarity)
+#
+# These find all of jeauxbleaux&#39;s computers that have either
+# Excel or Word installed
+
+crtn_0 = JSS::Criteriable::Criterion.new(
+  and_or: :and, # NOTE: the and_or value of the first criterion is ignored
+  name: &#39;Username&#39;,
+  search_type: &#39;is&#39;,
+  value: &#39;jeauxbleaux&#39;
+)
+
+crtn_1 = JSS::Criteriable::Criterion.new(
+  and_or: :and,
+  paren: :opening,
+  name: &#39;Application Title&#39;,
+  search_type: &#39;has&#39;,
+  value: &#39;Microsoft Excel.app&#39;
+)
+
+crtn_2 = JSS::Criteriable::Criterion.new(
+  and_or: :or,
+  name: &#39;Application Title&#39;,
+  search_type: &#39;has&#39;,
+  value: &#39;Microsoft Word.app&#39;,
+  paren: :closing
+)
+
+# use them to create a Criteria instance
+crta = JSS::Criteriable::Criteria.new [crtn_0, crtn_1, crtn_2]
+
+# create a new Advanced Search
+srch = JSS::AdvancedComputerSearch.make, :name =&gt; &quot;my computer search&quot;
+srch.display_fields = [&quot;Computer Name&quot;]
+
+# add our Criteria to it
+srch.criteria = crta
+
+# create it in the JSS
+srch.create # srch.search_results now contains the matching computers
+
+# append a new criterion to the criteria, limiting the search results farther
+# to those computers that have done a recon in the past week
+srch.criteria.append_criterion JSS::Criteriable::Criterion.new(
+  and_or: :or,
+  name: &quot;Last Inventory Update&quot;,
+  search_type: &quot;less than x days ago&quot;,
+  value: 8
+)
+
+# save the change to the JSS
+srch.save
+
+# fetch the new results
+srch.requery_search_results
+
+# oops - that last one should have been :and, not :or
+# so replace the last criterion with a correct one
+srch.criteria.set_criterion 3, JSS::Criteriable::Criterion.new(
+  and_or: :and,
+  name: &quot;Last Inventory Update&quot;,
+  search_type: &quot;less than x days ago&quot;,
+  value: 8
+)
+
+# save the change to the JSS
+# providing a non-false parameter to #update will automatically
+# perform the requery  after the update.
+srch.update :requery</code></pre>
+    
+  </div>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span></li>
+    
+      <li><span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span></li>
+    
+  </ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span>, <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="CRITERIABLE-constant" class="">CRITERIABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#criteria-instance_method" title="#criteria (instance method)">#<strong>criteria</strong>  &#x21d2; JSS::Criteriable::Criteria </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The criteria for the instance into which we&#39;re mixed.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_criteria-instance_method" title="#parse_criteria (instance method)">#<strong>parse_criteria</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash into a JSS::Criteriable::Criteria instance stored in @criteria.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#should_update-instance_method" title="#should_update (instance method)">#<strong>should_update</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allow our Criteria to tell us when there&#39;s been a change that needs to be updated.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="criteria=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="criteria-instance_method">
+  
+    #<strong>criteria</strong>  &#x21d2; <tt><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">JSS::Criteriable::Criteria</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the criteria for the instance into which we&#39;re mixed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">JSS::Criteriable::Criteria</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the criteria for the instance into which we&#39;re mixed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_criteria'>criteria</span>
+  <span class='ivar'>@criteria</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse_criteria-instance_method">
+  
+    #<strong>parse_criteria</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash into a JSS::Criteriable::Criteria instance stored in @criteria</p>
+
+<p>Classes mixing in this module must call this in #initialize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_criteria'>parse_criteria</span>
+  <span class='ivar'>@criteria</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Criteriable (module)">Criteriable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Criteriable/Criteria.html#initialize-instance_method" title="JSS::Criteriable::Criteria#initialize (method)">new</a></span></span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:criteria</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Criteriable (module)">Criteriable</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Criteriable/Criterion.html#initialize-instance_method" title="JSS::Criteriable::Criterion#initialize (method)">new</a></span></span> <span class='id identifier rubyid_c'>c</span> <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:criteria</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@criteria</span><span class='period'>.</span><span class='id identifier rubyid_container'>container</span> <span class='op'>=</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='ivar'>@criteria</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="should_update-instance_method">
+  
+    #<strong>should_update</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+<p class="note returns_void">This method returns an undefined value.</p>
+<p>Allow our Criteria to tell us when there&#39;s been a change that needs to be updated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/criteriable.rb', line 181</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_should_update'>should_update</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@in_jss</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:54 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

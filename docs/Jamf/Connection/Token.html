@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::Connection::Token
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Connection::Token";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (T)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Connection</a></span></span>
+     &raquo; 
+    <span class="title">Token</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::Connection::Token
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Jamf::Connection::Token</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/connection/token.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A token used for a JSS connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="AUTH_RSRC-constant" class="">AUTH_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>auth</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="NEW_TOKEN_RSRC-constant" class="">NEW_TOKEN_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/tokens</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="KEEP_ALIVE_RSRC-constant" class="">KEEP_ALIVE_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/keepAlive</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="INVALIDATE_RSRC-constant" class="">INVALIDATE_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/invalidateToken</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="AUTH_TOKEN_PFX-constant" class="">AUTH_TOKEN_PFX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>this string is prepended to the token data when used for transaction authorization.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jamf-token </span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#auth_token-instance_method" title="#auth_token (instance method)">#<strong>auth_token</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The AUTH_TOKEN_PFX with the token data, used in the Authorization header of a request.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#base_url-instance_method" title="#base_url (instance method)">#<strong>base_url</strong>  &#x21d2; URI </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The base API url, e.g.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expires-instance_method" title="#expires (instance method)">#<strong>expires</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+      (also: #expiration)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#login_time-instance_method" title="#login_time (instance method)">#<strong>login_time</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>when was this token created?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user-instance_method" title="#user (instance method)">#<strong>user</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The user who generated this token.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#account-instance_method" title="#account (instance method)">#<strong>account</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the Jamf::Account object assciated with this token.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_version-instance_method" title="#api_version (instance method)">#<strong>api_version</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expired%3F-instance_method" title="#expired? (instance method)">#<strong>expired?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#host-instance_method" title="#host (instance method)">#<strong>host</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init_from_pw-instance_method" title="#init_from_pw (instance method)">#<strong>init_from_pw</strong>(pw)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize from password.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init_from_token_string-instance_method" title="#init_from_token_string (instance method)">#<strong>init_from_token_string</strong>(str)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize from token string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(**params)  &#x21d2; Token </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Token.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#invalidate-instance_method" title="#invalidate (instance method)">#<strong>invalidate</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #destroy)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Make this token invalid.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">#<strong>port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#refresh-instance_method" title="#refresh (instance method)">#<strong>refresh</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #keep_alive)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Use this token to get a fresh one TODO: better error reporting.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#secs_remaining-instance_method" title="#secs_remaining (instance method)">#<strong>secs_remaining</strong>  &#x21d2; Float </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#time_remaining-instance_method" title="#time_remaining (instance method)">#<strong>time_remaining</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>E.g.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(**params)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::Connection::Token (class)">Token</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Token.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='ivar'>@valid</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@user</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>
+  <span class='ivar'>@base_url</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:base_url</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:base_url</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:base_url</span><span class='rbracket'>]</span>
+  <span class='ivar'>@timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:timeout</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Connection</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Connection.html#DFT_TIMEOUT-constant" title="Jamf::Connection::DFT_TIMEOUT (constant)">DFT_TIMEOUT</a></span></span>
+  <span class='ivar'>@ssl_options</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ssl_options</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:pw</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_init_from_pw'>init_from_pw</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:pw</span><span class='rbracket'>]</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token_string</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_init_from_token_string'>init_from_token_string</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token_string</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Must provide either pw: or token_string:</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="auth_token-instance_method">
+  
+    #<strong>auth_token</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The AUTH_TOKEN_PFX with the token data, used in the Authorization header of a request.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The AUTH_TOKEN_PFX with the token data, used in the Authorization header of a request</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_auth_token'>auth_token</span>
+  <span class='ivar'>@auth_token</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="base_url-instance_method">
+  
+    #<strong>base_url</strong>  &#x21d2; <tt>URI</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The base API url, e.g. <a href="https://myjamf.jamfcloud.com/uapi">myjamf.jamfcloud.com/uapi</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>URI</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The base API url, e.g. <a href="https://myjamf.jamfcloud.com/uapi">myjamf.jamfcloud.com/uapi</a></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_base_url'>base_url</span>
+  <span class='ivar'>@base_url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="expires-instance_method">
+  
+    #<strong>expires</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='expiration-instance_method'>expiration</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_expires'>expires</span>
+  <span class='ivar'>@expires</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="login_time-instance_method">
+  
+    #<strong>login_time</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>when was this token created?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_login_time'>login_time</span>
+  <span class='ivar'>@login_time</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user-instance_method">
+  
+    #<strong>user</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The user who generated this token.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user who generated this token</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='ivar'>@user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="account-instance_method">
+  
+    #<strong>account</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the Jamf::Account object assciated with this token</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_account'>account</span>
+  <span class='kw'>return</span> <span class='ivar'>@account</span> <span class='kw'>if</span> <span class='ivar'>@account</span>
+
+  <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@auth_token</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='ivar'>@account</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>APIAccount</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="api_version-instance_method">
+  
+    #<strong>api_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 121</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_version'>api_version</span>
+  <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Connection</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Connection.html#SLASH-constant" title="Jamf::Connection::SLASH (constant)">SLASH</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@auth_token</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:version</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="expired?-instance_method">
+  
+    #<strong>expired?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_expired?'>expired?</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@expires</span>
+
+  <span class='const'><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>&gt;=</span> <span class='ivar'>@expires</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="host-instance_method">
+  
+    #<strong>host</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
+  <span class='ivar'>@base_url</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="init_from_pw-instance_method">
+  
+    #<strong>init_from_pw</strong>(pw)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize from password</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_init_from_pw'>init_from_pw</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="#NEW_TOKEN_RSRC-constant" title="Jamf::Connection::Token::NEW_TOKEN_RSRC (constant)">NEW_TOKEN_RSRC</a></span></span><span class='comma'>,</span>
+    <span class='label'>pw:</span> <span class='id identifier rubyid_pw'>pw</span><span class='comma'>,</span>
+    <span class='label'>timeout:</span> <span class='ivar'>@timeout</span><span class='comma'>,</span>
+    <span class='label'>ssl_opts:</span> <span class='ivar'>@ssl_options</span>
+  <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span>
+
+  <span class='kw'>if</span>  <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+    <span class='id identifier rubyid_parse_token_from_response'>parse_token_from_response</span> <span class='id identifier rubyid_resp'>resp</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='int'>401</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AuthenticationError.html" title="Jamf::AuthenticationError (class)">AuthenticationError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Incorrect name or password</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='comment'># TODO: better error reporting here
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>An error occurred while authenticating</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="init_from_token_string-instance_method">
+  
+    #<strong>init_from_token_string</strong>(str)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize from token string</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_init_from_token_string'>init_from_token_string</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#AUTH_TOKEN_PFX-constant" title="Jamf::Connection::Token::AUTH_TOKEN_PFX (constant)">AUTH_TOKEN_PFX</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_str'>str</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='const'><span class='object_link'><a href="#AUTH_TOKEN_PFX-constant" title="Jamf::Connection::Token::AUTH_TOKEN_PFX (constant)">AUTH_TOKEN_PFX</a></span></span>
+  <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Token string is not valid</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='ivar'>@auth_token</span> <span class='op'>=</span> <span class='id identifier rubyid_str'>str</span>
+  <span class='ivar'>@user</span> <span class='op'>=</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span> <span class='symbol'>:account</span><span class='comma'>,</span> <span class='symbol'>:username</span>
+
+  <span class='comment'># use this token to get a fresh one with a known expiration
+</span>  <span class='id identifier rubyid_refresh'>refresh</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="invalidate-instance_method">
+  
+    #<strong>invalidate</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='destroy-instance_method'>destroy</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Make this token invalid</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_invalidate'>invalidate</span>
+  <span class='ivar'>@valid</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INVALIDATE_RSRC-constant" title="Jamf::Connection::Token::INVALIDATE_RSRC (constant)">INVALIDATE_RSRC</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@auth_token</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    #<strong>port</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
+  <span class='ivar'>@base_url</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="refresh-instance_method">
+  
+    #<strong>refresh</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='keep_alive-instance_method'>keep_alive</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Use this token to get a fresh one TODO: better error reporting</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Token has expired</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_expired?'>expired?</span>
+
+  <span class='id identifier rubyid_keep_alive_token_resp'>keep_alive_token_resp</span> <span class='op'>=</span> <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#KEEP_ALIVE_RSRC-constant" title="Jamf::Connection::Token::KEEP_ALIVE_RSRC (constant)">KEEP_ALIVE_RSRC</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@auth_token</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>An error occurred while authenticating</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_keep_alive_token_resp'>keep_alive_token_resp</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='id identifier rubyid_parse_token_from_response'>parse_token_from_response</span> <span class='id identifier rubyid_keep_alive_token_resp'>keep_alive_token_resp</span>
+  <span class='comment'># parse_token_from_response keep_alive_rsrc.post(&#39;&#39;)
+</span>  <span class='id identifier rubyid_expires'>expires</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="secs_remaining-instance_method">
+  
+    #<strong>secs_remaining</strong>  &#x21d2; <tt>Float</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_secs_remaining'>secs_remaining</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@expires</span>
+
+  <span class='ivar'>@expires</span> <span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="time_remaining-instance_method">
+  
+    #<strong>time_remaining</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_time_remaining'>time_remaining</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@expires</span>
+
+  <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_humanize_secs'><span class='object_link'><a href="../../Jamf.html#humanize_secs-class_method" title="Jamf.humanize_secs (method)">humanize_secs</a></span></span> <span class='id identifier rubyid_secs_remaining'>secs_remaining</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection/token.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='ivar'>@valid</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_expired?'>expired?</span>
+      <span class='kw'>false</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@auth_token</span>
+      <span class='kw'>false</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_token_connection'>token_connection</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#AUTH_RSRC-constant" title="Jamf::Connection::Token::AUTH_RSRC (constant)">AUTH_RSRC</a></span></span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@auth_token</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:03 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

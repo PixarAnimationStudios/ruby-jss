@@ -1,0 +1,3413 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::ManagementHistory::ClassMethods
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::ManagementHistory::ClassMethods";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::ManagementHistory::ClassMethods
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/management_history.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#app_store_app_history-instance_method" title="#app_store_app_history (instance method)">#<strong>app_store_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; Array </a>
+    
+
+    
+      (also: #managed_app_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Wrapper for app store history for both computers and mobile devices.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#audit_history-instance_method" title="#audit_history (instance method)">#<strong>audit_history</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::AuditEvent&gt; </a>
+    
+
+    
+      (also: #audits)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Audit events for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_imaging_logs-instance_method" title="#casper_imaging_logs (instance method)">#<strong>casper_imaging_logs</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::CasperImagingLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Casper Imaging events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_remote_logs-instance_method" title="#casper_remote_logs (instance method)">#<strong>casper_remote_logs</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::CasperRemoteLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Casper Remote events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_mdm_commands-instance_method" title="#completed_mdm_commands (instance method)">#<strong>completed_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MDMCommand&gt; </a>
+    
+
+    
+      (also: #completed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of completed mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_policies-instance_method" title="#completed_policies (instance method)">#<strong>completed_policies</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :completed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer_usage_logs-instance_method" title="#computer_usage_logs (instance method)">#<strong>computer_usage_logs</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::ComputerUsageLog&gt; </a>
+    
+
+    
+      (also: #usage_logs)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of usage events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ebook_history-instance_method" title="#ebook_history (instance method)">#<strong>ebook_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::EBook&gt; </a>
+    
+
+    
+      (also: #managed_ebook_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of ebooks for a mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_app_store_apps-instance_method" title="#failed_app_store_apps (instance method)">#<strong>failed_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_ebooks-instance_method" title="#failed_ebooks (instance method)">#<strong>failed_ebooks</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_mdm_commands-instance_method" title="#failed_mdm_commands (instance method)">#<strong>failed_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MDMCommand&gt; </a>
+    
+
+    
+      (also: #failed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of failed mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_policies-instance_method" title="#failed_policies (instance method)">#<strong>failed_policies</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_app_store_apps-instance_method" title="#installed_app_store_apps (instance method)">#<strong>installed_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_ebooks-instance_method" title="#installed_ebooks (instance method)">#<strong>installed_ebooks</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_mdm_contact-instance_method" title="#last_mdm_contact (instance method)">#<strong>last_mdm_contact</strong>(ident, api: JSS.api)  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The time of the most recently completed MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mac_app_store_app_history-instance_method" title="#mac_app_store_app_history (instance method)">#<strong>mac_app_store_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MacAppStoreApp&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of app store apps  for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_history-instance_method" title="#management_history (instance method)">#<strong>management_history</strong>(ident, subset = nil, api: JSS.api)  &#x21d2; Hash, Array </a>
+    
+
+    
+      (also: #history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the raw management history for a Computer or Mobile Device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdm_command_history-instance_method" title="#mdm_command_history (instance method)">#<strong>mdm_command_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MDMCommand&gt; </a>
+    
+
+    
+      (also: #commands, #management_command_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mobile_device_app_history-instance_method" title="#mobile_device_app_history (instance method)">#<strong>mobile_device_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MobileDeviceApp&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of apps for a mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_app_store_apps-instance_method" title="#pending_app_store_apps (instance method)">#<strong>pending_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_ebooks-instance_method" title="#pending_ebooks (instance method)">#<strong>pending_ebooks</strong>(ident, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_mdm_commands-instance_method" title="#pending_mdm_commands (instance method)">#<strong>pending_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::MDMCommand&gt; </a>
+    
+
+    
+      (also: #pending_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of pending mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#policy_logs-instance_method" title="#policy_logs (instance method)">#<strong>policy_logs</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::PolicyLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of policy execution for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#screen_sharing_logs-instance_method" title="#screen_sharing_logs (instance method)">#<strong>screen_sharing_logs</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::ScreenSharingLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of screen sharing events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_location_history-instance_method" title="#user_location_history (instance method)">#<strong>user_location_history</strong>(ident, api: JSS.api)  &#x21d2; Array&lt;JSS::ManagementHistory::UserLocationChange&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of User/Location changes for a target.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="app_store_app_history-instance_method">
+  
+    #<strong>app_store_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_app_history-instance_method'>managed_app_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Wrapper for app store history for both computers and mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MacAppStoreApp or MobileDeviceApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449
+450
+451
+452
+453</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
+    <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="audit_history-instance_method">
+  
+    #<strong>audit_history</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="AuditEvent.html" title="JSS::ManagementHistory::AuditEvent (class)">JSS::ManagementHistory::AuditEvent</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='audits-instance_method'>audits</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Audit events for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="AuditEvent.html" title="JSS::ManagementHistory::AuditEvent (class)">JSS::ManagementHistory::AuditEvent</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of audit events</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 222</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_audit_history'>audit_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:audits</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_aud'>aud</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AuditEvent.html" title="JSS::ManagementHistory::AuditEvent (class)">AuditEvent</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_aud'>aud</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_imaging_logs-instance_method">
+  
+    #<strong>casper_imaging_logs</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperImagingLog.html" title="JSS::ManagementHistory::CasperImagingLog (class)">JSS::ManagementHistory::CasperImagingLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Casper Imaging events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperImagingLog.html" title="JSS::ManagementHistory::CasperImagingLog (class)">JSS::ManagementHistory::CasperImagingLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of CasperImagingLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+492
+493
+494
+495
+496</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 492</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_imaging_logs'>casper_imaging_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper imaging logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:casper_imaging_logs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CasperImagingLog.html" title="JSS::ManagementHistory::CasperImagingLog (class)">CasperImagingLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_remote_logs-instance_method">
+  
+    #<strong>casper_remote_logs</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperRemoteLog.html" title="JSS::ManagementHistory::CasperRemoteLog (class)">JSS::ManagementHistory::CasperRemoteLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Casper Remote events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperRemoteLog.html" title="JSS::ManagementHistory::CasperRemoteLog (class)">JSS::ManagementHistory::CasperRemoteLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of CasperRemoteLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+507
+508
+509
+510
+511</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 507</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_remote_logs'>casper_remote_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper remote logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:casper_remote_logs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CasperRemoteLog.html" title="JSS::ManagementHistory::CasperRemoteLog (class)">CasperRemoteLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_mdm_commands-instance_method">
+  
+    #<strong>completed_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='completed_commands-instance_method'>completed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of completed mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of completed MDMCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 291</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:completed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_policies-instance_method">
+  
+    #<strong>completed_policies</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :completed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>ManagementHistory::ClassMethods.policy_logs</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+562
+563
+564</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 562</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_policies'>completed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:completed</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_usage_logs-instance_method">
+  
+    #<strong>computer_usage_logs</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerUsageLog.html" title="JSS::ManagementHistory::ComputerUsageLog (class)">JSS::ManagementHistory::ComputerUsageLog</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='usage_logs-instance_method'>usage_logs</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of usage events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerUsageLog.html" title="JSS::ManagementHistory::ComputerUsageLog (class)">JSS::ManagementHistory::ComputerUsageLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of ComputerUsageLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+522
+523
+524
+525
+526</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 522</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_usage_logs'>computer_usage_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have usage logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:computer_usage_logs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerUsageLog.html" title="JSS::ManagementHistory::ComputerUsageLog (class)">ComputerUsageLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ebook_history-instance_method">
+  
+    #<strong>ebook_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EBook.html" title="JSS::ManagementHistory::EBook (class)">JSS::ManagementHistory::EBook</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_ebook_history-instance_method'>managed_ebook_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of ebooks for a mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EBook.html" title="JSS::ManagementHistory::EBook (class)">JSS::ManagementHistory::EBook</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of EBook</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 584</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have ebooks</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:ebooks</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='comment'># merge the sources of installed apps into their hashes
+</span>    <span class='id identifier rubyid_books'>books</span> <span class='op'>=</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:installed</span>
+        <span class='id identifier rubyid_instbooks'>instbooks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_books_from_src'>books_from_src</span><span class='op'>|</span>
+          <span class='id identifier rubyid_real_src'>real_src</span> <span class='op'>=</span>
+            <span class='kw'>case</span> <span class='id identifier rubyid_src'>src</span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_EBOOK_IN_HOUSE-constant" title="JSS::ManagementHistory::HIST_RAW_SOURCE_EBOOK_IN_HOUSE (constant)">HIST_RAW_SOURCE_EBOOK_IN_HOUSE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IN_HOUSE-constant" title="JSS::ManagementHistory::HIST_SOURCE_IN_HOUSE (constant)">HIST_SOURCE_IN_HOUSE</a></span></span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_IBOOKSTORE-constant" title="JSS::ManagementHistory::HIST_RAW_SOURCE_IBOOKSTORE (constant)">HIST_RAW_SOURCE_IBOOKSTORE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IBOOKSTORE-constant" title="JSS::ManagementHistory::HIST_SOURCE_IBOOKSTORE (constant)">HIST_SOURCE_IBOOKSTORE</a></span></span>
+            <span class='kw'>else</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_OTHER-constant" title="JSS::ManagementHistory::HIST_SOURCE_OTHER (constant)">HIST_SOURCE_OTHER</a></span></span>
+            <span class='kw'>end</span> <span class='comment'># case src
+</span>          <span class='id identifier rubyid_instbooks'>instbooks</span> <span class='op'>+=</span> <span class='id identifier rubyid_books_from_src'>books_from_src</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_book'>book</span><span class='op'>|</span> <span class='id identifier rubyid_book'>book</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_real_src'>real_src</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_instbooks'>instbooks</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='comment'># now &#39;books&#39; is an array of hashes of books with the same status
+</span>    <span class='comment'># and if they are :installed, their source is in the hash
+</span>
+    <span class='comment'># merge the statuses of the books into their hashes
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_books'>books</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_book'>book</span><span class='op'>|</span>
+      <span class='comment'># set the :status in the hash
+</span>      <span class='id identifier rubyid_book'>book</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EBook.html" title="JSS::ManagementHistory::EBook (class)">EBook</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_book'>book</span>
+    <span class='kw'>end</span> <span class='comment'># map do |books|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_app_store_apps-instance_method">
+  
+    #<strong>failed_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_apps-instance_method'>failed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="JSS::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+478
+479
+480</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 478</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_app_store_apps'>failed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_ebooks-instance_method">
+  
+    #<strong>failed_ebooks</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_ebooks-instance_method'>failed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="JSS::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+652
+653
+654</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 652</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_ebooks'>failed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_mdm_commands-instance_method">
+  
+    #<strong>failed_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_commands-instance_method'>failed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of failed mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of failed MDMCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 340</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_policies-instance_method">
+  
+    #<strong>failed_policies</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>ManagementHistory::ClassMethods.policy_logs</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+569
+570
+571</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 569</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_policies'>failed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:failed</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_app_store_apps-instance_method">
+  
+    #<strong>installed_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_apps-instance_method'>installed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="JSS::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+460
+461
+462</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 460</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_app_store_apps'>installed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_ebooks-instance_method">
+  
+    #<strong>installed_ebooks</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_ebooks-instance_method'>installed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="JSS::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+634
+635
+636</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 634</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_ebooks'>installed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="last_mdm_contact-instance_method">
+  
+    #<strong>last_mdm_contact</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The time of the most recently completed MDM command.</p>
+
+<p>For Mobile Devices, this seems to be the best indicator of the real last-contact time, since the last_inventory_update is changed when changes are made via the API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of completed MDMCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+309
+310
+311
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 309</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_last_mdm_contact'>last_mdm_contact</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cmds'>cmds</span> <span class='op'>=</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_cmds'>cmds</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'><span class='object_link'><a href="../../JSS.html#epoch_to_time-class_method" title="JSS.epoch_to_time (method)">epoch_to_time</a></span></span> <span class='id identifier rubyid_cmds'>cmds</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_completed_epoch'>completed_epoch</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mac_app_store_app_history-instance_method">
+  
+    #<strong>mac_app_store_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MacAppStoreApp.html" title="JSS::ManagementHistory::MacAppStoreApp (class)">JSS::ManagementHistory::MacAppStoreApp</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of app store apps  for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MacAppStoreApp.html" title="JSS::ManagementHistory::MacAppStoreApp (class)">JSS::ManagementHistory::MacAppStoreApp</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MacAppStoreApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 356</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have mac app store apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:mac_app_store_applications</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_app'>app</span><span class='op'>|</span>
+      <span class='comment'># set the :status
+</span>      <span class='id identifier rubyid_app'>app</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MacAppStoreApp.html" title="JSS::ManagementHistory::MacAppStoreApp (class)">MacAppStoreApp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_app'>app</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="management_history-instance_method">
+  
+    #<strong>management_history</strong>(ident, subset = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='history-instance_method'>history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the raw management history for a Computer or Mobile Device</p>
+
+<p>WARNING: It&#39;s huge, better to use a subset.</p>
+
+<p>NOTE: This returns the raw JSON data from the API, parsed into a ruby Hash. Use the subset-specific methods to retrieve more consistent arrays of ruby-jss objects for each kind of history event, e.g. JSS::Computer.audits(id) or JSS::MobileDevice.audits(id) to get an array of JSS::ManagementHistory::AuditEvent objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An identifier (id, name, serialnumber, macadress or udid) of the computer or device for which to retrieve history</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>subset</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the subset to return, rather than full history.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The raw full history or subset requested</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 189</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> matches identifier: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+    <span class='ivar'>@hist_subsets</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_SUBSETS-constant" title="JSS::ManagementHistory::HIST_COMPUTER_SUBSETS (constant)">HIST_COMPUTER_SUBSETS</a></span></span>
+    <span class='ivar'>@hist_rsrc</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_RSRC-constant" title="JSS::ManagementHistory::HIST_COMPUTER_RSRC (constant)">HIST_COMPUTER_RSRC</a></span></span>
+    <span class='ivar'>@hist_key</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_KEY-constant" title="JSS::ManagementHistory::HIST_COMPUTER_KEY (constant)">HIST_COMPUTER_KEY</a></span></span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@hist_subsets</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_SUBSETS-constant" title="JSS::ManagementHistory::HIST_DEVICE_SUBSETS (constant)">HIST_DEVICE_SUBSETS</a></span></span>
+    <span class='ivar'>@hist_rsrc</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_RSRC-constant" title="JSS::ManagementHistory::HIST_DEVICE_RSRC (constant)">HIST_DEVICE_RSRC</a></span></span>
+    <span class='ivar'>@hist_key</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_KEY-constant" title="JSS::ManagementHistory::HIST_DEVICE_KEY (constant)">HIST_DEVICE_KEY</a></span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_subset'>subset</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Subset must be one of :</span><span class='embexpr_beg'>#{</span><span class='ivar'>@hist_subsets</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@hist_subsets</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_subset'>subset</span>
+    <span class='id identifier rubyid_subset_rsrc'>subset_rsrc</span> <span class='op'>=</span> <span class='ivar'>@hist_rsrc</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/subset/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subset'>subset</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_get_rsrc'>get_rsrc</span><span class='lparen'>(</span><span class='id identifier rubyid_subset_rsrc'>subset_rsrc</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@hist_key</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_subset'>subset</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_get_rsrc'>get_rsrc</span><span class='lparen'>(</span><span class='ivar'>@hist_rsrc</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@hist_key</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mdm_command_history-instance_method">
+  
+    #<strong>mdm_command_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='commands-instance_method'>commands</span>, <span id='management_command_history-instance_method'>management_command_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :completed, :pending, or :failed commands</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MDMCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 253</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_subset'>subset</span> <span class='op'>=</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span> <span class='op'>?</span> <span class='symbol'>:commands</span> <span class='op'>:</span> <span class='symbol'>:management_commands</span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :completed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_MDM_STATUSES-constant" title="JSS::ManagementHistory::HIST_MDM_STATUSES (constant)">HIST_MDM_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_MDM_STATUSES-constant" title="JSS::ManagementHistory::HIST_MDM_STATUSES (constant)">HIST_MDM_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span>
+      <span class='comment'># failed computer cmds have the error message in cmd[:status]
+</span>      <span class='comment'># failed mdm commands have them in cmd[:error], where they should be
+</span>      <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:failed</span>
+
+      <span class='comment'># but we always set the :status
+</span>      <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+
+      <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">MDMCommand</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MDMCommand.html#initialize-instance_method" title="JSS::ManagementHistory::MDMCommand#initialize (method)">new</a></span></span> <span class='id identifier rubyid_cmd'>cmd</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mobile_device_app_history-instance_method">
+  
+    #<strong>mobile_device_app_history</strong>(ident, status = nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MobileDeviceApp.html" title="JSS::ManagementHistory::MobileDeviceApp (class)">JSS::ManagementHistory::MobileDeviceApp</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of apps for a mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MobileDeviceApp.html" title="JSS::ManagementHistory::MobileDeviceApp (class)">JSS::ManagementHistory::MobileDeviceApp</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MobileDeviceApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 391</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have mobile device apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:applications</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="JSS::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='comment'># merge the sources of installed apps into their hashes
+</span>    <span class='id identifier rubyid_apps'>apps</span> <span class='op'>=</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:installed</span>
+        <span class='id identifier rubyid_instapps'>instapps</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_apps_from_src'>apps_from_src</span><span class='op'>|</span>
+          <span class='id identifier rubyid_real_src'>real_src</span> <span class='op'>=</span>
+            <span class='kw'>case</span> <span class='id identifier rubyid_src'>src</span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_APP_IN_HOUSE-constant" title="JSS::ManagementHistory::HIST_RAW_SOURCE_APP_IN_HOUSE (constant)">HIST_RAW_SOURCE_APP_IN_HOUSE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IN_HOUSE-constant" title="JSS::ManagementHistory::HIST_SOURCE_IN_HOUSE (constant)">HIST_SOURCE_IN_HOUSE</a></span></span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_APP_STORE-constant" title="JSS::ManagementHistory::HIST_RAW_SOURCE_APP_STORE (constant)">HIST_RAW_SOURCE_APP_STORE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_APP_STORE-constant" title="JSS::ManagementHistory::HIST_SOURCE_APP_STORE (constant)">HIST_SOURCE_APP_STORE</a></span></span>
+            <span class='kw'>else</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_OTHER-constant" title="JSS::ManagementHistory::HIST_SOURCE_OTHER (constant)">HIST_SOURCE_OTHER</a></span></span>
+            <span class='kw'>end</span> <span class='comment'># case src
+</span>          <span class='id identifier rubyid_instapps'>instapps</span> <span class='op'>+=</span> <span class='id identifier rubyid_apps_from_src'>apps_from_src</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_iapp'>iapp</span><span class='op'>|</span> <span class='id identifier rubyid_iapp'>iapp</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_real_src'>real_src</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_instapps'>instapps</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='comment'># now &#39;apps&#39; is an array of hashes of apps with the same status
+</span>    <span class='comment'># and if they are :installed, their source is in the hash
+</span>
+    <span class='comment'># merge the statuses of the apps into their hashes
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_apps'>apps</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_app'>app</span><span class='op'>|</span>
+      <span class='comment'># set the :status in the hash
+</span>      <span class='id identifier rubyid_app'>app</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDeviceApp.html" title="JSS::ManagementHistory::MobileDeviceApp (class)">MobileDeviceApp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_app'>app</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_app_store_apps-instance_method">
+  
+    #<strong>pending_app_store_apps</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_apps-instance_method'>pending_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="JSS::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+469
+470
+471</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 469</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_app_store_apps'>pending_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_ebooks-instance_method">
+  
+    #<strong>pending_ebooks</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_ebooks-instance_method'>pending_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="JSS::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+643
+644
+645</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 643</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_ebooks'>pending_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_mdm_commands-instance_method">
+  
+    #<strong>pending_mdm_commands</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_commands-instance_method'>pending_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of pending mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">JSS::ManagementHistory::MDMCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of pending MDMCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+326
+327
+328</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 326</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_mdm_commands'>pending_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="policy_logs-instance_method">
+  
+    #<strong>policy_logs</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="PolicyLog.html" title="JSS::ManagementHistory::PolicyLog (class)">JSS::ManagementHistory::PolicyLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of policy execution for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="PolicyLog.html" title="JSS::ManagementHistory::PolicyLog (class)">JSS::ManagementHistory::PolicyLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of PolicyLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+553
+554
+555
+556
+557</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 553</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have policy logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:policy_logs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PolicyLog.html" title="JSS::ManagementHistory::PolicyLog (class)">PolicyLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="PolicyLog.html#initialize-instance_method" title="JSS::ManagementHistory::PolicyLog#initialize (method)">new</a></span></span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="screen_sharing_logs-instance_method">
+  
+    #<strong>screen_sharing_logs</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ScreenSharingLog.html" title="JSS::ManagementHistory::ScreenSharingLog (class)">JSS::ManagementHistory::ScreenSharingLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of screen sharing events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ScreenSharingLog.html" title="JSS::ManagementHistory::ScreenSharingLog (class)">JSS::ManagementHistory::ScreenSharingLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of ScreenSharingLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+538
+539
+540
+541
+542</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 538</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_screen_sharing_logs'>screen_sharing_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have screen sharing logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:screen_sharing_logs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ScreenSharingLog.html" title="JSS::ManagementHistory::ScreenSharingLog (class)">ScreenSharingLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user_location_history-instance_method">
+  
+    #<strong>user_location_history</strong>(ident, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="UserLocationChange.html" title="JSS::ManagementHistory::UserLocationChange (class)">JSS::ManagementHistory::UserLocationChange</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of User/Location changes for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="UserLocationChange.html" title="JSS::ManagementHistory::UserLocationChange (class)">JSS::ManagementHistory::UserLocationChange</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of UserLocation change events</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+237
+238
+239
+240</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 237</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user_location_history'>user_location_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:user_location</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UserLocationChange.html" title="JSS::ManagementHistory::UserLocationChange (class)">UserLocationChange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:55 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

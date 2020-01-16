@@ -1,0 +1,3760 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::Client
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Client";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Client</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::Client
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">JSS::Client</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss.rb<span class="defines">,<br />
+  lib/jss/client.rb,<br /> lib/jss/client/jamf_binary.rb,<br /> lib/jss/client/jamf_helper.rb,<br /> lib/jamf/client/jamf_binary.rb,<br /> lib/jamf/client/jamf_helper.rb,<br /> lib/jss/client/management_action.rb,<br /> lib/jamf/client/management_action.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>jamf client computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="JAMF_PLIST-constant" class="">JAMF_PLIST =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the preferences plist used by the jamf binary</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/Library/Preferences/com.jamfsoftware.jamf.plist</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="JAMF_SUPPORT_FOLDER-constant" class="">JAMF_SUPPORT_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the JAMF support folder</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/Library/Application Support/JAMF</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="RECEIPTS_FOLDER-constant" class="">RECEIPTS_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The JAMF receipts folder, where package installs are tracked.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#JAMF_SUPPORT_FOLDER-constant" title="JSS::Client::JAMF_SUPPORT_FOLDER (constant)">JAMF_SUPPORT_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Receipts</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="DOWNLOADS_FOLDER-constant" class="">DOWNLOADS_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The JAMF downloads folder</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#JAMF_SUPPORT_FOLDER-constant" title="JSS::Client::JAMF_SUPPORT_FOLDER (constant)">JAMF_SUPPORT_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Downloads</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="SUPPORT_BIN_FOLDER-constant" class="">SUPPORT_BIN_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The bin folder inside the Jamf support folder</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#JAMF_SUPPORT_FOLDER-constant" title="JSS::Client::JAMF_SUPPORT_FOLDER (constant)">JAMF_SUPPORT_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bin</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="USR_LOCAL_BIN_FOLDER-constant" class="">USR_LOCAL_BIN_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The bin folder with the jamf binary and a few other things</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/usr/local/jamf/bin</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="CONSOLE_USERS_SCUTIL_CMD-constant" class="">CONSOLE_USERS_SCUTIL_CMD =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This command gives raw info about console users</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>echo &quot;show State:/Users/ConsoleUser&quot; | /usr/sbin/scutil</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ROOT_USER-constant" class="">ROOT_USER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>ignore console user = root (loginwindow)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>root</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="LOGINWINDOW_USER-constant" class="">LOGINWINDOW_USER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>ignore primary console user loginwindow</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>loginwindow</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="SELF_SERVICE_EXECUTABLE_END-constant" class="">SELF_SERVICE_EXECUTABLE_END =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The end of the path to the Self Service Executable. Used to figure out who&#39;s running Self Service.app</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/Self Service.app/Contents/MacOS/Self Service</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PS_USER_COMM-constant" class="">PS_USER_COMM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the ps command used to figure out who&#39;s running Self Service</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ps -A -o user,comm</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="USER_PREFS_BYHOST_FOLDER-constant" class="">USER_PREFS_BYHOST_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the path to a users byhost folder from home</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Library/Preferences/ByHost/</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="ORIG_JAMF_BINARY-constant" class="">ORIG_JAMF_BINARY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the jamf binary executable Before SIP (macOS 10.10 and below)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/usr/sbin/jamf</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="SIP_JAMF_BINARY-constant" class="">SIP_JAMF_BINARY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the jamf binary executable After SIP (OS X 10.11 and above)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#USR_LOCAL_BIN_FOLDER-constant" title="JSS::Client::USR_LOCAL_BIN_FOLDER (constant)">USR_LOCAL_BIN_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jamf</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="JAMF_BINARY-constant" class="">JAMF_BINARY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The path to the jamf binary</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#SIP_JAMF_BINARY-constant" title="JSS::Client::SIP_JAMF_BINARY (constant)">SIP_JAMF_BINARY</a></span></span><span class='period'>.</span><span class='id identifier rubyid_executable?'>executable?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#SIP_JAMF_BINARY-constant" title="JSS::Client::SIP_JAMF_BINARY (constant)">SIP_JAMF_BINARY</a></span></span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#ORIG_JAMF_BINARY-constant" title="JSS::Client::ORIG_JAMF_BINARY (constant)">ORIG_JAMF_BINARY</a></span></span></pre></dd>
+      
+        <dt id="ROOTLESS_JAMF_COMMANDS-constant" class="">ROOTLESS_JAMF_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These jamf commands don&#39;t need root privs (most do)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>about</span><span class='words_sep'>
+  </span><span class='tstring_content'>checkJSSConnection</span><span class='words_sep'>
+  </span><span class='tstring_content'>getARDFields</span><span class='words_sep'>
+  </span><span class='tstring_content'>getComputerName</span><span class='words_sep'>
+  </span><span class='tstring_content'>help</span><span class='words_sep'>
+  </span><span class='tstring_content'>listUsers</span><span class='words_sep'>
+  </span><span class='tstring_content'>version</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMF_VERBOSE_OPT-constant" class="">JAMF_VERBOSE_OPT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the option that makes the jamf binary verbose</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> -verbose</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMF_HELPER-constant" class="">JAMF_HELPER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the jamfHelper executable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#SUPPORT_BIN_FOLDER-constant" title="JSS::Client::SUPPORT_BIN_FOLDER (constant)">SUPPORT_BIN_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jamfHelper.app/Contents/MacOS/jamfHelper</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="JAMF_HELPER_WINDOW_TYPES-constant" class="">JAMF_HELPER_WINDOW_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The window_type options for jamfHelper</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>hud:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hud</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>utility:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>utility</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>util:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>utility</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>full_screen:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>fs:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fs</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMF_HELPER_WINDOW_POSITIONS-constant" class="">JAMF_HELPER_WINDOW_POSITIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The possible window positions for jamfHelper</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:ul</span><span class='comma'>,</span> <span class='symbol'>:ll</span><span class='comma'>,</span> <span class='symbol'>:ur</span><span class='comma'>,</span> <span class='symbol'>:lr</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMF_HELPER_BUTTONS-constant" class="">JAMF_HELPER_BUTTONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The available buttons in jamfHelper</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMF_HELPER_ALIGNMENTS-constant" class="">JAMF_HELPER_ALIGNMENTS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The possible alignment positions in jamfHelper</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>right</span><span class='words_sep'> </span><span class='tstring_content'>left</span><span class='words_sep'> </span><span class='tstring_content'>center</span><span class='words_sep'> </span><span class='tstring_content'>justified</span><span class='words_sep'> </span><span class='tstring_content'>natural</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="MGMT_ACTION-constant" class="">MGMT_ACTION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Pathname to the Management Action executable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#SUPPORT_BIN_FOLDER-constant" title="JSS::Client::SUPPORT_BIN_FOLDER (constant)">SUPPORT_BIN_FOLDER</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Management Action.app/Contents/MacOS/Management Action</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_jamf_command-class_method" title="build_jamf_command (class method)">.<strong>build_jamf_command</strong>(command, args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#console_user-class_method" title="console_user (class method)">.<strong>console_user</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>alias for primary_console_user.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#console_users-class_method" title="console_users (class method)">.<strong>console_users</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Who&#39;s currently got an active GUI session? - might be more than one if Fast User Switching is in use.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#do_not_disturb%3F-class_method" title="do_not_disturb? (class method)">.<strong>do_not_disturb?</strong>(user = nil)  &#x21d2; Boolean<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_jamf-class_method" title="execute_jamf (class method)">.<strong>execute_jamf</strong>(cmd, verbose)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#force_alerts-class_method" title="force_alerts (class method)">.<strong>force_alerts</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do it in 10.13+ The plan is to be able to make the NotificationCenter notification be an &#39;alert&#39; (which stays visible til the user clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless of the user&#39;s setting in the NC prefs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_data-class_method" title="hardware_data (class method)">.<strong>hardware_data</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The parsed HardwareDataType output from system_profiler.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#homedir-class_method" title="homedir (class method)">.<strong>homedir</strong>(user)  &#x21d2; Pathname<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The home dir of the specified user, nil if no homedir in local dscl.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed%3F-class_method" title="installed? (class method)">.<strong>installed?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is the jamf binary installed?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_helper-class_method" title="jamf_helper (class method)">.<strong>jamf_helper</strong>(window_type = :hud, opts = {})  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A wrapper for the jamfHelper command, which can display a window on the client machine.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_plist-class_method" title="jamf_plist (class method)">.<strong>jamf_plist</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The contents of the JAMF plist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_version-class_method" title="jamf_version (class method)">.<strong>jamf_version</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>What version of the jamf binary is installed?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_available%3F-class_method" title="jss_available? (class method)">.<strong>jss_available?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is the JSS available right now?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_port-class_method" title="jss_port (class method)">.<strong>jss_port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The port number for JSS connections for this client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_protocol-class_method" title="jss_protocol (class method)">.<strong>jss_protocol</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The protocol for JSS connections for this client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_record-class_method" title="jss_record (class method)">.<strong>jss_record</strong>  &#x21d2; JSS::Computer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS::Computer object for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_server-class_method" title="jss_server (class method)">.<strong>jss_server</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS server hostname for this client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jss_url-class_method" title="jss_url (class method)">.<strong>jss_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the URL to the jss for this client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_action-class_method" title="management_action (class method)">.<strong>management_action</strong>(msg, title: nil, subtitle: nil, delay: 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>class Methods.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#my_ip_address-class_method" title="my_ip_address (class method)">.<strong>my_ip_address</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the current IP address as a String.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#nc_notify-class_method" title="nc_notify (class method)">.<strong>nc_notify</strong>(msg, title: nil, subtitle: nil, delay: 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>an alias of management_action.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#primary_console_user-class_method" title="primary_console_user (class method)">.<strong>primary_console_user</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Which console user is using the primary GUI console? Returns nil if the primary GUI console is at the login window.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#receipts-class_method" title="receipts (class method)">.<strong>receipts</strong>  &#x21d2; Array&lt;Pathname&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All the JAMF receipts on this client.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restore_alerts-class_method" title="restore_alerts (class method)">.<strong>restore_alerts</strong>(orig_flags)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_jamf-class_method" title="run_jamf (class method)">.<strong>run_jamf</strong>(command, args = nil, verbose = false)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Run an arbitrary jamf binary command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_users-class_method" title="self_service_users (class method)">.<strong>self_service_users</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Who&#39;s currently running Self Service.app? - might be more than one if Fast User Switching is in use.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serial_number-class_method" title="serial_number (class method)">.<strong>serial_number</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The serial number for this computer via system_profiler.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_mgmt_action_ncprefs_flags-class_method" title="set_mgmt_action_ncprefs_flags (class method)">.<strong>set_mgmt_action_ncprefs_flags</strong>(user, flags, hup: true)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>set the NotificationCenter option flags for a user flags = an integer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#udid-class_method" title="udid (class method)">.<strong>udid</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The UUID for this computer via system_profiler.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="build_jamf_command-class_method">
+  
+    .<strong>build_jamf_command</strong>(command, args)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/jamf_binary.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_jamf_command'>build_jamf_command</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_args'>args</span>
+  <span class='kw'>when</span> <span class='kw'>nil</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_BINARY-constant" title="JSS::Client::JAMF_BINARY (constant)">JAMF_BINARY</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_command'>command</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_BINARY-constant" title="JSS::Client::JAMF_BINARY (constant)">JAMF_BINARY</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_command'>command</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_args'>args</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span>
+    <span class='lparen'>(</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#JAMF_BINARY-constant" title="JSS::Client::JAMF_BINARY (constant)">JAMF_BINARY</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>args must be a String or Array of Strings</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span> <span class='comment'># case
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="console_user-class_method">
+  
+    .<strong>console_user</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>alias for primary_console_user</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_console_user'>console_user</span>
+  <span class='id identifier rubyid_primary_console_user'>primary_console_user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="console_users-class_method">
+  
+    .<strong>console_users</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Who&#39;s currently got an active GUI session? - might be more than one if Fast User Switching is in use.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current users with GUI sessions</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 236</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_console_users'>console_users</span>
+  <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#CONSOLE_USERS_SCUTIL_CMD-constant" title="JSS::Client::CONSOLE_USERS_SCUTIL_CMD (constant)">CONSOLE_USERS_SCUTIL_CMD</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span>
+  <span class='id identifier rubyid_userlines'>userlines</span> <span class='op'>=</span> <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_l'>l</span><span class='op'>|</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>SessionUserNameKey\s*:</span><span class='regexp_end'>/</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_userlines'>userlines</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ul'>ul</span><span class='op'>|</span> <span class='id identifier rubyid_ul'>ul</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_userlines'>userlines</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_un'>un</span><span class='op'>|</span> <span class='id identifier rubyid_un'>un</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#ROOT_USER-constant" title="JSS::Client::ROOT_USER (constant)">ROOT_USER</a></span></span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="do_not_disturb?-class_method">
+  
+    .<strong>do_not_disturb?</strong>(user = nil)  &#x21d2; <tt>Boolean</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user to query, the current user if nil.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+275
+276
+277
+278
+279
+280
+281</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 275</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_do_not_disturb?'>do_not_disturb?</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_home'>home</span> <span class='op'>=</span> <span class='id identifier rubyid_user'>user</span> <span class='op'>?</span> <span class='id identifier rubyid_homedir'>homedir</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_home'>home</span>
+  <span class='id identifier rubyid_myudid'>myudid</span> <span class='op'>=</span> <span class='id identifier rubyid_udid'>udid</span>
+  <span class='id identifier rubyid_nc_prefs_file'>nc_prefs_file</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_home'>home</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_PREFS_BYHOST_FOLDER-constant" title="JSS::Client::USER_PREFS_BYHOST_FOLDER (constant)">USER_PREFS_BYHOST_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/com.apple.notificationcenterui.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_myudid'>myudid</span><span class='embexpr_end'>}</span><span class='tstring_content'>.plist</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_nc_prefs_file'>nc_prefs_file</span><span class='period'>.</span><span class='id identifier rubyid_readable?'>readable?</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_plist'><span class='object_link'><a href="../JSS.html#parse_plist-class_method" title="JSS.parse_plist (method)">parse_plist</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_nc_prefs_file'>nc_prefs_file</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>doNotDisturb</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="execute_jamf-class_method">
+  
+    .<strong>execute_jamf</strong>(cmd, verbose)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/jamf_binary.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_execute_jamf'>execute_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='comma'>,</span> <span class='id identifier rubyid_verbose'>verbose</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Running: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cmd'>cmd</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_verbose'>verbose</span>
+  <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_popen'>popen</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cmd'>cmd</span><span class='embexpr_end'>}</span><span class='tstring_content'> 2&gt;&amp;1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_proc'>proc</span><span class='op'>|</span>
+    <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span><span class='period'>.</span><span class='id identifier rubyid_gets'>gets</span>
+      <span class='kw'>break</span> <span class='kw'>unless</span> <span class='id identifier rubyid_line'>line</span>
+      <span class='id identifier rubyid_output'>output</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_line'>line</span>
+      <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_line'>line</span> <span class='kw'>if</span> <span class='id identifier rubyid_verbose'>verbose</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_force_encoding'>force_encoding</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UTF-8</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_output'>output</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="force_alerts-class_method">
+  
+    .<strong>force_alerts</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do it in 10.13+ The plan is to be able to make the NotificationCenter notification be an &#39;alert&#39; (which stays visible til the user clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless of the user&#39;s setting in the NC prefs.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_force_alerts'>force_alerts</span>
+  <span class='id identifier rubyid_orig_flags'>orig_flags</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_console_users'>console_users</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span>
+    <span class='id identifier rubyid_orig_flags'>orig_flags</span><span class='lbracket'>[</span><span class='id identifier rubyid_user'>user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_set_mgmt_action_ncprefs_flags'>set_mgmt_action_ncprefs_flags</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='const'>NC_ALERT_STYLE_FLAGS</span><span class='comma'>,</span> <span class='label'>hup:</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_system'>system</span> <span class='const'>HUP_NOTIF_CTR_CMD</span> <span class='kw'>unless</span> <span class='id identifier rubyid_orig_flags'>orig_flags</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_orig_flags'>orig_flags</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="hardware_data-class_method">
+  
+    .<strong>hardware_data</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The parsed HardwareDataType output from system_profiler</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the HardwareDataType data from the system_profiler command</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+226
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 226</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_hardware_data'>hardware_data</span>
+  <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/sbin/system_profiler SPHardwareDataType -xml 2&gt;/dev/null</span><span class='tstring_end'>`</span></span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_plist'><span class='object_link'><a href="../JSS.html#parse_plist-class_method" title="JSS.parse_plist (method)">parse_plist</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_raw'>raw</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_items</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="homedir-class_method">
+  
+    .<strong>homedir</strong>(user)  &#x21d2; <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The home dir of the specified user, nil if no homedir in local dscl.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the user whose homedir to look up</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user&#39;s homedir or nil if no such user</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+290
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 290</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_homedir'>homedir</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dir'>dir</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/bin/dscl . -read /Users/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='embexpr_end'>}</span><span class='tstring_content'> NFSHomeDirectory 2&gt;/dev/null</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>: </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+  <span class='id identifier rubyid_dir'>dir</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed?-class_method">
+  
+    .<strong>installed?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is the jamf binary installed?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is the jamf binary installed?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_installed?'>installed?</span>
+  <span class='const'><span class='object_link'><a href="#JAMF_BINARY-constant" title="JSS::Client::JAMF_BINARY (constant)">JAMF_BINARY</a></span></span><span class='period'>.</span><span class='id identifier rubyid_executable?'>executable?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_helper-class_method">
+  
+    .<strong>jamf_helper</strong>(window_type = :hud, opts = {})  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>the -startlaunchd and -kill options are not available in this implementation, since they don&#39;t work at the moment (casper 9.4). -startlaunchd seems to be required to NOT use launchd, and when it&#39;s ommited, an error is generated about the launchd plist permissions being incorrect.</p>
+</div>
+  </div>
+
+
+<p>A wrapper for the jamfHelper command, which can display a window on the client machine.</p>
+
+<p>The first parameter must be a symbol defining what kind of window to display. The options are</p>
+<ul><li>
+<p>:hud - creates an Apple “Heads Up Display” style window</p>
+</li><li>
+<p>:utility or :util -  creates an Apple “Utility” style window</p>
+</li><li>
+<p>:fs or :full_screen or :fullscreen - creates a full screen window that restricts all user input WARNING: Remote access must be used to unlock machines in this mode</p>
+</li></ul>
+
+<p>The remaining options Hash can contain any of the options listed. See below for descriptions.</p>
+
+<p>The value returned is the Integer exitstatus/stdout (both are the same) of the jamfHelper command. The meanings of those integers are:</p>
+<ul><li>
+<p>0 - Button 1 was clicked</p>
+</li><li>
+<p>1 - The Jamf Helper was unable to launch</p>
+</li><li>
+<p>2 - Button 2 was clicked</p>
+</li><li>
+<p>3 - Process was started as a launchd task</p>
+</li><li>
+<p>XX1 - Button 1 was clicked with a value of XX seconds selected in the drop-down</p>
+</li><li>
+<p>XX2 - Button 2 was clicked with a value of XX seconds selected in the drop-down</p>
+</li><li>
+<p>239 - The exit button was clicked</p>
+</li><li>
+<p>240 - The “ProductVersion” in sw_vers did not return 10.5.X, 10.6.X or 10.7.X</p>
+</li><li>
+<p>243 - The window timed-out with no buttons on the screen</p>
+</li><li>
+<p>250 - Bad “-windowType”</p>
+</li><li>
+<p>254 - Cancel button was select with delay option present</p>
+</li><li>
+<p>255 - No “-windowType”</p>
+</li></ul>
+
+<p>If the :abandon_process option is given, the integer returned is the Process ID of the abondoned process running jamfHelper.</p>
+
+<p>See also /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>window_type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:hud</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The type of window to display</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the options for the window</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:window_position</span>
+          <span class="type">(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>one of [ nil, :ul, :ll. :ur, :lr ] Positions window in the upper right, upper left, lower right or lower left of the user&#39;s screen If no input is given, the window defaults to the center of the screen</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:title</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Sets the window&#39;s title to the specified string</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:heading</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Sets the heading of the window to the specified string</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:align_heading</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the heading to the specified alignment</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:description</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Sets the main contents of the window to the specified string</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:align_description</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the description to the specified alignment</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:icon</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Sets the windows image field to the image located at the specified path</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:icon_size</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Changes the image frame to the specified pixel size</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:full_screen_icon</span>
+          <span class="type">(<tt>any value</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Scales the “icon” to the full size of the window. Note: Only available in full screen mode</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:button1</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Creates a button with the specified label</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:button2</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Creates a second button with the specified label</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:default_button</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>either 1 or 2 Sets the default button of the window to the specified button. The Default Button will respond to “return”</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:cancel_button</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>either 1 or 2 Sets the cancel button of the window to the specified button. The Cancel Button will respond to “escape”</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Causes the window to timeout after the specified amount of seconds Note: The timeout will cause the default button, button 1 or button 2 to be selected (in that order)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:show_delay_options</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>A String of comma-separated Integers, or an Array of Integers. Enables the “Delay Options Mode”. The window will display a dropdown with the values passed through the string</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:countdown</span>
+          <span class="type">(<tt>any value</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Displays a string notifying the user when the window will time out</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:align_countdown</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the countdown to the specified alignment</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:lock_hud</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Removes the ability to exit the HUD by selecting the close button</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:abandon_process</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Abandon the jamfHelper process so that your code can exit. This is mostly used so that a policy can finish while a dialog is waiting (possibly forever) for user response. When true, the returned value is the process id of the abandoned jamfHelper process.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:output_file</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Save the output of jamfHelper (the exit code) into this file. This is useful when using abandon_process. The output file can be examined later to see what happened. If this option is not provided, no output is saved.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:arg_string</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The jamfHelper commandline args as a single String, the way you&#39;d specify them in a shell. This is appended to any Ruby options provided when calling the method. So calling:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_jamf_helper'>jamf_helper</span> <span class='symbol'>:hud</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This is a title</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>arg_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-heading &quot;this is a heading&quot;</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>will run</p>
+
+<pre class="code ruby"><code class="ruby">jamfHelper -windowType hud -title &#39;this is a title&#39; -heading &quot;this is a heading&quot;
+</code></pre>
+
+<p>When using this, be careful not to specify the windowType, since it&#39;s generated by the first, required, parameter of this method.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the exit status of the jamfHelper command. See above.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnmanagedError.html" title="JSS::UnmanagedError (class)">JSS::UnmanagedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/jamf_helper.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jamf_helper'>jamf_helper</span><span class='lparen'>(</span><span class='id identifier rubyid_window_type'>window_type</span> <span class='op'>=</span> <span class='symbol'>:hud</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnmanagedError.html" title="JSS::UnmanagedError (class)">UnmanagedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The jamfHelper app is not installed properly on this computer.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#JAMF_HELPER-constant" title="JSS::Client::JAMF_HELPER (constant)">JAMF_HELPER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_executable?'>executable?</span>
+
+  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#JAMF_HELPER_WINDOW_TYPES-constant" title="JSS::Client::JAMF_HELPER_WINDOW_TYPES (constant)">JAMF_HELPER_WINDOW_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_window_type'>window_type</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The first parameter must be a window type, one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_WINDOW_TYPES-constant" title="JSS::Client::JAMF_HELPER_WINDOW_TYPES (constant)">JAMF_HELPER_WINDOW_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># start building the arg array
+</span>
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-startlaunchd</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-windowType</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#JAMF_HELPER_WINDOW_TYPES-constant" title="JSS::Client::JAMF_HELPER_WINDOW_TYPES (constant)">JAMF_HELPER_WINDOW_TYPES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_window_type'>window_type</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_opt'>opt</span><span class='op'>|</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_opt'>opt</span>
+    <span class='kw'>when</span> <span class='symbol'>:window_position</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:window_position must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_WINDOW_POSITIONS-constant" title="JSS::Client::JAMF_HELPER_WINDOW_POSITIONS (constant)">JAMF_HELPER_WINDOW_POSITIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_WINDOW_POSITIONS-constant" title="JSS::Client::JAMF_HELPER_WINDOW_POSITIONS (constant)">JAMF_HELPER_WINDOW_POSITIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-windowPosition</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:title</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-title</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:heading</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-heading</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:align_heading</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:align_heading must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-alignHeading</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:description</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-description</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:align_description</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:align_description must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-alignDescription</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:icon</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-icon</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:icon_size</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-iconSize</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:full_screen_icon</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-fullScreenIcon</span><span class='tstring_end'>&#39;</span></span>
+
+    <span class='kw'>when</span> <span class='symbol'>:button1</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-button1</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:button2</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-button2</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:default_button</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:default_button must be one of </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_BUTTONS-constant" title="JSS::Client::JAMF_HELPER_BUTTONS (constant)">JAMF_HELPER_BUTTONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_BUTTONS-constant" title="JSS::Client::JAMF_HELPER_BUTTONS (constant)">JAMF_HELPER_BUTTONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-defaultButton</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:cancel_button</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:cancel_button must be one of </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_BUTTONS-constant" title="JSS::Client::JAMF_HELPER_BUTTONS (constant)">JAMF_HELPER_BUTTONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_BUTTONS-constant" title="JSS::Client::JAMF_HELPER_BUTTONS (constant)">JAMF_HELPER_BUTTONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-cancelButton</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:timeout</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-timeout</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:show_delay_options</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-showDelayOptions</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'><span class='object_link'><a href="../JSS.html#to_s_and_a-class_method" title="JSS.to_s_and_a (method)">to_s_and_a</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:arrayform</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:countdown</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-countdown</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:align_countdown</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:align_countdown must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
+        <span class='const'><span class='object_link'><a href="#JAMF_HELPER_ALIGNMENTS-constant" title="JSS::Client::JAMF_HELPER_ALIGNMENTS (constant)">JAMF_HELPER_ALIGNMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-alignCountdown</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='kw'>when</span> <span class='symbol'>:lock_hud</span>
+      <span class='id identifier rubyid_args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-lockHUD</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_opt'>opt</span><span class='rbracket'>]</span>
+
+    <span class='kw'>end</span> <span class='comment'># case opt
+</span>  <span class='kw'>end</span> <span class='comment'># each do opt
+</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='const'><span class='object_link'><a href="#JAMF_HELPER-constant" title="JSS::Client::JAMF_HELPER (constant)">JAMF_HELPER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_arg'>arg</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_arg'>arg</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:arg_string</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:arg_string</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> &gt; </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:output_file</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:output_file</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:abandon_process</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_fork'>fork</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_pid'>pid</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='comment'># In child
+</span>      <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_cmd'>cmd</span>
+    <span class='kw'>else</span>
+      <span class='comment'># In parent
+</span>      <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_detach'>detach</span><span class='lparen'>(</span><span class='id identifier rubyid_pid'>pid</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_pid'>pid</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_system'>system</span> <span class='id identifier rubyid_cmd'>cmd</span>
+    <span class='gvar'>$CHILD_STATUS</span><span class='period'>.</span><span class='id identifier rubyid_exitstatus'>exitstatus</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_plist-class_method">
+  
+    .<strong>jamf_plist</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The contents of the JAMF plist</p>
+
+<p>an empty hash if not</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parsed contents of the JAMF_PLIST if it exists,</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 173</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jamf_plist'>jamf_plist</span>
+  <span class='kw'>return</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#JAMF_PLIST-constant" title="JSS::Client::JAMF_PLIST (constant)">JAMF_PLIST</a></span></span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_plist'><span class='object_link'><a href="../JSS.html#parse_plist-class_method" title="JSS.parse_plist (method)">parse_plist</a></span></span> <span class='const'><span class='object_link'><a href="#JAMF_PLIST-constant" title="JSS::Client::JAMF_PLIST (constant)">JAMF_PLIST</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_version-class_method">
+  
+    .<strong>jamf_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>What version of the jamf binary is installed?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the version of the jamf binary installed on this client, nil if not installed</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jamf_version'>jamf_version</span>
+  <span class='id identifier rubyid_installed?'>installed?</span> <span class='op'>?</span> <span class='id identifier rubyid_run_jamf'>run_jamf</span><span class='lparen'>(</span><span class='symbol'>:version</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>=</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_available?-class_method">
+  
+    .<strong>jss_available?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is the JSS available right now?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is the JSS available now?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_available?'>jss_available?</span>
+  <span class='id identifier rubyid_run_jamf'>run_jamf</span> <span class='symbol'>:checkJSSConnection</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-retry 1</span><span class='tstring_end'>&#39;</span></span>
+  <span class='gvar'>$CHILD_STATUS</span><span class='period'>.</span><span class='id identifier rubyid_exitstatus'>exitstatus</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_port-class_method">
+  
+    .<strong>jss_port</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The port number for JSS connections for this client</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the port to the JSS for this client</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 163</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_port'>jss_port</span>
+  <span class='id identifier rubyid_jss_url'>jss_url</span>
+  <span class='ivar'>@port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_protocol-class_method">
+  
+    .<strong>jss_protocol</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The protocol for JSS connections for this client</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the protocol to the JSS for this client, “http” or “https”</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_protocol'>jss_protocol</span>
+  <span class='id identifier rubyid_jss_url'>jss_url</span>
+  <span class='ivar'>@protocol</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_record-class_method">
+  
+    .<strong>jss_record</strong>  &#x21d2; <tt><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS::Computer object for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The JSS record for this computer, nil if not in the JSS</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 200</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_record'>jss_record</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>udid:</span> <span class='id identifier rubyid_udid'>udid</span>
+<span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_server-class_method">
+  
+    .<strong>jss_server</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS server hostname for this client</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSS server for this client</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_server'>jss_server</span>
+  <span class='id identifier rubyid_jss_url'>jss_url</span>
+  <span class='ivar'>@server</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_url-class_method">
+  
+    .<strong>jss_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the URL to the jss for this client</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the url to the JSS for this client</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_jss_url'>jss_url</span>
+  <span class='ivar'>@url</span> <span class='op'>=</span> <span class='id identifier rubyid_jamf_plist'>jamf_plist</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jss_url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@url</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='ivar'>@url</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(https?)://(.+):(\d+)/</span><span class='regexp_end'>}</span></span>
+  <span class='ivar'>@protocol</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='ivar'>@server</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='ivar'>@url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="management_action-class_method">
+  
+    .<strong>management_action</strong>(msg, title: nil, subtitle: nil, delay: 0)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>class Methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_management_action'>management_action</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>subtitle:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>delay:</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delay: must be a non-negative integer.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_delay'>delay</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_delay'>delay</span> <span class='op'>&gt;</span> <span class='op'>-</span><span class='int'>1</span>
+
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='const'><span class='object_link'><a href="#MGMT_ACTION-constant" title="JSS::Client::MGMT_ACTION (constant)">MGMT_ACTION</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -message </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_msg'>msg</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -title </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_title'>title</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_title'>title</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -subtitle </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_subtitle'>subtitle</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_subtitle'>subtitle</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -deliverydelay </span><span class='embexpr_beg'>#{</span><span class='const'>Shellwords</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_delay'>delay</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_delay'>delay</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+  <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cmd'>cmd</span><span class='embexpr_end'>}</span><span class='tstring_content'> 2&gt;&amp;1</span><span class='tstring_end'>`</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_ip_address-class_method">
+  
+    .<strong>my_ip_address</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the current IP address as a String.</p>
+
+<p>This handy code doesn&#39;t acutally make a UDP connection, it just starts to set up the connection, then uses that to get the local IP.</p>
+
+<p>Lifted gratefully from <a href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr.wordpress.com/2008/05/28/get-your-local-ip-address</a>/</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the current IP address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_ip_address'>my_ip_address</span>
+  <span class='comment'># turn off reverse DNS resolution temporarily
+</span>  <span class='comment'># @note the &#39;socket&#39; library has already been required by &#39;rest-client&#39;
+</span>  <span class='id identifier rubyid_orig'>orig</span> <span class='op'>=</span> <span class='const'>Socket</span><span class='period'>.</span><span class='id identifier rubyid_do_not_reverse_lookup'>do_not_reverse_lookup</span>
+  <span class='const'>Socket</span><span class='period'>.</span><span class='id identifier rubyid_do_not_reverse_lookup'>do_not_reverse_lookup</span> <span class='op'>=</span> <span class='kw'>true</span>
+
+  <span class='const'>UDPSocket</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span>
+    <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>192.168.0.0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+  <span class='kw'>end</span>
+<span class='kw'>ensure</span>
+  <span class='const'>Socket</span><span class='period'>.</span><span class='id identifier rubyid_do_not_reverse_lookup'>do_not_reverse_lookup</span> <span class='op'>=</span> <span class='id identifier rubyid_orig'>orig</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="nc_notify-class_method">
+  
+    .<strong>nc_notify</strong>(msg, title: nil, subtitle: nil, delay: 0)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>an alias of management_action</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_nc_notify'>nc_notify</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>subtitle:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>delay:</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_management_action'>management_action</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='label'>subtitle:</span> <span class='id identifier rubyid_subtitle'>subtitle</span><span class='comma'>,</span> <span class='label'>delay:</span> <span class='id identifier rubyid_delay'>delay</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="primary_console_user-class_method">
+  
+    .<strong>primary_console_user</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Which console user is using the primary GUI console? Returns nil if the primary GUI console is at the login window.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The login name of the user is using the primary GUI console, or nil if at the login window.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+249
+250
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 249</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_primary_console_user'>primary_console_user</span>
+  <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#CONSOLE_USERS_SCUTIL_CMD-constant" title="JSS::Client::CONSOLE_USERS_SCUTIL_CMD (constant)">CONSOLE_USERS_SCUTIL_CMD</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*Name : (\S+)$</span><span class='regexp_end'>/</span></span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#LOGINWINDOW_USER-constant" title="JSS::Client::LOGINWINDOW_USER (constant)">LOGINWINDOW_USER</a></span></span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id identifier rubyid_user'>user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="receipts-class_method">
+  
+    .<strong>receipts</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All the JAMF receipts on this client</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an array of Pathnames for all regular files in the jamf receipts folder</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_receipts'>receipts</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The JAMF Receipts folder doesn&#39;t exist on this computer.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#RECEIPTS_FOLDER-constant" title="JSS::Client::RECEIPTS_FOLDER (constant)">RECEIPTS_FOLDER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
+  <span class='const'><span class='object_link'><a href="#RECEIPTS_FOLDER-constant" title="JSS::Client::RECEIPTS_FOLDER (constant)">RECEIPTS_FOLDER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:file?</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="restore_alerts-class_method">
+  
+    .<strong>restore_alerts</strong>(orig_flags)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_restore_alerts'>restore_alerts</span><span class='lparen'>(</span><span class='id identifier rubyid_orig_flags'>orig_flags</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_orig_flags'>orig_flags</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_flags'>flags</span><span class='op'>|</span>
+    <span class='id identifier rubyid_set_mgmt_action_ncprefs_flags'>set_mgmt_action_ncprefs_flags</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_flags'>flags</span><span class='comma'>,</span> <span class='label'>hup:</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_system'>system</span> <span class='const'>HUP_NOTIF_CTR_CMD</span> <span class='kw'>unless</span> <span class='id identifier rubyid_orig_flags'>orig_flags</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_jamf-class_method">
+  
+    .<strong>run_jamf</strong>(command, args = nil, verbose = false)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>Most jamf commands require superuser/root privileges.</p>
+</div>
+  </div>
+
+
+<p>Run an arbitrary jamf binary command.</p>
+
+<p>The details of the Process::Status for the jamf binary process can be captured from $CHILD_STATUS immediately after calling. (See Process::Status)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>These two are equivalent:
+
+  JSS::Client.run_jamf &quot;recon&quot;, &quot;-assetTag 12345 -department &#39;IT Support&#39;&quot;
+
+  JSS::Client.run_jamf :recon, [&#39;-assetTag&#39;, &#39;12345&#39;, &#39;-department&#39;, &#39;IT Support&#39;&quot;]</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jamf binary command to run The command is the single jamf command that comes after the/usr/bin/jamf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the arguments passed to the jamf command. This is to be passed to Kernel.` (backtick), after being combined with the jamf binary and the jamf command</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>verbose</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the stdout &amp; stderr of the jamf binary be sent to the current stdout in realtime, as well as returned as a string?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the stdout &amp; stderr of the jamf binary.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnmanagedError.html" title="JSS::UnmanagedError (class)">JSS::UnmanagedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/jamf_binary.rb', line 90</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run_jamf'>run_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_verbose'>verbose</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnmanagedError.html" title="JSS::UnmanagedError (class)">UnmanagedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The jamf binary is not installed on this computer.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_installed?'>installed?</span>
+  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#ROOTLESS_JAMF_COMMANDS-constant" title="JSS::Client::ROOTLESS_JAMF_COMMANDS (constant)">ROOTLESS_JAMF_COMMANDS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_superuser?'><span class='object_link'><a href="../JSS.html#superuser%3F-class_method" title="JSS.superuser? (method)">superuser?</a></span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>You must have root privileges to run that jamf binary command</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='id identifier rubyid_build_jamf_command'>build_jamf_command</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#JAMF_VERBOSE_OPT-constant" title="JSS::Client::JAMF_VERBOSE_OPT (constant)">JAMF_VERBOSE_OPT</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_verbose'>verbose</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#JAMF_VERBOSE_OPT-constant" title="JSS::Client::JAMF_VERBOSE_OPT (constant)">JAMF_VERBOSE_OPT</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_execute_jamf'>execute_jamf</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='comma'>,</span> <span class='id identifier rubyid_verbose'>verbose</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_users-class_method">
+  
+    .<strong>self_service_users</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Who&#39;s currently running Self Service.app? - might be more than one if Fast User Switching is in use.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current users running Self Service.app</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267
+268</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_self_service_users'>self_service_users</span>
+  <span class='id identifier rubyid_ss_userlines'>ss_userlines</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#PS_USER_COMM-constant" title="JSS::Client::PS_USER_COMM (constant)">PS_USER_COMM</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_l'>l</span><span class='op'>|</span> <span class='id identifier rubyid_l'>l</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="#SELF_SERVICE_EXECUTABLE_END-constant" title="JSS::Client::SELF_SERVICE_EXECUTABLE_END (constant)">SELF_SERVICE_EXECUTABLE_END</a></span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_ss_userlines'>ss_userlines</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ssl'>ssl</span><span class='op'>|</span> <span class='id identifier rubyid_ssl'>ssl</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serial_number-class_method">
+  
+    .<strong>serial_number</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The serial number for this computer via system_profiler</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the serial number for this computer</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 218</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_serial_number'>serial_number</span>
+  <span class='id identifier rubyid_hardware_data'>hardware_data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>serial_number</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_mgmt_action_ncprefs_flags-class_method">
+  
+    .<strong>set_mgmt_action_ncprefs_flags</strong>(user, flags, hup: true)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>set the NotificationCenter option flags for a user flags = an integer.</p>
+
+<p>Doesn&#39;t seem to work in 10.13, so ignore this for now.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the original flags, or given flags if no originals.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_mgmt_action_ncprefs_flags'>set_mgmt_action_ncprefs_flags</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_flags'>flags</span><span class='comma'>,</span> <span class='label'>hup:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_plist'>plist</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/Users/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='embexpr_end'>}</span><span class='tstring_content'>/Library/Preferences/</span><span class='embexpr_beg'>#{</span><span class='const'>NCPREFS_DOMAIN</span><span class='embexpr_end'>}</span><span class='tstring_content'>.plist</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_prefs'>prefs</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_plist'><span class='object_link'><a href="../JSS.html#parse_plist-class_method" title="JSS.parse_plist (method)">parse_plist</a></span></span> <span class='id identifier rubyid_plist'>plist</span>
+  <span class='id identifier rubyid_mgmt_action_setting'>mgmt_action_setting</span> <span class='op'>=</span> <span class='id identifier rubyid_prefs'>prefs</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apps</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='op'>|</span> <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bundle-id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='const'>MGMT_ACTION_BUNDLE_ID</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_mgmt_action_setting'>mgmt_action_setting</span>
+    <span class='id identifier rubyid_orig_flags'>orig_flags</span> <span class='op'>=</span> <span class='id identifier rubyid_mgmt_action_setting'>mgmt_action_setting</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>flags</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_mgmt_action_setting'>mgmt_action_setting</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>flags</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_flags'>flags</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_orig_flags'>orig_flags</span> <span class='op'>=</span> <span class='id identifier rubyid_flags'>flags</span>
+    <span class='id identifier rubyid_prefs'>prefs</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apps</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bundle-id</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>MGMT_ACTION_BUNDLE_ID</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>flags</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_flags'>flags</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='comment'># system &quot;/usr/bin/defaults write #{NCPREFS_DOMAIN} &#39;#{prefs.to_plist}&#39;&quot;
+</span>  <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='id identifier rubyid_prefs'>prefs</span><span class='period'>.</span><span class='id identifier rubyid_to_plist'>to_plist</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_system'>system</span> <span class='const'>HUP_NOTIF_CTR_CMD</span> <span class='kw'>if</span> <span class='id identifier rubyid_hup'>hup</span>
+  <span class='id identifier rubyid_orig_flags'>orig_flags</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="udid-class_method">
+  
+    .<strong>udid</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The UUID for this computer via system_profiler</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the UUID/UDID for this computer</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/client.rb', line 210</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_udid'>udid</span>
+  <span class='id identifier rubyid_hardware_data'>hardware_data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>platform_UUID</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:56 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

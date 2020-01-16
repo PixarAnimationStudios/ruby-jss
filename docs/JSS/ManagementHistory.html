@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::ManagementHistory
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::ManagementHistory";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (M)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">ManagementHistory</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::ManagementHistory
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/management_history.rb<span class="defines">,<br />
+  lib/jss.rb,<br /> lib/jss/api_object/management_history/ebook.rb,<br /> lib/jss/api_object/management_history/hashlike.rb,<br /> lib/jss/api_object/management_history/policy_log.rb,<br /> lib/jss/api_object/management_history/audit_event.rb,<br /> lib/jss/api_object/management_history/mdm_command.rb,<br /> lib/jss/api_object/management_history/casper_remote_log.rb,<br /> lib/jss/api_object/management_history/mac_app_store_app.rb,<br /> lib/jss/api_object/management_history/mobile_device_app.rb,<br /> lib/jss/api_object/management_history/casper_imaging_log.rb,<br /> lib/jss/api_object/management_history/computer_usage_log.rb,<br /> lib/jss/api_object/management_history/screen_sharing_log.rb,<br /> lib/jss/api_object/management_history/user_location_change.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Objects mixing in this module have &#39;management history&#39; in the JSS, which at this point is Computers and MobileDevices</p>
+
+<p><strong>Important:</strong> this is &#39;management history&#39;, i.e. the history and logs of mdm commands, locations, apps, policies, and other events that are part of management and inventory collection.</p>
+
+<p>When viewing the details page for a computer or mobile device in the Web UI, this is the data visible in the &#39;History&#39; pane of the page.</p>
+
+<p>It is not the same as &#39;object history&#39; which are the changes made to a JSS object in the database, e.g. edits &amp; notes by admins or automated processes in the JSS web UI or via the API. Object history is visble in the Web UI by clicking the &#39;History&#39; button at the bottom of a machine&#39;s details page.</p>
+
+<h2 id="label-Class+-26+Instance+Methods">Class &amp; Instance Methods</h2>
+
+<p>This module provides both class methods, which can be used to retrieve history data without instantiating a full Computer or MobileDevice, and instance methods that are wrappers around the class methods. The methods have the same names, but of course the class methods require arguments specifying the target for which to retrieve data, and which API connection to use (defaulting to the currently active connection).</p>
+
+<h2 id="label-Raw+data+versus+processed+data+-26+event+object+classes">Raw data versus processed data &amp; event object classes</h2>
+
+<p>The primary data-retrieval method for management history data is management_history. This method returns the raw JSON data from the API, parsed into a Ruby Hash. If you don&#39;t specify a subset, the data returned can be very large.</p>
+
+<p>This data is somewhat inconsistent in its structure and content across the different subsets of history events, but you&#39;re welcome to use it if needed.</p>
+
+<p>To provide a more consistent and ruby-like interface to the history events, the remaining methods, which only return subsets of the full dataset, will return Arrays of instances of the classes defined in this module.</p>
+
+<p>For example, the JSS::MobileDevice.audit_history method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the Computer.completed_policies gives an Array of JSS::ManagementHistory::PolicyLog objects.</p>
+
+<p>These objects are read-only and provide access to their values via both attribute-style methods, and hash-like keys, similar to how OpenStruct objects do. This means that</p>
+
+<pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>some_log_event.date_time</span><span class='tstring_end'>`</span></span>
+</code></pre>
+
+<p>and</p>
+
+<pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>some_log_event[:date_time]</span><span class='tstring_end'>`</span></span>
+</code></pre>
+
+<p>are identical. This <strong>may</strong> help with some backward-compatibility issues.</p>
+
+<p>NOTE: History queries from the API are <strong>not</strong> cached in ruby-jss, like the APIObject.all data is - instead it is queried anew every time. For this reason, you are encouraged to store the results of these methods in variables for later use if needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="ManagementHistory/ClassMethods.html" title="JSS::ManagementHistory::ClassMethods (module)">ClassMethods</a></span>, <span class='object_link'><a href="ManagementHistory/HashLike.html" title="JSS::ManagementHistory::HashLike (module)">HashLike</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ManagementHistory/AuditEvent.html" title="JSS::ManagementHistory::AuditEvent (class)">AuditEvent</a></span>, <span class='object_link'><a href="ManagementHistory/CasperImagingLog.html" title="JSS::ManagementHistory::CasperImagingLog (class)">CasperImagingLog</a></span>, <span class='object_link'><a href="ManagementHistory/CasperRemoteLog.html" title="JSS::ManagementHistory::CasperRemoteLog (class)">CasperRemoteLog</a></span>, <span class='object_link'><a href="ManagementHistory/ComputerUsageLog.html" title="JSS::ManagementHistory::ComputerUsageLog (class)">ComputerUsageLog</a></span>, <span class='object_link'><a href="ManagementHistory/EBook.html" title="JSS::ManagementHistory::EBook (class)">EBook</a></span>, <span class='object_link'><a href="ManagementHistory/MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">MDMCommand</a></span>, <span class='object_link'><a href="ManagementHistory/MacAppStoreApp.html" title="JSS::ManagementHistory::MacAppStoreApp (class)">MacAppStoreApp</a></span>, <span class='object_link'><a href="ManagementHistory/MobileDeviceApp.html" title="JSS::ManagementHistory::MobileDeviceApp (class)">MobileDeviceApp</a></span>, <span class='object_link'><a href="ManagementHistory/PolicyLog.html" title="JSS::ManagementHistory::PolicyLog (class)">PolicyLog</a></span>, <span class='object_link'><a href="ManagementHistory/ScreenSharingLog.html" title="JSS::ManagementHistory::ScreenSharingLog (class)">ScreenSharingLog</a></span>, <span class='object_link'><a href="ManagementHistory/UserLocationChange.html" title="JSS::ManagementHistory::UserLocationChange (class)">UserLocationChange</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="HIST_RAW_STATUS_COMPLETED-constant" class="">HIST_RAW_STATUS_COMPLETED =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Completed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_RAW_STATUS_INSTALLED-constant" class="">HIST_RAW_STATUS_INSTALLED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Installed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_RAW_STATUS_MANAGED-constant" class="">HIST_RAW_STATUS_MANAGED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Managed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_RAW_STATUS_UNMANAGED-constant" class="">HIST_RAW_STATUS_UNMANAGED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Unmanaged</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_RAW_STATUS_FAILED-constant" class="">HIST_RAW_STATUS_FAILED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Failed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_RAW_STATUS_PENDING-constant" class="">HIST_RAW_STATUS_PENDING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Pending</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_STATUS_COMPLETED-constant" class="">HIST_STATUS_COMPLETED =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:completed</span></pre></dd>
+      
+        <dt id="HIST_STATUS_PENDING-constant" class="">HIST_STATUS_PENDING =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:pending</span></pre></dd>
+      
+        <dt id="HIST_STATUS_FAILED-constant" class="">HIST_STATUS_FAILED =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:failed</span></pre></dd>
+      
+        <dt id="HIST_STATUS_INSTALLED-constant" class="">HIST_STATUS_INSTALLED =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:installed</span></pre></dd>
+      
+        <dt id="HIST_RAW_SOURCE_APP_IN_HOUSE-constant" class="">HIST_RAW_SOURCE_APP_IN_HOUSE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:in_house_from_mobile_device_app_catalog</span></pre></dd>
+      
+        <dt id="HIST_RAW_SOURCE_APP_STORE-constant" class="">HIST_RAW_SOURCE_APP_STORE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:app_store_from_mobile_device_app_catalog</span></pre></dd>
+      
+        <dt id="HIST_RAW_SOURCE_EBOOK_IN_HOUSE-constant" class="">HIST_RAW_SOURCE_EBOOK_IN_HOUSE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:inhouse</span></pre></dd>
+      
+        <dt id="HIST_RAW_SOURCE_IBOOKSTORE-constant" class="">HIST_RAW_SOURCE_IBOOKSTORE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:ibookstore</span></pre></dd>
+      
+        <dt id="HIST_RAW_SOURCE_OTHER-constant" class="">HIST_RAW_SOURCE_OTHER =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:other</span></pre></dd>
+      
+        <dt id="HIST_SOURCE_IN_HOUSE-constant" class="">HIST_SOURCE_IN_HOUSE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:in_house</span></pre></dd>
+      
+        <dt id="HIST_SOURCE_APP_STORE-constant" class="">HIST_SOURCE_APP_STORE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:app_store</span></pre></dd>
+      
+        <dt id="HIST_SOURCE_IBOOKSTORE-constant" class="">HIST_SOURCE_IBOOKSTORE =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:ibookstore</span></pre></dd>
+      
+        <dt id="HIST_SOURCE_OTHER-constant" class="">HIST_SOURCE_OTHER =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:other</span></pre></dd>
+      
+        <dt id="HIST_MDM_STATUSES-constant" class="">HIST_MDM_STATUSES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#HIST_STATUS_COMPLETED-constant" title="JSS::ManagementHistory::HIST_STATUS_COMPLETED (constant)">HIST_STATUS_COMPLETED</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#HIST_STATUS_PENDING-constant" title="JSS::ManagementHistory::HIST_STATUS_PENDING (constant)">HIST_STATUS_PENDING</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#HIST_STATUS_FAILED-constant" title="JSS::ManagementHistory::HIST_STATUS_FAILED (constant)">HIST_STATUS_FAILED</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_APP_STATUSES-constant" class="">HIST_APP_STATUSES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#HIST_STATUS_INSTALLED-constant" title="JSS::ManagementHistory::HIST_STATUS_INSTALLED (constant)">HIST_STATUS_INSTALLED</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#HIST_STATUS_PENDING-constant" title="JSS::ManagementHistory::HIST_STATUS_PENDING (constant)">HIST_STATUS_PENDING</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#HIST_STATUS_FAILED-constant" title="JSS::ManagementHistory::HIST_STATUS_FAILED (constant)">HIST_STATUS_FAILED</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_COMPUTER_RSRC-constant" class="">HIST_COMPUTER_RSRC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The api resource for each history type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>computerhistory</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_DEVICE_RSRC-constant" class="">HIST_DEVICE_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobiledevicehistory</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_COMPUTER_KEY-constant" class="">HIST_COMPUTER_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The top-level hash key for the history data of each type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:computer_history</span></pre></dd>
+      
+        <dt id="HIST_DEVICE_KEY-constant" class="">HIST_DEVICE_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:mobile_device_history</span></pre></dd>
+      
+        <dt id="HIST_COMPUTER_SUBSETS-constant" class="">HIST_COMPUTER_SUBSETS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The keys are both the subset names in the resrouce URLS (when converted to strings) and the second-level hash key of the returned subset data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>computer_usage_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>audits</span><span class='words_sep'>
+  </span><span class='tstring_content'>policy_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>casper_remote_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>screen_sharing_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>casper_imaging_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>commands</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_location</span><span class='words_sep'>
+  </span><span class='tstring_content'>mac_app_store_applications</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HIST_DEVICE_SUBSETS-constant" class="">HIST_DEVICE_SUBSETS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The keys are both the subset names in the resrouce URLS (when converted to strings) and the second-level hash key of the returned subset data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>management_commands</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_location</span><span class='words_sep'>
+  </span><span class='tstring_content'>audits</span><span class='words_sep'>
+  </span><span class='tstring_content'>applications</span><span class='words_sep'>
+  </span><span class='tstring_content'>ebooks</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extend ourself when included See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#app_store_app_history-instance_method" title="#app_store_app_history (instance method)">#<strong>app_store_app_history</strong>(status = nil)  &#x21d2; Object </a>
+    
+
+    
+      (also: #managed_app_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Wrapper for app store history for both computers and mobile devices.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#audit_history-instance_method" title="#audit_history (instance method)">#<strong>audit_history</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #audits)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The audit_history for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_imaging_logs-instance_method" title="#casper_imaging_logs (instance method)">#<strong>casper_imaging_logs</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The casper_imaging_logs for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_remote_logs-instance_method" title="#casper_remote_logs (instance method)">#<strong>casper_remote_logs</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The casper_remote_logs for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_mdm_commands-instance_method" title="#completed_mdm_commands (instance method)">#<strong>completed_mdm_commands</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #completed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The completed_mdm_commands for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_policies-instance_method" title="#completed_policies (instance method)">#<strong>completed_policies</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :completed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer_usage_logs-instance_method" title="#computer_usage_logs (instance method)">#<strong>computer_usage_logs</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #usage_logs)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The computer_usage_logs for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ebook_history-instance_method" title="#ebook_history (instance method)">#<strong>ebook_history</strong>(status = nil)  &#x21d2; Object </a>
+    
+
+    
+      (also: #managed_ebook_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The ebook_history for this mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_app_store_apps-instance_method" title="#failed_app_store_apps (instance method)">#<strong>failed_app_store_apps</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_ebooks-instance_method" title="#failed_ebooks (instance method)">#<strong>failed_ebooks</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_mdm_commands-instance_method" title="#failed_mdm_commands (instance method)">#<strong>failed_mdm_commands</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The failed_mdm_commands for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_policies-instance_method" title="#failed_policies (instance method)">#<strong>failed_policies</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_app_store_apps-instance_method" title="#installed_app_store_apps (instance method)">#<strong>installed_app_store_apps</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_ebooks-instance_method" title="#installed_ebooks (instance method)">#<strong>installed_ebooks</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_mdm_contact-instance_method" title="#last_mdm_contact (instance method)">#<strong>last_mdm_contact</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The time of the last completed mdm command for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mac_app_store_app_history-instance_method" title="#mac_app_store_app_history (instance method)">#<strong>mac_app_store_app_history</strong>(status = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The mac_app_store_app_history for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_history-instance_method" title="#management_history (instance method)">#<strong>management_history</strong>(subset = nil)  &#x21d2; Object </a>
+    
+
+    
+      (also: #history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The raw management history data for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdm_command_history-instance_method" title="#mdm_command_history (instance method)">#<strong>mdm_command_history</strong>(status = nil)  &#x21d2; Object </a>
+    
+
+    
+      (also: #commands, #management_command_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The mdm_command_history for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mobile_device_app_history-instance_method" title="#mobile_device_app_history (instance method)">#<strong>mobile_device_app_history</strong>(status = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The mobile_device_app_history for this mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_app_store_apps-instance_method" title="#pending_app_store_apps (instance method)">#<strong>pending_app_store_apps</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_ebooks-instance_method" title="#pending_ebooks (instance method)">#<strong>pending_ebooks</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_mdm_commands-instance_method" title="#pending_mdm_commands (instance method)">#<strong>pending_mdm_commands</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The pending_mdm_commands for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#policy_logs-instance_method" title="#policy_logs (instance method)">#<strong>policy_logs</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The policy_logs for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#screen_sharing_logs-instance_method" title="#screen_sharing_logs (instance method)">#<strong>screen_sharing_logs</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The screen_sharing_logs for this computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_location_history-instance_method" title="#user_location_history (instance method)">#<strong>user_location_history</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The user_location_history for this object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    .<strong>included</strong>(klass)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extend ourself when included See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>{JSS{JSS::ManagementHistory{JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+665
+666
+667</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 665</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ManagementHistory/ClassMethods.html" title="JSS::ManagementHistory::ClassMethods (module)">ClassMethods</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="app_store_app_history-instance_method">
+  
+    #<strong>app_store_app_history</strong>(status = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_app_history-instance_method'>managed_app_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Wrapper for app store history for both computers and mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+766
+767
+768</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 766</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="audit_history-instance_method">
+  
+    #<strong>audit_history</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='audits-instance_method'>audits</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The audit_history for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+688
+689
+690</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 688</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_audit_history'>audit_history</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_audit_history'>audit_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_imaging_logs-instance_method">
+  
+    #<strong>casper_imaging_logs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The casper_imaging_logs for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+802
+803
+804</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 802</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_imaging_logs'>casper_imaging_logs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_casper_imaging_logs'>casper_imaging_logs</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_remote_logs-instance_method">
+  
+    #<strong>casper_remote_logs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The casper_remote_logs for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+810
+811
+812</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 810</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_remote_logs'>casper_remote_logs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_casper_remote_logs'>casper_remote_logs</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_mdm_commands-instance_method">
+  
+    #<strong>completed_mdm_commands</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='completed_commands-instance_method'>completed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The completed_mdm_commands for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+715
+716
+717</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 715</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_policies-instance_method">
+  
+    #<strong>completed_policies</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :completed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+843
+844
+845</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 843</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_policies'>completed_policies</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_completed_policies'>completed_policies</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_usage_logs-instance_method">
+  
+    #<strong>computer_usage_logs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='usage_logs-instance_method'>usage_logs</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The computer_usage_logs for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+818
+819
+820</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 818</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_usage_logs'>computer_usage_logs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_computer_usage_logs'>computer_usage_logs</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ebook_history-instance_method">
+  
+    #<strong>ebook_history</strong>(status = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_ebook_history-instance_method'>managed_ebook_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The ebook_history for this mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+859
+860
+861</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 859</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_app_store_apps-instance_method">
+  
+    #<strong>failed_app_store_apps</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_apps-instance_method'>failed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+793
+794
+795</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 793</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_app_store_apps'>failed_app_store_apps</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_failed_app_store_apps'>failed_app_store_apps</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_ebooks-instance_method">
+  
+    #<strong>failed_ebooks</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_ebooks-instance_method'>failed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+886
+887
+888</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 886</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_ebooks'>failed_ebooks</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_failed_ebooks'>failed_ebooks</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_mdm_commands-instance_method">
+  
+    #<strong>failed_mdm_commands</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_commands-instance_method'>failed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The failed_mdm_commands for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+741
+742
+743</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 741</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_policies-instance_method">
+  
+    #<strong>failed_policies</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+851
+852
+853</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 851</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_policies'>failed_policies</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_failed_policies'>failed_policies</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_app_store_apps-instance_method">
+  
+    #<strong>installed_app_store_apps</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_apps-instance_method'>installed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+775
+776
+777</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 775</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_app_store_apps'>installed_app_store_apps</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_installed_app_store_apps'>installed_app_store_apps</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_ebooks-instance_method">
+  
+    #<strong>installed_ebooks</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_ebooks-instance_method'>installed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+868
+869
+870</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 868</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_ebooks'>installed_ebooks</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_installed_ebooks'>installed_ebooks</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="last_mdm_contact-instance_method">
+  
+    #<strong>last_mdm_contact</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The time of the last completed mdm command for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+724
+725
+726</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 724</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_last_mdm_contact'>last_mdm_contact</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_last_mdm_contact'>last_mdm_contact</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mac_app_store_app_history-instance_method">
+  
+    #<strong>mac_app_store_app_history</strong>(status = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The mac_app_store_app_history for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+750
+751
+752</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 750</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="management_history-instance_method">
+  
+    #<strong>management_history</strong>(subset = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='history-instance_method'>history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The raw management history data for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+679
+680
+681</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 679</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_subset'>subset</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mdm_command_history-instance_method">
+  
+    #<strong>mdm_command_history</strong>(status = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='commands-instance_method'>commands</span>, <span id='management_command_history-instance_method'>management_command_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The mdm_command_history for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+705
+706
+707</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 705</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mobile_device_app_history-instance_method">
+  
+    #<strong>mobile_device_app_history</strong>(status = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The mobile_device_app_history for this mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+758
+759
+760</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 758</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_app_store_apps-instance_method">
+  
+    #<strong>pending_app_store_apps</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_apps-instance_method'>pending_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+784
+785
+786</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 784</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_app_store_apps'>pending_app_store_apps</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_pending_app_store_apps'>pending_app_store_apps</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_ebooks-instance_method">
+  
+    #<strong>pending_ebooks</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_ebooks-instance_method'>pending_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+877
+878
+879</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 877</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_ebooks'>pending_ebooks</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_pending_ebooks'>pending_ebooks</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_mdm_commands-instance_method">
+  
+    #<strong>pending_mdm_commands</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_commands-instance_method'>pending_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The pending_mdm_commands for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+732
+733
+734</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 732</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_mdm_commands'>pending_mdm_commands</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_pending_mdm_commands'>pending_mdm_commands</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="policy_logs-instance_method">
+  
+    #<strong>policy_logs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The policy_logs for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+835
+836
+837</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 835</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_policy_logs'>policy_logs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="screen_sharing_logs-instance_method">
+  
+    #<strong>screen_sharing_logs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The screen_sharing_logs for this computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+827
+828
+829</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 827</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_screen_sharing_logs'>screen_sharing_logs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_screen_sharing_logs'>screen_sharing_logs</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user_location_history-instance_method">
+  
+    #<strong>user_location_history</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The user_location_history for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>matching method in  {JSS::ManagementHistory::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+697
+698
+699</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 697</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user_location_history'>user_location_history</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_user_location_history'>user_location_history</span><span class='lparen'>(</span><span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:54 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

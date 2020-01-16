@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::MDM
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::MDM";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (M)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">MDM</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::MDM
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerGroup.html" title="JSS::ComputerGroup (class)">ComputerGroup</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">MobileDeviceGroup</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/mdm.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This module provides the ability to work with MDM commands for objects that can receive them.</p>
+
+<p>Objects mixing in this module MUST:</p>
+<ul><li>
+<p>Define the constant MDM_COMMAND_TARGET - One of:</p>
+
+<pre class="code ruby"><code class="ruby">:computers, :computergroups, :mobiledevices, :mobiledevicegroups
+</code></pre>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="MDM/ClassMethods.html" title="JSS::MDM::ClassMethods (module)">ClassMethods</a></span>
+    
+  
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="COMPUTER_TARGETS-constant" class="">COMPUTER_TARGETS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These targets are computers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computers</span><span class='words_sep'> </span><span class='tstring_content'>computergroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMPUTER_RSRC-constant" class="">COMPUTER_RSRC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The API resource for sending computer commands</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>computercommands</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_TARGETS-constant" class="">DEVICE_TARGETS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These targets are mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>mobiledevices</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_RSRC-constant" class="">DEVICE_RSRC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the API resource for sending device commands</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobiledevicecommands</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="GROUP_TARGETS-constant" class="">GROUP_TARGETS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These targets are groups, and need their member ids expanded for sending commands</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computergroups</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="BLANK_PUSH-constant" class="">BLANK_PUSH =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Both computers &amp; devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BlankPush</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_LOCK-constant" class="">DEVICE_LOCK =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DeviceLock</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ERASE_DEVICE-constant" class="">ERASE_DEVICE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EraseDevice</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="UNMANGE_DEVICE-constant" class="">UNMANGE_DEVICE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UnmanageDevice</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DELETE_USER-constant" class="">DELETE_USER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>computers only</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DeleteUser</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="UNLOCK_USER_ACCOUNT-constant" class="">UNLOCK_USER_ACCOUNT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UnlockUserAccount</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="SETTINGS-constant" class="">SETTINGS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Settings</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="CLEAR_PASSCODE-constant" class="">CLEAR_PASSCODE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ClearPasscode</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="UPDATE_INVENTORY-constant" class="">UPDATE_INVENTORY =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UpdateInventory</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="CLEAR_RESTRICTIONS_PASSWORD-constant" class="">CLEAR_RESTRICTIONS_PASSWORD =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ClearRestrictionsPassword</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ENABLE_DATA_ROAMING-constant" class="">ENABLE_DATA_ROAMING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsEnableDataRoaming</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DISABLE_DATA_ROAMING-constant" class="">DISABLE_DATA_ROAMING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsDisableDataRoaming</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ENABLE_VOICE_ROAMING-constant" class="">ENABLE_VOICE_ROAMING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsEnableVoiceRoaming</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DISABLE_VOICE_ROAMING-constant" class="">DISABLE_VOICE_ROAMING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsDisableVoiceRoaming</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PASSCODE_LOCK_GRACE_PERIOD-constant" class="">PASSCODE_LOCK_GRACE_PERIOD =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>shared ipads only</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PasscodeLockGracePeriod</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="WALLPAPER-constant" class="">WALLPAPER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>supervised devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Wallpaper</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_NAME-constant" class="">DEVICE_NAME =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DeviceName</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="SHUTDOWN_DEVICE-constant" class="">SHUTDOWN_DEVICE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ShutDownDevice</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RESTART_DEVICE-constant" class="">RESTART_DEVICE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>RestartDevice</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ENABLE_LOST_MODE-constant" class="">ENABLE_LOST_MODE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EnableLostMode</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DISABLE_LOST_MODE-constant" class="">DISABLE_LOST_MODE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DisableLostMode</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_LOCATION-constant" class="">DEVICE_LOCATION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DeviceLocation</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PLAY_LOST_MODE_SOUND-constant" class="">PLAY_LOST_MODE_SOUND =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PlayLostModeSound</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ENABLE_APP_ANALYTICS-constant" class="">ENABLE_APP_ANALYTICS =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsEnableAppAnalytics</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DISABLE_APP_ANALYTICS-constant" class="">DISABLE_APP_ANALYTICS =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsDisableAppAnalytics</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ENABLE_DIAGNOSTIC_SUBMISSION-constant" class="">ENABLE_DIAGNOSTIC_SUBMISSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsEnableDiagnosticSubmission</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DISABLE_DIAGNOSTIC_SUBMISSION-constant" class="">DISABLE_DIAGNOSTIC_SUBMISSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SettingsDisableDiagnosticSubmission</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMPUTER_COMMANDS-constant" class="">COMPUTER_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The MDM commands applicable to computers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#BLANK_PUSH-constant" title="JSS::MDM::BLANK_PUSH (constant)">BLANK_PUSH</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#UNMANGE_DEVICE-constant" title="JSS::MDM::UNMANGE_DEVICE (constant)">UNMANGE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DELETE_USER-constant" title="JSS::MDM::DELETE_USER (constant)">DELETE_USER</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#UNLOCK_USER_ACCOUNT-constant" title="JSS::MDM::UNLOCK_USER_ACCOUNT (constant)">UNLOCK_USER_ACCOUNT</a></span></span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ALL_DEVICE_COMMANDS-constant" class="">ALL_DEVICE_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The MDM commands applicable to all mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#BLANK_PUSH-constant" title="JSS::MDM::BLANK_PUSH (constant)">BLANK_PUSH</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#UNMANGE_DEVICE-constant" title="JSS::MDM::UNMANGE_DEVICE (constant)">UNMANGE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#SETTINGS-constant" title="JSS::MDM::SETTINGS (constant)">SETTINGS</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#CLEAR_PASSCODE-constant" title="JSS::MDM::CLEAR_PASSCODE (constant)">CLEAR_PASSCODE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#UPDATE_INVENTORY-constant" title="JSS::MDM::UPDATE_INVENTORY (constant)">UPDATE_INVENTORY</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ENABLE_DATA_ROAMING-constant" title="JSS::MDM::ENABLE_DATA_ROAMING (constant)">ENABLE_DATA_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DISABLE_DATA_ROAMING-constant" title="JSS::MDM::DISABLE_DATA_ROAMING (constant)">DISABLE_DATA_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ENABLE_VOICE_ROAMING-constant" title="JSS::MDM::ENABLE_VOICE_ROAMING (constant)">ENABLE_VOICE_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DISABLE_VOICE_ROAMING-constant" title="JSS::MDM::DISABLE_VOICE_ROAMING (constant)">DISABLE_VOICE_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PASSCODE_LOCK_GRACE_PERIOD-constant" title="JSS::MDM::PASSCODE_LOCK_GRACE_PERIOD (constant)">PASSCODE_LOCK_GRACE_PERIOD</a></span></span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="SUPERVISED_DEVICE_COMMANDS-constant" class="">SUPERVISED_DEVICE_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The MDM commands applicable to supervised mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#WALLPAPER-constant" title="JSS::MDM::WALLPAPER (constant)">WALLPAPER</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DEVICE_NAME-constant" title="JSS::MDM::DEVICE_NAME (constant)">DEVICE_NAME</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#SHUTDOWN_DEVICE-constant" title="JSS::MDM::SHUTDOWN_DEVICE (constant)">SHUTDOWN_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#RESTART_DEVICE-constant" title="JSS::MDM::RESTART_DEVICE (constant)">RESTART_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#CLEAR_RESTRICTIONS_PASSWORD-constant" title="JSS::MDM::CLEAR_RESTRICTIONS_PASSWORD (constant)">CLEAR_RESTRICTIONS_PASSWORD</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ENABLE_LOST_MODE-constant" title="JSS::MDM::ENABLE_LOST_MODE (constant)">ENABLE_LOST_MODE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DISABLE_LOST_MODE-constant" title="JSS::MDM::DISABLE_LOST_MODE (constant)">DISABLE_LOST_MODE</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DEVICE_LOCATION-constant" title="JSS::MDM::DEVICE_LOCATION (constant)">DEVICE_LOCATION</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PLAY_LOST_MODE_SOUND-constant" title="JSS::MDM::PLAY_LOST_MODE_SOUND (constant)">PLAY_LOST_MODE_SOUND</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ENABLE_APP_ANALYTICS-constant" title="JSS::MDM::ENABLE_APP_ANALYTICS (constant)">ENABLE_APP_ANALYTICS</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DISABLE_APP_ANALYTICS-constant" title="JSS::MDM::DISABLE_APP_ANALYTICS (constant)">DISABLE_APP_ANALYTICS</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ENABLE_DIAGNOSTIC_SUBMISSION-constant" title="JSS::MDM::ENABLE_DIAGNOSTIC_SUBMISSION (constant)">ENABLE_DIAGNOSTIC_SUBMISSION</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#DISABLE_DIAGNOSTIC_SUBMISSION-constant" title="JSS::MDM::DISABLE_DIAGNOSTIC_SUBMISSION (constant)">DISABLE_DIAGNOSTIC_SUBMISSION</a></span></span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_COMMANDS-constant" class="">DEVICE_COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The MDM commands applicable to mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#ALL_DEVICE_COMMANDS-constant" title="JSS::MDM::ALL_DEVICE_COMMANDS (constant)">ALL_DEVICE_COMMANDS</a></span></span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#SUPERVISED_DEVICE_COMMANDS-constant" title="JSS::MDM::SUPERVISED_DEVICE_COMMANDS (constant)">SUPERVISED_DEVICE_COMMANDS</a></span></span></pre></dd>
+      
+        <dt id="COMMANDS-constant" class="">COMMANDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Symbols that can be used to represent the commands to the send_mdm_command Class method. Alternates are provided to match both the actual API command, and the command label in the JSS web UI, as well as common variants. e.g. the DeviceLock command in the API, is recognized as: :device_lock and :lock_device, and just :lock</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='comment'># all objects
+</span>  <span class='label'>blank_push:</span> <span class='const'><span class='object_link'><a href="#BLANK_PUSH-constant" title="JSS::MDM::BLANK_PUSH (constant)">BLANK_PUSH</a></span></span><span class='comma'>,</span>
+  <span class='label'>send_blank_push:</span> <span class='const'><span class='object_link'><a href="#BLANK_PUSH-constant" title="JSS::MDM::BLANK_PUSH (constant)">BLANK_PUSH</a></span></span><span class='comma'>,</span>
+  <span class='label'>noop:</span> <span class='const'><span class='object_link'><a href="#BLANK_PUSH-constant" title="JSS::MDM::BLANK_PUSH (constant)">BLANK_PUSH</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>device_lock:</span> <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span><span class='comma'>,</span>
+  <span class='label'>lock_device:</span> <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span><span class='comma'>,</span>
+  <span class='label'>lock:</span> <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>erase_device:</span> <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>wipe_device:</span> <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>wipe_computer:</span> <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>wipe:</span> <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>erase:</span> <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>unmanage_device:</span> <span class='const'><span class='object_link'><a href="#UNMANGE_DEVICE-constant" title="JSS::MDM::UNMANGE_DEVICE (constant)">UNMANGE_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>remove_mdm_profile:</span> <span class='const'><span class='object_link'><a href="#UNMANGE_DEVICE-constant" title="JSS::MDM::UNMANGE_DEVICE (constant)">UNMANGE_DEVICE</a></span></span><span class='comma'>,</span>
+
+  <span class='comment'># computers only
+</span>  <span class='label'>unlock_user_account:</span> <span class='const'><span class='object_link'><a href="#UNLOCK_USER_ACCOUNT-constant" title="JSS::MDM::UNLOCK_USER_ACCOUNT (constant)">UNLOCK_USER_ACCOUNT</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>delete_user:</span> <span class='const'><span class='object_link'><a href="#DELETE_USER-constant" title="JSS::MDM::DELETE_USER (constant)">DELETE_USER</a></span></span><span class='comma'>,</span>
+
+  <span class='comment'># mobile devices only
+</span>  <span class='label'>settings:</span> <span class='const'><span class='object_link'><a href="#SETTINGS-constant" title="JSS::MDM::SETTINGS (constant)">SETTINGS</a></span></span><span class='comma'>,</span> <span class='comment'># not yet implemented as its own method
+</span>
+  <span class='label'>update_inventory:</span> <span class='const'><span class='object_link'><a href="#UPDATE_INVENTORY-constant" title="JSS::MDM::UPDATE_INVENTORY (constant)">UPDATE_INVENTORY</a></span></span><span class='comma'>,</span>
+  <span class='label'>recon:</span> <span class='const'><span class='object_link'><a href="#UPDATE_INVENTORY-constant" title="JSS::MDM::UPDATE_INVENTORY (constant)">UPDATE_INVENTORY</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>clear_passcode:</span> <span class='const'><span class='object_link'><a href="#CLEAR_PASSCODE-constant" title="JSS::MDM::CLEAR_PASSCODE (constant)">CLEAR_PASSCODE</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>clear_restrictions_password:</span> <span class='const'><span class='object_link'><a href="#CLEAR_RESTRICTIONS_PASSWORD-constant" title="JSS::MDM::CLEAR_RESTRICTIONS_PASSWORD (constant)">CLEAR_RESTRICTIONS_PASSWORD</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>enable_data_roaming:</span> <span class='const'><span class='object_link'><a href="#ENABLE_DATA_ROAMING-constant" title="JSS::MDM::ENABLE_DATA_ROAMING (constant)">ENABLE_DATA_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='label'>disable_data_roaming:</span> <span class='const'><span class='object_link'><a href="#DISABLE_DATA_ROAMING-constant" title="JSS::MDM::DISABLE_DATA_ROAMING (constant)">DISABLE_DATA_ROAMING</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>enable_voice_roaming:</span> <span class='const'><span class='object_link'><a href="#ENABLE_VOICE_ROAMING-constant" title="JSS::MDM::ENABLE_VOICE_ROAMING (constant)">ENABLE_VOICE_ROAMING</a></span></span><span class='comma'>,</span>
+  <span class='label'>disable_voice_roaming:</span> <span class='const'><span class='object_link'><a href="#DISABLE_VOICE_ROAMING-constant" title="JSS::MDM::DISABLE_VOICE_ROAMING (constant)">DISABLE_VOICE_ROAMING</a></span></span><span class='comma'>,</span>
+
+  <span class='comment'># supervized mobile devices only
+</span>  <span class='label'>device_name:</span> <span class='const'><span class='object_link'><a href="#DEVICE_NAME-constant" title="JSS::MDM::DEVICE_NAME (constant)">DEVICE_NAME</a></span></span><span class='comma'>,</span> <span class='comment'># implemented as part of MobileDevice.name=
+</span>
+  <span class='label'>wallpaper:</span> <span class='const'><span class='object_link'><a href="#WALLPAPER-constant" title="JSS::MDM::WALLPAPER (constant)">WALLPAPER</a></span></span><span class='comma'>,</span>
+  <span class='label'>set_wallpaper:</span> <span class='const'><span class='object_link'><a href="#WALLPAPER-constant" title="JSS::MDM::WALLPAPER (constant)">WALLPAPER</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>passcode_lock_grace_period:</span> <span class='const'><span class='object_link'><a href="#PASSCODE_LOCK_GRACE_PERIOD-constant" title="JSS::MDM::PASSCODE_LOCK_GRACE_PERIOD (constant)">PASSCODE_LOCK_GRACE_PERIOD</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>shut_down_device:</span> <span class='const'><span class='object_link'><a href="#SHUTDOWN_DEVICE-constant" title="JSS::MDM::SHUTDOWN_DEVICE (constant)">SHUTDOWN_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>shutdown_device:</span> <span class='const'><span class='object_link'><a href="#SHUTDOWN_DEVICE-constant" title="JSS::MDM::SHUTDOWN_DEVICE (constant)">SHUTDOWN_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>shut_down:</span> <span class='const'><span class='object_link'><a href="#SHUTDOWN_DEVICE-constant" title="JSS::MDM::SHUTDOWN_DEVICE (constant)">SHUTDOWN_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>shutdown:</span> <span class='const'><span class='object_link'><a href="#SHUTDOWN_DEVICE-constant" title="JSS::MDM::SHUTDOWN_DEVICE (constant)">SHUTDOWN_DEVICE</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>restart_device:</span> <span class='const'><span class='object_link'><a href="#RESTART_DEVICE-constant" title="JSS::MDM::RESTART_DEVICE (constant)">RESTART_DEVICE</a></span></span><span class='comma'>,</span>
+  <span class='label'>restart:</span> <span class='const'><span class='object_link'><a href="#RESTART_DEVICE-constant" title="JSS::MDM::RESTART_DEVICE (constant)">RESTART_DEVICE</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>enable_app_analytics:</span> <span class='const'><span class='object_link'><a href="#ENABLE_APP_ANALYTICS-constant" title="JSS::MDM::ENABLE_APP_ANALYTICS (constant)">ENABLE_APP_ANALYTICS</a></span></span><span class='comma'>,</span>
+  <span class='label'>disable_app_analytics:</span> <span class='const'><span class='object_link'><a href="#DISABLE_APP_ANALYTICS-constant" title="JSS::MDM::DISABLE_APP_ANALYTICS (constant)">DISABLE_APP_ANALYTICS</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>enable_diagnostic_submission:</span> <span class='const'><span class='object_link'><a href="#ENABLE_DIAGNOSTIC_SUBMISSION-constant" title="JSS::MDM::ENABLE_DIAGNOSTIC_SUBMISSION (constant)">ENABLE_DIAGNOSTIC_SUBMISSION</a></span></span><span class='comma'>,</span>
+  <span class='label'>disable_diagnostic_submission:</span> <span class='const'><span class='object_link'><a href="#DISABLE_DIAGNOSTIC_SUBMISSION-constant" title="JSS::MDM::DISABLE_DIAGNOSTIC_SUBMISSION (constant)">DISABLE_DIAGNOSTIC_SUBMISSION</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>enable_lost_mode:</span> <span class='const'><span class='object_link'><a href="#ENABLE_LOST_MODE-constant" title="JSS::MDM::ENABLE_LOST_MODE (constant)">ENABLE_LOST_MODE</a></span></span><span class='comma'>,</span>
+  <span class='label'>disable_lost_mode:</span> <span class='const'><span class='object_link'><a href="#DISABLE_LOST_MODE-constant" title="JSS::MDM::DISABLE_LOST_MODE (constant)">DISABLE_LOST_MODE</a></span></span><span class='comma'>,</span>
+
+  <span class='label'>device_location:</span> <span class='const'><span class='object_link'><a href="#DEVICE_LOCATION-constant" title="JSS::MDM::DEVICE_LOCATION (constant)">DEVICE_LOCATION</a></span></span><span class='comma'>,</span> <span class='comment'># not yet implemented as its own method
+</span>
+  <span class='label'>play_lost_mode_sound:</span> <span class='const'><span class='object_link'><a href="#PLAY_LOST_MODE_SOUND-constant" title="JSS::MDM::PLAY_LOST_MODE_SOUND (constant)">PLAY_LOST_MODE_SOUND</a></span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMMAND_DATA-constant" class="">COMMAND_DATA =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Command Data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='const'><span class='object_link'><a href="#DEVICE_LOCK-constant" title="JSS::MDM::DEVICE_LOCK (constant)">DEVICE_LOCK</a></span></span> <span class='op'>=&gt;</span> <span class='symbol'>:passcode</span><span class='comma'>,</span> <span class='comment'># 6 char passcode
+</span>  <span class='const'><span class='object_link'><a href="#ERASE_DEVICE-constant" title="JSS::MDM::ERASE_DEVICE (constant)">ERASE_DEVICE</a></span></span> <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='comma'>,</span> <span class='comment'># 6 char passcode
+</span>  <span class='const'><span class='object_link'><a href="#DELETE_USER-constant" title="JSS::MDM::DELETE_USER (constant)">DELETE_USER</a></span></span> <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='comma'>,</span> <span class='comment'># username
+</span>  <span class='const'><span class='object_link'><a href="#UNLOCK_USER_ACCOUNT-constant" title="JSS::MDM::UNLOCK_USER_ACCOUNT (constant)">UNLOCK_USER_ACCOUNT</a></span></span> <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='comma'>,</span> <span class='comment'># username
+</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="WALLPAPER_LOCATIONS-constant" class="">WALLPAPER_LOCATIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>lock_screen:</span> <span class='int'>1</span><span class='comma'>,</span>
+  <span class='label'>home_screen:</span> <span class='int'>2</span><span class='comma'>,</span>
+  <span class='label'>lock_and_home_screen:</span> <span class='int'>3</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PENDING_STATUS-constant" class="">PENDING_STATUS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the status to flush for &#39;pending&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Pending</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="FAILED_STATUS-constant" class="">FAILED_STATUS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the status to flush for &#39;failed&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Failed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PENDINGFAILED_STATUS-constant" class="">PENDINGFAILED_STATUS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the status to flush for both pending and failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Pending+Failed</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="FLUSHABLE_STATUSES-constant" class="">FLUSHABLE_STATUSES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>pending:</span> <span class='const'><span class='object_link'><a href="#PENDING_STATUS-constant" title="JSS::MDM::PENDING_STATUS (constant)">PENDING_STATUS</a></span></span><span class='comma'>,</span>
+  <span class='label'>failed:</span> <span class='const'><span class='object_link'><a href="#FAILED_STATUS-constant" title="JSS::MDM::FAILED_STATUS (constant)">FAILED_STATUS</a></span></span><span class='comma'>,</span>
+  <span class='label'>pending_failed:</span> <span class='const'><span class='object_link'><a href="#PENDINGFAILED_STATUS-constant" title="JSS::MDM::PENDINGFAILED_STATUS (constant)">PENDINGFAILED_STATUS</a></span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="BLANK_PUSH_RESULT-constant" class="">BLANK_PUSH_RESULT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Command sent</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="GENERAL_ELEMENT-constant" class="">GENERAL_ELEMENT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>xml elements</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>general</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMMAND_ELEMENT-constant" class="">COMMAND_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>command</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="TARGET_ID_ELEMENT-constant" class="">TARGET_ID_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMPUTER_COMMAND_ELEMENT-constant" class="">COMPUTER_COMMAND_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>computer_command</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMPUTER_ID_ELEMENT-constant" class="">COMPUTER_ID_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>computer_id</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="COMPUTER_COMMAND_UDID_ELEMENT-constant" class="">COMPUTER_COMMAND_UDID_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>command_uuid</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_COMMAND_ELEMENT-constant" class="">DEVICE_COMMAND_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobile_device_command</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_LIST_ELEMENT-constant" class="">DEVICE_LIST_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mobile_devices</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_ID_ELEMENT-constant" class="">DEVICE_ID_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEVICE_COMMAND_STATUS_ELEMENT-constant" class="">DEVICE_COMMAND_STATUS_ELEMENT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Extend ourself when included.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blank_push-instance_method" title="#blank_push (instance method)">#<strong>blank_push</strong>  &#x21d2; void </a>
+    
+
+    
+      (also: #send_blank_push, #noop)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a blank push to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_passcode-instance_method" title="#clear_passcode (instance method)">#<strong>clear_passcode</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an clear_passcode command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_restrictions_password-instance_method" title="#clear_restrictions_password (instance method)">#<strong>clear_restrictions_password</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an clear_restrictions_password command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_user-instance_method" title="#delete_user (instance method)">#<strong>delete_user</strong>(user)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a delete_user command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#device_lock-instance_method" title="#device_lock (instance method)">#<strong>device_lock</strong>(passcode_or_message = &#39;&#39;)  &#x21d2; Object </a>
+    
+
+    
+      (also: #lock, #lock_device)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a dev lock to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#device_name-instance_method" title="#device_name (instance method)">#<strong>device_name</strong>(name)  &#x21d2; Object </a>
+    
+
+    
+      (also: #set_name, #set_device_name)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a device_name command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_app_analytics-instance_method" title="#disable_app_analytics (instance method)">#<strong>disable_app_analytics</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_app_analytics command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_data_roaming-instance_method" title="#disable_data_roaming (instance method)">#<strong>disable_data_roaming</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_data_roaming command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_diagnostic_submission-instance_method" title="#disable_diagnostic_submission (instance method)">#<strong>disable_diagnostic_submission</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_diagnostic_submission command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_lost_mode-instance_method" title="#disable_lost_mode (instance method)">#<strong>disable_lost_mode</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_lost_mode command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_voice_roaming-instance_method" title="#disable_voice_roaming (instance method)">#<strong>disable_voice_roaming</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_voice_roaming command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_app_analytics-instance_method" title="#enable_app_analytics (instance method)">#<strong>enable_app_analytics</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_app_analytics command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_data_roaming-instance_method" title="#enable_data_roaming (instance method)">#<strong>enable_data_roaming</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_data_roaming command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_diagnostic_submission-instance_method" title="#enable_diagnostic_submission (instance method)">#<strong>enable_diagnostic_submission</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_diagnostic_submission command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_lost_mode-instance_method" title="#enable_lost_mode (instance method)">#<strong>enable_lost_mode</strong>(message: nil, phone_number: nil, footnote: nil, enforce_lost_mode: true, play_sound: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a enable_lost_mode command to one or more targets.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_voice_roaming-instance_method" title="#enable_voice_roaming (instance method)">#<strong>enable_voice_roaming</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_voice_roaming command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#erase_device-instance_method" title="#erase_device (instance method)">#<strong>erase_device</strong>(passcode = &#39;&#39;, preserve_data_plan: false)  &#x21d2; Object </a>
+    
+
+    
+      (also: #wipe_device, #wipe_computer, #wipe, #erase)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an erase device command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flush_mdm_commands-instance_method" title="#flush_mdm_commands (instance method)">#<strong>flush_mdm_commands</strong>(status)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>flush pending and/or failed MDM commands for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#passcode_lock_grace_period-instance_method" title="#passcode_lock_grace_period (instance method)">#<strong>passcode_lock_grace_period</strong>(secs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a passcode_lock_grace_period command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#play_lost_mode_sound-instance_method" title="#play_lost_mode_sound (instance method)">#<strong>play_lost_mode_sound</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a play_lost_mode_sound command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restart_device-instance_method" title="#restart_device (instance method)">#<strong>restart_device</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #restart)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a restart_device command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shut_down_device-instance_method" title="#shut_down_device (instance method)">#<strong>shut_down_device</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #shutdown_device, #shut_down, #shutdown)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a shut_down_device command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unlock_user_account-instance_method" title="#unlock_user_account (instance method)">#<strong>unlock_user_account</strong>(user)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an unlock_user_account command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unmanage_device-instance_method" title="#unmanage_device (instance method)">#<strong>unmanage_device</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #remove_mdm_profile)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an unmanage device command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_inventory-instance_method" title="#update_inventory (instance method)">#<strong>update_inventory</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #recon)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an update_inventory command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wallpaper-instance_method" title="#wallpaper (instance method)">#<strong>wallpaper</strong>(wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil)  &#x21d2; Object </a>
+    
+
+    
+      (also: #set_wallpaper)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a wallpaper command to this object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    .<strong>included</strong>(klass)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Extend ourself when included</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>{JSS{JSS::MDM{JSS::MDM::ClassMethods}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+994
+995
+996</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 994</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::MDM (module)">MDM</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MDM/ClassMethods.html" title="JSS::MDM::ClassMethods (module)">ClassMethods</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="blank_push-instance_method">
+  
+    #<strong>blank_push</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='send_blank_push-instance_method'>send_blank_push</span>, <span id='noop-instance_method'>noop</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Send a blank push to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1011
+1012
+1013</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1011</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_blank_push'>blank_push</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_send_blank_push'>send_blank_push</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear_passcode-instance_method">
+  
+    #<strong>clear_passcode</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an clear_passcode command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1099
+1100
+1101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1099</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_passcode'>clear_passcode</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_clear_passcode'>clear_passcode</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear_restrictions_password-instance_method">
+  
+    #<strong>clear_restrictions_password</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an clear_restrictions_password command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1107
+1108
+1109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_restrictions_password'>clear_restrictions_password</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_clear_restrictions_password'>clear_restrictions_password</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_user-instance_method">
+  
+    #<strong>delete_user</strong>(user)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a delete_user command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username of the acct to delete</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1077
+1078
+1079</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1077</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_user'>delete_user</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_delete_user'>delete_user</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="device_lock-instance_method">
+  
+    #<strong>device_lock</strong>(passcode_or_message = &#39;&#39;)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='lock-instance_method'>lock</span>, <span id='lock_device-instance_method'>lock_device</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a dev lock to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>passcode_or_message</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1024
+1025
+1026</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1024</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_device_lock'>device_lock</span><span class='lparen'>(</span><span class='id identifier rubyid_passcode_or_message'>passcode_or_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_device_lock'>device_lock</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>passcode:</span> <span class='id identifier rubyid_passcode_or_message'>passcode_or_message</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_passcode_or_message'>passcode_or_message</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="device_name-instance_method">
+  
+    #<strong>device_name</strong>(name)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_name-instance_method'>set_name</span>, <span id='set_device_name-instance_method'>set_device_name</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a device_name command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1156
+1157
+1158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1156</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_device_name'>device_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_device_name'>device_name</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_app_analytics-instance_method">
+  
+    #<strong>disable_app_analytics</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_app_analytics command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1227
+1228
+1229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1227</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_app_analytics'>disable_app_analytics</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_disable_app_analytics'>disable_app_analytics</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_data_roaming-instance_method">
+  
+    #<strong>disable_data_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_data_roaming command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1123
+1124
+1125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1123</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_data_roaming'>disable_data_roaming</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_disable_data_roaming'>disable_data_roaming</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_diagnostic_submission-instance_method">
+  
+    #<strong>disable_diagnostic_submission</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_diagnostic_submission command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1243
+1244
+1245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1243</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_diagnostic_submission'>disable_diagnostic_submission</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_disable_diagnostic_submission'>disable_diagnostic_submission</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_lost_mode-instance_method">
+  
+    #<strong>disable_lost_mode</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_lost_mode command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1293
+1294
+1295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1293</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_lost_mode'>disable_lost_mode</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_disable_lost_mode'>disable_lost_mode</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_voice_roaming-instance_method">
+  
+    #<strong>disable_voice_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_voice_roaming command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1139
+1140
+1141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1139</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_voice_roaming'>disable_voice_roaming</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_disable_voice_roaming'>disable_voice_roaming</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_app_analytics-instance_method">
+  
+    #<strong>enable_app_analytics</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_app_analytics command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1219
+1220
+1221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1219</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_app_analytics'>enable_app_analytics</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_enable_app_analytics'>enable_app_analytics</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_data_roaming-instance_method">
+  
+    #<strong>enable_data_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_data_roaming command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1115
+1116
+1117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_data_roaming'>enable_data_roaming</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_enable_data_roaming'>enable_data_roaming</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_diagnostic_submission-instance_method">
+  
+    #<strong>enable_diagnostic_submission</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_diagnostic_submission command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1235
+1236
+1237</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1235</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_diagnostic_submission'>enable_diagnostic_submission</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_enable_diagnostic_submission'>enable_diagnostic_submission</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_lost_mode-instance_method">
+  
+    #<strong>enable_lost_mode</strong>(message: nil, phone_number: nil, footnote: nil, enforce_lost_mode: true, play_sound: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a enable_lost_mode command to one or more targets</p>
+
+<p>Either or both of message and phone number must be provided</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The message to display on the lock screen</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>phone_number</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The phone number to display on the lock screen</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>footnote</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional footnote to display on the lock screen</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>play_sound</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Play a sound when entering lost mode</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enforce_lost_mode</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Re-enabled lost mode when re-enrolled after wipe.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1263
+1264
+1265
+1266
+1267
+1268
+1269
+1270
+1271
+1272
+1273
+1274
+1275
+1276
+1277
+1278
+1279</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1263</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_lost_mode'>enable_lost_mode</span><span class='lparen'>(</span>
+      <span class='label'>message:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>phone_number:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>footnote:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>enforce_lost_mode:</span> <span class='kw'>true</span><span class='comma'>,</span>
+      <span class='label'>play_sound:</span> <span class='kw'>false</span>
+<span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_enable_lost_mode'>enable_lost_mode</span><span class='lparen'>(</span>
+    <span class='ivar'>@id</span><span class='comma'>,</span>
+    <span class='label'>message:</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span>
+    <span class='label'>phone_number:</span> <span class='id identifier rubyid_phone_number'>phone_number</span><span class='comma'>,</span>
+    <span class='label'>footnote:</span> <span class='id identifier rubyid_footnote'>footnote</span><span class='comma'>,</span>
+    <span class='label'>play_sound:</span> <span class='id identifier rubyid_play_sound'>play_sound</span><span class='comma'>,</span>
+    <span class='label'>enforce_lost_mode:</span> <span class='id identifier rubyid_enforce_lost_mode'>enforce_lost_mode</span><span class='comma'>,</span>
+    <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_voice_roaming-instance_method">
+  
+    #<strong>enable_voice_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_voice_roaming command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1131
+1132
+1133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_voice_roaming'>enable_voice_roaming</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_enable_voice_roaming'>enable_voice_roaming</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="erase_device-instance_method">
+  
+    #<strong>erase_device</strong>(passcode = &#39;&#39;, preserve_data_plan: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='wipe_device-instance_method'>wipe_device</span>, <span id='wipe_computer-instance_method'>wipe_computer</span>, <span id='wipe-instance_method'>wipe</span>, <span id='erase-instance_method'>erase</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an erase device command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>passcode</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a six-char passcode, required for computers &amp; computergroups</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1036
+1037
+1038</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1036</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_erase_device'>erase_device</span><span class='lparen'>(</span><span class='id identifier rubyid_passcode'>passcode</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>preserve_data_plan:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_erase_device'>erase_device</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>passcode:</span> <span class='id identifier rubyid_passcode'>passcode</span><span class='comma'>,</span> <span class='label'>preserve_data_plan:</span> <span class='id identifier rubyid_preserve_data_plan'>preserve_data_plan</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="flush_mdm_commands-instance_method">
+  
+    #<strong>flush_mdm_commands</strong>(status)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>flush pending and/or failed MDM commands for this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a key from Commandable::FLUSHABLE_STATUSES</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1306
+1307
+1308</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1306</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_flush_mdm_commands'>flush_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_flush_mdm_commands'>flush_mdm_commands</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="passcode_lock_grace_period-instance_method">
+  
+    #<strong>passcode_lock_grace_period</strong>(secs)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a passcode_lock_grace_period command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>secs</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The numer of seconds for the grace period</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1191
+1192
+1193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1191</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_passcode_lock_grace_period'>passcode_lock_grace_period</span><span class='lparen'>(</span><span class='id identifier rubyid_secs'>secs</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_passcode_lock_grace_period'>passcode_lock_grace_period</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_secs'>secs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="play_lost_mode_sound-instance_method">
+  
+    #<strong>play_lost_mode_sound</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a play_lost_mode_sound command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1285
+1286
+1287</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1285</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_play_lost_mode_sound'>play_lost_mode_sound</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_play_lost_mode_sound'>play_lost_mode_sound</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="restart_device-instance_method">
+  
+    #<strong>restart_device</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='restart-instance_method'>restart</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a restart_device command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1210
+1211
+1212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1210</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_restart_device'>restart_device</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_restart_device'>restart_device</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="shut_down_device-instance_method">
+  
+    #<strong>shut_down_device</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='shutdown_device-instance_method'>shutdown_device</span>, <span id='shut_down-instance_method'>shut_down</span>, <span id='shutdown-instance_method'>shutdown</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a shut_down_device command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1199
+1200
+1201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1199</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_shut_down_device'>shut_down_device</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_shut_down_device'>shut_down_device</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unlock_user_account-instance_method">
+  
+    #<strong>unlock_user_account</strong>(user)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an unlock_user_account command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username of the acct to unlock</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1067
+1068
+1069</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1067</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unlock_user_account'>unlock_user_account</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_unlock_user_account'>unlock_user_account</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unmanage_device-instance_method">
+  
+    #<strong>unmanage_device</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='remove_mdm_profile-instance_method'>remove_mdm_profile</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an unmanage device command to this object</p>
+
+<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1053
+1054
+1055</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1053</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unmanage_device'>unmanage_device</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_unmanage_device'>unmanage_device</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_inventory-instance_method">
+  
+    #<strong>update_inventory</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='recon-instance_method'>recon</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an update_inventory command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1090
+1091
+1092</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1090</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_inventory'>update_inventory</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_update_inventory'>update_inventory</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wallpaper-instance_method">
+  
+    #<strong>wallpaper</strong>(wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_wallpaper-instance_method'>set_wallpaper</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a wallpaper command to this object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>wallpaper_setting</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:lock_screen, :home_screen, or :lock_and_home_screen</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>wallpaper_content</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>wallpaper_id</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1174</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wallpaper'>wallpaper</span><span class='lparen'>(</span><span class='label'>wallpaper_setting:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>wallpaper_content:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>wallpaper_id:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_wallpaper'>wallpaper</span><span class='lparen'>(</span>
+    <span class='ivar'>@id</span><span class='comma'>,</span>
+    <span class='label'>wallpaper_setting:</span> <span class='id identifier rubyid_wallpaper_setting'>wallpaper_setting</span><span class='comma'>,</span>
+    <span class='label'>wallpaper_content:</span> <span class='id identifier rubyid_wallpaper_content'>wallpaper_content</span><span class='comma'>,</span>
+    <span class='label'>wallpaper_id:</span> <span class='id identifier rubyid_wallpaper_id'>wallpaper_id</span><span class='comma'>,</span>
+    <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:54 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

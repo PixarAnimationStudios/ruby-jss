@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::JSONObject
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::JSONObject";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (J)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">JSONObject</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::JSONObject
+  <span class="abstract note title">Abstract</span>
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Jamf::JSONObject</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="Abstract.html" title="Jamf::Abstract (module)">Abstract</a></span></dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/abstract_classes/json_object.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This class is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+<p># Jamf::JSONObject</p>
+
+<p>In JSON &amp; Javascript, an &#39;object&#39; is a data structure equivalent to a Hash in Ruby. Much of the JSON data exchaged with the API is formatted as these JSON objects.</p>
+
+<p>Jamf::JSONObject is a meta class that provides a way to convert those JSON &#39;objects&#39; into not just Hashes (that&#39;s done by the Jamf::Connection) but into full-fledged ruby Classes. Once implemented in ruby-jss, all JSON objects (Hashes) used anywhere in the Jamf Pro API have a matching Class in ruby-jss which is a subclass of Jamf::JSONObject</p>
+
+<p>The Jamf::JSONObject class is abstract, and cannot be instantiated or used directly. It merely provides the common functionality needed for dealing with all JSON objects in the API.</p>
+
+<p>## Subclassing</p>
+
+<p>When implementing a JSON object in the API as a class in ruby-jss, you will make a subclass of either Jamf::JSONObject, Jamf::SingletonResource or Jamf::CollectionResource.</p>
+
+<p>Here&#39;s the relationship between these abstract classes:</p>
+
+<pre class="code ruby"><code class="ruby">                 Jamf::JSONObject
+                    (abstract)
+                        |
+                        |
+              -----------------------
+             |                       |
+       Jamf::Resource                |
+         (abstract)                  |
+             |                       |
+             |                       |
+             |            Jamf::Computer::Reference
+             |                  Jamf::Location
+             |              Jamf::ChangeLog::Entry
+             |        (more non-resource JSON object classes)
+             |
+             |----------------------------------------
+             |                                        |
+             |                                        |
+    Jamf::SingletonResource                Jamf::CollectionResource
+         (abstract)                               (abstract)
+             |                                        |
+             |                                        |
+  Jamf::Settings::ReEnrollment                  Jamf::Computer
+  Jamf::Settings::SelfService                   Jamf::Building
+       Jamf::SystemInfo                       Jamf::PatchPolicy
+(more singleton resource classes)     (more collection resource classes)
+</code></pre>
+
+<p>Direct descendents of Jamf::JSONObject are arbitrary JSON objects that appear inside other objects, e.g. the Location data for a computer, or a reference to a building.</p>
+
+<p><span class='object_link'><a href="Resource.html" title="Jamf::Resource (class)">Resource</a></span> classes represent direct resources of the API, i.e. items accessible with a URL. The ability to interact with those URLs is defined in the metaclass Jamf::Resource, and all resources must define a RSRC_VERSION and a RSRC_PATH.  See <span class='object_link'><a href="Resource.html" title="Jamf::Resource (class)">Resource</a></span> for more info.</p>
+
+<p>There are two kinds of resources in the API:</p>
+
+<p><span class='object_link'><a href="SingletonResource.html" title="Jamf::SingletonResource (class)">SingletonResource</a></span> classes represent objects in the API that have only one instance, such as various settings, or server-wide state. These objects cannot be created or deleted, only fetched and updated.</p>
+
+<p><span class='object_link'><a href="CollectionResource.html" title="Jamf::CollectionResource (class)">CollectionResource</a></span> classes represent collections of objects in the API. These resources can list all of their members, and individual members can be retrieved, updated, created and deleted.</p>
+
+<p>Subclasses need to meet the requirements for all of their ancestors, so once you decide which one you&#39;re subclassing, be sure to read the docs for each one. E.g. to implement Jamf::Package, it will be a <span class='object_link'><a href="CollectionResource.html" title="Jamf::CollectionResource (class)">CollectionResource</a></span>, which is a <span class='object_link'><a href="Resource.html" title="Jamf::Resource (class)">Resource</a></span>, which is a <span class='object_link'><a href="" title="Jamf::JSONObject (class)">JSONObject</a></span>, and the requirements for all must be met.</p>
+
+<p>The remainder of this page documents the requirements and details of Jamf::JSONObject.</p>
+
+<p>NOTES:</p>
+<ul><li>
+<p>subclasses may define more methods, include mix-ins, and if needed can override methods defined in metaclasses. Please read the docs before overriding.</p>
+</li><li>
+<p>Throughout the documentation &#39;parsed JSON object&#39; means the result of running a raw JSON string thru `JSON.parse raw_json, symbolize_names: true`. This is performed in the <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Connection</a></span> methods which interact with the API: <span class='object_link'><a href="Connection.html#get-instance_method" title="Jamf::Connection#get (method)">Connection#get</a></span>, <span class='object_link'><a href="Connection.html#post-instance_method" title="Jamf::Connection#post (method)">Connection#post</a></span>, <span class='object_link'><a href="Connection.html#put-instance_method" title="Jamf::Connection#put (method)">Connection#put</a></span> <span class='object_link'><a href="Connection.html#patch-instance_method" title="Jamf::Connection#patch (method)">Connection#patch</a></span> and <span class='object_link'><a href="Connection.html#delete-instance_method" title="Jamf::Connection#delete (method)">Connection#delete</a></span>.</p>
+</li><li>
+<p>Related to the above, the <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Connection</a></span> methods <span class='object_link'><a href="Connection.html#post-instance_method" title="Jamf::Connection#post (method)">Connection#post</a></span> and <span class='object_link'><a href="Connection.html#put-instance_method" title="Jamf::Connection#put (method)">Connection#put</a></span> call `#to_json` on the data passed to them, before sending it to the API.  Subclasses and application code should never call #to_json anywhere.  The data passed to put and post should be the output of `#to_jamf` on a Jamf::JSONObject, which is handled by the the #update and #create methods as needed.</p>
+</li></ul>
+
+<p>###</p>
+
+<p>### Required Constant: OBJECT_MODEL  &amp; call to parse_object_model</p>
+
+<p>Each descendent of JSONObject must define the constant OBJECT_MODEL, which is a Hash of Hashes that collectively define the top-level keys of the JSON object as attributes of the matching ruby class.</p>
+
+<p>Immediately after the definition of OBJECT_MODEL, the subclass <strong>MUST</strong> call `self.parse_object_model` to convert the model into actual ruby attributes with getters and setters.</p>
+
+<p>The OBJECT_MODEL Hash directly implements the matching JSON object model defined at <a href="https://developer.jamf.com/apis/jamf-pro-api/index">developer.jamf.com/apis/jamf-pro-api/index</a> and is used to automatically create attributes &amp; accessor methods mirroring those in the API.</p>
+
+<p>The keys of the main hash are the symbolized names of the attributes as they come from the JSON fetched from the API.</p>
+
+<p>_ATTRIBUTE NAMES:_</p>
+
+<p>The attribute names in the Jamf Pro API JSON data are in &#39;lowerCamelCase&#39; (<a href="https://en.wikipedia.org/wiki/Camel_case">en.wikipedia.org/wiki/Camel_case</a>), and are used that way throughout the Jamf module in order to maintain consistency with the API</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_itself'>itself</span><span class='period'>.</span> <span class='const'>This</span> <span class='id identifier rubyid_differs'>differs</span> <span class='id identifier rubyid_from'>from</span> <span class='id identifier rubyid_the'>the</span> <span class='id identifier rubyid_ruby'>ruby</span> <span class='id identifier rubyid_standard'>standard</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_using'>using</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>snake_case</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>(<a href="https://en.wikipedia.org/wiki/Snake_case">en.wikipedia.org/wiki/Snake_case</a>) for attributes, methods, &amp; local variables. I believe that maintaining consistency with the API we are mirroring is more important (and simpler) than conforming with ruby&#39;s community standards. I also believe that doing so is in-line with the ruby community&#39;s larger philosophy.</p>
+
+<p>“There&#39;s more than one way to do it” - because context matters. If that weren&#39;t true, I&#39;d be writing Python.</p>
+
+<p>Each attribute key has a Hash of details defining how the attribute is used in the class. Getters and setters are created from these details, and they are used to parse incoming, and generate outgoing JSON data</p>
+
+<p>The possible keys of the details Hash for each attribute are:</p>
+<ul><li>
+<p>class:</p>
+</li><li>
+<p>identfier:</p>
+</li><li>
+<p>required:</p>
+</li><li>
+<p>readonly:</p>
+</li><li>
+<p>multi:</p>
+</li><li>
+<p>enum:</p>
+</li><li>
+<p>validator:</p>
+</li><li>
+<p>aliases:</p>
+</li></ul>
+
+<p>For an example of an OBJECT_MODEL hash, see <span class='object_link'><a href="MobileDeviceDetails.html#OBJECT_MODEL-constant" title="Jamf::MobileDeviceDetails::OBJECT_MODEL (constant)">MobileDeviceDetails::OBJECT_MODEL</a></span></p>
+
+<p>The details for each key&#39;s value are as follows. Note that omitting a boolean key is the same as setting it to false.</p>
+
+<p>class: [Symbol or Class]</p>
+<hr>
+
+<p>This is the only required key for all attributes.</p>
+
+<p>Symbol is one of :string, :integer, :float, or :boolean These are the JSON data types that don&#39;t need parsing into ruby beyond that done by `JSON.parse`. When processing an attribute with one of these symbols as the `class:`, the JSON value is used as-is.</p>
+
+<p>When this is not a Symbol, it must be an actual class, such as Jamf::Timestamp or Jamf::PurchasingData.</p>
+
+<p>Classes used this way <em>must</em>:</p>
+<ul><li>
+<p>Have an #initialize method that takes two parameters and performs validation on them:</p>
+
+<p>A first positional parameter, the value used to create the instance, which accepts, at the very least, the Parsed JSON data for the attribute. This can be a single value (e.g. a string for Jamf::Timestamp), or a Hash (e.g. for Jamf::Location), or whatever. Other values are allowed if your initialize method handles them properly.</p>
+
+<p>A keyword parameter `cnx:`. This can be ignored if not needed, but #initialize must accept it. If used, it will contain a Jamf::Connection object, either the one from which the first param came, or the one to which we&#39;ll be validating or creating a new object</p>
+</li><li>
+<p>Define a #to_jamf method that returns a value that can be used in the data sent back to the API. Subclasses of JSONObject already have this requirement, and the value is a Hash.</p>
+</li></ul>
+
+<p>Classes used in the class: value of an attribute definition are often also subclasses of JSONObject (e.g. Jamf::Location) but do not have to be as long as they conform to the standards above, e.g. Jamf::Timestamp.</p>
+
+<p>See also: [Data Validation](#data_validation) below.</p>
+
+<p>identifier: [Boolean or Symbol :primary]</p>
+<hr>
+
+<p>Only applicable to descendents of Jamf::CollectionResource</p>
+
+<p>If true, this value must be unique among all members of the class in the JAMF, and can be used to look up objects.</p>
+
+<p>If the symbol :primary, this is the primary identifier, used in API resource paths for this particular object. Usually its the :id attribute, but for some objects may be some other attribute, e.g. for config- profiles, it would be a uuid.</p>
+
+<p>required: [Boolean]</p>
+<hr>
+
+<p>If true, this attribute must be provided when creating a new local instance and cannot be set to nil or empty</p>
+
+<p>readonly: [Boolean]</p>
+<hr>
+
+<p>If true, no setter method(s) will be created, and the value is not sent to the API with #create or #update</p>
+
+<p>multi: [Boolean]</p>
+<hr>
+
+<p>When true, this value comes as a JSON array and its items are defined by the &#39;class:&#39; setting described above. The JSON array is used to contstruct an attribute array of the correct kind of item.</p>
+
+<p>Example: &gt; When `class:` is Jamf::Computer::Reference the incoming JSON array &gt; of Hashes (computer references) will become an array of &gt; Jamf::Computer::Reference instances.</p>
+
+<p>The stored array is not directly accessible, the getter will return a frozen duplicate of it.</p>
+
+<p>If not readonly, several setters are created:</p>
+<ul><li>
+<p>a direct setter which takes an Array of &#39;class:&#39;, replacing the original</p>
+</li><li>
+<p>a &lt;attrname&gt;_append method, appends a new value to the array, aliased as `&lt;&lt;`</p>
+</li><li>
+<p>a &lt;attrname&gt;_prepend method, prepends a new value to the array</p>
+</li><li>
+<p>a &lt;attrname&gt;_insert method, inserts a new value to the array at the given index</p>
+</li><li>
+<p>a &lt;attrname&gt;_delete_at method, deletes a value at the given index</p>
+</li></ul>
+
+<p>This protection of the underlying array is needed for two reasons:</p>
+<ol><li>
+<p>so ruby-jss knows when changes are made and need to be saved</p>
+</li><li>
+<p>so that validation can be performed on values added to the array.</p>
+</li></ol>
+
+<p>enum: [Constant -&gt; Array&lt;Constants&gt; ]</p>
+<hr>
+
+<p>This is a constant defined somewhere in the Jamf module. The constant must contain an Array of other Constant values, usually Strings.</p>
+
+<p>Example: &gt; Attribute `:type` has enum: Jamf::ExtentionAttribute::DATA_TYPES &gt; &gt; The constant Jamf::ExtentionAttribute::DATA_TYPES is defined thus: &gt; &gt;      DATA_TYPE_STRING = &#39;STRING&#39;.freeze &gt;      DATA_TYPE_INTEGER = &#39;INTEGER&#39;.freeze &gt;      DATA_TYPE_DATE = &#39;DATE&#39;.freeze &gt; &gt;      DATA_TYPES = [ &gt;        DATA_TYPE_STRING, &gt;        DATA_TYPE_INTEGER, &gt;        DATA_TYPE_DATE, &gt;      ] &gt; &gt; When setting the type attribute via `#type = newval`, &gt; `Jamf::ExtentionAttribute::DATA_TYPES.include? newval` must be true &gt;</p>
+
+<p>Setters for attributes with an enum require that the new value is a member of the array as seen above. When using such setters, its wise to use the array members themselves rather than a different but identical string, however either will work.  In other words, this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_ea'>my_ea</span><span class='period'>.</span><span class='id identifier rubyid_dataType'>dataType</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>ExtentionAttribute</span><span class='op'>::</span><span class='const'>DATA_TYPE_INTEGER</span>
+</code></pre>
+
+<p>is preferred over:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_ea'>my_ea</span><span class='period'>.</span><span class='id identifier rubyid_dataType'>dataType</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INTEGER</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>since the second version creates a new string in memory, but the first uses the one already stored in a constant.</p>
+
+<p>See also: [Data Validation](#data_validation) below.</p>
+
+<p>validator: [Symbol]</p>
+<hr>
+
+<p>(ignored if readonly: is true, or if enum: is set)</p>
+
+<p>The symbol is the name of a Jamf::Validators class method used in the setter to validate new values for this attribute. It only is used when class: is :string, :integer, :boolean, and :float</p>
+
+<p>If omitted, the setter will take any value passed to it, which is generally unwise.</p>
+
+<p>When the class: is an actual class, the setter will instantiate a new one with the value to be set, and validation is handled by the class itself.</p>
+
+<p>Example: &gt; If the `class:` for an attrib named &#39;:releaseDate&#39; is class: Jamf::Timestamp &gt; then the setter method will look like this: &gt; &gt;      def releaseDate=(newval) &gt;        newval = Jamf::Timestamp.new newval unless newval.is_a? Jamf::Timestamp &gt;        # ^^^ This will validate newval &gt;        return if newval == @releaseDate &gt;        @releaseDate = newval &gt;        @need_to_update = true &gt;      end</p>
+
+<p>see also: [Data Validation](#data_validation) below.</p>
+
+<p>aliases: [Array of Symbols]</p>
+<hr>
+
+<p>Other names for this attribute. If provided, getters, and setters will be made for all aliases. Should be used very sparingly.</p>
+
+<p>Attributes of class :boolean automatically have a getter alias ending with a &#39;?&#39;.</p>
+
+<p>Documenting your code</p>
+<hr>
+
+<p>For documenting attributes with YARD, put this above each attribute name key:</p>
+
+<p>“`</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># @!attribute &lt;attrname&gt;
+</span><span class='comment'>#   @param [Class] &lt;Describe setter value if needed&gt;
+</span><span class='comment'>#   @return [Class] &lt;Describe value if needed&gt;
+</span></code></pre>
+
+<p>“`</p>
+
+<p>If the value is readonly, remove the @param line, and add [r], like this:</p>
+
+<p>“`</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># @!attribute [r] &lt;attrname
+</span></code></pre>
+
+<p>“`</p>
+
+<p>for more info see <a href="https://www.rubydoc.info/gems/yard/file/docs/Tags.md#attribute">www.rubydoc.info/gems/yard/file/docs/Tags.md#attribute</a></p>
+
+<p>#### Sub-subclassing</p>
+
+<p>If you need to subclass a subclass of JSONObject, and the new subclass needs to expand on the OBJECT_MODEL in its parent, then you must use Hash#merge to combine them in the subclass. Here&#39;s an example of ComputerPrestage which inherits from Prestage:</p>
+
+<pre class="code ruby"><code class="ruby">class ComputerPrestage &lt; Jamf::Prestage
+
+   OBJECT_MODEL = superclass::OBJECT_MODEL.merge(
+
+         newAttr: {
+           [attr details]
+         }
+
+     ).freeze
+</code></pre>
+
+<p>#### Data Validation #data_validation</p>
+
+<p>Attributes that are not readonly are subject to data validation when values are assigned. How that validation happens depends on the definition of the attribute as described above. Validation failure will raise an exception, usually Jamf::InvalidDataError.</p>
+
+<p>If the attribute is defined with an enum, the value must be a key or value of the enum.</p>
+
+<p>If the attribute&#39;s class: is defined as a Class, (e.g. Jamf::Timestamp) its .new  method is called with the value and the current API connection. The class itself performs valuation when the value is used to instantiate it.</p>
+
+<p>If the attribute is defined with a validator, the value is passed to that validator.</p>
+
+<p>If the attribute is defined as a :string, :integer, :float or :bool without an enum or validator, it is checked to be the correct type</p>
+
+<p>If an attribute is an identifier, it must be unique in its class and API connection.</p>
+
+<p>### Constructor / Instantiation #constructor</p>
+
+<p>The .new method should rarely (never?) be called directly for any JSONObject class.</p>
+
+<p>The Resource classes are instantiated via the .fetch and .create methods.</p>
+
+<p>Other JSONObject classes are embedded inside the Resource classes and are instantiated while parsing data from the API or by the setters for the attributes holding them.</p>
+
+<p>When subclassing JSONObject, you can often just use the #initialize defined here. You may want to override #initialize to accept different kinds of data and if you do, you <em>must</em>:</p>
+<ul><li>
+<p>Have an #initialize method that takes two parameters and performs validation using them:</p>
+<ol><li>
+<p>A positional first parameter: the value used to create the instance Your method may accept any kind of value, as long as it can use it to create a valid object. At the very least it <em>must</em> accept a Hash that comes from the API for this object. If you call `super` then that Hash must be passed.</p>
+
+<p>For example, Jamf::GenericReference, which defines references to other resources, such as Buildings, can take a Hash containing the name: and id: of the building (as provided by the API), or can take just a name or id, or can take a Jamf::Building object.</p>
+
+<p>The initialize method must perform validation as necessary and raise an exception if the data provided is not acceptable.</p>
+</li><li>
+<p>A keyword parameter `cnx:` containing a Jamf::Connection instance. This is the API connection through which this JSON object interacts with the appropriate Jamf Pro server. Usually this is used to validate the data recieved in the first positional parameter.</p>
+</li></ol>
+</li></ul>
+
+<p>### Required Instance Methods</p>
+
+<p>Subclasses of JSONObject must have a #to_jamf method. For most simple objects, the one defined in JSONObject will work as is.</p>
+
+<p>If you need to override it, it <em>must</em></p>
+<ul><li>
+<p>Return a Hash that can be used in the data sent back to the API.</p>
+</li><li>
+<p>Not call #.to_json. All conversion to and from JSON happens in the Jamf::Connection class.</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="APIError.html" title="Jamf::APIError (class)">APIError</a></span>, <span class='object_link'><a href="APIErrorDetail.html" title="Jamf::APIErrorDetail (class)">APIErrorDetail</a></span>, <span class='object_link'><a href="Account.html" title="Jamf::Account (class)">Account</a></span>, <span class='object_link'><a href="AccountPreferences.html" title="Jamf::AccountPreferences (class)">AccountPreferences</a></span>, <span class='object_link'><a href="AndroidDetails.html" title="Jamf::AndroidDetails (class)">AndroidDetails</a></span>, <span class='object_link'><a href="AppleTVDetails.html" title="Jamf::AppleTVDetails (class)">AppleTVDetails</a></span>, <span class='object_link'><a href="Attachment.html" title="Jamf::Attachment (class)">Attachment</a></span>, <span class='object_link'><a href="CellularNetwork.html" title="Jamf::CellularNetwork (class)">CellularNetwork</a></span>, <span class='object_link'><a href="ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">ChangeLogEntry</a></span>, <span class='object_link'><a href="Country.html" title="Jamf::Country (class)">Country</a></span>, <span class='object_link'><a href="Criterion.html" title="Jamf::Criterion (class)">Criterion</a></span>, <span class='object_link'><a href="DeviceEnrollmentDevice.html" title="Jamf::DeviceEnrollmentDevice (class)">DeviceEnrollmentDevice</a></span>, <span class='object_link'><a href="DeviceEnrollmentSyncStatus.html" title="Jamf::DeviceEnrollmentSyncStatus (class)">DeviceEnrollmentSyncStatus</a></span>, <span class='object_link'><a href="ExtensionAttributeValue.html" title="Jamf::ExtensionAttributeValue (class)">ExtensionAttributeValue</a></span>, <span class='object_link'><a href="GenericReference.html" title="Jamf::GenericReference (class)">GenericReference</a></span>, <span class='object_link'><a href="InstalledApplication.html" title="Jamf::InstalledApplication (class)">InstalledApplication</a></span>, <span class='object_link'><a href="InstalledCertificate.html" title="Jamf::InstalledCertificate (class)">InstalledCertificate</a></span>, <span class='object_link'><a href="InstalledConfigurationProfile.html" title="Jamf::InstalledConfigurationProfile (class)">InstalledConfigurationProfile</a></span>, <span class='object_link'><a href="InstalledEBook.html" title="Jamf::InstalledEBook (class)">InstalledEBook</a></span>, <span class='object_link'><a href="InstalledProvisioningProfile.html" title="Jamf::InstalledProvisioningProfile (class)">InstalledProvisioningProfile</a></span>, <span class='object_link'><a href="InventoryPreloadExtensionAttribute.html" title="Jamf::InventoryPreloadExtensionAttribute (class)">InventoryPreloadExtensionAttribute</a></span>, <span class='object_link'><a href="IosDetails.html" title="Jamf::IosDetails (class)">IosDetails</a></span>, <span class='object_link'><a href="Location.html" title="Jamf::Location (class)">Location</a></span>, <span class='object_link'><a href="MobileDeviceDetails.html" title="Jamf::MobileDeviceDetails (class)">MobileDeviceDetails</a></span>, <span class='object_link'><a href="MobileDevicePrestageName.html" title="Jamf::MobileDevicePrestageName (class)">MobileDevicePrestageName</a></span>, <span class='object_link'><a href="MobileDevicePrestageNames.html" title="Jamf::MobileDevicePrestageNames (class)">MobileDevicePrestageNames</a></span>, <span class='object_link'><a href="MobileDeviceSecurity.html" title="Jamf::MobileDeviceSecurity (class)">MobileDeviceSecurity</a></span>, <span class='object_link'><a href="PrestageAssignment.html" title="Jamf::PrestageAssignment (class)">PrestageAssignment</a></span>, <span class='object_link'><a href="PrestageLocation.html" title="Jamf::PrestageLocation (class)">PrestageLocation</a></span>, <span class='object_link'><a href="PrestagePurchasingData.html" title="Jamf::PrestagePurchasingData (class)">PrestagePurchasingData</a></span>, <span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span>, <span class='object_link'><a href="PrestageSkipSetupItems.html" title="Jamf::PrestageSkipSetupItems (class)">PrestageSkipSetupItems</a></span>, <span class='object_link'><a href="PrestageSyncStatus.html" title="Jamf::PrestageSyncStatus (class)">PrestageSyncStatus</a></span>, <span class='object_link'><a href="PurchasingData.html" title="Jamf::PurchasingData (class)">PurchasingData</a></span>, <span class='object_link'><a href="Resource.html" title="Jamf::Resource (class)">Resource</a></span>, <span class='object_link'><a href="Searchable/OrderBy.html" title="Jamf::Searchable::OrderBy (class)">Searchable::OrderBy</a></span>, <span class='object_link'><a href="Searchable/SeachParams.html" title="Jamf::Searchable::SeachParams (class)">Searchable::SeachParams</a></span></p>
+</div>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="JSON_TYPE_CLASSES-constant" class="">JSON_TYPE_CLASSES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These classes are used from JSON in the raw</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>integer</span><span class='words_sep'> </span><span class='tstring_content'>float</span><span class='words_sep'> </span><span class='tstring_content'>boolean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PREDICATE_RE-constant" class="">PREDICATE_RE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Predicate (boolean) attibutes that start with this RE will have an alias without the &#39;is&#39; so :isManaged will have getters isManaged? and managed?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^is([A-Z]\w*)$</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx-instance_method" title="#cnx (instance method)">#<strong>cnx</strong>  &#x21d2; Jamf::Connection </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The API connection thru which we deal with this objcet.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#attr_key_for_alias-class_method" title="attr_key_for_alias (class method)">.<strong>attr_key_for_alias</strong>(als)  &#x21d2; Symbol<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a Symbol that might be an alias of a key fron OBJECT_MODEL return the real key.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mutable%3F-class_method" title="mutable? (class method)">.<strong>mutable?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>By default, JSONObjects (as a whole) are mutable, although some attributes may not be (see OBJECT_MODEL in the JSONObject docs).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new-class_method" title="#new (class method)">.<strong>new</strong>(*args, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#required_attributes-class_method" title="required_attributes (class method)">.<strong>required_attributes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>An array of attribute names that are required when making new instances See the OBJECT_MODEL documentation in <span class='object_link'><a href="" title="Jamf::JSONObject (class)">JSONObject</a></span>.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_unsaved_changes-instance_method" title="#clear_unsaved_changes (instance method)">#<strong>clear_unsaved_changes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(data, cnx: Jamf.cnx)  &#x21d2; JSONObject </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Make an instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_jamf_json-instance_method" title="#pretty_jamf_json (instance method)">#<strong>pretty_jamf_json</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Print the JSON version of the to_jamf outout mostly for debugging/troubleshooting.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_print_instance_variables-instance_method" title="#pretty_print_instance_variables (instance method)">#<strong>pretty_print_instance_variables</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove large cached items from the instance_variables used to create pretty-print (pp) output.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jamf-instance_method" title="#to_jamf (instance method)">#<strong>to_jamf</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The data to be sent to the API, as a Hash to be converted to JSON by the Jamf::Connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jamf_changes_only-instance_method" title="#to_jamf_changes_only (instance method)">#<strong>to_jamf_changes_only</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only works for PATCH endpoints.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unsaved_changes-instance_method" title="#unsaved_changes (instance method)">#<strong>unsaved_changes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a hash of all unsaved changes, including embedded JSONObjects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unsaved_changes%3F-instance_method" title="#unsaved_changes? (instance method)">#<strong>unsaved_changes?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>return true if we or any of our attributes have unsaved changes.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(data, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::JSONObject (class)">JSONObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Make an instance. Data comes from the API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data for constructing a new object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API connection for the object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 834</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Invalid JSONObject data - must be a Hash</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span>
+
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='ivar'>@unsaved_changes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+
+  <span class='id identifier rubyid_creating'>creating</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:creating_from_create</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_creating'>creating</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='op'>|</span>
+      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_attr_name'>attr_name</span>
+      <span class='comment'># use our setters for each value so that they are in the unsaved changes
+</span>      <span class='id identifier rubyid_send'>send</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_parse_init_data'>parse_init_data</span> <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cnx-instance_method">
+  
+    #<strong>cnx</strong>  &#x21d2; <tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the API connection thru which we deal with this objcet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API connection thru which we deal with this objcet.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+824
+825
+826</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 824</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='ivar'>@cnx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="attr_key_for_alias-class_method">
+  
+    .<strong>attr_key_for_alias</strong>(als)  &#x21d2; <tt>Symbol</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a Symbol that might be an alias of a key fron OBJECT_MODEL return the real key</p>
+
+<p>e.g. if OBJECT_MODEL has an entry like this:</p>
+
+<pre class="code ruby"><code class="ruby">displayName: { aliases: [:name, :display_name] }
+</code></pre>
+
+<p>Then</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_attr_key_for_alias'>attr_key_for_alias</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_attr_key_for_alias'>attr_key_for_alias</span><span class='lparen'>(</span><span class='symbol'>:display_name</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>will return :displayName</p>
+
+<p>Returns nil if no such alias exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>als</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the alias to look up</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The real object model key for the alias</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+525
+526
+527
+528
+529</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 525</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_attr_key_for_alias'>attr_key_for_alias</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_not_abstract'>validate_not_abstract</span>
+  <span class='kw'>self</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_deets'>deets</span><span class='op'>|</span> <span class='kw'>return</span> <span class='id identifier rubyid_k'>k</span> <span class='kw'>if</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>==</span> <span class='id identifier rubyid_als'>als</span> <span class='op'>||</span> <span class='id identifier rubyid_deets'>deets</span><span class='lbracket'>[</span><span class='symbol'>:aliases</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_als'>als</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mutable?-class_method">
+  
+    .<strong>mutable?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>By default, JSONObjects (as a whole) are mutable, although some attributes may not be (see OBJECT_MODEL in the JSONObject docs)</p>
+
+<p>When an entire sublcass of JSONObject is read-only/immutable, `extend Jamf::Immutable`, which will override this to return false. Doing so will prevent any setters from being created for the subclass and will cause Jamf::Resource.save to raise an error</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+499
+500
+501</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 499</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new-class_method">
+  
+    .<strong>new</strong>(*args, &amp;block)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="required_attributes-class_method">
+  
+    .<strong>required_attributes</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>An array of attribute names that are required when making new instances See the OBJECT_MODEL documentation in <span class='object_link'><a href="" title="Jamf::JSONObject (class)">Jamf::JSONObject</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+506
+507
+508</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 506</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_required_attributes'>required_attributes</span>
+  <span class='kw'>self</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__attr'>_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_deets'>deets</span><span class='op'>|</span> <span class='id identifier rubyid_deets'>deets</span><span class='lbracket'>[</span><span class='symbol'>:required</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="clear_unsaved_changes-instance_method">
+  
+    #<strong>clear_unsaved_changes</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 893</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_unsaved_changes'>clear_unsaved_changes</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+
+  <span class='id identifier rubyid_unsaved_changes'>unsaved_changes</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='op'>|</span>
+    <span class='id identifier rubyid_attrib_val'>attrib_val</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:multi</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_attrib_val'>attrib_val</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span> <span class='symbol'>:clear_unsaved_changes</span> <span class='kw'>if</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:clear_unsaved_changes</span> <span class='rbrace'>}</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_attrib_val'>attrib_val</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:clear_unsaved_changes</span>
+      <span class='id identifier rubyid_attrib_val'>attrib_val</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span> <span class='symbol'>:clear_unsaved_changes</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_ext_attrs_clear_unsaved_changes'>ext_attrs_clear_unsaved_changes</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Extendable.html" title="Jamf::Extendable (module)">Extendable</a></span></span>
+  <span class='ivar'>@unsaved_changes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_jamf_json-instance_method">
+  
+    #<strong>pretty_jamf_json</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Print the JSON version of the to_jamf outout mostly for debugging/troubleshooting</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+966
+967
+968</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 966</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_jamf_json'>pretty_jamf_json</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_pretty_generate'>pretty_generate</span><span class='lparen'>(</span><span class='id identifier rubyid_to_jamf'>to_jamf</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_print_instance_variables-instance_method">
+  
+    #<strong>pretty_print_instance_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove large cached items from the instance_variables used to create pretty-print (pp) output.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the desired instance_variables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+976
+977
+978
+979
+980</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 976</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
+  <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='kw'>super</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@cnx</span>
+  <span class='id identifier rubyid_vars'>vars</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jamf-instance_method">
+  
+    #<strong>to_jamf</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The data to be sent to the API, as a Hash to be converted to JSON by the Jamf::Connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The data to be sent to the API, as a Hash to be converted to JSON by the Jamf::Connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 911</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_jamf'>to_jamf</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='op'>|</span>
+
+    <span class='id identifier rubyid_raw_value'>raw_value</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='comment'># If its a multi-value attribute, process it and  go on
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='lbracket'>[</span><span class='symbol'>:multi</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_multi_to_jamf'>multi_to_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_raw_value'>raw_value</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='rparen'>)</span>
+      <span class='kw'>next</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># if its a single-value object, process it and go on.
+</span>    <span class='id identifier rubyid_cooked_value'>cooked_value</span> <span class='op'>=</span> <span class='id identifier rubyid_single_to_jamf'>single_to_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_raw_value'>raw_value</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='rparen'>)</span>
+    <span class='comment'># next if cooked_value.nil? # ignore nil
+</span>    <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_cooked_value'>cooked_value</span>
+  <span class='kw'>end</span> <span class='comment'># unsaved_changes.each
+</span>  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jamf_changes_only-instance_method">
+  
+    #<strong>to_jamf_changes_only</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only works for PATCH endpoints.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The changes that need to be sent to the API, as a Hash to be converted to JSON by the Jamf::Connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 936</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_jamf_changes_only'>to_jamf_changes_only</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_unsaved_changes'>unsaved_changes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='comma'>,</span> <span class='id identifier rubyid_changes'>changes</span><span class='op'>|</span>
+    <span class='id identifier rubyid_attr_def'>attr_def</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span>
+
+    <span class='comment'># readonly attributes can&#39;t be changed
+</span>    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='lbracket'>[</span><span class='symbol'>:readonly</span><span class='rbracket'>]</span>
+
+    <span class='comment'># here&#39;s the new value for this attribute
+</span>    <span class='id identifier rubyid_raw_value'>raw_value</span> <span class='op'>=</span> <span class='id identifier rubyid_changes'>changes</span><span class='lbracket'>[</span><span class='symbol'>:new</span><span class='rbracket'>]</span>
+
+    <span class='comment'># If its a multi-value attribute, process it and  go on
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='lbracket'>[</span><span class='symbol'>:multi</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_multi_to_jamf'>multi_to_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_raw_value'>raw_value</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='rparen'>)</span>
+      <span class='kw'>next</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># if its a single-value object, process it and go on.
+</span>    <span class='id identifier rubyid_cooked_value'>cooked_value</span> <span class='op'>=</span> <span class='id identifier rubyid_single_to_jamf'>single_to_jamf</span><span class='lparen'>(</span><span class='id identifier rubyid_raw_value'>raw_value</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='rparen'>)</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_cooked_value'>cooked_value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># ignore nil
+</span>
+    <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_cooked_value'>cooked_value</span>
+  <span class='kw'>end</span> <span class='comment'># unsaved_changes.each
+</span>  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unsaved_changes-instance_method">
+  
+    #<strong>unsaved_changes</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a hash of all unsaved changes, including embedded JSONObjects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 860</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unsaved_changes'>unsaved_changes</span>
+  <span class='kw'>return</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+
+  <span class='id identifier rubyid_changes'>changes</span> <span class='op'>=</span> <span class='ivar'>@unsaved_changes</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='op'>|</span>
+    <span class='comment'># skip non-Class attrs
+</span>    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_attr_def'>attr_def</span><span class='lbracket'>[</span><span class='symbol'>:class</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Class</span>
+
+    <span class='comment'># the current value of the thing, e.g. a Location
+</span>    <span class='comment'># which may have unsaved changes
+</span>    <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='comment'># skip those that don&#39;t have any changes
+</span>    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:unsaved_changes?</span>
+    <span class='id identifier rubyid_attr_changes'>attr_changes</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_unsaved_changes'>unsaved_changes</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_attr_changes'>attr_changes</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+    <span class='comment'># add the sub-changes to ours
+</span>    <span class='id identifier rubyid_changes'>changes</span><span class='lbracket'>[</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_attr_changes'>attr_changes</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_changes'>changes</span><span class='lbracket'>[</span><span class='symbol'>:ext_attrs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_ext_attrs_unsaved_changes'>ext_attrs_unsaved_changes</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Extendable.html" title="Jamf::Extendable (module)">Extendable</a></span></span>
+  <span class='id identifier rubyid_changes'>changes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unsaved_changes?-instance_method">
+  
+    #<strong>unsaved_changes?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>return true if we or any of our attributes have unsaved changes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+887
+888
+889
+890
+891</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/json_object.rb', line 887</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unsaved_changes?'>unsaved_changes?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_mutable?'>mutable?</span>
+
+  <span class='op'>!</span><span class='id identifier rubyid_unsaved_changes'>unsaved_changes</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:05 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

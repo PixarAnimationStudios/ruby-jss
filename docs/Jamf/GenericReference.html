@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::GenericReference
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::GenericReference";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (G)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">GenericReference</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::GenericReference
+  <span class="abstract note title">Abstract</span>
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></li>
+          
+            <li class="next">Jamf::GenericReference</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="Abstract.html" title="Jamf::Abstract (module)">Abstract</a></span></dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/abstract_classes/generic_reference.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This class is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+<p>This class is a reference to an individual API object from some other API object.</p>
+
+<p>This class is subclassed automatically when the <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span> module is included into a class.</p>
+
+<p>See <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span> for how to use the subclasses of GenericReference.</p>
+
+<p>Subclasses must define:</p>
+
+<p>REFERENT_CLASS - the full class to which this is a reference e.g. for BuildingReference it would be Jamf::Building</p>
+
+<p>Defining REFERENT_CLASS is handled automatically by including the Referable module</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="OBJECT_MODEL-constant" class="">OBJECT_MODEL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='label'>id:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>identifier:</span> <span class='symbol'>:primary</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='label'>name:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span>
+
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new-class_method" title="#new (class method)">.<strong>new</strong>(*args, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(data, cnx: Jamf.cnx)  &#x21d2; GenericReference </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Make a new reference to an API CollectionResource Object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jamf-instance_method" title="#to_jamf (instance method)">#<strong>to_jamf</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(data, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::GenericReference (class)">GenericReference</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Make a new reference to an API CollectionResource Object</p>
+
+<p>The data parameter can be one of:</p>
+
+<p>1) A Hash with an :id and :name</p>
+
+<pre class="code ruby"><code class="ruby">This is mostly used automatically when parsing fetched API data.
+When some attribute of an OBJECT_MODEL has `class: Someclass::Reference`
+the JSON hash from the API will be passed as the data param.
+
+e.g.
+- Policy::OBJECT_MODEL[:category][:class] is Jamf::Category::Reference
+- the policy JSON from the api might contain `category: { id: 234, name: &#39;foobar&#39; }`
+- that hash will be passed into Jamf::Category::Reference.new, and the
+  resulting instance used as the value of the  policy&#39;s :category attribute.
+</code></pre>
+
+<p>2) An instance of the REFERENT_CLASS.</p>
+
+<pre class="code ruby"><code class="ruby">This can be used to make a reference to some specific instance of
+the referent class.
+
+e.g. if you have an instance of Category in the variable `my_cat`
+then `ref_to_my_cat = Category::Reference.new my_cat` will work as
+expected.
+</code></pre>
+
+<p>3) A valid identifier for an existing REFERENT_CLASS in the JSS.</p>
+
+<pre class="code ruby"><code class="ruby">The given value will be used with the REFERENT_CLASS&#39;s .valid_id method
+to see if there&#39;s a matching instance, which the reference refers to.
+
+e.g. `ref_to_my_cat = Category::Reference.new 12` creates a reference
+to Category id 12, and `ref_to_my_cat = Category::Reference.new &#39;foo&#39;`
+creates a reference to the category named &#39;foo&#39; - assuming they exist.
+</code></pre>
+
+<p>The last two of these are commonly used with setters for attributes that have class: &lt;some reference class&gt;</p>
+
+<p>e.g. setting the category of a policy when <a href=":category">Policy::OBJECT_MODEL</a> is Category::Reference</p>
+
+<pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>mypolicy.category = a_cat</span><span class='tstring_end'>`</span></span> <span class='comment'># a_cat is a Category instance
+</span><span class='backtick'>`</span><span class='tstring_content'>mypolicy.category = 12</span><span class='tstring_end'>`</span></span>    <span class='comment'># use categoty id 12
+</span><span class='backtick'>`</span><span class='tstring_content'>mypolicy.category = &#39;foo&#39;</span><span class='tstring_end'>`</span></span> <span class='comment'># use categoty named &#39;foo&#39;
+</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="CollectionResource.html" title="Jamf::CollectionResource (class)">CollectionResource</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/generic_reference.rb', line 117</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ref_class'>ref_class</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>REFERENT_CLASS</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span>
+    <span class='kw'>super</span>
+  <span class='kw'>when</span> <span class='id identifier rubyid_ref_class'>ref_class</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Provided </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ref_class'>ref_class</span><span class='embexpr_end'>}</span><span class='tstring_content'> hasn&#39;t been created</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
+    <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:name</span>
+    <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='kw'>when</span> <span class='kw'>nil</span>
+    <span class='ivar'>@id</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_ref_class'>ref_class</span><span class='period'>.</span><span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No matching </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ref_class'>ref_class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@id</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_ref_class'>ref_class</span><span class='period'>.</span><span class='id identifier rubyid_map_all'>map_all</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="new-class_method">
+  
+    .<strong>new</strong>(*args, &amp;block)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="to_jamf-instance_method">
+  
+    #<strong>to_jamf</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/generic_reference.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_jamf'>to_jamf</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='ivar'>@id</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:05 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Searchable
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Searchable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Searchable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Searchable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/mixins/searchable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Code for CollectionResources that have a …/searchObjects resource. These resources provide for basic searching as will as sorting and paging of the found set.</p>
+
+<p>NOTE: This module provides class methods, not instance methods, and therefore must be mixed in with `extend` and not `include`</p>
+
+<p>Classes extended with this module <strong>must</strong> define:</p>
+
+<pre class="code ruby"><code class="ruby">SEARCH_RSRC [String] the resource to which the search is POSTed.
+</code></pre>
+
+<p>Classes including this module <strong>may</strong> define:</p>
+
+<pre class="code ruby"><code class="ruby">SEARCH_FIELDS [Hash{Symbol: Symbol}]
+</code></pre>
+
+<p>The hash keys are the names of searchable fields, e.g. &#39;name&#39;, or &#39;udid&#39; and the values are the class expected for the field, one of: :string, :integer, or :boolean</p>
+
+<p>Without defining search fields, every search returns all objects, but the sorting and paging options are honored.</p>
+
+<p>If search fields are provided, then they can be specified when performing a search. If more than one is specified, they are AND&#39;ed together.</p>
+
+<p>To Search:</p>
+
+<p>1) Set result sort order</p>
+
+<p>If you want sorted results, first set the sort order with a combination of `MyClass.search_result_order = field, dir` where field is the name of the sort fiend and dir is :asc or :desc</p>
+
+<p>If you want a multi-level sort, set the first sort field as above, then use `MyClass.search_result_order_append field, dir` to add subsequent sort fields</p>
+
+<p>To clear them out and start over, call `MyClass.clear_search_result_order`</p>
+
+<p>2) Set page size</p>
+
+<pre class="code ruby"><code class="ruby">If you want paged results then call `MyClass.search_result_page_size = X`
+before starting your seacch
+</code></pre>
+
+<p>3) Do the search:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>MyClass</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Searchable/OrderBy.html" title="Jamf::Searchable::OrderBy (class)">OrderBy</a></span>, <span class='object_link'><a href="Searchable/SeachParams.html" title="Jamf::Searchable::SeachParams (class)">SeachParams</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="SORT_DIRECTIONS-constant" class="">SORT_DIRECTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>asc:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ASC</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>desc:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DESC</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_search_result_order-instance_method" title="#clear_search_result_order (instance method)">#<strong>clear_search_result_order</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search-instance_method" title="#search (instance method)">#<strong>search</strong>(pageNumber: 0, cnx: Jamf.cnx, load_all: true, **terms)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>TODO: occasional excludedIds array.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_result_order-instance_method" title="#search_result_order (instance method)">#<strong>search_result_order</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_result_order=-instance_method" title="#search_result_order= (instance method)">#<strong>search_result_order=</strong>(fieldname, dir = :asc)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_result_order_append-instance_method" title="#search_result_order_append (instance method)">#<strong>search_result_order_append</strong>(fieldname, dir = :asc)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_result_page_size-instance_method" title="#search_result_page_size (instance method)">#<strong>search_result_page_size</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_result_page_size=-instance_method" title="#search_result_page_size= (instance method)">#<strong>search_result_page_size=</strong>(size)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="clear_search_result_order-instance_method">
+  
+    #<strong>clear_search_result_order</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_search_result_order'>clear_search_result_order</span>
+  <span class='ivar'>@search_result_order</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search-instance_method">
+  
+    #<strong>search</strong>(pageNumber: 0, cnx: Jamf.cnx, load_all: true, **terms)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>TODO: occasional excludedIds array</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='label'>pageNumber:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='comma'>,</span> <span class='label'>load_all:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_terms'>terms</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not searchable in the API</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>SEARCH_RSRC</span>
+
+  <span class='id identifier rubyid_search_body'>search_body</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>pageNumber:</span> <span class='id identifier rubyid_pageNumber'>pageNumber</span><span class='comma'>,</span>
+    <span class='label'>pageSize:</span> <span class='ivar'>@search_result_page_size</span><span class='comma'>,</span>
+    <span class='label'>isLoadToEnd:</span> <span class='id identifier rubyid_load_all'>load_all</span><span class='comma'>,</span>
+    <span class='label'>orderBy:</span> <span class='ivar'>@search_result_order</span>
+  <span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='kw'>defined?</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>SEARCH_FIELDS</span>
+    <span class='id identifier rubyid_terms'>terms</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_fld'>fld</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='op'>|</span>
+      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>SEARCH_FIELDS</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_fld'>fld</span>
+
+      <span class='kw'>case</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>SEARCH_FIELDS</span><span class='lbracket'>[</span><span class='id identifier rubyid_fld'>fld</span><span class='rbracket'>]</span>
+      <span class='kw'>when</span> <span class='symbol'>:integer</span>
+        <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Validate.html" title="Jamf::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_integer'><span class='object_link'><a href="Validate.html#integer-class_method" title="Jamf::Validate.integer (method)">integer</a></span></span> <span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Search value for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fld'>fld</span><span class='embexpr_end'>}</span><span class='tstring_content'> must be an Integer</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>when</span> <span class='symbol'>:string</span>
+        <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Validate.html" title="Jamf::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_string'><span class='object_link'><a href="Validate.html#string-class_method" title="Jamf::Validate.string (method)">string</a></span></span> <span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Search value for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fld'>fld</span><span class='embexpr_end'>}</span><span class='tstring_content'> must be a String</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>when</span> <span class='symbol'>:boolean</span>
+        <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Validate.html" title="Jamf::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_boolean'><span class='object_link'><a href="Validate.html#boolean-class_method" title="Jamf::Validate.boolean (method)">boolean</a></span></span> <span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Search value for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fld'>fld</span><span class='embexpr_end'>}</span><span class='tstring_content'> must be a boolean</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span> <span class='comment'># case
+</span>
+      <span class='id identifier rubyid_search_body'>search_body</span><span class='lbracket'>[</span><span class='id identifier rubyid_fld'>fld</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
+    <span class='kw'>end</span> <span class='comment'># terms.each
+</span>  <span class='kw'>end</span> <span class='comment'># if defined? self::SEARCH_FIELDS
+</span>
+  <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>SEARCH_RSRC</span><span class='comma'>,</span> <span class='id identifier rubyid_search_body'>search_body</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_result_order-instance_method">
+  
+    #<strong>search_result_order</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search_result_order'>search_result_order</span>
+  <span class='ivar'>@search_result_order</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_result_order=-instance_method">
+  
+    #<strong>search_result_order=</strong>(fieldname, dir = :asc)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search_result_order='>search_result_order=</span><span class='lparen'>(</span><span class='id identifier rubyid_fieldname'>fieldname</span><span class='comma'>,</span> <span class='id identifier rubyid_dir'>dir</span> <span class='op'>=</span> <span class='symbol'>:asc</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>direction must be either :asc, or :desc</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#SORT_DIRECTIONS-constant" title="Jamf::Searchable::SORT_DIRECTIONS (constant)">SORT_DIRECTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_dir'>dir</span>
+  <span class='ivar'>@search_result_order</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='lbrace'>{</span> <span class='label'>field:</span> <span class='id identifier rubyid_fieldname'>fieldname</span><span class='comma'>,</span> <span class='label'>direction:</span> <span class='const'><span class='object_link'><a href="#SORT_DIRECTIONS-constant" title="Jamf::Searchable::SORT_DIRECTIONS (constant)">SORT_DIRECTIONS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_dir'>dir</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_result_order_append-instance_method">
+  
+    #<strong>search_result_order_append</strong>(fieldname, dir = :asc)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 101</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search_result_order_append'>search_result_order_append</span><span class='lparen'>(</span><span class='id identifier rubyid_fieldname'>fieldname</span><span class='comma'>,</span> <span class='id identifier rubyid_dir'>dir</span> <span class='op'>=</span> <span class='symbol'>:asc</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>direction must be either :asc, or :desc</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#SORT_DIRECTIONS-constant" title="Jamf::Searchable::SORT_DIRECTIONS (constant)">SORT_DIRECTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_dir'>dir</span>
+  <span class='id identifier rubyid_search_result_order'>search_result_order</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span> <span class='label'>field:</span> <span class='id identifier rubyid_fieldname'>fieldname</span><span class='comma'>,</span> <span class='label'>direction:</span> <span class='const'><span class='object_link'><a href="#SORT_DIRECTIONS-constant" title="Jamf::Searchable::SORT_DIRECTIONS (constant)">SORT_DIRECTIONS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_dir'>dir</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_result_page_size-instance_method">
+  
+    #<strong>search_result_page_size</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search_result_page_size'>search_result_page_size</span>
+  <span class='ivar'>@search_result_page_size</span> <span class='op'>||=</span> <span class='int'>0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_result_page_size=-instance_method">
+  
+    #<strong>search_result_page_size=</strong>(size)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/searchable.rb', line 87</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_search_result_page_size='>search_result_page_size=</span><span class='lparen'>(</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Size must be a non-negative integer</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
+  <span class='ivar'>@search_result_page_size</span> <span class='op'>=</span> <span class='id identifier rubyid_size'>size</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:55 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

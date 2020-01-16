@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::Account
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Account";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Account</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::Account
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></li>
+          
+            <li class="next">Jamf::Account</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/resources/collection_resources/account.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>An administrator account in the JSS</p>
+
+<p>ISSUES FOR JAMF:</p>
+<ul><li>
+<p>Seems like there needs to be some cleanup/coordination with the endpoints GET/auth, POST/auth/current, and GET/user Things are currently wonky enough that I can&#39;t really move forward with this class.</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="ACCESS_LEVEL_FULL-constant" class="">ACCESS_LEVEL_FULL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>FullAccess</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ACCESS_LEVEL_SITE-constant" class="">ACCESS_LEVEL_SITE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SiteAccess</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span><span class='comma'>,</span>
+<span class='const'>ACCESS_LEVEL_GROUP</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GroupBasedAccess</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ACCESS_LEVELS-constant" class="">ACCESS_LEVELS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#ACCESS_LEVEL_FULL-constant" title="Jamf::Account::ACCESS_LEVEL_FULL (constant)">ACCESS_LEVEL_FULL</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#ACCESS_LEVEL_SITE-constant" title="Jamf::Account::ACCESS_LEVEL_SITE (constant)">ACCESS_LEVEL_SITE</a></span></span><span class='comma'>,</span>
+  <span class='const'>ACCESS_LEVEL_GROUP</span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIVILEGE_SET_ADMIN-constant" class="">PRIVILEGE_SET_ADMIN =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ADMINISTRATOR</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIVILEGE_SET_AUDITOR-constant" class="">PRIVILEGE_SET_AUDITOR =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AUDITOR</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIVILEGE_SET_ENROLL-constant" class="">PRIVILEGE_SET_ENROLL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ENROLLMENT</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIVILEGE_SET_CUSTOM-constant" class="">PRIVILEGE_SET_CUSTOM =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CUSTOM</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIVILEGE_SETS-constant" class="">PRIVILEGE_SETS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#PRIVILEGE_SET_ADMIN-constant" title="Jamf::Account::PRIVILEGE_SET_ADMIN (constant)">PRIVILEGE_SET_ADMIN</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PRIVILEGE_SET_AUDITOR-constant" title="Jamf::Account::PRIVILEGE_SET_AUDITOR (constant)">PRIVILEGE_SET_AUDITOR</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PRIVILEGE_SET_ENROLL-constant" title="Jamf::Account::PRIVILEGE_SET_ENROLL (constant)">PRIVILEGE_SET_ENROLL</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PRIVILEGE_SET_CUSTOM-constant" title="Jamf::Account::PRIVILEGE_SET_CUSTOM (constant)">PRIVILEGE_SET_CUSTOM</a></span></span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="OBJECT_MODEL-constant" class="">OBJECT_MODEL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='comment'># @!attribute [r] id
+</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='label'>id:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] username
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>username:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] realName
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>realName:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] email
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>email:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r]  preferences
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>preferences:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AccountPreferences.html" title="Jamf::AccountPreferences (class)">AccountPreferences</a></span></span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] isMultiSiteAdmin
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>isMultiSiteAdmin:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] accessLevel
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>accessLevel:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>enum:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>Account</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#ACCESS_LEVELS-constant" title="Jamf::Account::ACCESS_LEVELS (constant)">ACCESS_LEVELS</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] accessLevel
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>privilegeSet:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>enum:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>Account</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#PRIVILEGE_SETS-constant" title="Jamf::Account::PRIVILEGE_SETS (constant)">PRIVILEGE_SETS</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#accessLevel-instance_method" title="#accessLevel (instance method)">#<strong>accessLevel</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#email-instance_method" title="#email (instance method)">#<strong>email</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#isMultiSiteAdmin-instance_method" title="#isMultiSiteAdmin (instance method)">#<strong>isMultiSiteAdmin</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#preferences-instance_method" title="#preferences (instance method)">#<strong>preferences</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realName-instance_method" title="#realName (instance method)">#<strong>realName</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#username-instance_method" title="#username (instance method)">#<strong>username</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="JSONObject.html#initialize-instance_method" title="Jamf::JSONObject#initialize (method)">Jamf::JSONObject</a></span></p>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="accessLevel-instance_method">
+  
+    #<strong>accessLevel</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 114</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="email-instance_method">
+  
+    #<strong>email</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 93</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    #<strong>id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 72</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="isMultiSiteAdmin-instance_method">
+  
+    #<strong>isMultiSiteAdmin</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 107</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="preferences-instance_method">
+  
+    #<strong>preferences</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 100</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="realName-instance_method">
+  
+    #<strong>realName</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 86</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="username-instance_method">
+  
+    #<strong>username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/account.rb', line 79</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:06 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

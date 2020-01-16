@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Validate
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Validate";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (V)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Validate</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Validate
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/validate.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A collection of methods for validating values. Mostly for ensuring the validity of data being set as attributes of APIObject subclass instances.</p>
+
+<p>Some of these methods can take multiple input types, such as a String or an Array.  All of them will either raise an exception if the value isn&#39;t valid, or will return a standardized form of the input (e.g. an Array, even if given a String)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="MAC_ADDR_RE-constant" class="">MAC_ADDR_RE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The regular expression that matches a valid MAC address.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^[a-f0-9]{2}(:[a-f0-9]{2}){5}$</span><span class='regexp_end'>/i</span></span></pre></dd>
+      
+        <dt id="SCRIPT_SHEBANG-constant" class="">SCRIPT_SHEBANG =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#!</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#boolean-class_method" title="boolean (class method)">.<strong>boolean</strong>(val, msg = nil)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Confirm that the given value is a boolean value, accepting Strings and Symbols,  returning real booleans as needed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#doesnt_exist-class_method" title="doesnt_exist (class method)">.<strong>doesnt_exist</strong>(val, klass, identifier, msg = nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate that a value doesn&#39;t already exist for a given identifier of a given CollectionResource class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#float-class_method" title="float (class method)">.<strong>float</strong>(val, msg = nil)  &#x21d2; Float </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Confirm that a value is a Float or a String representation of a Float.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#integer-class_method" title="integer (class method)">.<strong>integer</strong>(val, msg = nil)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Confirm that a value is an Integer or a String representation of an Integer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_address-class_method" title="ip_address (class method)">.<strong>ip_address</strong>(val, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate the format and content of an IPv4 address.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#json_attribute_name-class_method" title="json_attribute_name (class method)">.<strong>json_attribute_name</strong>(klass, attr_name)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does a give JSONObject class have a given JSON attribute?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mac_address-class_method" title="mac_address (class method)">.<strong>mac_address</strong>(val, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate the format and content of a MAC address.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#non_empty_string-class_method" title="non_empty_string (class method)">.<strong>non_empty_string</strong>(val, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>validate that the given value is a non-empty string Symbols are accepted and returned as strings.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script_contents-class_method" title="script_contents (class method)">.<strong>script_contents</strong>(val, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>validate that the given value is a string that starts with #!.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#string-class_method" title="string (class method)">.<strong>string</strong>(val, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Confirm that a value is a string, symbol, or nil, all of which will be returned as a string.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="boolean-class_method">
+  
+    .<strong>boolean</strong>(val, msg = nil)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Confirm that the given value is a boolean value, accepting Strings and Symbols,  returning real booleans as needed</p>
+
+<p>Accepted True values: true, &#39;true&#39;, :true, &#39;yes&#39;, :yes</p>
+
+<p>Accepted False values: false, &#39;false&#39;, :false, &#39;no&#39;, :no</p>
+
+<p>all Strings and Symbols are case insensitive</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid boolean</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_boolean'>boolean</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be boolean true or false</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(true|yes)$</span><span class='regexp_end'>/i</span></span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(false|no)$</span><span class='regexp_end'>/i</span></span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="doesnt_exist-class_method">
+  
+    .<strong>doesnt_exist</strong>(val, klass, identifier, msg = nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate that a value doesn&#39;t already exist for a given identifier of a given CollectionResource class</p>
+
+<p>e.g. when klass = Jamf::Computer, identifier = :name, and val = &#39;foo&#39; will raise an error when a computer named &#39;foo&#39; already exists</p>
+
+<p>Otherwise returns val.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The value to check for uniqueness</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>klass</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="CollectionResource.html" title="Jamf::CollectionResource (class)">Jamf::CollectionResource</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A descendent of Jamf::CollectionResource, e.g. Jamf::Computer</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identifier</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>One of the values of klass.identifiers</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The api connection to use for validation</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the validated unique value</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 109</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_doesnt_exist'>doesnt_exist</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_content'> already exists with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_identifier'>identifier</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_val'>val</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No identifier &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_identifier'>identifier</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_identifiers'>identifiers</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_identifier'>identifier</span>
+
+  <span class='kw'>return</span> <span class='id identifier rubyid_val'>val</span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>all_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_identifier'>identifier</span><span class='embexpr_end'>}</span><span class='tstring_content'>s</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_val'>val</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlreadyExistsError.html" title="Jamf::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="float-class_method">
+  
+    .<strong>float</strong>(val, msg = nil)  &#x21d2; <tt>Float</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Confirm that a value is a Float or a String representation of a Float. Return the Float, or raise an error</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid float</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 167</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_float'>float</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be a Floating Point number</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_j_float?'>j_float?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Flot</span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="integer-class_method">
+  
+    .<strong>integer</strong>(val, msg = nil)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Confirm that a value is an Integer or a String representation of an Integer. Return the integer, or raise an error</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid integer</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 151</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_integer'>integer</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be an Integer</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_j_integer?'>j_integer?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-class_method">
+  
+    .<strong>ip_address</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate the format and content of an IPv4 address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The valid value</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ip_address'>ip_address</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not a valid IPv4 address: &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_val'>val</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_ok'>ok</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_parts'>parts</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_ok'>ok</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>4</span>
+  <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_ok'>ok</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_j_integer?'>j_integer?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&lt;</span> <span class='int'>256</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&gt;=</span> <span class='int'>0</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ok'>ok</span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="json_attribute_name-class_method">
+  
+    .<strong>json_attribute_name</strong>(klass, attr_name)  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does a give JSONObject class have a given JSON attribute?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>klass</span>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span>] A class descended from <span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>lass [&lt;JSONObject] A class descended from JSONObject</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>attr_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The attribute to validate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The valid attribute</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_json_attribute_name'>json_attribute_name</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_attr_name'>attr_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a descendent of JSONObject</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No attribute </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr_name'>attr_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> for class </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_attrib'>attrib</span>
+  <span class='id identifier rubyid_attr_name'>attr_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mac_address-class_method">
+  
+    .<strong>mac_address</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate the format and content of a MAC address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The valid value</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mac_address'>mac_address</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not a valid MAC address: &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_val'>val</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#MAC_ADDR_RE-constant" title="Jamf::Validate::MAC_ADDR_RE (constant)">MAC_ADDR_RE</a></span></span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="non_empty_string-class_method">
+  
+    .<strong>non_empty_string</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>validate that the given value is a non-empty string Symbols are accepted and returned as strings</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the thing to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid non-empty string</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202
+203
+204
+205</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 200</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_non_empty_string'>non_empty_string</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>value must be a non-empty String</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Symbol</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="script_contents-class_method">
+  
+    .<strong>script_contents</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>validate that the given value is a string that starts with #!</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the thing to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the validated string</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 217</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_script_contents'>script_contents</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value must be a String starting with &#39;#!&#39;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#SCRIPT_SHEBANG-constant" title="Jamf::Validate::SCRIPT_SHEBANG (constant)">SCRIPT_SHEBANG</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="string-class_method">
+  
+    .<strong>string</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Confirm that a value is a string, symbol, or nil, all of which will be returned as a string</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid String</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+183
+184
+185
+186
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/validate.rb', line 183</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be a String</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Jamf.html#BLANK-constant" title="Jamf::BLANK (constant)">BLANK</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Symbol</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:54 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

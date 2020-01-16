@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Referable
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Referable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Referable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Referable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Attachment.html" title="Jamf::Attachment (class)">Attachment</a></span>, <span class='object_link'><a href="Building.html" title="Jamf::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="Jamf::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="Jamf::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Department.html" title="Jamf::Department (class)">Department</a></span>, <span class='object_link'><a href="MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="Script.html" title="Jamf::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="Jamf::Site (class)">Site</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/mixins/referable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>CollectionResource Class instances with this module mixed-in can be referred to in other classes.</p>
+
+<p>Doing so dynamically defines a new &#39;Reference&#39; class, which is a subclass of <span class='object_link'><a href="GenericReference.html" title="Jamf::GenericReference (class)">GenericReference</a></span></p>
+
+<p>Examples:</p>
+
+<p>1) A Policy can have a category assigned to it, and the policy&#39;s API data will contain a reference to a category.</p>
+
+<p>Jamf::Policy instances have a :category attribute, which contains an instance of Jamf::Category::Reference</p>
+
+<p>Mixing Referable into Jamf::Category automatically creates the class Jamf::Category::Reference</p>
+
+<p>2) The API data for a Jamf::ComputerGroup contains a an Array of references to member Jamf::Computers. That Array arrives in JSON like this:</p>
+
+<pre class="code ruby"><code class="ruby">computers: [
+  { id: 234, name: &#39;foobar&#39; },
+  { id: 698, name: &#39;barfoo&#39; }
+]
+</code></pre>
+
+<p>Mixing Referable into Jamf::Computer defines the class Jamf::Computer::Reference and allows Jamf::ComputerGroups to maintain an array of Jamf::Computer::Reference objects representing that list. When needed to send to the API, it will send this:</p>
+
+<pre class="code ruby"><code class="ruby">computers: [
+  { id: 234 },
+  { id: 698 }
+]
+</code></pre>
+
+<p>Parsing the API data into Reference instances, and converting them back for the API is handled by the Reference class.</p>
+
+<p>TODO: Handle if any references contain keys other than :id and :name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="GENREF-constant" class="">GENREF =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>this will hopefully autoload generic_reference</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="GenericReference.html" title="Jamf::GenericReference (class)">GenericReference</a></span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(referent)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This is run when Referable is included in some class &#39;referent&#39; It creates class referent::Reference as a subclass of GenericReference, and sets the REFERENT_CLASS constant of referent::Reference to referent.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reference-instance_method" title="#reference (instance method)">#<strong>reference</strong>  &#x21d2; self.class::GenericReference </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A reference to this object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    .<strong>included</strong>(referent)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This is run when Referable is included in some class &#39;referent&#39; It creates class referent::Reference as a subclass of GenericReference, and sets the REFERENT_CLASS constant of referent::Reference to referent.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../JSS/InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/referable.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_referent'>referent</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS/InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_referent'>referent</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is not a subclass of Jamf::CollectionResource, can&#39;t include &#39;Referable&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_referent'>referent</span><span class='period'>.</span><span class='id identifier rubyid_ancestors'>ancestors</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CollectionResource.html" title="Jamf::CollectionResource (class)">CollectionResource</a></span></span>
+  <span class='id identifier rubyid_referent'>referent</span><span class='period'>.</span><span class='id identifier rubyid_const_set'>const_set</span> <span class='symbol'>:Reference</span><span class='comma'>,</span> <span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#GENREF-constant" title="Jamf::Referable::GENREF (constant)">GENREF</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_referent'>referent</span><span class='op'>::</span><span class='const'>Reference</span><span class='period'>.</span><span class='id identifier rubyid_const_set'>const_set</span> <span class='symbol'>:REFERENT_CLASS</span><span class='comma'>,</span> <span class='id identifier rubyid_referent'>referent</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="reference-instance_method">
+  
+    #<strong>reference</strong>  &#x21d2; <tt>self.class::GenericReference</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns A reference to this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self.class::GenericReference</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A reference to this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/referable.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reference'>reference</span>
+  <span class='ivar'>@reference</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>Reference</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:55 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

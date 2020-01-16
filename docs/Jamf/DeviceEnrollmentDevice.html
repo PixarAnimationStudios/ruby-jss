@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::DeviceEnrollmentDevice
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::DeviceEnrollmentDevice";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">DeviceEnrollmentDevice</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::DeviceEnrollmentDevice
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="JSONObject.html" title="Jamf::JSONObject (class)">JSONObject</a></span></li>
+          
+            <li class="next">Jamf::DeviceEnrollmentDevice</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="Immutable.html" title="Jamf::Immutable (module)">Immutable</a></span></dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/json_objects/device_enrollment_device.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A decvice enrollment defined in the JSS This is a connection to Apple&#39;s Device Enrollment Program. A single Jamf server may have many of them, and they can belong to different sites.</p>
+
+<p>These objects can be used to find the details of all the devices connected to them, including the device serial numbers. To see how or if those devices are assigned to prestages, see Jamf::Prestage and its subclasses ComputerPrestage and MobileDevicePrestage</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="PROFILE_STATUS_EMPTY-constant" class="">PROFILE_STATUS_EMPTY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EMPTY</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PROFILE_STATUS_ASSIGNED-constant" class="">PROFILE_STATUS_ASSIGNED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ASSIGNED</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PROFILE_STATUS_PUSHED-constant" class="">PROFILE_STATUS_PUSHED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PUSHED</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PROFILE_STATUS_REMOVED-constant" class="">PROFILE_STATUS_REMOVED =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>REMOVED</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PROFILE_STATUSES-constant" class="">PROFILE_STATUSES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'><span class='object_link'><a href="#PROFILE_STATUS_EMPTY-constant" title="Jamf::DeviceEnrollmentDevice::PROFILE_STATUS_EMPTY (constant)">PROFILE_STATUS_EMPTY</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PROFILE_STATUS_ASSIGNED-constant" title="Jamf::DeviceEnrollmentDevice::PROFILE_STATUS_ASSIGNED (constant)">PROFILE_STATUS_ASSIGNED</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PROFILE_STATUS_PUSHED-constant" title="Jamf::DeviceEnrollmentDevice::PROFILE_STATUS_PUSHED (constant)">PROFILE_STATUS_PUSHED</a></span></span><span class='comma'>,</span>
+  <span class='const'><span class='object_link'><a href="#PROFILE_STATUS_REMOVED-constant" title="Jamf::DeviceEnrollmentDevice::PROFILE_STATUS_REMOVED (constant)">PROFILE_STATUS_REMOVED</a></span></span>
+<span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="OBJECT_MODEL-constant" class="">OBJECT_MODEL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='comment'># @!attribute id
+</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='label'>id:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>identifier:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute deviceEnrollmentProgramInstanceId
+</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='label'>deviceEnrollmentProgramInstanceId:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>instanceId</span><span class='tstring_end'>]</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute prestageId
+</span>  <span class='comment'>#   The most recent prestage this device was assigned to, even if
+</span>  <span class='comment'>#   currently unassigned to any prestage.
+</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='label'>prestageId:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute serialNumber
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>serialNumber:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute description
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>description:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute model
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>model:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute color
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>color:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute assetTag
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>assetTag:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute profileStatus
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>profileStatus:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute profileAssignTime
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>profileAssignTime:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute profilePushTime
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>profilePushTime:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute deviceAssignedDate
+</span>  <span class='comment'>#   When Apple assigned this device to this DevEnrollment instance
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>deviceAssignedDate:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span>
+  <span class='rbrace'>}</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assetTag-instance_method" title="#assetTag (instance method)">#<strong>assetTag</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#color-instance_method" title="#color (instance method)">#<strong>color</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#description-instance_method" title="#description (instance method)">#<strong>description</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deviceAssignedDate-instance_method" title="#deviceAssignedDate (instance method)">#<strong>deviceAssignedDate</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When Apple assigned this device to this DevEnrollment instance.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deviceEnrollmentProgramInstanceId-instance_method" title="#deviceEnrollmentProgramInstanceId (instance method)">#<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#model-instance_method" title="#model (instance method)">#<strong>model</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prestageId-instance_method" title="#prestageId (instance method)">#<strong>prestageId</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The most recent prestage this device was assigned to, even if currently unassigned to any prestage.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profileAssignTime-instance_method" title="#profileAssignTime (instance method)">#<strong>profileAssignTime</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profilePushTime-instance_method" title="#profilePushTime (instance method)">#<strong>profilePushTime</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profileStatus-instance_method" title="#profileStatus (instance method)">#<strong>profileStatus</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialNumber-instance_method" title="#serialNumber (instance method)">#<strong>serialNumber</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mutable%3F-class_method" title="#mutable? (class method)">.<strong>mutable?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Immutable.html#mutable%3F-class_method" title="Jamf::Immutable#mutable? (method)">Immutable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="JSONObject.html#initialize-instance_method" title="Jamf::JSONObject#initialize (method)">Jamf::JSONObject</a></span></p>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="assetTag=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="assetTag-instance_method">
+  
+    #<strong>assetTag</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 116</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="color=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="color-instance_method">
+  
+    #<strong>color</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 110</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="description-instance_method">
+  
+    #<strong>description</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 98</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="deviceAssignedDate=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="deviceAssignedDate-instance_method">
+  
+    #<strong>deviceAssignedDate</strong>  &#x21d2; <tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>When Apple assigned this device to this DevEnrollment instance</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 140</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="deviceEnrollmentProgramInstanceId=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="deviceEnrollmentProgramInstanceId-instance_method">
+  
+    #<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 77</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="id-instance_method">
+  
+    #<strong>id</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 70</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="model=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="model-instance_method">
+  
+    #<strong>model</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 104</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="prestageId=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="prestageId-instance_method">
+  
+    #<strong>prestageId</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The most recent prestage this device was assigned to, even if currently unassigned to any prestage.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 84</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="profileAssignTime=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="profileAssignTime-instance_method">
+  
+    #<strong>profileAssignTime</strong>  &#x21d2; <tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 128</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="profilePushTime=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="profilePushTime-instance_method">
+  
+    #<strong>profilePushTime</strong>  &#x21d2; <tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 134</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="profileStatus=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="profileStatus-instance_method">
+  
+    #<strong>profileStatus</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 122</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="serialNumber=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="serialNumber-instance_method">
+  
+    #<strong>serialNumber</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 92</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="mutable?-class_method">
+  
+    .<strong>mutable?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Immutable.html#mutable%3F-class_method" title="Jamf::Immutable#mutable? (method)">Immutable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:06 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

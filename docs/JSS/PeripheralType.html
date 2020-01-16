@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::PeripheralType
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::PeripheralType";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">PeripheralType</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::PeripheralType
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::PeripheralType</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/peripheral_type.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A peripheral_type in the JSS.</p>
+
+<p>A PeripheralType (as opposed to an individual <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>) is just an id, a name, and an Array of Hashes describing the fields of data to be stored for peripherals of this type.</p>
+
+<p>See <span class='object_link'><a href="#fields-instance_method" title="JSS::PeripheralType#fields (method)">#fields</a></span> for a desciption of how field definitions are stored.</p>
+
+<p>For manipulating the fields, see <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>peripheraltypes</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:peripheral_types</span></pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:peripheral_type</span></pre></dd>
+      
+        <dt id="FIELD_TYPES-constant" class="">FIELD_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>field types can be one of these, either String or Symbol</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span> <span class='symbol'>:menu</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>11</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#append_field-instance_method" title="#append_field (instance method)">#<strong>append_field</strong>(field = {})  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the end of the field list.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>(new_name, api: nil)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>make a clone of this API object, with a new name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new object in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_field-instance_method" title="#delete_field (instance method)">#<strong>delete_field</strong>(order)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove a field from the array of fields.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields-instance_method" title="#fields (instance method)">#<strong>fields</strong>  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The definitions of the fields stored for this peripheral type.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields=-instance_method" title="#fields= (instance method)">#<strong>fields=</strong>(new_fields)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace the entire Array of field definitions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args = {})  &#x21d2; PeripheralType </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_field-instance_method" title="#insert_field (instance method)">#<strong>insert_field</strong>(order, field = {})  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the middle of the fields Array.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(newname)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prepend_field-instance_method" title="#prepend_field (instance method)">#<strong>prepend_field</strong>(field = {})  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add a new field to the beginning of the field list.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_field-instance_method" title="#set_field (instance method)">#<strong>set_field</strong>(order, field = {})  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace the details of one specific field.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(args = {})  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::PeripheralType (class)">PeripheralType</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='kw'>super</span>
+
+  <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>  <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='symbol'>:order</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_f'>f</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="append_field-instance_method">
+  
+    #<strong>append_field</strong>(field = {})  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add a new field to the end of the field list</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>field</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new field data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_append_field'>append_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_ok?'>field_ok?</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='ivar'>@fields</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='id identifier rubyid_order_fields'>order_fields</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clone-instance_method">
+  
+    #<strong>clone</strong>(new_name, api: nil)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name for the new object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An uncreated clone of this APIObject with the given name</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new object in the JSS.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jss ID of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_field-instance_method">
+  
+    #<strong>delete_field</strong>(order)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Remove a field from the array of fields.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which field to remove?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 228</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_field'>delete_field</span><span class='lparen'>(</span><span class='id identifier rubyid_order'>order</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_order'>order</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fields can&#39;t be empty</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='int'>1</span>
+    <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_delete_at'>delete_at</span> <span class='id identifier rubyid_index'>index</span>
+    <span class='id identifier rubyid_order_fields'>order_fields</span>
+    <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fields-instance_method">
+  
+    #<strong>fields</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The definitions of the fields stored for this peripheral type.</p>
+
+<p>Each Hash defines a field of data to store. The keys are:</p>
+<ul><li>
+<p>:name, String, the name of the field</p>
+</li><li>
+<p>:type, String or Symbol, the kind of data to be stored in the field, either :text or :menu</p>
+</li><li>
+<p>:choices, Array of Strings - if type is :menu, these are the menu choices.</p>
+</li><li>
+<p>:order, the one-based index of this field amongst it&#39;s peers.</p>
+</li></ul>
+
+<p>Since Arrays are zero-based, and the field order is one-based, keeping a nil at the front of the Array will keep the :order number in sync with the Array index of each field definition. This is done automatically by the field-editing methods: <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span>.</p>
+
+<p>So the Array from the API comes like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='lbracket'>[</span> <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>make</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>2</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>model</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>3</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>family</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>4</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>serialnum</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='rbracket'>]</span>
+</code></pre>
+
+<p>But will be stored in a PeripheralType instance like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='lbracket'>[</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>make</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>2</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>model</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>3</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>family</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbrace'>{</span><span class='symbol'>:type</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:order</span><span class='op'>=&gt;</span><span class='int'>4</span><span class='comma'>,</span> <span class='symbol'>:choices</span><span class='op'>=&gt;</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>serialnum</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='rbracket'>]</span>
+</code></pre>
+
+<p>therefore</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_myPerifType'>myPerifType</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
+</code></pre>
+
+<p>will get you the second field, which has :order =&gt; 2.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The field definitions</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='ivar'>@fields</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fields=-instance_method">
+  
+    #<strong>fields=</strong>(new_fields)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Replace the entire Array of field definitions. The :order of each will be set based on the indexes of the Array provided.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_fields</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new field definitions</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fields='>fields=</span> <span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span> <span class='kw'>and</span>  <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span> <span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be an Array of Hashes.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A peripheral type can have a maximmum of 20 fields</span><span class='tstring_end'>&quot;</span></span>  <span class='kw'>if</span> <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>&gt;</span> <span class='int'>20</span>
+  <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_field_ok?'>field_ok?</span> <span class='id identifier rubyid_f'>f</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='id identifier rubyid_new_fields'>new_fields</span>
+  <span class='id identifier rubyid_order_fields'>order_fields</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert_field-instance_method">
+  
+    #<strong>insert_field</strong>(order, field = {})  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add a new field to the middle of the fields Array.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>where does the new field go?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>field</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new field data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 214</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_insert_field'>insert_field</span><span class='lparen'>(</span><span class='id identifier rubyid_order'>order</span><span class='comma'>,</span><span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_ok?'>field_ok?</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_order'>order</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_field'>field</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_order_fields'>order_fields</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(newname)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prepend_field-instance_method">
+  
+    #<strong>prepend_field</strong>(field = {})  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add a new field to the beginning of the field list</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>field</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new field data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prepend_field'>prepend_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_ok?'>field_ok?</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_unshift'>unshift</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='id identifier rubyid_order_fields'>order_fields</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_field-instance_method">
+  
+    #<strong>set_field</strong>(order, field = {})  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Replace the details of one specific field.</p>
+
+<p>The order must already exist. Otherwise use <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, or <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>order</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which field are we replacing?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>field</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new field data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral_type.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_field'>set_field</span><span class='lparen'>(</span><span class='id identifier rubyid_order'>order</span><span class='comma'>,</span> <span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No field with number &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;. Use #append_field, #prepend_field, or #insert_field</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_order'>order</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_field_ok?'>field_ok?</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_order'>order</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:01 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

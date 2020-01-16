@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::Uploadable
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Uploadable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (U)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Uploadable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::Uploadable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="SelfServable.html" title="JSS::SelfServable (module)">SelfServable</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/uploadable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A mixin module providing file-upload capabilities to JSSAPIObject subclasses.</p>
+
+<p>Classes mixing in this module are required to define a constant UPLOAD_TYPES which is a Hash of :type =&gt; :resource pairs, like this:</p>
+
+<pre class="code ruby"><code class="ruby">UPLOAD_TYPES = {
+   :icon =&gt; :mobiledeviceapplicationsicon
+   :app =&gt; mobiledeviceapplicationsipa
+   :attachment =&gt; mobiledeviceapplications
+ }
+</code></pre>
+
+<p>with one pair for each type of upload that the class can handle. (most of them only handle one, usually :attachment)</p>
+
+<p>When the #upload method is called, one of the keys from that Hash must be specified</p>
+
+<p>Classes with only one upload type may want to redefine #upload to always call super with that one type.</p>
+<hr>
+
+<p>Implementation Notes from <a href="https://casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post">casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post</a></p>
+
+<pre class="code ruby"><code class="ruby">POST ...JSSResource/fileuploads/&lt;resource&gt;/&lt;idType&gt;/&lt;id&gt;
+</code></pre>
+
+<p>You can POST different types of files by entering parameters for &lt;resource&gt;, &lt;idType&gt;, and &lt;id&gt;. For example /JSSResource/fileuploads/computers/id/2.</p>
+
+<p>Attachments can be uploaded by specifying computers, mobiledevices, enrollmentprofiles, or peripherals as the resource.</p>
+
+<p>Icons can be uploaded by specifying policies, ebooks, or mobiledeviceapplicationsicon as the resource.</p>
+
+<p>A mobile device application can be uploaded by using mobiledeviceapplicationsipa as the resource.</p>
+
+<p>A disk encryption can be uploaded by specifying diskencryptionconfigurations as the resource.</p>
+
+<p>idTypes supported are “id” and “name”, although peripheral names are not supported.</p>
+
+<p>A sample command is:</p>
+
+<pre class="code ruby"><code class="ruby">curl -k -u user:password https://my.jss:8443/JSSResource/fileuploads/computers/id/2 -F name=@/Users/admin/Documents/Sample.doc -X POST
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="UPLOADABLE-constant" class="">UPLOADABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="UPLOAD_RSRC_PREFIX-constant" class="">UPLOAD_RSRC_PREFIX =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fileuploads</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="upload-instance_method">
+  
+    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>String or Pathname pointing to the locally-readable file to be uploaded.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/uploadable.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_local_file'>local_file</span><span class='rparen'>)</span>
+  <span class='comment'># the thing&#39;s gotta be in the JSS, and have an @id
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Create this #{self.class::RSRC_OBJECT_KEY} in the JSS before uploading files to it.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@id</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@in_jss</span>
+
+  <span class='comment'># the type has to be defined in the class of self.
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_LIST_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> only take uploads of type: :</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>UPLOAD_TYPES</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> \
+    <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>UPLOAD_TYPES</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span>
+
+  <span class='comment'># figure out the resource after the UPLOAD_RSRC_PREFIX
+</span>  <span class='id identifier rubyid_upload_rsrc'>upload_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#UPLOAD_RSRC_PREFIX-constant" title="JSS::Uploadable::UPLOAD_RSRC_PREFIX (constant)">UPLOAD_RSRC_PREFIX</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>UPLOAD_TYPES</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='comment'># make a File object to hand to REST. &#39;rb&#39; = read,binary
+</span>  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_local_file'>local_file</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rb</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='comment'># upload it!
+</span>  <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_cnx'>cnx</span><span class='lbracket'>[</span><span class='id identifier rubyid_upload_rsrc'>upload_rsrc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span> <span class='label'>name:</span> <span class='id identifier rubyid_file'>file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:55 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,4253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::Peripheral
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Peripheral";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Peripheral</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::Peripheral
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::Peripheral</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="Sitable.html" title="JSS::Sitable (module)">Sitable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>, <span class='object_link'><a href="Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/peripheral.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A peripheral in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>peripherals</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:peripherals</span></pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:peripheral</span></pre></dd>
+      
+        <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>8</span></pre></dd>
+      
+        <dt id="SITE_SUBSET-constant" class="">SITE_SUBSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Where is the Site data in the API JSON?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:general</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#applecare_id-instance_method" title="#applecare_id (instance method)">#<strong>applecare_id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#applecare_id-instance_method" title="JSS::Purchasable#applecare_id (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bar_code_1-instance_method" title="#bar_code_1 (instance method)">#<strong>bar_code_1</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #barcode_1, #barcode1)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The “bar code 1” value.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bar_code_2-instance_method" title="#bar_code_2 (instance method)">#<strong>bar_code_2</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #barcode_2, #barcode2)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The “bar code 2” value.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#building-instance_method" title="#building (instance method)">#<strong>building</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#building-instance_method" title="JSS::Locatable#building (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer_id-instance_method" title="#computer_id (instance method)">#<strong>computer_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id number of the computer to which  this periph is connected.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#department-instance_method" title="#department (instance method)">#<strong>department</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#department-instance_method" title="JSS::Locatable#department (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#email_address-instance_method" title="#email_address (instance method)">#<strong>email_address</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#email_address-instance_method" title="JSS::Locatable#email_address (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_leased-instance_method" title="#is_leased (instance method)">#<strong>is_leased</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #leased?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#is_leased-instance_method" title="JSS::Purchasable#is_leased (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_purchased-instance_method" title="#is_purchased (instance method)">#<strong>is_purchased</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #purchased?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#is_purchased-instance_method" title="JSS::Purchasable#is_purchased (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lease_expires-instance_method" title="#lease_expires (instance method)">#<strong>lease_expires</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#lease_expires-instance_method" title="JSS::Purchasable#lease_expires (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#life_expectancy-instance_method" title="#life_expectancy (instance method)">#<strong>life_expectancy</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#life_expectancy-instance_method" title="JSS::Purchasable#life_expectancy (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#phone-instance_method" title="#phone (instance method)">#<strong>phone</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#phone-instance_method" title="JSS::Locatable#phone (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#po_date-instance_method" title="#po_date (instance method)">#<strong>po_date</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#po_date-instance_method" title="JSS::Purchasable#po_date (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#po_number-instance_method" title="#po_number (instance method)">#<strong>po_number</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#po_number-instance_method" title="JSS::Purchasable#po_number (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#position-instance_method" title="#position (instance method)">#<strong>position</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#position-instance_method" title="JSS::Locatable#position (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchase_price-instance_method" title="#purchase_price (instance method)">#<strong>purchase_price</strong>  &#x21d2; Float </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#purchase_price-instance_method" title="JSS::Purchasable#purchase_price (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_account-instance_method" title="#purchasing_account (instance method)">#<strong>purchasing_account</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#purchasing_account-instance_method" title="JSS::Purchasable#purchasing_account (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_contact-instance_method" title="#purchasing_contact (instance method)">#<strong>purchasing_contact</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#purchasing_contact-instance_method" title="JSS::Purchasable#purchasing_contact (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#real_name-instance_method" title="#real_name (instance method)">#<strong>real_name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#real_name-instance_method" title="JSS::Locatable#real_name (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#room-instance_method" title="#room (instance method)">#<strong>room</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#room-instance_method" title="JSS::Locatable#room (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">#<strong>type</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The type of peripheral.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#username-instance_method" title="#username (instance method)">#<strong>username</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #user)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#username-instance_method" title="JSS::Locatable#username (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vendor-instance_method" title="#vendor (instance method)">#<strong>vendor</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#vendor-instance_method" title="JSS::Purchasable#vendor (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#warranty_expires-instance_method" title="#warranty_expires (instance method)">#<strong>warranty_expires</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#warranty_expires-instance_method" title="JSS::Purchasable#warranty_expires (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#associate-instance_method" title="#associate (instance method)">#<strong>associate</strong>(computer)  &#x21d2; void </a>
+    
+
+    
+      (also: #assign_to)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Associate this peripheral with a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_location-instance_method" title="#clear_location (instance method)">#<strong>clear_location</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#clear_location-instance_method" title="JSS::Locatable#clear_location (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Clear all location data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>(new_name, api: nil)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>make a clone of this API object, with a new name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>reset the restrsrc after creation.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disassociate-instance_method" title="#disassociate (instance method)">#<strong>disassociate</strong>  &#x21d2; void </a>
+    
+
+    
+      (also: #unassign)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Disassociate this peripheral from any computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields-instance_method" title="#fields (instance method)">#<strong>fields</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The field values of the peripheral Each key is the fields name, as a String and the value is the fields value, also as a String.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_location%3F-instance_method" title="#has_location? (instance method)">#<strong>has_location?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#has_location%3F-instance_method" title="JSS::Locatable#has_location? (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this item have location data?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_purchasing%3F-instance_method" title="#has_purchasing? (instance method)">#<strong>has_purchasing?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#has_purchasing%3F-instance_method" title="JSS::Purchasable#has_purchasing? (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this item have any purchasing info?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args = {})  &#x21d2; Peripheral </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Peripheral.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#location-instance_method" title="#location (instance method)">#<strong>location</strong>  &#x21d2; Hash&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#location-instance_method" title="JSS::Locatable#location (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All the location data in a Hash, as it comes from the API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#location_xml-instance_method" title="#location_xml (instance method)">#<strong>location_xml</strong>  &#x21d2; REXML::Element </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(newname)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>periphs don&#39;t have names.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_location-instance_method" title="#parse_location (instance method)">#<strong>parse_location</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Locatable.html#parse_location-instance_method" title="JSS::Locatable#parse_location (method)">Locatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_purchasing-instance_method" title="#parse_purchasing (instance method)">#<strong>parse_purchasing</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#parse_purchasing-instance_method" title="JSS::Purchasable#parse_purchasing (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing-instance_method" title="#purchasing (instance method)">#<strong>purchasing</strong>  &#x21d2; Hash&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#purchasing-instance_method" title="JSS::Purchasable#purchasing (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All the purchasing data in a Hash, as it comes from the API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#purchasing_xml-instance_method" title="#purchasing_xml (instance method)">#<strong>purchasing_xml</strong>  &#x21d2; REXML::Element </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Purchasable.html#purchasing_xml-instance_method" title="JSS::Purchasable#purchasing_xml (method)">Purchasable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_field-instance_method" title="#set_field (instance method)">#<strong>set_field</strong>(field, value)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the value of a field.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site=-instance_method" title="#site= (instance method)">#<strong>site=</strong>(new_site)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#site=-instance_method" title="JSS::Sitable#site= (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the site of this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site_assigned%3F-instance_method" title="#site_assigned? (instance method)">#<strong>site_assigned?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#site_assigned%3F-instance_method" title="JSS::Sitable#site_assigned? (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this object have a site assigned?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site_id-instance_method" title="#site_id (instance method)">#<strong>site_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#site_id-instance_method" title="JSS::Sitable#site_id (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id of the site for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site_name-instance_method" title="#site_name (instance method)">#<strong>site_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #site)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#site_name-instance_method" title="JSS::Sitable#site_name (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the site for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site_object-instance_method" title="#site_object (instance method)">#<strong>site_object</strong>  &#x21d2; JSS::Site </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#site_object-instance_method" title="JSS::Sitable#site_object (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS::Site instance for this object&#39;s site.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unset_site-instance_method" title="#unset_site (instance method)">#<strong>unset_site</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Sitable.html#unset_site-instance_method" title="JSS::Sitable#unset_site (method)">Sitable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the site to nothing.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Uploadable.html#upload-instance_method" title="JSS::Uploadable#upload (method)">Uploadable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(args = {})  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::Peripheral (class)">Peripheral</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Peripheral.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='comment'>### periphs don&#39;t really have names, and the JSS module list method for
+</span>  <span class='comment'>### periphs gives the computer_id as the name, so give it a temp
+</span>  <span class='comment'>### name of &quot;-1&quot;, which shouldn&#39;t ever exist in the JSS
+</span>  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-1</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='kw'>super</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:new</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>New Peripherals must have a :type, which must be one of those defined in the JSS.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
+    <span class='ivar'>@type</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No peripheral type &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@type</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; in the JSS</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span><span class='lparen'>(</span><span class='symbol'>:refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='ivar'>@type</span>
+    <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>peripherals/id/-1</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@site</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>None</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@type</span> <span class='op'>=</span>  <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
+  <span class='ivar'>@site</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get_name'><span class='object_link'><a href="APIObject.html#get_name-class_method" title="JSS::APIObject.get_name (method)">get_name</a></span></span><span class='lparen'>(</span><span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:site</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@bar_code_1</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:bar_code_1</span><span class='rbracket'>]</span>
+  <span class='ivar'>@bar_code_2</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:bar_code_2</span><span class='rbracket'>]</span>
+  <span class='ivar'>@computer_id</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:computer_id</span><span class='rbracket'>]</span>
+
+  <span class='comment'>### fill in the fields
+</span>  <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+  <span class='comment'>### get the field defs for this PeriphType, omitting the leading nil
+</span>  <span class='ivar'>@field_defs</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span><span class='lparen'>(</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='ivar'>@type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
+
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="applecare_id=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="applecare_id-instance_method">
+  
+    #<strong>applecare_id</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#applecare_id-instance_method" title="JSS::Purchasable#applecare_id (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="bar_code_1=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bar_code_1-instance_method">
+  
+    #<strong>bar_code_1</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='barcode_1-instance_method'>barcode_1</span>, <span id='barcode1-instance_method'>barcode1</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the “bar code 1” value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the “bar code 1” value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 101</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bar_code_1'>bar_code_1</span>
+  <span class='ivar'>@bar_code_1</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="bar_code_2=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bar_code_2-instance_method">
+  
+    #<strong>bar_code_2</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='barcode_2-instance_method'>barcode_2</span>, <span id='barcode2-instance_method'>barcode2</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the “bar code 2” value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the “bar code 2” value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 105</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bar_code_2'>bar_code_2</span>
+  <span class='ivar'>@bar_code_2</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="building=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="building-instance_method">
+  
+    #<strong>building</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#building-instance_method" title="JSS::Locatable#building (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="computer_id-instance_method">
+  
+    #<strong>computer_id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the id number of the computer to which  this periph is connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id number of the computer to which  this periph is connected</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 109</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_id'>computer_id</span>
+  <span class='ivar'>@computer_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="department=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="department-instance_method">
+  
+    #<strong>department</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#department-instance_method" title="JSS::Locatable#department (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="email_address=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="email_address-instance_method">
+  
+    #<strong>email_address</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#email_address-instance_method" title="JSS::Locatable#email_address (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="is_leased=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_leased-instance_method">
+  
+    #<strong>is_leased</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='leased?-instance_method'>leased?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#is_leased-instance_method" title="JSS::Purchasable#is_leased (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="is_purchased=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_purchased-instance_method">
+  
+    #<strong>is_purchased</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='purchased?-instance_method'>purchased?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#is_purchased-instance_method" title="JSS::Purchasable#is_purchased (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="lease_expires=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lease_expires-instance_method">
+  
+    #<strong>lease_expires</strong>  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#lease_expires-instance_method" title="JSS::Purchasable#lease_expires (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="life_expectancy=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="life_expectancy-instance_method">
+  
+    #<strong>life_expectancy</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#life_expectancy-instance_method" title="JSS::Purchasable#life_expectancy (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="phone=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="phone-instance_method">
+  
+    #<strong>phone</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#phone-instance_method" title="JSS::Locatable#phone (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="po_date=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="po_date-instance_method">
+  
+    #<strong>po_date</strong>  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#po_date-instance_method" title="JSS::Purchasable#po_date (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="po_number=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="po_number-instance_method">
+  
+    #<strong>po_number</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#po_number-instance_method" title="JSS::Purchasable#po_number (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="position=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="position-instance_method">
+  
+    #<strong>position</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#position-instance_method" title="JSS::Locatable#position (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="purchase_price=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchase_price-instance_method">
+  
+    #<strong>purchase_price</strong>  &#x21d2; <tt>Float</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#purchase_price-instance_method" title="JSS::Purchasable#purchase_price (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="purchasing_account=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_account-instance_method">
+  
+    #<strong>purchasing_account</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#purchasing_account-instance_method" title="JSS::Purchasable#purchasing_account (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="purchasing_contact=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_contact-instance_method">
+  
+    #<strong>purchasing_contact</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#purchasing_contact-instance_method" title="JSS::Purchasable#purchasing_contact (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="real_name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="real_name-instance_method">
+  
+    #<strong>real_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#real_name-instance_method" title="JSS::Locatable#real_name (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="room=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="room-instance_method">
+  
+    #<strong>room</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#room-instance_method" title="JSS::Locatable#room (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="type-instance_method">
+  
+    #<strong>type</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the type of peripheral.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of peripheral</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='ivar'>@type</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="username=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="username-instance_method">
+  
+    #<strong>username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='user-instance_method'>user</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#username-instance_method" title="JSS::Locatable#username (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="vendor=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="vendor-instance_method">
+  
+    #<strong>vendor</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#vendor-instance_method" title="JSS::Purchasable#vendor (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="warranty_expires=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="warranty_expires-instance_method">
+  
+    #<strong>warranty_expires</strong>  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#warranty_expires-instance_method" title="JSS::Purchasable#warranty_expires (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="associate-instance_method">
+  
+    #<strong>associate</strong>(computer)  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='assign_to-instance_method'>assign_to</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Associate this peripheral with a computer.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>computer</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of a computer in the JSS</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 230</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_associate'>associate</span><span class='lparen'>(</span><span class='id identifier rubyid_computer'>computer</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_computer'>computer</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^d+$</span><span class='regexp_end'>/</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No computer in the JSS with id </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_computer'>computer</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_computer'>computer</span>
+    <span class='ivar'>@computer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_computer'>computer</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No computer in the JSS with name </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_computer'>computer</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_computer'>computer</span>
+    <span class='ivar'>@computer_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map_all_ids_to'><span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span></span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_invert'>invert</span><span class='lbracket'>[</span><span class='id identifier rubyid_computer'>computer</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear_location-instance_method">
+  
+    #<strong>clear_location</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#clear_location-instance_method" title="JSS::Locatable#clear_location (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Clear all location data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clone-instance_method">
+  
+    #<strong>clone</strong>(new_name, api: nil)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name for the new object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An uncreated clone of this APIObject with the given name</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>reset the restrsrc after creation</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>peripherals/id/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disassociate-instance_method">
+  
+    #<strong>disassociate</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='unassign-instance_method'>unassign</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Disassociate this peripheral from any computer.</p>
+
+<p>This seems to have no effect in the JSS, the  computer/user/location data always shows the most recent.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disassociate'>disassociate</span>
+  <span class='ivar'>@computer_id</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fields-instance_method">
+  
+    #<strong>fields</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the field values of the peripheral Each key is the fields name, as a String and the value is the fields value, also as a String.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the field values of the peripheral Each key is the fields name, as a String and the value is the fields value, also as a String</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='ivar'>@fields</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_location?-instance_method">
+  
+    #<strong>has_location?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#has_location%3F-instance_method" title="JSS::Locatable#has_location? (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Does this item have location data?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Does this item have location data?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_purchasing?-instance_method">
+  
+    #<strong>has_purchasing?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#has_purchasing%3F-instance_method" title="JSS::Purchasable#has_purchasing? (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns does this item have any purchasing info?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this item have any purchasing info?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="location-instance_method">
+  
+    #<strong>location</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#location-instance_method" title="JSS::Locatable#location (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All the location data in a Hash, as it comes from the API.</p>
+
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the location data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="location_xml-instance_method">
+  
+    #<strong>location_xml</strong>  &#x21d2; <tt>REXML::Element</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(newname)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>periphs don&#39;t have names</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 168</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span> <span class='lparen'>(</span><span class='id identifier rubyid_newname'>newname</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Peripherals don&#39;t have names.</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_location-instance_method">
+  
+    #<strong>parse_location</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Locatable.html#parse_location-instance_method" title="JSS::Locatable#parse_location (method)">Locatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_purchasing-instance_method">
+  
+    #<strong>parse_purchasing</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#parse_purchasing-instance_method" title="JSS::Purchasable#parse_purchasing (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing-instance_method">
+  
+    #<strong>purchasing</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#purchasing-instance_method" title="JSS::Purchasable#purchasing (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All the purchasing data in a Hash, as it comes from the API.</p>
+
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the location data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="purchasing_xml-instance_method">
+  
+    #<strong>purchasing_xml</strong>  &#x21d2; <tt>REXML::Element</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Purchasable.html#purchasing_xml-instance_method" title="JSS::Purchasable#purchasing_xml (method)">Purchasable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+
+<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_field-instance_method">
+  
+    #<strong>set_field</strong>(field, value)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the value of a field. It will be checked to ensure validity.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>field</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the field to set</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new value for the field</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/peripheral.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_field'>set_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_check_field'>check_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site=-instance_method">
+  
+    #<strong>site=</strong>(new_site)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#site=-instance_method" title="JSS::Sitable#site= (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_site</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new site</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site_assigned?-instance_method">
+  
+    #<strong>site_assigned?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#site_assigned%3F-instance_method" title="JSS::Sitable#site_assigned? (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does this object have a site assigned?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Does this object have a site assigned?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site_id-instance_method">
+  
+    #<strong>site_id</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#site_id-instance_method" title="JSS::Sitable#site_id (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The id of the site for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The id of the site for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site_name-instance_method">
+  
+    #<strong>site_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='site-instance_method'>site</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#site_name-instance_method" title="JSS::Sitable#site_name (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the site for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site_object-instance_method">
+  
+    #<strong>site_object</strong>  &#x21d2; <tt><span class='object_link'><a href="Site.html" title="JSS::Site (class)">JSS::Site</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#site_object-instance_method" title="JSS::Sitable#site_object (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS::Site instance for this object&#39;s site</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Site.html" title="JSS::Site (class)">JSS::Site</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The JSS::Site instance for this object&#39;s site</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unset_site-instance_method">
+  
+    #<strong>unset_site</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Sitable.html#unset_site-instance_method" title="JSS::Sitable#unset_site (method)">Sitable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the site to nothing</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload-instance_method">
+  
+    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Uploadable.html#upload-instance_method" title="JSS::Uploadable#upload (method)">Uploadable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>String or Pathname pointing to the locally-readable file to be uploaded.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:01 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

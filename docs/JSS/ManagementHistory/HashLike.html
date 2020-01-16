@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSS::ManagementHistory::HashLike
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::ManagementHistory::HashLike";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (H)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span></span>
+     &raquo; 
+    <span class="title">HashLike</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSS::ManagementHistory::HashLike
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="AuditEvent.html" title="JSS::ManagementHistory::AuditEvent (class)">AuditEvent</a></span>, <span class='object_link'><a href="CasperImagingLog.html" title="JSS::ManagementHistory::CasperImagingLog (class)">CasperImagingLog</a></span>, <span class='object_link'><a href="CasperRemoteLog.html" title="JSS::ManagementHistory::CasperRemoteLog (class)">CasperRemoteLog</a></span>, <span class='object_link'><a href="ComputerUsageLog.html" title="JSS::ManagementHistory::ComputerUsageLog (class)">ComputerUsageLog</a></span>, <span class='object_link'><a href="EBook.html" title="JSS::ManagementHistory::EBook (class)">EBook</a></span>, <span class='object_link'><a href="MDMCommand.html" title="JSS::ManagementHistory::MDMCommand (class)">MDMCommand</a></span>, <span class='object_link'><a href="MacAppStoreApp.html" title="JSS::ManagementHistory::MacAppStoreApp (class)">MacAppStoreApp</a></span>, <span class='object_link'><a href="MobileDeviceApp.html" title="JSS::ManagementHistory::MobileDeviceApp (class)">MobileDeviceApp</a></span>, <span class='object_link'><a href="PolicyLog.html" title="JSS::ManagementHistory::PolicyLog (class)">PolicyLog</a></span>, <span class='object_link'><a href="ScreenSharingLog.html" title="JSS::ManagementHistory::ScreenSharingLog (class)">ScreenSharingLog</a></span>, <span class='object_link'><a href="UserLocationChange.html" title="JSS::ManagementHistory::UserLocationChange (class)">UserLocationChange</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/management_history/hashlike.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This is mixed in to the history event classes to provide hash-like access to their attributes, so that</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_some_event'>some_event</span><span class='lbracket'>[</span><span class='symbol'>:date_time</span><span class='rbracket'>]</span>
+</code></pre>
+
+<p>works the same as</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_some_event'>some_event</span><span class='period'>.</span><span class='id identifier rubyid_date_time'>date_time</span>
+</code></pre>
+
+<p>just as with OpenStruct objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(attr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="[]-instance_method">
+  
+    #<strong>[]</strong>(attr)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history/hashlike.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send'>send</span> <span class='id identifier rubyid_attr'>attr</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:55 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

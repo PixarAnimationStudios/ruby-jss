@@ -1,0 +1,5469 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::APIConnection
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::APIConnection";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">APIConnection</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::APIConnection
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">JSS::APIConnection</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss.rb<span class="defines">,<br />
+  lib/jss/api_connection.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Instances of this class represent a REST connection to a JSS API.</p>
+
+<p>For most cases, a single connection to a single JSS is all you need, and this is ruby-jss&#39;s default behavior.</p>
+
+<p>If needed, multiple connections can be made and used sequentially or simultaneously.</p>
+
+<h2 id="label-Using+the+default+connection">Using the default connection</h2>
+
+<p>When ruby-jss is loaded, a not-yet-connected default instance of JSS::APIConnection is created and stored in the constant JSS::API. This connection is used as the initial &#39;active connection&#39; (see below) so all methods that make API calls will use it by default. For most uses, where you&#39;re only going to be working with one connection to one JSS, the default connection is all you need.</p>
+
+<p>Before using it you must call its <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method, passing in appropriate connection details and credentials.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ruby-jss</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">connect</a></span></span> <span class='label'>server:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>server.address.edu</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jss-api-user</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>pw:</span> <span class='symbol'>:prompt</span>
+<span class='comment'># (see {JSS::APIConnection#connect} for all the connection options)
+</span>
+<span class='id identifier rubyid_a_phone'>a_phone</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='int'>8743</span>
+
+<span class='comment'># the mobile device was fetched through the default connection
+</span></code></pre>
+
+<h2 id="label-Using+Multiple+Simultaneous+Connections">Using Multiple Simultaneous Connections</h2>
+
+<p>Sometimes you need to connect simultaneously to more than one JSS. or to the same JSS with different credentials. ruby-jss allows you to create as many connections as needed, and gives you three ways to use them:</p>
+<ol><li>
+<p>Making a connection &#39;active&#39;, after which API calls go thru it automatically</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_a_computer'>a_computer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='int'>1234</span>
+
+<span class='comment'># the JSS::Computer with id 1234 is fetched from the active connection
+</span><span class='comment'># and stored in the variable &#39;a_computer&#39;
+</span></code></pre>
+
+<p>NOTE: When ruby-jss is first loaded, the default connection (see above) is the active connection.</p>
+</li><li>
+<p>Passing an APIConnection instance to methods that use the API</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_a_computer'>a_computer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='int'>1234</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_production_api'>production_api</span>
+
+<span class='comment'># the JSS::Computer with id 1234 is fetched from the connection
+</span><span class='comment'># stored in the variable &#39;production_api&#39;. The computer is
+</span><span class='comment'># then stored in the variable &#39;a_computer&#39;
+</span></code></pre>
+</li><li>
+<p>Using the APIConnection instance itself to make API calls.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_a_computer'>a_computer</span> <span class='op'>=</span> <span class='id identifier rubyid_production_api'>production_api</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='symbol'>:Computer</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>1234</span>
+
+<span class='comment'># the JSS::Computer with id 1234 is fetched from the connection
+</span><span class='comment'># stored in the variable &#39;production_api&#39;. The computer is
+</span><span class='comment'># then stored in the variable &#39;a_computer&#39;
+</span></code></pre>
+</li></ol>
+
+<p>See below for more details about the ways to use multiple connections.</p>
+
+<p>NOTE: Objects retrieved or created through an APIConnection store an internal reference to that APIConnection and use that when they make other API calls, thus ensuring data consistency when using multiple connections.</p>
+
+<p>Similiarly, the data caches used by APIObject list methods (e.g. JSS::Computer.all, .all_names, and so on) are stored in the APIConnection instance through which they were read, so they won&#39;t be incorrect when you use multiple connections.</p>
+
+<h2 id="label-Making+new+APIConnection+instances">Making new APIConnection instances</h2>
+
+<p>New connections can be created using the standard ruby &#39;new&#39; method.</p>
+
+<p>If you provide connection details when calling &#39;new&#39;, they will be passed to the <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method immediately. Otherwise you can call <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> later.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_production_api'>production_api</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'>APIConnection</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="JSS::APIConnection#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+  <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prod</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>server:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prodserver.address.org</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>produser</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>pw:</span> <span class='symbol'>:prompt</span>
+<span class='rparen'>)</span>
+
+<span class='comment'># the new connection is now stored in the variable &#39;production_api&#39;.
+</span></code></pre>
+
+<h2 id="label-Using+the+-27Active-27+Connection">Using the &#39;Active&#39; Connection</h2>
+
+<p>While multiple connection instances can be created, only one at a time is &#39;the active connection&#39; and all APIObject-based access methods in ruby-jss will use it automatically. When ruby-jss is loaded, the  default connection (see above) is the active connection.</p>
+
+<p>To use the active connection, just call a method on an APIObject subclass that uses the API.</p>
+
+<p>For example, the various list methods:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_all_computer_sns'>all_computer_sns</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_serial_numbers'>all_serial_numbers</span>
+
+<span class='comment'># the list of all computer serial numbers is read from the active
+</span><span class='comment'># connection and stored in all_computer_sns
+</span></code></pre>
+
+<p>Fetching an object from the API:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_victim_md'>victim_md</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='int'>832</span>
+
+<span class='comment'># the variable &#39;victim_md&#39; now contains a JSS::MobileDevice queried
+</span><span class='comment'># through the active connection.
+</span></code></pre>
+
+<p>The currently-active connection instance is available from the `JSS.api` method.</p>
+
+<h3 id="label-Making+a+Connection+Active">Making a Connection Active</h3>
+
+<p>Only one connection is &#39;active&#39; at a time and the currently active one is returned when you call `JSS.api` or its alias `JSS.active_connection`</p>
+
+<p>To activate another connection just pass it to the JSS.use_api method like so:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_api'>use_api</span> <span class='id identifier rubyid_production_api'>production_api</span>
+<span class='comment'># the connection we stored in &#39;production_api&#39; is now active
+</span></code></pre>
+
+<p>To re-activate to the default connection, just call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_default_connection'><span class='object_link'><a href="../JSS.html#use_default_connection-class_method" title="JSS.use_default_connection (method)">use_default_connection</a></span></span>
+</code></pre>
+
+<h2 id="label-Connection+Names-3A">Connection Names:</h2>
+
+<p>As seen in the example above, you can provide a &#39;name:&#39; parameter (a String or a Symbol) when creating a new connection. The name can be used later to identify connection objects.</p>
+
+<p>If you don&#39;t provide one, the name is &#39;:disconnected&#39; until you connect, and then &#39;user@server:port&#39; after connecting.</p>
+
+<p>The name of the default connection is always :default</p>
+
+<p>To see the name of the currently active connection, just use `JSS.api.name`</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_api'>use_api</span> <span class='id identifier rubyid_production_api'>production_api</span>
+<span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_name'><span class='object_link'><a href="#name-instance_method" title="JSS::APIConnection#name (method)">name</a></span></span>  <span class='comment'># =&gt; &#39;prod&#39;
+</span>
+<span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_default_connection'><span class='object_link'><a href="../JSS.html#use_default_connection-class_method" title="JSS.use_default_connection (method)">use_default_connection</a></span></span>
+<span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_name'><span class='object_link'><a href="#name-instance_method" title="JSS::APIConnection#name (method)">name</a></span></span>  <span class='comment'># =&gt; :default
+</span></code></pre>
+
+<h2 id="label-Creating-2C+Storing+and+Activating+a+connection+in+one+step">Creating, Storing and Activating a connection in one step</h2>
+
+<p>Both of the above steps (creating/storing a connection, and making it active) can be performed in one step using the `JSS.new_api_connection` method, which creates a new APIConnection, makes it the active connection, and returns it.</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='id identifier rubyid_production_api2'>production_api2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_api_connection'><span class='object_link'><a href="../JSS.html#new_api_connection-class_method" title="JSS.new_api_connection (method)">new_api_connection</a></span></span><span class='lparen'>(</span>
+   <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prod2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+   <span class='label'>server:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prodserver.address.org</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+   <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>produser</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+   <span class='label'>pw:</span> <span class='symbol'>:prompt</span>
+ <span class='rparen'>)</span>
+
+<span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_name'><span class='object_link'><a href="#name-instance_method" title="JSS::APIConnection#name (method)">name</a></span></span>  <span class='comment'># =&gt; &#39;prod2&#39;
+</span></code></pre>
+
+<h2 id="label-Passing+an+APIConnection+object+to+API-related+methods">Passing an APIConnection object to API-related methods</h2>
+
+<p>All methods that use the API can take an &#39;api:&#39; parameter which contains an APIConnection object. When provided, that APIconnection is used rather than the active connection.</p>
+
+<p>For example:</p>
+
+<pre class="code ruby"><code class="ruby">prod2_computer_sns = JSS::Computer.all_serial_numbers, api: production_api2
+
+# the list of all computer serial numbers is read from the connection in
+# the variable &#39;production_api2&#39; and stored in &#39;prod2_computer_sns&#39;
+
+prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
+
+# the variable &#39;prod2_victim_md&#39; now contains a JSS::MobileDevice queried
+# through the connection &#39;production_api2&#39;.
+</code></pre>
+
+<h2 id="label-Using+the+APIConnection+itself+to+make+API+calls.">Using the APIConnection itself to make API calls.</h2>
+
+<p>Rather than passing an APIConnection into another method, you can call similar methods on the connection itself. For example, these two calls have the same result as the two examples above:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_prod2_computer_sns'>prod2_computer_sns</span> <span class='op'>=</span> <span class='id identifier rubyid_production_api2'>production_api2</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span> <span class='symbol'>:Computer</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='symbol'>:serial_numbers</span>
+<span class='id identifier rubyid_prod2_victim_md'>prod2_victim_md</span> <span class='op'>=</span> <span class='id identifier rubyid_production_api2'>production_api2</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='symbol'>:MobileDevice</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>832</span>
+</code></pre>
+
+<p>Here are the API calls you can make directly from an APIConnection object. They behave practically identically to the same methods in the APIObject subclasses, since they just call those methods, passing themselves in as the APIConnection to use.</p>
+<ul><li>
+<p><span class='object_link'><a href="#all-instance_method" title="JSS::APIConnection#all (method)">#all</a></span>  The &#39;list&#39; methods of the various APIObject classes. Use the &#39;only:&#39; parameter to specify one of the sub-list-methods, like #all_ids or #all_laptops, e.g. `my_connection.all :computers, only: :id`</p>
+</li><li>
+<p><span class='object_link'><a href="#map_all_ids-instance_method" title="JSS::APIConnection#map_all_ids (method)">#map_all_ids</a></span> the equivalent of #map_all_ids_to in the APIObject classes</p>
+</li><li>
+<p><span class='object_link'><a href="#valid_id-instance_method" title="JSS::APIConnection#valid_id (method)">#valid_id</a></span> given a class and an identifier (like macaddress or udid) return a valid id or nil</p>
+</li><li>
+<p><span class='object_link'><a href="#exist%3F-instance_method" title="JSS::APIConnection#exist? (method)">#exist?</a></span> given a class and an identifier (like macaddress or udid) does the identifier exist for the class in the JSS</p>
+</li><li>
+<p><span class='object_link'><a href="#match-instance_method" title="JSS::APIConnection#match (method)">#match</a></span> list items in the JSS matching a query (if the object is <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>)</p>
+</li><li>
+<p><span class='object_link'><a href="#fetch-instance_method" title="JSS::APIConnection#fetch (method)">#fetch</a></span> retrieve an object from the JSS</p>
+</li><li>
+<p><span class='object_link'><a href="#make-instance_method" title="JSS::APIConnection#make (method)">#make</a></span> instantiate an object to be created in the JSS</p>
+</li><li>
+<p><span class='object_link'><a href="#computer_checkin_settings-instance_method" title="JSS::APIConnection#computer_checkin_settings (method)">#computer_checkin_settings</a></span> same as <span class='object_link'><a href="Computer.html#checkin_settings-class_method" title="JSS::Computer.checkin_settings (method)">Computer.checkin_settings</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#computer_inventory_collection_settings-instance_method" title="JSS::APIConnection#computer_inventory_collection_settings (method)">#computer_inventory_collection_settings</a></span> same as <span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#computer_application_usage-instance_method" title="JSS::APIConnection#computer_application_usage (method)">#computer_application_usage</a></span> same as <span class='object_link'><a href="Computer.html#application_usage-class_method" title="JSS::Computer.application_usage (method)">Computer.application_usage</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#computer_management_data-instance_method" title="JSS::APIConnection#computer_management_data (method)">#computer_management_data</a></span> same as <span class='object_link'><a href="Computer.html#management_data-class_method" title="JSS::Computer.management_data (method)">Computer.management_data</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#master_distribution_point-instance_method" title="JSS::APIConnection#master_distribution_point (method)">#master_distribution_point</a></span> same as <span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#my_distribution_point-instance_method" title="JSS::APIConnection#my_distribution_point (method)">#my_distribution_point</a></span> same as <span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#network_ranges-instance_method" title="JSS::APIConnection#network_ranges (method)">#network_ranges</a></span> same as <span class='object_link'><a href="NetworkSegment.html#network_ranges-class_method" title="JSS::NetworkSegment.network_ranges (method)">NetworkSegment.network_ranges</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="#network_segments_for_ip-instance_method" title="JSS::APIConnection#network_segments_for_ip (method)">#network_segments_for_ip</a></span> same as NetworkSegment.segments_for_ip</p>
+</li><li>
+<p><span class='object_link'><a href="#my_network_segments-instance_method" title="JSS::APIConnection#my_network_segments (method)">#my_network_segments</a></span> same as <span class='object_link'><a href="NetworkSegment.html#my_network_segments-class_method" title="JSS::NetworkSegment.my_network_segments (method)">NetworkSegment.my_network_segments</a></span></p>
+</li></ul>
+
+<h2 id="label-Low-level+use+of+APIConnection+instances.">Low-level use of APIConnection instances.</h2>
+
+<p>For most cases, using APIConnection instances as mentioned above is all you&#39;ll need. However to access API resources that aren&#39;t yet implemented in other parts of ruby-jss, you can use the methods <span class='object_link'><a href="#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">#get_rsrc</a></span>, <span class='object_link'><a href="#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">#put_rsrc</a></span>, <span class='object_link'><a href="#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">#post_rsrc</a></span>, &amp; <span class='object_link'><a href="#delete_rsrc-instance_method" title="JSS::APIConnection#delete_rsrc (method)">#delete_rsrc</a></span> documented below.</p>
+
+<p>For even lower-level work, you can access the underlying RestClient::Resource inside the APIConnection via the connection&#39;s <span class='object_link'><a href="#cnx-instance_method" title="JSS::APIConnection#cnx (method)">#cnx</a></span> attribute.</p>
+
+<p>APIConnection instances also have a <span class='object_link'><a href="#server-instance_method" title="JSS::APIConnection#server (method)">#server</a></span> attribute which contains an instance of <span class='object_link'><a href="Server.html" title="JSS::Server (class)">Server</a></span> q.v., representing the JSS to which it&#39;s connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base API path in the jss URL</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSSResource</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="TEST_PATH-constant" class="">TEST_PATH =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>A url path to load to see if there&#39;s an API available at a host. This just loads the API resource docs page</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BASE-constant" title="JSS::APIConnection::RSRC_BASE (constant)">RSRC_BASE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/accounts</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="TEST_CONTENT-constant" class="">TEST_CONTENT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>If the test path loads correctly from a casper server, it&#39;ll contain this text (this is what we get when we make an unauthenticated API call.)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;p&gt;The request requires user authentication&lt;/p&gt;</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HTTP_PORT-constant" class="">HTTP_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Default port</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>9006</span></pre></dd>
+      
+        <dt id="SSL_PORT-constant" class="">SSL_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Jamf default SSL port, default for locally-hosted servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>8443</span></pre></dd>
+      
+        <dt id="HTTPS_SSL_PORT-constant" class="">HTTPS_SSL_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The https default SSL port, default for Jamf Cloud servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>443</span></pre></dd>
+      
+        <dt id="SSL_PORTS-constant" class="">SSL_PORTS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>if either of these is specified, we&#39;ll default to SSL</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#SSL_PORT-constant" title="JSS::APIConnection::SSL_PORT (constant)">SSL_PORT</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#HTTPS_SSL_PORT-constant" title="JSS::APIConnection::HTTPS_SSL_PORT (constant)">HTTPS_SSL_PORT</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMFCLOUD_DOMAIN-constant" class="">JAMFCLOUD_DOMAIN =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Recognize Jamf Cloud servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jamfcloud.com</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMFCLOUD_PORT-constant" class="">JAMFCLOUD_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>JamfCloud connections default to 443, not 8443</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#HTTPS_SSL_PORT-constant" title="JSS::APIConnection::HTTPS_SSL_PORT (constant)">HTTPS_SSL_PORT</a></span></span></pre></dd>
+      
+        <dt id="XML_HEADER-constant" class="">XML_HEADER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The top line of an XML doc for submitting data via API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DFT_OPEN_TIMEOUT-constant" class="">DFT_OPEN_TIMEOUT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default timeouts in seconds</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>60</span></pre></dd>
+      
+        <dt id="DFT_TIMEOUT-constant" class="">DFT_TIMEOUT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>60</span></pre></dd>
+      
+        <dt id="DFT_SSL_VERSION-constant" class="">DFT_SSL_VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Default SSL Version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>TLSv1_2</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_NOT_FOUND_MSG-constant" class="">RSRC_NOT_FOUND_MSG =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The requested resource was not found</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="EXTENDABLE_CLASSES-constant" class="">EXTENDABLE_CLASSES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These classes are extendable, and may need cache flushing for EA definitions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="GET_FORMATS-constant" class="">GET_FORMATS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>values for the format param of get_rsrc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>json</span><span class='words_sep'> </span><span class='tstring_content'>xml</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx-instance_method" title="#cnx (instance method)">#<strong>cnx</strong>  &#x21d2; RestClient::Resource </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The underlying connection resource.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connected-instance_method" title="#connected (instance method)">#<strong>connected</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #connected?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Are we connected right now?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ext_attr_definition_cache-instance_method" title="#ext_attr_definition_cache (instance method)">#<strong>ext_attr_definition_cache</strong>  &#x21d2; Hash{Class: Hash{String =&gt; JSS::ExtensionAttribute}} </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This Hash caches the Extension Attribute definition objects for the three types of ext.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_http_response-instance_method" title="#last_http_response (instance method)">#<strong>last_http_response</strong>  &#x21d2; RestClient::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The response from the most recent API call.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String, Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>connection during initialization, using the name: parameter.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#object_list_cache-instance_method" title="#object_list_cache (instance method)">#<strong>object_list_cache</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This Hash caches the result of the the first API query for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">#<strong>port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The port used for the connection.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#protocol-instance_method" title="#protocol (instance method)">#<strong>protocol</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The protocol being used: http or https.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rest_url-instance_method" title="#rest_url (instance method)">#<strong>rest_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The base URL to to the current REST API.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server-instance_method" title="#server (instance method)">#<strong>server</strong>  &#x21d2; JSS::Server </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The details of the JSS to which we&#39;re connected.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server_host-instance_method" title="#server_host (instance method)">#<strong>server_host</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The hostname of the JSS to which we&#39;re connected.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server_path-instance_method" title="#server_path (instance method)">#<strong>server_path</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Any path in the URL below the hostname.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user-instance_method" title="#user (instance method)">#<strong>user</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #jss_user)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The username who&#39;s connected to the JSS API.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#all-instance_method" title="#all (instance method)">#<strong>all</strong>(class_name, refresh = false, only: nil)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .all class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#computer_application_usage-instance_method" title="#computer_application_usage (instance method)">#<strong>computer_application_usage</strong>(ident, start_date, end_date = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.application_usage</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#computer_checkin_settings-instance_method" title="#computer_checkin_settings (instance method)">#<strong>computer_checkin_settings</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.checkin_settings</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#computer_history-instance_method" title="#computer_history (instance method)">#<strong>computer_history</strong>(ident, subset: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.management_history or its convenience methods. @see JSS::ManagementHistory</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#computer_inventory_collection_settings-instance_method" title="#computer_inventory_collection_settings (instance method)">#<strong>computer_inventory_collection_settings</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.inventory_collection_settings</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#computer_management_data-instance_method" title="#computer_management_data (instance method)">#<strong>computer_management_data</strong>(ident, subset: nil, only: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.management_data</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-instance_method" title="#connect (instance method)">#<strong>connect</strong>(args = {})  &#x21d2; true </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Connect to the JSS Classic API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_rsrc-instance_method" title="#delete_rsrc (instance method)">#<strong>delete_rsrc</strong>(rsrc, xml = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete a resource from the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disconnect-instance_method" title="#disconnect (instance method)">#<strong>disconnect</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#exist%3F-instance_method" title="#exist? (instance method)">#<strong>exist?</strong>(class_name, identifier, refresh = false)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .exist class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#fetch-instance_method" title="#fetch (instance method)">#<strong>fetch</strong>(class_name, arg)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .fetch class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flushcache-instance_method" title="#flushcache (instance method)">#<strong>flushcache</strong>(key = nil)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Empty all cached lists from this connection then run garbage collection to clear any available memory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_rsrc-instance_method" title="#get_rsrc (instance method)">#<strong>get_rsrc</strong>(rsrc, format = :json, raw_json: false)  &#x21d2; Hash, String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get an arbitrary JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hostname-instance_method" title="#hostname (instance method)">#<strong>hostname</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #host)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args = {})  &#x21d2; APIConnection </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>If name: is provided (as a String or Symbol) that will be stored as the APIConnection&#39;s name attribute.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#make-instance_method" title="#make (instance method)">#<strong>make</strong>(class_name, **args)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .make class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#map_all_ids-instance_method" title="#map_all_ids (instance method)">#<strong>map_all_ids</strong>(class_name, refresh = false, to: nil)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .map_all_ids_to  class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#master_distribution_point-instance_method" title="#master_distribution_point (instance method)">#<strong>master_distribution_point</strong>(refresh = false)  &#x21d2; JSS::DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the DistributionPoint instance for the master distribution point in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#match-instance_method" title="#match (instance method)">#<strong>match</strong>(class_name, term)  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .match class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#my_distribution_point-instance_method" title="#my_distribution_point (instance method)">#<strong>my_distribution_point</strong>(refresh = false)  &#x21d2; JSS::DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the DistributionPoint instance for the machine running this code, based on its IP address.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#my_network_segments-instance_method" title="#my_network_segments (instance method)">#<strong>my_network_segments</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#network_ranges-instance_method" title="#network_ranges (instance method)">#<strong>network_ranges</strong>(refresh = false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#network_segments_for_ip-instance_method" title="#network_segments_for_ip (instance method)">#<strong>network_segments_for_ip</strong>(ip, refresh = false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_timeout=-instance_method" title="#open_timeout= (instance method)">#<strong>open_timeout=</strong>(timeout)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset the open-connection timeout for the rest connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_rsrc-instance_method" title="#post_rsrc (instance method)">#<strong>post_rsrc</strong>(rsrc, xml = &#39;&#39;)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_print_instance_variables-instance_method" title="#pretty_print_instance_variables (instance method)">#<strong>pretty_print_instance_variables</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#put_rsrc-instance_method" title="#put_rsrc (instance method)">#<strong>put_rsrc</strong>(rsrc, xml)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing JSS resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#send_computer_mdm_command-instance_method" title="#send_computer_mdm_command (instance method)">#<strong>send_computer_mdm_command</strong>(targets, command, passcode = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#send_mobiledevice_mdm_command-instance_method" title="#send_mobiledevice_mdm_command (instance method)">#<strong>send_mobiledevice_mdm_command</strong>(targets, command, data = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#timeout=-instance_method" title="#timeout= (instance method)">#<strong>timeout=</strong>(timeout)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset the response timeout for the rest connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A useful string about this connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public deprecated">
+  <span class="summary_signature">
+    
+      <a href="#valid_id-instance_method" title="#valid_id (instance method)">#<strong>valid_id</strong>(class_name, identifier, refresh = true)  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  <span class="deprecated note title">deprecated</span>
+  
+
+  
+    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .valid_id class method of the desired class</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_server%3F-instance_method" title="#valid_server? (instance method)">#<strong>valid_server?</strong>(server, port = SSL_PORT)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Test that a given hostname &amp; port is a JSS API server.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(args = {})  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::APIConnection (class)">APIConnection</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>If name: is provided (as a String or Symbol) that will be stored as the APIConnection&#39;s name attribute.</p>
+
+<p>For other available parameters, see <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span>.</p>
+
+<p>If they are provided, they will be used to establish the connection immediately.</p>
+
+<p>If not, you must call <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> before accessing the API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+427
+428
+429
+430
+431
+432</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 427</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:name</span>
+  <span class='ivar'>@name</span> <span class='op'>||=</span> <span class='symbol'>:unknown</span>
+  <span class='ivar'>@connected</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id identifier rubyid_connect'>connect</span> <span class='id identifier rubyid_args'>args</span> <span class='kw'>unless</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cnx-instance_method">
+  
+    #<strong>cnx</strong>  &#x21d2; <tt>RestClient::Resource</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the underlying connection resource.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>RestClient::Resource</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the underlying connection resource</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+341
+342
+343</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 341</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='ivar'>@cnx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connected-instance_method">
+  
+    #<strong>connected</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='connected?-instance_method'>connected?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns are we connected right now?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>are we connected right now?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+344
+345
+346</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 344</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_connected'>connected</span>
+  <span class='ivar'>@connected</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ext_attr_definition_cache-instance_method">
+  
+    #<strong>ext_attr_definition_cache</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Class: <span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">JSS::ExtensionAttribute</a></span>}}</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This Hash caches the Extension Attribute definition objects for the three types of ext. attribs: ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and UserExtensionAttribute, whenever they are fetched for parsing or validating extention attribute data.</p>
+
+<p>The top-level keys are the EA classes themselves:</p>
+<ul><li>
+<p>ComputerExtensionAttribute</p>
+</li><li>
+<p>MobileDeviceExtensionAttribute</p>
+</li><li>
+<p>UserExtensionAttribute</p>
+</li></ul>
+
+<p>These each point to a Hash of their instances, keyed by name, e.g.</p>
+
+<pre class="code ruby"><code class="ruby">{
+ &quot;A Computer EA&quot; =&gt; &lt;JSS::ComputerExtensionAttribute...&gt;,
+ &quot;A different Computer EA&quot; =&gt; &lt;JSS::ComputerExtensionAttribute...&gt;,
+ ...
+}
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Class: <span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">JSS::ExtensionAttribute</a></span>}}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+412
+413
+414</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 412</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ext_attr_definition_cache'>ext_attr_definition_cache</span>
+  <span class='ivar'>@ext_attr_definition_cache</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="last_http_response-instance_method">
+  
+    #<strong>last_http_response</strong>  &#x21d2; <tt>RestClient::Response</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The response from the most recent API call.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>RestClient::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The response from the most recent API call</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 363</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_last_http_response'>last_http_response</span>
+  <span class='ivar'>@last_http_response</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>connection during initialization, using the name: parameter. defaults to user@hostname:port</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an arbitrary name that can be given to this</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+371
+372
+373</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 371</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="object_list_cache-instance_method">
+  
+    #<strong>object_list_cache</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This Hash caches the result of the the first API query for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY. See the APIObject.all class method.</p>
+
+<p>It also holds related data items for speedier processing:</p>
+<ul><li>
+<p>The Hashes created by APIObject.map_all_ids_to(foo), keyed by “#RSRC_LIST_KEY<em>map</em>#other_key”.to_sym</p>
+</li><li>
+<p>This hash also holds a cache of the rarely-used APIObject.all_objects hash, keyed by “#RSRC_LIST_KEY_objects”.to_sym</p>
+</li></ul>
+
+<p>When APIObject.all, and related methods are called without an argument, and this hash has a matching value, the value is returned, rather than requerying the API. The first time a class calls .all, or whnever refresh is not false, the API is queried and the value in this hash is updated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+391
+392
+393</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 391</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_object_list_cache'>object_list_cache</span>
+  <span class='ivar'>@object_list_cache</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    #<strong>port</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the port used for the connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the port used for the connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+357
+358
+359</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 357</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
+  <span class='ivar'>@port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="protocol-instance_method">
+  
+    #<strong>protocol</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the protocol being used: http or https.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the protocol being used: http or https</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+360
+361
+362</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 360</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_protocol'>protocol</span>
+  <span class='ivar'>@protocol</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rest_url-instance_method">
+  
+    #<strong>rest_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The base URL to to the current REST API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The base URL to to the current REST API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+366
+367
+368</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 366</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rest_url'>rest_url</span>
+  <span class='ivar'>@rest_url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server-instance_method">
+  
+    #<strong>server</strong>  &#x21d2; <tt><span class='object_link'><a href="Server.html" title="JSS::Server (class)">JSS::Server</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the details of the JSS to which we&#39;re connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Server.html" title="JSS::Server (class)">JSS::Server</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the details of the JSS to which we&#39;re connected.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 348</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_server'>server</span>
+  <span class='ivar'>@server</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server_host-instance_method">
+  
+    #<strong>server_host</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the hostname of the JSS to which we&#39;re connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hostname of the JSS to which we&#39;re connected.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+351
+352
+353</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 351</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_server_host'>server_host</span>
+  <span class='ivar'>@server_host</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server_path-instance_method">
+  
+    #<strong>server_path</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns any path in the URL below the hostname. See <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any path in the URL below the hostname. See <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 354</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_server_path'>server_path</span>
+  <span class='ivar'>@server_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user-instance_method">
+  
+    #<strong>user</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_user-instance_method'>jss_user</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the username who&#39;s connected to the JSS API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username who&#39;s connected to the JSS API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 337</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='ivar'>@user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="all-instance_method">
+  
+    #<strong>all</strong>(class_name, refresh = false, only: nil)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .all class method of the desired class</p>
+</div></div>
+
+<p>Call one of the &#39;all*&#39; methods on a JSS::APIObject subclass using this APIConnection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the API?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>only</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Limit the output to subset or data. All APIObject subclasses can take :ids or :names, which calls the .all_ids and .all_names methods. Some subclasses can take other options, e.g. MobileDevice can take :udids</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The list of items for the class</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+715
+716
+717
+718
+719
+720
+721
+722
+723</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 715</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_list_method'>list_method</span> <span class='op'>=</span> <span class='id identifier rubyid_only'>only</span> <span class='op'>?</span> <span class='symbol'>:&quot;all_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_only'>only</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='symbol'>:all</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown identifier: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_only'>only</span><span class='embexpr_end'>}</span><span class='tstring_content'> for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_the_class'>the_class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span>
+    <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_list_method'>list_method</span>
+
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span> <span class='id identifier rubyid_list_method'>list_method</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_application_usage-instance_method">
+  
+    #<strong>computer_application_usage</strong>(ident, start_date, end_date = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.application_usage</p>
+</div></div>
+
+<p>Call <span class='object_link'><a href="Computer.html#application_usage-class_method" title="JSS::Computer.application_usage (method)">Computer.application_usage</a></span> q.v., passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+856
+857
+858</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 856</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_application_usage'>computer_application_usage</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_application_usage'><span class='object_link'><a href="Computer.html#application_usage-class_method" title="JSS::Computer.application_usage (method)">application_usage</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_checkin_settings-instance_method">
+  
+    #<strong>computer_checkin_settings</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.checkin_settings</p>
+</div></div>
+
+<p>Call <span class='object_link'><a href="Computer.html#checkin_settings-class_method" title="JSS::Computer.checkin_settings (method)">Computer.checkin_settings</a></span> q.v.,  passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+840
+841
+842</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 840</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_checkin_settings'>computer_checkin_settings</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_checkin_settings'><span class='object_link'><a href="Computer.html#checkin_settings-class_method" title="JSS::Computer.checkin_settings (method)">checkin_settings</a></span></span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_history-instance_method">
+  
+    #<strong>computer_history</strong>(ident, subset: nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.management_history or its convenience methods. @see JSS::ManagementHistory</p>
+</div></div>
+
+<p>Call Computer.history q.v., passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+875
+876
+877</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 875</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_history'>computer_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>subset:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_history'>history</span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_inventory_collection_settings-instance_method">
+  
+    #<strong>computer_inventory_collection_settings</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.inventory_collection_settings</p>
+</div></div>
+
+<p>Call <span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span> q.v., passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+848
+849
+850</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 848</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_inventory_collection_settings'>computer_inventory_collection_settings</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_inventory_collection_settings'><span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">inventory_collection_settings</a></span></span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_management_data-instance_method">
+  
+    #<strong>computer_management_data</strong>(ident, subset: nil, only: nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.management_data</p>
+</div></div>
+
+<p>Call <span class='object_link'><a href="Computer.html#management_data-class_method" title="JSS::Computer.management_data (method)">Computer.management_data</a></span> q.v., passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+865
+866
+867</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 865</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_management_data'>computer_management_data</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>subset:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_management_data'><span class='object_link'><a href="Computer.html#management_data-class_method" title="JSS::Computer.management_data (method)">management_data</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>subset:</span> <span class='id identifier rubyid_subset'>subset</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="connect-instance_method">
+  
+    #<strong>connect</strong>(args = {})  &#x21d2; <tt>true</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Connect to the JSS Classic API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the keyed arguments for connection.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>args</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:server</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the hostname of the JSS API server, required if not defined in JSS::CONFIG</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:server_path</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If your JSS is not at the root of the server, e.g. if it&#39;s at</p>
+
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/dev_mgmt/jssweb
+</code></pre>
+
+<p>rather than</p>
+
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/
+</code></pre>
+
+<p>then use this parameter to specify the path below the root e.g:</p>
+
+<pre class="code ruby"><code class="ruby">server_path: &#39;dev_mgmt/jssweb&#39;
+</code></pre>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:port</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the port number to connect with, defaults to 8443</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:use_ssl</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should the connection be made over SSL? Defaults to true.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verify_cert</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should HTTPS SSL certificates be verified. Defaults to true. If your connection raises RestClient::SSLCertificateNotVerified, and you don&#39;t care about the validity of the SSL cert. just set this explicitly to false.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:user</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>a JSS user who has API privs, required if not defined in JSS::CONFIG</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:pw</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the user is promted on the commandline to enter the password for the :user. If :stdin#, the password is read from a line of std in represented by the digit at #, so :stdin3 reads the passwd from the third line of standard input. defaults to line 1, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:open_timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds to wait for an initial response, defaults to 60</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds before an API call times out, defaults to 60</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>true</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 473</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='comment'># new connections always get new caches
+</span>  <span class='id identifier rubyid_flushcache'>flushcache</span>
+
+  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:no_port_specified</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='id identifier rubyid_apply_connection_defaults'>apply_connection_defaults</span> <span class='id identifier rubyid_args'>args</span>
+
+  <span class='comment'># ensure an integer
+</span>  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+
+  <span class='comment'># confirm we know basics
+</span>  <span class='id identifier rubyid_verify_basic_args'>verify_basic_args</span> <span class='id identifier rubyid_args'>args</span>
+
+  <span class='comment'># parse our ssl situation
+</span>  <span class='id identifier rubyid_verify_ssl'>verify_ssl</span> <span class='id identifier rubyid_args'>args</span>
+
+  <span class='ivar'>@user</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@rest_url</span> <span class='op'>=</span> <span class='id identifier rubyid_build_rest_url'>build_rest_url</span> <span class='id identifier rubyid_args'>args</span>
+
+  <span class='comment'># figure out :password from :pw
+</span>  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_acquire_password'>acquire_password</span> <span class='id identifier rubyid_args'>args</span>
+
+  <span class='comment'># heres our connection
+</span>  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>Resource</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@rest_url</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_verify_server_version'>verify_server_version</span>
+
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@user</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='ivar'>@server_host</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='ivar'>@port</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@name</span> <span class='op'>==</span> <span class='symbol'>:disconnected</span>
+  <span class='ivar'>@connected</span> <span class='op'>?</span> <span class='id identifier rubyid_hostname'>hostname</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_rsrc-instance_method">
+  
+    #<strong>delete_rsrc</strong>(rsrc, xml = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete a resource from the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to create, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 633</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_rsrc'>delete_rsrc</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_connected'>validate_connected</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Missing :rsrc</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_rsrc'>rsrc</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># payload?
+</span>  <span class='kw'>return</span> <span class='id identifier rubyid_delete_with_payload'>delete_with_payload</span> <span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_xml'>xml</span> <span class='kw'>if</span> <span class='id identifier rubyid_xml'>xml</span>
+
+  <span class='comment'># delete the resource
+</span>  <span class='ivar'>@last_http_response</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='lbracket'>[</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
+  <span class='ivar'>@last_http_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ExceptionWithResponse</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_handle_http_error'>handle_http_error</span> <span class='id identifier rubyid_e'>e</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disconnect-instance_method">
+  
+    #<strong>disconnect</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+538
+539
+540
+541
+542
+543
+544</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 538</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disconnect'>disconnect</span>
+  <span class='ivar'>@user</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@rest_url</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@server_host</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@connected</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exist?-instance_method">
+  
+    #<strong>exist?</strong>(class_name, identifier, refresh = false)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .exist class method of the desired class</p>
+</div></div>
+
+<p>Call the &#39;exist?&#39; method on a JSS::APIObject subclass using this APIConnection. See <span class='object_link'><a href="APIObject.html#exist%3F-class_method" title="JSS::APIObject.exist? (method)">JSS::APIObject.exist?</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identifier</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to which the ids should be mapped</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the API?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is there an object of this class in the JSS matching this indentifier?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+782
+783
+784</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 782</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='id identifier rubyid_valid_id'>valid_id</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fetch-instance_method">
+  
+    #<strong>fetch</strong>(class_name, arg)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .fetch class method of the desired class</p>
+</div></div>
+
+<p>Retrieve an object of a given class from the API See <span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">JSS::APIObject.fetch</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ruby-instance of the object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+814
+815
+816
+817</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 814</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="flushcache-instance_method">
+  
+    #<strong>flushcache</strong>(key = nil)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Empty all cached lists from this connection then run garbage collection to clear any available memory</p>
+
+<p>If an APIObject Subclass&#39;s RSRC_LIST_KEY is specified, only the caches for that class are flushed (e.g. :computers, :comptuer_groups)</p>
+
+<p>NOTE if you&#39;ve referenced objects in these caches, those objects won&#39;t be removed from memory, but all cached data will be recached as needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>Class</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Flush only the caches for the given RSRC_LIST_KEY. or the EAdef cache for the given extendable class. If nil (the default) flushes all caches</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 993</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_flushcache'>flushcache</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="#EXTENDABLE_CLASSES-constant" title="JSS::APIConnection::EXTENDABLE_CLASSES (constant)">EXTENDABLE_CLASSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@ext_attr_definition_cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='id identifier rubyid_map_key_pfx'>map_key_pfx</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'>_map_</span><span class='tstring_end'>&quot;</span></span>
+    <span class='ivar'>@object_list_cache</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cache_key'>cache_key</span><span class='comma'>,</span> <span class='id identifier rubyid__cache'>_cache</span><span class='op'>|</span>
+      <span class='id identifier rubyid_cache_key'>cache_key</span> <span class='op'>==</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>||</span> <span class='id identifier rubyid_cache_key'>cache_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='id identifier rubyid_map_key_pfx'>map_key_pfx</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@ext_attr_definition_cache</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@object_list_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@ext_attr_definition_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='const'>GC</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_rsrc-instance_method">
+  
+    #<strong>get_rsrc</strong>(rsrc, format = :json, raw_json: false)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get an arbitrary JSS resource</p>
+
+<p>The first argument is the resource to get (the part of the API url after the &#39;JSSResource/&#39; ) The resource must be properly URL escaped beforehand. Note: URL.encode is deprecated, use CGI.escape</p>
+
+<p>By default we get the data in JSON, and parse it into a ruby Hash with symbolized Hash keys.</p>
+
+<p>If the second parameter is :xml then the XML version is retrieved and returned as a String.</p>
+
+<p>To get the raw JSON string as it comes from the API, pass raw_json: true</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to get (the part of the API url after the &#39;JSSResource/&#39; )</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:json</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either ;json or :xml If the second argument is :xml, the XML data is returned as a String.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>raw_json</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>When GETting JSON, return the raw unparsed string (the XML is always returned as a raw string)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of the get</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 571</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_rsrc'>get_rsrc</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_format'>format</span> <span class='op'>=</span> <span class='symbol'>:json</span><span class='comma'>,</span> <span class='label'>raw_json:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_connected'>validate_connected</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>format must be :json or :xml</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#GET_FORMATS-constant" title="JSS::APIConnection::GET_FORMATS (constant)">GET_FORMATS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_format'>format</span>
+
+  <span class='kw'>begin</span>
+    <span class='ivar'>@last_http_response</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='lbracket'>[</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='label'>accept:</span> <span class='id identifier rubyid_format'>format</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='ivar'>@last_http_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='label'>symbolize_names:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_format'>format</span> <span class='op'>==</span> <span class='symbol'>:json</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_raw_json'>raw_json</span>
+
+    <span class='ivar'>@last_http_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ExceptionWithResponse</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_handle_http_error'>handle_http_error</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="hostname-instance_method">
+  
+    #<strong>hostname</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='host-instance_method'>host</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hostname of the server</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+687
+688
+689
+690
+691
+692</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 687</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hostname'>hostname</span>
+  <span class='kw'>return</span> <span class='ivar'>@server_host</span> <span class='kw'>if</span> <span class='ivar'>@server_host</span>
+  <span class='id identifier rubyid_srvr'>srvr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">CONFIG</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_server_name'>api_server_name</span>
+  <span class='id identifier rubyid_srvr'>srvr</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_jss_server'><span class='object_link'><a href="Client.html#jss_server-class_method" title="JSS::Client.jss_server (method)">jss_server</a></span></span>
+  <span class='id identifier rubyid_srvr'>srvr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="make-instance_method">
+  
+    #<strong>make</strong>(class_name, **args)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .make class method of the desired class</p>
+</div></div>
+
+<p>Make a ruby instance of a not-yet-existing APIObject of the given class See <span class='object_link'><a href="APIObject.html#make-class_method" title="JSS::APIObject.make (method)">JSS::APIObject.make</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The un-created ruby-instance of the object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+830
+831
+832
+833
+834</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 830</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_make'>make</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:api</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span> <span class='id identifier rubyid_args'>args</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="map_all_ids-instance_method">
+  
+    #<strong>map_all_ids</strong>(class_name, refresh = false, to: nil)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .map_all_ids_to  class method of the desired class</p>
+</div></div>
+
+<p>Call the &#39;map_all_ids_to&#39; method on a JSS::APIObject subclass using this APIConnection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the API?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to which the ids should be mapped</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ids for the class keyed to the requested identifier</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+740
+741
+742
+743
+744</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 740</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_map_all_ids'>map_all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;to:&#39; value must be provided for mapping ids.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_to'>to</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_map_all_ids_to'>map_all_ids_to</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="master_distribution_point-instance_method">
+  
+    #<strong>master_distribution_point</strong>(refresh = false)  &#x21d2; <tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the DistributionPoint instance for the master distribution point in the JSS. If there&#39;s only one in the JSS, return it even if not marked as master.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>re-read from the API?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 898</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dp_id'>dp_id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='id identifier rubyid_dp_id'>dp_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_master?'>master?</span>
+      <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+
+  <span class='comment'># If we&#39;re here, the Cloud DP might be master, but there&#39;s no
+</span>  <span class='comment'># access to it in the API :/
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No Master Distribtion Point defined. It could be the Cloud Dist Point, which is not available in the classic API</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="match-instance_method">
+  
+    #<strong>match</strong>(class_name, term)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use the .match class method of the desired class</p>
+</div></div>
+
+<p>Call <span class='object_link'><a href="Matchable.html#match-instance_method" title="JSS::Matchable#match (method)">Matchable#match</a></span> for the given class.</p>
+
+<p>See <span class='object_link'><a href="Matchable.html#match-instance_method" title="JSS::Matchable#match (method)">Matchable#match</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the item smatched.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+797
+798
+799
+800
+801</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 797</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_term'>term</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Class </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_the_class'>the_class</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not matchable</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:match</span>
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span> <span class='id identifier rubyid_term'>term</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_distribution_point-instance_method">
+  
+    #<strong>my_distribution_point</strong>(refresh = false)  &#x21d2; <tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the DistributionPoint instance for the machine running this code, based on its IP address. If none is defined for this IP address, use the result of master_distribution_point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the distribution point be re-queried?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 925</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
+
+  <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span> <span class='op'>=</span> <span class='id identifier rubyid_my_network_segments'>my_network_segments</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span>
+    <span class='id identifier rubyid_my_net_seg'>my_net_seg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_my_dp_name'>my_dp_name</span> <span class='op'>=</span> <span class='id identifier rubyid_my_net_seg'>my_net_seg</span><span class='period'>.</span><span class='id identifier rubyid_distribution_point'>distribution_point</span>
+    <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span><span class='lparen'>(</span><span class='label'>name:</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span>
+  <span class='kw'>end</span> <span class='comment'># if my_net_seg_id
+</span>
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>||=</span> <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='ivar'>@my_distribution_point</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_network_segments-instance_method">
+  
+    #<strong>my_network_segments</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'></div></div>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>JSS::APIConnection.{JSS{JSS::NetworkSegment{JSS::NetworkSegment.my_network_segments}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+961
+962
+963</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 961</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_my_network_segments'>my_network_segments</span>
+  <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_ip_address'><span class='object_link'><a href="Client.html#my_ip_address-class_method" title="JSS::Client.my_ip_address (method)">my_ip_address</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="network_ranges-instance_method">
+  
+    #<strong>network_ranges</strong>(refresh = false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'></div></div>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>JSS::APIConnection.{JSS{JSS::NetworkSegment{JSS::NetworkSegment.network_ranges}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+945
+946
+947</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 945</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_network_ranges'>network_ranges</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_network_ranges'><span class='object_link'><a href="NetworkSegment.html#network_ranges-class_method" title="JSS::NetworkSegment.network_ranges (method)">network_ranges</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="network_segments_for_ip-instance_method">
+  
+    #<strong>network_segments_for_ip</strong>(ip, refresh = false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'></div></div>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>JSS::APIConnection.{JSS{JSS::NetworkSegment{JSS::NetworkSegment.network_segments_for_ip}</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+953
+954
+955</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 953</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_network_segments_for_ip'><span class='object_link'><a href="NetworkSegment.html#network_segments_for_ip-class_method" title="JSS::NetworkSegment.network_segments_for_ip (method)">network_segments_for_ip</a></span></span> <span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="open_timeout=-instance_method">
+  
+    #<strong>open_timeout=</strong>(timeout)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Reset the open-connection timeout for the rest connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>timeout</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new timeout in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+529
+530
+531</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 529</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_open_timeout='>open_timeout=</span><span class='lparen'>(</span><span class='id identifier rubyid_timeout'>timeout</span><span class='rparen'>)</span>
+  <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:open_timeout</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_timeout'>timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_rsrc-instance_method">
+  
+    #<strong>post_rsrc</strong>(rsrc, xml = &#39;&#39;)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new JSS resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being created, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the new object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 614</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_post_rsrc'>post_rsrc</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_connected'>validate_connected</span>
+
+  <span class='comment'># convert CRs &amp; to &amp;#13;
+</span>  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\r</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;#13;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_xml'>xml</span>
+
+  <span class='comment'># send the data
+</span>  <span class='ivar'>@last_http_response</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='lbracket'>[</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='id identifier rubyid_xml'>xml</span><span class='comma'>,</span> <span class='label'>content_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text/xml</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>accept:</span> <span class='symbol'>:json</span><span class='rparen'>)</span>
+  <span class='ivar'>@last_http_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ExceptionWithResponse</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_handle_http_error'>handle_http_error</span> <span class='id identifier rubyid_e'>e</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_print_instance_variables-instance_method">
+  
+    #<strong>pretty_print_instance_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the desired instance_variables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 1016</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
+  <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@object_list_cache</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@last_http_response</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@network_ranges</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@my_distribution_point</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@master_distribution_point</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@ext_attr_definition_cache</span>
+  <span class='id identifier rubyid_vars'>vars</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="put_rsrc-instance_method">
+  
+    #<strong>put_rsrc</strong>(rsrc, xml)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing JSS resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being changed, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the changes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 593</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_put_rsrc'>put_rsrc</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_connected'>validate_connected</span>
+
+  <span class='comment'># convert CRs &amp; to &amp;#13;
+</span>  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\r</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;#13;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># send the data
+</span>  <span class='ivar'>@last_http_response</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='lbracket'>[</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_put'>put</span><span class='lparen'>(</span><span class='id identifier rubyid_xml'>xml</span><span class='comma'>,</span> <span class='label'>content_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text/xml</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@last_http_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ExceptionWithResponse</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_handle_http_error'>handle_http_error</span> <span class='id identifier rubyid_e'>e</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_computer_mdm_command-instance_method">
+  
+    #<strong>send_computer_mdm_command</strong>(targets, command, passcode = nil)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+</div></div>
+
+<p>Call Computer.send_mdm_command q.v.,  passing this API connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+885
+886
+887
+888</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 885</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_computer_mdm_command'>send_computer_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_passcode'>passcode</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_passcode'>passcode</span> <span class='op'>?</span> <span class='lbrace'>{</span> <span class='label'>passcode:</span> <span class='id identifier rubyid_passcode'>passcode</span> <span class='rbrace'>}</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_mobiledevice_mdm_command-instance_method">
+  
+    #<strong>send_mobiledevice_mdm_command</strong>(targets, command, data = {})  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+</div></div>
+
+<p>Send an MDM command to one or more mobile devices managed by this JSS</p>
+
+<p>see MobileDevice.send_mdm_command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+973
+974
+975</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 973</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_mobiledevice_mdm_command'>send_mobiledevice_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span><span class='period'>.</span><span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="timeout=-instance_method">
+  
+    #<strong>timeout=</strong>(timeout)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Reset the response timeout for the rest connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>timeout</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new timeout in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+519
+520
+521</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 519</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_timeout='>timeout=</span><span class='lparen'>(</span><span class='id identifier rubyid_timeout'>timeout</span><span class='rparen'>)</span>
+  <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:timeout</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_timeout'>timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A useful string about this connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+509
+510
+511</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 509</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='ivar'>@connected</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Using </span><span class='embexpr_beg'>#{</span><span class='ivar'>@rest_url</span><span class='embexpr_end'>}</span><span class='tstring_content'> as user </span><span class='embexpr_beg'>#{</span><span class='ivar'>@user</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>not connected</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_id-instance_method">
+  
+    #<strong>valid_id</strong>(class_name, identifier, refresh = true)  &#x21d2; <tt>Integer</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>please use the .valid_id class method of the desired class</p>
+</div></div>
+
+<p>Call the &#39;valid_id&#39; method on a JSS::APIObject subclass using this APIConnection. See <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">JSS::APIObject.valid_id</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a JSS::APIObject subclass, see <span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">JSS.api_object_class</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>identifier</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to which the ids should be mapped</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the API?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the matching object of the class, or nil if there isn&#39;t one</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+762
+763
+764
+765</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 762</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid_id'>valid_id</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api_object_class'><span class='object_link'><a href="../JSS.html#api_object_class-class_method" title="JSS.api_object_class (method)">api_object_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_the_class'>the_class</span><span class='period'>.</span><span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_server?-instance_method">
+  
+    #<strong>valid_server?</strong>(server, port = SSL_PORT)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Test that a given hostname &amp; port is a JSS API server</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>server</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The hostname to test,</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>port</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>SSL_PORT</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The port to try connecting on</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does the server host a JSS API?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 655</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid_server?'>valid_server?</span><span class='lparen'>(</span><span class='id identifier rubyid_server'>server</span><span class='comma'>,</span> <span class='id identifier rubyid_port'>port</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#SSL_PORT-constant" title="JSS::APIConnection::SSL_PORT (constant)">SSL_PORT</a></span></span><span class='rparen'>)</span>
+  <span class='comment'># cheating by shelling out to curl, because getting open-uri, or even net/http to use
+</span>  <span class='comment'># ssl_options like :OP_NO_SSLv2 and :OP_NO_SSLv3 will take time to figure out..
+</span>  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/bin/curl -s &#39;https://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_server'>server</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TEST_PATH-constant" title="JSS::APIConnection::TEST_PATH (constant)">TEST_PATH</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="#TEST_CONTENT-constant" title="JSS::APIConnection::TEST_CONTENT (constant)">TEST_CONTENT</a></span></span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/bin/curl -s &#39;http://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_server'>server</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TEST_PATH-constant" title="JSS::APIConnection::TEST_PATH (constant)">TEST_PATH</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="#TEST_CONTENT-constant" title="JSS::APIConnection::TEST_CONTENT (constant)">TEST_CONTENT</a></span></span>
+  <span class='kw'>false</span>
+
+  <span class='comment'># # try ssl first
+</span>  <span class='comment'># # NOTE:  doesn&#39;t work if we can&#39;t disallow SSLv3 or force TLSv1
+</span>  <span class='comment'># # See cheat above.
+</span>  <span class='comment'># begin
+</span>  <span class='comment'>#   return true if open(&quot;https://#{server}:#{port}/#{TEST_PATH}&quot;, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE).read.include? TEST_CONTENT
+</span>  <span class='comment'>#
+</span>  <span class='comment'># rescue
+</span>  <span class='comment'>#   # then regular http
+</span>  <span class='comment'>#   begin
+</span>  <span class='comment'>#     return true if open(&quot;http://#{server}:#{port}/#{TEST_PATH}&quot;).read.include? TEST_CONTENT
+</span>  <span class='comment'>#   rescue
+</span>  <span class='comment'>#     # any errors = no API
+</span>  <span class='comment'>#     return false
+</span>  <span class='comment'>#   end # begin
+</span>  <span class='comment'># end # begin
+</span>  <span class='comment'># # if we&#39;re here, no API
+</span>  <span class='comment'># false
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:56 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

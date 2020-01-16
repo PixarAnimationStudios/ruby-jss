@@ -1,0 +1,2600 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::PatchSource
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::PatchSource";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">PatchSource</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::PatchSource
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::PatchSource</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/patch_source.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A patch source. The abstract parent class of <span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span> and <span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span>, <span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></p>
+</div>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="HTTP-constant" class="">HTTP =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HTTPS-constant" class="">HTTPS =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DFT_ENABLED-constant" class="">DFT_ENABLED =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+        <dt id="DFT_SSL-constant" class="">DFT_SSL =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="DFT_SSL_PORT-constant" class="">DFT_SSL_PORT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>443</span></pre></dd>
+      
+        <dt id="DFT_NO_SSL_PORT-constant" class="">DFT_NO_SSL_PORT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>80</span></pre></dd>
+      
+        <dt id="AVAILABLE_TITLES_RSRC-constant" class="">AVAILABLE_TITLES_RSRC =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>patchavailabletitles/sourceid/</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="AVAILABLE_TITLES_DATA_MAP-constant" class="">AVAILABLE_TITLES_DATA_MAP =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for PatchReport XML data parsing cuz Borked JSON</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>for details</li>
+    
+  </ul>
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>patch_available_titles:</span> <span class='lbrace'>{</span>
+    <span class='label'>available_titles:</span> <span class='lbracket'>[</span>
+      <span class='lbrace'>{</span>
+        <span class='label'>name_id:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#BLANK-constant" title="JSS::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>current_version:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#BLANK-constant" title="JSS::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>publisher:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#BLANK-constant" title="JSS::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>last_modified:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#BLANK-constant" title="JSS::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>app_name:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#BLANK-constant" title="JSS::BLANK (constant)">BLANK</a></span></span>
+      <span class='rbrace'>}</span>
+    <span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enabled-instance_method" title="#enabled (instance method)">#<strong>enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #enabled?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this source enabled?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#endpoint-instance_method" title="#endpoint (instance method)">#<strong>endpoint</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #url)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The URL from which patch info is retrieved.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#host_name-instance_method" title="#host_name (instance method)">#<strong>host_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #hostname, #host)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The host name of the patch source.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">#<strong>port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The TCP port of the patch source.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssl_enabled-instance_method" title="#ssl_enabled (instance method)">#<strong>ssl_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #ssl_enabled?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is SSL enabled for the patch source?.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all-class_method" title="all (class method)">.<strong>all</strong>(refresh = false, api: JSS.api)  &#x21d2; Array&lt;Hash{:name=&gt;String, :id=&gt; Integer, :type =&gt; Symbol}&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get names, ids and types for all patch sources.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_external-class_method" title="all_external (class method)">.<strong>all_external</strong>(refresh = false, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get names, ids  for all patch internal sources.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_internal-class_method" title="all_internal (class method)">.<strong>all_internal</strong>(refresh = false, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get names, ids  for all patch internal sources.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_objects-class_method" title="all_objects (class method)">.<strong>all_objects</strong>(refresh = false, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_name_ids-class_method" title="available_name_ids (class method)">.<strong>available_name_ids</strong>(source, api: JSS.api)  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>FOr a given patch source, an array of available &#39;name_id&#39;s which are uniq identifiers for titles available on that source.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_titles-class_method" title="available_titles (class method)">.<strong>available_titles</strong>(source, api: JSS.api)  &#x21d2; Array&lt;Hash{Symbol:String}&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get a list of patch titles available from a Patch Source (either internal or external, since they have unique ids ).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-class_method" title="delete (class method)">.<strong>delete</strong>(victims, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only JSS::PatchExternalSources can be deleted.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fetch-class_method" title="fetch (class method)">.<strong>fetch</strong>(arg, api: JSS.api)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Fetch either an internal or external patch source.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make-class_method" title="make (class method)">.<strong>make</strong>(**args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only JSS::PatchExternalSources can be created.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_patch_source_id-class_method" title="valid_patch_source_id (class method)">.<strong>valid_patch_source_id</strong>(ident, refresh = false, api: JSS.api)  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a name or id for a Patch Source (internal or external) return the id if it exists, or nil if it doesn&#39;t.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_patch_source_type-class_method" title="valid_patch_source_type (class method)">.<strong>valid_patch_source_type</strong>(ident, refresh = false, api: JSS.api)  &#x21d2; Symbol<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a name or id for a Patch Source return :internal or :external if it exists, or nil if it doesnt.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_name_ids-instance_method" title="#available_name_ids (instance method)">#<strong>available_name_ids</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get a list of available name_id&#39;s for this patch source.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_titles-instance_method" title="#available_titles (instance method)">#<strong>available_titles</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get a list of patch titles available from this Patch Source.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete this instance This method is needed to override APIObject#delete.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(**args)  &#x21d2; PatchSource </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Init.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(newname)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(**args)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::PatchSource (class)">PatchSource</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Init</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 302</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PatchSource is an abstract metaclass. Please use PatchInternalSource or PatchExternalSource</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::PatchSource (class)">PatchSource</a></span></span>
+
+  <span class='kw'>super</span>
+
+  <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:enabled</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_jss_to_bool'>jss_to_bool</span>
+  <span class='ivar'>@enabled</span> <span class='op'>||=</span> <span class='kw'>false</span>
+
+  <span class='comment'># derive the data not provided for this source type
+</span>  <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:endpoint</span><span class='rbracket'>]</span>
+    <span class='ivar'>@endpoint</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:endpoint</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_endpoint'>endpoint</span>
+    <span class='ivar'>@host_name</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
+    <span class='ivar'>@port</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span>
+    <span class='ivar'>@ssl_enabled</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#HTTPS-constant" title="JSS::PatchSource::HTTPS (constant)">HTTPS</a></span></span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@host_name</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:host_name</span><span class='rbracket'>]</span>
+    <span class='ivar'>@port</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='ivar'>@port</span> <span class='op'>||=</span> <span class='id identifier rubyid_ssl_enabled?'>ssl_enabled?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#DFT_SSL_PORT-constant" title="JSS::PatchSource::DFT_SSL_PORT (constant)">DFT_SSL_PORT</a></span></span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#DFT_NO_SSL_PORT-constant" title="JSS::PatchSource::DFT_NO_SSL_PORT (constant)">DFT_NO_SSL_PORT</a></span></span>
+    <span class='ivar'>@ssl_enabled</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ssl_enabled</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_jss_to_bool'>jss_to_bool</span>
+    <span class='ivar'>@ssl_enabled</span> <span class='op'>||=</span> <span class='kw'>false</span>
+    <span class='ivar'>@endpoint</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ssl_enabled'>ssl_enabled</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#HTTPS-constant" title="JSS::PatchSource::HTTPS (constant)">HTTPS</a></span></span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#HTTP-constant" title="JSS::PatchSource::HTTP (constant)">HTTP</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_host_name'>host_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="enabled-instance_method">
+  
+    #<strong>enabled</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='enabled?-instance_method'>enabled?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is this source enabled?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is this source enabled?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 278</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enabled'>enabled</span>
+  <span class='ivar'>@enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="endpoint-instance_method">
+  
+    #<strong>endpoint</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='url-instance_method'>url</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The URL from which patch info is retrieved.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URL from which patch info is retrieved</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 282</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_endpoint'>endpoint</span>
+  <span class='ivar'>@endpoint</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="host_name-instance_method">
+  
+    #<strong>host_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='hostname-instance_method'>hostname</span>, <span id='host-instance_method'>host</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The host name of the patch source.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new host name (external sources only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The host name of the patch source</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_host_name'>host_name</span>
+  <span class='ivar'>@host_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    #<strong>port</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the TCP port of the patch source.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_port</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new port (external sources only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the TCP port of the patch source</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+295
+296
+297</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 295</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
+  <span class='ivar'>@port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ssl_enabled-instance_method">
+  
+    #<strong>ssl_enabled</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='ssl_enabled?-instance_method'>ssl_enabled?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is SSL enabled for the patch source?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is SSL enabled for the patch source?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+298
+299
+300</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 298</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ssl_enabled'>ssl_enabled</span>
+  <span class='ivar'>@ssl_enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="all-class_method">
+  
+    .<strong>all</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, :id=&gt; Integer, :type =&gt; Symbol}&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get names, ids and types for all patch sources</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the data be re-queried from the API?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:name=&gt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, :id=&gt; Integer, :type =&gt; Symbol}&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::PatchSource (class)">PatchSource</a></span></span>
+    <span class='id identifier rubyid_int'>int</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:internal</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_ext'>ext</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:external</span> <span class='rbrace'>}</span>
+    <span class='kw'>return</span> <span class='lparen'>(</span><span class='id identifier rubyid_int'>int</span> <span class='op'>+</span> <span class='id identifier rubyid_ext'>ext</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort!'>sort!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s1'>s1</span><span class='comma'>,</span> <span class='id identifier rubyid_s2'>s2</span><span class='op'>|</span> <span class='id identifier rubyid_s1'>s1</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_s2'>s2</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_external-class_method">
+  
+    .<strong>all_external</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get names, ids  for all patch internal sources</p>
+
+<p>the same as JSS::PatchExternalSource.all refresh, api: api</p>
+
+<pre class="code ruby"><code class="ruby">@see  JSS::PatchExternalSource.all
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_external'>all_external</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'><span class='object_link'><a href="#all-class_method" title="JSS::PatchSource.all (method)">all</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_internal-class_method">
+  
+    .<strong>all_internal</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get names, ids  for all patch internal sources</p>
+
+<p>the same as JSS::PatchInternalSource.all refresh, api: api</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>JSS::PatchInternalSource.all</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_internal'>all_internal</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'><span class='object_link'><a href="#all-class_method" title="JSS::PatchSource.all (method)">all</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_objects-class_method">
+  
+    .<strong>all_objects</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#all_objects-class_method" title="JSS::APIObject.all_objects (method)">APIObject.all_objects</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_objects'>all_objects</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::PatchSource (class)">PatchSource</a></span></span>
+    <span class='id identifier rubyid_int'>int</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_objects'>all_objects</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='id identifier rubyid_ext'>ext</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_objects'>all_objects</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>return</span> <span class='lparen'>(</span><span class='id identifier rubyid_int'>int</span> <span class='op'>+</span> <span class='id identifier rubyid_ext'>ext</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort!'>sort!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s1'>s1</span><span class='comma'>,</span> <span class='id identifier rubyid_s2'>s2</span><span class='op'>|</span> <span class='id identifier rubyid_s1'>s1</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_s2'>s2</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="available_name_ids-class_method">
+  
+    .<strong>available_name_ids</strong>(source, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>FOr a given patch source, an array of available &#39;name_id&#39;s which are uniq identifiers for titles available on that source.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name_ids available on the source</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#available_titles-class_method" title="JSS::PatchSource.available_titles (method)">available_titles</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 230</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_available_name_ids'>available_name_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_available_titles'>available_titles</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='id identifier rubyid_t'>t</span><span class='lbracket'>[</span><span class='symbol'>:name_id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="available_titles-class_method">
+  
+    .<strong>available_titles</strong>(source, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol:String}&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get a list of patch titles available from a Patch Source (either internal or external, since they have unique ids )</p>
+
+<p>get the available titles</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>source</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name or id of the Patch Source for which to</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The api connection to use for the query Defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol:String}&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>One hash for each available title, with these keys:</p>
+
+<pre class="code ruby"><code class="ruby">:name_id String
+:current_version String
+:publisher String
+:last_modified Time
+:app_name  String
+</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_available_titles'>available_titles</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_src_id'>src_id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_patch_source_id'>valid_patch_source_id</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No Patch Source found matching: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_src_id'>src_id</span>
+
+  <span class='id identifier rubyid_rsrc_base'>rsrc_base</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_valid_patch_source_type'>valid_patch_source_type</span><span class='lparen'>(</span><span class='id identifier rubyid_src_id'>src_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:internal</span>
+      <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#AVAILABLE_TITLES_RSRC-constant" title="JSS::PatchSource::AVAILABLE_TITLES_RSRC (constant)">AVAILABLE_TITLES_RSRC</a></span></span>
+    <span class='kw'>else</span>
+      <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#AVAILABLE_TITLES_RSRC-constant" title="JSS::PatchSource::AVAILABLE_TITLES_RSRC (constant)">AVAILABLE_TITLES_RSRC</a></span></span>
+    <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_rsrc'>rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rsrc_base'>rsrc_base</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_src_id'>src_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='kw'>begin</span>
+    <span class='comment'># TODO: remove this and adjust parsing when jamf fixes the JSON
+</span>    <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="XMLWorkaround.html" title="JSS::XMLWorkaround (module)">XMLWorkaround</a></span></span><span class='period'>.</span><span class='id identifier rubyid_data_via_xml'><span class='object_link'><a href="XMLWorkaround.html#data_via_xml-class_method" title="JSS::XMLWorkaround.data_via_xml (method)">data_via_xml</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#AVAILABLE_TITLES_DATA_MAP-constant" title="JSS::PatchSource::AVAILABLE_TITLES_DATA_MAP (constant)">AVAILABLE_TITLES_DATA_MAP</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ResourceNotFound</span>
+    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_titles'>titles</span> <span class='op'>=</span> <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:patch_available_titles</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:available_titles</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_titles'>titles</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='id identifier rubyid_t'>t</span><span class='lbracket'>[</span><span class='symbol'>:last_modified</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_t'>t</span><span class='lbracket'>[</span><span class='symbol'>:last_modified</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_titles'>titles</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-class_method">
+  
+    .<strong>delete</strong>(victims, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only JSS::PatchExternalSources can be deleted</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#delete-class_method" title="JSS::APIObject.delete (method)">APIObject.delete</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_victims'>victims</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span> <span class='id identifier rubyid_victims'>victims</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchExternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>super</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchInternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PatchInteralSources cannot be deleted.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fetch-class_method">
+  
+    .<strong>fetch</strong>(arg, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Fetch either an internal or external patch source</p>
+
+<p>BUG: there&#39;s an API bug: fetching a non-existent ids which is why we rescue internal server errors.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">APIObject.fetch</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::PatchSource (class)">PatchSource</a></span></span>
+    <span class='kw'>begin</span>
+      <span class='id identifier rubyid_fetched'>fetched</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ResourceNotFound</span><span class='comma'>,</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>InternalServerError</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span>
+      <span class='id identifier rubyid_fetched'>fetched</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_fetched'>fetched</span>
+      <span class='kw'>begin</span>
+        <span class='id identifier rubyid_fetched'>fetched</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+      <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ResourceNotFound</span><span class='comma'>,</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>InternalServerError</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No matching PatchSource found</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_fetched'>fetched</span>
+  <span class='kw'>end</span> <span class='comment'># if self == JSS::PatchSource
+</span>  <span class='kw'>begin</span>
+    <span class='kw'>super</span>
+  <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ResourceNotFound</span><span class='comma'>,</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>InternalServerError</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No matching </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> found</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="make-class_method">
+  
+    .<strong>make</strong>(**args)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only JSS::PatchExternalSources can be created</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#make-class_method" title="JSS::APIObject.make (method)">APIObject.make</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 155</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make'>make</span> <span class='id identifier rubyid_args'>args</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchExternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>super</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchInternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PatchInteralSources cannot be created.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_patch_source_id-class_method">
+  
+    .<strong>valid_patch_source_id</strong>(ident, refresh = false, api: JSS.api)  &#x21d2; <tt>Integer</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a name or id for a Patch Source (internal or external) return the id if it exists, or nil if it doesn&#39;t.</p>
+
+<p>NOTE: does not indicate which kind of source it is, just that it exists and can be used as a source_id for a patch title.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the server</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid id or nil if it doesn&#39;t exist.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#valid_patch_source_type-class_method" title="JSS::PatchSource.valid_patch_source_type (method)">valid_patch_source_type</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid_patch_source_id'>valid_patch_source_id</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='id identifier rubyid_id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_patch_source_type-class_method">
+  
+    .<strong>valid_patch_source_type</strong>(ident, refresh = false, api: JSS.api)  &#x21d2; <tt>Symbol</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a name or id for a Patch Source return :internal or :external if it exists, or nil if it doesnt.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id to validate</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the data be re-read from the server</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:internal, :external, or nil if it doesn&#39;t exist.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid_patch_source_type'>valid_patch_source_type</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='symbol'>:internel</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='kw'>return</span> <span class='symbol'>:external</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="available_name_ids-instance_method">
+  
+    #<strong>available_name_ids</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get a list of available name_id&#39;s for this patch source</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#available_name_ids-class_method" title="JSS::PatchSource.available_name_ids (method)">available_name_ids</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 337</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available_name_ids'>available_name_ids</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_available_name_ids'>available_name_ids</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="available_titles-instance_method">
+  
+    #<strong>available_titles</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get a list of patch titles available from this Patch Source</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#available_titles-class_method" title="JSS::PatchSource.available_titles (method)">available_titles</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+330
+331
+332</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 330</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available_titles'>available_titles</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_available_titles'>available_titles</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    #<strong>delete</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete this instance This method is needed to override APIObject#delete</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+343
+344
+345
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/patch_source.rb', line 343</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
+  <span class='kw'>case</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchExternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>super</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS::PatchInternalSource</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PatchInteralSources cannot be deleted.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(newname)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:04 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

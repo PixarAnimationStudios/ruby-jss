@@ -1,0 +1,2983 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::Script
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Script";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Script</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::Script
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">JSS::Script</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Categorizable.html" title="JSS::Categorizable (module)">Categorizable</a></span>, <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/api_object/script.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A Script in the JSS.</p>
+
+<p>As of Casper 9.4, the script contents as stored in the database are accessible via the API</p>
+
+<p>This class will save the script contents back to the database with the <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span> or <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable#update</a></span> methods</p>
+
+<p>If your scripts are stored on the master distribution point instead of the database, you can use <span class='object_link'><a href="#upload_master_file-instance_method" title="JSS::Script#upload_master_file (method)">#upload_master_file</a></span> to save it to the server, and <span class='object_link'><a href="#delete_master_file-instance_method" title="JSS::Script#delete_master_file (method)">#delete_master_file</a></span> to delete it from the server.</p>
+
+<p>Use the <span class='object_link'><a href="#run-instance_method" title="JSS::Script#run (method)">#run</a></span> method to run the script on the local machine via the &#39;jamf runScript&#39; command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>scripts</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:scripts</span></pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:script</span></pre></dd>
+      
+        <dt id="DIST_POINT_SCRIPTS_FOLDER-constant" class="">DIST_POINT_SCRIPTS_FOLDER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The script storage folder on the distribution point, if used</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Scripts</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIORITIES-constant" class="">PRIORITIES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Priority to use for running the script in relation to other actions during imaging</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Before</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>After</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>At Reboot</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEFAULT_PRIORITY-constant" class="">DEFAULT_PRIORITY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>which is default?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>After</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PARAMETER_KEYS-constant" class="">PARAMETER_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The keys used in the @parameters Hash</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:parameter4</span><span class='comma'>,</span> <span class='symbol'>:parameter5</span><span class='comma'>,</span> <span class='symbol'>:parameter6</span><span class='comma'>,</span> <span class='symbol'>:parameter7</span><span class='comma'>,</span> <span class='symbol'>:parameter8</span><span class='comma'>,</span> <span class='symbol'>:parameter9</span><span class='comma'>,</span> <span class='symbol'>:parameter10</span><span class='comma'>,</span> <span class='symbol'>:parameter11</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>91</span></pre></dd>
+      
+        <dt id="CATEGORY_SUBSET-constant" class="">CATEGORY_SUBSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Where is the Category in the API JSON?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:top</span></pre></dd>
+      
+        <dt id="CATEGORY_DATA_TYPE-constant" class="">CATEGORY_DATA_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>How is the category stored in the API data?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filename-instance_method" title="#filename (instance method)">#<strong>filename</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The file name of the script, if stored in a dist.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#info-instance_method" title="#info (instance method)">#<strong>info</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The info field for this script.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notes-instance_method" title="#notes (instance method)">#<strong>notes</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The notes field for this script.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_requirements-instance_method" title="#os_requirements (instance method)">#<strong>os_requirements</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+      (also: #oses)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The OS versions this can be installed onto.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parameters-instance_method" title="#parameters (instance method)">#<strong>parameters</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Script parameters 4-11.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#priority-instance_method" title="#priority (instance method)">#<strong>priority</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Either &#39;Before&#39; or &#39;After&#39; or “At Reboot”.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script_contents-instance_method" title="#script_contents (instance method)">#<strong>script_contents</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #code, #contents)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The actual code for this script, if it&#39;s stored in the database.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category=-instance_method" title="#category= (instance method)">#<strong>category=</strong>(new_cat)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category=-instance_method" title="JSS::Categorizable#category= (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the category of this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_assigned%3F-instance_method" title="#category_assigned? (instance method)">#<strong>category_assigned?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #categorized?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_assigned%3F-instance_method" title="JSS::Categorizable#category_assigned? (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this object have a category assigned?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_id-instance_method" title="#category_id (instance method)">#<strong>category_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_id-instance_method" title="JSS::Categorizable#category_id (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id of the category for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_name-instance_method" title="#category_name (instance method)">#<strong>category_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #category)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_name-instance_method" title="JSS::Categorizable#category_name (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the category for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_object-instance_method" title="#category_object (instance method)">#<strong>category_object</strong>  &#x21d2; JSS::Category </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_object-instance_method" title="JSS::Categorizable#category_object (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS::Category instance for this object&#39;s category.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>(new_name, api: nil)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>make a clone of this API object, with a new name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new object in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_master_file-instance_method" title="#delete_master_file (instance method)">#<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete the filename from the master distribution point, if it exists.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#evaluate_new_category-instance_method" title="#evaluate_new_category (instance method)">#<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; Array&lt;String, Integer&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#evaluate_new_category-instance_method" title="JSS::Categorizable#evaluate_new_category (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args = {})  &#x21d2; Script </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Script.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(new_val)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the script&#39;s display name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>(opts = {})  &#x21d2; Array&lt;(Integer,String)&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Run this script on the current machine using the “jamf runScript” command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_parameter-instance_method" title="#set_parameter (instance method)">#<strong>set_parameter</strong>(param_num, new_val)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change one of the stored parameters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unset_category-instance_method" title="#unset_category (instance method)">#<strong>unset_category</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#unset_category-instance_method" title="JSS::Categorizable#unset_category (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the category to nothing.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save changes to the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_master_file-instance_method" title="#upload_master_file (instance method)">#<strong>upload_master_file</strong>(rw_pw, unmount = true)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Save the @script_contents for this script to a file on the Master Distribution point.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(args = {})  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::Script (class)">Script</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Script.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+
+  <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:filename</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@name</span>
+  <span class='ivar'>@info</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:info</span><span class='rbracket'>]</span>
+  <span class='ivar'>@notes</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:notes</span><span class='rbracket'>]</span>
+  <span class='ivar'>@os_requirements</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:os_requirements</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'><span class='object_link'><a href="../JSS.html#to_s_and_a-class_method" title="JSS.to_s_and_a (method)">to_s_and_a</a></span></span><span class='lparen'>(</span><span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:os_requirements</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:arrayform</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@parameters</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@priority</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:priority</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PRIORITY-constant" title="JSS::Script::DEFAULT_PRIORITY (constant)">DEFAULT_PRIORITY</a></span></span>
+  <span class='ivar'>@script_contents</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:script_contents</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="filename=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="filename-instance_method">
+  
+    #<strong>filename</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the file name of the script, if stored in a dist. point.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the file name of the script, if stored in a dist. point</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filename'>filename</span>
+  <span class='ivar'>@filename</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="info=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="info-instance_method">
+  
+    #<strong>info</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the info field for this script.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the info field for this script</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_info'>info</span>
+  <span class='ivar'>@info</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="notes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="notes-instance_method">
+  
+    #<strong>notes</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the notes field for this script.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the notes field for this script</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_notes'>notes</span>
+  <span class='ivar'>@notes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="os_requirements=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_requirements-instance_method">
+  
+    #<strong>os_requirements</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='oses-instance_method'>oses</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the OS versions this can be installed onto. For all minor versions, the format is 10.5.x.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the OS versions this can be installed onto. For all minor versions, the format is 10.5.x</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_os_requirements'>os_requirements</span>
+  <span class='ivar'>@os_requirements</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="parameters=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="parameters-instance_method">
+  
+    #<strong>parameters</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns script parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>script parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parameters'>parameters</span>
+  <span class='ivar'>@parameters</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="priority=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="priority-instance_method">
+  
+    #<strong>priority</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns either &#39;Before&#39; or &#39;After&#39; or “At Reboot”.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either &#39;Before&#39; or &#39;After&#39; or “At Reboot”.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_priority'>priority</span>
+  <span class='ivar'>@priority</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="script_contents=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="script_contents-instance_method">
+  
+    #<strong>script_contents</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='code-instance_method'>code</span>, <span id='contents-instance_method'>contents</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the actual code for this script, if it&#39;s stored in the database.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the actual code for this script, if it&#39;s stored in the database.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_script_contents'>script_contents</span>
+  <span class='ivar'>@script_contents</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="category=-instance_method">
+  
+    #<strong>category=</strong>(new_cat)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category=-instance_method" title="JSS::Categorizable#category= (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_assigned?-instance_method">
+  
+    #<strong>category_assigned?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='categorized?-instance_method'>categorized?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_assigned%3F-instance_method" title="JSS::Categorizable#category_assigned? (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does this object have a category assigned?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Does this object have a category assigned?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_id-instance_method">
+  
+    #<strong>category_id</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_id-instance_method" title="JSS::Categorizable#category_id (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The id of the category for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The id of the category for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_name-instance_method">
+  
+    #<strong>category_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='category-instance_method'>category</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_name-instance_method" title="JSS::Categorizable#category_name (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the category for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_object-instance_method">
+  
+    #<strong>category_object</strong>  &#x21d2; <tt><span class='object_link'><a href="Category.html" title="JSS::Category (class)">JSS::Category</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_object-instance_method" title="JSS::Categorizable#category_object (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS::Category instance for this object&#39;s category</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Category.html" title="JSS::Category (class)">JSS::Category</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The JSS::Category instance for this object&#39;s category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clone-instance_method">
+  
+    #<strong>clone</strong>(new_name, api: nil)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#clone-instance_method" title="JSS::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name for the new object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An uncreated clone of this APIObject with the given name</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new object in the JSS.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the jss ID of the newly created object</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_master_file-instance_method">
+  
+    #<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete the filename from the master distribution point, if it exists.</p>
+
+<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rw_pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password for the read/write account on the master Distribution Point</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>unmount</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>was the file deleted?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 382</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mount'><span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">mount</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
+    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
+    <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>end</span> <span class='comment'># if exists
+</span>  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unmount'><span class='object_link'><a href="DistributionPoint.html#unmount-instance_method" title="JSS::DistributionPoint#unmount (method)">unmount</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='id identifier rubyid_did_it'>did_it</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="evaluate_new_category-instance_method">
+  
+    #<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Integer&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#evaluate_new_category-instance_method" title="JSS::Categorizable#evaluate_new_category (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name or id of a possible category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The matching name and id, which may be nil.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(new_val)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the script&#39;s display name</p>
+
+<p>If the filename is the same as the name, the filename  will be changed also</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new display name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 175</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>==</span> <span class='ivar'>@name</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Name can&#39;t be empty</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A script already exists with the name &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_new_val'>new_val</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Script (class)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_new_val'>new_val</span>
+
+  <span class='comment'>### if the filename matches the name, change that too.
+</span>  <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span> <span class='kw'>if</span> <span class='ivar'>@filename</span> <span class='op'>==</span> <span class='ivar'>@name</span>
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span>
+
+  <span class='comment'>### if our REST resource is based on the name, update that too
+</span>  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BASE-constant" title="JSS::Script::RSRC_BASE (constant)">RSRC_BASE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/name/</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@rest_rsrc</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/name/</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    #<strong>run</strong>(opts = {})  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;(Integer,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>)&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Run this script on the current machine using the “jamf runScript” command.</p>
+
+<p>If the script code is available in the <span class='object_link'><a href="#script_contents-instance_method" title="JSS::Script#script_contents (method)">#script_contents</a></span> attribute, then that code is saved to a tmp file, and executed. Otherwise, the script is assumed to be stored on the distribution point.</p>
+
+<p>If the dist. point has http downloads enabled, then the URL is used as the path with the &#39;jamf runScript&#39; command.</p>
+
+<p>If http is not an option, the dist.point is mounted, and the script copied locally before running. In this case the options must include :ro_pw =&gt; &#39;somepass&#39; to provide the read-only password for mounting the distribution point. If :unmount =&gt; true is provided, the dist. point will be unmounted immediately after copying the script locally.  Otherwise it will remain mounted, in case there&#39;s further need of it.</p>
+
+<p>Any local on-disk copies of the script are removed after running.</p>
+
+<p>After the script runs, this method returns a two-item Array.</p>
+<ul><li>
+<p>the first item is an Integer, the exit status of the script itself (0 means success)</p>
+</li><li>
+<p>the second item is a String, the output (stdout + stderr) of the jamf binary, which will include the script output.</p>
+</li></ul>
+
+<p>The exit status of the jamf binary process will be available as a Process::Status object in $? immediately after running.</p>
+
+<p><strong>NOTE</strong> In the WEB UI and API, the definable parameters are numbered 4-11, since 1, 2, &amp; 3 are the target drive, computer name, and user name respectively.  However, the jamf binary refers to them as p1-p8, and that&#39;s how they are expected as options to #run. So if :p1=&gt; “new param” is given as an aption to #run, it will override any value that the API provided in @<a href=":parameter4">parameters</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the options for running the script</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:target</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the &#39;target drive&#39;, passed to the script as the first commandline option. Defaults to &#39;/&#39;</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:computer_name</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the name of the computer, passed to the script as the second commandline option. Defaults to the name of the current machine</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:username</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the username to be passed to the script as the third commandline option.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:p1..:p8</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the values to be passed as the 4th - 11th commandline options, overriding those defined with the script in the JSS</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:ro_pw</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the read-only password for mounting the distribution point, if needed</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:unmount</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should the dist. point be unmounted when finished, if we mounted it?</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verbose</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should the &#39;jamf runScript&#39; command be verbose?</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:show_output</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should the output (stdout + stderr) of &#39;jamf runScript&#39; be copied to stdout in realtime, as well as returned?</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;(Integer,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>)&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the exit status of the <strong>script</strong> and stdout+stderr of &#39;jamf runScript&#39;. The exit status of the jamf binary will be available in $? immediately after running.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 448</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:target</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter4</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter5</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter6</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter7</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter8</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter9</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter10</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter11</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>=</span> <span class='kw'>false</span>
+
+  <span class='kw'>begin</span>
+
+    <span class='comment'># do we have the code already? if so, save it out and make it executable
+</span>    <span class='kw'>if</span> <span class='ivar'>@script_contents</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+      <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html#DOWNLOADS_FOLDER-constant" title="JSS::Client::DOWNLOADS_FOLDER (constant)">DOWNLOADS_FOLDER</a></span></span>
+
+      <span class='id identifier rubyid_executable'>executable</span> <span class='op'>=</span> <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>+</span> <span class='ivar'>@filename</span>
+
+      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_touch'>jss_touch</span>
+      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_chmod'>chmod</span> <span class='int'>0o700</span>
+      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_save'>jss_save</span> <span class='ivar'>@script_contents</span>
+      <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>=</span> <span class='kw'>true</span>
+
+    <span class='comment'># otherwise, get it from the dist. point
+</span>    <span class='kw'>else</span>
+      <span class='id identifier rubyid_dist_point'>dist_point</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'><span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">my_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+
+      <span class='comment'>### how do we access our dist. point?
+</span>      <span class='kw'>if</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_http_downloads_enabled'>http_downloads_enabled</span>
+        <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_http_url'>http_url</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
+
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>=</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ro_pw</span><span class='rbracket'>]</span>
+
+        <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='rparen'>)</span>
+
+      <span class='kw'>end</span> <span class='comment'># if http enabled
+</span>
+    <span class='kw'>end</span> <span class='comment'># if @script_contents and (not @script_contents.empty?)
+</span>
+    <span class='comment'># build the command as an array.
+</span>    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-script</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-path</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_script_path'>script_path</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-target</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:target</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-computerName</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-username</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p1</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p2</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p3</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p4</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p5</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p6</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p7</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p8</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-verbose</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:verbose</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_command_arry'>command_arry</span><span class='period'>.</span><span class='id identifier rubyid_shelljoin'>shelljoin</span>
+
+    <span class='id identifier rubyid_jamf_output'>jamf_output</span> <span class='op'>=</span>  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run_jamf'><span class='object_link'><a href="Client.html#run_jamf-class_method" title="JSS::Client.run_jamf (method)">run_jamf</a></span></span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>runScript</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:show_output</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_jamf_output'>jamf_output</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^.*Script exit code: (\d+)(\D|$)</span><span class='regexp_end'>/</span></span>
+
+    <span class='id identifier rubyid_script_exitstatus'>script_exitstatus</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+
+  <span class='kw'>ensure</span>
+    <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='kw'>if</span> <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
+    <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:unmount</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span> <span class='comment'># begin/ensure
+</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_script_exitstatus'>script_exitstatus</span><span class='comma'>,</span> <span class='id identifier rubyid_jamf_output'>jamf_output</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_parameter-instance_method">
+  
+    #<strong>set_parameter</strong>(param_num, new_val)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change one of the stored parameters</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>param_num</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which param are we setting? must be 4..11</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>new_val</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new value for the parameter</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+304
+305
+306
+307
+308
+309
+310
+311</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 304</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_parameter'>set_parameter</span><span class='lparen'>(</span><span class='id identifier rubyid_param_num'>param_num</span><span class='comma'>,</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Parameter numbers must be from 4-11</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='int'>4</span><span class='op'>..</span><span class='int'>11</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cover?'>cover?</span> <span class='id identifier rubyid_param_num'>param_num</span>
+  <span class='id identifier rubyid_pkey'>pkey</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>parameter</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_param_num'>param_num</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>parameter values must be strings or nil</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>==</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='id identifier rubyid_pkey'>pkey</span><span class='rbracket'>]</span>
+  <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='id identifier rubyid_pkey'>pkey</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unset_category-instance_method">
+  
+    #<strong>unset_category</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#unset_category-instance_method" title="JSS::Categorizable#unset_category (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the category to nothing</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Save changes to the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>success</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_master_file-instance_method">
+  
+    #<strong>upload_master_file</strong>(rw_pw, unmount = true)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Save the @script_contents for this script to a file on the Master Distribution point.</p>
+
+<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
+
+<p>use <span class='object_link'><a href="#script_contents=-instance_method" title="JSS::Script#script_contents= (method)">#script_contents=</a></span>  to set the script_contents from a String or Pathname</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rw_pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password for the read/write account on the master Distribution Point</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>unmount</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 360</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_master_file'>upload_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No code specified. Use #code= first.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'>InvaldDatatError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Incorrect password for read-write access to master distribution point.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_check_pw'>check_pw</span> <span class='symbol'>:rw</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span>
+
+  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span> <span class='ivar'>@script_contents</span>
+  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:38:02 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

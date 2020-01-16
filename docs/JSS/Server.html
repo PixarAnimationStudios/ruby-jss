@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: JSS::Server
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSS::Server";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span>
+     &raquo; 
+    <span class="title">Server</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: JSS::Server
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">JSS::Server</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jss/server.rb<span class="defines">,<br />
+  lib/jss.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A class representing the currently-connected JSS Server in a JSS::APIConnection instance.</p>
+
+<p>The <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span> instance has a JSS::Server instance in its #server attribute. It is created fresh every time <span class='object_link'><a href="APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">APIConnection#connect</a></span> is called.</p>
+
+<p>That&#39;s the only time it should be instantiated, and all access should be through the #server attribute of the APIConnection instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="ACTIVATION_CODE_RSRC-constant" class="">ACTIVATION_CODE_RSRC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activationcode</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ACTIVATION_CODE_KEY-constant" class="">ACTIVATION_CODE_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:activation_code</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api-instance_method" title="#api (instance method)">#<strong>api</strong>  &#x21d2; JSS::APIConnection </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The APIConnection object that contains this instance of Server.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#license_type-instance_method" title="#license_type (instance method)">#<strong>license_type</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The type of server licence.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#major_version-instance_method" title="#major_version (instance method)">#<strong>major_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@return [Integer].</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#minor_version-instance_method" title="#minor_version (instance method)">#<strong>minor_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@return [Integer].</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#product-instance_method" title="#product (instance method)">#<strong>product</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #product_name)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The license product name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#raw_version-instance_method" title="#raw_version (instance method)">#<strong>raw_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@return [String].</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#revision_version-instance_method" title="#revision_version (instance method)">#<strong>revision_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@return [Integer].</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#version-instance_method" title="#version (instance method)">#<strong>version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@return [String] The version of the JSS.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#activation_code-instance_method" title="#activation_code (instance method)">#<strong>activation_code</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The activation code for the server licence.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(jss_data, api)  &#x21d2; Server </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#organization-instance_method" title="#organization (instance method)">#<strong>organization</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #institution)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The organization to which the server is licensed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_print_instance_variables-instance_method" title="#pretty_print_instance_variables (instance method)">#<strong>pretty_print_instance_variables</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(jss_data, api)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::Server (class)">Server</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server. the jssuser resource is readable by anyone with a JSS acct regardless of their permissions. However, it&#39;s marked as &#39;deprecated&#39;. Hopefully jamf will keep this basic level of info available for basic authentication and JSS version checking.</p>
+
+<p>The &#39;api&#39; is a reference to the JSS::APIConnection instance which this JSS::Server instance is a part of.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_jss_data'>jss_data</span><span class='comma'>,</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='ivar'>@api</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='ivar'>@license_type</span> <span class='op'>=</span> <span class='id identifier rubyid_jss_data'>jss_data</span><span class='lbracket'>[</span><span class='symbol'>:license_type</span><span class='rbracket'>]</span>
+  <span class='ivar'>@product</span> <span class='op'>=</span> <span class='id identifier rubyid_jss_data'>jss_data</span><span class='lbracket'>[</span><span class='symbol'>:product</span><span class='rbracket'>]</span>
+  <span class='ivar'>@raw_version</span> <span class='op'>=</span> <span class='id identifier rubyid_jss_data'>jss_data</span><span class='lbracket'>[</span><span class='symbol'>:version</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_parsed'>parsed</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_jss_version'><span class='object_link'><a href="../JSS.html#parse_jss_version-class_method" title="JSS.parse_jss_version (method)">parse_jss_version</a></span></span><span class='lparen'>(</span><span class='ivar'>@raw_version</span><span class='rparen'>)</span>
+  <span class='ivar'>@major_version</span> <span class='op'>=</span> <span class='id identifier rubyid_parsed'>parsed</span><span class='lbracket'>[</span><span class='symbol'>:major</span><span class='rbracket'>]</span>
+  <span class='ivar'>@minor_version</span> <span class='op'>=</span> <span class='id identifier rubyid_parsed'>parsed</span><span class='lbracket'>[</span><span class='symbol'>:minor</span><span class='rbracket'>]</span>
+  <span class='ivar'>@revision_version</span> <span class='op'>=</span> <span class='id identifier rubyid_parsed'>parsed</span><span class='lbracket'>[</span><span class='symbol'>:revision</span><span class='rbracket'>]</span>
+  <span class='ivar'>@version</span> <span class='op'>=</span> <span class='id identifier rubyid_parsed'>parsed</span><span class='lbracket'>[</span><span class='symbol'>:version</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="api-instance_method">
+  
+    #<strong>api</strong>  &#x21d2; <tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The APIConnection object that contains this instance of Server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The APIConnection object that contains this instance of Server</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='ivar'>@api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="license_type-instance_method">
+  
+    #<strong>license_type</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the type of server licence.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of server licence</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_license_type'>license_type</span>
+  <span class='ivar'>@license_type</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="major_version-instance_method">
+  
+    #<strong>major_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@return [Integer]</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_major_version'>major_version</span>
+  <span class='ivar'>@major_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="minor_version-instance_method">
+  
+    #<strong>minor_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@return [Integer]</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_minor_version'>minor_version</span>
+  <span class='ivar'>@minor_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="product-instance_method">
+  
+    #<strong>product</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='product_name-instance_method'>product_name</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the license product name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the license product name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_product'>product</span>
+  <span class='ivar'>@product</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="raw_version-instance_method">
+  
+    #<strong>raw_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@return [String]</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_raw_version'>raw_version</span>
+  <span class='ivar'>@raw_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="revision_version-instance_method">
+  
+    #<strong>revision_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@return [Integer]</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_revision_version'>revision_version</span>
+  <span class='ivar'>@revision_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="version-instance_method">
+  
+    #<strong>version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@return [String] The version of the JSS. See the method JSS.parse_jss_version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_version'>version</span>
+  <span class='ivar'>@version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="activation_code-instance_method">
+  
+    #<strong>activation_code</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the activation code for the server licence.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the activation code for the server licence</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 108</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_activation_code'>activation_code</span>
+  <span class='ivar'>@act_code_data</span> <span class='op'>||=</span> <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_get_rsrc'>get_rsrc</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_RSRC-constant" title="JSS::Server::ACTIVATION_CODE_RSRC (constant)">ACTIVATION_CODE_RSRC</a></span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_KEY-constant" title="JSS::Server::ACTIVATION_CODE_KEY (constant)">ACTIVATION_CODE_KEY</a></span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@act_code_data</span><span class='lbracket'>[</span><span class='symbol'>:code</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="organization-instance_method">
+  
+    #<strong>organization</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='institution-instance_method'>institution</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the organization to which the server is licensed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the organization to which the server is licensed</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_organization'>organization</span>
+  <span class='ivar'>@act_code_data</span> <span class='op'>||=</span> <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_get_rsrc'>get_rsrc</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_RSRC-constant" title="JSS::Server::ACTIVATION_CODE_RSRC (constant)">ACTIVATION_CODE_RSRC</a></span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_KEY-constant" title="JSS::Server::ACTIVATION_CODE_KEY (constant)">ACTIVATION_CODE_KEY</a></span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@act_code_data</span><span class='lbracket'>[</span><span class='symbol'>:organization_name</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_print_instance_variables-instance_method">
+  
+    #<strong>pretty_print_instance_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the desired instance_variables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
+  <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@api</span>
+  <span class='id identifier rubyid_vars'>vars</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:56 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

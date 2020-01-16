@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: CHANGES
+  
+    &mdash; ruby-jss-1.2.4a4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "CHANGES";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGES</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Changelog">Changelog</h1>
+
+<p>All notable changes to this project will be documented in this file.</p>
+
+<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+
+<h2 id="label-5B1.2.3-5D+-+2019-10-31">[1.2.3] - 2019-10-31</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a <code>last_mdm_contact</code> class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don&#39;t have anything like the <code>last_checkin</code> value for comptuers, indicating real communication between the device and Jamf Pro. Note that the <code>last_inventory_update</code> value does NOT indicate such communication, since that timestamp is updated when values are changed via the API</p>
+</li><li>
+<p>All APIObject Subclasses (Policy, Computer, MobileDevice, ComputerGroup, etc..) now have <code>get_raw</code>, <code>post_raw</code> &amp; <code>put_raw</code> class methods, which are simpler wrappers for APIConnection#get_rsrc, #post_rsrc, and #put_rsrc.</p>
+</li><li>
+<p><code>get_raw</code> takes an object&#39;s id, and returns the &#39;raw&#39; JSON (parsed into a ruby Hash with symbolized keys) or a REXML::Document (from which you&#39;ll probably want to use the <code>root</code> element). If you pass <code>as_string: true</code> you&#39;ll get the un-parsed JSON or XML string directly from the API  This can be useful when you need to retrieve the full object, to get some data not available in the summary-list, but instantiating the full ruby class is too slow.</p>
+</li><li>
+<p><code>post_raw</code> &amp; <code>put_raw</code> can send raw XML to the API without instantiating objects. In some cases, where you&#39;re making simple changes to simple XML, this can be faster than fetching a full instance and the re-saving it.  WARNING You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String of XML, or something that returns such a string with #to_s, such as a REXML::Document, or a REXML::Element.</p>
+</li><li>
+<p>APIConnection#get_rsrc now takes the boolean raw_json: parameter (defaults to false). If true, the raw JSON string is  returned, not parsed into a Hash. When requesting XML, it already comes as a string.</p>
+</li><li>
+<p>ExtensionAttribute#attribute_mapping getter &amp; setter for EAs that have the &#39;LDAP Attribute Mapping&#39; input type.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>DB_CNX.valid_server? now specifies utf8 charset, and catches NotSupportedAuthMode errors, needed for newer versions of mysql</p>
+</li></ul>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Cleaned up and modernized ExtensionAttribute and its subclasses. Marked a few things as deprecated: recon_display, scripting_language, and platform, all in ComputerExtensionAttribute.</p>
+</li><li>
+<p>Better error message when using <code>APIObject.fetch :random</code> on a subclass with no objects</p>
+</li></ul>
+
+<h2 id="label-5B1.2.0-5D+-+2019-10-17">[1.2.0] - 2019-10-17</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>APIConnection#flushcache can be used to flush all cached data, or just for specific APIObject lists or ExtensionAttribute definitions. This is now used more often throughout ruby-jss.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Group.all_static was returning all_smart, now actually returns all_static</p>
+</li><li>
+<p>Fix in error message raised in Group.change_membership</p>
+</li><li>
+<p>APIConnection#connect now flushes all cached data, so if you use it to change which server is being used by an existing connection, you don&#39;t keep the cached data from the old server.</p>
+</li><li>
+<p>PatchPolicy now overrides APIObject.fetch to still allow for fetching by name, even there&#39;s no patchpolicies/name/... endpoint</p>
+</li></ul>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Group#create with <code>calculate_members: true</code>, will sometimes try to re-read the new group before the JSS knows it exists, causing a <code>404 Not Found</code> error. This is especially common when using a clustered environment behind a load-balanced hostname (like <em>something.jamfcloud.com</em>). Now, if a 404 happens when trying to refresh the membership using calculate_members, ruby-jss will retry every second for up to 10 seconds. To change the number of retries, provide an integer with the <code>retries:</code> parameter. If you don&#39;t need to know the group members after creation, pass <code>calculate_members: false</code> when calling Group#create or Group#save</p>
+</li><li>
+<p>Creating, Updating, or Deleting objects of the APIObject subclasses now flushes the cached <code>all</code> lists for that class, so subseqent uses of the <code>all</code> lists will refresh the data from the API. This means that <code>APIObject.valid_id</code> will work immediately upon object creation. NOTE: However, when using a clustered environment behind a load-balanced hostname (like jamfcloud.com), it may take some time for the <code>all</code> list to update on all nodes of the cluster, so you might still need to pause up to the number of seconds defined of the cluster&#39;s sync interval to ensure valid lists.</p>
+</li><li>
+<p>Case-insentive lookup &amp; validation methods in APIObject now use <code>String#casecmp?</code> for much simpler code</p>
+</li><li>
+<p>Creatable#create no longer takes an <code>api:</code> parameter (it never should have) The API connection given in #make is always used for creating the object in the API.</p>
+</li><li>
+<p>Added class JSS::IBeacon, implementing the .../ibeacons/... endpoints</p>
+</li></ul>
+
+<h2 id="label-5B1.1.3-5D+-+2019-09-23">[1.1.3] - 2019-09-23</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>MobileDeviceExtensionAttribute now has a <code>.history</code> class method matching that of ComputerExtensionAttribute. Requires direct MySQL database access. Thanks @aurica!</p>
+</li><li>
+<p>JSS::AmbiguousError exception class</p>
+</li><li>
+<p>More caching of API data to improve general speed</p>
+</li><li>
+<p>The hashes created by <code>APIObject.map_all_ids_to(blah)</code></p>
+</li><li>
+<p>ExtensionAttribute definitions when used by extendable classes</p>
+</li><li>
+<p>APIObject.fetch can take the search term <code>:random</code> and you&#39;ll get a randomly selected object. Example: <code>a_random_computer = JSS::Computer.fetch :random</code></p>
+</li><li>
+<p>Keys of the hash returned by <code>Computer#hardware</code> are now available as instance methods on Computer objects. So as well as <code>a_computer.hardware[:total_ram]</code> you can also do <code>a_computer.total_ram</code></p>
+</li><li>
+<p>Policy now recognizes the frequency Symbol <code>:once_per_user_per_computer</code></p>
+</li><li>
+<p>Attribute reader :management_status added to Computer class</p>
+</li><li>
+<p>Implemented some useful String methods from newer versions of Ruby into older Rubies: <code>casecmp?</code>, <code>delete_prefix</code>, &amp; <code>delete_suffix</code></p>
+</li><li>
+<p>master_distribution_point class method in APIConnection &amp; DistribtutionPoint now raise an error when no dist. point is &#39;master&#39;</p>
+</li><li>
+<p>The error states that the cloud dist. point may be the master, and there&#39;s no classic API access to it.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Can&#39;t Modify Frozen Hash error when instantiating JSS::Scopbable::Scope. Thanks to @shahn for reporting this one.</p>
+</li><li>
+<p>MobileDeviceExtensionAttribute now handles empty <code>as_of</code> timestamp. Thanks @aurica!</p>
+</li><li>
+<p>A few typos. Thanks to @cybertunnel for finding some.</p>
+</li><li>
+<p>A bug when parsing the <code>server_path</code> parameter to <code>API::Connection.new</code></p>
+</li><li>
+<p>Bugs in handling blank values in Policy#search_by_path and Policy#printer_ids. Thanks @cybertunnel</p>
+</li><li>
+<p>Computer.management_data with a specified subset returned one level too high in the data structure</p>
+</li><li>
+<p>NetworkSegment.my_network_segment: error in number of params passed to other methods</p>
+</li><li>
+<p>Script#name= now works again, no longer uses a constant from an ancient version. Thanks @shahn</p>
+</li><li>
+<p>Computer#asset_tag= now accepts nil to erase the value</p>
+</li><li>
+<p>APIConnection.my_distribution_point &amp; DistributionPoint.my_distribution_point now return the master_distribution_point object if there isn&#39;t one assigned to the current network segment.</p>
+</li><li>
+<p>RestClient no longer warns about calling &#39;to_i&#39; on Responses when calling APIConnection#put_rsrc &amp; #post_rsrc</p>
+</li></ul>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Monkey Patches are being moved to a better, more traceable technique, see <a href="https://www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess">www.justinweiss.com/articles/3-ways-to-monkey-patch-without-making-a-mess</a>/</p>
+</li><li>
+<p>MobileDevices and Computers now raise JSS::AmbiguousError when being fetched by explicitly by name, e.g. <code>JSS::Computer.fetch name: &#39;foo&#39;</code> and that name is not unique in the JSS. Previously, you&#39;d get an object back, but no guarantee as to which one it was. You&#39;ll still get an undefined object if you use a bare searchterm, e.g. <code>JSS::Computer.fetch &#39;foo&#39;</code></p>
+</li><li>
+<p>Documentation for subclassing APIObject is updated &amp; expanded. See the comments above the class definition in api_object.rb</p>
+</li><li>
+<p><code>APIObject.valid_id</code> is now case-insensitive</p>
+</li><li>
+<p>Removed deprecated VALID_DATA_KEYS constants from APIObject subclasses</p>
+</li><li>
+<p>Various changes in APIObject and its subclasses to try making <code>.fetch</code> and other lookup-methods faster.</p>
+</li><li>
+<p>All of the NetworkSegment-related methods in APIConnection have been moved back to NetworkSegment. The methods in APIConnection still work, but are marked deprecated and will go away eventually.</p>
+</li><li>
+<p>Removed last call to deprecated <code>URI.encode</code>, replaced with <code>CGI.escape</code></p>
+</li></ul>
+
+<h2 id="label-5B1.0.4-5D+-+2019-05-06">[1.0.4] - 2019-05-06</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::Group (and its subclasses) now have a <code>change_membership</code> class and instance method for static groups.</p>
+</li><li>
+<p>The class method allows adding and removing members without fetching an instance of the group.</p>
+</li><li>
+<p>The instance method adds and/or removes members immediately, without needing to call #update or #save</p>
+</li><li>
+<p>LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group</p>
+</li><li>
+<p>Client.homedir(user) and Client.do_not_disturb?(user)</p>
+</li><li>
+<p>Package.all_filenames, .orphaned_files, and .missing_files class methods. WARNING - these are very slow since they must instantiate every package.</p>
+</li><li>
+<p>The JSS::APIConnection.connect method, used for making all classic API connections, now takes a <code>server_path:</code> parameter.  If your JSS is not at the root of the server, e.g. if it&#39;s at <code>https://myjss.myserver.edu:8443/dev_mgmt/jssweb/</code>  rather than <code>https://myjss.myserver.edu:8443/</code>  then use this parameter to specify the path below the root e.g: <code>JSS.api.connect server: &#39;myjss.myserver.edu&#39;, server_path: &#39;dev_mgmt/jssweb&#39;, port: 8443 [...]</code>  (Thanks @christopher.kemp!)</p>
+</li><li>
+<p>Packages in Jamf Pro 10.10 and higher now include checksum data (<code>hash_type</code> and <code>hash_value</code> in the raw data) via the classic API. This has been integrated into JSS::Package via the following methods:</p>
+</li><li>
+<p>New Class Method</p>
+<ul><li>
+<p><code>JSS::Package.calculate_checksum(filepath, type)</code> calcuates an MD5 or SHA_512 hash for an arbtrary file.</p>
+</li></ul>
+</li><li>
+<p>New Instance Attributes:</p>
+<ul><li>
+<p><code>JSS::Package#checksum</code> the checksum value, read-write</p>
+</li><li>
+<p><code>JSS::Package#checksum_type</code> the string &#39;MD5&#39; or &#39;SHA_512&#39; (&#39;SHA_512&#39; if no checksum is set), read-write</p>
+</li></ul>
+</li><li>
+<p>New Instance Methods:</p>
+<ul><li>
+<p><code>JSS::Package#caluclate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true )</code> recalculates and returns the checksum from a local file or the master dist. point. Doesn&#39;t change the Package instance</p>
+</li><li>
+<p><code>JSS::Package#checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)</code> recalculates the checksum from a local file or the master dist. point, and returns Boolean true if it matches the stored one, false if not. Always false if there is no stored checksum. Doesn&#39;t change the Package instance</p>
+</li><li>
+<p><code>JSS::Package#reset_checksum(type: nil, local_file: nil,  rw_pw: nil, ro_pw: nil, unmount: true)</code> recalculates and resets the checksum from a local file or the master dist. point. The instance must be saved back to the server for the new checksum to stick,</p>
+</li></ul>
+</li><li>
+<p>Modified Instance Method</p>
+<ul><li>
+<p><code>JSS::Package#upload_master_file</code> now takes a <code>cksum:</code> parameter, the String &#39;MD5&#39; or &#39;SHA_512&#39;. Any other value means &#39;don&#39;t use a checksum on this package&#39; Defaults to &#39;SHA_512&#39; and a checksum will be calculated. Be sure to set <code>cksum:</code> to some other value if you don&#39;t want a checksum.</p>
+</li></ul>
+</li></ul>
+
+<p>NOTE: Checksum calculation can be slow, especially for large packages on a network server.</p>
+
+<p><em>WARNING</em>: when using a local file to calculate checksums, BE 100% SURE it is identical to the file on the distribution point, or you will get an invalid checksum.</p>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>JSS::MobileDevice.update now returns the device&#39;s jss id, as advertised.</p>
+</li><li>
+<p>default port number choice for on-prem vs. JamfCloud connections</p>
+</li><li>
+<p>Client.primary_console_user returns nil when at the loginwindow</p>
+</li><li>
+<p>Computer#certificates attribute is now readable (Thanks to @Nick Taylor and @Lulu-sheng)</p>
+</li><li>
+<p>error when SelfService icon is not available where expected, returns nil instead. (Thanks to @cybertunnel for finding this)</p>
+</li><li>
+<p>JSS::Script.category now returns category name, not nil. (Thanks @cybertunnel for this one too!)</p>
+</li></ul>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>This file reformatted based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,</p>
+</li><li>
+<p>use new(er) API resources for LDAP lookups, don&#39;t go directly to LDAP via net/ldap</p>
+</li><li>
+<p>Scopable::Scope objects now accept any valid identifier, not just names, when adding or removing items from scope.  Also, item keys don&#39;t need to be plural (e.g. <code>:network_segment</code> works as well as <code>:network_segments</code>)  (Thanks to @cybertunnel for pointing out that this was still not modernized)</p>
+</li></ul>
+
+<h2 id="label-5B1.0.2-5D+-+2018-10-16">[1.0.2] - 2018-10-16</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>Support for parentheses (opening_paren and closing_paren) in JSS::Criteriable::Criterion objects</p>
+</li><li>
+<p>Support for patch-related criterion comparisons "greater than", "less than", "greater than or equal", "less than or equal"</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>a couple lingering calls to <code>.new</code> on APIObject classes, now <code>.fetch</code></p>
+</li></ul>
+
+<h2 id="label-5B1.0.1-5D+-+2018-08-27">[1.0.1] - 2018-08-27</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p><code>JSS::MobileDeviceApplication#version=</code> and <code>#bundle_id=</code> These two attributes are now settable and will be saved to the server if the application is hosted externally. Thanks to <a href="https://github.com/ctaintor">ctaintor</a> for providing this patch.</p>
+</li></ul>
+
+<h2 id="label-5B1.0.0-5D+-+2018-08-10">[1.0.0] - 2018-08-10</h2>
+
+<p>Finally we&#39;re going to version 1.0, which we should have done when we went opensource. Future releases will try to adhere to <a href="https://semver.org/">Semantic Versioning</a> as described in the <a href="https://guides.rubygems.org/patterns/#semantic-versioning">rubygems.org guidelines</a></p>
+
+<p><strong>IMPORTANT</strong> This version is not backward compatible with 0.x version. Please read the details below and test your code before deploying widely.</p>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Jamf Pro API version must be 10.4 or higher</p>
+</li><li>
+<p>Better handling of http error responses</p>
+</li><li>
+<p>JSS::Policy objects now have setters for the &#39;Maintenence&#39; subset, e.g. recons (&#39;update inventory&#39;), reset_name, fix_byhost, etc.</p>
+</li><li>
+<p>defaults to using TLSv1.2 for API connections.</p>
+</li></ul>
+
+<p>As of Jamf Pro 10.5. the server requires TLSv1.2 and will not accept connections using TLSv1.</p>
+
+<p><strong>COMPATIBILITY:</strong></p>
+
+<p>MacOS 10.12 and lower have an old version of the openssl library which used by the built-in ruby (/usr/bin/ruby), which does not support TLSv1.2.</p>
+
+<p>If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.</p>
+
+<p><code>JSS.api.connect server: &#39;myjss.myschool.edu&#39;, user: &#39;username&#39;, pw: :prompt, ssl_version: :TLSv1</code></p>
+
+<p>Machines running macOS 10.12 or lower will not be able to connect to Jamf Pro &gt; v10.4 with the built-in ruby openssl library. If you specify <code>ssl_version: :TLSv1</code> you will get an error because the server won&#39;t accept it. If you leave the default :TLSv1_2, ruby&#39;s openssl library will complain that it doesn&#39;t know about that.</p>
+
+<p>If you have 10.12 or older machines that must connect to newer Jamf Pro servers with ruby-jss, there are a few options.</p>
+<ul><li>
+<p>upgade the machines to 10.13 or higher</p>
+</li><li>
+<p>install a newer openssl, then install a your own ruby using that openssl (both can be done with homebrew)</p>
+</li><li>
+<p>do the above, then extract the openssl library and modify it to work with the built-in ruby.</p>
+</li></ul>
+
+<p>If you have questions about this, feel free to reach out to ruby-jss@pixar.com, or in the #ruby or #jss-api channels in MacAdmins slack space, for some advice.</p>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::PatchSource metaclass and the subclassses JSS::PatchInternalSource, and JSS::PatchExternalSource. These provide acecss to the patchavailabletitles enpoint, which is needed to acquire name_id&#39;s for creating/activating JSS::PatchTitles</p>
+</li><li>
+<p>JSS::PatchTitle, which also gives access to the patchreports endpoint. Also uses the JSS::PatchTitle::Version class to handle patch versions within a title, and assign packages to them. <strong>WARNING</strong>: ruby-jss will not allow duplicate &#39;display names&#39; (the #name of the JSS::PatchTitle instance) - but the Jamf Web UI will allow duplicates. If you have duplicates, and retrieve PatchTitles by name, which one gets returned to you is undefined.</p>
+</li><li>
+<p>The &#39;source_id&#39; and &#39;name_id&#39; of a patch title are, when combined, a unique identifier in the JSS (i.e. name_id&#39;s are unique within sources) As such, the PatchTitle.all list provides a :source_name_id key, which is a String made by joining the two values with a &#39;-&#39;, e.g. &#39;1-GoogleChrome&#39;. This value can be used as a lookup for .fetch, e.g. <code>JSS::PatchTitle.fetch source_name_id: &#39;1-GoogleChrome&#39;</code>. There is also a matching .all_source_name_ids method, and the .map_all_ids_to() method takes :source_name_id as a mapping parameter. You can also use .fetch and .make with both source: (id or name) and name_id: specified.</p>
+</li><li>
+<p>JSS::PatchPolicy. PatchPolicies are creatable when providing an active PatchTitle and an appropriate PatchTitle::Version that has a package assigned to it.</p>
+</li><li>
+<p>the Group metaclass now has a calculate_members option (bool) to the #create method. When true, the membership of the group will be updated in the existing ruby instance immediately after the group is created in the JSS. Doesn&#39;t do much for static groups, but is useful for smart groups. Defaults to true. If you don&#39;t care about the membership immediately, or don&#39;t want to wait for the membership to be calculated on the server, set this to false.</p>
+</li><li>
+<p>more generic data validation methods in JSS::Validate module, and more use of them throughout the code.</p>
+</li><li>
+<p>&#39;support&#39; in SelfServable for notifications - note that there are API bugs limiting the usefulness of this.</p>
+</li><li>
+<p>regex options to JSS::Criteriable::Criterion objects</p>
+</li><li>
+<p>there is now a, sort-of, spec/testing framework. While based on ruby&#39;s minitest specifications, it&#39;s wrapped in a very custom executable with a helper module. See the README in the test directory for details. Specs will be added slowly over time.</p>
+</li><li>
+<p>JSS::Client now has a .management_action class method, which wraps around the &#39;Management Action.app&#39; tool that comes with Jamf Pro and creates Notification Center notifications. At the moment support is minimal, and the notification type (alert vs. banner) is up to the User.</p>
+</li></ul>
+
+<h3 id="label-Removed">Removed</h3>
+<ul><li>
+<p>the .new class method on APIObject subclasses no longer works. Even though it&#39;s the standard ruby way to create instances of a class, <code>.new</code> for APIObjects was confusing, since it implied creating new objects in the JSS. Instead you must now use the <code>.fetch</code> class method to instantiate existing objects and the <code>.make</code> class method to instantiate local instances of objects to be created in the JSS. Both .fetch and .make have existed for some time.</p>
+</li></ul>
+
+<p><strong>COMPATIBILITY:</strong></p>
+
+<p><code>existingcomp = JSS::Computer.new id: 1234</code> and <code>new_pol = JSS::Policy.new id: :new, name: &#39;mypolicy&#39;</code> will now raise an error.</p>
+
+<p>Instead you must use <code>existingcomp = JSS::Computer.fetch id: 1234</code> and <code>new_pol = JSS::Policy.make name: &#39;mypolicy&#39;</code></p>
+
+<p>Note that the instance methods <code>#create</code> (create the current instance as a new object in the JSS) and <code>#update</code> (send changes in the current instance to the JSS) remain unchanged, and both continue handled by <code>#save</code></p>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>as Apple says: various bugfixes and improvements.</p>
+</li></ul>
+
+<h2 id="label-5B0.14.0-5D+-+2018-05-30">[0.14.0] - 2018-05-30</h2>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>RestClient no longer uses RestClient::Request::Unauthorized, only RestClient::Unauthorized</p>
+</li><li>
+<p>RestClient 2.0x doesn&#39;t seem to play nicely with the version of openssl on macOS 10.10 and JamfPro 10.3 (at least in our environment). So the rest-client gem can be any version &gt;= 1.8.0 and &lt; 2.1. You may have to separately install the correct RestClient version as needed.</p>
+</li></ul>
+
+<h2 id="label-5B0.13.0-5D+-+2018-05-30">[0.13.0] - 2018-05-30</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Now requires rest-client gem v2.0 and up, and ruby v 2.0.0 and up. Thanks to HIMANSHU-ELIGIBLE @ github for catching &amp; fixing this one.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>a few minor bugs in JSS::Criteriable::Criterion</p>
+</li></ul>
+
+<h2 id="label-5B0.12.0-5D+-+2018-04-16">[0.12.0] - 2018-04-16</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>when building .pkg&#39;s with JSS::Composer.mk_pkg, only two params are related to Package Signing: &#39;signing_identity:&#39; the name of the signing identity to use, and and &#39;signing_options:&#39; a string of all other signing-related CLI options that will be passed to the pkgbuild command, e.g. keychain locations, timestamps, certs, etc. For details, see <code>man pkgbuild</code></p>
+</li><li>
+<p>Now augmenting ruby Hashes with an embeded &#39;recursive-open-struct&#39; version of themselves. This simplifies accessing values from deeply-nested Hash structures, e.g. JSS::Computer#hardware instead of <code>computer_instance.hardware[:storage].first[:partition][:percentage_full]</code> you can do <code>computer_instance.hardware.jss_ros.storage.first.partition.percentage_full</code>. See <a href="http://www.rubydoc.info/gems/ruby-jss/Hash">www.rubydoc.info/gems/ruby-jss/Hash</a> for details. Uses the <a href="https://github.com/aetherknight/recursive-open-struct">recursive-open-struct gem</a>.</p>
+</li><li>
+<p>the JSS::Computer class is now defined in multiple files. The single computer.rb file was getting far to unwieldy.</p>
+</li><li>
+<p>JSS::MobileDeviceConfigurationProfile and JSS::OSXConfigurationProfile now share an abstract parent class, JSS::ConfigurationProfile, containing common code.</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>The computerapplications/application endpoint is now implemented as the JSS::Computer.application_installs class method so you can query lists of computers that have certain apps installed.</p>
+</li><li>
+<p>JSS::MobileDeviceConfigurationProfile is now more fleshed-out and is Updatable.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Setting the first icon of a newly-created JSS::Policy now works. Thanks @christopher.kemp for reporting this one</p>
+</li><li>
+<p>the SelfServable module was mis-handling &#39;user-removability&#39; data for config profiles.</p>
+</li><li>
+<p>Typo and missing method alias, caught by csfjeff @ github, issue #23</p>
+</li></ul>
+
+<h2 id="label-5B0.11.0-5D+-+2018-03-12">[0.11.0] - 2018-03-12</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Updated general attributes for computers and mobile devices</p>
+</li><li>
+<p>Computers and MobileDevices are now Creatable. Use the .make class method to create an unsaved instance, then .create/.save instance method to create the JSS record. Note: Mobile Devices need both a unique serial number and unique udid to be accepted by the API.</p>
+</li><li>
+<p>Handling of &#39;site&#39; data is now done via the JSS::Sitable mixin module</p>
+</li><li>
+<p>When the JSS server&#39;s hostname ends with &#39;jamfcloud.com&#39; default to SSL port 443 (vs 8443 for locally hosted JSSs)</p>
+</li><li>
+<p>now requires net-ldap v 0.16, for security fixes</p>
+</li><li>
+<p>All handling of MDM commands is in the JSS::MDM module, which is mixed in to Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup</p>
+</li></ul>
+
+<p><em>WARNING</em> Due to the expanded functionality of MDM commands overall, the syntax for calling .send_mdm_command may have changed, depening on how you used it. Please test your code before updating.</p>
+<ul><li>
+<p>&#39;devmode&#39;, use <code>JSS.devmode \[:on|:off]`` to set, and</code>JSS.devmode?`<code>to query.  Useful for developers, esp. in</code>irb<code>who want, e.g. to have a method output some state when in devmode, instead of/as well as behaving normally. This is currently the case for</code>JSS::MDM.send_mdm_command`. When devmode? is true, the XML sent to the API for the command is printed to stdout before the command is sent to the target machine.</p>
+</li><li>
+<p>Computer app usage &amp; mgmt data methods are now class methods, so can be used without instantiating the computer. The instance methods remain, and they now just use the class methods.</p>
+</li><li>
+<p>All handling of management history for Computers and MobileDevices is in the new ManagementHistory module. The module  is mixed into JSS::Computer and JSS::MobileDevice, so its methods are available to those classes and their instances. Note that some  history events are only available in Computers or MobileDevices, and some are available in both.</p>
+</li></ul>
+
+<p>The primary query method (.management_history) returns the raw JSON data from the API, possibly for a subset of the data, as a Ruby Hash  with symbolized keys. This data is somewhat inconsistent in its structure and content across the different types of history events,  but you&#39;re welcome to use it if needed.</p>
+
+<p>All other methods now return Arrays of various instances of classes defined in the module.</p>
+
+<p>For example, the <span class='object_link'><a href="JSS/ManagementHistory.html#audit_history-instance_method" title="JSS::ManagementHistory#audit_history (method)">JSS::ManagementHistory#audit_history</a></span> method returns an Array of JSS::ManagementHistory::AuditEvent instances, and the  <span class='object_link'><a href="JSS/ManagementHistory.html#completed_policies-instance_method" title="JSS::ManagementHistory#completed_policies (method)">JSS::ManagementHistory#completed_policies</a></span> gives an Array of JSS::ManagementHistory::PolicyLog objects. These objects are read-only and  provide access to their values via attribute-style methods, and hash-like keys, similar to how OpenStruct objects do.</p>
+
+<p>As with MDM command handling, and computer app usage and mgmt data, the work is done by class methods, so that the data is available without creating instances of the Computers or MobileDevices, and the instance methods just  call the class methods.</p>
+
+<p><em>WARNING</em> these changes mean that the methods returning Arrays of ManagementHistory class instances are not backward compatible,  since the earlier versions returned Hashes</p>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>ruby-jss now has a code of conduct for contributors.</p>
+</li><li>
+<p>All APIObject subclasses can be deleted without instantiating, via the .delete class method, providing an array of ids</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>NoMethod error when saving JSS::Policy was due to a typo in a method call.</p>
+</li><li>
+<p>Initialization of Creatable objects using certain mixins (Extendable, Sitable, Categorizable) either failed, or errored when trying to set their values. Now fixed. Thanks @mylescarrick for reporting this one.</p>
+</li><li>
+<p>Scope objects use the api connection of their container</p>
+</li></ul>
+
+<h3 id="label-Deprecated">Deprecated</h3>
+<ul><li>
+<p>The JSS::APIConnection convenience class methods .computer_history, .send_computer_mdm_command, and .send_computer_mdm_command.</p>
+</li></ul>
+
+<p>These methods have been updated to work with the new methods in the MDM and ManagementHistory modules, but will be removed from JSS::APIConnection in a future release. Instead, call them directly from the JSS::Computer or JSS::MobileDevice classes, passing in the desired APIConnection if needed. Given the expansion of MDM commands and history details, maintaining the convenience methods in APIConnection is too prone to errors.</p>
+
+<h2 id="label-5B0.10.2-5D+-+2018-02-16">[0.10.2] - 2018-02-16</h2>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p><em>IMPORTANT</em>: Updating JSS::Extendable objects with no changes to ext. attribs will no longer erase all ext attrib values. (!)</p>
+</li></ul>
+
+<h2 id="label-5B0.10.1-5D+-+2017-11-08">[0.10.1] - 2017-11-08</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>Extension Attribute values that are populated by Script or LDAP can now be modified via Extendable#set_ext_attr.</p>
+</li></ul>
+
+<p>Previously, attempts to set the value would raise an exception, because those values aren&#39;t modifiable in the WebUI.  However, the API itself allows such modification, so now ruby-jss does too.</p>
+<ul><li>
+<p>If you have access to the JSS MySQL database, ruby-jss now provides acces to the &#39;object history&#39; of all APIObject subclasses.</p>
+</li></ul>
+
+<p>Unfortunately there is no way to get at this data via the API, but if you can connect to the MySQL database (JSS::DB_CNX.connect)  then you can call <code>#object_history</code> and <code>#add_object_history_entry</code> for individual object instances.</p>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Error when no storage device on a Computer is marked as the boot drive (Thanks @christopher.kemp!)</p>
+</li><li>
+<p>A few lingering methods that weren&#39;t multi-APIConnection aware, are now aware</p>
+</li></ul>
+
+<h2 id="label-5B0.10.0-5D+-+2017-10-09">[0.10.0] - 2017-10-09</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Working with multiple APIConnections is now far more flexible!  There are three ways to work with multiple simultaneous APIConnection instances:</p>
+<ol><li>
+<p>Making a connection &#39;active&#39;, after which API calls go thru it (introduced in 0.9.0)</p>
+</li><li>
+<p>Passing an APIConnection instance to methods that use the API</p>
+</li><li>
+<p>Using an APIConnection instance itself to make API calls.</p>
+</li></ol>
+</li></ul>
+
+<p>The default/active connection continues to work as always, so your existing code will be fine.  See the <a href="http://www.rubydoc.info/gems/ruby-jss/JSS/APIConnection">documentation for the JSS::APIConnection class</a> for details.</p>
+<ul><li>
+<p>Improvement: Extendable module: only push changed EAs when <code>update</code> is called.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Specifying port 443, as well as 8443, when connecting an APIConnection will default to using SSL. To force such a connection to NOT use SSL, provide the parameter <code>use_ssl: false</code></p>
+</li><li>
+<p>require &#39;English&#39;, rather than require &#39;english&#39;. Thanks to HIMANSHU-ELIGIBLE @ github for catching &amp; fixing this one.</p>
+</li><li>
+<p>Popup extension attributes can always take a blank value.</p>
+</li><li>
+<p>UserGroup members have a &#39;username&#39; value, not &#39;name&#39;</p>
+</li><li>
+<p>APIConnection.map_all_ids wasn&#39;t honoring :refresh</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>Two case-insentive string methods added to Array:</p>
+</li><li>
+<p>Array#jss_ci_include_string? Takes a string, returns true if the Array contains the string without regard to case.  E.g. <code>[&#39;ThrAsHer&#39;].jss_ci_include_string? &#39;thrasher&#39; # =&gt; true</code></p>
+</li><li>
+<p>Array#jss_ci_fetch_string Takes a string and fetches it from the array, regardless of case. Nil if not found.  E.g. <code>[&#39;thrasher&#39;].jss_ci_fetch_string &#39;ThrAsHer&#39;  # =&gt; &#39;thrasher&#39;</code></p>
+</li><li>
+<p>Computer objects now have a <code>last_enrolled</code> attribute</p>
+</li></ul>
+
+<h2 id="label-5B0.9.3-5D+-+2017-08-08">[0.9.3] - 2017-08-08</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::Computer instance now allow you to modify mac_address, alt_mac_address, udid, and serial_number.  Note: even tho the WebUI doesn&#39;t allow editing of the serial_number, the API does and doing so can be useful  for dealing with duplicate SN&#39;s when a new logic board with a new udid creates a new computer entry.</p>
+</li><li>
+<p>JSS::Validate module, to consoliday generic data-validation methods. Methods will be moved to it from  other places over time.</p>
+</li></ul>
+
+<h2 id="label-5B0.9.2-5D+-+2017-07-25">[0.9.2] - 2017-07-25</h2>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>parsing of JSS versions &gt; 9.99</p>
+</li></ul>
+
+<h2 id="label-5B0.9.0-5D+-+2017-07-17">[0.9.0] - 2017-07-17</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>JSS::RestrictedSoftware class is now Creatable and Updatable.</p>
+</li><li>
+<p>APIObject.fetch can be given a single value, which will be compared to the subclass&#39;s .all_ids,  .all_names, and other list methods for the various lookup keys, and if a match is found, the object is returned. E.g. instead of  JSS::Computer.fetch name: &#39;foo&#39; you can just use JSS::Computer.fetch &#39;foo&#39;.  Note that specifying the lookup key is always faster.</p>
+</li><li>
+<p>the OTHER_LOOKUP_KEYS constants of APIObject subclasses can now reconize variations on a key, e.g. :serialnumber and :serial_number, or :macaddress and :mac_address</p>
+</li><li>
+<p>Support for multiple APIConnection instances - you can connect to more than one server at a time and switch between them.</p>
+</li><li>
+<p>APIConnection connection settings come first from the #connect params, then from Configuration,  then from the Client setting (if the machine is a client), then from the module defaults</p>
+</li><li>
+<p>APIConnection can now take an xml payload with #delete_rsrc</p>
+</li><li>
+<p>JSS::Policy instances can now flush their logs</p>
+</li><li>
+<p>JSS::Policy now has setters for server_side_activation and server_side_expriation.</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::MobileDevice.all_apple_tvs class method</p>
+</li><li>
+<p>JSS::MobileDevice.management_history method, and related methods in instances</p>
+</li><li>
+<p>JSS::MobileDevice.send_mdm_command has been expanded to handle all MDM commands supported by the API <em>except</em> Wallpaper and PasscodeLockGracePeriod (some day soon hopefully)</p>
+</li><li>
+<p>JSS::Server instances (as found in the JSS::APIConnection.server attribute) now have methods #activation_code and  #organization</p>
+</li><li>
+<p>JSS::Computer now can send MDM commands to instances via #blank_push #device_lock #erase_device and #remove_mdm_profile, or to  arrays of computer identifiers using the JSS::Computer.send_mdm_command method.</p>
+</li><li>
+<p>JSS::Computer now has class methods to retrieve the server-wide .inventory_collection_settings and  .checkin_settings</p>
+</li><li>
+<p>JSS::Computer instances now have access to the data in the History tab of the computer details page in  the WebUI. Subset-specific methods are #usage_logs, #audits, #policy_logs, #completed_policies, #failed_policies, #casper_remote_logs, #screen_sharing_logs, #casper_imaging_logs, #user_location_history, and #app_store_history</p>
+</li><li>
+<p>JSS::Computer instances now have an #application_usage method which takes a date range and returns an  array of usage data.</p>
+</li><li>
+<p>JSS::Computer instances now have access to their &#39;management data&#39; (the stuff in the Management tab of  the Computer details in the WebUI). As well as the #management_data method, there are shortcut methods for the subsets: #smart_groups, #static_groups, &amp; #patch_titles and in-scope items like: #policies, #configuration_profiles, #ebooks, #app_store_apps, #restricted_software</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>issue with handling of params to APIObject.make</p>
+</li></ul>
+
+<h2 id="label-5B0.8.3-5D+-+2017-06-07">[0.8.3] - 2017-06-07</h2>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Version parsing: empty version parts default to 0, e.g. 10.2 parses as 10.2.0</p>
+</li></ul>
+
+<h2 id="label-5B0.8.2-5D+-+2017-06-07">[0.8.2] - 2017-06-07</h2>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Some objects failed to locate their &#39;main subset&#39; (the chunk of API data that contains the object name and id) correctly.</p>
+</li><li>
+<p>Some versions of Gem::Version don&#39;t like dashes (which are part of SemVers).</p>
+</li></ul>
+
+<h2 id="label-5B0.8.1-5D+-+2017-06-05">[0.8.1] - 2017-06-05</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Support for the new semantic versioning of Jamf products starting with Jamf Pro 9.99</p>
+</li><li>
+<p>The alpha &#39;Webhooks framework&#39; has been removed from ruby-jss and will reappear soon as it&#39;s own project with a new name.</p>
+</li><li>
+<p>JSS::APIObject and subclasses now have .fetch and .make class methods which are wrappers for .new. .fetch is the preferred way to retrieve instances of existing API objects, and .make for making not-yet-existing objects to be created in the JSS. The .new class method still works as before, but is considered deprecated.</p>
+</li><li>
+<p>JSS::APIConnection now has a #rest_url attribute that returns the base of the url for the current REST connection, e.g. "<a href="https://jamf.company.com:8443/JSSResource">jamf.company.com:8443/JSSResource</a>", or nil if not connected.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>JSS::Package uploading and zipping wasn&#39;t worked correctly, should be now.</p>
+</li></ul>
+
+<h2 id="label-5B0.8.0-5D+-+2017-04-07">[0.8.0] - 2017-04-07</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Lots of code cleanup to follow RuboCop guidelines (more of this comming)</p>
+</li><li>
+<p>APIConnection class is no longer a singleton. The first step towards the ability to swap between multiple connections.</p>
+</li><li>
+<p>Improved APIConnection&#39;s ability to figure out default connection settings</p>
+</li><li>
+<p>APIObject mixin module parsing is now handled automatically by the APIObject superclass.</p>
+</li><li>
+<p>APIObject subclasses have predicate methods to see if they have various mixed-in abilities, e.g. #creatable?, #locatable?</p>
+</li><li>
+<p>All handling of Category data in non-Category objects is in a new Categorizable mixin module.</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<h1 id="label-port-2C+-23protocol-2C+and+-23last_http_response+to+APIConnection+instances">port, #protocol, and #last_http_response to APIConnection instances</h1>
+</li><li>
+<p>APIConnection#post_rsrc and #put_rsrc now catch and re-raise HTTP 409 Conflict errors as JSS::ConflictError with error message about what caused the conflict.</p>
+</li><li>
+<p>JSS::MobileDeviceApplication class</p>
+</li><li>
+<p>JSS::Icon class, handled by the improved SelfServable mixin module</p>
+</li><li>
+<p>JSS::Client.jamf_helper method now takes arg_string:, output_file: and abandon_process: parameters.</p>
+</li><li>
+<p>executable bin/jamfHelperBackgrounder, wrapper to run jamfHelper as a stand-alone process, allowing polcies to continue while a window is displayed</p>
+</li><li>
+<p>explicitly require the standard library &#39;English&#39;, and start using it rather than cryptic globals like $! and $@</p>
+</li><li>
+<p>first attempts at adding SSL/TLS support to the Webhooks framework.</p>
+</li><li>
+<p>NOTE: the Webhooks framework is still &#39;alpha&#39; code, and will be moved into a separate git repo eventually. It doesn&#39;t rely on ruby-jss.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>sometimes the port would default to 80 rather than 8443</p>
+</li><li>
+<p>sometimes DB connections would double-disconnect, causing superfluous exceptions.</p>
+</li></ul>
+
+<h2 id="label-5B0.7.0-5D+-+2017-02-01">[0.7.0] - 2017-02-01</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>subnet-update, the example command in the bin directory, has been renamed to negseg-update. It&#39;s also been cleaned up and uses the new functionality of JSS::NetworkSegment.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>JSS::NetworkSegment - many bugfixes and cleanup. I didn&#39;t really have a proper grasp of IP CIDR masks before and how they (don&#39;t) relate to the IP ranges used by Network Segments in the JSS. The CIDRs and full netmasks can still be used to set the ending addresses of NetworkSegment objects, but the #cidr method is gone, since it was meaningless for segments that didn&#39;t match subnet-ranges.</p>
+</li><li>
+<p>JSS::DBConnection - fixed a bug where meaningless IO &#39;stream closed&#39; errors would appear when closing the DB connection.</p>
+</li></ul>
+
+<h2 id="label-5B0.6.7-5D+-+2017-01-03">[0.6.7] - 2017-01-03</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>class JSS::WebHook, which requires Jamf Pro 9.97 or higher.</p>
+</li><li>
+<p>NOTE: This is access to the WebHooks themselves as defined in Jamf Pro, and is separate from the WebHook-handling framework included in the previous release for testing.</p>
+</li></ul>
+
+<h2 id="label-5B0.6.6-5D+-+2016-11-30">[0.6.6] - 2016-11-30</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Change the mountpoint directory for JSS::DistributionPoint#mount to /tmp, because Sierra doesn&#39;t allow mounting in /Volumes except by root. (Thanks @LM2807! )</p>
+</li><li>
+<p>Starting cleaning up code to better adhere to <a href="http://rubocop.readthedocs.io/en/latest/">RuboCop</a> standards</p>
+</li><li>
+<p>JSS::Policy, now creatable, and self-servable, and more attributes are updatable</p>
+</li><li>
+<p>JSS::DBConnection#connect now returns the server hostname, to match the behavior of JSS::APIConnection#connect</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>String#jss_to_pathname to convert Strings to Pathname instances in JSS::Configuration.</p>
+</li><li>
+<p>JSS::Client: added .console_user method</p>
+</li><li>
+<p>JSS::SelfServable, finally getting this module functional, at least for policies</p>
+</li><li>
+<p>JSS::Creatable, added #clone method - all creatable objects can be cloned easily.</p>
+</li><li>
+<p>JSS::APIObject, added .exist? and .valid_id class methods and #to_s instance method</p>
+</li><li>
+<p>alpha version of a JSS WebHooks framwork</p>
+</li></ul>
+
+<h2 id="label-5B0.6.5-5D+-+2016-08-10">[0.6.5] - 2016-08-10</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Cleanup of redundant constants (Thanks @aurica!)</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::ComputerInvitation class (Thanks @tostart-pickagreatname!)</p>
+</li><li>
+<p>JSS::Account class (Thanks @JonPulsifer!)</p>
+</li><li>
+<p>JSS::OSXConfigurationProfile class (Thanks @tostart-pickagreatname!)</p>
+</li><li>
+<p>JSS::Computer: added methods #boot_drive, #filevault2_enabled?, and #filevault1_accounts</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Various small bugfixes &amp; improvements</p>
+</li></ul>
+
+<h2 id="label-5B0.6.4-5D+-+2016-03-24">[0.6.4] - 2016-03-24</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>JSS::Package#dlete can optionally delete the master file at the same time</p>
+</li><li>
+<p>Updated the config file name to match the new gem name, maintaining backwards compatibility</p>
+</li><li>
+<p>Improved error messages</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>example ruby-jss.conf file with internal documentation</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>Various small bugfixes &amp; improvements</p>
+</li></ul>
+
+<h2 id="label-5B0.6.3-5D+-+2016-03-09">[0.6.3] - 2016-03-09</h2>
+
+<p>Maintenence version bump to fix an issue uploading to rubygems.org</p>
+
+<h2 id="label-5B0.6.2-5D+-+2016-03-08">[0.6.2] - 2016-03-08</h2>
+
+<p>As of v0.6.2, the github project, and rubygem have been renamed to &#39;ruby-jss&#39;. The &#39;require&#39; name is now &#39;jss&#39;.</p>
+
+<p>In part this was to make the name more in-line with other ruby gems, and also to get in line with Shea Craig&#39;s <a href="https://github.com/sheagcraig/python-jss">python-jss</a> and Charles Edge&#39;s <a href="https://github.com/krypted/swift-jss">swift-jss</a></p>
+
+<p>Yes we now have native API access in 3 languages!</p>
+
+<p>The &#39;jss-api&#39; gem has been updated one last time, also to v0.6.2. That gem has a dependency on ruby-jss v0.6.2 or greater, and if you require &#39;jss-api&#39; with it, it merely requires &#39;jss&#39; for you. While that will provide backward-compatibility, please update your code to require &#39;jss&#39; directly, since the jss-api wrapper gem won&#39;t be around forever.</p>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>Project &amp; gem name are now &#39;ruby-jss&#39;</p>
+</li></ul>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::Package#os_ok? and JSS::Package#processor_ok? methods can now check those things against the package settings, and not attempt to install if the machine isn&#39;t up to snuff.</p>
+</li><li>
+<p>JSS::ExtensionAttribute#latest_values always now includes :username in the returned data.</p>
+</li></ul>
+
+<h4 id="label-Fixed">Fixed</h4>
+<ul><li>
+<p>JSS::stdin_lines no longer uses a constant to store incoming stdin data at load time, which causes hangs when there&#39;s no terminal on stdin. Now stdin is only read when the method is called, and data stored in a module variable.</p>
+</li><li>
+<p>JSS::Composer::mk_dmg fix for building/indexing dmg&#39;s, no longer creates an unreadable .Trashes folder.</p>
+</li><li>
+<p>Several small typos and other tiny bugs.</p>
+</li></ul>
+
+<h2 id="label-5B0.6.1-5D+-+2016-03-01">[0.6.1] - 2016-03-01</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>JSS::Package#install now takes :alt_download_url argument.Can be used to specify a custom URL from which to download a pkg/dmg for installation with &#39;jamf install&#39;. This allows the use of cloud distribution points.</p>
+</li><li>
+<p>JSS::DistributionPoint: Added reachability methods, improved assessment of mount-success. #reachable_for_download? and #reachable_for_upload? will now return a boolean indicating if the DistPoint is reachable.</p>
+</li></ul>
+
+<h2 id="label-5B0.6.0-5D+-+2016-01-06">[0.6.0] - 2016-01-06</h2>
+
+<p>This version of the jss-api gem incorporates changes needed for the upcoming release of d3 (a.k.a. depot3), a package/patch management system for Casper, which was the reason for the jss-api gem to begin with.</p>
+
+<p>As such, while the JSS module will continue to be a separate git repo, specific commits of it will be submodules of the depot3 git repo, starting with this one, or one shortly hereafter.</p>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>JSS::DistributionPoint: #mount now defaults to read-only unless :rw is passed</p>
+</li><li>
+<p>lots of code cleanup</p>
+</li><li>
+<p>JSS::Package#install now returns a boolean indicating success of installation.  The previous return value (the Process::Status of the &#39;jamf install&#39; proceess) usually returned 0 exitstatus even if the pkg install failed.  Now the actual install command is examined, and if its exitstatus is zero, Package#install returns true, else false.</p>
+</li><li>
+<p>JSS::Package: better handling of API values like "None" and "No category assigned"</p>
+</li></ul>
+
+<h4 id="label-Added">Added</h4>
+<ul><li>
+<p>String: added #jss_to_time to convertion strings to Time objects using JSS::parse_time</p>
+</li><li>
+<p>JSS::Package: added #type to return :pkg or :dmg</p>
+</li><li>
+<p>JSS::APIConnection and JSS::DBConnection determines server hostname via several means if not yet connected</p>
+</li><li>
+<p>JSS::APIConnection and JSS::DBConnection can test validitiy of a server</p>
+</li><li>
+<p>JSS::DBConnection now has a DEFAULT_PORT constant</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>new path to the jamf binary was corrected</p>
+</li><li>
+<p>fixed the logic in using the :use_ssl arg to JSS::APIConnection::connect</p>
+</li><li>
+<p>Composer module no longer adds redundant .pkg extensions</p>
+</li><li>
+<p>JSS::DistributionPoint, bug fix when initializing with :id=&gt;:master</p>
+</li><li>
+<p>As of casper 9.72, the argument requirements have changed for &#39;jamf install&#39; with http downloads. This is now handled correctly</p>
+</li></ul>
+
+<h2 id="label-5B0.5.8-5D+-+2015-09-22">[0.5.8] - 2015-09-22</h2>
+
+<h3 id="label-Added">Added</h3>
+<ul><li>
+<p>client.rb: looks for the new ElCap+ location for the jamf binary, falls back to old location if not found.</p>
+</li><li>
+<p>Locatable#clear_location public instance method added</p>
+</li><li>
+<p>TimeoutError and AuthenticationError have been added to exceptions</p>
+</li><li>
+<p>Policy objects now have a #run method - attempts to execute the policy locally.</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>location.rb: location value setters are now properly converted to strings</p>
+</li><li>
+<p>api_connection.rb: #connect now takes :use_ssl option (defaults to true)</p>
+</li><li>
+<p>api_connection.rb: #connect will accept arbitrary ports when :use_ssl is true</p>
+</li></ul>
+
+<h2 id="label-5B0.5.7-5D+-+2015-05-26">[0.5.7] - 2015-05-26</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>DBConnection.connect, and APIConnection.connect: include server name when prompting for password</p>
+</li><li>
+<p>APIObject: auto-set @site and @category if applicable</p>
+</li><li>
+<p>Package#upload_master_file: move autoupdate to appropriate location</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>JSS.to_s_and_a now properly converts nils to "" and []</p>
+</li><li>
+<p>DBConnection.connect gracefully handle reconnecting if the old connection went away</p>
+</li><li>
+<p>Configuration: handle lack of <a href="'HOME'">ENV</a> when trying to expand ~ to locate user-level config file.</p>
+</li><li>
+<p>MobileDevice#unmanage_device: send_mdm_command is a class method, not an instance method</p>
+</li><li>
+<p>Package: os_requirements default to empty array if unset in JSS</p>
+</li><li>
+<p>Package#required_processor: remove buggy line of ancient, deprecated code</p>
+</li></ul>
+
+<h2 id="label-5B0.5.6-5D+-+2014-11-04">[0.5.6] - 2014-11-04</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>now requires Ruby &gt;= 1.9.3 and rest-client &gt;= 1.7.0. Needed for Casper &gt;= 9.61&#39;s lack of support for SSLv3.</p>
+</li><li>
+<p>APIConnection now accepts :ssl_version option in the argument hash. Defaults to &#39;TLSv1&#39;</p>
+</li><li>
+<p>Configuration now supports the api_ssl_version key, used for the :ssl_version option of the APIConnection.</p>
+</li><li>
+<p>the example programs have been moved to the bin directory, and are now included in the gem installation.</p>
+</li><li>
+<p>many documentation updates as we adjust to being live</p>
+</li></ul>
+
+<h3 id="label-Fixed">Fixed</h3>
+<ul><li>
+<p>minor bugfixes</p>
+</li></ul>
+
+<h2 id="label-5B0.5.0-5D+-+2014-10-23">[0.5.0] - 2014-10-23</h2>
+
+<h3 id="label-Changed">Changed</h3>
+<ul><li>
+<p>first opensource release</p>
+</li></ul>
+</div></div>
+
+      <div id="footer">
+  Generated on Thu Jan 16 10:37:52 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>
