@@ -45,6 +45,8 @@ Hopefully others will find it useful, and add more to it as well.
 
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
 
+NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API in a ruby module called 'Jamf', See  README-JP-API.md in /lib/jamf, or in the 'Files' section of the YARD docs file for details.
+
 ## SYNOPSIS
 
 Here are some simple examples of using ruby-jss
@@ -346,7 +348,7 @@ and then any calls to JSS.api.connect will assume that server and username, and 
 
 The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS.api.connect call.
 
-The {JSS::API#connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
+The {JSS::APIConnection.connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
 
 If you must store a password in a file, or retrieve it from the network, make sure it's stored securely, and that the JSS user has limited permissions.
 

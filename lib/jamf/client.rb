@@ -24,7 +24,7 @@
 ###
 
 ###
-module JSS
+module Jamf
 
   # This class represents a Jamf/JSS Client computer, on which
   # this code is running.
@@ -78,10 +78,17 @@ module JSS
     # the path to a users byhost folder from home
     USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'
 
+    # If some processs C has a parent process P whose command (via ps -o comm)
+    # matches this, then process C is being run by Jamf
+    POLICY_SCRIPT_CMD_RE = %r{sh -c PATH=\$PATH:/usr/local/jamf/bin; '/Library/Application Support/JAMF/tmp/.* >& '/Library/Application Support/JAMF/tmp/\d+.tmp}.freeze
+
+    # If some processs C has a parent process P whose command (via ps -o comm)
+    # matching POLICY_SCRIPT_CMD_RE, and process P has a parent process G that
+    # matches this (C is grandchild of G), then process C is being run by a Jamf policy
+    POLICY_CMD_RE = %r{/bin/jamf policy }.freeze
+
     # Class Methods
     #####################################
-
-
 
     # Get the current IP address as a String.
     #
@@ -290,6 +297,54 @@ module JSS
     def self.homedir(user)
       dir = `/usr/bin/dscl . -read /Users/#{user} NFSHomeDirectory 2>/dev/null`.chomp.split(': ').last
       dir ? Pathname.new(dir) : nil
+    end
+
+    # Search up the process lineage to see if any ancestor processes indicate
+    # that the current process is being run by a Jamf Policy.
+    #
+    # @return [Boolean] Is the current process being run as a script by a Jamf Policy?
+    #
+    def self.script_running_via_policy?
+      root_ps_lines = `ps -u root -x -o pid -o ppid -o user -o command`.lines
+
+      parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd Process.pid, root_ps_lines
+      return false unless parent_pid
+
+      until parent_command =~ POLICY_SCRIPT_CMD_RE || parent_pid.nil?
+        parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd parent_pid, root_ps_lines
+        return false if parent_pid.zero?
+      end
+      return false if parent_pid.nil?
+
+      # if we're here, our parent is a jamf process, lets confirm that its
+      # a jamf policy
+      until parent_command =~ POLICY_CMD_RE || parent_pid.nil?
+        parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd parent_pid, root_ps_lines
+        return false if parent_pid.zero?
+      end
+      !parent_pid.nil?
+    end
+
+    # given a pid and optionally the output of `ps -o pid -o ppid -o user -o command`
+    # return an array with the pid, user, and command of the pid's parent process
+    #
+    # @param pid [Integer, String] the process id for which we want parent info
+    #
+    # @param ps_lines [Array<String>] the lines of output from
+    #   `ps -o pid -o ppid -o user -o command` possibly with other options.
+    #    If omitted, `ps -a -x -o pid -o ppid -o user -o command` will be used
+    #
+    # @return [Array<Integer, String, String>] the pid, user, and commandline
+    #  of the parent process of the given pid. All will be nil if not found
+    #
+    def self.parent_pid_user_and_cmd(pid, ps_lines = nil)
+      ps_lines ||= `ps -a -x -o pid -o ppid -o user -o command`.lines
+
+      parent_ps_line = ps_lines.select { |l| l =~ /^\s*#{pid}\s/ }.first
+      return [nil, nil, nil] unless parent_ps_line
+
+      parent_ps_line =~ /^\s*\d+\s+(\d+)\s+(\S+)\s+(.*)$/
+      [Regexp.last_match(1).to_i, Regexp.last_match(2), Regexp.last_match(3)]
     end
 
   end # class Client
