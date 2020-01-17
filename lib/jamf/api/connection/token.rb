@@ -90,7 +90,7 @@ module Jamf
           raise Jamf::AuthenticationError, 'Incorrect name or password'
         else
           # TODO: better error reporting here
-          raise 'An error occurred while authenticating'
+          raise Jamf::AuthenticationError, 'An error occurred while authenticating'
         end
       end # init_from_pw
 
@@ -165,17 +165,33 @@ module Jamf
         @account = Jamf::APIAccount.new resp.body
       end
 
-      # Use this token to get a fresh one
+      # Use this token to get a fresh one. If a pw is provided
+      # try to use it if a proper refresh fails.
+      #
       # TODO: better error reporting
-      def refresh
-        raise 'Token has expired' if expired?
+      #
+      # @param pw [String] Optional password to use if token refresh fails.
+      #   Must be the correct passwd or the token's user (obviously)
+      #
+      # @return [Jamf::Timestamp] the new expiration time
+      #
+      def refresh(pw = nil)
+        if expired?
+          raise Jamf::InvalidTokenError, 'Token has expired' unless pw
+
+          init_from_pw(pw)
+          return expires
+        end
 
         keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
 
-        raise 'An error occurred while authenticating' unless keep_alive_token_resp.success?
+        if keep_alive_token_resp.success?
+          parse_token_from_response keep_alive_token_resp
+          return expires
+        end
+        raise 'An error occurred while authenticating' unless pw
 
-        parse_token_from_response keep_alive_token_resp
-        # parse_token_from_response keep_alive_rsrc.post('')
+        init_from_pw(pw)
         expires
       end
       alias keep_alive refresh

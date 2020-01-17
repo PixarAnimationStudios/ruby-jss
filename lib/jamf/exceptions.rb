@@ -82,6 +82,11 @@ module Jamf
   #
   class AuthenticationError < RuntimeError; end
 
+  # InvalidTokenError - raise this when a connection token is
+  # expired or otherwise invalid
+  #
+  class InvalidTokenError < RuntimeError; end
+
   # ConflictError - raise this when
   # attempts to PUT or PUSH to the API
   # result in a 409 Conflict http error.

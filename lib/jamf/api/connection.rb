@@ -111,6 +111,7 @@ module Jamf
       @login_time
       @keep_alive
       @token_refresh
+      @pw_fallback
     ].freeze
 
     # Attributes
@@ -139,6 +140,10 @@ module Jamf
 
     # @return [String, nil]
     attr_reader :base_url
+
+    # @return [Boolean] if token refresh/keepaliave fails, try to get a new one
+    # with the passwd used with .connect. Defaults to true
+    attr_reader :pw_fallback
 
     # @return [Boolean]
     attr_reader :connected
@@ -227,13 +232,12 @@ module Jamf
     # ### Tokens
     # Instead of a user and password, you may specify a valid 'token:', either:
     #
-    # A Jamf::Connection::Token object, which  can be extracted from an active
+    # A Jamf::Connection::Token object, which can be extracted from an active
     # Jamf::Connection via its #token method
     #
     # or
     #
     # A token string e.g. "eyJhdXR...6EKoo" from any source can also be used.
-    #
     #
     # Any values available via Jamf.config will be used if they are not provided
     # in the parameters.
@@ -251,6 +255,17 @@ module Jamf
     #
     # @param token: [Jamf::Connection::Token, String] An existing, valid token.
     #   When used, there's no need to provide user: or pw:.
+    #   NOTE the pw_fallback: parameter is ignored when token: is used
+    #
+    # @param token_refresh: [Integer] Refresh the token this many seconds before
+    #   it expires. Must be >= DFT_TOKEN_REFRESH
+    #
+    # @pararm pw_fallback: [Boolean] Default is true. Use the password, if
+    #   provided, to refresh the token if regular refresh doesn't work (e.g.
+    #   token is expired).
+    #   NOTE: This causes the password to be kept in memory. If you don't want
+    #   this, explicitly set pw_fallback to false, however long-running processes
+    #   may lose connection if token refresh fails for any reason.
     #
     # @param open_timeout: [Integer] The number of seconds for initial contact
     #   with the host.
@@ -268,7 +283,8 @@ module Jamf
       # This sets all the instance vars to nil, and flushes/creates the caches
       disconnect
 
-      # This sets @token, and adds host, port, user to params from a Token object
+      # If there's a Token object in :token, this sets @token,
+      # and adds host, port, user from that token
       parse_token params
 
       # Get host, port, user and pw from a URL, add to params if needed
@@ -292,7 +308,9 @@ module Jamf
           @user = tk.user
           tk
         else
-          token_from :pw, acquire_password(params[:pw])
+          pw = acquire_password(params[:pw])
+          @pw = pw if @pw_fallback
+          token_from :pw, pw
         end
 
       # Now get some values from our token
@@ -308,7 +326,6 @@ module Jamf
       @connected = true
 
       # start keepalive if needed
-      @keep_alive = params[:keep_alive].nil? ? false : params[:keep_alive]
       start_keep_alive if @keep_alive
 
       # return our string output
@@ -537,7 +554,7 @@ module Jamf
       raise "Cannot use token: it expires in less than #{TOKEN_REUSE_MIN_LIFE} seconds" if token.secs_remaining < TOKEN_REUSE_MIN_LIFE
     end
 
-    # Get host, port, user and pw from a URL, unless they are already in the params
+    # Get host, port, user and pw from a URL, overriding any already in the params
     #
     # @return [String, nil] the pw if present
     #
@@ -547,10 +564,10 @@ module Jamf
       url = URI.parse url.to_s
       raise ArgumentError, 'Invalid url, scheme must be https' unless url.scheme == HTTPS_SCHEME
 
-      params[:host] ||= url.host
-      params[:port] ||= url.port
-      params[:user] ||= url.user if url.user
-      params[:pw] ||= url.password if url.password
+      params[:host] = url.host
+      params[:port] = url.port
+      params[:user] = url.user if url.user
+      params[:pw] = url.password if url.password
     end
 
     # Apply defaults from the Jamf.config,
@@ -658,6 +675,8 @@ module Jamf
       @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
       @user = params[:user]
 
+      @keep_alive = params[:keep_alive].nil? ? false : params[:keep_alive]
+      @pw_fallback = params[:pw_fallback].nil? ? true : params[:pw_fallback]
       @token_refresh = params[:token_refresh].to_i || DFT_TOKEN_REFRESH
       # token refresh must be at least DFT_TOKEN_REFRESH
       @token_refresh = DFT_TOKEN_REFRESH if @token_refresh < DFT_TOKEN_REFRESH
@@ -701,16 +720,18 @@ module Jamf
     # @return [String] The password for the connection
     #
     def acquire_password(param_pw)
-      if param_pw == :prompt
-        Jamf.prompt_for_password "Enter the password for Jamf user #{@user}@#{@host}:"
-      elsif param_pw.is_a?(Symbol) && param_pw.to_s.start_with?('stdin')
-        param_pw.to_s =~ /^stdin(\d+)$/
-        line = Regexp.last_match(1)
-        line ||= 1
-        Jamf.stdin line
-      else
-        param_pw
-      end # if
+      pw =
+        if param_pw == :prompt
+          Jamf.prompt_for_password "Enter the password for Jamf user #{@user}@#{@host}:"
+        elsif param_pw.is_a?(Symbol) && param_pw.to_s.start_with?('stdin')
+          param_pw.to_s =~ /^stdin(\d+)$/
+          line = Regexp.last_match(1)
+          line ||= 1
+          Jamf.stdin line
+        else
+          param_pw
+        end # if
+      pw
     end # acquire pw
 
     # create the faraday connection object
@@ -747,11 +768,11 @@ module Jamf
             begin
               next if @token.secs_remaining > @token_refresh
 
-              @token.refresh
+              @token.refresh @pw
               # make sure faraday uses the new token
               @rest_cnx.headers[:authorization] = @token.auth_token
             rescue
-              # TODO: Some kind of error reporting??
+              # TODO: Some kind of error reporting
               next
             end
           end # loop
