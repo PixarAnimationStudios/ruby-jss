@@ -255,14 +255,16 @@ module Jamf
     #
     # @param token: [Jamf::Connection::Token, String] An existing, valid token.
     #   When used, there's no need to provide user: or pw:.
-    #   NOTE the pw_fallback: parameter is ignored when token: is used
+    #   NOTE if using pw_fallback:true (the default) while providing a token
+    #   you will also need to provide the password for the token user in the pw:
+    #   parameter, or be prompted for it. If you don't have the pw for the
+    #   token user, be sure to set pw_fallback to false.
     #
     # @param token_refresh: [Integer] Refresh the token this many seconds before
     #   it expires. Must be >= DFT_TOKEN_REFRESH
     #
-    # @pararm pw_fallback: [Boolean] Default is true. Use the password, if
-    #   provided, to refresh the token if regular refresh doesn't work (e.g.
-    #   token is expired).
+    # @pararm pw_fallback: [Boolean] Default is true. Use the password provided
+    #   to refresh the token if regular refresh doesn't work (e.g. token is expired).
     #   NOTE: This causes the password to be kept in memory. If you don't want
     #   this, explicitly set pw_fallback to false, however long-running processes
     #   may lose connection if token refresh fails for any reason.
@@ -293,6 +295,8 @@ module Jamf
       # apply defaults from config, client, and then this class.
       apply_connection_defaults params
 
+      # Once we're here, all params have been parsed & defaulted into the
+      # params hash, so
       # make sure we have the minimum needed params for a connection
       verify_basic_params params
 
@@ -301,17 +305,20 @@ module Jamf
 
       # if no @token already, get one from from
       # either a token string or a pw
-      @token ||=
+      unless @token
         if params[:token].is_a? String
-          tk = token_from :token_string, params[:token]
+          @token = token_from :token_string, params[:token]
           # get the user from the token
-          @user = tk.user
-          tk
+          @user = @toke.user
+          # if @pw_fallback, the pw must be acquired, since it isn't in
+          # the token
+          @pw = acquire_password(params[:pw]) if @pw_fallback
         else
           pw = acquire_password(params[:pw])
+          @token = token_from :pw, pw
           @pw = pw if @pw_fallback
-          token_from :pw, pw
         end
+      end
 
       # Now get some values from our token
       @base_url = @token.base_url
@@ -332,31 +339,38 @@ module Jamf
       to_s
     end # connect
 
+    # reset all values to nil or empty
     def disconnect
-      # reset everything except the timeouts
-      stop_keep_alive
-
       @connected = false
       @name = NOT_CONNECTED
       @login_time = nil
+
+      stop_keep_alive
+
       @host = nil
       @port = nil
       @user = nil
-      @token = nil
+      @timeout = nil
+      @open_timeout = nil
       @base_url = nil
+      @token = nil
       @rest_cnx = nil
       @ssl_options = {}
       @keep_alive = nil
+      @token_refresh = nil
+      @pw_fallback = nil
+      @pw = nil
 
       flushcache
     end
 
-    # Same as disconnect, but invalidates the token
+    # Same as disconnect, but invalidates the token on the server first
     def logout
       @token.destroy
       disconnect
     end
 
+    # Get a resource
     def get(rsrc)
       validate_connected
       resp = @rest_cnx.get rsrc
@@ -570,21 +584,23 @@ module Jamf
       params[:pw] = url.password if url.password
     end
 
-    # Apply defaults from the Jamf.config,
-    # then from the Jamf::Client,
+    # Apply defaults to the unset params for the #connect method
+    # First apply them from from the Jamf.config,
+    # then from the Jamf::Client (read from the jamf binary config),
     # then from the Jamf module defaults
-    # to the unset params for the #connect method
     #
     # @param params[Hash] The params for #connect
     #
     # @return [Hash] The params with defaults applied
     #
     def apply_connection_defaults(params)
-      # if no port given, either directly or via URL, and the host
-      # is a jamfcloud host, always set the port to 443
-      # This should happen before the config is applied, so
-      # on-prem users can still get to jamfcoud without specifying the port
-      params[:port] = JAMFCLOUD_PORT if params[:port].nil? && params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN)
+      # must have a host, but accept legacy :server as well as :host
+      params[:host] ||= params[:server]
+
+      # if we have no port set by this point, set to cloud port
+      # if host is a cloud host. But leave port nil for other hosts
+      # (will be set via client defaults or module defaults)
+      params[:port] ||= JAMFCLOUD_PORT if params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN)
 
       apply_defaults_from_config(params)
 
@@ -638,11 +654,12 @@ module Jamf
     # @return [Hash] The params with defaults applied
     #
     def apply_module_defaults(params)
-      # if we have no port set by this point, assume on-prem
+      # if we have no port set by this point, assume on-prem.
       params[:port] ||= ON_PREM_SSL_PORT
       params[:timeout] ||= DFT_TIMEOUT
       params[:open_timeout] ||= DFT_OPEN_TIMEOUT
       params[:ssl_version] ||= DFT_SSL_VERSION
+      params[:token_refresh] ||= DFT_TOKEN_REFRESH
       # if we have a TTY, pw defaults to :prompt
       params[:pw] ||= :prompt if STDIN.tty?
     end
@@ -658,38 +675,38 @@ module Jamf
       # and is already parsed
       return if @token
 
-      # must have a host, but accept legacy :server as well as :host
-      params[:host] ||= params[:server]
+      # must have a host
       raise Jamf::MissingDataError, 'No Jamf :host specified, or in configuration.' unless params[:host]
 
       # no need for user or pass if using a token string
       return if params[:token].is_a? String
 
+      # must have user and pw
       raise Jamf::MissingDataError, 'No Jamf :user specified, or in configuration.' unless params[:user]
       raise Jamf::MissingDataError, "No :pw specified for user '#{params[:user]}'" unless params[:pw]
     end
 
+    # Turn the connection parameters into instance vars
     def parse_connect_params(params)
       @host = params[:host]
       @port = params[:port]
-      @port ||= @host.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : ON_PREM_SSL_PORT
       @user = params[:user]
 
       @keep_alive = params[:keep_alive].nil? ? false : params[:keep_alive]
       @pw_fallback = params[:pw_fallback].nil? ? true : params[:pw_fallback]
-      @token_refresh = params[:token_refresh].to_i || DFT_TOKEN_REFRESH
-      # token refresh must be at least DFT_TOKEN_REFRESH
-      @token_refresh = DFT_TOKEN_REFRESH if @token_refresh < DFT_TOKEN_REFRESH
+      @token_refresh = params[:token_refresh].to_i
 
-      @timeout = params[:timeout] || DFT_TIMEOUT
-      @open_timeout = params[:open_timeout] || DFT_TIMEOUT
+      @timeout = params[:timeout]
+      @open_timeout = params[:open_timeout]
       @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
+
       # ssl opts for faraday
       # TODO: implement all of faraday's options
       @ssl_options = {
         verify: params[:verify_cert],
         version: params[:ssl_version]
       }
+
       @name = "#{@user}@#{@host}:#{@port}" if @name == NOT_CONNECTED
     end
 

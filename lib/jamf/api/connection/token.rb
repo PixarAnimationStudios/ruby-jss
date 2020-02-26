@@ -189,7 +189,7 @@ module Jamf
           parse_token_from_response keep_alive_token_resp
           return expires
         end
-        raise 'An error occurred while authenticating' unless pw
+        raise 'An error occurred while refreshing the token' unless pw
 
         init_from_pw(pw)
         expires
