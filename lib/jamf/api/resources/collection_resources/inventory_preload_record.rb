@@ -224,7 +224,7 @@ module Jamf
       extensionAttributes: {
         class: Jamf::InventoryPreloadExtensionAttribute,
         multi: true,
-        aliases: %i[ext_attrs eas]
+        aliases: %i[eas]
       }
 
     }.freeze
@@ -249,6 +249,13 @@ module Jamf
     def remove_ext_attr(ea_name)
       idx = extensionAttributes.index { |ea| ea.name == ea_name }
       extensionAttributes_delete_at idx if idx
+    end
+
+    # a Hash of ea name => ea_value for all eas currently set.
+    def ext_attrs
+      eas = {}
+      extensionAttributes.each { |ea| eas[ea.name] = ea.value }
+      eas
     end
 
     # clear all values for this record except id, serialNumber, and deviceType
