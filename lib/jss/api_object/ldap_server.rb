@@ -30,7 +30,7 @@ module JSS
 
   # An LDAP server in the JSS.
   #
-  # This class doesn't curretly provide creation or updating of LDAP server
+  # This class doesn't curretly provide creation or updaing of LDAP server
   # definitions in the JSS. Please use the JSS web UI.
   #
   # However, it does provide methods for querying users and usergroups from
