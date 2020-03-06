@@ -204,16 +204,15 @@ module JSS
         if raw_scope[:limitations]
           LIMITATIONS.each do |k|
             raw_scope[:limitations][k] ||= []
-            @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:name] }
+            @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:id].to_i }
           end # LIMITATIONS.each do |k|
         end # if raw_scope[:limitations]
 
-        #! Does not support Local User Groups, these must be added/removed through the Web UI
         @exclusions = {}
         if raw_scope[:exclusions]
           @exclusion_keys.each do |k|
             raw_scope[:exclusions][k] ||= []
-            @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:name] }
+            @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:id].to_i }
           end
         end
 
@@ -518,12 +517,7 @@ module JSS
           list.compact!
           list.delete 0
           list_as_hash = list.map { |i| { id: i } }
-          if klass == :user_groups || klass == :users
-            list_as_hash = list_as_hash.map { |x| {name: x[:id] } }
-            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash)
-          else
-            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
-          end
+          limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
 
         exclusions = scope.add_element('exclusions')
@@ -531,13 +525,7 @@ module JSS
           list.compact!
           list.delete 0
           list_as_hash = list.map { |i| { id: i } }
-
-          if klass == :user_groups || klass == :users
-            list_as_hash = list_as_hash.map { |x| {name: x[:id] } }
-            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash)
-          else
-            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
-          end
+          exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
         end
         scope
       end # scope_xml
