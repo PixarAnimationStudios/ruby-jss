@@ -30,6 +30,8 @@ module Jamf
     # A token used for a JSS connection
     class Token
 
+      JAMF_VERSION_RSRC = 'v1/jamf-pro-version'.freeze
+
       AUTH_RSRC = 'auth'.freeze
 
       NEW_TOKEN_RSRC = "#{AUTH_RSRC}/tokens".freeze
@@ -118,8 +120,13 @@ module Jamf
       end
 
       # @return [String]
-      def api_version
-        token_connection(Jamf::Connection::SLASH, token: @auth_token).get.body[:version]
+      def jamf_version
+        raw_jamf_version.split('-').first
+      end
+
+      # @return [String]
+      def jamf_build
+        raw_jamf_version.split('-').last
       end
 
       # @return [Boolean]
@@ -205,6 +212,20 @@ module Jamf
       # Private instance methods
       #################################
       private
+
+      # @return [String]
+      def raw_jamf_version
+        # TODO: Remove this once we require Jamf Pro 10.19 and up
+        # the rsrc for getting the version used to be nothing (the
+        # base url itself returnedit) but now its JAMF_VERSION_RSRC
+        resp = token_connection(Jamf::BLANK, token: @auth_token).get # .body # [:version]
+        return resp.body[:version] if resp.success?
+
+        resp = token_connection(JAMF_VERSION_RSRC, token: @auth_token).get
+        return resp.body[:version] if resp.success?
+
+        raise Jamf::InvalidConnectionError, 'Unable to read Jamf version from the API'
+      end
 
       # a generic, one-time Faraday connection for token
       # acquision & manipulation

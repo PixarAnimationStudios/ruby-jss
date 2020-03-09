@@ -48,7 +48,7 @@ module Jamf
     RSRC_BASE = 'uapi'.freeze
 
     # The API version must be this or higher
-    MIN_API_VERSION = Gem::Version.new('1.0')
+    MIN_JAMF_VERSION = Gem::Version.new('10.15.0')
 
     HTTPS_SCHEME = 'https'.freeze
 
@@ -328,7 +328,7 @@ module Jamf
       @rest_cnx = create_connection
 
       # make sure versions are good
-      validate_api_version
+      validate_jamf_version
 
       @connected = true
 
@@ -492,8 +492,12 @@ module Jamf
       @token_refresh = secs
     end
 
-    def api_version
-      @token.api_version
+    def jamf_version
+      @token.jamf_version
+    end
+
+    def jamf_build
+      @token.jamf_build
     end
 
     # Flush the collection and/or ea cache for the given class,
@@ -534,11 +538,11 @@ module Jamf
     end
 
     # raise exception if API version is too low.
-    def validate_api_version
-      vers = api_version
-      return if Gem::Version.new(vers) >= MIN_API_VERSION
+    def validate_jamf_version
+      vers = jamf_version
+      return if Gem::Version.new(vers) >= MIN_JAMF_VERSION
 
-      raise Jamf::InvalidConnectionError, "API version '#{vers}' too low, must be >= '#{MIN_API_VERSION}'"
+      raise Jamf::InvalidConnectionError, "API version '#{vers}' too low, must be >= '#{MIN_JAMF_VERSION}'"
     end
 
     #####  Parse Params
