@@ -126,6 +126,10 @@ module JSS
       }
     }.freeze
 
+    HW_PREFIX_TV = 'AppleTV'.freeze
+    HW_PREFIX_IPAD = 'iPad'.freeze
+    HW_PREFIX_IPHONE = 'iPhone'.freeze
+
     NON_UNIQUE_NAMES = true
 
     # This class lets us seach for computers
@@ -488,6 +492,19 @@ module JSS
         @asset_tag = args[:asset_tag]
       end
     end # initialize
+
+    def tv?
+      model_identifier.start_with? HW_PREFIX_TV
+    end
+    alias apple_tv? tv?
+
+    def ipad?
+      model_identifier.start_with? HW_PREFIX_IPAD
+    end
+
+    def iphone?
+      model_identifier.start_with? HW_PREFIX_IPHONE
+    end
 
     def name=(new_name)
       super
