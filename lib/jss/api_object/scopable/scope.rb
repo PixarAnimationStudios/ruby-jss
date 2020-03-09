@@ -95,7 +95,7 @@ module JSS
       LIMITATIONS = %i[network_segments ldap_users ldap_user_groups].freeze
 
       # any of them can be excluded
-      EXCLUSIONS = INCLUSIONS + LIMITATIONS + %i[users user_groups].freeze
+      EXCLUSIONS = INCLUSIONS + LIMITATIONS
 
       # Here's a default scope as it might come from the API.
       DEFAULT_SCOPE = {
@@ -208,27 +208,15 @@ module JSS
         if raw_scope[:limitations]
           LIMITATIONS.each do |k|
             raw_scope[:limitations][k] ||= []
-            next if (k == :ldap_users || k == :ldap_user_groups)
 
-            raw_scope[:exclusions][k] ||= []
+            if k == :ldap_users || k == :ldap_user_groups
 
-            if k == :users || k == :user_groups
-              ldap_objects = []
-              if k == :users
-                ldap_users = raw_scope[:limitations][:users].compact.select { |n| JSS::User.valid_id(n).nil? }.map { |n| n[:name].to_s }
-                ldap_objects = ldap_users
-                @limitations[:ldap_users] = ldap_users
-
-                jss_users = raw_scope[:limitations][:user_groups].compact.select { |n| !JSS::User.valid_id(n).nil? }.map { |n| n[:id].to_i }
-                @limitations[k] = jss_users
+              if k == :ldap_users
+                ldap_users = raw_scope[:limitations][:users].compact.map { |n| n[:name].to_s }
+                @limitations[k] = ldap_users
               else
-                ldap_user_groups = raw_scope[:limitations][:user_groups].compact.select { |n| JSS::UserGroup.valid_id(n).nil? }.map { |n| n[:name].to_s }
-                ldap_objects = ldap_user_groups
-                @limitations[:ldap_user_groups] = ldap_user_groups
-
-                jss_user_groups = raw_scope[:limitations][:user_groups].compact.select { |n| !JSS::UserGroup.valid_id(n).nil? }.map { |n| n[:id].to_i }
-                @limitations[k] = jss_user_groups
-
+                ldap_user_groups = raw_scope[:limitations][:user_groups].compact.map { |n| n[:name].to_s }
+                @limitations[k] = ldap_user_groups
               end
             else
               @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:id].to_i }
@@ -568,16 +556,26 @@ module JSS
         @limitations.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          if klass == :ldap_user_groups || klass == :ldap_users
+            list_as_hash = list.map { |i| { name: i } }
+            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
+          else
+            list_as_hash = list.map { |i| { id: i } }
+            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          end
         end
 
         exclusions = scope.add_element('exclusions')
         @exclusions.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          if klass == :ldap_user_groups || klass == :ldap_users
+            list_as_hash = list.map { |i| { name: i } }
+            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
+          else
+            list_as_hash = list.map { |i| { id: i } }
+            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          end
         end
         scope
       end # scope_xml
@@ -633,17 +631,17 @@ module JSS
         id = SCOPING_CLASSES[key].valid_id ident
 
         if id.nil? && (key == :ldap_users || key == :ldap_user_groups)
-          if key == :ldap_users
+          if key == :ldap_user_groups
             # Check if ldap user exists
             return ident if JSS::LDAPServer.group_in_ldap? ident
           else
             # Check if ldap user group exists
             return ident if JSS::LDAPServer.user_in_ldap? ident
           end
+        else
+          raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
+          id
         end
-        raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
-
-        id
       end # validate_item(type, key, ident)
 
       # the symbols used in the API data are plural, e.g. 'network_segments'
