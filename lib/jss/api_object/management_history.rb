@@ -293,27 +293,6 @@ module JSS
       end # completed_mdm_commands
       alias completed_commands completed_mdm_commands
 
-      # The time of the most recently completed MDM command.
-      #
-      # For Mobile Devices, this seems to be the best indicator of the real
-      # last-contact time, since the last_inventory_update is changed when
-      # changes are made via the API.
-      #
-      # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
-      #
-      # @param api [JSS::APIConnection] The API connection to use for the query
-      #   defaults to the currently active connection
-      #
-      # @return [Time, nil] An array of completed MDMCommands
-      #
-      def last_mdm_contact(ident, api: JSS.api)
-        cmds = completed_mdm_commands(ident, api: api)
-        return nil if cmds.empty?
-
-        JSS.epoch_to_time cmds.map{|cmd| cmd.completed_epoch }.max
-      end
-
-
       # The history of pending mdm commands for a target
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
@@ -341,6 +320,28 @@ module JSS
         mdm_command_history(ident, :failed, api: api)
       end # completed_mdm_commands
       alias failed_commands failed_mdm_commands
+
+      # The time of the most recently completed or failed MDM command.
+      # (knowledge of a failure means the device communicated with us)
+      #
+      # For Mobile Devices, this seems to be the best indicator of the real
+      # last-contact time, since the last_inventory_update is changed when
+      # changes are made via the API.
+      #
+      # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
+      #
+      # @param api [JSS::APIConnection] The API connection to use for the query
+      #   defaults to the currently active connection
+      #
+      # @return [Time, nil] An array of completed MDMCommands
+      #
+      def last_mdm_contact(ident, api: JSS.api)
+        epochs = completed_mdm_commands(ident, api: api).map { |cmd| cmd.completed_epoch }
+        epochs += failed_mdm_commands(ident, api: api).map { |cmd| cmd.failed_epoch }
+        epoch = epochs.max
+        epoch ? JSS.epoch_to_time(epoch) : nil
+      end
+
 
       # The history of app store apps  for a computer
       #
