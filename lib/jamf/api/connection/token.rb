@@ -58,8 +58,21 @@ module Jamf
       # @return [URI] The base API url, e.g. https://myjamf.jamfcloud.com/uapi
       attr_reader :base_url
 
-      # when was this token created?
+      # @return [Jamf::Timestamp] when was this token created?
       attr_reader :login_time
+
+      # What happened the last time we tried to refresh?
+      #   :expired_refreshed - token was expired, a new token was created with the pw
+      #   :expired_pw_failed - token was expired, pw failed to make a new token
+      #   :expired_no_pw - token was expired, but no pw was given to make a new one
+      #   :refreshed - the token refresh worked with no need for the pw
+      #   :refresh_failed - the token refresh failed, and no pw was given to make a new one
+      #   :refreshed_with_pw - the token refresh failed, pw worked to make a new token
+      #   :refresh_failed_no_pw - the token refresh failed, pw also failed to make a new token
+      #   nil - no refresh has been attempted for this token.
+      #
+      # @return [Symbol, nil] :refreshed, :pw, :expired,:failed, or nil if never refreshed
+      attr_reader :last_refresh_result
 
       def initialize(**params)
         @valid = false
@@ -173,9 +186,7 @@ module Jamf
       end
 
       # Use this token to get a fresh one. If a pw is provided
-      # try to use it if a proper refresh fails.
-      #
-      # TODO: better error reporting
+      # try to use it to get a new token if a proper refresh fails.
       #
       # @param pw [String] Optional password to use if token refresh fails.
       #   Must be the correct passwd or the token's user (obviously)
@@ -183,23 +194,30 @@ module Jamf
       # @return [Jamf::Timestamp] the new expiration time
       #
       def refresh(pw = nil)
+        # gotta have a pw if expired
         if expired?
-          raise Jamf::InvalidTokenError, 'Token has expired' unless pw
+          # try the passwd
+          return refresh_with_passwd(pw, :expired_refreshed, :expired_pw_failed) if pw
 
-          init_from_pw(pw)
-          return expires
+          # no passwd? no chance!
+          @last_refresh_result = :expired_no_pw
+          raise Jamf::InvalidTokenError, 'Token has expired'
         end
 
+        # Now try a normal refresh of our non-expired token
         keep_alive_token_resp = token_connection(KEEP_ALIVE_RSRC, token: @auth_token).post
-
         if keep_alive_token_resp.success?
           parse_token_from_response keep_alive_token_resp
+          @last_refresh_result = :refreshed
           return expires
         end
-        raise 'An error occurred while refreshing the token' unless pw
 
-        init_from_pw(pw)
-        expires
+        # if we're here, the normal refresh failed, so try the pw
+        return refresh_with_passwd(pw, :refreshed_with_pw, :refresh_failed_no_pw) if pw
+
+        # if we're here, no pw? no chance!
+        @last_refresh_result = :refresh_failed
+        raise 'An error occurred while refreshing the token' unless pw
       end
       alias keep_alive refresh
 
@@ -212,6 +230,18 @@ module Jamf
       # Private instance methods
       #################################
       private
+
+      # refresh a token using a password, return a result
+      # @param pw[String] the password to use
+      # @return [JamfTimestamp] the new expiration
+      def refresh_with_passwd(pw, success, failure)
+        init_from_pw(pw)
+        @last_refresh_result = success
+        expires
+      rescue => e
+        @last_refresh_result = failure
+        raise e, "#{e}. Status: :#{failure}"
+      end
 
       # @return [String]
       def raw_jamf_version
