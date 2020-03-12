@@ -482,7 +482,7 @@ module Jamf
     # have an alias without the 'is' so :isManaged will have
     # getters isManaged? and managed?
     #
-    PREDICATE_RE = /^is([A-Z]\w*)$/.freeze
+    PREDICATE_RE = /^is([A-Z]\w+)$/.freeze
 
     # Public Class Methods
     #####################################
@@ -575,9 +575,10 @@ module Jamf
       else
         define_method(attr_name) { instance_variable_get("@#{attr_name}") }
 
-        # all booleans get a predicate alias
-        alias_method("#{attr_name}?", attr_name) if attr_def[:class] == :boolean
       end
+
+      # all booleans get predicate aliases
+      define_predicates(attr_name) if attr_def[:class] == :boolean
 
       return unless attr_def[:aliases]
 
@@ -585,6 +586,15 @@ module Jamf
       attr_def[:aliases].each { |a| alias_method a, attr_name }
     end # create getters
     private_class_method :create_getters
+
+    # create the default aliases for booleans
+    ##############################
+    def self.define_predicates(attr_name)
+      alias_method("#{attr_name}?", attr_name)
+      return unless attr_name.to_s =~ PREDICATE_RE
+
+      alias_method("#{Regexp.last_match(1).downcase}?", attr_name)
+    end
 
     # create setter(s) for an attribute, and any aliases needed
     ##############################
