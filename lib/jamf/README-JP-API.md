@@ -47,11 +47,12 @@
 
 The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
 
-Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP_API itself. Therefore there are some very big changes afoot.
+Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP-API itself. Therefore there are some very big changes afoot.
 
 This README is a quick overview of the big changes, for both using the Jamf module, and for contributing to its development.
 
-**IMPORTANT:** As with the JP-API, this is an early work-in-progress, and things might change drastically at any point. The original work on the JP-API code was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
+**IMPORTANT:** As with the JP-API, this is an early work-in-progress, and things might change drastically at any point. The original work on the JP-API code was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack channels #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
+
 # Requirements
 #### Ruby 2.3 or higher
 Some features of ruby 2.3 are used throughout the Jamf module.
@@ -59,7 +60,7 @@ Some features of ruby 2.3 are used throughout the Jamf module.
 macOS 10.12.6 or higher can use the ruby that comes with the OS, at /usr/bin/ruby.
 #### Manully install Faraday and Faraday Middleware
 
-The Jamf module uses the [Faraday Gem](https://github.com/lostisland/faraday) and its companion [faraday_middleware](https://github.com/lostisland/faraday_middleware), as its underlying HTTP connector. You will need to install two gems manually:
+The Jamf module uses the [Faraday Gem](https://github.com/lostisland/faraday) and its companion [faraday_middleware](https://github.com/lostisland/faraday_middleware), as its underlying HTTP connector. Fow now, you will need to install two gems manually:
 
 `gem install faraday`
 
@@ -67,7 +68,12 @@ and
 
 `gem install faraday_middleware`
 
-The plan is to migrate the original classic API connection to also use Faraday, moving away from the 'rest-client' gem. The primary reason being that Faraday has fewer dependencies, none of which require being compiled. This means that installing ruby-jss on a Mac will no longer need the XCode CommandLine tools. When that happens, the ruby-jss gem will be updated to automatically install faraday when ruby-jss is installed.  Until then, please install it manually before using the new JP-API code.
+The plan is eventually to migrate the original classic API connection, JSS::APIConnection, to also use Faraday, moving away from the 'rest-client' gem.
+
+The primary reason being that Faraday has fewer dependencies, none of which require being compiled. This means that installing ruby-jss on a Mac will no longer need the XCode CommandLine tools. When that happens, the ruby-jss gem will be updated to automatically install faraday when ruby-jss is installed.
+
+Until then, please install it manually before using the new JP-API code.
+
 # The Jamf module
 
 The ruby-jss gem now contains two modules, which can be 'required' separately:
@@ -76,7 +82,16 @@ The ruby-jss gem now contains two modules, which can be 'required' separately:
 
 - `require 'jamf'` will load the 'Jamf' module, which is where access to the JP-API will happen.
 
-Because everything is separated between the two modules, they can be used side by side, but remember when doing so, that objects are not compatible between them. So you if do `classicPol = JSS::Policy.fetch name: 'myPolicy'` and `jpPol = Jamf::Policy.fetch name: 'myPolicy'`, the objects in `classicPol` and `jpPol` are very different things, even tho they represent the same policy.
+Because everything is separated between the two modules, they can be used side by side, but remember when doing so, that objects are not compatible between them. So you if do
+
+`classicPol = JSS::Policy.fetch name: 'myPolicy'`
+
+and
+
+`jpPol = Jamf::Policy.fetch name: 'myPolicy'`
+
+the objects in `classicPol` and `jpPol` are very different things in ruby, even tho they represent the same policy.
+
 # Overview of differences between JSS and Jamf modules
 
 While the general concepts will be the same (working with lists, fetching objects, updating them,), the start-from-scratch aspect of coding the Jamf module allows for some changes that I wish I could have made before, including the names of some classes, methods and attributes.
@@ -97,9 +112,9 @@ Save the new static group to the server  | `new_grp.create` or `new_grp.save` | 
 
 - Most attribute names for resources are in lowerCamelCase. While the ruby standard for attribute & method names is snake_case, the JSON data from the api uses lowerCamelCase for the names of attributes. The Jamf module mirrors those names, for better alignement with the actual data.
 
-  Example: JSS::Computer has an instance method `serial_number`, while Jamf::Computer has `serialNumber`
+  Example: JSS::MobileDevice has an instance method `serial_number`, while Jamf::MobileDevice has `serialNumber`
 
-# Connecting to the JP-API
+# Connecting to the Jamf Pro API
 
 ## Connection Objects
 
@@ -131,7 +146,7 @@ When a URL is provided like this, the following parameters are parsed from it:
 - use_ssl:  true if the URL is 'https' scheme
 - user: extracted from the URL if provided. Otherwise, must be passed as a param, or available from the config file.
 - pw: extracted from the URL if provided. Otherwise, must be passed as a param, or if not, defaults to :prompt
-  - WARNING: beware of hard-coding passwords anywhere
+  - **WARNING**: beware of hard-coding passwords anywhere
 - host: extracted from the URL
   - any `host:` param will be ignored if a URL is used.
 - port: extracted from the URL explicitly if provided, or via the URL scheme if not (https = port 443, http = port 80)
@@ -139,7 +154,7 @@ When a URL is provided like this, the following parameters are parsed from it:
 
 If a URL is used, any values present in the URL override any that might be given as a parameter.
 
-If a pw: parameter is not provided or present in a URL, the default is to prompt in a termminal, the same as `pw: :prompt`
+If a pw: parameter is not provided or present in a URL, the default is to prompt in a terminal, the same as `pw: :prompt`
 
 ## Connection Tokens
 
@@ -153,16 +168,25 @@ Once you are connected, the token is available in the `#token` method of the Con
 
 ### Tokens Expire
 
-Tokens come with an expiration time, defined by the server. After that time, the token is no longer valid and API access using it will fail.  To see the expiration time, use the '#expires' method: `Jamf.cnx.token.expires`.
+Tokens come with an expiration time, defined by the server. The duration of a token is the same as the duration of a JamfPro Web-UI session, which defaults to 30 minutes. After that time, the token is no longer valid and API access using it will fail.  To see the expiration time, use the '#expires' method: `Jamf.cnx.token.expires`.
+
 ### Tokens can be refreshed
 
-As long as you have a valid token, you can use it to refresh itself, which replaces the internally-stored token data and resets the expiration. Just use, e.g. `Jamf.cnx.token.refresh` which will return the new expiration time. Once refreshed, the original token data is no longer valid.
+As long as you have a valid, not-expired token, you can use it to refresh itself, which replaces the internally-stored token data and resets the expiration. Just use, e.g. `Jamf.cnx.token.refresh` which will return the new expiration time. Once refreshed, the original token data is no longer valid.
 
 ### Connections can refresh the token automatically
 
 If you have a long-running process that's likely to run longer than the life of a token, you can tell your connection object to automatically refresh its token some number of seconds before the token expires. To do so, just set the connection's 'keep_alive' attribute to true: `Jamf.cnx.keep_alive = true`. This will start a thread in the background that mostly stays asleep. Every 60 seconds it wakes up and checks to see if the current token's expiration is less than 'token_refresh' seconds from now, and if so, will refresh the token.
 
 You can set token_refresh when you create your connection using the `token_refresh:  nnn` param, where nnn is an integer number of seconds. You can also set it dynamically, `Jamf.cnx.token_refresh = nnn`
+
+#### pw-fallback
+
+Occasionally a valid token refresh might fail. In that case, by default, the pw-fallback option is used when the token is refreshed manually or via `keep_alive`.
+
+By default this option is 'true' and the password used to connect is kept in memory in the Connection object. If the token-refresh process fails, the password is used again to generate a new token and keep the connection alive.
+
+If you don't want the password stored in memory, just provide `pw-fallback: false` in the connection parameters - however if the token fails to refresh, you will lose your connection altogether.
 
 ### Using a token to make a new connection
 
@@ -195,10 +219,10 @@ Once the connection is made, a fresh token is generated using the token string, 
 If you know you're done using a token, and want to be sure a copy of it cant be used from anywhere else, use the token's `invalidate` method, which will tell the server to stop accepting it as valid. The Connection object also has a `logout` method which will invalidate the token before disconnecting.
 
 Be careful if you use tokens in multiple places, since invalidating a token would break any other connection using it.
+
 ## Endpoints Implemented
 
-
-As the Jamf Pro API evolves during its early stages, many enpoints are coming and going and changing.
+As the Jamf Pro API evolves, many enpoints are coming and going and changing.
 
 All of the more-recent, stable endpoints have a version number in their path, e.g. 'v1'. Ruby-jss will only implement endpoints that have a version number, since the others are deprecated. The only current exception to this is the /auth endpoint, needed for authentication to the API.  Once it is updated, ruby-jss will use the new endpoint.
 
@@ -224,13 +248,15 @@ Because of the more modern standards being used as the JP-API is developed, impl
 
 In JSON & Javascript, an 'object' is a data structure equivalent to a hash in ruby, a dictionary in python, a record in Applescript, and so on. Almost all of the JSON data exchanged with the API is formatted as these JSON objects.
 
-The Jamf Pro API uses well-defined JSON 'Object Models' to describe and format the objects sent to and from the server. The model gives the name of each key, and the data-type of its value.  The data-type might be a primative like a string, integer, float or boolean, or it might be an array of things, or it might be another JSON object (which will have its own model).
+The Jamf Pro API uses well-defined JSON 'Object Models' to describe and format the objects sent to and from the server. The model gives the name of each key, and the data-type of its value.  The data-type might be a primative like a string, integer, float or boolean, or it might be an array of things, or it might be another JSON object (Hash) which will have its own model.
 
 To see these Object Model definitions,, have a look at your Jamf Pro server's documentation at https://your.jamf.server.edu/uapi/doc
 
 Take a look at the GET docs for an endpoint, e.g. Buildings -> GET /v1/buildings, and you can click to view either the the 'Model' and the 'Model Schema' (an example of a JSON object matching the model with sample data)
 
 Ruby-jss's Jamf module is built around these object models, using a hierarchy of abstract classes and a representation of the Object Model in ruby. Every 'hash' of data that is sent to or recieved from the API has a matching ruby class that is a descendant of Jamf::JSONObject.
+
+> To be clear: *every* Hash that you see in the API JSON data has a matching ruby class in ruby-jss. That means there will be LOTS of classes! After all, what is a 'class' in object-oriented programming? It's a model of an object.
 
 Here's the relationship between these abstract classes:
 
@@ -262,6 +288,8 @@ Here's the relationship between these abstract classes:
             (etc...)                                  (etc...)
 
 
+> Note: An 'abstract' class, sometimes called a 'meta' class, is not meant to have instances. Instead, it holds common code shared among its subclasses.
+> An example of real-world abstract classes would be 'Animal', and its subclass 'Mammal'. In the real world there is no such thing as an individual 'Animal' or 'Mammal' that you could hold or touch. However 'Dog' is a subclass of Mammal, and it is not abstract, so there are instances of Dogs in the real world, and you can hold them and touch them.
 
 ### Jamf::JSONObject
 
@@ -273,7 +301,7 @@ Direct subclasses of JSONObject are nearly always used internally in other class
 
 ### Jamf::Resource
 
-This abstarct class is a subclass of JSON object, and represents a resource or endpoint in the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
+This abstarct class is a subclass of JSON object, and represents a thing you can access via the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
 
 Jamf::Resource is never subclassed directly. Instead, it has two subclasses that are themselves abstract, representing the two kinds of resources:
 
@@ -283,7 +311,7 @@ This abstract class represents API resources that are single, persistent sets of
 
 ### Jamf::CollectionResource
 
-This abstract class represents API resources that are 'collections' - groups of individual objects that have id numbers. Instances of the class represent those individual objects. The code for dealing with the collections as a whole (listing, filtering, searching, fetching, created) are defined here.
+This abstract class represents API resources that are 'collections' - groups of individual objects that have id numbers and can be listed in various ways. Instances of the class represent those individual objects. Shared code for dealing with collections as a whole (listing, filtering, searching, fetching, creating, etc) is defined here.
 
 ### MixIns
 
@@ -305,27 +333,29 @@ _ATTRIBUTE NAMES_
 
 The attribute names in the Jamf Pro API JSON data are in [lowerCamelCase](https://en.wikipedia.org/wiki/Camel_case), and are used that way throughout the Jamf module in order to maintain consistency with the API itself. This differs from the ruby standard of using [snake_case](https://en.wikipedia.org/wiki/Snake_case) for attributes, methods, & local variables. I believe that maintaining consistency with the API we are mirroring is more important (and simpler) than conforming with ruby's community standards. I also believe that doing so is in-line with the ruby community's larger philosophy:
 
-"There's more than one way to do it" - because context matters.
+There's more than one way to do it - because context matters.
 (If that weren't true, I'd be writing Python)
 
 Each attribute key in OBJECT_MODEL points to a Hash of details defining how the attribute is used in the class. Getters and setters are created from these details, and they are used to parse incoming, and generate outgoing JSON data
 
 The possible keys of the details Hash for each attribute are:
 
-- class:
-- identfier:
-- required:
-- readonly:
-- multi:
-- enum:
-- validator:
-- aliases:
+- class - what kind of thing is this attribute?
+- identfier - is this attribute a unique identifier for instances of a Collection Resource?
+- required - is this attribute required when creating a new Jamf object?
+- readonly - is this attribute readonly?
+- multi - can this attribute contain more than one value?
+- enum - must the value of this attribute be limited to one of a known list of possiblities?
+- validator - how to validate a value being set for this attribute?
+- aliases - should this attribute have other names?
 
 For an example of an OBJECT_MODEL hash, see Jamf::MobileDeviceDetails::OBJECT_MODEL
 
-The details for each key's value are as follows. Note that omitting a boolean key is the same as setting it to false.
+The details for each key are as follows. Note that omitting a boolean key is the same as setting it to false.
 
 #### class: \[Symbol or Class]
+What kind of thing is this attribute?
+
 This is the only required key for all attributes.
 
 JSON primative types are represented by the symbols  :string, :integer, :float, or :boolean. These are the JSON data types that don't need parsing into ruby beyond that done by `JSON.parse`. When processing an attribute with one of these symbols as the `class:`, the JSON value is used as-is.
@@ -349,6 +379,7 @@ See also: Data Validation below.
 
 
 #### identifier: \[Boolean, or Symbol :primary]
+Is this attribute a unique identifier for instances of a Collection Resource?
 
 Only applicable to descendents of Jamf::CollectionResource
 
@@ -358,16 +389,17 @@ If the symbol :primary, this is the primary identifier, used in API resource pat
 
 
 #### required: \[Boolean]
+Is this attribute required when creating a new Jamf object?
 
 If true, this attribute must be provided when creating a new local instance and cannot be set to nil or empty.
 
-
 #### readonly: \[Boolean]
+Is this attribute readonly?
 
 If true, no setter method(s) will be created, and the value is not sent to the API with #save
 
-
 #### multi: \[Boolean]
+Can this attribute contain more than one value?
 
 When true, this value comes as a JSON array and its items are defined by the 'class:' setting described above. The JSON array is used to contstruct an attribute array of the correct kind of item.
 
@@ -399,6 +431,7 @@ This protection of the underlying array is needed for two reasons:
 
 
 #### enum: \[Constant -> Array<Constants> ]
+Must the value of this attribute be limited to one of a known list of possiblities?
 
 This is a constant defined somewhere in the Jamf module. The constant must contain an Array of other Constant values, usually Strings.
 
@@ -441,6 +474,7 @@ the one already stored in a constant.
 See also: [Data Validation](#data_validation) below.
 
 #### validator: \[Symbol]
+How to validate a value being set for this attribute?
 
 (ignored if readonly: is true, or if enum: is set)
 
@@ -477,12 +511,34 @@ Example:
 
 
 #### aliases: \[Array of Symbols]
+Should this attribute have other names?
 
-Other names for this attribute.
+If provided, getters, and setters will be made for all aliases.
 
-If provided, getters, and setters will be made for all aliases. Should be used very sparingly.
+Example:
+> The `serialNumber` attribute of a  MobileDevice might be defined like this:
+>
+>      serialNumber: {
+>        class: :string,
+>        identifier: true,
+>        validator: :non_empty_string,
+>        aliases: [:serial_number, :sn]
+>      }
+>
+>  When the getter method 'serialNumber' and setter method `serialNumber=(newval)` are defined, they
+>  will also have aliases `serial_number`, `serial_number=(newval)`, `sn` and `sn=(newval)`
 
-Attributes of class :boolean automatically have a getter alias ending with a '?'.
+
+Aliases should be used very sparingly.
+
+Note: Since it is expected in ruby for predicate methods (those which return a boolean value) to be named something like `foobar?`, attributes of class :boolean automatically have two getter aliases:
+
+1) The attribute name ending with a '?'
+   - e.g. the attribute `isManaged` is also available as `isManaged?`
+
+2) If the attribute name starts with 'isXy', where X is any uppercase letter and y is any letter, an alias
+   is created by removing the 'is', lowercasing the remeaining characters, and appending a '?'
+   - e.g. `isManaged` is available as `managed?` and `isFooBar` would be available as `foobar?`
 
 #### Documenting OBJECT_MODEL
 

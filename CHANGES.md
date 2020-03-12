@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.4] - 2020-03-16
+
+### Added
+
+#### 'Beta' Jamf Pro API support in ruby-jss!
+
+The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
+
+Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP-API itself. Classic API access using the JSS module is unchanged, and will continue to get fixes and other updates as needed. However many things in the Jamf module will behave differently from the JSS module, at least in detail if not concept.
+
+For requirements and details of using the Jamf module to access the Jamf Pro API, see [lib/jamf/README-JP-API.md](lib/jamf/README-JP-API.md).
+
+**IMPORTANT:** As with the JP-API, The Jamf module is an early work-in-progress, and things might change drastically at any point. Please mention 'ruby-jss' in MacAdmins Slack channels #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
+
+
 ## \[1.2.3] - 2019-10-31
 ### Added
 - the ManagementHistory mixin module used by the Computer and MobileDevice classes, now has a `last_mdm_contact` class and instance method, which returns a Time object for the timestamp of the most recent completed MDM command. This is useful for MobileDevices, which don't have anything like the `last_checkin` value for comptuers, indicating real communication between the device and Jamf Pro.
