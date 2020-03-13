@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### 'Beta' Jamf Pro API support in ruby-jss!
+- **'Beta' Jamf Pro API support in ruby-jss!**
 
 The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
 
@@ -18,6 +18,11 @@ For requirements and details of using the Jamf module to access the Jamf Pro API
 
 **IMPORTANT:** As with the JP-API, The Jamf module is an early work-in-progress, and things might change drastically at any point. Please mention 'ruby-jss' in MacAdmins Slack channels #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
 
+### Changed
+
+- The `last_mdm_contact` class and instance method from the MDM mixin module (as used in Computer and MobileDevice classes) now returns the time of the most recent _completed_ or _failed_ mdm command. This is more accurate than just the completed commands, since a failed command still implies contact between the client and Jamf Pro.
+
+- JSS::MobileDevice instances now have three predicate methods: `tv?` (aliased as `apple_tv?`), `ipad?` and `iphone?`
 
 ## \[1.2.3] - 2019-10-31
 ### Added
