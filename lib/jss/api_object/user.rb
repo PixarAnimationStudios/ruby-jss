@@ -99,7 +99,7 @@ module JSS
 
     ### @return [String] The name of the user's LDAP server
     attr_reader :ldap_server
-
+    attr_reader :ldap_sever_id
 
     ### @return [Array<Hash>]
     ###
@@ -168,6 +168,7 @@ module JSS
       @phone_number = @init_data[:phone_number]
       @position = @init_data[:position]
       @ldap_server = JSS::APIObject.get_name @init_data[:ldap_server]
+      @ldap_server_id = @init_data[:ldap_server][:id]
       @sites = @init_data[:sites] ? @init_data[:sites]  : []
 
       if @init_data[:links]
@@ -217,6 +218,7 @@ module JSS
     def ldap_server= (new_val)
       raise JSS::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless JSS::LDAPServer.all_names(api: @api).include? new_val
       @ldap_server = new_val
+      @ldap_server_id = JSS::LDAPServer.valid_id @ldap_server
       @need_to_update = true
     end
 
@@ -264,7 +266,7 @@ module JSS
       user.add_element('position').text = @position
 
       ldap = user.add_element('ldap_server')
-      ldap.add_element('name').text = @ldap_server
+      ldap.add_element('id').text = @ldap_server_id
 
       user << JSS::Site.xml_list(@sites)
 
