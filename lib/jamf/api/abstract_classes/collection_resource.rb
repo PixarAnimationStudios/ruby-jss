@@ -220,7 +220,7 @@ module Jamf
       val_is_str = value.is_a? String
 
       idents.each do |ident|
-        match = all(cnx: cnx).select do |m|
+        match = all(refresh: refresh, cnx: cnx).select do |m|
           val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
         end.first
         return match[:id] if match
@@ -241,8 +241,11 @@ module Jamf
     end
 
     # Make a new thing to be added to the API
-    def self.create(params, cnx: Jamf.cnx)
-      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless self.creatable?
+    def self.create(**params)
+      raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
+
+      cnx = params.delete :cnx
+      cnx ||= Jamf.cnx
 
       validate_not_abstract
       params.delete :id # no such animal when .creating
@@ -277,16 +280,17 @@ module Jamf
     #
     def self.fetch(ident_value = nil, cnx: Jamf.cnx, **ident_hash)
       validate_not_abstract
+
       id =
         if ident_value == :random
           all_ids.sample
         elsif ident_value
-          valid_id ident_value
+          valid_id ident_value, cnx: cnx
         elsif ident_hash.empty?
           nil
         else
           ident, lookup_value = ident_hash.first
-          valid_id ident => lookup_value
+          valid_id ident => lookup_value, cnx: cnx
         end
 
       raise Jamf::NoSuchItemError, "No matching #{self}" unless id
