@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.5] - 2020-03-30
+
+### Fixed
+
+- Classic API (JSS module)
+  - The Classic API now requires JSS::User objects to be passed back to the API with the `ldap_server` specified by id, name-only won't work.
+
+- Jamf Pro API (Jamf module)
+  - Fixes for various JamfPro API (Jamf module) methods that accept a passed-in Jamf::Connection instance.
+
 ## \[1.2.4] - 2020-03-16
 
 ### Added
