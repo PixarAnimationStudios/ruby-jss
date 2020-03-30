@@ -106,7 +106,7 @@ module JSS
     # @return [Boolean] Does this object have a site assigned?
     #
     def site_assigned?
-      if @site_name == "None"
+      if @site_name == NO_SITE_NAME
         false
       else
         !@site_name.nil?
