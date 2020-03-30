@@ -41,6 +41,77 @@ module JSS
     # This class provides methods for adding, removing, or fully replacing the
     # various items in scope's realms: targets, limitations, and exclusions.
     #
+    # IMPORTANT:
+    # The classic API has bugs regarding the use of Users, UserGroups,
+    # LDAP/Local Users, & LDAP User Groups in scopes. Here's a discussion
+    # of those bugs and how ruby-jss handles them.
+    #
+    # Targets/Inclusions
+    #  - 'Users' can only be JSS::Users - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #
+    # Limitations
+    #  - 'LDAP/Local Users' can be any string
+    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
+    #    - The data shows up in API data in scope=>limitations=>users
+    #      by name only (the string provided), no IDs
+    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
+    #    - The Web UI won't let you add a group that doesn't exist in ldap
+    #    - The data shows up in API data in scope=>limitations=>user_groups
+    #      by name and LDAP ID (which may be empty)
+    #    - The data ALSO shows up in API data in scope=>limit_to_users=>user_groups
+    #      by name only, no LDAP IDs. ruby-jss ignores this and looks at
+    #      scope=>limitations=>user_groups
+    #
+    # Exclusions, combines the behavior of Inclusions & Limitations
+    #  - 'Users' can only be JSS::Users - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'LDAP/Local Users' can be any string
+    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
+    #    - The data shows up in API data in scope=>exclusions=>users
+    #      by name only (the string provided), no IDs
+    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
+    #    - The Web UI won't let you add a group that doesn't exist in ldap
+    #    - The data shows up in API data in scope=>exclusions=>user_groups
+    #      by name and LDAP ID (which may be empty)
+    #
+    #
+    # How ruby-jss handles this:
+    #
+    #   - Methods #set_targets and #add_target will not accept the keys
+    #     :user, :users, :user_group, :user_groups.
+    #
+    #   - Method #remove_target will ignore them.
+    #
+    #   - Methods #set_limitations, #add_limitation & #remove_limitation will accept:
+    #     - :user or :ldap_user (and their plurals) for working with
+    #       'LDAP/Local Users'. When setting or adding, the provided string(s)
+    #       must exist as either a JSS::User or an LDAP user
+    #     - :user_group or :ldap_user_group (and their plurals) for working with
+    #       'LDAP User Groups'. When setting or adding, the provided string
+    #       must exist as a group in LDAP.
+    #
+    #   - Methods #set_exclusions, #add_exclusion & #remove_exclusion will accept:
+    #     - :user or :ldap_user (and their plurals) for working with
+    #       'LDAP/Local Users'. When setting or adding, the provided string(s)
+    #       must exist as either a JSS::User or an LDAP user.
+    #     - :user_group or :ldap_user_group (and their plurals) for working with
+    #       'LDAP User Groups''. When setting or adding, the provided string
+    #       must exist as a group in LDAP.
+    #
+    #
     # @see JSS::Scopable
     #
     class Scope
