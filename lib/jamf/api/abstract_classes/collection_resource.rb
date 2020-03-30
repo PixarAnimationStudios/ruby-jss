@@ -242,15 +242,19 @@ module Jamf
 
     # Make a new thing to be added to the API
     def self.create(**params)
+      validate_not_abstract
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
 
       cnx = params.delete :cnx
       cnx ||= Jamf.cnx
 
-      validate_not_abstract
       params.delete :id # no such animal when .creating
 
-      validate_create_params(params, cnx)
+      params.keys.each do |param|
+        raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
+
+        params[param] = validate_attr param, params[param], cnx: cnx
+      end
 
       params[:creating_from_create] = true
       new params, cnx: cnx
@@ -365,17 +369,6 @@ module Jamf
       end # each alias
     end # create_list_methods
     private_class_method :create_list_methods
-
-    # validate that our .create data is OK
-    #
-    def self.validate_create_params(params, cnx)
-      params.keys.each do |param|
-        raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
-
-        params[param] = validate_attr param, params[param], cnx: cnx
-      end
-    end
-    private_class_method :validate_create_params
 
     # Given an indentier attr. key, and a value,
     # return the id where that ident has that value, or nil
