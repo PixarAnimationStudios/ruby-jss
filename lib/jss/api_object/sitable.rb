@@ -106,7 +106,11 @@ module JSS
     # @return [Boolean] Does this object have a site assigned?
     #
     def site_assigned?
-      !@site_name.nil?
+      if @site_name == "None"
+        false
+      else
+        !@site_name.nil?
+      end
     end # cat assigned?
 
     # Change the site of this object.

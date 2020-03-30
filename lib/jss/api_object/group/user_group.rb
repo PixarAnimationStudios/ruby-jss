@@ -138,6 +138,15 @@ module JSS
       @members.map{|m| m[:email_address]}
     end
 
+    # Override parent's valid_id checker to handle LDAP groups
+    def self.valid_id(identifier, refresh = false, api: JSS.api)
+      if JSS::LDAPServer.group_in_ldap? identifier
+        identifier
+      else
+        super(identifier, refresh, api: api)
+      end
+    end
+        
     #####################################
     ### Private Instance Methods
     #####################################
