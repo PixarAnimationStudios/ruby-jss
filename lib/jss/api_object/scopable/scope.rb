@@ -68,7 +68,11 @@ module JSS
         users: JSS::User,
         user: JSS::User,
         user_groups: JSS::UserGroup,
-        user_group: JSS::UserGroup
+        user_group: JSS::UserGroup,
+        ldap_user: JSS::User,
+        ldap_users: JSS::User,
+        ldap_user_group: JSS::UserGroup,
+        ldap_user_groups: JSS::UserGroup
       }.freeze
 
       # Some things get checked in LDAP as well as the JSS
@@ -88,7 +92,7 @@ module JSS
       INCLUSIONS = %i[buildings departments].freeze
 
       # These can limit the inclusion list
-      LIMITATIONS = %i[network_segments users user_groups].freeze
+      LIMITATIONS = %i[network_segments ldap_users ldap_user_groups].freeze
 
       # any of them can be excluded
       EXCLUSIONS = INCLUSIONS + LIMITATIONS
@@ -204,16 +208,51 @@ module JSS
         if raw_scope[:limitations]
           LIMITATIONS.each do |k|
             raw_scope[:limitations][k] ||= []
-            @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:name] }
+
+            if k == :ldap_users || k == :ldap_user_groups
+
+              if k == :ldap_users
+                ldap_users = raw_scope[:limitations][:users].compact.map { |n| n[:name].to_s }
+                @limitations[k] = ldap_users
+              else
+                ldap_user_groups = raw_scope[:limitations][:user_groups].compact.map { |n| n[:name].to_s }
+                @limitations[k] = ldap_user_groups
+              end
+            else
+              @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:id].to_i }
+            end
           end # LIMITATIONS.each do |k|
         end # if raw_scope[:limitations]
 
-        #! Does not support Local User Groups, these must be added/removed through the Web UI
         @exclusions = {}
         if raw_scope[:exclusions]
           @exclusion_keys.each do |k|
+            # Skip these since API doesn't actually provide these
+            next if (k == :ldap_users || k == :ldap_user_groups)
+
             raw_scope[:exclusions][k] ||= []
-            @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:name] }
+
+            if k == :users || k == :user_groups
+              ldap_objects = []
+              if k == :users
+                ldap_users = raw_scope[:exclusions][:users].compact.select { |n| JSS::User.valid_id(n).nil? }.map { |n| n[:name].to_s }
+                ldap_objects = ldap_users
+                @exclusions[:ldap_users] = ldap_users
+
+                jss_users = raw_scope[:exclusions][:user_groups].compact.select { |n| !JSS::User.valid_id(n).nil? }.map { |n| n[:id].to_i }
+                @exclusions[k] = jss_users
+              else
+                ldap_user_groups = raw_scope[:exclusions][:user_groups].compact.select { |n| JSS::UserGroup.valid_id(n).nil? }.map { |n| n[:name].to_s }
+                ldap_objects = ldap_user_groups
+                @exclusions[:ldap_user_groups] = ldap_user_groups
+
+                jss_user_groups = raw_scope[:exclusions][:user_groups].compact.select { |n| !JSS::UserGroup.valid_id(n).nil? }.map { |n| n[:id].to_i }
+                @exclusions[k] = jss_user_groups
+
+              end
+            else
+              @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:id].to_i }
+            end
           end
         end
 
@@ -517,11 +556,11 @@ module JSS
         @limitations.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          if klass == :user_groups || klass == :users
-            list_as_hash = list_as_hash.map { |x| {name: x[:id] } }
-            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash)
+          if klass == :ldap_user_groups || klass == :ldap_users
+            list_as_hash = list.map { |i| { name: i } }
+            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
           else
+            list_as_hash = list.map { |i| { id: i } }
             limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
           end
         end
@@ -530,12 +569,11 @@ module JSS
         @exclusions.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-
-          if klass == :user_groups || klass == :users
-            list_as_hash = list_as_hash.map { |x| {name: x[:id] } }
-            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash)
+          if klass == :ldap_user_groups || klass == :ldap_users
+            list_as_hash = list.map { |i| { name: i } }
+            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :name)
           else
+            list_as_hash = list.map { |i| { id: i } }
             exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
           end
         end
@@ -591,8 +629,19 @@ module JSS
 
         # return nil or a valid id
         id = SCOPING_CLASSES[key].valid_id ident
-        raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
-        id
+
+        if id.nil? && (key == :ldap_users || key == :ldap_user_groups)
+          if key == :ldap_user_groups
+            # Check if ldap user exists
+            return ident if JSS::LDAPServer.group_in_ldap? ident
+          else
+            # Check if ldap user group exists
+            return ident if JSS::LDAPServer.user_in_ldap? ident
+          end
+        else
+          raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
+          id
+        end
       end # validate_item(type, key, ident)
 
       # the symbols used in the API data are plural, e.g. 'network_segments'
