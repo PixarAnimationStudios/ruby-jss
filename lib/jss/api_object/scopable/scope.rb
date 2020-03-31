@@ -41,6 +41,85 @@ module JSS
     # This class provides methods for adding, removing, or fully replacing the
     # various items in scope's realms: targets, limitations, and exclusions.
     #
+    # IMPORTANT:
+    # The classic API has bugs regarding the use of Users, UserGroups,
+    # LDAP/Local Users, & LDAP User Groups in scopes. Here's a discussion
+    # of those bugs and how ruby-jss handles them.
+    #
+    # Targets/Inclusions
+    #  - 'Users' can only be JSS::Users - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #
+    # Limitations
+    #  - 'LDAP/Local Users' can be any string
+    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
+    #    - The data shows up in API data in scope=>limitations=>users
+    #      by name only (the string provided), no IDs
+    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
+    #    - The Web UI won't let you add a group that doesn't exist in ldap
+    #    - The data shows up in API data in scope=>limitations=>user_groups
+    #      by name and LDAP ID (which may be empty)
+    #    - The data ALSO shows up in API data in scope=>limit_to_users=>user_groups
+    #      by name only, no LDAP IDs. ruby-jss ignores this and looks at
+    #      scope=>limitations=>user_groups
+    #
+    # Exclusions, combines the behavior of Inclusions & Limitations
+    #  - 'Users' can only be JSS::Users - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #    - BUG: They do not appear in API data (XML or JSON) and are
+    #      NOT SUPPORTED in ruby-jss.
+    #    - You must use the Web UI to work with them in a Scope.
+    #  - 'LDAP/Local Users' can be any string
+    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
+    #    - The data shows up in API data in scope=>exclusions=>users
+    #      by name only (the string provided), no IDs
+    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
+    #    - The Web UI won't let you add a group that doesn't exist in ldap
+    #    - The data shows up in API data in scope=>exclusions=>user_groups
+    #      by name and LDAP ID (which may be empty)
+    #
+    #
+    # How ruby-jss handles this:
+    #
+    #   - Methods #set_targets and #add_target will not accept the keys
+    #     :user, :users, :user_group, :user_groups.
+    #
+    #   - Method #remove_target will ignore them.
+    #
+    #   - Methods #set_limitations, #add_limitation & #remove_limitation will accept:
+    #     - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
+    #       with 'LDAP/Local Users'. When setting or adding, the provided
+    #       string(s) must exist as either a JSS::User or an LDAP user
+    #     - :user_group or :ldap_user_group (and their plurals) for working with
+    #       'LDAP User Groups'. When setting or adding, the provided string
+    #       must exist as a group in LDAP.
+    #
+    #   - Methods #set_exclusions, #add_exclusion & #remove_exclusion will accept:
+    #     - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
+    #       with 'LDAP/Local Users'. When setting or adding, the provided string(s)
+    #       must exist as either a JSS::User or an LDAP user.
+    #     - :user_group or :ldap_user_group (and their plurals) for working with
+    #       'LDAP User Groups''. When setting or adding, the provided string
+    #       must exist as a group in LDAP.
+    #
+    #  Internally in the Scope instance:
+    #
+    #  - The limitations and exclusions that match the WebUI's 'LDAP/Local Users'
+    #    are in @limitations[:jamf_ldap_users]  and @exclusions[:jamf_ldap_users]
+    #
+    #  - The  limitations and exclusions that match the WebUI's 'LDAP User Groups'
+    #    are in @limitations[:ldap_user_groups]  and @exclusions[:ldap_user_groups]
+    #
+    #
     # @see JSS::Scopable
     #
     class Scope
@@ -50,6 +129,8 @@ module JSS
 
       # These are the classes that Scopes can use for defining a scope,
       # keyed by appropriate symbols.
+      # NOTE: All the user and group ones don't actually refer to
+      # JSS::User or JSS::UserGroup. See IMPORTANT discussion above.
       SCOPING_CLASSES = {
         computers: JSS::Computer,
         computer: JSS::Computer,
@@ -65,16 +146,37 @@ module JSS
         department: JSS::Department,
         network_segments: JSS::NetworkSegment,
         network_segment: JSS::NetworkSegment,
-        users: JSS::User,
-        user: JSS::User,
-        user_groups: JSS::UserGroup,
-        user_group: JSS::UserGroup
+        ibeacon: JSS::IBeacon,
+        ibeacons: JSS::IBeacon,
+        user: nil,
+        users: nil,
+        ldap_user: nil,
+        ldap_users: nil,
+        jamf_ldap_user: nil,
+        jamf_ldap_users: nil,
+        user_group: nil,
+        user_groups: nil,
+        ldap_user_group: nil,
+        ldap_user_groups: nil
       }.freeze
 
-      # Some things get checked in LDAP as well as the JSS
-      LDAP_USER_KEYS = %i[user users].freeze
-      LDAP_GROUP_KEYS = %i[user_groups user_group].freeze
-      CHECK_LDAP_KEYS = LDAP_USER_KEYS + LDAP_GROUP_KEYS
+      # These keys always mean :jamf_ldap_users
+      LDAP_JAMF_USER_KEYS = %i[
+        user
+        users
+        ldap_user
+        ldap_users
+        jamf_ldap_user
+        jamf_ldap_users
+      ].freeze
+
+      # These keys always mean :ldap_user_groups
+      LDAP_GROUP_KEYS = %i[
+        user_group
+        user_groups
+        ldap_user_group
+        ldap_user_groups
+      ].freeze
 
       # This hash maps the availble Scope Target keys from SCOPING_CLASSES to
       # their corresponding target group keys from SCOPING_CLASSES.
@@ -88,7 +190,16 @@ module JSS
       INCLUSIONS = %i[buildings departments].freeze
 
       # These can limit the inclusion list
-      LIMITATIONS = %i[network_segments users user_groups].freeze
+      # These are the keys that come from the API
+      # the  :users key from the API is what we call :jamf_ldap_users
+      # and the :user_groups key from the API we call :ldap_user_groups
+      # See the IMPORTANT discussion above.
+      LIMITATIONS = %i[
+        ibeacons
+        network_segments
+        jamf_ldap_users
+        ldap_user_groups
+      ].freeze
 
       # any of them can be excluded
       EXCLUSIONS = INCLUSIONS + LIMITATIONS
@@ -179,7 +290,9 @@ module JSS
       #
       def initialize(target_key, raw_scope = nil)
         raw_scope ||= DEFAULT_SCOPE.dup
-        raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}" unless TARGETS_AND_GROUPS.key?(target_key)
+        unless TARGETS_AND_GROUPS.key?(target_key)
+          raise JSS::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}"
+        end
 
         @target_key = target_key
         @target_class = SCOPING_CLASSES[@target_key]
@@ -197,24 +310,64 @@ module JSS
         @inclusions = {}
         @inclusion_keys.each do |k|
           raw_scope[k] ||= []
-          @inclusions[k] = raw_scope[k].compact.map { |n| n[:id].to_i  }
+          @inclusions[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
         end # @inclusion_keys.each do |k|
 
+        # the  :users key from the API is what we call :jamf_ldap_users
+        # and the :user_groups key from the API we call :ldap_user_groups
+        # See the IMPORTANT discussion above.
         @limitations = {}
         if raw_scope[:limitations]
+
           LIMITATIONS.each do |k|
-            raw_scope[:limitations][k] ||= []
-            @limitations[k] = raw_scope[:limitations][k].compact.map { |n| n[:id].to_i }
+            # :jamf_ldap_users comes from :users in the API data
+            if k == :jamf_ldap_users
+              api_data = raw_scope[:limitations][:users]
+              api_data ||= []
+              @limitations[k] = api_data.compact.map { |n| n[:name].to_s }
+
+            # :ldap_user_groups comes from :user_groups in the API data
+            elsif k == :ldap_user_groups
+              api_data = raw_scope[:limitations][:user_groups]
+              api_data ||= []
+              @limitations[k] = api_data.compact.map { |n| n[:name].to_s }
+
+            # others handled normally.
+            else
+              api_data = raw_scope[:limitations][k]
+              api_data ||= []
+              @limitations[k] = api_data.compact.map { |n| n[:id].to_i }
+            end
           end # LIMITATIONS.each do |k|
         end # if raw_scope[:limitations]
 
+        # the  :users key from the API is what we call :jamf_ldap_users
+        # and the :user_groups key from the API we call :ldap_user_groups
+        # See the IMPORTANT discussion above.
         @exclusions = {}
         if raw_scope[:exclusions]
+
           @exclusion_keys.each do |k|
-            raw_scope[:exclusions][k] ||= []
-            @exclusions[k] = raw_scope[:exclusions][k].compact.map { |n| n[:id].to_i }
-          end
-        end
+            # :jamf_ldap_users comes from :users in the API data
+            if k == :jamf_ldap_users
+              api_data = raw_scope[:exclusions][:users]
+              api_data ||= []
+              @exclusions[k] = api_data.compact.map { |n| n[:name].to_s }
+
+            # :ldap_user_groups comes from :user_groups in the API data
+            elsif k == :ldap_user_groups
+              api_data = raw_scope[:exclusions][:user_groups]
+              api_data ||= []
+              @exclusions[k] = api_data.compact.map { |n| n[:name].to_s }
+
+            # others handled normally.
+            else
+              api_data = raw_scope[:exclusions][k]
+              api_data ||= []
+              @exclusions[k] = api_data.compact.map { |n| n[:id].to_i }
+            end # if ...elsif... else
+          end # @exclusion_keys.each
+        end # if raw_scope[:exclusions]
 
         @container = nil
       end # init
@@ -239,7 +392,7 @@ module JSS
           @exclusions = {}
           @exclusion_keys.each { |k| @exclusions[k] = [] }
         end
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Replace a list of item names for as targets in this scope.
@@ -266,10 +419,12 @@ module JSS
         # check the idents
         list.map! do |ident|
           item_id = validate_item(:target, key, ident)
-          if @exclusions[key] && @exclusions[key].include?(item_id)
+
+          if @exclusions[key]&.include?(item_id)
             raise JSS::AlreadyExistsError, \
-              "Can't set #{key} target to '#{ident}' because it's already an explicit exclusion."
+                  "Can't set #{key} target to '#{ident}' because it's already an explicit exclusion."
           end
+
           item_id
         end # each
 
@@ -277,7 +432,7 @@ module JSS
 
         @inclusions[key] = list
         @all_targets = false
-        @container.should_update if @container
+        @container&.should_update
       end # sinclude_in_scope
       alias set_target set_targets
       alias set_inclusion set_targets
@@ -303,13 +458,13 @@ module JSS
       def add_target(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
-        return if @inclusions[key] && @inclusions[key].include?(item_id)
+        return if @inclusions[key]&.include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+        raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key]&.include?(item_id)
 
         @inclusions[key] << item_id
         @all_targets = false
-        @container.should_update if @container
+        @container&.should_update
       end
       alias add_inclusion add_target
 
@@ -328,9 +483,10 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :target, key, item, error_if_not_found: false
         return unless item_id
-        return unless @inclusions[key] && @inclusions[key].include?(item_id)
+        return unless @inclusions[key]&.include?(item_id)
+
         @inclusions[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end
       alias remove_inclusion remove_target
 
@@ -357,14 +513,17 @@ module JSS
         # check the idents
         list.map! do |ident|
           item_id = validate_item(:limitation, key, ident)
-          raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+          if @exclusions[key]&.include?(item_id)
+            raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
+          end
+
           item_id
         end # each
 
         return nil if list.sort == @limitations[key].sort
 
         @limitations[key] = list
-        @container.should_update if @container
+        @container&.should_update
       end # set_limitation
       alias set_limitations set_limitation
 
@@ -386,12 +545,14 @@ module JSS
       def add_limitation(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:limitation, key, item)
-        return nil if @limitations[key] && @limitations[key].include?(item_id)
+        return nil if @limitations[key]&.include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+        if @exclusions[key]&.include?(item_id)
+          raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
+        end
 
         @limitations[key] << item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Remove a single item for limiting this scope.
@@ -411,9 +572,10 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :limitation, key, item, error_if_not_found: false
         return unless item_id
-        return unless @limitations[key] && @limitations[key].include?(item_id)
+        return unless @limitations[key]&.include?(item_id)
+
         @limitations[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end ###
 
       # Replace an exclusion list for this scope
@@ -439,9 +601,11 @@ module JSS
           item_id = validate_item(:exclusion, key, ident)
           case key
           when *@inclusion_keys
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item_id)
+            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key]&.include?(item_id)
           when *LIMITATIONS
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item_id)
+            if @limitations[key]&.include?(item_id)
+              raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
+            end
           end
           item_id
         end # each
@@ -449,7 +613,7 @@ module JSS
         return nil if list.sort == @exclusions[key].sort
 
         @exclusions[key] = list
-        @container.should_update if @container
+        @container&.should_update
       end # limit scope
 
       # Add a single item for exclusions of this scope.
@@ -468,12 +632,14 @@ module JSS
       def add_exclusion(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:exclusion, key, item)
-        return if @exclusions[key] && @exclusions[key].include?(item_id)
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item)
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
+        return if @exclusions[key]&.include?(item_id)
+
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key]&.include?(item)
+
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key]&.include?(item)
 
         @exclusions[key] << item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Remove a single item for exclusions of this scope
@@ -490,9 +656,10 @@ module JSS
       def remove_exclusion(key, item)
         key = pluralize_key(key)
         item_id = validate_item :exclusion, key, item, error_if_not_found: false
-        return unless @exclusions[key] && @exclusions[key].include?(item_id)
+        return unless @exclusions[key]&.include?(item_id)
+
         @exclusions[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # @api private
@@ -508,24 +675,52 @@ module JSS
         @inclusions.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          scope << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          list_as_hashes = list.map { |i| { id: i } }
+          scope << SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
         end
 
         limitations = scope.add_element('limitations')
         @limitations.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          limitations << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          if klass == :jamf_ldap_users
+            users_xml = limitations.add_element 'users'
+            list.each do |name|
+              user_xml = users_xml.add_element 'user'
+              user_xml.add_element('name').text = name
+            end
+          elsif klass == :ldap_user_groups
+            user_groups_xml = limitations.add_element 'user_groups'
+            list.each do |name|
+              user_group_xml = user_groups_xml.add_element 'user_group'
+              user_group_xml.add_element('name').text = name
+            end
+          else
+            list_as_hashes = list.map { |i| { id: i } }
+            limitations << SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+          end
         end
 
         exclusions = scope.add_element('exclusions')
         @exclusions.each do |klass, list|
           list.compact!
           list.delete 0
-          list_as_hash = list.map { |i| { id: i } }
-          exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hash, :id)
+          if klass == :jamf_ldap_users
+            users_xml = limitations.add_element 'users'
+            list.each do |name|
+              user_xml = users_xml.add_element 'user'
+              user_xml.add_element('name').text = name
+            end
+          elsif klass == :ldap_user_groups
+            user_groups_xml = limitations.add_element 'user_groups'
+            list.each do |name|
+              user_group_xml = user_groups_xml.add_element 'user_group'
+              user_group_xml.add_element('name').text = name
+            end
+          else
+            list_as_hashes = list.map { |i| { id: i } }
+            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+          end
         end
         scope
       end # scope_xml
@@ -551,6 +746,7 @@ module JSS
       private
 
       # look up a valid id or nil, for use in a scope type
+      # Raise an error if not found, unless error_if_not_found is falsey
       #
       # @param realm [Symbol] How is this key being used in the scope?
       #   :target, :limitation, or :exclusion
@@ -561,7 +757,9 @@ module JSS
       # @param ident [String, Integer] A unique identifier for the item being
       #   validated, jss id, name, serial number, etc.
       #
-      # @return [Integer, nil] the valid id for the item, or nil if not found
+      # @param error_if_not_found [Boolean] raise an error if no match for the ident
+      #
+      # @return [Integer, String, nil] the valid id or string for the item, or nil if not found
       #
       def validate_item(realm, key, ident, error_if_not_found: true)
         # which keys allowed depends on how the item is used...
@@ -573,20 +771,42 @@ module JSS
           else
             raise ArgumentError, 'Unknown realm, must be :target, :limitation, or :exclusion'
           end
+
         key = pluralize_key(key)
+
         raise JSS::InvalidDataError, "#{realm} key must be one of :#{possible_keys.join(', :')}" \
           unless possible_keys.include? key
 
-        # return nil or a valid id
-        id = SCOPING_CLASSES[key].valid_id ident
+        id = nil
+
+        # id will be a string
+        if key == :jamf_ldap_users
+          id = ident if JSS::User.all_names(:refresh).include?(ident) || JSS::LDAPServer.user_in_ldap?(ident)
+
+        # id will be a string
+        elsif key == :ldap_user_groups
+          id = ident if JSS::LDAPServer.group_in_ldap? ident
+
+        # id will be an integer
+        else
+          id = SCOPING_CLASSES[key].valid_id ident
+        end
+
         raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
+
         id
       end # validate_item(type, key, ident)
 
       # the symbols used in the API data are plural, e.g. 'network_segments'
       # this will pluralize them, allowing us to use singulars as well.
       def pluralize_key(key)
-        key.to_s.end_with?(ESS) ? key : "#{key}s".to_sym
+        if LDAP_JAMF_USER_KEYS.include? key
+          :jamf_ldap_users
+        elsif LDAP_GROUP_KEYS.include? key
+          :ldap_user_groups
+        else
+          key.to_s.end_with?(ESS) ? key : "#{key}s".to_sym
+        end
       end
 
     end # class Scope
