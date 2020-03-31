@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Classic API (JSS module)
   - Sitable objects now recognize the string "None" as meaning no site is assigned. Thanks @cybertunnel!
   - Scopable::Scope now deals with some bugs in the API regarding Jamf & LDAP users & user groups in targets, limitations, & exclusions. Please see the documentation/comments for the class in the file or the online documentation. Thanks @cybertunnel again!
+  - Criteriable::Criteria can now be empty - containing no criterion objects. When criteriable objects are created (such as Advanced Searches) the default JSS::Criteriable::Criteria object has no criteria.  To remove all criteria, use `criteria.clear`, `criteria = nil`, or `criteria = JSS::Criteriable::Criteria.new` and then save.
 
 - Jamf Pro API (Jamf module)
   - More fixes for various JamfPro API (Jamf module) methods that accept a passed-in Jamf::Connection instance.

@@ -72,20 +72,17 @@ module JSS
       attr_reader :criteria
 
       ### @return [JSS::APIObject subclass] a reference to the object containing these Criteria
-      attr_reader :container
+      attr_writer :container
 
       ###
       ### @param new_criteria[Array<JSS::Criteriable::Criterion>]
       ###
-      def initialize(new_criteria)
+      def initialize(new_criteria = [])
         @criteria = []
+
+        # validates the param and fills @criteria
         self.criteria = new_criteria
       end # init
-
-      ### set the object we belong to, so we can set its @should_update value
-      def container= (a_thing)
-        @container = a_thing
-      end
 
       ###
       ### Provide a whole new array of JSS::Criteriable::Criterion instances for this Criteria
@@ -94,13 +91,21 @@ module JSS
       ###
       ### @return [void]
       ###
-      def criteria= (new_criteria)
+      def criteria=(new_criteria)
         unless new_criteria.is_a?(Array) && new_criteria.reject { |c| c.is_a?(JSS::Criteriable::Criterion) }.empty?
           raise JSS::InvalidDataError, 'Argument must be an Array of JSS::Criteriable::Criterion instances.'
         end
         new_criteria.each { |nc| criterion_ok? nc }
         @criteria = new_criteria
         set_priorities
+        @container.should_update if @container
+      end
+
+      # Remove all criterion objects
+      #
+      # @return [void]
+      def clear
+        @criteria = []
         @container.should_update if @container
       end
 
@@ -192,6 +197,18 @@ module JSS
         @criteria.each_index { |ci| @criteria[ci].priority = ci }
       end
 
+      # Remove the various cached data
+      # from the instance_variables used to create
+      # pretty-print (pp) output.
+      #
+      # @return [Array] the desired instance_variables
+      #
+      def pretty_print_instance_variables
+        vars = instance_variables.sort
+        vars.delete :@container
+        vars
+      end
+
       ###
       ### @return [REXML::Element] the xml element for the criteria
       ###
@@ -200,7 +217,6 @@ module JSS
       ### @api private
       ###
       def rest_xml
-        raise JSS::MissingDataError, "Criteria can't be empty" if @criteria.empty?
         cr = REXML::Element.new 'criteria'
         @criteria.each { |c| cr << c.rest_xml }
         cr
