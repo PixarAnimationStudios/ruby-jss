@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.6] - 2020-04-01
+
+### Fixed
+
+- Classic API (JSS module)
+  - Sitable objects now recognize the string "None" as meaning no site is assigned. Thanks @cybertunnel!
+  - Scopable::Scope now deals with some bugs in the API regarding Jamf & LDAP users & user groups in targets, limitations, & exclusions. Please see the documentation/comments for the class in the file or the online documentation. Thanks @cybertunnel again!
+
+- Jamf Pro API (Jamf module)
+  - More fixes for various JamfPro API (Jamf module) methods that accept a passed-in Jamf::Connection instance.
+
+
 ## \[1.2.5] - 2020-03-30
 
 ### Fixed
