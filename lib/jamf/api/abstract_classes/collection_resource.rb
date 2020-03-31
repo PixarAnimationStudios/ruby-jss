@@ -220,7 +220,7 @@ module Jamf
       val_is_str = value.is_a? String
 
       idents.each do |ident|
-        match = all(refresh: refresh, cnx: cnx).select do |m|
+        match = all(refresh, cnx: cnx).select do |m|
           val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
         end.first
         return match[:id] if match
