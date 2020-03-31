@@ -196,7 +196,7 @@ module JSS
   class Department < JSS::APIObject; end
   class DistributionPoint < JSS::APIObject; end
   class EBook < JSS::APIObject; end
-  class IBeacon < JSS::APIObject
+  class IBeacon < JSS::APIObject; end
   class LDAPServer < JSS::APIObject; end
   class MacApplication < JSS::APIObject; end
   class MobileDevice < JSS::APIObject; end
