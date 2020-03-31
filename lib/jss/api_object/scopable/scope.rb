@@ -706,13 +706,13 @@ module JSS
           list.compact!
           list.delete 0
           if klass == :jamf_ldap_users
-            users_xml = limitations.add_element 'users'
+            users_xml = exclusions.add_element 'users'
             list.each do |name|
               user_xml = users_xml.add_element 'user'
               user_xml.add_element('name').text = name
             end
           elsif klass == :ldap_user_groups
-            user_groups_xml = limitations.add_element 'user_groups'
+            user_groups_xml = exclusions.add_element 'user_groups'
             list.each do |name|
               user_group_xml = user_groups_xml.add_element 'user_group'
               user_group_xml.add_element('name').text = name
