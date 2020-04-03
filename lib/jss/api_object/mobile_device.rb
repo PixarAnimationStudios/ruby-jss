@@ -533,10 +533,12 @@ module JSS
       @need_to_update = true
     end
 
-    #
-    def update
-      super
-      return @id unless @needs_mdm_name_change
+    # @param no_mdm_rename[Boolean] should a MDM `set device name` command be sent
+    #   if the device is managed and supervised?
+    def update(no_mdm_rename: false)
+      super()
+      return @id if no_mdm_rename || !@needs_mdm_name_change
+
       set_device_name @name if managed? && supervised?
       @needs_mdm_name_change = false
       @id
