@@ -914,6 +914,30 @@ module JSS
     end
     alias message= reboot_message=
 
+    # Set User Start Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_start=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_start = message
+      @need_to_update = true
+    end
+
+    # Set User Finish Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_end=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_finish = message
+      @need_to_update = true
+    end
+
+    alias user_message_finish= user_message_end=
+
     # Set Startup Disk
     # Only Supports 'Specify Local Startup Disk' at the moment
     #
@@ -1474,6 +1498,10 @@ module JSS
       maint.add_element('system_cache').text = @flush_system_cache.to_s
       maint.add_element('user_cache').text = @user_cache.to_s
       maint.add_element('verify').text = @verify_startup_disk.to_s
+
+      user_interaction = obj.add_element 'user_interaction'
+      user_interaction.add_element('message_start').text = @user_message_start.to_s
+      user_interaction.add_element('message_finish').text = @user_message_finish.to_s
 
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
