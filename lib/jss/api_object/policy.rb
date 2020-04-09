@@ -174,7 +174,9 @@ module JSS
       change_pw: 'specified',
       generate_pw: 'random',
       enable_fv2: 'fileVaultEnable',
-      disable_fv2: 'fileVaultDisable'
+      disable_fv2: 'fileVaultDisable',
+      reset_random: 'resetRandom',
+      reset_pw: 'reset'
     }.freeze
 
     PACKAGE_ACTIONS = {
@@ -1322,6 +1324,63 @@ module JSS
         end
     end
 
+    # Interact with management account settings
+    #
+    # @param action [Key] one of the MGMT_ACCOUNT_ACTIONS keys
+    # 
+    # @return The current specified management settings.
+    #
+    # Reference: https://developer.jamf.com/documentation#resources-with-passwords
+    #
+    def set_management_account(action, **opts)
+      # TODO: Add proper error handling
+      raise JSS::InvalidDataError, "Action must be one of: :#{MGMT_ACCOUNT_ACTIONS.keys.join ', :'}" unless MGMT_ACCOUNT_ACTIONS.include? action
+
+      management_data = {}
+
+      if action == :change_pw || action == :reset_pw
+        raise JSS::MissingDataError, ":password must be provided when changing management account password" if opts[:password].nil?
+
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action],
+          managed_password: opts[:password]
+        }
+      elsif action == :reset_random || action == :generate_pw
+        raise JSS::MissingDataError, ":password_length must be provided when setting a random password" if opts[:password_length].nil?
+        raise JSS::InvalidDataError, ":password_length must be an Integer" unless opts[:password_length].is_a? Integer
+
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action],
+          managed_password_length: opts[:password_length]
+        }
+      else
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action]
+        }
+      end
+
+      @management_account = management_data
+
+      @need_to_update = true
+
+      @management_account
+
+    end
+
+    # Check if management password matches provided password
+    #
+    # @param password[String] the password that is SHA256'ed to compare to the one from the API.
+    #
+    # @return [Boolean] The result of the comparison of the management password and provided text.
+    #
+    def verify_management_password(password)
+      raise JSS::InvalidDataError, "Management password must be a string." unless password.is_a? String
+
+      raise JSS::UnsupportedError, "'#{@management_account[:action].to_s}' does not support management passwords." unless @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:change_pw] || @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:reset_pw]
+
+      return Digest::SHA256.hexdigest(password).to_s == @management_account[:managed_password_sha256].to_s
+    end
+
     ###### Actions
 
     # Try to execute this policy on this machine.
@@ -1475,6 +1534,11 @@ module JSS
       maint.add_element('user_cache').text = @user_cache.to_s
       maint.add_element('verify').text = @verify_startup_disk.to_s
 
+      acct_maint = obj.add_element 'account_maintenance'
+
+      mgmt_acct = acct_maint.add_element 'management_account'
+      JSS.hash_to_rexml_array(@management_account).each { |x| mgmt_acct << x }
+      
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
 
