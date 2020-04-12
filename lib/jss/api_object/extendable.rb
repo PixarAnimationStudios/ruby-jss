@@ -186,18 +186,21 @@ module JSS
       value ||= JSS::BLANK
       validate_popup_value(name, value, refresh) if validate_popup_choice
 
-      case ea_types[name]
-      when JSS::ExtensionAttribute::DATA_TYPE_DATE
-        raise JSS::InvalidDataError, "The value for #{name} must be a date, cannot be blank" if value == JSS::BLANK
-
-        value = JSS.parse_datetime value
-
-      when *JSS::ExtensionAttribute::NUMERIC_TYPES
-        raise JSS::InvalidDataError, "The value for #{name} must be an integer" unless value.is_a? Integer
-
-      else # String
-        value = value.to_s
-      end # case
+      value =
+        case ea_types[name]
+        when JSS::ExtensionAttribute::DATA_TYPE_DATE # date
+          JSS.parse_datetime(value).to_s
+        when *JSS::ExtensionAttribute::NUMERIC_TYPES # integer
+          if value.is_a?(Intger)
+            value
+          elsif value.to_s.jss_integer?
+            value.to_s.to_i
+          else
+            raise JSS::InvalidDataError, "The value for #{name} must be an integer"
+          end # if
+        else # string
+          value.to_s
+        end # case
 
       # update this ea hash in the @extension_attributes array
       @extension_attributes.each { |ea| ea[:value] = value if ea[:name] == name }
