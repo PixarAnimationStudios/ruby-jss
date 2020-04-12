@@ -191,7 +191,7 @@ module JSS
         when JSS::ExtensionAttribute::DATA_TYPE_DATE # date
           JSS.parse_datetime(value).to_s
         when *JSS::ExtensionAttribute::NUMERIC_TYPES # integer
-          if value.is_a?(Intger)
+          if value.is_a? Integer
             value
           elsif value.to_s.jss_integer?
             value.to_s.to_i
