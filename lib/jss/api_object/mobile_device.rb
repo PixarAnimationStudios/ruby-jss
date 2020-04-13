@@ -527,8 +527,9 @@ module JSS
 
     #
     def asset_tag=(new_val)
+      new_val = new_val.strip
       return nil if @asset_tag == new_val
-      new_val.strip!
+
       @asset_tag = new_val
       @need_to_update = true
     end

@@ -1035,23 +1035,25 @@ module JSS
     end
 
     def asset_tag=(new_val)
-      new_val = '' if new_val.nil?
+      new_val =  new_val.to_s.strip
       return nil if @asset_tag.to_s == new_val
-      new_val.strip!
+
       @asset_tag = new_val
       @need_to_update = true
     end
 
     def barcode1=(new_val)
+      new_val = new_val.strip
       return nil if @barcode1 == new_val
-      new_val.strip!
+
       @barcode1 = new_val
       @need_to_update = true
     end
 
     def barcode2=(new_val)
+      new_val = new_val.strip
       return nil if @barcode2 == new_val
-      new_val.strip!
+
       @barcode2 = new_val
       @need_to_update = true
     end

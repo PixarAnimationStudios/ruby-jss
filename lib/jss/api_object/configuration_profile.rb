@@ -105,8 +105,10 @@ module JSS
     # @return [void]
     #
     def description=(new_val)
+      new_val = new_val.strip
       return nil if @self_service_description == new_val
-      @description = new_val.strip!
+
+      @description = new_val
       @need_to_update = true
     end # @param new_val[String] how should this be distributed to clients?
 
