@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.9] - 2020-04-13
+
+### Fixed
+
+  - Fixed a bug where passing a frozen string into some setters, e.g. `JSS::Computer.asset_tag=`, would cause an error when it tried to `#strip!` the string.
+
+## \[1.2.8] - 2020-04-12
+
+### Added
+
+  - MobileDevice#update now takes the `no_mdm_rename:` boolean parameter. Prevents an MDM rename command being sent when changing the name of a supervised device with enforced names. Useful when the MDM command fails, as when there's already a pending rename command.
+
+  - `String#jss_float?` and `String#j_float?` predicate methods.
+
+### Changed
+
+  - Jamf Pro API endpoints that have paging options have an undocumented max page size of 2000. The `CollectionResource#all*` methods now account for this.
+
+  - `String#jss_integer?` and `String#j_integer?` now recognize negative integers
+
+  - Ext. Attributes defined to have interger values will now accept integer strings, e.g. `'12345'`  as well as integers e.g. `12345`
+
+  - Ext. Attributes defined to have date values will once again accept blanks (i.e. empty strings)
+
+## \[1.2.7] - 2020-04-01
+
+### Changed
+
+  - Jamf Pro API endpoints that have paging options have an undocumented max page size of 2000. The `CollectionResource#all*` methods now account for this.
+
+
 ## \[1.2.6] - 2020-04-01
 
 ### Fixed
