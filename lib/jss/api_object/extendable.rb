@@ -180,34 +180,21 @@ module JSS
     #
     # @return [void]
     #
-    def set_ext_attr(name, value, validate_popup_choice: true, refresh: false)
-      raise ArgumentError, "Unknown Extension Attribute Name: '#{name}'" unless ea_types.key? name
+    def set_ext_attr(ea_name, value, validate_popup_choice: true, refresh: false)
+      raise ArgumentError, "Unknown Extension Attribute Name: '#{ea_name}'" unless ea_types.key? ea_name
 
-      value ||= JSS::BLANK
-      validate_popup_value(name, value, refresh) if validate_popup_choice
-
-      value =
-        case ea_types[name]
-        when JSS::ExtensionAttribute::DATA_TYPE_DATE # date
-          JSS.parse_datetime(value).to_s
-        when *JSS::ExtensionAttribute::NUMERIC_TYPES # integer
-          if value.is_a? Integer
-            value
-          elsif value.to_s.jss_integer?
-            value.to_s.to_i
-          else
-            raise JSS::InvalidDataError, "The value for #{name} must be an integer"
-          end # if
-        else # string
-          value.to_s
-        end # case
+      value = validate_ea_value(ea_name, value, validate_popup_choice, refresh)
 
       # update this ea hash in the @extension_attributes array
-      @extension_attributes.each { |ea| ea[:value] = value if ea[:name] == name }
+      ea_hash = @extension_attributes.find { |ea| ea[:name] == ea_name }
+
+      raise JSS::NoSuchItemError, "#{self.class} '#{name}'(id #{id}) does not know about ExtAttr '#{ea_name}'. Please re-fetch and try again." unless ea_hash
+
+      ea_hash[:value] = value
 
       # update the shortcut hash too
-      @ext_attrs[name] = value if @ext_attrs
-      @changed_eas << name
+      @ext_attrs[ea_name] = value if @ext_attrs
+      @changed_eas << ea_name
       @need_to_update = true
     end
 
@@ -251,22 +238,71 @@ module JSS
       eaxml
     end
 
-    # Used by set_ext_attr
-    def validate_popup_value(name, value, refresh)
-      # all popups can take blanks
-      return if value == JSS::BLANK
+    # is the value being passed to set_ext_attr valid?
+    # Converts values as needed (e.g. strings to integers or Times)
+    #
+    # If the EA is defined to hold a string, any value is accepted and
+    # converted with #to_s
+    #
+    # Note: All EAs can be blank
+    #
+    # @param name[String] the name of the extension attribute to set
+    #
+    # @param value[String,Time,Integer] the new value for the extension
+    #   attribute for this user
+    #
+    # @param validate_popup_choice[Boolean] validate the new value against the E.A. definition.
+    #   Defaults to true.
+    #
+    # @param refresh[Boolean] Re-read the ext. attrib definition from the API,
+    #   for popup validation.
+    #
+    # @return [Object] the possibly modified valid value
+    #
+    def validate_ea_value(ea_name, value, validate_popup_choice, refresh)
+      return JSS::BLANK if value.to_s == JSS::BLANK
 
+      value =
+        case ea_types[ea_name]
+        when JSS::ExtensionAttribute::DATA_TYPE_DATE
+          JSS.parse_datetime(value).to_s
+        when *JSS::ExtensionAttribute::NUMERIC_TYPES
+          validate_integer_ea_value ea_name, value
+        else
+          value.to_s
+        end # case
+
+      validate_popup_value(ea_name, value, refresh) if validate_popup_choice
+
+      value
+    end
+
+    # raise error if the value isn't an integer
+    def validate_integer_ea_value(ea_name, value)
+      if value.is_a? Integer
+        value
+      elsif value.to_s.jss_integer?
+        value.to_s.to_i
+      else
+        raise JSS::InvalidDataError, "The value for #{ea_name} must be an integer"
+      end # if
+    end
+
+    # Raise an error if the named EA has a popup menu,
+    # but the provided value isn't one of the menu items
+    #
+    def validate_popup_value(ea_name, value, refresh)
       # get the ea def. instance from the api cache, or the api
       api.ext_attr_definition_cache[self.class] ||= {}
-      api.ext_attr_definition_cache[self.class][name] = nil if refresh
-      api.ext_attr_definition_cache[self.class][name] ||= self.class::EXT_ATTRIB_CLASS.fetch name: name, api: api
+      api.ext_attr_definition_cache[self.class][ea_name] = nil if refresh
+      api.ext_attr_definition_cache[self.class][ea_name] ||= self.class::EXT_ATTRIB_CLASS.fetch name: ea_name, api: api
 
-      ea_def = api.ext_attr_definition_cache[self.class][name]
+      ea_def = api.ext_attr_definition_cache[self.class][ea_name]
       return unless ea_def.from_popup_menu?
 
       return if ea_def.popup_choices.include? value.to_s
 
-      raise JSS::UnsupportedError, "The value for #{name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
+      raise JSS::UnsupportedError, "The value for #{ea_name} must be one of: '#{ea_def.popup_choices.join("' '")}'"
     end
 
   end # module extendable
