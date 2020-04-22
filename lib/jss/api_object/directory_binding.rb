@@ -143,14 +143,28 @@ module JSS
         def set_binding_type(new_type, **args)
             raise JSS::InvalidDataError, "Directory Binding type must be one of :#{DIRECTORY_BINDING_TYPE.keys.join(',:')}" unless DIRECTORY_BINDING_TYPE.keys.include? new_type
 
+            @type = DIRECTORY_BINDING_TYPE[new_type]
             case new_type
             when :open_directory
+
+                raise JSS::InvalidDataError, "encrypt_using_ssl must be true or false." if !args[:encrypt_using_ssl].nil? && !args[:encrypt_using_ssl].is_a? Bool
+                raise JSS::InvalidDataError, "perform_secure_bind must be true or false." if !args[:perform_secure_bind].nil? && !args[:perform_secure_bind].is_a? Bool
+                raise JSS::InvalidDataError, "use_for_authentication must be true or false." if !args[:use_for_authentication].nil? && !args[:use_for_authentication].is_a? Bool
+                raise JSS::InvalidDataError, "use_for_contacts must be true or false." if !args[:use_for_contacts].nil? && !args[:use_for_contacts].is_a? Bool
+
                 @open_directory = {
                     encrypt_using_ssl: args[:encrypt_using_ssl],
                     perform_secure_bind: args[:perform_secure_bind],
                     use_for_authentication: args[:use_for_authentication],
                     use_for_contacts: args[:use_for_contacts]
                 }
+                
+                # Default values if object was created using Jamf Pro's Web UI
+                @open_directory[:encrypt_using_ssl] = false if @open_directory[:encrypt_using_ssl].nil?
+                @open_directory[:perform_secure_bind] = false if @open_directory[:perform_secure_bind].nil?
+                @open_directory[:use_for_authentication] = true if @open_directory[:use_for_authentication].nil?
+                @open_directory[:use_for_contacts] = true if @open_directory[:use_for_contacts].nil?
+
             when :active_directory
                 @active_directory = {
                     cache_last_user: args[:cache_last_user],
@@ -168,7 +182,7 @@ module JSS
                 }
                 
             when :powerbroker_identity_services
-                @powerbroker_identity_services = nil
+                @powerbroker_identity_services = {}
                 
             when :admitmac
                 @admitmac = {
@@ -189,6 +203,13 @@ module JSS
                     printers_ou: args[:printers_ou],
                     shared_folders_ou: args[:shared_folders_ou]
                 }
+
+                @admitmac[:require_confirmation] = false if @admitmac[:require_confirmation].nil?
+                @admitmac[:local_home] = "Network" if @admitmac[:local_home].nil?
+                @admitmac[:default_shell] = "/bin/bash" if @admitmac[:default_shell].nil?
+                @admitmac[:mount_network_home] = false if @admitmac[:mount_network_home].nil?
+                @admitmac[:cached_credentials] = 10 if @admitmac[:cached_credentials].nil?
+                @admitmac[:add_user_to_local] = true if @admitmac[:add_user_to_local].nil?
 
             when :centrify
                 @centrify = {
