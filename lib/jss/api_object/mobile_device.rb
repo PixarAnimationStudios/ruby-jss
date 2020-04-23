@@ -132,6 +132,9 @@ module JSS
 
     NON_UNIQUE_NAMES = true
 
+    # file uploads can send attachments to the JSS using :mobiledevices as the sub-resource.
+    UPLOAD_TYPES = { attachment: :mobiledevices }.freeze
+
     # This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
 
