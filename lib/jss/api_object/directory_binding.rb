@@ -233,6 +233,12 @@ module JSS
                 @admitmac[:add_user_to_local] = true if @admitmac[:add_user_to_local].nil?
 
             when :centrify
+                raise JSS::InvalidDataError, "workstation_mode must be true or false." if !args[:workstation_mode].nil? && !args[:workstation_mode].is_a? Bool
+                raise JSS::InvalidDataError, "overwrite_existing must be true or false." if !args[:overwrite_existing].nil? && !args[:overwrite_existing].is_a? Bool
+                raise JSS::InvalidDataError, "update_PAM must be true or false." if !args[:update_PAM].nil? && !args[:update_PAM].is_a? Bool
+                raise JSS::InvalidDataError, "zone must a string." if !args[:zone].nil? && !args[:zone].is_a? String
+                raise JSS::InvalidDataError, "preferred_domain_server must a string." if !args[:preferred_domain_server].nil? && !args[:preferred_domain_server].is_a? String
+                
                 @centrify = {
                     workstation_mode: args[:workstation_mode],
                     overwrite_existing: args[:overwrite_existing],
@@ -240,6 +246,10 @@ module JSS
                     zone: args[:zone],
                     preferred_domain_server: args[:preferred_domain_server]
                 }
+
+                @admitmac[:workstation_mode] = false if @admitmac[:workstation_mode].nil?
+                @admitmac[:overwrite_existing] = false if @admitmac[:overwrite_existing].nil?
+                @admitmac[:update_PAM] = true if @admitmac[:update_PAM].nil?
             end
         end
 
