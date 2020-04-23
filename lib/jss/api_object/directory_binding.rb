@@ -61,6 +61,13 @@ module JSS
             centrify: "Centrify"
         }.freeze
 
+        ADMIT_HOME_FOLDER_TYPE = {
+            network: "Network",
+            local: "Local",
+            either: "Either",
+            mobile: "Mobile"
+        }.freeze
+
         # The base for REST resources of this class
         RSRC_BASE = 'directorybindings'.freeze
 
@@ -158,7 +165,7 @@ module JSS
                     use_for_authentication: args[:use_for_authentication],
                     use_for_contacts: args[:use_for_contacts]
                 }
-                
+
                 # Default values if object was created using Jamf Pro's Web UI
                 @open_directory[:encrypt_using_ssl] = false if @open_directory[:encrypt_using_ssl].nil?
                 @open_directory[:perform_secure_bind] = false if @open_directory[:perform_secure_bind].nil?
@@ -185,6 +192,20 @@ module JSS
                 @powerbroker_identity_services = {}
                 
             when :admitmac
+                raise JSS::InvalidDataError, "require_confirmation must be true or false." if !args[:require_confirmation].nil? && !args[:require_confirmation].is_a? Bool
+                raise JSS::InvalidDataError, "mount_network_home must be true or false." if !args[:mount_network_home].nil? && !args[:mount_network_home].is_a? Bool
+                raise JSS::InvalidDataError, "add_user_to_local must be true or false." if !args[:add_user_to_local].nil? && !args[:add_user_to_local].is_a? Bool
+                raise JSS::InvalidDataError, "cached_credentials must be an Integer." if !args[:cached_credentials].nil? && !args[:cached_credentials].is_a? Integer
+                raise JSS::InvalidDataError, "default_shell must be a string." if !args[:default_shell].nil? && !args[:default_shell].is_a? String
+                raise JSS::InvalidDataError, "place_home_folders must be a string." if !args[:place_home_folders].nil? && !args[:place_home_folders].is_a? String
+                raise JSS::InvalidDataError, "place_home_folders must begin and end with \"/\"." if !args[:place_home_folders].nil? && !args[:place_home_folders].is_a? String && (args[:place_home_folders].chars.first != "/" || args[:place_home_folders].chars.last != "/")
+                raise JSS::InvalidDataError, "admin_group must be a string." if !args[:admin_group].nil? && !args[:admin_group].is_a? String
+                raise JSS::InvalidDataError, "users_ou must be a string." if !args[:users_ou].nil? && !args[:users_ou].is_a? String
+                raise JSS::InvalidDataError, "groups_ou must be a string." if !args[:groups_ou].nil? && !args[:groups_ou].is_a? String
+                raise JSS::InvalidDataError, "printers_ou must be a string." if !args[:printers_ou].nil? && !args[:printers_ou].is_a? String
+                raise JSS::InvalidDataError, "shared_folders_ou must be a string." if !args[:shared_folders_ou].nil? && !args[:shared_folders_ou].is_a? String
+                raise JSS::InvalidDataError, "Directory Binding type must be one of :#{ADMIT_HOME_FOLDER_TYPE.keys.join(',:')}" if !ADMIT_HOME_FOLDER_TYPE.keys.include? args[:local_home] && !args[:local_home].nil?
+
                 @admitmac = {
                     require_confirmation: args[:require_confirmation],
                     local_home: args[:local_home],
@@ -205,7 +226,7 @@ module JSS
                 }
 
                 @admitmac[:require_confirmation] = false if @admitmac[:require_confirmation].nil?
-                @admitmac[:local_home] = "Network" if @admitmac[:local_home].nil?
+                @admitmac[:local_home] = ADMIT_HOME_FOLDER_TYPE[:network] if @admitmac[:local_home].nil?
                 @admitmac[:default_shell] = "/bin/bash" if @admitmac[:default_shell].nil?
                 @admitmac[:mount_network_home] = false if @admitmac[:mount_network_home].nil?
                 @admitmac[:cached_credentials] = 10 if @admitmac[:cached_credentials].nil?
