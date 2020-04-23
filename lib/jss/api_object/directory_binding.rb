@@ -247,9 +247,9 @@ module JSS
                     preferred_domain_server: args[:preferred_domain_server]
                 }
 
-                @admitmac[:workstation_mode] = false if @admitmac[:workstation_mode].nil?
-                @admitmac[:overwrite_existing] = false if @admitmac[:overwrite_existing].nil?
-                @admitmac[:update_PAM] = true if @admitmac[:update_PAM].nil?
+                @centrify[:workstation_mode] = false if @centrify[:workstation_mode].nil?
+                @centrify[:overwrite_existing] = false if @centrify[:overwrite_existing].nil?
+                @centrify[:update_PAM] = true if @centrify[:update_PAM].nil?
             end
         end
 
