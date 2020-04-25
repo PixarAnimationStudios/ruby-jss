@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.10] - 2020-04-25
+
+### Added
+
+  - Computer#reported_ip_address. This value is collected in newer versions of Jamf Pro. While the #ip_address is the client's IP address from the Jamf Server's perspective, the #reported_ip_address is the IP from the client's perspective, which may be different on a NATted network like a home network.
+
+### Fixed
+
+  - MobileDevice#upload now works like Computer#upload
+
+### Changed
+
+  - Validation of Ext. Attribute values is improved, namely for EAs with integer values, integer-strings like "12" are accepted and converted to real integers as needed.
+
 ## \[1.2.9] - 2020-04-13
 
 ### Fixed
