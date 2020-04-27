@@ -68,6 +68,11 @@ module JSS
             mobile: "Mobile"
         }.freeze
 
+        DIRECTORY_NETWORK_PROTOCOL = {
+            smb: "SMB",
+            afp: "AFP"
+        }.freeze
+
         # The base for REST resources of this class
         RSRC_BASE = 'directorybindings'.freeze
 
@@ -173,6 +178,21 @@ module JSS
                 @open_directory[:use_for_contacts] = true if @open_directory[:use_for_contacts].nil?
 
             when :active_directory
+                raise JSS::InvalidDataError, "cache_last_user must be true or false." if !args[:cache_last_user].nil? && !args[:cache_last_user].is_a? Bool
+                raise JSS::InvalidDataError, "require_confirmation must be true or false." if !args[:require_confirmation].nil? && !args[:require_confirmation].is_a? Bool
+                raise JSS::InvalidDataError, "local_home must be true or false." if !args[:local_home].nil? && !args[:local_home].is_a? Bool
+                raise JSS::InvalidDataError, "use_unc_path must be true or false." if !args[:use_unc_path].nil? && !args[:use_unc_path].is_a? Bool
+                raise JSS::InvalidDataError, "multiple_domains must be true or false." if !args[:multiple_domains].nil? && !args[:multiple_domains].is_a? Bool
+
+                raise JSS::InvalidDataError, "mount_style must be one of :#{DIRECTORY_NETWORK_PROTOCOL.keys.join(',:')}" if !DIRECTORY_NETWORK_PROTOCOL.keys.include? args[:mount_style] && !args[:mount_style].nil?
+                
+                raise JSS::InvalidDataError, "uid must be a String or Integer." if !args[:uid].nil? && (!args[:uid].is_a? String || !args[:uid].is_a? Integer)
+                raise JSS::InvalidDataError, "user_gid must be a String or Integer." if !args[:user_gid].nil? && (args[:user_gid].is_a? String || args[:user_gid].is_a? Integer)
+                raise JSS::InvalidDataError, "gid must be a String or Integer." if !args[:gid].nil? && (!args[:gid].is_a? String || !args[:gid].is_a? Integer)
+
+                raise JSS::InvalidDataError, "preferred_domain must be a String." if !args[:preferred_domain].nil? && !args[:preferred_domain].is_a? String
+                raise JSS::InvalidDataError, "admin_groups must be a String." if !args[:admin_groups].nil? && !args[:admin_groups].is_a? String
+
                 @active_directory = {
                     cache_last_user: args[:cache_last_user],
                     require_confirmation: args[:require_confirmation],
@@ -187,6 +207,13 @@ module JSS
                     preferred_domain_server: args[:preferred_domain],
                     admin_groups: args[:admin_groups]
                 }
+
+                @active_directory[:cache_last_user] = false if @active_directory[:cache_last_user].nil?
+                @active_directory[:require_confirmation] = false if @active_directory[:require_confirmation].nil?
+                @active_directory[:local_home] = true if @active_directory[:local_home].nil?
+                @active_directory[:use_unc_path] = false if @active_directory[:use_unc_path].nil?
+                @active_directory[:mount_style] = "smb" if @active_directory[:mount_style].nil?
+                @active_directory[:default_shell] = "/bin/bash" if @active_directory[:default_shell].nil?
                 
             when :powerbroker_identity_services
                 @powerbroker_identity_services = {}
