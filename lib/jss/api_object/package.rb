@@ -885,7 +885,7 @@ module JSS
 
         # we'll re-add the filename below if needed.
         src_path = args[:alt_download_url].chomp "/#{@filename}"
-
+        using_http = true
       # use our appropriate dist. point for download
       else
         mdp = JSS::DistributionPoint.my_distribution_point api: @api
