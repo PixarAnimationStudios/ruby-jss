@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.2.12] - 2020-04-29
+
+### Added
+
+    - Backport of `#dig` for Arrays, Hashes and OpenStructs, for compatibiliy with older rubiesd (for a while longer anyway). Gratefully borrowed from https://github.com/Invoca/ruby_dig
+
+### Changed
+
+    - Removed all safe navigation operators (`&.`) for compatibility with older rubies (for a while longer anyway)
+
+
 ## \[1.2.11] - 2020-04-26
 
 ### Fixed
