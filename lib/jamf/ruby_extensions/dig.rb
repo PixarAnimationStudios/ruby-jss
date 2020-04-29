@@ -21,41 +21,32 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
-module JamfRubyExtensions
+# Gratefully borrowed from https://github.com/Invoca/ruby_dig
 
-  module Array
+# modulize monkey patches
+module RubyDig
 
-    module Utils
+  def dig(key, *rest)
+    value = self[key]
+    if value.nil? || rest.empty?
+      value
+    elsif value.respond_to?(:dig)
+      value.dig(*rest)
+    else
+      raise TypeError, "#{value.class} does not have #dig method"
+    end
+  end
 
-      # Fetch a string from an Array case-insensitively,
-      # e.g. if my_array contains 'thrasher',
-      #    my_array.j_ci_fetch('ThRashEr')
-      # will return 'thrasher'
-      #
-      # returns nil if no match
-      #
-      # @param somestring [String] the String to search for
-      #
-      # @return [String, nil] The matching string as it exists in the Array,
-      #   nil if it doesn't exist
-      #
-      def j_ci_fetch(somestring)
-        each { |s| return s if s.is_a? String && s.casecmp?(somestring) }
-        nil
-      end
+end
 
-      # case-insensitive version of include?
-      #
-      # @param somestring [String] the String to search for
-      #
-      # @return [Boolean]
-      #
-      def j_ci_include?(somestring)
-        any? { |s| s.is_a? String && s.casecmp?(somestring) }
-      end
+if RUBY_VERSION < '2.3'
 
-    end # module
+  # arrays
+  class Array; include RubyDig; end
 
-  end # module
+  # hashes
+  class Hash; include RubyDig; end
 
-end # module
+  # ostructs
+  class OpenStruct; include RubyDig; end
+end

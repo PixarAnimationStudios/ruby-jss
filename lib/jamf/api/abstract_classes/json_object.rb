@@ -524,7 +524,7 @@ module Jamf
     #
     def self.attr_key_for_alias(als)
       validate_not_abstract
-      self::OBJECT_MODEL.each { |k, deets| return k if k == als || deets[:aliases]&.include?(als) }
+      self::OBJECT_MODEL.each { |k, deets| return k if k == als || deets[:aliases].to_a.include?(als) }
       nil
     end
 
