@@ -40,7 +40,7 @@ module JamfRubyExtensions
       #   nil if it doesn't exist
       #
       def j_ci_fetch(somestring)
-        each { |s| return s if s.casecmp?(somestring) }
+        each { |s| return s if s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
         nil
       end
 
@@ -51,7 +51,7 @@ module JamfRubyExtensions
       # @return [Boolean]
       #
       def j_ci_include?(somestring)
-        any? { |s| s.casecmp?(somestring) }
+        any? { |s| s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
       end
 
     end # module
