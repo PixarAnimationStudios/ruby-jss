@@ -25,6 +25,7 @@ module JamfRubyExtensions
 
   module Array
 
+    # Useful monkey patches for Array
     module Utils
 
       # Fetch a string from an Array case-insensitively,

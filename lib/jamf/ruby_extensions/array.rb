@@ -26,7 +26,7 @@
 require 'jamf/ruby_extensions/array/predicates'
 require 'jamf/ruby_extensions/array/utils'
 
-#
+# an array
 class Array
 
   include JamfRubyExtensions::Array::Predicates
