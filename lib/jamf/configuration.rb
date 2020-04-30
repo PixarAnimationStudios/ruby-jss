@@ -104,7 +104,7 @@ module Jamf
     GLOBAL_CONF_FILE = Pathname.new "/etc/#{CONF_FILENAME}"
 
     # The Pathname to the user-specific preferences plist if there is one
-    USER_CONF_FILE =  Pathname.new("#{ENV['HOME']}/.#{CONF_FILENAME}")
+    USER_CONF_FILE = Pathname.new("#{ENV['HOME']}/.#{CONF_FILENAME}")
 
     # The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
@@ -134,7 +134,6 @@ module Jamf
     # Constructor
     #####################################
 
-
     # Initialize!
     #
     def initialize
@@ -144,7 +143,6 @@ module Jamf
 
     # Public Instance Methods
     #####################################
-
 
     # Clear all values
     #
@@ -196,9 +194,9 @@ module Jamf
     def save(file)
       path =
         case file
-          when :global then GLOBAL_CONF_FILE
-          when :user then USER_CONF_FILE
-          else Pathname.new(file)
+        when :global then GLOBAL_CONF_FILE
+        when :user then USER_CONF_FILE
+        else Pathname.new(file)
         end
 
       raise Jamf::MissingDataError, "No HOME environment variable, can't write to user conf file." if path.nil?
