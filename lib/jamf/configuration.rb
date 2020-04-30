@@ -103,8 +103,8 @@ module Jamf
     # The Pathname to the machine-wide preferences
     GLOBAL_CONF_FILE = Pathname.new "/etc/#{CONF_FILENAME}"
 
-    # The Pathname to the user-specific preferences plist
-    USER_CONF_FILE = ENV['HOME'] ? Pathname.new("~/.#{CONF_FILENAME}").expand_path : nil
+    # The Pathname to the user-specific preferences plist if there is one
+    USER_CONF_FILE =  Pathname.new("#{ENV['HOME']}/.#{CONF_FILENAME}")
 
     # The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
