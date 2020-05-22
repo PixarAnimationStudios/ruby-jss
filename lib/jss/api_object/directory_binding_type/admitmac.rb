@@ -24,15 +24,6 @@
 ###
 
 module JSS
-
-    # Module Variables
-    #####################################
-    
-    # Module Methods
-    #####################################
-    
-    # Classes
-    #####################################
     
     # Module for containing the different types of DirectoryBindings stored within the JSS
     
@@ -56,6 +47,8 @@ module JSS
         # @!attribute [rw] local_home
         # @!attribute [rw] mount_style
         # @!attribute [rw] default_shell
+        # TODO: Finish hashing this out
+        # TODO: Include default values upon creation
 
         class ADmitMac < DirectoryBindingType
             # Mix-Ins
@@ -404,6 +397,9 @@ module JSS
                 @admin_groups.delete value
                 @admin_groups
             end
+
         end
+
     end
+
 end
