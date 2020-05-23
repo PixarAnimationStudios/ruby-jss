@@ -67,21 +67,30 @@ module JSS
     ### Class Methods
     #####################################
 
-    ### All NetworkSegments in the jss as IPAddr object Ranges representing the
-    ### Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
-    ### the range looks like:
-    ###   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
-    ###
-    ### Using the #include? method on those Ranges is very useful.
-    ###
-    ### @param refresh[Boolean] re-read the data from the API?
-    ###
-    ### @param api[JSS::APIConnection] The API connection to query
-    ###
-    ### @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
-    ###
+    # All NetworkSegments in the given API as ruby Ranges of IPAddr instances
+    # representing the Segment,
+    # e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
+    # the range looks like:
+    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    #
+    # Using the #include? method on those Ranges is very useful.
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @param api[JSS::APIConnection] the API to query
+    #
+    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
+    #   keyed by id
+    #
     def self.network_ranges(refresh = false, api: JSS.api)
-      api.network_ranges refresh
+      @network_ranges = nil if refresh
+      return @network_ranges if @network_ranges
+
+      @network_ranges = {}
+      all(refresh, api: api).each do |ns|
+        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
+      end
+      @network_ranges
     end # def network_segments
 
     ### An alias for {NetworkSegment.network_ranges}
@@ -197,21 +206,58 @@ module JSS
     ###
     def self.network_segments_for_ip(ip, refresh = false, api: JSS.api)
       ok_ip = IPAddr.new(ip)
-      matches = []
-      network_ranges(refresh, api: api).each { |id, subnet| matches << id if subnet.include?(ok_ip) }
-      matches
+      network_ranges(refresh, api: api).select { |_id, range| range.include?(ok_ip) }.keys
     end
 
-    # @deprecated use network_segments_for_ip
-    # Here for Backward compatibility
-    def self.network_segment_for_ip(ip, api: JSS.api)
-      network_segments_for_ip(ip, api: api)
+    # Which network segment is seen as current for a given IP addr?
+    #
+    # According to the Jamf Pro Admin Guide, if an IP is in more than one network
+    # segment, it uses the 'smallest' one - the one with fewest IP addrs within it.
+    #
+    # If multiple ones have the same number of IPs, then it uses the one of
+    # those with the lowest starting address
+    #
+    # @return [Integer, nil] the id of the current net segment, or nil
+    #
+    def self.network_segment_for_ip(ip, refresh: false, api: JSS.api)
+      # a hash of NetSeg ids => Range<IPAddr>
+      ranges = network_ranges(refresh, api: api).select { |_id, range| range.include? ip }
+
+      # we got nuttin
+      return nil if ranges.empty?
+
+      # if we got only one, its the one
+      return ranges.keys.first if ranges.size == 1
+
+      # got more than one, sort by range size, asc.
+      sorted_by_size = ranges.sort_by { |_i, r| r.to_a.size }.to_h
+
+      # the first one is the smallest.
+      smallest_range_id, smallest_range = sorted_by_size.first
+      smallest_range_size = smallest_range.to_a.size
+
+      # if the size of the smallest one is < the size of the second one
+      # we can just return the smallest
+      return smallest_range_id if smallest_range_size < sorted_by_size.values[1].to_a.size
+
+      # otherwise, get all the  ones that are the same size as the smallest.
+      all_smallest = sorted_by_size.select { |i, r| r.to_a.size == smallest_range_size }
+
+      # get the one with the lowest starting ip
+      my_range_id, my_range = all_smallest.sort { |a, b| a[1].first <=> b[1].first }.first
+
+      #and return the id
+      my_range_id
     end
 
-    ### Find the current network segment ids for the machine running this code
-    ###
-    ### @return [Array<Integer>] the NetworkSegment ids for this machine right now.
-    ###
+    # Find the current network segment ids for the machine running this code
+    #
+    # See my_network_segment to get the current one according to the server.
+    #
+    # @param names [Boolean] the array will contain Network Segment names, not ids
+    #
+    # @return [Array<Integer>,Array<String>] the NetworkSegment ids or names for this machine right now.
+    #
     def self.my_network_segments(refresh = false, names: false, api: JSS.api)
       ids = network_segments_for_ip JSS::Client.my_ip_address, refresh, api: api
       return ids unless names
@@ -220,35 +266,23 @@ module JSS
       ids.map { |id| ids_to_names[id] }
     end
 
-    # @deprecated use my_network_segments
-    # Here for backward compatibility
-    def self.my_network_segment(api: JSS.api)
-      my_network_segments api: api
-    end
+    # Which network segment is seen as current? According to the
+    # Jamf Pro Admin Guide, the 'smallest' one - the one with fewest IP
+    # addrs within it.  If multiple ones have the same number of IPs,
+    # then its the one with the lowest starting address
+    #
+    # @param name [Boolean] return the name of the netsegment, not the id
+    #
+    # @return [Integer, String, nil] the id of the current net segment, or nil
+    def self.my_network_segment(refresh = false, name: false, api: JSS.api)
+      my_ip = JSS::Client.my_ip_address
+      return nil unless my_ip
 
-    # All NetworkSegments in the given API as IPAddr object Ranges representing the
-    # Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
-    # the range looks like:
-    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
-    #
-    # Using the #include? method on those Ranges is very useful.
-    #
-    # @param refresh[Boolean] should the data be re-queried?
-    #
-    # @param api[JSS::APIConnection] the API to query
-    #
-    # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
-    #   keyed by id
-    #
-    def self.network_ranges(refresh = false, api: JSS.api)
-      @network_ranges = nil if refresh
-      return @network_ranges if @network_ranges
-      @network_ranges = {}
-      all(refresh, api: api).each do |ns|
-        @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
-      end
-      @network_ranges
-    end # def network_segments
+      id = network_segment_for_ip(my_ip, refresh: refresh, api: api)
+      return id unless name
+
+      map_all_ids_to(:name)[id]
+    end
 
     ### Attributes
     #####################################
