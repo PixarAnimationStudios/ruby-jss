@@ -91,7 +91,22 @@ module JSS
     # @return [JSS::DistributionPoint]
     #
     def self.master_distribution_point(refresh = false, api: JSS.api)
-      api.master_distribution_point refresh
+      @master_distribution_point = nil if refresh
+      return @master_distribution_point if @master_distribution_point
+
+      all_ids(refresh, api: api).each do |dp_id|
+        dp = fetch id: dp_id, api: api
+        if dp.master?
+          @master_distribution_point = dp
+          break
+        end
+      end
+
+      return @master_distribution_point if @master_distribution_point
+
+      # If we're here, the Cloud DP might be master, but there's no
+      # access to it in the API :/
+      raise JSS::NoSuchItemError, 'No Master Distribtion Point defined. It could be the Cloud Dist Point, which is not available in the classic API'
     end
 
     # Get the DistributionPoint instance for the machine running
@@ -105,7 +120,20 @@ module JSS
     # @return [JSS::DistributionPoint]
     #
     def self.my_distribution_point(refresh = false, api: JSS.api)
-      api.my_distribution_point refresh
+      @my_distribution_point = nil if refresh
+      return @my_distribution_point if @my_distribution_point
+
+      my_net_seg_id = JSS::NetworkSegment.my_network_segment refresh, api: api
+
+      if my_net_seg_id
+        my_net_seg = JSS::NetworkSegment.fetch(id: my_net_seg_id, api: api)
+        my_dp_name = my_net_seg.distribution_point
+        next unless my_dp_name
+
+        @my_distribution_point = fetch name: my_dp_name, api: api
+      end # if my_net_seg_id
+
+      @my_distribution_point ||= master_distribution_point refresh
     end
 
     # Class Attributes
