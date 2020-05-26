@@ -41,6 +41,30 @@ module JSS
   #
   class DirectoryBinding < JSS::APIObject
 
+    # JSS > directorybinding.rb
+    # folder directory binding type
+    ## Includes type
+    ##! Requires in right way
+    #class DirectoryBindingType
+    #    def test1
+    #        puts "Test1"
+    #    end
+
+        #? Look at scope obj (policy rest_xml)
+        #def rest_xml
+
+        #end
+    #end
+
+    #class ActiveDirectory < DirectoryBindingType
+    #    RSRC_OBJECT_KEY = :active_directory
+    #    # Settings for this obj
+    #    def test2
+    #        puts "Test2"
+    #    end
+
+    #end
+
         # Mix-Ins
         #####################################
         include JSS::Creatable
@@ -61,12 +85,13 @@ module JSS
             centrify: "Centrify"
         }.freeze
 
-        ADMIT_HOME_FOLDER_TYPE = {
-            network: "Network",
-            local: "Local",
-            either: "Either",
-            mobile: "Mobile"
-        }.freeze
+        DIRECTORY_BINDING_TYPE_CLASSES = {
+            "Open Directory" => JSS::DirectoryBindingType::OpenDirectory,
+            "Active Directory" => JSS::DirectoryBindingType::ActiveDirectory,
+            "PowerBroker Identify Services" => JSS::DirectoryBindingType::PowerBroker,
+            "ADmitMac" => JSS::DirectoryBindingType::ADmitMac,
+            "Centrify" => JSS::DirectoryBindingType::Centrify
+        }
 
         DIRECTORY_NETWORK_PROTOCOL = {
             smb: "SMB",
@@ -98,6 +123,7 @@ module JSS
         attr_reader :password_sha256
         attr_reader :computer_ou
         attr_reader :type
+        attr_reader :type_settings
 
         ## The different type of directory binding settings:
         attr_reader :open_directory
@@ -120,11 +146,16 @@ module JSS
             @type = @init_data[:type]
 
             # The different type of directory binding settings:
-            @open_directory = @init_data[:open_directory]
-            @active_directory = @init_data[:active_directory]
-            @powerbroker_identity_services = @init_data[:powerbroker_identity_services]
-            @admitmac = @init_data[:admitmac]
-            @centrify = @init_data[:centrify]
+            #? One attribute "type-settings" instance of directory binding type DirectoryBindingType
+
+            class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
+
+            pp "Key found: #{class_key}"
+
+            pp @init_data[class_key]
+
+            @type_settings = DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key]
+            # TODO: Process class and create the object
         end
 
         # Public Instance Methods
