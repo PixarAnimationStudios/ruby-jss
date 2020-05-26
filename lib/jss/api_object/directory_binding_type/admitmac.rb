@@ -121,6 +121,8 @@ module JSS
             # @param newvalue [Bool]
             #
             # @raise [JSS::InvalidDataError] If the new value doesn't match a Bool value
+            #
+            # @return [void]
             def require_confirmation=(newvalue)
 
                 raise JSS::InvalidDataError, "require_confirmation must be true or false." unless newvalue.is_a? Bool
@@ -138,6 +140,8 @@ module JSS
             # @see JSS::DirectoryBindingType::HOME_FOLDER_TYPE
             #
             # @raise [JSS::InvalidDataError] If the new value is not one of the possible keys in HOME_FOLDER_TYPE
+            #
+            # @return [void]
             def local_home=(newvalue)
                 
                 raise JSS::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
@@ -153,6 +157,8 @@ module JSS
             # @param newvalue [String] The string path of the shell file being set as the default
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def default_shell=(newvalue)
 
                 raise JSS::InvalidDataError, "default_shell must be empty or a string." unless newvalue.is_a?(String)
@@ -169,6 +175,8 @@ module JSS
             # @param newvalue [Bool]
             #
             # @raise [JSS::InvalidDataError] If the new value is not a Bool
+            #
+            # @return [void]
             def mount_network_home=(newvalue)
 
                 raise JSS::InvalidDataError, "mount_network_home must be true or false." unless newvalue.is_a? Bool
@@ -184,6 +192,8 @@ module JSS
             # @param newvalue [String] The string path of the folder which user's directory files and folders will be created
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def place_home_folders=(newvalue)
 
                 raise JSS::InvalidDataError, "place_home_folders must be a string." unless newvalue.is_a? String
@@ -203,6 +213,8 @@ module JSS
             # @param newvalue [String] The UID you want to be mapped
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def uid=(newvalue)
 
                 raise JSS::InvalidDataError, "uid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
@@ -219,6 +231,8 @@ module JSS
             # @param newvalue [String] The User's GID you want to be mapped
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def user_gid=(newvalue)
 
                 raise JSS::InvalidDataError, "user_gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
@@ -235,6 +249,8 @@ module JSS
             # @param newvalue [String] The GID you want to be mapped
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def gid=(newvalue)
 
                 raise JSS::InvalidDataError, "gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
@@ -252,6 +268,8 @@ module JSS
             # @see remove_admin_group
             #
             # @raise [JSS::InvalidDataError] If the new value is not an Array
+            #
+            # @return [void]
             def admin_groups=(newvalue)
                 
                 raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
@@ -268,6 +286,8 @@ module JSS
             # @param newvalue [Integer] The number of times you want a user to login while not connected to a network
             #
             # @raise [JSS::InvalidDataError] If the new value is not an Integer
+            #
+            # @return [void]
             def cached_credentials=(newvalue)
 
                 raise JSS::InvalidDataError, "cached_credentials must be an integer." unless newvalue.is_a? Integer
@@ -286,6 +306,8 @@ module JSS
             # @param newvalue [Bool]
             #
             # @raise [JSS::InvalidDataError] If the new value is not a Bool
+            #
+            # @return [void]
             def add_user_to_local=(newvalue)
 
                 raise JSS::InvalidDataError, "add_user_to_local must be true or false." unless newvalue.is_a? Bool
@@ -303,6 +325,8 @@ module JSS
             # @note Not sure what this is used for
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def users_ou=(newvalue)
 
                 raise JSS::InvalidDataError, "users_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
@@ -320,6 +344,8 @@ module JSS
             # @note Not sure what this is used for
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def groups_ou=(newvalue)
 
                 raise JSS::InvalidDataError, "groups_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
@@ -337,6 +363,8 @@ module JSS
             # @note Not sure what this is used for
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def printers_ou=(newvalue)
 
                 raise JSS::InvalidDataError, "printers_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
@@ -354,6 +382,8 @@ module JSS
             # @note Not sure what this is used for
             #
             # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
             def shared_folders_ou=(newvalue)
 
                 raise JSS::InvalidDataError, "shared_folders_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
@@ -370,6 +400,9 @@ module JSS
             # @param value [String] The admin group name you wish to add to the admin group list
             #
             # @raise [JSS::InvalidDataError] If the value provided is not a String
+            # @raise [JSS::InvalidDataError] If the group provided is already a member of the admin_group array
+            #
+            # @return [Array <String>] An array of all the admin groups currently set.
             def add_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group must be a string." unless value.is_a? String
@@ -388,6 +421,8 @@ module JSS
             #
             # @raise [JSS::InvalidDataError] If the value provided is not a String
             # @raise [JSS::InvalidDataError] If the group provided is not in the admin_group array
+            #
+            # @return [Array <String>] An array of all the admin groups currently set.
             def remove_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group being removed must be a string" unless value.is_a? String
