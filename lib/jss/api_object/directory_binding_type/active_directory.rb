@@ -43,7 +43,17 @@ module JSS
         #
         # Attributes
         # @!attribute [rw] cache_last_user
-        # TODO: Finish hashing this out
+        # @!attribute [rw] require_confirmation
+        # @!attribute [rw] local_home
+        # @!attribute [rw] use_unc_path 
+        # @!attribute [rw] mount_style 
+        # @!attribute [rw] default_shell
+        # @!attribute [rw] uid
+        # @!attribute [rw] user_gid
+        # @!attribute [rw] gid
+        # @!attribute [rw] multiple_domains
+        # @!attribute [rw] preferred_domain_server
+        # @!attribute [rw] admin_groups
         # TODO: Include default values upon creation
 
         class ActiveDirectory < DirectoryBindingType

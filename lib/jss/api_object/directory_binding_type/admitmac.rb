@@ -47,7 +47,18 @@ module JSS
         # @!attribute [rw] local_home
         # @!attribute [rw] mount_style
         # @!attribute [rw] default_shell
-        # TODO: Finish hashing this out
+        # @!attribute [rw] mount_network_home
+        # @!attribute [rw] place_home_folders
+        # @!attribute [rw] uid
+        # @!attribute [rw] user_gid
+        # @!attribute [rw] gid
+        # @!attribute [rw] admin_groups
+        # @!attribute [rw] cached_credentials
+        # @!attribute [rw] add_user_to_local
+        # @!attribute [rw] users_ou
+        # @!attribute [rw] groups_ou
+        # @!attribute [rw] printers_ou
+        # @!attribute [rw] shared_folders_ou
         # TODO: Include default values upon creation
 
         class ADmitMac < DirectoryBindingType

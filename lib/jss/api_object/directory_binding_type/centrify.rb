@@ -43,7 +43,11 @@ module JSS
         # @author Tyler Morgan
         #
         # Attributes
-        # @!attribute [rw] require_confirmation
+        # @!attribute [rw] workstation_mode
+        # @!attribute [rw] overwrite_existing
+        # @!attribute [rw] update_PAM
+        # @!attribute [rw] zone
+        # @!attribute [rw] preferred_domain_server
         class Centrify < DirectoryBindingType
             # Mix-Ins
             #####################################
