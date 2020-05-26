@@ -370,11 +370,10 @@ module JSS
             # @param value [String] The admin group name you wish to add to the admin group list
             #
             # @raise [JSS::InvalidDataError] If the value provided is not a String
-            #
-            # @todo Add validation to see if the admin group already exists in the array
             def add_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group must be a string." unless value.is_a? String
+                raise JSS::InvalidDataError, "Admin group \"#{value}\" already is in the list of admin groups." unless !@admin_groups.include? value
 
                 @admin_groups << value
                 @admin_groups
