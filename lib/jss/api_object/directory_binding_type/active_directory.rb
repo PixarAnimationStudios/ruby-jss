@@ -104,6 +104,8 @@ module JSS
                 @multiple_domains = init_data[:multiple_domains]
                 @preferred_domain_server = init_data[:preferred_domain_server]
                 @admin_groups = init_data[:admin_groups]
+
+                @admin_groups = [] unless !@admin_groups.nil?
             end
 
                 
