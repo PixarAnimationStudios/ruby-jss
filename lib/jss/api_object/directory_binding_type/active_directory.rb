@@ -123,7 +123,7 @@ module JSS
             def cache_last_user=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "cache_last_user must be true or false." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "cache_last_user must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a?(FalseClass)
 
                 # Update Value
                 @cache_last_user = newvalue
@@ -145,7 +145,7 @@ module JSS
             def require_confirmation=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "require_confirmation must be true or false." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "require_confirmation must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a?(FalseClass)
 
                 # Update Value
                 @require_confirmation = newvalue
@@ -167,7 +167,7 @@ module JSS
             def local_home=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "local_home must be true or false." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "local_home must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a?(FalseClass)
 
                 # Update Value
                 @local_home = newvalue
@@ -189,7 +189,7 @@ module JSS
             def use_unc_path=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "use_unc_path must be true or false." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "use_unc_path must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a?(FalseClass)
 
                 # Update Value
                 @use_unc_path = newvalue
@@ -212,7 +212,7 @@ module JSS
             def mount_style=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "mount_style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "mount_style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}." unless NETWORK_PROTOCOL.keys.include? newvalue
 
                 # Update Value
                 @mount_style = newvalue
@@ -234,7 +234,7 @@ module JSS
             def default_shell=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "default_shell must be a string." unless new_value.is_a? String
+                raise JSS::InvalidDataError, "default_shell must be a string." unless newvalue.is_a? String
 
                 # Update Value
                 @default_shell = newvalue
@@ -256,7 +256,7 @@ module JSS
             def uid=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "uid must be either an integer or a string." unless (new_value.is_a? Integer || new_value.is_a?(String))
+                raise JSS::InvalidDataError, "uid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
 
                 # Update Value
                 @uid = newvalue
@@ -278,7 +278,7 @@ module JSS
             def user_gid=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "user_gid must be either an integer or a string." unless (new_value.is_a? Integer || new_value.is_a?(String))
+                raise JSS::InvalidDataError, "user_gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
 
                 # Update Value
                 @user_gid = newvalue
@@ -300,7 +300,7 @@ module JSS
             def gid=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "gid must be either an integer or a string." unless (new_value.is_a? Integer || new_value.is_a?(String))
+                raise JSS::InvalidDataError, "gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
 
                 # Update Value
                 @gid = newvalue
@@ -322,7 +322,7 @@ module JSS
             def multiple_domains=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "multiple_domains must be true or false." unless new_value.is_a? Bool
+                raise JSS::InvalidDataError, "multiple_domains must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a?(FalseClass)
 
                 # Update Value
                 @multiple_domains = newvalue
@@ -344,7 +344,7 @@ module JSS
             def preferred_domain_server=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless new_value.is_a? String
+                raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
 
                 # Update Value
                 @preferred_domain_server = newvalue
@@ -366,7 +366,7 @@ module JSS
             def admin_groups=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "admin_groups must be either a string or an array of strings." unless (new_value.is_a? String || new_value.is_a?(Array))
+                raise JSS::InvalidDataError, "admin_groups must be either a string or an array of strings." unless (newvalue.is_a? String || newvalue.is_a?(Array))
 
                 # Update Value
                 if newvalue.is_a? Array
@@ -418,6 +418,7 @@ module JSS
                 @admin_groups.delete value
                 @admin_groups
             end
+
         end
     end
 end
