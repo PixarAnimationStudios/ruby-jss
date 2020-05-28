@@ -118,6 +118,8 @@ module JSS
                 @groups_ou = init_data[:groups_ou]
                 @printers_ou = init_data[:printers_ou]
                 @shared_folders_ou = init_data[:shared_folders_ou]
+
+                @admin_groups = [] unless !@admin_groups.nil?
             end
 
                 
@@ -139,7 +141,8 @@ module JSS
                 raise JSS::InvalidDataError, "require_confirmation must be true or false." unless newvalue.is_a? Bool
 
                 @require_confirmation = newvalue
-                @require_confirmation
+                
+                self.container&.should_update
             end
 
 
@@ -158,7 +161,8 @@ module JSS
                 raise JSS::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
 
                 @local_home = HOME_FOLDER_TYPE[newvalue]
-                @local_home
+                
+                self.container&.should_update
             end
 
             # The default shell assigned first upon logging into a system
@@ -175,7 +179,8 @@ module JSS
                 raise JSS::InvalidDataError, "default_shell must be empty or a string." unless newvalue.is_a?(String)
 
                 @default_shell = newvalue
-                @default_shell
+                
+                self.container&.should_update
             end
 
 
@@ -193,7 +198,8 @@ module JSS
                 raise JSS::InvalidDataError, "mount_network_home must be true or false." unless newvalue.is_a? Bool
 
                 @mount_network_home = newvalue
-                @mount_network_home
+                
+                self.container&.should_update
             end
 
             # Path at which home folders are placed
@@ -210,7 +216,8 @@ module JSS
                 raise JSS::InvalidDataError, "place_home_folders must be a string." unless newvalue.is_a? String
 
                 @place_home_folders = newvalue
-                @place_home_folders
+                
+                self.container&.should_update
             end
 
             # Jamf has these linked for some reason...
@@ -231,7 +238,8 @@ module JSS
                 raise JSS::InvalidDataError, "uid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
 
                 @uid = newvalue
-                @uid
+                
+                self.container&.should_update
             end
 
             
@@ -249,7 +257,8 @@ module JSS
                 raise JSS::InvalidDataError, "user_gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
 
                 @user_gid = newvalue
-                @user_gid
+                
+                self.container&.should_update
             end
 
 
@@ -267,7 +276,8 @@ module JSS
                 raise JSS::InvalidDataError, "gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
 
                 @gid = newvalue
-                @gid
+                
+                self.container&.should_update
             end
 
             # Set specific groups to become administrators to a system.
@@ -286,7 +296,8 @@ module JSS
                 raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
 
                 @admin_groups = newvalue
-                @admin_groups
+                
+                self.container&.should_update
             end
 
 
@@ -304,7 +315,8 @@ module JSS
                 raise JSS::InvalidDataError, "cached_credentials must be an integer." unless newvalue.is_a? Integer
 
                 @cached_credentials = newvalue
-                @cached_credentials
+                
+                self.container&.should_update
             end
 
 
@@ -324,7 +336,8 @@ module JSS
                 raise JSS::InvalidDataError, "add_user_to_local must be true or false." unless newvalue.is_a? Bool
 
                 @add_user_to_local = newvalue
-                @add_user_to_local
+                
+                self.container&.should_update
             end
 
 
@@ -343,7 +356,8 @@ module JSS
                 raise JSS::InvalidDataError, "users_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
 
                 @users_ou = newvalue
-                @users_ou
+                
+                self.container&.should_update
             end
 
 
@@ -362,7 +376,8 @@ module JSS
                 raise JSS::InvalidDataError, "groups_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
 
                 @groups_ou = newvalue
-                @groups_ou
+                
+                self.container&.should_update
             end
 
 
@@ -381,7 +396,8 @@ module JSS
                 raise JSS::InvalidDataError, "printers_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
 
                 @printers_ou = newvalue
-                @printers_ou
+                
+                self.container&.should_update
             end
 
 
@@ -400,7 +416,8 @@ module JSS
                 raise JSS::InvalidDataError, "shared_folders_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
 
                 @shared_folders_ou = newvalue
-                @shared_folders_ou
+                
+                self.container&.should_update
             end
 
             
@@ -420,7 +437,10 @@ module JSS
                 raise JSS::InvalidDataError, "Admin group \"#{value}\" already is in the list of admin groups." unless !@admin_groups.include? value
 
                 @admin_groups << value
-                @admin_groups
+                
+                self.container&.should_update
+
+                return @admin_groups
             end
 
 
@@ -440,7 +460,10 @@ module JSS
                 raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_groups.include? value
 
                 @admin_groups.delete value
-                @admin_groups
+
+                self.container&.should_update
+
+                return @admin_groups
             end
 
         end
