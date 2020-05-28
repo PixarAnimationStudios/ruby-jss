@@ -157,7 +157,7 @@ module JSS
                 
                 raise JSS::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
 
-                @local_home = HOME_FOLDER_TYPE[newvalue)]
+                @local_home = HOME_FOLDER_TYPE[newvalue]
                 @local_home
             end
 
