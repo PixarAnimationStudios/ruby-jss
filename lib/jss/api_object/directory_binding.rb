@@ -176,6 +176,8 @@ module JSS
 
         def priority=(newvalue)
             raise JSS::InvalidDataError, "Priority must be a Integer" unless newvalue.is_a? Integer
+            raise JSS::InvalidDataError, "Priority cannot exceed 10" unless newvalue <= 10
+            raise JSS::InvalidDataError, "Priority must be greater than 0" unless newvalue > 0
 
             @priority = newvalue
             @need_to_update = true
@@ -184,6 +186,7 @@ module JSS
         def computer_ou=(newvalue)
             raise JSS::InvalidDataError, "Computer OU must be a String" unless newvalue.is_a? String
 
+            @computer_ou = newvalue
             @need_to_update = true
         end
 
