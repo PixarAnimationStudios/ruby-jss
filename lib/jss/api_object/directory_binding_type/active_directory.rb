@@ -419,6 +419,30 @@ module JSS
                 @admin_groups
             end
 
+
+            # Return a REXML Element containing the current state of the DirectoryBindingType
+            # object for adding into the XML of the container.
+            # 
+            # @author Tyler Morgan
+            #
+            # @return [REXML::Element]
+            def type_setting_xml
+                type_setting = REXML::Element.new "active_directory"
+                type_setting.add_element("cache_last_user").text = @cache_last_user
+                type_setting.add_element("require_confirmation").text = @require_confirmation
+                type_setting.add_element("local_home").text = @local_home
+                type_setting.add_element("use_unc_path").text = @use_unc_path
+                type_setting.add_element("mount_style").text = @mount_style
+                type_setting.add_element("default_shell").text = @default_shell
+                type_setting.add_element("uid").text = @uid
+                type_setting.add_element("user_gid").text = @user_gid
+                type_setting.add_element("gid").text = @gid
+                type_setting.add_element("multiple_domains").text = @multiple_domains
+                type_setting.add_element("preferred_domain_server").text = @preferred_domain_server
+                type_setting.add_element("admin_groups").text = @admin_groups.join(',').to_s unless @admin_groups.nil?
+
+                return type_setting
+            end
         end
     end
 end
