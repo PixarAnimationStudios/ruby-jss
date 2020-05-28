@@ -25,20 +25,7 @@
 
 module JSS
 
-# Module Variables
-#####################################
-
-# Module Methods
-#####################################
-
-# Classes
-#####################################
-
-# A Dock Item in the JSS.
-# These are rather simple. They have an ID, name, path, type, and contents which is read-only
-#
-# @see JSS::APIObject
-
+# Module for containing the different types of DirectoryBindings stored within the JSS
 module DirectoryBindingType
 
         # Module Variables
@@ -58,11 +45,10 @@ module DirectoryBindingType
         # Classes
         #####################################
 
-        # A Dock Item in the JSS.
-        # These are rather simple. They have an ID, name, path, type, and contents which is read-only
+        # A generic binding type class that sets common variables, methods, and constructors 
+        # for all the different directory binding types.
         #
-        # @see JSS::APIObject
-
+        # @author Tyler Morgan        
         class DirectoryBindingType
             # Mix-Ins
             #####################################
@@ -72,11 +58,15 @@ module DirectoryBindingType
 
             # Class Constants
             #####################################
+
+            # The different network protocols supported.
             NETWORK_PROTOCOL = {
                 afp: "AFP",
                 smb: "SMB"
             }.freeze
 
+
+            # The different home folder types.
             HOME_FOLDER_TYPE = {
                 network: "Network",
                 local: "Local",
@@ -86,11 +76,9 @@ module DirectoryBindingType
 
             # Attributes
             #####################################
-            attr_accessor :container
 
-            # Constructor
-            # @see JSS::APIObject.initialize
-            #####################################
+            # This is used to properly handle updating the containing object.
+            attr_accessor :container
         end
     end
 end

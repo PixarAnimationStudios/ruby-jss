@@ -126,13 +126,6 @@ module JSS
         attr_reader :type
         attr_reader :type_settings
 
-        ## The different type of directory binding settings:
-        attr_reader :open_directory
-        attr_reader :active_directory
-        attr_reader :powerbroker_identity_services
-        attr_reader :admitmac
-        attr_reader :centrify
-
         # Constructor
         # @see JSS::APIObject.initialize
         #####################################
@@ -153,13 +146,20 @@ module JSS
 
             #@type_settings = DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key]
             self.set_type_settings (DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key])
-
-            # TODO: Process class and create the object
         end
 
         # Public Instance Methods
         #####################################
 
+        # The domain the device will be bound to.
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue [String]
+        #
+        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        #
+        # @return [void]
         def domain=(newvalue)
             raise JSS::InvalidDataError, "Domain must be a String" unless newvalue.is_a? String
 
@@ -167,6 +167,16 @@ module JSS
             @need_to_update = true
         end
 
+
+        # The username used to attempt to bind the device to the domain.
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue [String]
+        #
+        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        #
+        # @return [void]
         def username=(newvalue)
             raise JSS::InvalidDataError, "Username must be a String" unless newvalue.is_a? String
 
@@ -174,6 +184,17 @@ module JSS
             @need_to_update = true
         end
 
+
+        # The priority the domain has over another one.
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue [Integer]
+        #
+        # @raise [JSS::InvalidDataError] If newvalue is not an Integer
+        # @raise [JSS::InvalidDataError] If newvalue is not between 1 and 10
+        #
+        # @return [void]
         def priority=(newvalue)
             raise JSS::InvalidDataError, "Priority must be a Integer" unless newvalue.is_a? Integer
             raise JSS::InvalidDataError, "Priority cannot exceed 10" unless newvalue <= 10
@@ -183,6 +204,16 @@ module JSS
             @need_to_update = true
         end
 
+        
+        # The OU path the computer object is to be placed
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue [String]
+        #
+        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        #
+        # @return [void]
         def computer_ou=(newvalue)
             raise JSS::InvalidDataError, "Computer OU must be a String" unless newvalue.is_a? String
 
@@ -196,6 +227,11 @@ module JSS
 
         # the xml formated data for adding or updating this in the JSS
         #
+        # This method constructs a properly formatted XML document to be handled by the Jamf Pro API
+        #
+        # @author Tyler Morgan
+        #
+        # @return [String]
         def rest_xml
             doc = REXML::Document.new APIConnection::XML_HEADER
             ns = doc.add_element RSRC_OBJECT_KEY.to_s
@@ -209,7 +245,7 @@ module JSS
 
             ns << @type_settings.type_setting_xml
 
-            doc.to_s
+            return doc.to_s
         end # rest_xml
     end
 
