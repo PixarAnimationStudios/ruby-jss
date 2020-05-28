@@ -183,6 +183,24 @@ module JSS
                 self.container&.should_update
             end
 
+
+            # Return a REXML Element containing the current state of the DirectoryBindingType
+            # object for adding into the XML of the container.
+            # 
+            # @author Tyler Morgan
+            #
+            # @return [REXML::Element]
+            def type_setting_xml
+                type_setting = REXML::Element.new "admitmac"
+                type_setting.add_element("workstation_mode").text = @workstation_mode
+                type_setting.add_element("overwrite_existing").text = @overwrite_existing
+                type_setting.add_element("update_PAM").text = @update_PAM
+                type_setting.add_element("zone").text = @zone
+                type_setting.add_element("preferred_domain_server").text = @preferred_domain_server
+
+                return type_setting
+            end
+
         end
     end
 end

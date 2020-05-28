@@ -466,6 +466,34 @@ module JSS
                 return @admin_groups
             end
 
+
+            # Return a REXML Element containing the current state of the DirectoryBindingType
+            # object for adding into the XML of the container.
+            # 
+            # @author Tyler Morgan
+            #
+            # @return [REXML::Element]
+            def type_setting_xml
+                type_setting = REXML::Element.new "admitmac"
+                type_setting.add_element("require_confirmation").text = @require_confirmation
+                type_setting.add_element("local_home").text = @local_home
+                type_setting.add_element("mount_style").text = @mount_style
+                type_setting.add_element("default_shell").text = @default_shell
+                type_setting.add_element("mount_network_home").text = @mount_network_home
+                type_setting.add_element("place_home_folders").text = @place_home_folders
+                type_setting.add_element("uid").text = @uid
+                type_setting.add_element("user_gid").text = @user_gid
+                type_setting.add_element("gid").text = @gid
+                type_setting.add_element("add_user_to_local").text = @add_user_to_local
+                type_setting.add_element("cached_credentials").text = @cached_credentials
+                type_setting.add_element("users_ou").text = @users_ou
+                type_setting.add_element("groups_ou").text = @groups_ou
+                type_setting.add_element("printers_ou").text = @printers_ou
+                type_setting.add_element("shared_folders_ou").text = @shared_folders_ou
+                type_setting.add_element("admin_groups").text = @admin_groups.join(',').to_s unless @admin_groups.nil?
+
+                return type_setting
+            end
         end
 
     end

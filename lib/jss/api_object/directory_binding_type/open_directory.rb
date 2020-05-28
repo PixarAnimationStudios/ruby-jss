@@ -150,6 +150,23 @@ module JSS
 
                 self.container&.should_update
             end
+
+
+            # Return a REXML Element containing the current state of the DirectoryBindingType
+            # object for adding into the XML of the container.
+            # 
+            # @author Tyler Morgan
+            #
+            # @return [REXML::Element]
+            def type_setting_xml
+                type_setting = REXML::Element.new "admitmac"
+                type_setting.add_element("encrypt_using_ssl").text = @encrypt_using_ssl
+                type_setting.add_element("perform_secure_bind").text = @perform_secure_bind
+                type_setting.add_element("use_for_authentication").text = @use_for_authentication
+                type_setting.add_element("use_for_contacts").text = @use_for_contacts
+
+                return type_setting
+            end
         end
     end
 end
