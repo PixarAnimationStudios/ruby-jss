@@ -69,6 +69,7 @@ module JSS
         #####################################
         include JSS::Creatable
         include JSS::Updatable
+        include JSS::DirectoryBindingType
 
         # Class Methods
         #####################################
@@ -150,11 +151,9 @@ module JSS
 
             class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
 
-            pp "Key found: #{class_key}"
+            #@type_settings = DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key]
+            self.set_type_settings (DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key])
 
-            pp @init_data[class_key]
-
-            @type_settings = DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key]
             # TODO: Process class and create the object
         end
 
@@ -165,150 +164,27 @@ module JSS
             raise JSS::InvalidDataError, "Domain must be a String" unless newvalue.is_a? String
 
             @domain = newvalue.to_s
+            @need_to_update = true
         end
 
         def username=(newvalue)
             raise JSS::InvalidDataError, "Username must be a String" unless newvalue.is_a? String
 
             @username = newvalue
+            @need_to_update = true
         end
 
         def priority=(newvalue)
             raise JSS::InvalidDataError, "Priority must be a Integer" unless newvalue.is_a? Integer
 
             @priority = newvalue
+            @need_to_update = true
         end
 
         def computer_ou=(newvalue)
             raise JSS::InvalidDataError, "Computer OU must be a String" unless newvalue.is_a? String
-        end
 
-        def set_binding_type(new_type, **args)
-            raise JSS::InvalidDataError, "Directory Binding type must be one of :#{DIRECTORY_BINDING_TYPE.keys.join(',:')}" unless DIRECTORY_BINDING_TYPE.keys.include? new_type
-
-            @type = DIRECTORY_BINDING_TYPE[new_type]
-            case new_type
-            when :open_directory
-
-                raise JSS::InvalidDataError, "encrypt_using_ssl must be true or false." if !args[:encrypt_using_ssl].nil? && !args[:encrypt_using_ssl].is_a?(Bool)
-                raise JSS::InvalidDataError, "perform_secure_bind must be true or false." if !args[:perform_secure_bind].nil? && !args[:perform_secure_bind].is_a?(Bool)
-                raise JSS::InvalidDataError, "use_for_authentication must be true or false." if !args[:use_for_authentication].nil? && !args[:use_for_authentication].is_a?(Bool)
-                raise JSS::InvalidDataError, "use_for_contacts must be true or false." if !args[:use_for_contacts].nil? && !args[:use_for_contacts].is_a?(Bool)
-
-                @open_directory = {
-                    encrypt_using_ssl: args[:encrypt_using_ssl],
-                    perform_secure_bind: args[:perform_secure_bind],
-                    use_for_authentication: args[:use_for_authentication],
-                    use_for_contacts: args[:use_for_contacts]
-                }
-
-                # Default values if object was created using Jamf Pro's Web UI
-                @open_directory[:encrypt_using_ssl] = false if @open_directory[:encrypt_using_ssl].nil?
-                @open_directory[:perform_secure_bind] = false if @open_directory[:perform_secure_bind].nil?
-                @open_directory[:use_for_authentication] = true if @open_directory[:use_for_authentication].nil?
-                @open_directory[:use_for_contacts] = true if @open_directory[:use_for_contacts].nil?
-
-            when :active_directory
-                raise JSS::InvalidDataError, "cache_last_user must be true or false." if !args[:cache_last_user].nil? && !args[:cache_last_user].is_a?(Bool)
-                raise JSS::InvalidDataError, "require_confirmation must be true or false." if !args[:require_confirmation].nil? && !args[:require_confirmation].is_a?(Bool)
-                raise JSS::InvalidDataError, "local_home must be true or false." if !args[:local_home].nil? && !args[:local_home].is_a?(Bool)
-                raise JSS::InvalidDataError, "use_unc_path must be true or false." if !args[:use_unc_path].nil? && !args[:use_unc_path].is_a?(Bool)
-                raise JSS::InvalidDataError, "multiple_domains must be true or false." if !args[:multiple_domains].nil? && !args[:multiple_domains].is_a?(Bool)
-
-                raise JSS::InvalidDataError, "mount_style must be one of :#{DIRECTORY_NETWORK_PROTOCOL.keys.join(',:')}" if !DIRECTORY_NETWORK_PROTOCOL.keys.include? args[:mount_style] && !args[:mount_style].nil?
-                
-                raise JSS::InvalidDataError, "uid must be a String or Integer." if !args[:uid].nil? && (!args[:uid].is_a?(String) || !args[:uid].is_a?(Integer))
-                raise JSS::InvalidDataError, "user_gid must be a String or Integer." if !args[:user_gid].nil? && (args[:user_gid].is_a?(String) || args[:user_gid].is_a?(Integer))
-                raise JSS::InvalidDataError, "gid must be a String or Integer." if !args[:gid].nil? && (!args[:gid].is_a?(String) || !args[:gid].is_a?(Integer))
-
-                raise JSS::InvalidDataError, "preferred_domain must be a String." if !args[:preferred_domain].nil? && !args[:preferred_domain].is_a?(String)
-                raise JSS::InvalidDataError, "admin_groups must be a String." if !args[:admin_groups].nil? && !args[:admin_groups].is_a?(String)
-
-                @active_directory = {
-                    cache_last_user: args[:cache_last_user],
-                    require_confirmation: args[:require_confirmation],
-                    local_home: args[:local_home],
-                    use_unc_path: args[:use_unc_path],
-                    mount_style: args[:mount_style],
-                    default_shell: args[:default_shell],
-                    uid: args[:uid],
-                    user_gid: args[:user_gid],
-                    gid: args[:gid],
-                    multiple_domains: args[:multiple_domains],
-                    preferred_domain_server: args[:preferred_domain],
-                    admin_groups: args[:admin_groups]
-                }
-
-                @active_directory[:cache_last_user] = false if @active_directory[:cache_last_user].nil?
-                @active_directory[:require_confirmation] = false if @active_directory[:require_confirmation].nil?
-                @active_directory[:local_home] = true if @active_directory[:local_home].nil?
-                @active_directory[:use_unc_path] = false if @active_directory[:use_unc_path].nil?
-                @active_directory[:mount_style] = "smb" if @active_directory[:mount_style].nil?
-                @active_directory[:default_shell] = "/bin/bash" if @active_directory[:default_shell].nil?
-                
-            when :powerbroker_identity_services
-                @powerbroker_identity_services = {}
-                
-            when :admitmac
-                raise JSS::InvalidDataError, "require_confirmation must be true or false." if !args[:require_confirmation].nil? && !args[:require_confirmation].is_a?(Bool)
-                raise JSS::InvalidDataError, "mount_network_home must be true or false." if !args[:mount_network_home].nil? && !args[:mount_network_home].is_a?(Bool)
-                raise JSS::InvalidDataError, "add_user_to_local must be true or false." if !args[:add_user_to_local].nil? && !args[:add_user_to_local].is_a?(Bool)
-                raise JSS::InvalidDataError, "cached_credentials must be an Integer." if !args[:cached_credentials].nil? && !args[:cached_credentials].is_a?(Integer)
-                raise JSS::InvalidDataError, "default_shell must be a string." if !args[:default_shell].nil? && !args[:default_shell].is_a?(String)
-                raise JSS::InvalidDataError, "place_home_folders must be a string." if !args[:place_home_folders].nil? && !args[:place_home_folders].is_a?(String)
-                raise JSS::InvalidDataError, "place_home_folders must begin and end with \"/\"." if !args[:place_home_folders].nil? && !args[:place_home_folders].is_a?(String) && (args[:place_home_folders].chars.first != "/" || args[:place_home_folders].chars.last != "/")
-                raise JSS::InvalidDataError, "admin_group must be a string." if !args[:admin_group].nil? && !args[:admin_group].is_a?(String)
-                raise JSS::InvalidDataError, "users_ou must be a string." if !args[:users_ou].nil? && !args[:users_ou].is_a?(String)
-                raise JSS::InvalidDataError, "groups_ou must be a string." if !args[:groups_ou].nil? && !args[:groups_ou].is_a?(String)
-                raise JSS::InvalidDataError, "printers_ou must be a string." if !args[:printers_ou].nil? && !args[:printers_ou].is_a?(String)
-                raise JSS::InvalidDataError, "shared_folders_ou must be a string." if !args[:shared_folders_ou].nil? && !args[:shared_folders_ou].is_a?(String)
-                raise JSS::InvalidDataError, "Directory Binding type must be one of :#{ADMIT_HOME_FOLDER_TYPE.keys.join(',:')}" if !ADMIT_HOME_FOLDER_TYPE.keys.include? args[:local_home] && !args[:local_home].nil?
-
-                @admitmac = {
-                    require_confirmation: args[:require_confirmation],
-                    local_home: args[:local_home],
-                    mount_style: args[:mount_style],
-                    default_shell: args[:default_shell],
-                    mount_network_home: args[:mount_network_home],
-                    place_home_folders: args[:place_home_folders],
-                    uid: args[:uid],
-                    user_gid: args[:user_gid],
-                    gid: args[:gid],
-                    admin_group: args[:admin_group],
-                    cached_credentials: args[:cached_credentials],
-                    add_user_to_local: args[:add_user_to_local],
-                    users_ou: args[:users_ou],
-                    groups_ou: args[:groups_ou],
-                    printers_ou: args[:printers_ou],
-                    shared_folders_ou: args[:shared_folders_ou]
-                }
-
-                @admitmac[:require_confirmation] = false if @admitmac[:require_confirmation].nil?
-                @admitmac[:local_home] = ADMIT_HOME_FOLDER_TYPE[:network] if @admitmac[:local_home].nil?
-                @admitmac[:default_shell] = "/bin/bash" if @admitmac[:default_shell].nil?
-                @admitmac[:mount_network_home] = false if @admitmac[:mount_network_home].nil?
-                @admitmac[:cached_credentials] = 10 if @admitmac[:cached_credentials].nil?
-                @admitmac[:add_user_to_local] = true if @admitmac[:add_user_to_local].nil?
-
-            when :centrify
-                raise JSS::InvalidDataError, "workstation_mode must be true or false." if !args[:workstation_mode].nil? && !args[:workstation_mode].is_a?(Bool)
-                raise JSS::InvalidDataError, "overwrite_existing must be true or false." if !args[:overwrite_existing].nil? && !args[:overwrite_existing].is_a?(Bool)
-                raise JSS::InvalidDataError, "update_PAM must be true or false." if !args[:update_PAM].nil? && !args[:update_PAM].is_a?(Bool)
-                raise JSS::InvalidDataError, "zone must a string." if !args[:zone].nil? && !args[:zone].is_a?(String)
-                raise JSS::InvalidDataError, "preferred_domain_server must a string." if !args[:preferred_domain_server].nil? && !args[:preferred_domain_server].is_a?(String)
-                
-                @centrify = {
-                    workstation_mode: args[:workstation_mode],
-                    overwrite_existing: args[:overwrite_existing],
-                    update_PAM: args[:update_PAM],
-                    zone: args[:zone],
-                    preferred_domain_server: args[:preferred_domain_server]
-                }
-
-                @centrify[:workstation_mode] = false if @centrify[:workstation_mode].nil?
-                @centrify[:overwrite_existing] = false if @centrify[:overwrite_existing].nil?
-                @centrify[:update_PAM] = true if @centrify[:update_PAM].nil?
-            end
+            @need_to_update = true
         end
 
         # private instance methods
@@ -328,42 +204,7 @@ module JSS
             ns.add_element('computer_ou').text = @computer_ou.to_s
             ns.add_element('type').text = @type.to_s
 
-            case DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }[0]
-            when :open_directory
-                pp "Open Directory processing..."
-                open_directory = ns.add_element('open_directory')
-                @open_directory.each do |k,v|
-                    open_directory.add_element(k.to_s).text = v.to_s
-                end
-                
-            when :active_directory
-                active_directory = ns.add_element('active_directory')
-                @active_directory.each do |k,v|
-                    active_directory.add_element(k.to_s).text = v.to_s
-                end
-
-            when :powerbroker_identity_services
-                powerbroker_identity_services = ns.add_element('powerbroker_identity_services')
-                @powerbroker_identity_services.each do |k,v|
-                    powerbroker_identity_services.add_element(k.to_s).text = v.to_s
-                end
-
-            when :admitmac
-                admitmac = ns.add_element('admitmac')
-                @admitmac.each do |k,v|
-                    admitmac.add_element(k.to_s).text = v.to_s
-                end
-
-            when :centrify
-                centrify = ns.add_element('centrify')
-                @centrify.each do |k,v|
-                    centrify.add_element(k.to_s).text = v.to_s
-                end
-            else
-                pp "Type: #{@type}"
-                pp "Open_Directory"
-                pp @open_directory
-            end
+            ns << @type_settings.type_setting_xml
 
             doc.to_s
         end # rest_xml

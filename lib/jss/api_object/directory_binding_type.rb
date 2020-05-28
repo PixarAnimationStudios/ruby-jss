@@ -46,6 +46,14 @@ module DirectoryBindingType
 
         # Module Methods
         #####################################
+        def should_update
+            @need_to_update = true
+        end
+
+        def set_type_settings(settings)
+            @type_settings = settings
+            @type_settings.container = self
+        end
 
         # Classes
         #####################################
@@ -78,6 +86,7 @@ module DirectoryBindingType
 
             # Attributes
             #####################################
+            attr_accessor :container
 
             # Constructor
             # @see JSS::APIObject.initialize
