@@ -103,6 +103,8 @@ module JSS
                 raise JSS::InvalidDataError, "workstation_mode must be true or false." unless newvalue.is_a? Bool
 
                 @workstation_mode = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -120,6 +122,8 @@ module JSS
                 raise JSS::InvalidDataError, "overwrite_existing must be true or false." unless newvalue.is_a? Bool
 
                 @overwrite_existing = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -137,6 +141,8 @@ module JSS
                 raise JSS::InvalidDataError, "update_PAM must be true or false." unless newvalue.is_a? Bool
 
                 @update_PAM = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -154,6 +160,8 @@ module JSS
                 raise JSS::InvalidDataError, "zone must be a string." unless newvalue.is_a? String
 
                 @zone = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -171,6 +179,8 @@ module JSS
                 raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
 
                 @preferred_domain_server = newvalue
+
+                self.container&.should_update
             end
 
         end

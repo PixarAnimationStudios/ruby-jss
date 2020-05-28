@@ -90,6 +90,8 @@ module JSS
                 raise JSS::InvalidDataError, "encrypt_using_ssl must be true or false." unless newvalue.is_a? Bool
                 
                 @encrypt_using_ssl = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -107,6 +109,8 @@ module JSS
                 raise JSS::InvalidDataError, "perform_secure_bind must be true or false." unless newvalue.is_a? Bool
 
                 @perform_secure_bind = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -124,6 +128,8 @@ module JSS
                 raise JSS::InvalidDataError, "use_for_authentication must be true or false." unless newvalue.is_a? Bool
 
                 @use_for_authentication = newvalue
+
+                self.container&.should_update
             end
 
 
@@ -141,6 +147,8 @@ module JSS
                 raise JSS::InvalidDataError, "use_for_contacts must be true or false." unless newvalue.is_a? Bool
 
                 @use_for_contacts = newvalue
+
+                self.container&.should_update
             end
         end
     end
