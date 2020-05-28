@@ -128,8 +128,8 @@ module JSS
                 # Update Value
                 @cache_last_user = newvalue
 
-                # Return the new value
-                @cache_last_user
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -150,8 +150,8 @@ module JSS
                 # Update Value
                 @require_confirmation = newvalue
 
-                # Return the new value
-                @require_confirmation
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -172,8 +172,8 @@ module JSS
                 # Update Value
                 @local_home = newvalue
 
-                # Return the new value
-                @local_home
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -194,8 +194,8 @@ module JSS
                 # Update Value
                 @use_unc_path = newvalue
 
-                # Return the new value
-                @use_unc_path
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
             
@@ -217,8 +217,8 @@ module JSS
                 # Update Value
                 @mount_style = newvalue
 
-                # Return the new value
-                @mount_style
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
             
@@ -239,8 +239,8 @@ module JSS
                 # Update Value
                 @default_shell = newvalue
 
-                # Return the new value
-                @default_shell
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -261,8 +261,8 @@ module JSS
                 # Update Value
                 @uid = newvalue
 
-                # Return the new value
-                @uid
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -283,8 +283,8 @@ module JSS
                 # Update Value
                 @user_gid = newvalue
 
-                # Return the new value
-                @user_gid
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -305,8 +305,8 @@ module JSS
                 # Update Value
                 @gid = newvalue
 
-                # Return the new value
-                @gid
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -327,8 +327,8 @@ module JSS
                 # Update Value
                 @multiple_domains = newvalue
 
-                # Return the new value
-                @multiple_domains
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -349,8 +349,8 @@ module JSS
                 # Update Value
                 @preferred_domain_server = newvalue
 
-                # Return the new value
-                @preferred_domain_server
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
             
@@ -375,8 +375,8 @@ module JSS
                     @admin_groups = newvalue
                 end
 
-                # Return the new value
-                @admin_groups
+                # Set the object to needing to be updated.
+                self.container&.should_update
             end
 
 
@@ -396,7 +396,10 @@ module JSS
                 raise JSS::InvalidDataError, "Group \"#{value}\" already is in the admin groups." unless !@admin_groups.include? value
 
                 @admin_groups << value
-                @admin_groups
+                # Set the object to needing to be updated.
+                self.container&.should_update
+
+                return @admin_groups
             end
 
 
@@ -416,7 +419,10 @@ module JSS
                 raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_groups.include value
 
                 @admin_groups.delete value
-                @admin_groups
+                # Set the object to needing to be updated.
+                self.container&.should_update
+
+                return @admin_groups
             end
 
 
