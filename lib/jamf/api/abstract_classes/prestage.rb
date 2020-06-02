@@ -235,7 +235,7 @@ module Jamf
     #
     def self.serials_for_prestage(prestage_ident, refresh = false, cnx: Jamf.cnx)
       id = valid_id prestage_ident, cnx: cnx
-      raise Jamf::NoSuchItemError, "No #{self} matching '#{ident}'" unless id
+      raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
 
       serials_by_prestage_id(refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
     end
