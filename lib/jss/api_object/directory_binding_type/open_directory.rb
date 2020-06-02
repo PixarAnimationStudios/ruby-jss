@@ -65,6 +65,12 @@ module JSS
             # Constructor
             #####################################
             def initialize(init_data)
+
+                # Return without processing anything since there is
+                # nothing to process.
+                return if init_data.nil?
+
+                # Process the provided information
                 @encrypt_using_ssl = init_data[:encrypt_using_ssl]
                 @perform_secure_bind = init_data[:perform_secure_bind]
                 @use_for_authentication = init_data[:use_for_authentication]

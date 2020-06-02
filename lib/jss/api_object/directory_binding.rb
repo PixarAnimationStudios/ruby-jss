@@ -125,27 +125,50 @@ module JSS
         attr_reader :computer_ou
         attr_reader :type
         attr_reader :type_settings
+        attr_reader :password
 
         # Constructor
         # @see JSS::APIObject.initialize
+        # @note When creating an object with specific properties use the
+        # objects name and then the settings.
+        # Ex: Creating an Active Directory object:
+        # JSS::DirectoryBinding.make name: "Example Binding", username: "BindingUser", password: "SuperMonkey123", computer_ou: "computers", active_directory: { multiple_domains: false }, domain: your.domain.server
         #####################################
         def initialize(args = {})
             super args
 
-            @priority = @init_data[:priority]
-            @domain = @init_data[:domain]
-            @username = @init_data[:username]
-            @password_sha256 = @init_data[:password_sha256]
-            @computer_ou = @init_data[:computer_ou]
-            @type = @init_data[:type]
+            if self.in_jss?
+                @priority = @init_data[:priority]
+                @domain = @init_data[:domain]
+                @username = @init_data[:username]
+                @password_sha256 = @init_data[:password_sha256]
+                @computer_ou = @init_data[:computer_ou]
+                @type = @init_data[:type]
 
-            # The different type of directory binding settings:
-            #? One attribute "type-settings" instance of directory binding type DirectoryBindingType
+                class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
+                self.set_type_settings (DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key])
+            else
+                # Build
+                raise JSS::MissingDataError, "domain must be provided." if @init_data[:domain].nil?
+                raise JSS::MissingDataError, "username must be provided." if @init_data[:username].nil?
+                raise JSS::MissingDataError, "computer_ou must be provided." if @init_data[:computer_ou].nil?
+                raise JSS::MissingDataError, "password must be provided when creating a DirectoryBinding object." if @init_data[:password].nil?
+                raise JSS::MissingDataError, "Type must be provided, one of \":#{DIRECTORY_BINDING_TYPE.keys.join(",:")}\"." if @init_data[:type].nil?
+                raise JSS::InvalidDataError, "Type must be one of \":#{DIRECTORY_BINDING_TYPE.keys.join(",:")}\"." unless DIRECTORY_BINDING_TYPE.keys.include? @init_data[:type]
 
-            class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
+                @domain = @init_data[:domain]
+                @username = @init_data[:username]
+                @computer_ou = @init_data[:computer_ou]
+                @type = DIRECTORY_BINDING_TYPE[@init_data[:type]]
+                @password = @init_data[:password]
+                @priority = @init_data[:priority]
 
-            #@type_settings = DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key]
-            self.set_type_settings (DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key])
+
+                class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
+                self.set_type_settings (DIRECTORY_BINDING_TYPE_CLASSES[@type.to_s].new @init_data[class_key])
+
+            end
+
         end
 
         # Public Instance Methods
@@ -221,6 +244,24 @@ module JSS
             @need_to_update = true
         end
 
+
+        # Sets the password used in conjunction with the username to attempt to bind
+        # the computer to the domain.
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue [String]
+        #
+        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        #
+        # @return [void]
+        def password=(newvalue)
+            raise JSS::InvalidDataError, "Password must be a string" unless newvalue.is_a? String
+
+            @password = newvalue
+            @need_to_update = true
+        end
+
         # private instance methods
         ######################
         private
@@ -242,6 +283,9 @@ module JSS
             ns.add_element('username').text = @username.to_s
             ns.add_element('computer_ou').text = @computer_ou.to_s
             ns.add_element('type').text = @type.to_s
+            if !@password.nil?
+                ns.add_element('password').text = @password.to_s
+            end
 
             ns << @type_settings.type_setting_xml
 

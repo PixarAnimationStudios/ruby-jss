@@ -102,6 +102,12 @@ module JSS
             #
             # @param [Hash] initialize data
             def initialize(init_data)
+
+                # Return without processing anything since there is
+                # nothing to process.
+                return if init_data.nil?
+
+                # Process the provided information
                 @require_confirmation = init_data[:require_confirmation]
                 @local_home = init_data[:local_home]
                 @mount_style = init_data[:mount_style]
@@ -119,6 +125,8 @@ module JSS
                 @printers_ou = init_data[:printers_ou]
                 @shared_folders_ou = init_data[:shared_folders_ou]
 
+                # This is needed since we have the ability to add and
+                # remove admin groups from this array.
                 @admin_groups = [] unless !@admin_groups.nil?
             end
 

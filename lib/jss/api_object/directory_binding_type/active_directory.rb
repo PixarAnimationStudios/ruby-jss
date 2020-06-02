@@ -92,6 +92,12 @@ module JSS
             #
             # @param [Hash] initialize data
             def initialize(init_data)
+
+                # Return without processing anything since there is
+                # nothing to process.
+                return if init_data.nil?
+
+                # Process provided information
                 @cache_last_user = init_data[:cache_last_user]
                 @require_confirmation = init_data[:require_confirmation]
                 @local_home = init_data[:local_home]
@@ -105,6 +111,8 @@ module JSS
                 @preferred_domain_server = init_data[:preferred_domain_server]
                 @admin_groups = init_data[:admin_groups]
 
+                # This is needed since we have the ability to add and
+                # remove admin groups from this array.
                 @admin_groups = [] unless !@admin_groups.nil?
             end
 

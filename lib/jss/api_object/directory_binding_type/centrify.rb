@@ -77,6 +77,12 @@ module JSS
             #
             # @param [Hash] initialize data
             def initialize(init_data)
+
+                # Return without processing anything since there is
+                # nothing to process.
+                return if init_data.nil?
+
+                # Process the provided information
                 @workstation_mode = init_data[:workstation_mode]
                 @overwrite_existing = init_data[:overwrite_existing]
                 @update_PAM = init_data[:update_PAM]
