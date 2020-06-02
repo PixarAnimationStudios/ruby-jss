@@ -121,9 +121,31 @@ module JSS
     # @return [Array<String>] The current file names
     #
     def self.all_filenames(api: JSS.api)
-      pkgs_in_use = []
-      all_ids.each { |pkg_id| pkgs_in_use << fetch(id: pkg_id, api: api).filename }
-      pkgs_in_use.compact
+      all_filenames_by(:id, api: api).values
+    end
+
+    # A Hash of all dist-point filenames used by all JSS packages, keyed by
+    # package name or id
+    #
+    # Slow cuz we have to instantiate every pkg
+    #
+    # @param key[Symbol] either :id, or :name
+    #
+    # @param api[JSS::APIConnection] an API connection to use
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash{Ingeter,String => String}] The current file names by key
+    #
+    def self.all_filenames_by(key, api: JSS.api)
+      raise ArgumentError, 'key must be :id or :name' unless %i[id name].include? key
+
+      files_in_use = {}
+      all_ids(:refresh).each do |pkg_id|
+        pkg = fetch id: pkg_id, api: api
+        files_in_use[pkg.send(key)] = pkg.filename
+      end
+
+      files_in_use
     end
 
     # An array of String filenames for all files DIST_POINT_PKGS_FOLDER
