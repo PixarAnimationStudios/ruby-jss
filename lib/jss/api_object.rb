@@ -1222,8 +1222,16 @@ module JSS
     # @return [void]
     #
     def delete
-      return nil unless @in_jss
-      @api.delete_rsrc @rest_rsrc
+      return unless @in_jss
+      begin
+        @api.delete_rsrc @rest_rsrc
+      rescue RestClient::NotFound, RestClient::ResourceNotFound
+        # over slow connections (?) or more likely
+        # split-tunnel VPN connections, sometimes the thing gets deleted
+        # the call gets a 404 anyway
+        nil
+      end
+
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}"
       @id = nil
       @in_jss = false
