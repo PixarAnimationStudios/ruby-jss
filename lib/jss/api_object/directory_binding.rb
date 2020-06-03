@@ -26,44 +26,20 @@
 module JSS
 
     # Module Variables
-  #####################################
+    #####################################
 
-  # Module Methods
-  #####################################
+    # Module Methods
+    #####################################
 
-  # Classes
-  #####################################
+    # Classes
+    #####################################
 
-  # A Dock Item in the JSS.
-  # These are rather simple. They have an ID, name, path, type, and contents which is read-only
-  #
-  # @see JSS::APIObject
-  #
-  class DirectoryBinding < JSS::APIObject
-
-    # JSS > directorybinding.rb
-    # folder directory binding type
-    ## Includes type
-    ##! Requires in right way
-    #class DirectoryBindingType
-    #    def test1
-    #        puts "Test1"
-    #    end
-
-        #? Look at scope obj (policy rest_xml)
-        #def rest_xml
-
-        #end
-    #end
-
-    #class ActiveDirectory < DirectoryBindingType
-    #    RSRC_OBJECT_KEY = :active_directory
-    #    # Settings for this obj
-    #    def test2
-    #        puts "Test2"
-    #    end
-
-    #end
+    # A Dock Item in the JSS.
+    # These are rather simple. They have an ID, name, path, type, and contents which is read-only
+    #
+    # @see JSS::APIObject
+    #
+    class DirectoryBinding < JSS::APIObject
 
         # Mix-Ins
         #####################################
@@ -112,7 +88,7 @@ module JSS
         # the object type for this object in
         # the object history table.
         # See {APIObject#add_object_history_entry}
-        #OBJECT_HISTORY_OBJECT_TYPE = 41
+        # OBJECT_HISTORY_OBJECT_TYPE = 41
 
         # Attributes
         #####################################
