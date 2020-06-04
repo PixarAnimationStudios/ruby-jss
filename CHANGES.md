@@ -4,35 +4,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.3.0] - 2020-06-05
+
+### Added
+
+  - JSS::NetworkSegment.network_ranges_as_integers method, Similar to NetworkSegment.network_ranges, but the ranges are of Integers, not IPAddr instances. This makes for *MUCH* faster range calculations, needed to implement improvements to NetworkSegment.network_segment_for_ip
+  - JSS::Package.all_filenames_by, returns a Hash of all distribution point filenames for all packages, keyed by either the package id, or the package name. NOTE: as with JSS::Package.all_filenames, this method must instantiate all JSS::Package objects, so it will be slow.
+
+### Changed
+
+  - JSS.expand_min_os now expands to macOS 10.30.x, which should hold us for a while
+  - JSS::NetworkSegment.network_segment_for_ip and .my_network_segment are no longer deprecated, but now return an integer NetSeg id (or nil). The plural forms of those methods still return an Array of ids for all the matching network segments.
+  - The logic for JSS::NetworkSegment.network_segment_for_ip (and .my_network_segment) now matches how the Jamf server does it:  when you IP address is in more than one Network Segment, Jamf uses the smallest/narrowest one (the one containing fewest IP addresses). If more than one of your Network Segments are that same width, the one with the lowest starting IP address is used.
+  - In some networking situations (e.g. Split-tunnel VPN with multiple active network ports) the JSS::APIObject.delete method will raise a 404 NotFound error, seemingly because the object was already deleted but a second http DELETE is sent (I think). We now just rescue and ignore that error, since the fact that it's not found means it was indeed deleted.
+
+### Fixed
+
+  - A copy/paste bug in Jamf::Prestage.serials_for_prestage
+
 ## \[1.2.15] - 2020-04-30
 
 ### Fixed
 
-    - USER_CONF_FILE is always a pathname, never nil
-    - issues with Array#j_ci_* methods related to removing safe navigation
+  - USER_CONF_FILE is always a pathname, never nil
+  - issues with Array#j_ci_* methods related to removing safe navigation
 
 ## \[1.2.13] - 2020-04-29
 
 ### Fixed
 
-    - Ruby 2.6 needs parens in more places than 2.3, apparently
+  - Ruby 2.6 needs parens in more places than 2.3, apparently
 
 ## \[1.2.12] - 2020-04-29
 
 ### Added
 
-    - Backport of `#dig` for Arrays, Hashes and OpenStructs, for compatibiliy with older rubiesd (for a while longer anyway). Gratefully borrowed from https://github.com/Invoca/ruby_dig
+  - Backport of `#dig` for Arrays, Hashes and OpenStructs, for compatibiliy with older rubiesd (for a while longer anyway). Gratefully borrowed from https://github.com/Invoca/ruby_dig
 
 ### Changed
 
-    - Removed all safe navigation operators (`&.`) for compatibility with older rubies (for a while longer anyway)
+  - Removed all safe navigation operators (`&.`) for compatibility with older rubies (for a while longer anyway)
 
 
 ## \[1.2.11] - 2020-04-26
 
 ### Fixed
 
-    - Bug in Package#install that prevented installs from 'alt_download_url'.
+  - Bug in Package#install that prevented installs from 'alt_download_url'.
 
 ## \[1.2.10] - 2020-04-25
 
