@@ -71,9 +71,19 @@ module JSS
     # representing the Segment,
     # e.g. with starting = 10.24.9.1 and ending = 10.24.15.254
     # the range looks like:
-    #   <IPAddr: IPv4:10.24.9.1/255.255.255.255>..#<IPAddr: IPv4:10.24.15.254/255.255.255.255>
+    #  <IPAddr: IPv4:10.24.9.1/255.255.255.255>
+    #   ..
+    #  <IPAddr: IPv4:10.24.15.254/255.255.255.255>
     #
     # Using the #include? method on those Ranges is very useful.
+    #
+    # Note1: We don't use the IPAddr#to_range method because that works
+    #   best for masked IPAddrs (which are ranges of IPs with widths
+    #   determined by the mask) and Jamf Network Segments can have arbitrary
+    #   widths.
+    #
+    # Note2: See the network_ranges_as_integers method below, which is similar
+    #   but much faster.
     #
     # @param refresh[Boolean] should the data be re-queried?
     #
@@ -91,6 +101,36 @@ module JSS
         @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
       end
       @network_ranges
+    end # def network_segments
+
+    # An IPv4 Address is really just a 32-bit integer, displayed as four
+    # 8-bit integers. e.g. '10.0.69.1' is really the integer 167789825
+    # The #to_i method of IPAddr objects returns that integer (or the first of
+    # them if the IPAddr is masked).
+    #
+    # Using ranges made of those integers is far faster than using ranges
+    # if IPAddr objects, so that's what this method returns.
+    #
+    # See also: the network_ranges method above
+    #
+    # @param refresh[Boolean] should the data be re-queried?
+    #
+    # @param api[JSS::APIConnection] the APIConnection to query
+    #
+    # @return [Hash{Integer => Range}] the network segments as Integer Ranges
+    #   keyed by id
+    #
+    def self.network_ranges_as_integers(refresh = false, api: JSS.api)
+      @network_ranges_as_integers = nil if refresh
+      return @network_ranges_as_integers if @network_ranges_as_integers
+
+      @network_ranges_as_integers = {}
+      all(refresh, api: api).each do |ns|
+        first = IPAddr.new(ns[:starting_address]).to_i
+        last = IPAddr.new(ns[:ending_address]).to_i
+        @network_ranges_as_integers[ns[:id]] = first..last
+      end
+      @network_ranges_as_integers
     end # def network_segments
 
     ### An alias for {NetworkSegment.network_ranges}
@@ -204,24 +244,29 @@ module JSS
     ###
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
-    def self.network_segments_for_ip(ip, refresh = false, api: JSS.api)
-      ok_ip = IPAddr.new(ip)
-      network_ranges(refresh, api: api).select { |_id, range| range.include?(ok_ip) }.keys
+    def self.network_segments_for_ip(ipaddr, refresh = false, api: JSS.api)
+      # get the ip as a 32bit interger
+      ip = IPAddr.new(ipaddr.to_s).to_i
+      # a hash of NetSeg ids => Range<Integer>
+      network_ranges_as_integers(refresh, api: api).select { |_id, range| range.include? ip }.keys
     end
 
     # Which network segment is seen as current for a given IP addr?
     #
     # According to the Jamf Pro Admin Guide, if an IP is in more than one network
-    # segment, it uses the 'smallest' one - the one with fewest IP addrs within it.
+    # segment, it uses the 'smallest' (narrowest) one - the one with fewest
+    # IP addrs within it.
     #
-    # If multiple ones have the same number of IPs, then it uses the one of
+    # If multiple ones have the same width, then it uses the one of
     # those with the lowest starting address
     #
     # @return [Integer, nil] the id of the current net segment, or nil
     #
-    def self.network_segment_for_ip(ip, refresh: false, api: JSS.api)
-      # a hash of NetSeg ids => Range<IPAddr>
-      ranges = network_ranges(refresh, api: api).select { |_id, range| range.include? ip }
+    def self.network_segment_for_ip(ipaddr, refresh: false, api: JSS.api)
+      # get the ip as a 32bit interger
+      ip = IPAddr.new(ipaddr.to_s).to_i
+      # a hash of NetSeg ids => Range<Integer>
+      ranges = network_ranges_as_integers(refresh, api: api).select { |_id, range| range.include? ip }
 
       # we got nuttin
       return nil if ranges.empty?
@@ -229,25 +274,32 @@ module JSS
       # if we got only one, its the one
       return ranges.keys.first if ranges.size == 1
 
-      # got more than one, sort by range size, asc.
-      sorted_by_size = ranges.sort_by { |_i, r| r.to_a.size }.to_h
+      # got more than one, sort by range size/width, asc.
+      sorted_by_size = ranges.sort_by { |_i, r| r.size }.to_h
 
-      # the first one is the smallest.
-      smallest_range_id, smallest_range = sorted_by_size.first
-      smallest_range_size = smallest_range.to_a.size
+      # the first one is the smallest/narrowest.
+      _smallest_range_id, smallest_range = sorted_by_size.first
 
-      # if the size of the smallest one is < the size of the second one
-      # we can just return the smallest
-      return smallest_range_id if smallest_range_size < sorted_by_size.values[1].to_a.size
+      smallest_range_size = smallest_range.size
 
-      # otherwise, get all the  ones that are the same size as the smallest.
-      all_smallest = sorted_by_size.select { |i, r| r.to_a.size == smallest_range_size }
+      # select all of them that are the same size
+      all_of_small_size = sorted_by_size.select { |_i, r| r.size == smallest_range_size }
 
-      # get the one with the lowest starting ip
-      my_range_id, my_range = all_smallest.sort { |a, b| a[1].first <=> b[1].first }.first
+      # sort them by the start of each range (r.first)
+      # and return the lowest start (returned by min_by)
+      my_range_id, _my_range = all_of_small_size.min_by { |_i, r| r.first }
 
-      #and return the id
+      # and return the id
       my_range_id
+    end
+
+    # given 2 IPAddr instances, find out how 'wide' they are -
+    # how many IP addresses exist between them.
+    def self.ip_range_width(ip1, ip2)
+      raise ArgumentError, 'Parameters must be IPAddr objects' unless ip1.is_a?(IPAddr) && ip2.is_a?(IPAddr)
+
+      low, high = [ip1, ip2].sort
+      high.to_i - low.to_i
     end
 
     # Find the current network segment ids for the machine running this code
