@@ -52,7 +52,7 @@ module JSS
         # @!attribute [rw] user_gid
         # @!attribute [rw] gid
         # @!attribute [rw] multiple_domains
-        # @!attribute [rw] preferred_domain_server
+        # @!attribute [rw] preferred_domain
         # @!attribute [rw] admin_groups
         # TODO: Include default values upon creation
 
@@ -78,7 +78,7 @@ module JSS
             attr_reader :user_gid
             attr_reader :gid
             attr_reader :multiple_domains
-            attr_reader :preferred_domain_server
+            attr_reader :preferred_domain
             attr_reader :admin_groups
 
             # Constructor
@@ -107,7 +107,7 @@ module JSS
                 @user_gid = init_data[:user_gid]
                 @gid = init_data[:gid]
                 @multiple_domains = init_data[:multiple_domains]
-                @preferred_domain_server = init_data[:preferred_domain_server]
+                @preferred_domain = init_data[:preferred_domain]
 
                 if init_data[:mount_style].nil? || init_data[:mount_style].is_a?(String)
                     raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
@@ -364,13 +364,13 @@ module JSS
             # @raise [JSS::InvalidDataError] If the provided value is not a String.
             #
             # @return [void]
-            def preferred_domain_server=(newvalue)
+            def preferred_domain=(newvalue)
 
                 # Data Check
-                raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
+                raise JSS::InvalidDataError, "preferred_domain must be a string." unless newvalue.is_a? String
 
                 # Update Value
-                @preferred_domain_server = newvalue
+                @preferred_domain = newvalue
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -461,13 +461,13 @@ module JSS
                 type_setting.add_element("require_confirmation").text = @require_confirmation
                 type_setting.add_element("local_home").text = @local_home
                 type_setting.add_element("use_unc_path").text = @use_unc_path
-                type_setting.add_element("mount_style").text = @mount_style
+                type_setting.add_element("mount_style").text = @mount_style.downcase
                 type_setting.add_element("default_shell").text = @default_shell
                 type_setting.add_element("uid").text = @uid
                 type_setting.add_element("user_gid").text = @user_gid
                 type_setting.add_element("gid").text = @gid
                 type_setting.add_element("multiple_domains").text = @multiple_domains
-                type_setting.add_element("preferred_domain_server").text = @preferred_domain_server
+                type_setting.add_element("preferred_domain").text = @preferred_domain
                 type_setting.add_element("admin_groups").text = @admin_groups.join(',').to_s unless @admin_groups.nil?
 
                 return type_setting
