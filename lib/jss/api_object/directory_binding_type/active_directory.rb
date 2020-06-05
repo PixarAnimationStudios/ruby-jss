@@ -463,7 +463,7 @@ module JSS
             def remove_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group being removed must be a string." unless value.is_a? String
-                raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_groups.include value
+                raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_groups.include? value
 
                 @admin_groups.delete value
                 # Set the object to needing to be updated.
