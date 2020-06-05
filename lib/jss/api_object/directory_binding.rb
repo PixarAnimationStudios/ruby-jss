@@ -131,6 +131,7 @@ module JSS
                 raise JSS::MissingDataError, "password must be provided when creating a DirectoryBinding object." if @init_data[:password].nil?
                 raise JSS::MissingDataError, "Type must be provided, one of \":#{DIRECTORY_BINDING_TYPE.keys.join(",:")}\"." if @init_data[:type].nil?
                 raise JSS::InvalidDataError, "Type must be one of \":#{DIRECTORY_BINDING_TYPE.keys.join(",:")}\"." unless DIRECTORY_BINDING_TYPE.keys.include? @init_data[:type]
+                raise JSS::InvalidDataError, "Priority must be between 1 and 10" if !@init_data[:priority].nil? && (@init_data[:priority] <= 1 || @init_data[:priority] >= 10)
 
                 @domain = @init_data[:domain]
                 @username = @init_data[:username]
@@ -138,6 +139,8 @@ module JSS
                 @type = DIRECTORY_BINDING_TYPE[@init_data[:type]]
                 @password = @init_data[:password]
                 @priority = @init_data[:priority]
+
+                @priority = 1 if @priority.nil?
 
 
                 class_key = DIRECTORY_BINDING_TYPE.select { |k,v| v == @type }.map { |k,v| k }.first
