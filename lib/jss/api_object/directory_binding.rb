@@ -34,10 +34,12 @@ module JSS
     # Classes
     #####################################
 
-    # A Dock Item in the JSS.
-    # These are rather simple. They have an ID, name, path, type, and contents which is read-only
+    # A Directory Binding object in the JSS
+    # These are rather complex objects, and contain settings specific to the directory object's type.
     #
     # @see JSS::APIObject
+    # @see JSS::DirectoryBindingType
+    # @note "JSS::DirectoryBinding.fetch name: 'BindingName'" seems to be returning a 500 error in my test evironment. Use "JSS::DirectoryBinding.fetch 'BindingName' instead."
     #
     class DirectoryBinding < JSS::APIObject
 
@@ -69,11 +71,6 @@ module JSS
             "ADmitMac" => JSS::DirectoryBindingType::ADmitMac,
             "Centrify" => JSS::DirectoryBindingType::Centrify
         }
-
-        DIRECTORY_NETWORK_PROTOCOL = {
-            smb: "SMB",
-            afp: "AFP"
-        }.freeze
 
         # The base for REST resources of this class
         RSRC_BASE = 'directorybindings'.freeze
