@@ -197,7 +197,7 @@ module JSS
             #
             # @return [REXML::Element]
             def type_setting_xml
-                type_setting = REXML::Element.new "admitmac"
+                type_setting = REXML::Element.new "centrify"
                 type_setting.add_element("workstation_mode").text = @workstation_mode
                 type_setting.add_element("overwrite_existing").text = @overwrite_existing
                 type_setting.add_element("update_PAM").text = @update_PAM
