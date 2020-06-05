@@ -499,7 +499,7 @@ module JSS
                 type_setting = REXML::Element.new "admitmac"
                 type_setting.add_element("require_confirmation").text = @require_confirmation
                 type_setting.add_element("local_home").text = @local_home
-                type_setting.add_element("mount_style").text = @mount_style
+                type_setting.add_element("mount_style").text = @mount_style.downcase
                 type_setting.add_element("default_shell").text = @default_shell
                 type_setting.add_element("mount_network_home").text = @mount_network_home
                 type_setting.add_element("place_home_folders").text = @place_home_folders
