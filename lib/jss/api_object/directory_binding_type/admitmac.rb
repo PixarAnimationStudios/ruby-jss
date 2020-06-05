@@ -52,7 +52,7 @@ module JSS
         # @!attribute [rw] uid
         # @!attribute [rw] user_gid
         # @!attribute [rw] gid
-        # @!attribute [rw] admin_groups
+        # @!attribute [rw] admin_group
         # @!attribute [rw] cached_credentials
         # @!attribute [rw] add_user_to_local
         # @!attribute [rw] users_ou
@@ -83,7 +83,7 @@ module JSS
             attr_reader :uid
             attr_reader :user_gid
             attr_reader :gid
-            attr_reader :admin_groups
+            attr_reader :admin_group
             attr_reader :cached_credentials
             attr_reader :add_user_to_local
             attr_reader :users_ou
@@ -139,14 +139,14 @@ module JSS
                     raise JSS::InvalidDataError, "Local Home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? init_data[:local_home]
                 end
 
-                if init_data[:admin_groups].nil?
+                if init_data[:admin_group].nil?
                     # This is needed since we have the ability to add and
                     # remove admin groups from this array.
-                    @admin_groups = []
-                elsif init_data[:admin_groups].is_a? String
-                    @admin_groups = init_data[:admin_groups].split(',')
+                    @admin_group = []
+                elsif init_data[:admin_group].is_a? String
+                    @admin_group = init_data[:admin_group].split(',')
                 else
-                    @admin_groups = init_data[:admin_groups]
+                    @admin_group = init_data[:admin_group]
                 end
             end
 
@@ -319,11 +319,11 @@ module JSS
             # @raise [JSS::InvalidDataError] If the new value is not an Array
             #
             # @return [void]
-            def admin_groups=(newvalue)
+            def admin_group=(newvalue)
                 
                 raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
 
-                @admin_groups = newvalue
+                @admin_group = newvalue
                 
                 self.container&.should_update
             end
@@ -348,11 +348,11 @@ module JSS
             end
 
 
-            # If the user is a member of one of the groups in admin_groups, add them
+            # If the user is a member of one of the groups in admin_group, add them
             # to the local administrator group.
             # 
             # @author Tyler Morgan
-            # @see admin_groups
+            # @see admin_group
             #
             # @param newvalue [Bool]
             #
@@ -449,7 +449,7 @@ module JSS
             end
 
             
-            # An a specific admin group to admin_groups
+            # An a specific admin group to admin_group
             # 
             # @author Tyler Morgan
             #
@@ -462,17 +462,17 @@ module JSS
             def add_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group must be a string." unless value.is_a? String
-                raise JSS::InvalidDataError, "Admin group \"#{value}\" already is in the list of admin groups." unless !@admin_groups.include? value
+                raise JSS::InvalidDataError, "Admin group \"#{value}\" already is in the list of admin groups." unless !@admin_group.include? value
 
-                @admin_groups << value
+                @admin_group << value
                 
                 self.container&.should_update
 
-                return @admin_groups
+                return @admin_group
             end
 
 
-            # Remove a specific admin group to admin_groups
+            # Remove a specific admin group to admin_group
             # 
             # @author Tyler Morgan
             #
@@ -485,13 +485,13 @@ module JSS
             def remove_admin_group(value)
 
                 raise JSS::InvalidDataError, "Admin group being removed must be a string" unless value.is_a? String
-                raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_groups.include? value
+                raise JSS::InvalidDataError, "Admin group #{value} is not in the current admin group(s)." unless @admin_group.include? value
 
-                @admin_groups.delete value
+                @admin_group.delete value
 
                 self.container&.should_update
 
-                return @admin_groups
+                return @admin_group
             end
 
 
@@ -518,7 +518,7 @@ module JSS
                 type_setting.add_element("groups_ou").text = @groups_ou
                 type_setting.add_element("printers_ou").text = @printers_ou
                 type_setting.add_element("shared_folders_ou").text = @shared_folders_ou
-                type_setting.add_element("admin_groups").text = @admin_groups.join(',').to_s unless @admin_groups.nil?
+                type_setting.add_element("admin_group").text = @admin_group.join(',').to_s unless @admin_group.nil?
 
                 return type_setting
             end
