@@ -109,7 +109,6 @@ module JSS
 
                 # Process the provided information
                 @require_confirmation = init_data[:require_confirmation]
-                @local_home = init_data[:local_home]
                 @default_shell = init_data[:default_shell]
                 @mount_network_home = init_data[:mount_network_home]
                 @place_home_folders = init_data[:place_home_folders]
@@ -127,11 +126,18 @@ module JSS
                     raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
                     @mount_style = init_data[:mount_style]
                 else
-                    raise JSS::InvalidDataError, "Mount style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}," unless NETWORK_PROTOCOL.keys.include? init_data[:mount_style]
+                    raise JSS::InvalidDataError, "Mount style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}." unless NETWORK_PROTOCOL.keys.include? init_data[:mount_style]
 
                     @mount_style = NETWORK_PROTOCOL[init_data[:mount_style]]
                 end
 
+                if init_data[:local_home].nil? || init_data[:local_home].is_a?(String)
+                    raise JSS::InvalidDataError, "Local Home must be one of #{HOME_FOLDER_TYPE.values.join(', ')}." unless HOME_FOLDER_TYPE.values.include? init_data[:local_home] || init_data[:local_home].nil?
+
+                    @local_home = init_data[:local_home]
+                else
+                    raise JSS::InvalidDataError, "Local Home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? init_data[:local_home]
+                end
 
                 if init_data[:admin_groups].nil?
                     # This is needed since we have the ability to add and
