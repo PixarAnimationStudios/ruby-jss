@@ -102,18 +102,31 @@ module JSS
                 @require_confirmation = init_data[:require_confirmation]
                 @local_home = init_data[:local_home]
                 @use_unc_path = init_data[:use_unc_path]
-                @mount_style = init_data[:mount_style]
                 @default_shell = init_data[:default_shell]
                 @uid = init_data[:uid]
                 @user_gid = init_data[:user_gid]
                 @gid = init_data[:gid]
                 @multiple_domains = init_data[:multiple_domains]
                 @preferred_domain_server = init_data[:preferred_domain_server]
-                @admin_groups = init_data[:admin_groups]
 
-                # This is needed since we have the ability to add and
-                # remove admin groups from this array.
-                @admin_groups = [] unless !@admin_groups.nil?
+                if init_data[:mount_style].nil? || init_data[:mount_style].is_a?(String)
+                    raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
+                    @mount_style = init_data[:mount_style]
+                else
+                    raise JSS::InvalidDataError, "Mount style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}," unless NETWORK_PROTOCOL.keys.include? init_data[:mount_style]
+
+                    @mount_style = NETWORK_PROTOCOL[init_data[:mount_style]]
+                end
+
+                if init_data[:admin_groups].nil?
+                    # This is needed since we have the ability to add and
+                    # remove admin groups from this array.
+                    @admin_groups = []
+                elsif init_data[:admin_groups].is_a? String
+                    @admin_groups = init_data[:admin_groups].split(',')
+                else
+                    @admin_groups = init_data[:admin_groups]
+                end
             end
 
                 

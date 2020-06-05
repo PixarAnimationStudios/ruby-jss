@@ -110,14 +110,12 @@ module JSS
                 # Process the provided information
                 @require_confirmation = init_data[:require_confirmation]
                 @local_home = init_data[:local_home]
-                @mount_style = init_data[:mount_style]
                 @default_shell = init_data[:default_shell]
                 @mount_network_home = init_data[:mount_network_home]
                 @place_home_folders = init_data[:place_home_folders]
                 @uid = init_data[:uid]
                 @user_gid = init_data[:user_gid]
                 @gid = init_data[:gid]
-                @admin_groups = init_data[:admin_groups]
                 @cached_credentials = init_data[:cached_credentials]
                 @add_user_to_local = init_data[:add_user_to_local]
                 @users_ou = init_data[:users_ou]
@@ -125,9 +123,25 @@ module JSS
                 @printers_ou = init_data[:printers_ou]
                 @shared_folders_ou = init_data[:shared_folders_ou]
 
-                # This is needed since we have the ability to add and
-                # remove admin groups from this array.
-                @admin_groups = [] unless !@admin_groups.nil?
+                if init_data[:mount_style].nil? || init_data[:mount_style].is_a?(String)
+                    raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
+                    @mount_style = init_data[:mount_style]
+                else
+                    raise JSS::InvalidDataError, "Mount style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}," unless NETWORK_PROTOCOL.keys.include? init_data[:mount_style]
+
+                    @mount_style = NETWORK_PROTOCOL[init_data[:mount_style]]
+                end
+
+
+                if init_data[:admin_groups].nil?
+                    # This is needed since we have the ability to add and
+                    # remove admin groups from this array.
+                    @admin_groups = []
+                elsif init_data[:admin_groups].is_a? String
+                    @admin_groups = init_data[:admin_groups].split(',')
+                else
+                    @admin_groups = init_data[:admin_groups]
+                end
             end
 
                 
