@@ -54,6 +54,7 @@ module JSS
         # @!attribute [rw] multiple_domains
         # @!attribute [rw] preferred_domain
         # @!attribute [rw] admin_groups
+        # @!attribute [rw] forest
         # TODO: Include default values upon creation
 
         class ActiveDirectory < DirectoryBindingType
@@ -80,6 +81,7 @@ module JSS
             attr_reader :multiple_domains
             attr_reader :preferred_domain
             attr_reader :admin_groups
+            attr_reader :forest
 
             # Constructor
             #####################################
@@ -108,6 +110,7 @@ module JSS
                 @gid = init_data[:gid]
                 @multiple_domains = init_data[:multiple_domains]
                 @preferred_domain = init_data[:preferred_domain]
+                @forest = init_data[:forest]
 
                 if init_data[:mount_style].nil? || init_data[:mount_style].is_a?(String)
                     raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
@@ -289,6 +292,27 @@ module JSS
             end
 
 
+            # Specify a specific forest within Active Directory
+            # 
+            # @author Tyler Morgan
+            #
+            # @param newvalue [String] The forest you want to specify
+            #
+            # @raise [JSS::InvalidDataError] If the new value is not a String
+            #
+            # @return [void]
+            def forest=(newvalue)
+
+                # Data Check
+                raise JSS::InvalidDataError, "forest must be a string." unless newvalue.is_a? String
+
+                # Update Value
+                @forest = newvalue
+
+                # Set the object to needing to be updated.
+                self.container&.should_update
+            end
+
             # Map specific a User's GID to Attribute
             # 
             # @author Tyler Morgan
@@ -469,6 +493,7 @@ module JSS
                 type_setting.add_element("multiple_domains").text = @multiple_domains
                 type_setting.add_element("preferred_domain").text = @preferred_domain
                 type_setting.add_element("admin_groups").text = @admin_groups.join(',').to_s unless @admin_groups.nil?
+                type_setting.add_element("forest").text = @forest.to_s
 
                 return type_setting
             end
