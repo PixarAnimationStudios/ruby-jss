@@ -42,6 +42,8 @@ module JSS
         # 
         # @author Tyler Morgan
         #
+        # @note "Map Home Directory To Attribute" is currently only available in the Jamf Pro UI not through the API.
+        #
         # Attributes
         # @!attribute [rw] require_confirmation
         # @!attribute [rw] local_home
