@@ -1292,6 +1292,49 @@ module JSS
       @directory_bindings.map { |p| p[:name] }
     end
 
+    # Add a Directory Bidning to the list of directory_bindings handled by this policy.
+    # If the directory binding already exists in the policy, nil is returned and
+    # no changes are made.
+    #
+    # @param [String,Integer] identifier the name or id of the directory binding to add to this policy
+    #
+    # @param position [Symbol, Integer] where to add this directory binding among the list of
+    #   directory_bindings. Zero-based, :start and 0 are the same, as are :end and -1.
+    #   Defaults to :end
+    #
+    # @return [Array, nil]  the new @packages array, nil if pkg was already in the policy
+    #
+    def add_directory_binding(identifier, **opts)
+      id = validate_directory_binding_opts identifier, opts
+
+      return nil if @directory_bindings.map { |s| s[:id] }.include? id
+
+      name = JSS::DirectoryBinding.map_all_ids_to(:name, api: @api)[id]
+
+      directory_binding_data = {
+        id: id,
+        name: name
+      }
+
+      @directory_bindings.insert opts[:position], directory_binding_data
+
+      @need_to_update = true
+      @directory_bindings
+    end
+
+
+    # Remove a directory binding from this policy by name or id
+    #
+    # @param identfier [String,Integer] the name or id of the directory binding to remove
+    #
+    # @return [Array, nil] the new directory bindings array or nil if no change
+    #
+    def remove_directory_binding(identifier)
+      removed = @directory_bindings.delete_if { |s| s[:id] == identifier || s[:name] == identifier }
+      @need_to_update = true if removed
+      removed
+    end
+
     ###### Dock items
 
     # @return [Array] the id's of the dock_items handled by the policy
@@ -1439,6 +1482,30 @@ module JSS
       id
     end
 
+    # raise an error if the directory binding being added isn't valid
+    #
+    # @see #add_directory_binding
+    #
+    # @return [Integer, nil] the valid id for the package
+    #
+    def validate_directory_binding_opts(identifier, opts)
+      opts[:position] ||= -1
+      
+      opts[:position] =
+        case opts[:position]
+        when :start then 0
+        when :end then -1
+        else JSS::Validate.integer(opts[:position])
+        end
+    
+        # if the given position is past the end, set it to -1 (the end)
+        opts[:position] = -1 if opts[:position] > @directory_bindings.size
+
+        id = JSS::DirectoryBinding.valid_id identifier, api: @api
+        raise JSS::NoSuchItemError, "No directory binding matches '#{identifier}'" unless id
+        id
+    end
+
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
@@ -1491,6 +1558,14 @@ module JSS
         script = scripts.add_element 'script'
         sdeets = JSS.hash_to_rexml_array s
         sdeets.each { |d| script << d }
+      end
+
+      account_maintenance = obj.add_element 'account_maintenance'
+      directory_bindings = account_maintenance.add_element 'directory_bindings'
+      @directory_bindings.each do |b|
+        directory_binding = directory_bindings.add_element 'binding'
+        dbdeets = JSS.hash_to_rexml_array b
+        dbdeets.each { |d| directory_binding << d }
       end
 
       add_self_service_xml doc
