@@ -67,7 +67,7 @@ module JSS
         DIRECTORY_BINDING_TYPE_CLASSES = {
             "Open Directory" => JSS::DirectoryBindingType::OpenDirectory,
             "Active Directory" => JSS::DirectoryBindingType::ActiveDirectory,
-            "PowerBroker Identify Services" => JSS::DirectoryBindingType::PowerBroker,
+            "PowerBroker Identity Services" => JSS::DirectoryBindingType::PowerBroker,
             "ADmitMac" => JSS::DirectoryBindingType::ADmitMac,
             "Centrify" => JSS::DirectoryBindingType::Centrify
         }
