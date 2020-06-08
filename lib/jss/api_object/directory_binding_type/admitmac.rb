@@ -102,6 +102,8 @@ module JSS
             # @see JSS::DirectoryBinding
             # @see JSS::DirectoryBindingType
             #
+            # @note Due to a JSS API funk, mount_style is not able to be configured through the API. It is linked to place_home_folders
+            #
             # @param [Hash] initialize data
             def initialize(init_data)
 
@@ -123,15 +125,7 @@ module JSS
                 @groups_ou = init_data[:groups_ou]
                 @printers_ou = init_data[:printers_ou]
                 @shared_folders_ou = init_data[:shared_folders_ou]
-
-                if init_data[:mount_style].nil? || init_data[:mount_style].is_a?(String)
-                    raise JSS::InvalidDataError, "Mount style must be one of #{NETWORK_PROTOCOL.values.join(', ')}." unless NETWORK_PROTOCOL.values.map { |x| x.downcase }.include?(init_data[:mount_style].downcase) || init_data[:mount_style].nil? 
-                    @mount_style = init_data[:mount_style]
-                else
-                    raise JSS::InvalidDataError, "Mount style must be one of :#{NETWORK_PROTOCOL.keys.join(',:')}." unless NETWORK_PROTOCOL.keys.include? init_data[:mount_style]
-
-                    @mount_style = NETWORK_PROTOCOL[init_data[:mount_style]]
-                end
+                @mount_style = init_data[:mount_style]
 
                 if init_data[:local_home].nil? || init_data[:local_home].is_a?(String)
                     raise JSS::InvalidDataError, "Local Home must be one of #{HOME_FOLDER_TYPE.values.join(', ')}." unless HOME_FOLDER_TYPE.values.include? init_data[:local_home] || init_data[:local_home].nil?
