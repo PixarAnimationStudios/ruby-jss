@@ -1305,6 +1305,61 @@ module JSS
       @dock_items.map { |p| p[:name] }
     end
 
+
+    ###### Printers
+
+    # Add a specific printer object to the policy.
+    #
+    # @author Tyler Morgan
+    #
+    # @param newvalue [String,Integer] The name or the id of the printer to be added to this policy.
+    #
+    # @param position [Symbol, Integer] where to add this printer object among the list of printer
+    #   objects. Zero-based, :start and 0 are the same, as are :end and -1.
+    #   Defaults to :end
+    #
+    # @param action [Symbol] One of the PRINTER_ACTIONS symbols. What you want done with the printer object upon policy execution.
+    #
+    # @param make_default [TrueClass,FalseClass] Should this printer object be set to default.
+    #   Defaults to false
+    #
+    # @return [String] The new printers array or nil if the printer was already in the policy
+    def add_printer(identifier, **opts)
+      id = validate_printer_opts identifier, opts
+
+      return nil if @printers.map { |p| p[:id] }.include? id
+
+      name = JSS::Printer.map_all_ids_to(:name, api: @api)[id]
+
+      printer_data = {
+        id: id,
+        name: name,
+        action: PRINTER_ACTIONS[opts[:action]],
+        make_default: opts[:make_default]
+      }
+
+      @printers.insert opts[:position], printer_data
+
+      @need_to_update = true
+      @printers
+    end
+
+
+    # Remove a specific printer object from the policy.
+    #
+    # @author Tyler Morgan
+    #
+    # @param identifier [String,Integer] The name or id of the printer to be removed.
+    #
+    # @return [Array, nil] The new printers array or nil if no change.
+    def remove_printer(identifier)
+      removed = @printers.delete_if { |p| p[:id] == identifier || p[:name] == identifier }
+
+      @need_to_update = true
+      removed
+    end
+
+    
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
         begin
@@ -1440,6 +1495,40 @@ module JSS
       id
     end
 
+    # Raises an error if the printer being added isn't valid, additionally checks the options and sets defaults where possible.
+    #
+    # @see #add_printer
+    #
+    # @return [Integer, nil] the valid id for the package
+    #
+    def validate_printer_opts(identifier, opts)
+      opts[:position] ||= -1
+
+      opts[:position] =
+        case opts[:position]
+        when :start then 0
+        when :end then -1
+        else JSS::Validate.integer(opts[:position])
+        end
+      
+      # If the given position is past the end, set it to -1 (the end)
+      opts[:position] = -1 if opts[:position] > @printers.size
+
+      # Checks if action to be done with the printer object is provided and valid.
+      raise JSS::MissingDataError, "action must be provided, must be one of :#{PRINTER_ACTIONS.keys.join(':,')}." if opts[:action].nil?
+      raise JSS::InvalidDataError, "action must be one of :#{PRINTER_ACTIONS.keys.join(',:')}." unless PRINTER_ACTIONS.keys.include? opts[:action]
+
+
+      # Checks if the make_default option is valid, and sets the default if needed.
+      raise JSS::InvalidDataError, "make_default must be either true or false." unless opts[:make_default].is_a?(TrueClass) || opts[:make_default].is_a?(FalseClass) || opts[:make_default].nil?
+
+      opts[:make_default] = false if opts[:make_default].nil?
+
+      id = JSS::Printer.valid_id identifier, api: @api
+      raise JSS::NoSuchItemError, "No printer matches '#{identifier}'" unless id
+      id
+    end
+
     def rest_xml
       doc = REXML::Document.new APIConnection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
@@ -1492,6 +1581,13 @@ module JSS
         script = scripts.add_element 'script'
         sdeets = JSS.hash_to_rexml_array s
         sdeets.each { |d| script << d }
+      end
+
+      printers = obj.add_element 'printers'
+      @printers.each do |pr|
+        printer = printers.add_element 'printer'
+        pdeets = JSS.hash_to_rexml_array pr
+        pdeets.each { |d| printer << d }
       end
 
       add_self_service_xml doc
