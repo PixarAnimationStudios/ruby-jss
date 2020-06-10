@@ -670,6 +670,7 @@ module JSS
         @disk_encryption = @init_data[:disk_encryption]
 
         @printers = @init_data[:printers]
+        @printers.shift
 
         # Not in jss yet
       end
