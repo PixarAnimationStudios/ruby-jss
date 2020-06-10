@@ -1302,7 +1302,7 @@ module JSS
     #   directory_bindings. Zero-based, :start and 0 are the same, as are :end and -1.
     #   Defaults to :end
     #
-    # @return [Array, nil]  the new @packages array, nil if pkg was already in the policy
+    # @return [Array, nil]  the new @directory_bindings array, nil if directory_binding was already in the policy
     #
     def add_directory_binding(identifier, **opts)
       id = validate_directory_binding_opts identifier, opts
