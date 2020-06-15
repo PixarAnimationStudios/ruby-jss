@@ -191,6 +191,11 @@ module JSS
       after: 'After'
     }.freeze
 
+    DISK_ENCRPYTION_ACTIONS = {
+      apply: "apply",
+      remediate: "remediate"
+    }
+
     PRINTER_ACTIONS = {
       map: 'install',
       unmap: 'uninstall'
