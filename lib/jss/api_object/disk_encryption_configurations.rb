@@ -72,6 +72,15 @@ module JSS
 
         ## Class Methods
         #####################################
+
+        # Sets what type of account is to be enabled using the new value
+        #
+        # @author Tyler Morgan
+        #
+        # @param newvalue[Symbol] One of ENABLED_USERS_TYPE
+        #
+        # @return [Void]
+        #
         def file_vault_enabled_users=(newvalue)
             raise JSS::InvalidDataError, "file_vault_enabled_users must be one of :#{ENABLED_USERS_TYPE.keys.join(',:')}." unless ENABLED_USERS_TYPE.keys.include? newvalue
 
