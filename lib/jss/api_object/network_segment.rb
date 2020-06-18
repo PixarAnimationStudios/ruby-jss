@@ -505,14 +505,22 @@ module JSS
 
     ### set the distribution_point
     ###
-    ### @param newval[String, Integer] the new dist. point by name or id, must be in the JSS
+    ### @param newval[String, Integer, nil] the new dist. point by name or id, must be in the JSS, or nil  or blank to unset
     ###
     ### @return [void]
     ###
     def distribution_point=(newval)
-      new = JSS::DistributionPoint.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No distribution_point matching '#{newval}' in the JSS" unless new
-      @distribution_point = new[:name]
+      new =
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::DistributionPoint.valid_id newval
+          raise JSS::MissingDataError, "No distribution_point matching '#{newval}' in the JSS" unless id
+
+          JSS::DistributionPoint.map_all_ids_to(:name)[id]
+        end
+
+      @distribution_point = new
       @need_to_update = true
     end
 
