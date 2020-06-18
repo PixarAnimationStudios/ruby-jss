@@ -444,6 +444,21 @@ module JSS
       refresh_ipa
     end
 
+    # Remove the various cached data
+    # from the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@api
+      vars.delete :@init_data
+      vars.delete :@main_subset
+      vars.delete :@ipa
+      vars
+    end
+
     # Private Instance Methods
     ###########################################
     private
