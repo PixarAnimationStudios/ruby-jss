@@ -380,35 +380,15 @@ module JSS
     # @return [FalseClass, Symbol] false if not reachable, otherwise :http or :mountable
     #
     def reachable_for_download?(pw = '', check_http = true)
-      if check_http && http_downloads_enabled
-        if @username_password_required
-          # we don't check the pw here, because if the connection fails, we'll
-          # drop down below to try the password for mounting.
-          # we'll escape all the chars that aren't unreserved
-          # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
-          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape pw.to_s}@"
-          url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
-        else
-          url = @http_url
-        end
-
-        begin
-          URI.parse(url).read
-          return :http
-        rescue
-          nil
-        end
-      end # if  check_http && http_downloads_enabled
-
+      return :http if check_http && http_reachable?(pw)
       return :mountable if mounted?
-
       return false unless check_pw :ro, pw
 
       begin
         mount pw, :ro
-        return :mountable
+        :mountable
       rescue
-        return false
+        false
       ensure
         unmount
       end
@@ -531,6 +511,23 @@ module JSS
     # Private Instance Methods
     ######################################
     private
+
+    # can the dp be reached for http downloads?
+    def http_reachable?(pw)
+      return false unless http_downloads_enabled
+
+      url =
+        if @username_password_required
+          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape pw.to_s}@"
+          @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
+        else
+          @http_url
+        end
+      URI.parse(url).read
+      true
+    rescue
+      false
+    end
 
     # Unused - until I get around to making DP's updatable
     #
