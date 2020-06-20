@@ -27,7 +27,7 @@ module JSS
   # Module Methods
   #####################################
 
-  # A Distribution Point in the JSS
+  # A FileShare Distribution Point in the JSS
   #
   # As well as the normal Class and Instance methods for {APIObject} subclasses, the
   # DistributionPoint class provides more interaction with other parts of the API.
@@ -42,6 +42,11 @@ module JSS
   # Once you have an instance of JSS::DistributionPoint, you can mount it (on a Mac) by calling its {#mount} method
   # and unmount it with {#unmount}. The {JSS::Package} and possibly {JSS::Script} classes use this to upload
   # items to the master.
+  #
+  # NOTE: This class only deals with FileShare Distribution Points.
+  # There is no access to the Cloud Distribution Point in the classic API.
+  # See the .master_distribution_point and .my_distribution_point class methods
+  # for how they handle things when the Cloud DP is the master.
   #
   # @see JSS::APIObject
   #
@@ -80,17 +85,26 @@ module JSS
     # Class Methods
     #####################################
 
-    # Get the DistributionPoint instance for the master
-    # distribution point in the JSS. If there's only one
-    # in the JSS, return it even if not marked as master.
+    # Get the DistributionPoint instance for the master distribution point.
+    #
+    # If the Cloud Dist Point is master, then the classic API has no way to
+    # know that or access it. In that case you can provide the 'default:' parameter.
+    # Give it the name or id of any dist. point to be used instead, or give it
+    # :random to randomly choose one.
+    #
+    # If there are no fileshare dist points defined (the cloud is the only one)
+    # then this whole class can't really be used.
     #
     # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @param default[String, Integer, Symbol] Name or ID of a dist point to use
+    #   if no master is found, or :random to randomly choose one.
     #
     # @param api[JSS::APIConnection] which API connection should we query?
     #
     # @return [JSS::DistributionPoint]
     #
-    def self.master_distribution_point(refresh = false, api: JSS.api)
+    def self.master_distribution_point(refresh = false, default: nil, api: JSS.api)
       @master_distribution_point = nil if refresh
       return @master_distribution_point if @master_distribution_point
 
@@ -102,36 +116,61 @@ module JSS
         end
       end
 
-      return @master_distribution_point if @master_distribution_point
-
       # If we're here, the Cloud DP might be master, but there's no
       # access to it in the API :/
-      raise JSS::NoSuchItemError, 'No Master Distribtion Point defined. It could be the Cloud Dist Point, which is not available in the classic API'
+      raise JSS::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.' unless @master_distribution_point || default
+
+      if @master_distribution_point
+        @master_distribution_point
+      elsif default == :random
+        @master_distribution_point = fetch(id: all_ids.sample, api: api)
+      else
+        @master_distribution_point = fetch(default, api: api)
+      end
     end
 
     # Get the DistributionPoint instance for the machine running
     # this code, based on its IP address. If none is defined for this IP address,
-    # use the result of master_distribution_point
+    # use the name or id provided as default. If no default: is provided,
+    # the master dp is used. If no master dp available (meaning its the
+    # cloud dp) then use a randomly chosen dp.
     #
     # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @param default[String, Integer, Symbol] the name or id of a Dist Point
+    #   to use if none is specified for this IP addr. Or :master, to use the
+    #   master DP, or :random to use a randomly chosen one. If :master is
+    #   specified and there is no master (master is cloud) then a random one is used.
     #
     # @param api[JSS::APIConnection] which API connection should we query?
     #
     # @return [JSS::DistributionPoint]
     #
-    def self.my_distribution_point(refresh = false, api: JSS.api)
+    def self.my_distribution_point(refresh = false, default: :master, api: JSS.api)
       @my_distribution_point = nil if refresh
       return @my_distribution_point if @my_distribution_point
 
       my_net_seg_id = JSS::NetworkSegment.my_network_segment refresh, api: api
 
       if my_net_seg_id
-        my_net_seg = JSS::NetworkSegment.fetch(id: my_net_seg_id, api: api)
+        my_net_seg = JSS::NetworkSegment.fetch id: my_net_seg_id, api: api
         my_dp_name = my_net_seg.distribution_point
         @my_distribution_point = fetch name: my_dp_name, api: api if my_dp_name
       end # if my_net_seg_id
 
-      @my_distribution_point ||= master_distribution_point refresh
+      return @my_distribution_point if @my_distribution_point
+
+      @my_distribution_point =
+        case default
+        when String
+          fetch name: default, api: api
+        when Integer
+          fetch id: default, api: api
+        when :master
+          master_distribution_point refresh, default: :random, api: api
+        when :random
+          fetch id: all_ids(refresh).sample, api: api
+        end
     end
 
     # Class Attributes
