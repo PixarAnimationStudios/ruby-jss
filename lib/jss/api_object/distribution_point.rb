@@ -339,7 +339,7 @@ module JSS
       # Seemms the read-only pw isn't available in the API
 
       # if we mount for fileservice, where's the mountpoint?
-      @mountpoint = Pathname.new "/#{DEFAULT_MOUNTPOINT_DIR}/#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
+      @mountpoint = DEFAULT_MOUNTPOINT_DIR + "#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
     end # init
 
     # Check the validity of a password.
@@ -380,25 +380,23 @@ module JSS
     # @return [FalseClass, Symbol] false if not reachable, otherwise :http or :mountable
     #
     def reachable_for_download?(pw = '', check_http = true)
-      pw ||= ''
-      http_checked = ''
       if check_http && http_downloads_enabled
         if @username_password_required
           # we don't check the pw here, because if the connection fails, we'll
           # drop down below to try the password for mounting.
           # we'll escape all the chars that aren't unreserved
           # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
-          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape ro_pw.to_s}@"
+          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape pw.to_s}@"
           url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
         else
           url = @http_url
         end
 
         begin
-          open(url).read
+          URI.parse(url).read
           return :http
         rescue
-          http_checked = 'http and '
+          nil
         end
       end # if  check_http && http_downloads_enabled
 
