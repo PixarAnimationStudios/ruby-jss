@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.3.1] - 2020-06-21
+
+### Changed
+
+  - JSS::MobileDeviceApplication when using PrettyPrint (pp) in irb, no longer shows the base64 data for the ipa file.
+
+  - JSS::DistributionPoint.my_distribution_point and .master_distribution_point now have options for dealing with the Cloud Distribution Point (which is not available in the classic API) being the master.
+
+### Fixed
+
+  - JSS::NetworkSegment.distribution_point=  now takes nil or an empty string to unset the dist point.
+
 ## \[1.3.0] - 2020-06-05
 
 ### Added
