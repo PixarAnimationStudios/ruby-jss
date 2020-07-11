@@ -346,7 +346,7 @@ module JSS
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      warn 'WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename.' if @in_jss
+
       @filename = new_val
       @need_to_update = true
     end
