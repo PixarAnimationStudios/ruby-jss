@@ -65,7 +65,7 @@ module JSS
     DIST_POINT_PKGS_FOLDER = 'Packages'.freeze
 
     # The possible values for cpu_type (required_processor) in a JSS package
-    CPU_TYPES = %w[None x86 ppc].freeze
+    CPU_TYPES = %w[None Intel/x86 ppc].freeze
 
     # the possible priorities
     PRIORITIES = (1..20)
