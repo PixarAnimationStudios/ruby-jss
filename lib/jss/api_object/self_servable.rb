@@ -1,5 +1,5 @@
 
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -347,7 +347,7 @@ module JSS
     # @return [void]
     #
     def self_service_description=(new_val)
-      new_val.strip!
+      new_val = new_val.strip
       return if @self_service_description == new_val
       @self_service_description = new_val
       @need_to_update = true
@@ -358,7 +358,7 @@ module JSS
     # @return [void]
     #
     def self_service_display_name=(new_val)
-      new_val.strip!
+      new_val = new_val.strip
       return nil if @self_service_dislay_name == new_val
       raise JSS::InvalidDataError, 'Only macOS Self Service items have display names' unless self_service_targets.include? :macos
       @self_service_dislay_name = new_val
@@ -372,7 +372,7 @@ module JSS
     # @return [void]
     #
     def self_service_install_button_text=(new_val)
-      new_val.strip!
+      new_val = new_val.strip
       return nil if @self_service_install_button_text == new_val
       raise JSS::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
       @self_service_install_button_text = new_val
@@ -384,7 +384,7 @@ module JSS
     # @return [void]
     #
     def self_service_reinstall_button_text=(new_val)
-      new_val.strip!
+      new_val = new_val.strip
       return nil if @self_service_reinstall_button_text == new_val
       raise JSS::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
       @self_service_reinstall_button_text = new_val
@@ -532,7 +532,7 @@ module JSS
     # @return [void]
     #
     def self_service_notification_subject=(subj)
-      subj.strip!
+      subj = subj.strip
       return if subj == @self_service_notification_subject
       validate_notifications_supported
       @self_service_notification_subject = subj
@@ -544,7 +544,7 @@ module JSS
     # @return [void]
     #
     def self_service_notification_message=(msg)
-      msg.strip!
+      msg = msg.strip
       return if msg == @self_service_notification_message
       validate_notifications_supported
       @self_service_notification_message = msg

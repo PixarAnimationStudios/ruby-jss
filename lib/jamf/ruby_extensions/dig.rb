@@ -20,7 +20,33 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
 
-require 'jamf'
+# Gratefully borrowed from https://github.com/Invoca/ruby_dig
+
+# modulize monkey patches
+module RubyDig
+
+  def dig(key, *rest)
+    value = self[key]
+    if value.nil? || rest.empty?
+      value
+    elsif value.respond_to?(:dig)
+      value.dig(*rest)
+    else
+      raise TypeError, "#{value.class} does not have #dig method"
+    end
+  end
+
+end
+
+if RUBY_VERSION < '2.3'
+
+  # arrays
+  class Array; include RubyDig; end
+
+  # hashes
+  class Hash; include RubyDig; end
+
+  # ostructs
+  class OpenStruct; include RubyDig; end
+end

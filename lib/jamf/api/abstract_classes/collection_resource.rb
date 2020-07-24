@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -106,13 +106,21 @@ module Jamf
         return cnx.collection_cache[self].map { |m| new m }
       end
 
-      raw = cnx.get rsrc_path
-      cnx.collection_cache[self] =
-        if raw.is_a?(Hash) && raw[:results]
-          raw[:results]
-        else
-          raw
-        end
+      # TODO:  make sure all collection resources use this format
+      # for paging. Also -ask Jamf about a  url that returns
+      # ALL objects in one query, regardless of number.
+      page = 0
+      raw = cnx.get "#{rsrc_path}?page=#{page}&size=1000000&sort=id%3Aasc"
+      results = raw[:results]
+
+      until results.size >= raw[:totalCount]
+        page += 1
+        raw = cnx.get "#{rsrc_path}?page=#{page}&size=1000000&sort=id%3Aasc"
+        results += raw[:results]
+      end
+
+
+      cnx.collection_cache[self] = results
 
       return cnx.collection_cache[self] unless instantiate
 
@@ -220,7 +228,7 @@ module Jamf
       val_is_str = value.is_a? String
 
       idents.each do |ident|
-        match = all(refresh: refresh, cnx: cnx).select do |m|
+        match = all(refresh, cnx: cnx).select do |m|
           val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
         end.first
         return match[:id] if match

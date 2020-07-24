@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -131,6 +131,9 @@ module JSS
     HW_PREFIX_IPHONE = 'iPhone'.freeze
 
     NON_UNIQUE_NAMES = true
+
+    # file uploads can send attachments to the JSS using :mobiledevices as the sub-resource.
+    UPLOAD_TYPES = { attachment: :mobiledevices }.freeze
 
     # This class lets us seach for computers
     SEARCH_CLASS = JSS::AdvancedMobileDeviceSearch
@@ -527,16 +530,19 @@ module JSS
 
     #
     def asset_tag=(new_val)
+      new_val = new_val.strip
       return nil if @asset_tag == new_val
-      new_val.strip!
+
       @asset_tag = new_val
       @need_to_update = true
     end
 
-    #
-    def update
-      super
-      return @id unless @needs_mdm_name_change
+    # @param no_mdm_rename[Boolean] should a MDM `set device name` command be sent
+    #   if the device is managed and supervised?
+    def update(no_mdm_rename: false)
+      super()
+      return @id if no_mdm_rename || !@needs_mdm_name_change
+
       set_device_name @name if managed? && supervised?
       @needs_mdm_name_change = false
       @id

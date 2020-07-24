@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -1222,8 +1222,16 @@ module JSS
     # @return [void]
     #
     def delete
-      return nil unless @in_jss
-      @api.delete_rsrc @rest_rsrc
+      return unless @in_jss
+      begin
+        @api.delete_rsrc @rest_rsrc
+      rescue RestClient::NotFound, RestClient::ResourceNotFound
+        # over slow connections (?) or more likely
+        # split-tunnel VPN connections, sometimes the thing gets deleted
+        # the call gets a 404 anyway
+        nil
+      end
+
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}"
       @id = nil
       @in_jss = false
@@ -1658,6 +1666,7 @@ require 'jss/api_object/department'
 require 'jss/api_object/distribution_point'
 require 'jss/api_object/ebook'
 require 'jss/api_object/ibeacon'
+require 'jss/api_object/dock_item'
 require 'jss/api_object/ldap_server'
 require 'jss/api_object/mac_application'
 require 'jss/api_object/mobile_device'

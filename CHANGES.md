@@ -4,13 +4,125 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.3.1] - 2020-06-21
+
+### Changed
+
+  - JSS::MobileDeviceApplication when using PrettyPrint (pp) in irb, no longer shows the base64 data for the ipa file.
+
+  - JSS::DistributionPoint.my_distribution_point and .master_distribution_point now have options for dealing with the Cloud Distribution Point (which is not available in the classic API) being the master.
+
+### Fixed
+
+  - JSS::NetworkSegment.distribution_point=  now takes nil or an empty string to unset the dist point.
+
+## \[1.3.0] - 2020-06-05
+
+### Added
+
+  - JSS::NetworkSegment.network_ranges_as_integers method, Similar to NetworkSegment.network_ranges, but the ranges are of Integers, not IPAddr instances. This makes for *MUCH* faster range calculations, needed to implement improvements to NetworkSegment.network_segment_for_ip
+
+  - JSS::Package.all_filenames_by, returns a Hash of all distribution point filenames for all packages, keyed by either the package id, or the package name. NOTE: as with JSS::Package.all_filenames, this method must instantiate all JSS::Package objects, so it will be slow.
+
+### Changed
+
+  - JSS.expand_min_os now expands to macOS 10.30.x, which should hold us for a while
+
+  - JSS::NetworkSegment.network_segment_for_ip and .my_network_segment are no longer deprecated, but now return an integer NetSeg id (or nil). The plural forms of those methods still return an Array of ids for all the matching network segments.
+
+  - The logic for JSS::NetworkSegment.network_segment_for_ip (and .my_network_segment) now matches how the Jamf server does it:  when you IP address is in more than one Network Segment, Jamf uses the smallest/narrowest one (the one containing fewest IP addresses). If more than one of your Network Segments are that same width, the one with the lowest starting IP address is used.
+
+  - In some networking situations (e.g. Split-tunnel VPN with multiple active network ports) the JSS::APIObject.delete method will raise a 404 NotFound error, seemingly because the object was already deleted but a second http DELETE is sent (I think). We now just rescue and ignore that error, since the fact that it's not found means it was indeed deleted.
+
+### Fixed
+
+  - A copy/paste bug in Jamf::Prestage.serials_for_prestage
+
+## \[1.2.15] - 2020-04-30
+
+### Fixed
+
+  - USER_CONF_FILE is always a pathname, never nil
+
+  - issues with Array#j_ci_* methods related to removing safe navigation
+
+## \[1.2.13] - 2020-04-29
+
+### Fixed
+
+  - Ruby 2.6 needs parens in more places than 2.3, apparently
+
+## \[1.2.12] - 2020-04-29
+
+### Added
+
+  - Backport of `#dig` for Arrays, Hashes and OpenStructs, for compatibiliy with older rubiesd (for a while longer anyway). Gratefully borrowed from https://github.com/Invoca/ruby_dig
+
+### Changed
+
+  - Removed all safe navigation operators (`&.`) for compatibility with older rubies (for a while longer anyway)
+
+
+## \[1.2.11] - 2020-04-26
+
+### Fixed
+
+  - Bug in Package#install that prevented installs from 'alt_download_url'.
+
+## \[1.2.10] - 2020-04-25
+
+### Added
+
+  - Computer#reported_ip_address. This value is collected in newer versions of Jamf Pro. While the #ip_address is the client's IP address from the Jamf Server's perspective, the #reported_ip_address is the IP from the client's perspective, which may be different on a NATted network like a home network.
+
+### Fixed
+
+  - MobileDevice#upload now works like Computer#upload
+
+### Changed
+
+  - Validation of Ext. Attribute values is improved, namely for EAs with integer values, integer-strings like "12" are accepted and converted to real integers as needed.
+
+## \[1.2.9] - 2020-04-13
+
+### Fixed
+
+  - Fixed a bug where passing a frozen string into some setters, e.g. `JSS::Computer.asset_tag=`, would cause an error when it tried to `#strip!` the string.
+
+## \[1.2.8] - 2020-04-12
+
+### Added
+
+  - MobileDevice#update now takes the `no_mdm_rename:` boolean parameter. Prevents an MDM rename command being sent when changing the name of a supervised device with enforced names. Useful when the MDM command fails, as when there's already a pending rename command.
+
+  - `String#jss_float?` and `String#j_float?` predicate methods.
+
+### Changed
+
+  - Jamf Pro API endpoints that have paging options have an undocumented max page size of 2000. The `CollectionResource#all*` methods now account for this.
+
+  - `String#jss_integer?` and `String#j_integer?` now recognize negative integers
+
+  - Ext. Attributes defined to have interger values will now accept integer strings, e.g. `'12345'`  as well as integers e.g. `12345`
+
+  - Ext. Attributes defined to have date values will once again accept blanks (i.e. empty strings)
+
+## \[1.2.7] - 2020-04-01
+
+### Changed
+
+  - Jamf Pro API endpoints that have paging options have an undocumented max page size of 2000. The `CollectionResource#all*` methods now account for this.
+
+
 ## \[1.2.6] - 2020-04-01
 
 ### Fixed
 
 - Classic API (JSS module)
   - Sitable objects now recognize the string "None" as meaning no site is assigned. Thanks @cybertunnel for this fix!
+
   - Scopable::Scope now deals with some bugs in the API regarding Jamf & LDAP users & user groups in targets, limitations, & exclusions. Please see the documentation/comments for the class in the file or the online documentation. Thanks @cybertunnel again!
+
   - Criteriable::Criteria can now be empty - containing no criterion objects. When criteriable objects are created (such as Advanced Searches) the default JSS::Criteriable::Criteria object has no criteria.  To remove all criteria, use `criteria.clear`, `criteria = nil`, or `criteria = JSS::Criteriable::Criteria.new` and then save. Once again, thanks to @cybertunnel for finding this.
 
 - Jamf Pro API (Jamf module)
@@ -54,7 +166,8 @@ Note that the `last_inventory_update` value does NOT indicate such communication
 
 - All APIObject Subclasses (Policy, Computer, MobileDevice, ComputerGroup, etc..) now have `get_raw`, `post_raw` & `put_raw` class methods, which are simpler wrappers for APIConnection#get_rsrc, #post_rsrc, and #put_rsrc.
   - `get_raw`  takes an object's id, and returns the 'raw' JSON (parsed into a ruby Hash with symbolized keys) or a REXML::Document (from which you'll probably want to use the `root` element). If you pass `as_string: true` you'll get the un-parsed JSON or XML string directly from the API
-  This can be useful when you need to retrieve the full object, to get some data not available in the summary-list, but instantiating the full ruby class is too slow.
+  This can be useful when you need to retrieve the full object, to get some data not available in the summary-list, but instantiating the full ruby class is too slow
+
   - `post_raw` & `put_raw` can send raw XML to the API without instantiating objects. In some cases, where you're making simple changes to simple XML, this can be faster than fetching a full instance and the re-saving it.
   WARNING You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String of XML, or something that returns such a string with #to_s, such as a REXML::Document, or a REXML::Element.
 

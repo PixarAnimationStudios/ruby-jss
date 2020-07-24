@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -916,6 +916,30 @@ module JSS
     end
     alias message= reboot_message=
 
+    # Set User Start Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_start=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_start = message
+      @need_to_update = true
+    end
+
+    # Set User Finish Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_end=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_finish = message
+      @need_to_update = true
+    end
+
+    alias user_message_finish= user_message_end=
+
     # Set Startup Disk
     # Only Supports 'Specify Local Startup Disk' at the moment
     #
@@ -1182,7 +1206,7 @@ module JSS
 
     # Remove a package from this policy by name or id
     #
-    # @param identfier [String,Integer] the name or id of the package to remove
+    # @param identifier [String,Integer] the name or id of the package to remove
     #
     # @return [Array, nil] the new packages array or nil if no change
     #
@@ -1272,7 +1296,7 @@ module JSS
 
     # Remove a script from this policy by name or id
     #
-    # @param identfier [String,Integer] the name or id of the script to remove
+    # @param identifier [String,Integer] the name or id of the script to remove
     #
     # @return [Array, nil] the new scripts array or nil if no change
     #
@@ -1304,6 +1328,32 @@ module JSS
     # @return [Array] the names of the dock_items handled by the policy
     def dock_item_names
       @dock_items.map { |p| p[:name] }
+    end
+
+    # Add a dock item to the policy
+    def add_dock_item(identifier, action)
+      id = JSS::DockItem.valid_id identifier, api: @api
+
+      raise JSS::NoSuchItemError, "No Dock Item matches '#{identifier}'" unless id
+
+      raise JSS::InvalidDataError, "Action must be one of: :#{DOCK_ITEM_ACTIONS.keys.join ', :'}" unless DOCK_ITEM_ACTIONS.include? action
+
+      return nil if @dock_items.map { |d| d[:id] }.include? id
+
+      name = JSS::DockItem.map_all_ids_to(:name, api: @api)[id]
+
+      @dock_items << {id: id, name: name, action: DOCK_ITEM_ACTIONS[action]}
+      
+      @need_to_update = true
+      @dock_items
+    end
+
+    # Remove a dock item from the policy
+    def remove_dock_item(identifier)
+      # TODO: Add validation against JSS::DockItem
+      removed = @dock_items.delete_if { |d| d[:id] == identifier || d[:name] == identifier }
+      @need_to_update = true if removed
+      removed
     end
 
     # @return [Array] the id's of the printers handled by the policy
@@ -1539,6 +1589,10 @@ module JSS
       mgmt_acct = acct_maint.add_element 'management_account'
       JSS.hash_to_rexml_array(@management_account).each { |x| mgmt_acct << x }
       
+      user_interaction = obj.add_element 'user_interaction'
+      user_interaction.add_element('message_start').text = @user_message_start.to_s
+      user_interaction.add_element('message_finish').text = @user_message_finish.to_s
+      
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
 
@@ -1555,6 +1609,13 @@ module JSS
         script = scripts.add_element 'script'
         sdeets = JSS.hash_to_rexml_array s
         sdeets.each { |d| script << d }
+      end
+
+      dock_items = obj.add_element 'dock_items'
+      @dock_items.each do |d|
+        dock_item = dock_items.add_element 'dock_item'
+        ddeets = JSS.hash_to_rexml_array d
+        ddeets.each { |de| dock_item << de }
       end
 
       add_self_service_xml doc

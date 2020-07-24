@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -32,7 +32,7 @@ module JSS
 
   # Converts an OS Version into an Array of higher OS versions.
   #
-  # It's unlikely that this library will still be in use as-is by the release of OS X 10.19.15.
+  # It's unlikely that this library will still be in use as-is by the release of OS X 10.30.
   # Hopefully well before then JAMF will implement a "minimum OS" in the JSS itself.
   #
   # @param min_os [String] the mimimum OS version to expand, e.g. ">=10.6.7"  or "10.6.7"
@@ -43,26 +43,12 @@ module JSS
   #   JSS.expand_min_os ">=10.6.7" # => returns this array
   #    # ["10.6.7",
   #    #  "10.6.8",
-  #    #  "10.6.9",
-  #    #  "10.6.10",
-  #    #  "10.6.11",
-  #    #  "10.6.12",
-  #    #  "10.6.13",
-  #    #  "10.6.14",
-  #    #  "10.6.15",
+  #    #  ...
+  #    #  "10.6.25",
   #    #  "10.7.x",
   #    #  "10.8.x",
-  #    #  "10.9.x",
-  #    #  "10.10.x",
-  #    #  "10.11.x",
-  #    #  "10.12.x",
-  #    #  "10.13.x",
-  #    #  "10.14.x",
-  #    #  "10.15.x",
-  #    #  "10.16.x",
-  #    #  "10.17.x",
-  #    #  "10.18.x",
-  #    #  "10.19.x"]
+  #    #  ...
+  #    #  "10.30.x"]
   #
   #
   def self.expand_min_os(min_os)
@@ -80,14 +66,14 @@ module JSS
     # (and hope apple doesn't do more than 15 maint releases for an OS)
     else
       ok_oses = []
-      (maint.to_i..15).each do |m|
+      (maint.to_i..25).each do |m|
         ok_oses << maj + '.' + min + '.' + m.to_s
       end # each m
     end
 
     # now account for all OS X versions starting with 10.
-    # up to at least 10.19.x
-    ((min.to_i + 1)..19).each do |v|
+    # up to 10.30.x
+    ((min.to_i + 1)..30).each do |v|
       ok_oses << maj + '.' + v.to_s + '.x'
     end # each v
     ok_oses

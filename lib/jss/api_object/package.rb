@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -65,7 +65,7 @@ module JSS
     DIST_POINT_PKGS_FOLDER = 'Packages'.freeze
 
     # The possible values for cpu_type (required_processor) in a JSS package
-    CPU_TYPES = %w[None x86 ppc].freeze
+    CPU_TYPES = %w[None Intel/x86 ppc].freeze
 
     # the possible priorities
     PRIORITIES = (1..20)
@@ -121,9 +121,31 @@ module JSS
     # @return [Array<String>] The current file names
     #
     def self.all_filenames(api: JSS.api)
-      pkgs_in_use = []
-      all_ids.each { |pkg_id| pkgs_in_use << fetch(id: pkg_id, api: api).filename }
-      pkgs_in_use.compact
+      all_filenames_by(:id, api: api).values
+    end
+
+    # A Hash of all dist-point filenames used by all JSS packages, keyed by
+    # package name or id
+    #
+    # Slow cuz we have to instantiate every pkg
+    #
+    # @param key[Symbol] either :id, or :name
+    #
+    # @param api[JSS::APIConnection] an API connection to use
+    #   Defaults to the corrently active API. See {JSS::APIConnection}
+    #
+    # @return [Hash{Ingeter,String => String}] The current file names by key
+    #
+    def self.all_filenames_by(key, api: JSS.api)
+      raise ArgumentError, 'key must be :id or :name' unless %i[id name].include? key
+
+      files_in_use = {}
+      all_ids(:refresh).each do |pkg_id|
+        pkg = fetch id: pkg_id, api: api
+        files_in_use[pkg.send(key)] = pkg.filename
+      end
+
+      files_in_use
     end
 
     # An array of String filenames for all files DIST_POINT_PKGS_FOLDER
@@ -324,7 +346,7 @@ module JSS
       new_val = nil if new_val == ''
       new_val ||= @name
       return nil if new_val == @filename
-      warn 'WARNING: you must change the filename on the master Distribution Point. See JSS::Package.update_master_filename.' if @in_jss
+
       @filename = new_val
       @need_to_update = true
     end
@@ -885,7 +907,7 @@ module JSS
 
         # we'll re-add the filename below if needed.
         src_path = args[:alt_download_url].chomp "/#{@filename}"
-
+        using_http = true
       # use our appropriate dist. point for download
       else
         mdp = JSS::DistributionPoint.my_distribution_point api: @api
