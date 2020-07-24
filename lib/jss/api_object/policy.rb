@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -174,7 +174,9 @@ module JSS
       change_pw: 'specified',
       generate_pw: 'random',
       enable_fv2: 'fileVaultEnable',
-      disable_fv2: 'fileVaultDisable'
+      disable_fv2: 'fileVaultDisable',
+      reset_random: 'resetRandom',
+      reset_pw: 'reset'
     }.freeze
 
     PACKAGE_ACTIONS = {
@@ -914,6 +916,30 @@ module JSS
     end
     alias message= reboot_message=
 
+    # Set User Start Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_start=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_start = message
+      @need_to_update = true
+    end
+
+    # Set User Finish Message
+    #
+    # @param user_message[String] Text of User Message
+    #
+    # @return [void] description of returned object
+    def user_message_end=(message)
+      raise JSS::InvalidDataError, 'User message must be a String' unless message.is_a? String
+      @user_message_finish = message
+      @need_to_update = true
+    end
+
+    alias user_message_finish= user_message_end=
+
     # Set Startup Disk
     # Only Supports 'Specify Local Startup Disk' at the moment
     #
@@ -1180,7 +1206,7 @@ module JSS
 
     # Remove a package from this policy by name or id
     #
-    # @param identfier [String,Integer] the name or id of the package to remove
+    # @param identifier [String,Integer] the name or id of the package to remove
     #
     # @return [Array, nil] the new packages array or nil if no change
     #
@@ -1270,7 +1296,7 @@ module JSS
 
     # Remove a script from this policy by name or id
     #
-    # @param identfier [String,Integer] the name or id of the script to remove
+    # @param identifier [String,Integer] the name or id of the script to remove
     #
     # @return [Array, nil] the new scripts array or nil if no change
     #
@@ -1347,6 +1373,32 @@ module JSS
       @dock_items.map { |p| p[:name] }
     end
 
+    # Add a dock item to the policy
+    def add_dock_item(identifier, action)
+      id = JSS::DockItem.valid_id identifier, api: @api
+
+      raise JSS::NoSuchItemError, "No Dock Item matches '#{identifier}'" unless id
+
+      raise JSS::InvalidDataError, "Action must be one of: :#{DOCK_ITEM_ACTIONS.keys.join ', :'}" unless DOCK_ITEM_ACTIONS.include? action
+
+      return nil if @dock_items.map { |d| d[:id] }.include? id
+
+      name = JSS::DockItem.map_all_ids_to(:name, api: @api)[id]
+
+      @dock_items << {id: id, name: name, action: DOCK_ITEM_ACTIONS[action]}
+      
+      @need_to_update = true
+      @dock_items
+    end
+
+    # Remove a dock item from the policy
+    def remove_dock_item(identifier)
+      # TODO: Add validation against JSS::DockItem
+      removed = @dock_items.delete_if { |d| d[:id] == identifier || d[:name] == identifier }
+      @need_to_update = true if removed
+      removed
+    end
+
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
         begin
@@ -1363,6 +1415,63 @@ module JSS
             rescue TypeError
             return []
         end
+    end
+
+    # Interact with management account settings
+    #
+    # @param action [Key] one of the MGMT_ACCOUNT_ACTIONS keys
+    # 
+    # @return The current specified management settings.
+    #
+    # Reference: https://developer.jamf.com/documentation#resources-with-passwords
+    #
+    def set_management_account(action, **opts)
+      # TODO: Add proper error handling
+      raise JSS::InvalidDataError, "Action must be one of: :#{MGMT_ACCOUNT_ACTIONS.keys.join ', :'}" unless MGMT_ACCOUNT_ACTIONS.include? action
+
+      management_data = {}
+
+      if action == :change_pw || action == :reset_pw
+        raise JSS::MissingDataError, ":password must be provided when changing management account password" if opts[:password].nil?
+
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action],
+          managed_password: opts[:password]
+        }
+      elsif action == :reset_random || action == :generate_pw
+        raise JSS::MissingDataError, ":password_length must be provided when setting a random password" if opts[:password_length].nil?
+        raise JSS::InvalidDataError, ":password_length must be an Integer" unless opts[:password_length].is_a? Integer
+
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action],
+          managed_password_length: opts[:password_length]
+        }
+      else
+        management_data = {
+          action: MGMT_ACCOUNT_ACTIONS[action]
+        }
+      end
+
+      @management_account = management_data
+
+      @need_to_update = true
+
+      @management_account
+
+    end
+
+    # Check if management password matches provided password
+    #
+    # @param password[String] the password that is SHA256'ed to compare to the one from the API.
+    #
+    # @return [Boolean] The result of the comparison of the management password and provided text.
+    #
+    def verify_management_password(password)
+      raise JSS::InvalidDataError, "Management password must be a string." unless password.is_a? String
+
+      raise JSS::UnsupportedError, "'#{@management_account[:action].to_s}' does not support management passwords." unless @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:change_pw] || @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:reset_pw]
+
+      return Digest::SHA256.hexdigest(password).to_s == @management_account[:managed_password_sha256].to_s
     end
 
     ###### Actions
@@ -1542,6 +1651,22 @@ module JSS
       maint.add_element('user_cache').text = @user_cache.to_s
       maint.add_element('verify').text = @verify_startup_disk.to_s
 
+      acct_maint = obj.add_element 'account_maintenance'
+
+      mgmt_acct = acct_maint.add_element 'management_account'
+      JSS.hash_to_rexml_array(@management_account).each { |x| mgmt_acct << x }
+      
+      directory_bindings = acct_maint.add_element 'directory_bindings'
+      @directory_bindings.each do |b|
+        directory_binding = directory_bindings.add_element 'binding'
+        dbdeets = JSS.hash_to_rexml_array b
+        dbdeets.each { |d| directory_binding << d }
+      end
+      
+      user_interaction = obj.add_element 'user_interaction'
+      user_interaction.add_element('message_start').text = @user_message_start.to_s
+      user_interaction.add_element('message_finish').text = @user_message_finish.to_s
+      
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
 
@@ -1560,12 +1685,12 @@ module JSS
         sdeets.each { |d| script << d }
       end
 
-      account_maintenance = obj.add_element 'account_maintenance'
-      directory_bindings = account_maintenance.add_element 'directory_bindings'
-      @directory_bindings.each do |b|
-        directory_binding = directory_bindings.add_element 'binding'
-        dbdeets = JSS.hash_to_rexml_array b
-        dbdeets.each { |d| directory_binding << d }
+      dock_items = obj.add_element 'dock_items'
+      @dock_items.each do |d|
+        dock_item = dock_items.add_element 'dock_item'
+        ddeets = JSS.hash_to_rexml_array d
+        ddeets.each { |de| dock_item << de }
+
       end
 
       add_self_service_xml doc

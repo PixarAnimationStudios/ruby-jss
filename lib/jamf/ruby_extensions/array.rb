@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -26,7 +26,7 @@
 require 'jamf/ruby_extensions/array/predicates'
 require 'jamf/ruby_extensions/array/utils'
 
-#
+# an array
 class Array
 
   include JamfRubyExtensions::Array::Predicates

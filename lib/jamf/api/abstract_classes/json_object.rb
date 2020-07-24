@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -524,7 +524,7 @@ module Jamf
     #
     def self.attr_key_for_alias(als)
       validate_not_abstract
-      self::OBJECT_MODEL.each { |k, deets| return k if k == als || deets[:aliases]&.include?(als) }
+      self::OBJECT_MODEL.each { |k, deets| return k if k == als || deets[:aliases].to_a.include?(als) }
       nil
     end
 

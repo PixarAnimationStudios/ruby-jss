@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -103,8 +103,8 @@ module Jamf
     # The Pathname to the machine-wide preferences
     GLOBAL_CONF_FILE = Pathname.new "/etc/#{CONF_FILENAME}"
 
-    # The Pathname to the user-specific preferences plist
-    USER_CONF_FILE = ENV['HOME'] ? Pathname.new("~/.#{CONF_FILENAME}").expand_path : nil
+    # The Pathname to the user-specific preferences plist if there is one
+    USER_CONF_FILE = Pathname.new("#{ENV['HOME']}/.#{CONF_FILENAME}")
 
     # The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
@@ -134,7 +134,6 @@ module Jamf
     # Constructor
     #####################################
 
-
     # Initialize!
     #
     def initialize
@@ -144,7 +143,6 @@ module Jamf
 
     # Public Instance Methods
     #####################################
-
 
     # Clear all values
     #
@@ -159,7 +157,7 @@ module Jamf
     # @return [void]
     #
     def read_global
-      read GLOBAL_CONF_FILE if GLOBAL_CONF_FILE&.file? && GLOBAL_CONF_FILE.readable?
+      read GLOBAL_CONF_FILE if GLOBAL_CONF_FILE.file? && GLOBAL_CONF_FILE.readable?
     end
 
     # (Re)read the user prefs, if it exists.
@@ -167,7 +165,7 @@ module Jamf
     # @return [void]
     #
     def read_user
-      read USER_CONF_FILE if USER_CONF_FILE&.file? && USER_CONF_FILE.readable?
+      read USER_CONF_FILE if USER_CONF_FILE.file? && USER_CONF_FILE.readable?
     end
 
     # Clear the settings and reload the prefs files, or another file if provided
@@ -196,9 +194,9 @@ module Jamf
     def save(file)
       path =
         case file
-          when :global then GLOBAL_CONF_FILE
-          when :user then USER_CONF_FILE
-          else Pathname.new(file)
+        when :global then GLOBAL_CONF_FILE
+        when :user then USER_CONF_FILE
+        else Pathname.new(file)
         end
 
       raise Jamf::MissingDataError, "No HOME environment variable, can't write to user conf file." if path.nil?
