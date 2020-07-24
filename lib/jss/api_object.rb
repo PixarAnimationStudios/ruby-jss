@@ -1663,6 +1663,8 @@ require 'jss/api_object/category'
 require 'jss/api_object/computer'
 require 'jss/api_object/computer_invitation'
 require 'jss/api_object/department'
+require "jss/api_object/directory_binding_type"
+require 'jss/api_object/directory_binding'
 require 'jss/api_object/distribution_point'
 require 'jss/api_object/ebook'
 require 'jss/api_object/ibeacon'

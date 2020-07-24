@@ -199,6 +199,7 @@ module JSS
   class IBeacon < JSS::APIObject; end
   class DockItems < JSS::APIObject; end
   class LDAPServer < JSS::APIObject; end
+  class DirectoryBinding < JSS::APIObject; end
   class MacApplication < JSS::APIObject; end
   class MobileDevice < JSS::APIObject; end
   class MobileDeviceApplication < JSS::APIObject; end
