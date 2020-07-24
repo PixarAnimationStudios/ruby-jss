@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -147,7 +147,7 @@ module JSS
 
       ### now build the pkg
       begin
-        it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}' "
+        it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}'"
 
         raise 'There was an error building the .pkg' unless it_built
       ensure

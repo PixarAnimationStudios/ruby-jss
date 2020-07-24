@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -442,6 +442,21 @@ module JSS
       new_ipa = Pathname.new path
       upload(:app, new_ipa)
       refresh_ipa
+    end
+
+    # Remove the various cached data
+    # from the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = instance_variables.sort
+      vars.delete :@api
+      vars.delete :@init_data
+      vars.delete :@main_subset
+      vars.delete :@ipa
+      vars
     end
 
     # Private Instance Methods

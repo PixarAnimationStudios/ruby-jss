@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -34,3 +34,4 @@ require 'jamf/ruby_extensions/object.rb'
 require 'jamf/ruby_extensions/pathname.rb'
 require 'jamf/ruby_extensions/string.rb'
 require 'jamf/ruby_extensions/array.rb'
+require 'jamf/ruby_extensions/dig.rb'

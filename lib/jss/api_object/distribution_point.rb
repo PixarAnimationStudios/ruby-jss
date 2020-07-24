@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -27,7 +27,7 @@ module JSS
   # Module Methods
   #####################################
 
-  # A Distribution Point in the JSS
+  # A FileShare Distribution Point in the JSS
   #
   # As well as the normal Class and Instance methods for {APIObject} subclasses, the
   # DistributionPoint class provides more interaction with other parts of the API.
@@ -42,6 +42,11 @@ module JSS
   # Once you have an instance of JSS::DistributionPoint, you can mount it (on a Mac) by calling its {#mount} method
   # and unmount it with {#unmount}. The {JSS::Package} and possibly {JSS::Script} classes use this to upload
   # items to the master.
+  #
+  # NOTE: This class only deals with FileShare Distribution Points.
+  # There is no access to the Cloud Distribution Point in the classic API.
+  # See the .master_distribution_point and .my_distribution_point class methods
+  # for how they handle things when the Cloud DP is the master.
   #
   # @see JSS::APIObject
   #
@@ -80,32 +85,92 @@ module JSS
     # Class Methods
     #####################################
 
-    # Get the DistributionPoint instance for the master
-    # distribution point in the JSS. If there's only one
-    # in the JSS, return it even if not marked as master.
+    # Get the DistributionPoint instance for the master distribution point.
+    #
+    # If the Cloud Dist Point is master, then the classic API has no way to
+    # know that or access it. In that case you can provide the 'default:' parameter.
+    # Give it the name or id of any dist. point to be used instead, or give it
+    # :random to randomly choose one.
+    #
+    # If there are no fileshare dist points defined (the cloud is the only one)
+    # then this whole class can't really be used.
     #
     # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @param default[String, Integer, Symbol] Name or ID of a dist point to use
+    #   if no master is found, or :random to randomly choose one.
     #
     # @param api[JSS::APIConnection] which API connection should we query?
     #
     # @return [JSS::DistributionPoint]
     #
-    def self.master_distribution_point(refresh = false, api: JSS.api)
-      api.master_distribution_point refresh
+    def self.master_distribution_point(refresh = false, default: nil, api: JSS.api)
+      @master_distribution_point = nil if refresh
+      return @master_distribution_point if @master_distribution_point
+
+      all_ids(refresh, api: api).each do |dp_id|
+        dp = fetch id: dp_id, api: api
+        if dp.master?
+          @master_distribution_point = dp
+          break
+        end
+      end
+
+      # If we're here, the Cloud DP might be master, but there's no
+      # access to it in the API :/
+      raise JSS::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.' unless @master_distribution_point || default
+
+      if @master_distribution_point
+        @master_distribution_point
+      elsif default == :random
+        @master_distribution_point = fetch(id: all_ids.sample, api: api)
+      else
+        @master_distribution_point = fetch(default, api: api)
+      end
     end
 
     # Get the DistributionPoint instance for the machine running
     # this code, based on its IP address. If none is defined for this IP address,
-    # use the result of master_distribution_point
+    # use the name or id provided as default. If no default: is provided,
+    # the master dp is used. If no master dp available (meaning its the
+    # cloud dp) then use a randomly chosen dp.
     #
     # @param refresh[Boolean] should the distribution point be re-queried?
+    #
+    # @param default[String, Integer, Symbol] the name or id of a Dist Point
+    #   to use if none is specified for this IP addr. Or :master, to use the
+    #   master DP, or :random to use a randomly chosen one. If :master is
+    #   specified and there is no master (master is cloud) then a random one is used.
     #
     # @param api[JSS::APIConnection] which API connection should we query?
     #
     # @return [JSS::DistributionPoint]
     #
-    def self.my_distribution_point(refresh = false, api: JSS.api)
-      api.my_distribution_point refresh
+    def self.my_distribution_point(refresh = false, default: :master, api: JSS.api)
+      @my_distribution_point = nil if refresh
+      return @my_distribution_point if @my_distribution_point
+
+      my_net_seg_id = JSS::NetworkSegment.my_network_segment refresh, api: api
+
+      if my_net_seg_id
+        my_net_seg = JSS::NetworkSegment.fetch id: my_net_seg_id, api: api
+        my_dp_name = my_net_seg.distribution_point
+        @my_distribution_point = fetch name: my_dp_name, api: api if my_dp_name
+      end # if my_net_seg_id
+
+      return @my_distribution_point if @my_distribution_point
+
+      @my_distribution_point =
+        case default
+        when String
+          fetch name: default, api: api
+        when Integer
+          fetch id: default, api: api
+        when :master
+          master_distribution_point refresh, default: :random, api: api
+        when :random
+          fetch id: all_ids(refresh).sample, api: api
+        end
     end
 
     # Class Attributes
@@ -274,7 +339,7 @@ module JSS
       # Seemms the read-only pw isn't available in the API
 
       # if we mount for fileservice, where's the mountpoint?
-      @mountpoint = Pathname.new "/#{DEFAULT_MOUNTPOINT_DIR}/#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
+      @mountpoint = DEFAULT_MOUNTPOINT_DIR + "#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
     end # init
 
     # Check the validity of a password.
@@ -315,37 +380,15 @@ module JSS
     # @return [FalseClass, Symbol] false if not reachable, otherwise :http or :mountable
     #
     def reachable_for_download?(pw = '', check_http = true)
-      pw ||= ''
-      http_checked = ''
-      if check_http && http_downloads_enabled
-        if @username_password_required
-          # we don't check the pw here, because if the connection fails, we'll
-          # drop down below to try the password for mounting.
-          # we'll escape all the chars that aren't unreserved
-          # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]")
-          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape ro_pw.to_s}@"
-          url = @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
-        else
-          url = @http_url
-        end
-
-        begin
-          open(url).read
-          return :http
-        rescue
-          http_checked = 'http and '
-        end
-      end # if  check_http && http_downloads_enabled
-
+      return :http if check_http && http_reachable?(pw)
       return :mountable if mounted?
-
       return false unless check_pw :ro, pw
 
       begin
         mount pw, :ro
-        return :mountable
+        :mountable
       rescue
-        return false
+        false
       ensure
         unmount
       end
@@ -468,6 +511,23 @@ module JSS
     # Private Instance Methods
     ######################################
     private
+
+    # can the dp be reached for http downloads?
+    def http_reachable?(pw)
+      return false unless http_downloads_enabled
+
+      url =
+        if @username_password_required
+          user_pass = "#{CGI.escape @http_username.to_s}:#{CGI.escape pw.to_s}@"
+          @http_url.sub "://#{@ip_address}", "://#{user_pass}#{@ip_address}"
+        else
+          @http_url
+        end
+      URI.parse(url).read
+      true
+    rescue
+      false
+    end
 
     # Unused - until I get around to making DP's updatable
     #

@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -25,6 +25,7 @@ module JamfRubyExtensions
 
   module Array
 
+    # Useful monkey patches for Array
     module Utils
 
       # Fetch a string from an Array case-insensitively,
@@ -40,8 +41,7 @@ module JamfRubyExtensions
       #   nil if it doesn't exist
       #
       def j_ci_fetch(somestring)
-        # select { |s| s&.casecmp? somestring }.first
-        each { |s| return s if s&.casecmp?(somestring) }
+        each { |s| return s if s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
         nil
       end
 
@@ -52,7 +52,7 @@ module JamfRubyExtensions
       # @return [Boolean]
       #
       def j_ci_include?(somestring)
-        any? { |s| s&.casecmp? somestring }
+        any? { |s| s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
       end
 
     end # module

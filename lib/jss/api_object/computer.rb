@@ -1,4 +1,4 @@
-### Copyright 2019 Pixar
+### Copyright 2020 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -529,8 +529,11 @@ module JSS
     # @return [Time] when was it added to the JSS
     attr_reader :initial_entry_date
 
-    # @return [IPAddr] the last known IP address
+    # @return [IPAddr] the last known IP address from the server's perspective
     attr_reader :ip_address
+
+    # @return [IPAddr] the last known IP address from the client's perspecive
+    attr_reader :reported_ip_address
 
     # @return [Boolean]
     attr_reader :itunes_store_account_is_active
@@ -784,6 +787,7 @@ module JSS
         @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
         @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
         @ip_address = @init_data[:general][:ip_address]
+        @reported_ip_address = @init_data[:general][:last_reported_ip]
         @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
         @jamf_version = @init_data[:general][:jamf_version]
         @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
@@ -1035,23 +1039,25 @@ module JSS
     end
 
     def asset_tag=(new_val)
-      new_val = '' if new_val.nil?
+      new_val =  new_val.to_s.strip
       return nil if @asset_tag.to_s == new_val
-      new_val.strip!
+
       @asset_tag = new_val
       @need_to_update = true
     end
 
     def barcode1=(new_val)
+      new_val = new_val.strip
       return nil if @barcode1 == new_val
-      new_val.strip!
+
       @barcode1 = new_val
       @need_to_update = true
     end
 
     def barcode2=(new_val)
+      new_val = new_val.strip
       return nil if @barcode2 == new_val
-      new_val.strip!
+
       @barcode2 = new_val
       @need_to_update = true
     end

@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -454,7 +454,9 @@ module Jamf
 
     # Are we keeping the connection alive?
     def keep_alive?
-      @keep_alive_thread&.alive? || false
+      return false unless @keep_alive_thread
+
+      @keep_alive_thread.alive?
     end
 
     # @return [Jamf::Timestamp, nil]
@@ -806,7 +808,9 @@ module Jamf
     # @return [void]
     #
     def stop_keep_alive
-      @keep_alive_thread&.kill
+      return unless @keep_alive_thread
+
+      @keep_alive_thread.kill if @keep_alive_thread.alive?
       @keep_alive_thread = nil
     end
 
@@ -853,7 +857,7 @@ module Jamf
   end
 
   def self.disconnect
-    @active_connection&.disconnect
+    @active_connection.disconnect if @active_connection
   end
 
 end # module Jamf

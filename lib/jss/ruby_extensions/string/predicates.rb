@@ -1,4 +1,4 @@
-# Copyright 2019 Pixar
+# Copyright 2020 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -29,15 +29,25 @@ module JSSRubyExtensions
 
     module Predicates
 
-      INTEGER_RE = /\A[0-9]+\Z/.freeze
+      INTEGER_RE = /\A-?[0-9]+\Z/.freeze
+      FLOAT_RE = /\A-?[0-9]+\.[0-9]+\Z/.freeze
 
-      # Is this string also a positive integer?
-      # (i.e. it consists only of numberic digits)
+      # Is this string also an integer?
+      # (i.e. it consists only of numberic digits, maybe with a dash in front)
       #
       # @return [Boolean]
       #
       def jss_integer?
         self =~ INTEGER_RE ? true : false
+      end
+
+      # Is this string also a floar?
+      # (i.e. it consists only of numberic digits)
+      #
+      # @return [Boolean]
+      #
+      def jss_float?
+        self =~ FLOAT_RE ? true : false
       end
 
     end # module
