@@ -1688,5 +1688,6 @@ require 'jss/api_object/site'
 require 'jss/api_object/software_update_server'
 require 'jss/api_object/user'
 require 'jss/api_object/webhook'
+require 'jss/api_object/printer'
 
 JSS::APIObject.define_identifier_list_methods
