@@ -451,10 +451,7 @@ module JSS
     # @return [Array] the desired instance_variables
     #
     def pretty_print_instance_variables
-      vars = instance_variables.sort
-      vars.delete :@api
-      vars.delete :@init_data
-      vars.delete :@main_subset
+      vars = super
       vars.delete :@ipa
       vars
     end
