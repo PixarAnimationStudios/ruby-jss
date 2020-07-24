@@ -193,6 +193,12 @@ module JSS
       after: 'After'
     }.freeze
 
+    DISK_ENCRYPTION_ACTIONS = {
+      apply: "apply",
+      remediate: "remediate",
+      none: "none"
+    }
+
     PRINTER_ACTIONS = {
       map: 'install',
       unmap: 'uninstall'
@@ -1472,6 +1478,73 @@ module JSS
         end
     end
 
+
+
+    ###### Disk Encryption
+
+    # Sets the Disk Encryption application to "Remediate" and sets the remediation key type to individual.
+    #
+    # @author Tyler Morgan
+    #
+    # @return [Void]
+    #
+    def reissue_key()
+      if @disk_encryption[:action] != DISK_ENCRYPTION_ACTIONS[:remediate]
+        # Setting New Action
+        hash = {
+          action: DISK_ENCRYPTION_ACTIONS[:remediate],
+          remediate_key_type: "Individual"
+        }
+
+        @disk_encryption = hash
+        @need_to_update = true
+
+      else
+        # Update
+        return
+      end
+
+    end
+
+
+    # Sets the Disk Encryption application to "Apply" and sets the correct disk encryption configuration ID using either the name or id.
+    #
+    # @author Tyler Morgan
+    #
+    # @return [Void]
+    #
+    def apply_encryption_configuration(identifier)
+
+      id = JSS::DiskEncryptionConfiguration.valid_id identfier
+
+      return if id.nil?
+
+      hash = {
+        action: DISK_ENCRYPTION_ACTIONS[:apply],
+        disk_encryption_configuration_id: id,
+        auth_restart: false
+      }
+
+      @disk_encryption = hash
+      @need_to_update = true
+    end
+
+
+    # Removes the Disk Encryption settings associated with this specific policy.
+    #
+    # @author Tyler Morgan
+    #
+    # @return [Void]
+    #
+    def remove_encryption_configuration()
+      hash = {
+        action: DISK_ENCRYPTION_ACTIONS[:none]
+      }
+
+      @disk_encryption = hash
+      @need_to_update = true
+    end
+
     # Interact with management account settings
     #
     # @param action [Key] one of the MGMT_ACCOUNT_ACTIONS keys
@@ -1774,6 +1847,12 @@ module JSS
         sdeets.each { |d| script << d }
       end
 
+      disk_encryption = obj.add_element 'disk_encryption'
+
+      @disk_encryption.each do |k,v|
+        disk_encryption.add_element(k.to_s).text = v.to_s
+      end
+      
       printers = obj.add_element 'printers'
       @printers.each do |pr|
         printer = printers.add_element 'printer'
@@ -1787,7 +1866,7 @@ module JSS
         ddeets = JSS.hash_to_rexml_array d
         ddeets.each { |de| dock_item << de }
       end
-
+      
       add_self_service_xml doc
       add_site_to_xml doc
 
