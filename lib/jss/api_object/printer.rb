@@ -23,7 +23,7 @@ module JSS
 
         ## Class Constants
         #####################################
-        
+
         ### The base for REST resources of this class
         RSRC_BASE = 'printers'.freeze
 
@@ -84,7 +84,7 @@ module JSS
 
         ## Constructor
         #####################################
-        
+
         ###
         def initialize(args = {})
             super args
@@ -181,7 +181,7 @@ module JSS
             @need_to_update = true
         end
 
-        
+
         # The physical location of the printer.
         #
         # @author Tyler Morgan
@@ -392,6 +392,19 @@ module JSS
 
             @need_to_update = true
         end
+
+        # Remove the various large data
+        # from the instance_variables used to create
+        # pretty-print (pp) output.
+        #
+        # @return [Array] the desired instance_variables
+        #
+        def pretty_print_instance_variables
+          vars = super
+          vars.delete :@ppd_contents
+          vars
+        end
+
 
         ## Private Instance Methods
         #####################################
