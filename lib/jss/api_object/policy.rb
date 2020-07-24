@@ -549,6 +549,7 @@ module JSS
 
     # @return [String] the message shown the user at policy end
     attr_reader :user_message_finish
+    alias user_message_end user_message_finish
 
     # @return [Hash]
     #
@@ -1358,7 +1359,7 @@ module JSS
 
     # Remove a directory binding from this policy by name or id
     #
-    # @param identfier [String,Integer] the name or id of the directory binding to remove
+    # @param identifier [String,Integer] the name or id of the directory binding to remove
     #
     # @return [Array, nil] the new directory bindings array or nil if no change
     #
@@ -1447,7 +1448,7 @@ module JSS
       name = JSS::DockItem.map_all_ids_to(:name, api: @api)[id]
 
       @dock_items << {id: id, name: name, action: DOCK_ITEM_ACTIONS[action]}
-      
+
       @need_to_update = true
       @dock_items
     end
@@ -1468,7 +1469,7 @@ module JSS
             return []
         end
     end
-    
+
     # @return [Array] the names of the printers handled by the policy
     def printer_names
         begin
@@ -1515,7 +1516,7 @@ module JSS
     #
     def apply_encryption_configuration(identifier)
 
-      id = JSS::DiskEncryptionConfiguration.valid_id identfier
+      id = JSS::DiskEncryptionConfiguration.valid_id identifier
 
       return if id.nil?
 
@@ -1548,7 +1549,7 @@ module JSS
     # Interact with management account settings
     #
     # @param action [Key] one of the MGMT_ACCOUNT_ACTIONS keys
-    # 
+    #
     # @return The current specified management settings.
     #
     # Reference: https://developer.jamf.com/documentation#resources-with-passwords
@@ -1727,14 +1728,14 @@ module JSS
     #
     def validate_directory_binding_opts(identifier, opts)
       opts[:position] ||= -1
-      
+
       opts[:position] =
         case opts[:position]
         when :start then 0
         when :end then -1
         else JSS::Validate.integer(opts[:position])
         end
-    
+
         # if the given position is past the end, set it to -1 (the end)
         opts[:position] = -1 if opts[:position] > @directory_bindings.size
 
@@ -1742,7 +1743,7 @@ module JSS
         raise JSS::NoSuchItemError, "No directory binding matches '#{identifier}'" unless id
         id
     end
-    
+
     # Raises an error if the printer being added isn't valid, additionally checks the options and sets defaults where possible.
     #
     # @see #add_printer
@@ -1758,7 +1759,7 @@ module JSS
         when :end then -1
         else JSS::Validate.integer(opts[:position])
         end
-      
+
       # If the given position is past the end, set it to -1 (the end)
       opts[:position] = -1 if opts[:position] > @printers.size
 
@@ -1817,18 +1818,18 @@ module JSS
 
       mgmt_acct = acct_maint.add_element 'management_account'
       JSS.hash_to_rexml_array(@management_account).each { |x| mgmt_acct << x }
-      
+
       directory_bindings = acct_maint.add_element 'directory_bindings'
       @directory_bindings.each do |b|
         directory_binding = directory_bindings.add_element 'binding'
         dbdeets = JSS.hash_to_rexml_array b
         dbdeets.each { |d| directory_binding << d }
       end
-      
+
       user_interaction = obj.add_element 'user_interaction'
       user_interaction.add_element('message_start').text = @user_message_start.to_s
       user_interaction.add_element('message_finish').text = @user_message_finish.to_s
-      
+
       files_processes = obj.add_element 'files_processes'
       JSS.hash_to_rexml_array(@files_processes).each { |f| files_processes << f }
 
@@ -1852,21 +1853,21 @@ module JSS
       @disk_encryption.each do |k,v|
         disk_encryption.add_element(k.to_s).text = v.to_s
       end
-      
+
       printers = obj.add_element 'printers'
       @printers.each do |pr|
         printer = printers.add_element 'printer'
         pdeets = JSS.hash_to_rexml_array pr
         pdeets.each { |d| printer << d }
       end
-      
+
       dock_items = obj.add_element 'dock_items'
       @dock_items.each do |d|
         dock_item = dock_items.add_element 'dock_item'
         ddeets = JSS.hash_to_rexml_array d
         ddeets.each { |de| dock_item << de }
       end
-      
+
       add_self_service_xml doc
       add_site_to_xml doc
 
@@ -1876,4 +1877,3 @@ module JSS
   end # class policy
 
 end # module
-          
