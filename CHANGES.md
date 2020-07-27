@@ -4,14 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## \[1.3.2] - 2020-07-25
+## \[1.3.2] - 2020-07-31
 Many thanks to @cybertunnel for adding a huge amount of code to get JSS::Policy fully implimented, as well as other fixes and updates!
 
 ### Added
-  - JSS::DockItem class
-  - JSS::DirectoryBinding and JSS::DirectoryBindingType
-  - JSS::Printer
-  - JSS::DiskEncryptionConfiguration
+  - new class JSS::DockItem
+  - new classes JSS::DirectoryBinding and JSS::DirectoryBindingType
+  - new class JSS::Printer
+  - new class JSS::DiskEncryptionConfiguration
   - JSS::Policy:
     - getters and setters for `#user_message_start` and `#user_message_end`
     - `#set_management_account` and `#verify_management_password`
@@ -25,6 +25,7 @@ Many thanks to @cybertunnel for adding a huge amount of code to get JSS::Policy 
   - JSS::Package:
     - no longer issues a warning when changing the file_name of a package
     - Updated the CPU type string from 'x86' to 'Intel/x86'
+    - Methods which used to always use the master distribution point now accept a parameter `dist_point: dp` where dp is the name or id of a fileshare distribution point. If not specified, it still defaults to the Master Distribution Point.  This is needed because if the Cloud Distribution Point is the master, there is no access to it via the Classic API, and any use of DistributionPoint.master_distribution_point will raise an error.
 
 ## \[1.3.1] - 2020-06-21
 
