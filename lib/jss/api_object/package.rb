@@ -162,14 +162,17 @@ module JSS
     # @param api[JSS::APIConnection] an API connection to use
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [Array<String>] The orphaned files
     #
-    def self.orphaned_files(ro_pw, unmount = true, api: JSS.api)
-      mdp = JSS::DistributionPoint.master_distribution_point api: api
-      pkgs_dir = mdp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
-      files_on_mdp = pkgs_dir.children.map { |f| f.basename.to_s }
-      mdp.unmount if unmount
-      files_on_mdp - all_filenames(api: api)
+    def self.orphaned_files(ro_pw, unmount = true, api: JSS.api, dist_point: nil)
+      dp = fetch_dist_point(dist_point, api: api)
+      pkgs_dir = dp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
+      files_on_dp = pkgs_dir.children.map { |f| f.basename.to_s }
+      dp.unmount if unmount
+      files_on_dp - all_filenames(api: api)
     end
 
     # An array of String filenames for all filenames in any
@@ -186,14 +189,18 @@ module JSS
     # @param api[JSS::APIConnection] an API connection to use
     #   Defaults to the corrently active API. See {JSS::APIConnection}
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
+    #
     # @return [Array<String>] The orphaned files
     #
-    def self.missing_files(ro_pw, unmount = true, api: JSS.api)
-      mdp = JSS::DistributionPoint.master_distribution_point api: api
-      pkgs_dir = mdp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
-      files_on_mdp = pkgs_dir.children.map { |f| f.basename.to_s }
-      mdp.unmount if unmount
-      all_filenames(api: api) - files_on_mdp
+    def self.missing_files(ro_pw, unmount = true, api: JSS.api, dist_point: nil)
+      dp = fetch_dist_point(dist_point, api: api)
+      pkgs_dir = dp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
+      files_on_dp = pkgs_dir.children.map { |f| f.basename.to_s }
+      dp.unmount if unmount
+      all_filenames(api: api) - files_on_dp
     end
 
     # Given a file path, and hash type, generate the checksum for an arbitrary
@@ -209,6 +216,18 @@ module JSS
     def self.calculate_checksum(filepath, type = DEFAULT_CHECKSUM_HASH_TYPE )
       raise ArgumentError, 'Unknown checksum hash type' unless CHECKSUM_HASH_TYPES.key? type
       CHECKSUM_HASH_TYPES[type].file(filepath).hexdigest
+    end
+
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
+    # @return [JSS::DistributionPoint]
+    def self.fetch_dist_point(dist_point, api: JSS.api)
+      if dist_point
+        JSS::DistributionPoint.fetch dist_point, api: api
+      else
+        JSS::DistributionPoint.master_distribution_point api: api
+      end
     end
 
     # Attributes
@@ -612,13 +631,17 @@ module JSS
     # @param chksum [String] the constants CHECKSUM_HASH_TYPE_SHA512 or
     #   CHECKSUM_HASH_TYPE_MD5. Anything else means don't calc.
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [void]
     #
-    def upload_master_file(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE )
+    def upload_master_file(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE, dist_point: nil)
       raise JSS::NoSuchItemError, 'Please create this package in the JSS before uploading it.' unless @in_jss
 
-      mdp = JSS::DistributionPoint.master_distribution_point api: @api
-      destination = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+      dp = self.class.fetch_dist_point(dist_point, api: @api)
+
+      destination = dp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
       local_path = Pathname.new local_file_path
       raise JSS::NoSuchItemError, "Local file '#{@local_file}' doesn't exist" unless local_path.exist?
@@ -663,7 +686,7 @@ module JSS
         @need_to_update = true
       end
       update if @need_to_update
-      mdp.unmount if unmount
+      dp.unmount if unmount
     end # upload master file
 
     # Using either a local file, or the file on the master dist. point,
@@ -716,11 +739,14 @@ module JSS
     # @param unmount [Boolean] Unmount the master dist point after using it.
     #   Only used if the dist point is mounted. default: true
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [String] The calculated checksum
     #
-    def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true )
+    def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
-      mdp = JSS::DistributionPoint.master_distribution_point api: @api
+      dp = self.class.fetch_dist_point(dist_point, api: @api)
 
       if local_file
         file_to_calc = local_file
@@ -734,10 +760,10 @@ module JSS
         else
           raise ArgumentError, 'Either rw_pw: or ro_pw: must be provided'
         end
-        file_to_calc = mdp.mount(dppw, mnt) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+        file_to_calc = dp.mount(dppw, mnt) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       end
       new_checksum = self.class.calculate_checksum(file_to_calc, type)
-      mdp.unmount if unmount && mdp.mounted?
+      dp.unmount if unmount && dp.mounted?
       new_checksum
     end
 
@@ -782,12 +808,16 @@ module JSS
     # @param rw_pw[String,Symbol] the password for the read/write account on the master Distribution Point,
     #   or :prompt, or :stdin# where # is the line of stdin containing the password See {JSS::DistributionPoint#mount}
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [nil]
     #
-    def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true)
+    def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true, dist_point: nil)
       raise JSS::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
-      mdp = JSS::DistributionPoint.master_distribution_point api: @api
-      pkgs_dir = mdp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
+      dp = self.class.fetch_dist_point(dist_point, api: @api)
+
+      pkgs_dir = dp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
       old_file = pkgs_dir + old_file_name
       raise JSS::NoSuchItemError, "File not found on the master distribution point at #{DIST_POINT_PKGS_FOLDER}/#{old_file_name}." unless \
         old_file.exist?
@@ -797,7 +827,7 @@ module JSS
       new_file = pkgs_dir + (new_file_name + old_file.extname) if new_file.extname.empty?
 
       old_file.rename new_file
-      mdp.unmount if unmount
+      dp.unmount if unmount
       nil
     end # update_master_filename
 
@@ -813,18 +843,21 @@ module JSS
     #
     # @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [Boolean] was the file deleted?
     #
-    def delete_master_file(rw_pw, unmount = true)
-      mdp = JSS::DistributionPoint.master_distribution_point api: @api
-      file = mdp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
+    def delete_master_file(rw_pw, unmount = true, dist_point: nil)
+      dp = self.class.fetch_dist_point(dist_point, api: @api)
+      file = dp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
         file.delete
         did_it = true
       else
         did_it = false
       end # if exists
-      mdp.unmount if unmount
+      dp.unmount if unmount
       did_it
     end # delete master file
 
@@ -838,9 +871,13 @@ module JSS
     #
     # @param unmount[Boolean] whether or not ot unount the distribution point when finished.
     #
-    def delete(delete_file: false, rw_pw: nil, unmount: true)
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
+    # @return [void]
+    def delete(delete_file: false, rw_pw: nil, unmount: true, dist_point: nil)
       super()
-      delete_master_file(rw_pw, unmount) if delete_file
+      delete_master_file(rw_pw, unmount, dist_point: dist_point) if delete_file
     end
 
     # Install this package via the jamf binary 'install' command from the
@@ -1042,6 +1079,7 @@ module JSS
     ################################
 
     private
+
 
     # Return the REST XML for this pkg, with the current values,
     # for saving or updating
