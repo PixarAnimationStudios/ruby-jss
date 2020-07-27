@@ -682,7 +682,7 @@ module JSS
 
       if CHECKSUM_HASH_TYPES.keys.include? chksum
         @checksum_type = chksum
-        @checksum = calculate_checksum local_file: local_path, type: chksum, unmount: false
+        @checksum = calculate_checksum local_file: local_path, type: chksum, unmount: false, dist_point: dist_point
         @need_to_update = true
       end
       update if @need_to_update
@@ -703,7 +703,7 @@ module JSS
     #
     # @return [void]
     #
-    def reset_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)
+    def reset_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
 
       new_checksum = calculate_checksum(
@@ -711,7 +711,8 @@ module JSS
         local_file: local_file,
         rw_pw: rw_pw,
         ro_pw: ro_pw,
-        unmount: unmount
+        unmount: unmount,
+        dist_point: dist_point
       )
       return if @checksum == new_checksum
 
@@ -782,17 +783,21 @@ module JSS
     # @param unmount [Boolean] Unmount the master dist point after using it.
     #   Only used if the dist point is mounted. default: true
     #
+    # @param dist_point [String,Integer] the name or id of the distribution
+    #   point to use. Defaults to the Master Dist. Point
+    #
     # @return [Boolean] false if there is no checksum for this pkg, otherwise,
     #   does the calculated checksum match the one stored for the pkg?
     #
-    def checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)
+    def checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
       return false unless @checksum
       new_checksum = calculate_checksum(
         type: @checksum_type,
         local_file: local_file,
         rw_pw: rw_pw,
         ro_pw: ro_pw,
-        unmount: unmount
+        unmount: unmount,
+        dist_point: dist_point
       )
       new_checksum == @checksum
     end
