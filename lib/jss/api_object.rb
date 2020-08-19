@@ -1358,7 +1358,10 @@ module JSS
     #
     def ppx
       return nil unless creatable? || updatable?
-      REXML::Document.new(rest_xml).write $stdout, 2
+
+      formatter = REXML::Formatters::Pretty.new(2)
+      formatter.compact = true
+      formatter.write(REXML::Document.new(rest_xml), $stdout)
       puts
     end
 
