@@ -111,8 +111,8 @@ module JSS
 
     # Confirm that the given value is a boolean value, accepting
     # strings and symbols and returning real booleans as needed
-    # Accepts: true, false, 'true', 'false', :true, :false, 'yes', 'no', :yes,
-    # or :no (all Strings and Symbols are case insensitive)
+    # Accepts: true, false, 'true', 'false', 'yes', 'no', 't','f', 'y', or 'n'
+    # as strings or symbols, case insensitive
     #
     # TODO: use this throughout ruby-jss
     #
@@ -123,11 +123,11 @@ module JSS
     # @return [Boolean] the valid boolean
     #
     def self.boolean(bool, msg = nil)
-      msg ||= 'Value must be boolean true or false'
       return bool if JSS::TRUE_FALSE.include? bool
-      return true if bool.to_s =~ /^(true|yes)$/i
-      return false if bool.to_s =~ /^(false|no)$/i
+      return true if bool.to_s =~ /^(t(rue)?|y(es)?)$/i
+      return false if bool.to_s =~ /^(f(alse)?|no?)$/i
 
+      msg ||= 'Value must be boolean true or false, or an equivalent string or symbol'
       raise JSS::InvalidDataError, msg
     end
 
@@ -176,10 +176,10 @@ module JSS
     # @return [String] the valid uuid string
     #
     def self.uuid(val, msg = nil)
-      msg ||= 'value must be valid uuid'
-      raise JSS::InvalidDataError, msg unless val.is_a?(String) && val =~ UUID_RE
+      return val if val.is_a?(String) && val =~ UUID_RE
 
-      val
+      msg ||= 'value must be valid uuid'
+      raise JSS::InvalidDataError, msg
     end
 
     # validate that the given value is an integer in the JSS::IBeacon::MAJOR_MINOR_RANGE
@@ -191,13 +191,56 @@ module JSS
     # @return [String] the valid integer
     #
     def self.ibeacon_major_minor(val, msg = nil)
-      msg ||= "value must be an integer in the range #{JSS::IBeacon::MAJOR_MINOR_RANGE}"
       val = val.to_i if val.is_a?(String) && val.jss_integer?
       ok = val.is_a? Integer
       ok = JSS::IBeacon::MAJOR_MINOR_RANGE.include? val if ok
-      raise JSS::InvalidDataError, msg unless ok
+      return val if ok
 
-      val
+      msg ||= "value must be an integer in the range #{JSS::IBeacon::MAJOR_MINOR_RANGE}"
+      raise JSS::InvalidDataError, msg unless ok
+    end
+
+    # validate a country name or code from JSS::APP_STORE_COUNTRY_CODES
+    # returning the validated code, or raising an error
+    #
+    # @param country[String] The country name or code
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the valid two-letter country code
+    #
+    def self.app_store_country_code(country, msg = nil)
+      country = country.to_s.upcase
+      return country if JSS::APP_STORE_COUNTRY_CODES.value? country
+
+      JSS::APP_STORE_COUNTRY_CODES.each do |name, code|
+        return code if name.upcase == country
+      end
+
+      msg ||= 'Unknown country name or code. See JSS::APP_STORE_COUNTRY_CODES or JSS.country_code_match(str)'
+      raise JSS::InvalidDataError, msg
+    end
+
+    # validate an email address - must match the RegEx /^\S+@\S+\.\S+$/
+    # i.e.:
+    #  1 or more non-whitespace chars, followed by
+    #  an @ character, followed by
+    #  1 or more non-whitespace chars, followed by
+    #  a dot, followed by
+    #  1 or more non-whitespace chars
+    #
+    # @param email[String] The email address
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the validly formatted email address
+    #
+    def self.email_address(email, msg = nil)
+      msg ||= "'#{email}' is not formatted as a valid email address"
+      email = email.to_s
+      return email if email =~ /^\S+@\S+\.\S+$/
+
+      raise JSS::InvalidDataError, msg
     end
 
   end # module validate
