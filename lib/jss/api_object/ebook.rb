@@ -23,12 +23,11 @@
 ###
 ###
 
-# This is just a stub for now.
 
 #
 module JSS
 
-  #
+  # This is just a stub for now.
   class EBook < APIObject
 
     include Sitable

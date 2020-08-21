@@ -1694,4 +1694,7 @@ require 'jss/api_object/user'
 require 'jss/api_object/webhook'
 require 'jss/api_object/printer'
 
+### Other
+require 'jss/api_object/app_store_country_codes'
+
 JSS::APIObject.define_identifier_list_methods

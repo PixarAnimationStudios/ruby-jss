@@ -51,12 +51,12 @@ module JSS
   # - :security
   #
   # Additionally, items that apper in macOS Slf Svc have these keys:
-  # - :self_service_display_name
+  # - :self_service_display_name (but not JSS::MacApplication)
   # - :install_button_text
-  # - :reinstall_button_text
+  # - :reinstall_button_text (but not JSS::MacApplication)
   # - :force_users_to_view_description
   # - :notification
-  # - :notification_location # PENDING API FIX
+  # - :notification_location # PENDING API FIX, and also, not JSS::MacApplication
   # - :notification_subject
   # - :notification_message
   #
@@ -178,15 +178,14 @@ module JSS
         notification_reminders: true
       },
       JSS::MacApplication => {
-        # in_self_service_data_path was finally implemnted in JamfPro 10.9
-        # Jamf Product Issue [PI-003773]
-        in_self_service_data_path: [:general, :deployment_type],
+        in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
         targets: [:macos],
         payload: :app,
         can_display_in_categories: true,
         can_feature_in_categories: true,
+        notifications_supported: :ssvc_and_nctr,
         url_entity: 'app'
         # OTHER BUG: no notification options seem to be changable via the API
       },
@@ -329,6 +328,7 @@ module JSS
     #
     def self_service_view_url
       return nil unless @self_service_data_config[:url_entity]
+
       "#{USER_URL_BASE}#{@self_service_data_config[:url_entity]}&id=#{id}&action=#{USER_URL_VIEW_ACTION}"
     end
 
@@ -336,6 +336,7 @@ module JSS
     #
     def self_service_execute_url
       return nil unless @self_service_data_config[:url_entity]
+
       "#{USER_URL_BASE}#{@self_service_data_config[:url_entity]}&id=#{id}&action=#{USER_URL_EXEC_ACTION}"
     end
 
@@ -349,6 +350,7 @@ module JSS
     def self_service_description=(new_val)
       new_val = new_val.strip
       return if @self_service_description == new_val
+
       @self_service_description = new_val
       @need_to_update = true
     end
@@ -820,7 +822,7 @@ module JSS
       # ssvc subset...
       add_in_self_service_xml doc_root
 
-      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+      subset_key = @self_service_data_config[:self_service_subset] || :self_service
 
       ssvc = doc_root.add_element subset_key.to_s
 
@@ -857,6 +859,7 @@ module JSS
     # add the xml specific to profiles
     def add_self_service_profile_xml(ssvc, doc_root)
       return unless self_service_payload == :profile
+
       if self_service_targets.include? :ios
         sec = ssvc.add_element('security')
         sec.add_element('removal_disallowed').text = PROFILE_REMOVAL_BY_USER[@self_service_user_removable]
@@ -871,6 +874,7 @@ module JSS
     def add_self_service_category_xml(ssvc)
       cats = ssvc.add_element('self_service_categories')
       return if self_service_categories.empty?
+
       self_service_categories.each do |cat|
         catelem = cats.add_element('category')
         catelem.add_element('name').text = cat[:name]
@@ -882,10 +886,14 @@ module JSS
     # set macOS settings in ssvc xml
     def add_self_service_macos_xml(ssvc)
       return unless self_service_targets.include? :macos
-      ssvc.add_element('self_service_display_name').text = self_service_display_name if self_service_display_name
+
       ssvc.add_element('install_button_text').text = self_service_install_button_text if self_service_install_button_text
-      ssvc.add_element('reinstall_button_text').text = self_service_reinstall_button_text if self_service_reinstall_button_text
       ssvc.add_element('force_users_to_view_description').text = self_service_force_users_to_view_description.to_s
+
+      return if self.class == JSS::MacApplication
+
+      ssvc.add_element('self_service_display_name').text = self_service_display_name if self_service_display_name
+      ssvc.add_element('reinstall_button_text').text = self_service_reinstall_button_text if self_service_reinstall_button_text
     end
 
 
