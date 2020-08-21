@@ -47,6 +47,50 @@ module JSS
     #####################################
     VPPABLE = true
 
+    # Mixed-in Class Methods
+    #
+    # This is a common technique to get class methods mixed in when
+    # you 'include' a module full of instance methods
+    #####################################
+
+    def self.included(klass)
+      klass.extend(ClassMethods)
+    end
+
+    # Methods in here will become class methods of the
+    # classes that include VPPable
+    module ClassMethods
+
+      # The names and assignment data for all class members that have
+      # VPP licenses that can be assigned by device.
+      # The assignment data is a hash of three keys pointing to integers:
+      #   {
+      #     total: int,
+      #     used: int,
+      #     remaining: int
+      #   }
+      #
+      # WARNING: This must instantiate all objects, so is slow
+      #
+      # @return [Hash{String=>Hash}] The names and assignment data
+      def all_vpp_device_assignable
+        data = {}
+        all_ids.each do |id|
+          obj = fetch id: id
+          next unless obj.vpp_device_based?
+
+          data[obj.name] = {
+            total: obj.vpp_licenses_total,
+            used: obj.vpp_licenses_used,
+            remaining: obj.vpp_licenses_remaining
+          }
+        end
+        data
+      end # all_vpp_device_assignable
+
+    end # module ClassMethods
+
+
     # Mixed-in Attributes
     #####################################
 
@@ -165,6 +209,9 @@ module JSS
     # there are many - and expanding those scopes into an actual list of users
     # and devices would be a pain to write
     #
+
+    # Mixed-in Instance Methods
+    #####################################
 
     # Set whether or not the VPP licenses should be assigned
     # by device as well as (or.. instead of?) by user
