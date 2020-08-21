@@ -62,6 +62,7 @@ module JSS
     include JSS::Criteriable
     include JSS::Sitable
 
+
     # Class Constants
     #####################################
 
@@ -85,6 +86,22 @@ module JSS
     #
     attr_reader :search_results
 
+    # @return [Array<String>] the fields to be returned with the search results
+    #
+    # The API delivers these as an array of Hashes,
+    # where each hash has only one key, :name => the name of the fields/ExtAttrib
+    # to display. It should probably not have the underlying Hashes, and just
+    # be an array of names. This class converts it to just an Array of field names
+    # (Strings) for internal use.
+    #
+    # These fields are returned in the @search_results
+    # data along with :id, :name, and other unique identifiers
+    # for each found item. In that data, their names have colons removed, abd
+    # spaces and dashes converted to underscores, and they are
+    # symbolized. See attribute result_display_keys
+    #
+    attr_reader :display_fields
+
     # @return [Array<Symbol>]
     #
     # The search result Hash keys for the {#display_fields} of the search
@@ -95,8 +112,9 @@ module JSS
     # methods are for.
     #
     # However, when those names come back as the Hash Keys of the {#search_results}
-    # they (inconsistently) have spaces and/or dashes converted to underscores, and,
-    # the JSON module converts the keys to Symbols, so they don't match the {#display_fields}.
+    # they (inconsistently) have spaces and/or dashes converted to underscores,
+    # and colons are removed. The JSON module then converts the keys to Symbols,
+    # so they don't match the {#display_fields}.
     #
     # For example, the display field "Last Check-in" might come back as any of these Symbols:
     # - :"Last Check-in"
@@ -147,13 +165,13 @@ module JSS
       # make sure each hash of the search results
       # has a key matching a standard key.
       #
-      @search_results.each do |hash|
-        hash.keys.each do |key|
-          std_key = key.to_s.gsub(/ |-/, '_').to_sym
-          next if hash[std_key]
-          hash[std_key] = hash[key]
-        end
-      end
+      # @search_results.each do |hash|
+      #   hash.keys.each do |key|
+      #     std_key = key.to_s.gsub(':', '').gsub(/ |-/, '_').to_sym
+      #     next if hash[std_key]
+      #     hash[std_key] = hash[key]
+      #   end
+      # end
     end # init
 
     # Public Instance Methods
@@ -230,23 +248,6 @@ module JSS
         @api.open_timeout = orig_open_timeout
       end
     end
-
-    # @return [Array<String>] the fields to be returned with the search results
-    #
-    # The API delivers these as an array of Hashes,
-    # where each hash has only one key, :name => the name of the fields/ExtAttrib
-    # to display. It should probably not have the underlying Hashes, and just
-    # be an array of names. This class converts it to just an Array of field names
-    # (Strings) for internal use.
-    #
-    # These fields are returned in the @search_results
-    # data along with :id, :name, and other unique identifiers
-    # for each found item. In that data, their names have
-    # spaces and dashes converted to underscores, and they are
-    # symbolized.
-    #
-    #
-    attr_reader :display_fields
 
     # Set the list of fields to be retrieved with the
     # search results.
