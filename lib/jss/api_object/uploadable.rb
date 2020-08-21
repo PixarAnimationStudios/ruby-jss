@@ -103,7 +103,7 @@ module JSS
     #  Methods
     #####################################
 
-    #
+
     # Upload a file to the JSS via the REST Resource of the
     # object to which this module is mixed in.
     #
