@@ -226,56 +226,62 @@ module JSS
       #   if we can't connect to LDAP servers for verification?
       attr_accessor :unable_to_verify_ldap_entries
 
-      # what type of target is this scope for? Computers or Mobiledevices?
+      # what type of target is this scope for? Computers or MobileDevices?
       attr_reader :target_class
 
-      # @return [Hash<Array>]
-      #
-      # The items which form the base scope of included targets
-      #
-      # This is the group of targets to which the limitations and exclusions apply.
-      # they keys are:
-      # - :targets
-      # - :target_groups
-      # - :departments
-      # - :buildings
-      # and the values are Arrays of names of those things.
-      #
-      attr_reader :inclusions
+      # what type of target group is this scope for? ComputerGroups or MobileDeviceGroups?
+      attr_reader :group_class
 
       # @return [Boolean]
       #
       # Does this scope cover all targets?
       #
-      # If this is true, the @inclusions Hash is ignored, and all
+      # If this is true, the @targets Hash is ignored, and all
       # targets in the JSS form the base scope.
       #
       attr_reader :all_targets
 
-      # @return [Hash<Array>]
+      # The items which form the base scope of included targets
       #
+      # This is the group of targets to which the limitations and exclusions apply.
+      # they keys are:
+      # - :computers or :mobile_devices  (which are directly targeted)
+      # - :direct_targets - a synonym for :mobile_devices or :computers
+      # - :computer_groups or :mobile_device_groups  (which target all of their memebers)
+      # - :group_targets - a synonym for :computer_groups or :mobile_device_groups
+      # - :departments
+      # - :buildings
+      # and the values are Arrays of names of those things.
+      #
+      # @return [Hash{Symbol: Array<Integer>}]
+      attr_reader :targets
+      # backward compatibility
+      alias inclusions targets
+
       # The items in these arrays are the limitations applied to targets in the @inclusions .
       #
-      # The arrays of names are:
+      # The arrays of ids are:
       # - :network_segments
-      # - :users
+      # - :jamf_ldap_users
       # - :user_groups
       #
+      # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :limitations
 
-      # @return [Hash<Array>]
-      #
       # The items in these arrays are the exclusions applied to targets in the @inclusions .
       #
-      # The arrays of names are:
-      # - :targets
-      # - :target_groups
+      # The arrays of ids are:
+      # - :computers or :mobile_devices  (which are directly excluded)
+      # - :direct_exclusions - a synonym for :mobile_devices or :computers
+      # - :computer_groups or :mobile_device_groups  (which exclude all of their memebers)
+      # - :group_exclusions - a synonym for :computer_groups or :mobile_device_groups
       # - :departments
       # - :buildings
       # - :network_segments
       # - :users
       # - :user_groups
       #
+      # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :exclusions
 
       # Public Instance Methods
@@ -299,7 +305,7 @@ module JSS
         @group_key = TARGETS_AND_GROUPS[@target_key]
         @group_class = SCOPING_CLASSES[@group_key]
 
-        @inclusion_keys = [@target_key, @group_key] + INCLUSIONS
+        @target_keys = [@target_key, @group_key] + INCLUSIONS
         @exclusion_keys = [@target_key, @group_key] + EXCLUSIONS
 
         @all_key = "all_#{target_key}".to_sym
@@ -307,11 +313,13 @@ module JSS
 
         # Everything gets mapped from an Array of Hashes to
         # an Array of ids
-        @inclusions = {}
-        @inclusion_keys.each do |k|
+        @targets = {}
+        @target_keys.each do |k|
           raw_scope[k] ||= []
-          @inclusions[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
-        end # @inclusion_keys.each do |k|
+          @targets[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
+          @targets[:direct_targets] = @targets[k] if k == @target_key
+          @targets[:group_targets] = @targets[k] if k == @group_key
+        end # @target_keys.each do |k|
 
         # the  :users key from the API is what we call :jamf_ldap_users
         # and the :user_groups key from the API we call :ldap_user_groups
@@ -365,6 +373,8 @@ module JSS
               api_data = raw_scope[:exclusions][k]
               api_data ||= []
               @exclusions[k] = api_data.compact.map { |n| n[:id].to_i }
+              @exclusions[:direct_exclusions] = @exclusions[k] if k == @target_key
+              @exclusions[:group_exclusions] = @exclusions[k] if k == @group_key
             end # if ...elsif... else
           end # @exclusion_keys.each
         end # if raw_scope[:exclusions]
@@ -383,7 +393,7 @@ module JSS
       #
       def include_all(clear = false)
         @inclusions = {}
-        @inclusion_keys.each { |k| @inclusions[k] = [] }
+        @target_keys.each { |k| @inclusions[k] = [] }
         @all_targets = true
         if clear
           @limitations = {}
@@ -600,7 +610,7 @@ module JSS
         list.map! do |ident|
           item_id = validate_item(:exclusion, key, ident)
           case key
-          when *@inclusion_keys
+          when *@target_keys
             raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @exclusions[key].include?(item_id)
           when *LIMITATIONS
             if @limitations[key] && @exclusions[key].include?(item_id)
@@ -765,7 +775,7 @@ module JSS
         # which keys allowed depends on how the item is used...
         possible_keys =
           case realm
-          when :target then @inclusion_keys
+          when :target then @target_keys
           when :limitation then LIMITATIONS
           when :exclusion then @exclusion_keys
           else
