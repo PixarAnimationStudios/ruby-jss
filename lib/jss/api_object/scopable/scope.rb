@@ -780,15 +780,20 @@ module JSS
       # is a given machine is in this scope?
       #
       # For a parameter you may pass either an instantiated
-      # JSS::MobileDevice or JSS::Computer, or an identigier for one.
+      # JSS::MobileDevice or JSS::Computer, or an identifier for one.
       # If an identifier is passed, it is not instantiated, but an API
       # request is made for just the required subsets of data, thus
       # speeding things up a bit when calling this method many times.
       #
-      # WARNING: For scopes that include Jamf Users and User Groups
+      # WARNING: For scopes that include Jamf Users and Jamf User Groups
       # as targets or exclusions, this method may return an incorrect value.
       # See the discussion in the documentation for the Scopable::Scope class
       # under 'IMPORTANT - Users & User Groups in Targets and Exclusions'
+      #
+      # NOTE: currently in-range iBeacons are transient, and are not reported
+      # to the JSS as inventory data. As such they are ignored in this result.
+      # If a scope contains iBeacon limitations or exclusions, it is up to
+      # the user to be aware of that when evaluating the meaning of this result.
       #
       # @param machine[Integer, String, JSS::MobileDevice, JSS::Computer]
       #   Either an identifier for the machine, or an instantiated object
@@ -798,8 +803,6 @@ module JSS
       ##############
       def in_scope?(machine)
         machine_data = fetch_machine_data machine
-        managed = @target_class == JSS::Computer ? machine_data[:general][:remote_management][:managed] : machine_data[:general][:managed]
-        return false unless managed
 
         a_target?(machine_data) && within_limitations?(machine_data) && !excluded?(machine_data)
       end
@@ -894,6 +897,10 @@ module JSS
           location = machine.init_data[:location]
           group_ids = group_ids machine.computer_groups
 
+          # put in standardize place for easier use
+          # MDevs already have this at general[:managed]
+          general[:managed] = general[:remote_management][:managed]
+
         when JSS::MobileDevice
           raise JSS::InvalidDataError, "Targets of this scope must be #{@target_class}" unless @target_class == JSS::MobileDevice
 
@@ -963,11 +970,13 @@ module JSS
       # @return [Boolean]
       ################
       def a_target?(machine_data)
-        return true if all_targets?
-        return true if machine_directly_scoped? machine_data, :target
-        return true if machine_in_scope_group? machine_data, :target
-        return true if machine_in_scope_buildings? machine_data, :target
-        return true if machine_in_scope_depts? machine_data, :target
+        return false unless machine_data[:general][:managed]
+        return true if \
+          all_targets? || \
+          machine_directly_scoped?(machine_data, :target) || \
+          machine_in_scope_group?(machine_data, :target) || \
+          machine_in_scope_buildings?(machine_data, :target) || \
+          machine_in_scope_depts?(machine_data, :target)
 
         false
       end
@@ -976,10 +985,10 @@ module JSS
       # @return [Boolean]
       ################
       def within_limitations?(machine_data)
-        # if its nil, there were no netseg limitations, we're Ok to keep checking
-        return false if machine_in_scope_netsegs?(machine_data, :limitation) == false
-        return false if machine_in_scope_jamf_ldap_users_list?(machine_data, :limitation) == false
-        return false if machine_in_scope_ldap_usergroup_list?(machine_data, :limitation) == false
+        return false if \
+          machine_in_scope_netsegs?(machine_data, :limitation) == false || \
+          machine_in_scope_jamf_ldap_users_list?(machine_data, :limitation) == false || \
+          machine_in_scope_ldap_usergroup_list?(machine_data, :limitation) == false
 
         true
       end
@@ -988,13 +997,14 @@ module JSS
       # @return [Boolean]
       ################
       def excluded?(machine_data)
-        return true if machine_directly_scoped? machine_data, :exclusion
-        return true if machine_in_scope_group? machine_data, :exclusion
-        return true if machine_in_scope_buildings? machine_data, :exclusion
-        return true if machine_in_scope_depts? machine_data, :exclusion
-        return true if machine_in_scope_netsegs? machine_data, :exclusion
-        return true if machine_in_scope_jamf_ldap_users_list? machine_data, :exclusion
-        return true if machine_in_scope_ldap_usergroup_list? machine_data, :exclusion
+        return true if
+          machine_directly_scoped?(machine_data, :exclusion) || \
+          machine_in_scope_group?(machine_data, :exclusion) || \
+          machine_in_scope_buildings?(machine_data, :exclusion) || \
+          machine_in_scope_depts?(machine_data, :exclusion) || \
+          machine_in_scope_netsegs?(machine_data, :exclusion) || \
+          machine_in_scope_jamf_ldap_users_list?(machine_data, :exclusion) || \
+          machine_in_scope_ldap_usergroup_list?(machine_data, :exclusion)
 
         false
       end
@@ -1031,6 +1041,8 @@ module JSS
 
         # nil if empty
         return if scope_list.empty?
+        # false if no building for the machine - it isn't in any dept
+        return false if machine_data[:location][:building].to_s.empty?
 
         building_id = JSS::Building.map_all_ids_to(:name).invert[machine_data[:location][:building]]
         scope_list.include? building_id
@@ -1045,8 +1057,11 @@ module JSS
 
         # nil if empty
         return if scope_list.empty?
+        # false if no dept for the machine - it isn't in any dept
+        return false if machine_data[:location][:department].to_s.empty?
 
         dept_id = JSS::Department.map_all_ids_to(:name).invert[machine_data[:location][:department]]
+
         scope_list.include? dept_id
       end
 
@@ -1061,8 +1076,8 @@ module JSS
         return if scope_list.empty?
 
         ip = @target_class == JSS::Computer ? machine_data[:general][:last_reported_ip] : machine_data[:general][:ip_address]
-        # nil if no ip for machine
-        return if ip.to_s.empty?
+        # false if no ip for machine - it isn't in a any of the segs
+        return false if ip.to_s.empty?
 
         mach_segs = JSS::NetworkSegment.network_segments_for_ip ip
 
