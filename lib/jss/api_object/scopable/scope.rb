@@ -258,7 +258,7 @@ module JSS
       # backward compatibility
       alias inclusions targets
 
-      # The items in these arrays are the limitations applied to targets in the @inclusions .
+      # The items in these arrays are the limitations applied to targets in the @targets .
       #
       # The arrays of ids are:
       # - :network_segments
@@ -268,7 +268,7 @@ module JSS
       # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :limitations
 
-      # The items in these arrays are the exclusions applied to targets in the @inclusions .
+      # The items in these arrays are the exclusions applied to targets in the @targets .
       #
       # The arrays of ids are:
       # - :computers or :mobile_devices  (which are directly excluded)
@@ -392,8 +392,8 @@ module JSS
       # @return [void]
       #
       def include_all(clear = false)
-        @inclusions = {}
-        @target_keys.each { |k| @inclusions[k] = [] }
+        @targets = {}
+        @target_keys.each { |k| @targets[k] = [] }
         @all_targets = true
         if clear
           @limitations = {}
@@ -438,9 +438,9 @@ module JSS
           item_id
         end # each
 
-        return nil if list.sort == @inclusions[key].sort
+        return nil if list.sort == @targets[key].sort
 
-        @inclusions[key] = list
+        @targets[key] = list
         @all_targets = false
         @container.should_update if @container
       end # sinclude_in_scope
@@ -468,11 +468,11 @@ module JSS
       def add_target(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
-        return if @inclusions[key] && @exclusions[key].include?(item_id)
+        return if @targets[key] && @exclusions[key].include?(item_id)
 
         raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        @inclusions[key] << item_id
+        @targets[key] << item_id
         @all_targets = false
         @container.should_update if @container
       end
@@ -493,9 +493,9 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :target, key, item, error_if_not_found: false
         return unless item_id
-        return unless @inclusions[key] && @exclusions[key].include?(item_id)
+        return unless @targets[key] && @exclusions[key].include?(item_id)
 
-        @inclusions[key].delete item_id
+        @targets[key].delete item_id
         @container.should_update if @container
       end
       alias remove_inclusion remove_target
@@ -611,7 +611,7 @@ module JSS
           item_id = validate_item(:exclusion, key, ident)
           case key
           when *@target_keys
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @exclusions[key].include?(item_id)
+            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @targets[key] && @exclusions[key].include?(item_id)
           when *LIMITATIONS
             if @limitations[key] && @exclusions[key].include?(item_id)
               raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
@@ -644,7 +644,7 @@ module JSS
         item_id = validate_item(:exclusion, key, item)
         return if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item)
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @targets[key] && @targets[key].include?(item)
 
         raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
 
@@ -682,7 +682,7 @@ module JSS
         scope = REXML::Element.new 'scope'
         scope.add_element(@all_key.to_s).text = @all_targets
 
-        @inclusions.each do |klass, list|
+        @targets.each do |klass, list|
           list.compact!
           list.delete 0
           list_as_hashes = list.map { |i| { id: i } }
