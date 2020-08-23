@@ -144,7 +144,7 @@ module JSS
 
     ### @return [Array<Hash>]
     ###
-    ### The vpp assignments associated with this user
+    ### The user-based vpp assignments associated with this user
     ###
     ### Each Hash has then :id and :name for one assignment
     ###
@@ -249,6 +249,47 @@ module JSS
       @need_to_update = true
     end
 
+    # Workaround for the recurring Jamf Classic API Bug where
+    # JSON is missing data that should come in an array of hashes, but
+    # only comes as a hash with a single hash inside, with data for only
+    # the last item in the XML array.
+    #
+    # When needed, we fetch and parse the XML, which has the desired data.
+    # Use any truthy parameter to re-fetch the XML data, otherwise the
+    # data last fetched is used.
+    #
+    # In this case, the user group data is fetched as XML and returned as
+    # an Array of Hashes, one per group the user is a member of. Each hash
+    # containing three Symbol keys:
+    #
+    #   id: Integer, the group id
+    #   name: String, the group name
+    #   is_smart: Boolean, is it a smart group or a static group?
+    #
+    # @param refresh[Boolean] Re-fetch the group data from the API
+    #
+    # @return [Array<Hash>] The groups the user is a member of.
+    #
+    def user_groups(refresh = false)
+      @grp_array = nil if refresh
+      return @grp_array if @grp_array
+
+      @grp_array = []
+      raw_xml = @api.get_rsrc "/users/id/#{@id}", :xml
+      xmlroot = REXML::Document.new(raw_xml).root
+      xml_grps = xmlroot.elements['user_groups']
+
+      xml_grps.each do |xml_grp|
+        next if xml_grp.name == 'size'
+
+        gid = xml_grp.elements['id'].text.to_i
+        gname = xml_grp.elements['name'].text
+        smart = xml_grp.elements['is_smart'].text == 'true'
+        @grp_array << { id: gid, name: gname, is_smart: smart }
+      end # groups.each
+
+      @grp_array
+    end # user_groups
 
     #####################################
     ### Private Instance Methods
