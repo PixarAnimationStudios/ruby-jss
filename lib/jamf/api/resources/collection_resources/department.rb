@@ -46,7 +46,7 @@ module Jamf
     RSRC_PATH = 'departments'.freeze
 
     # TODO: Jamf - will this be standard for collections?
-    BULK_DELETE_RSRC = 'delete-departments'.freeze
+    BULK_DELETE_RSRC = 'delete-multiple'.freeze
 
     # Object Model / Attributes
     # See APIObject class documentation for details
