@@ -52,7 +52,7 @@ module Jamf
 
     RSRC_VERSION = 'v1'.freeze
 
-    RSRC_PATH = 'device-enrollment'.freeze
+    RSRC_PATH = 'device-enrollments'.freeze
 
     # Object Model / Attributes
     # See APIObject class documentation for details
@@ -140,7 +140,7 @@ module Jamf
 
     DEVICES_RSRC = 'devices'.freeze
 
-    SYNC_RSRC = 'sync'.freeze
+    SYNC_RSRC = 'syncs'.freeze
 
     LATEST_RSRC = 'latest'.freeze
 
@@ -279,7 +279,7 @@ module Jamf
         instance_id = valid_id instance_ident, cnx: cnx
         raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
 
-        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}/#{instance_id}"
+        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{instance_id}/#{SYNC_RSRC}"
         rsrc += "/#{LATEST_RSRC}" if latest
       else
         rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}"
