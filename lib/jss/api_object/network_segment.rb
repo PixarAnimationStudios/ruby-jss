@@ -531,7 +531,7 @@ module JSS
     ### @return [void]
     ###
     def netboot_server=(newval)
-      new = JSS::NetbootServer.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
+      new = JSS::NetBootServer.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
       raise JSS::MissingDataError, "No netboot_server matching '#{newval}' in the JSS" unless new
       @netboot_server = new[:name]
       @need_to_update = true
