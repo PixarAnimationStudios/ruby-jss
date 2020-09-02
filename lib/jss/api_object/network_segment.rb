@@ -484,9 +484,16 @@ module JSS
     ### @return [void]
     ###
     def department=(newval)
-      new = JSS::Department.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No department matching '#{newval}' in the JSS" unless new
-      @department = new[:name]
+      new =
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::Department.valid_id newval
+          raise JSS::MissingDataError , "No department matching '#{newval}' in the JSS" unless id
+
+          JSS::Department.map_all_ids_to(:name)[id]
+        end
+      @department = new
       @need_to_update = true
     end
 
