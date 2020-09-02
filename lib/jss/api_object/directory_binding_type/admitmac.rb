@@ -162,7 +162,7 @@ module JSS
             # @return [void]
             def require_confirmation=(newvalue)
 
-                raise JSS::InvalidDataError, "require_confirmation must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "require_confirmation must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @require_confirmation = newvalue
                 
@@ -233,7 +233,7 @@ module JSS
             # @return [void]
             def mount_network_home=(newvalue)
 
-                raise JSS::InvalidDataError, "mount_network_home must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "mount_network_home must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @mount_network_home = newvalue
                 
@@ -413,7 +413,7 @@ module JSS
             # @return [void]
             def add_user_to_local=(newvalue)
 
-                raise JSS::InvalidDataError, "add_user_to_local must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "add_user_to_local must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @add_user_to_local = newvalue
                 

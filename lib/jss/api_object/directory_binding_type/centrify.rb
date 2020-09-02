@@ -106,7 +106,7 @@ module JSS
             # @return [void]
             def workstation_mode=(newvalue)
 
-                raise JSS::InvalidDataError, "workstation_mode must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "workstation_mode must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @workstation_mode = newvalue
 
@@ -125,7 +125,7 @@ module JSS
             # @return [void]
             def overwrite_existing=(newvalue)
 
-                raise JSS::InvalidDataError, "overwrite_existing must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "overwrite_existing must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @overwrite_existing = newvalue
 
@@ -144,7 +144,7 @@ module JSS
             # @return [void]
             def update_PAM=(newvalue)
 
-                raise JSS::InvalidDataError, "update_PAM must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "update_PAM must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @update_PAM = newvalue
 

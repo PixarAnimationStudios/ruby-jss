@@ -93,7 +93,7 @@ module JSS
             # @return [void]
             def encrypt_using_ssl=(newvalue)
 
-                raise JSS::InvalidDataError, "encrypt_using_ssl must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "encrypt_using_ssl must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
                 
                 @encrypt_using_ssl = newvalue
 
@@ -112,7 +112,7 @@ module JSS
             # @return [void]
             def perform_secure_bind=(newvalue)
 
-                raise JSS::InvalidDataError, "perform_secure_bind must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "perform_secure_bind must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @perform_secure_bind = newvalue
 
@@ -131,7 +131,7 @@ module JSS
             # @return [void]
             def use_for_authentication=(newvalue)
 
-                raise JSS::InvalidDataError, "use_for_authentication must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "use_for_authentication must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @use_for_authentication = newvalue
 
@@ -150,7 +150,7 @@ module JSS
             # @return [void]
             def use_for_contacts=(newvalue)
 
-                raise JSS::InvalidDataError, "use_for_contacts must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "use_for_contacts must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @use_for_contacts = newvalue
 
