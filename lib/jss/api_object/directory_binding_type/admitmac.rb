@@ -181,10 +181,17 @@ module JSS
             #
             # @return [void]
             def local_home=(newvalue)
-                
-                raise JSS::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
 
-                @local_home = HOME_FOLDER_TYPE[newvalue]
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
+                        HOME_FOLDER_TYPE[newvalue]
+                    end
+
+                @local_home = new
                 
                 self.container&.should_update
             end
@@ -200,9 +207,16 @@ module JSS
             # @return [void]
             def default_shell=(newvalue)
 
-                raise JSS::InvalidDataError, "default_shell must be empty or a string." unless newvalue.is_a?(String)
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "default_shell must be empty or a string." unless newvalue.is_a?(String)
+                        newvalue
+                    end
 
-                @default_shell = newvalue
+                @default_shell = new
                 
                 self.container&.should_update
             end
@@ -237,9 +251,16 @@ module JSS
             # @return [void]
             def place_home_folders=(newvalue)
 
-                raise JSS::InvalidDataError, "place_home_folders must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "place_home_folders must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
-                @place_home_folders = newvalue
+                @place_home_folders = new
                 
                 self.container&.should_update
             end
@@ -259,9 +280,16 @@ module JSS
             # @return [void]
             def uid=(newvalue)
 
-                raise JSS::InvalidDataError, "uid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "uid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                        newvalue
+                    end
 
-                @uid = newvalue
+                @uid = new
                 
                 self.container&.should_update
             end
@@ -278,9 +306,16 @@ module JSS
             # @return [void]
             def user_gid=(newvalue)
 
-                raise JSS::InvalidDataError, "user_gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "user_gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                        newvalue
+                    end
 
-                @user_gid = newvalue
+                @user_gid = new
                 
                 self.container&.should_update
             end
@@ -297,9 +332,16 @@ module JSS
             # @return [void]
             def gid=(newvalue)
 
-                raise JSS::InvalidDataError, "gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "gid must be a string, integer, or nil." unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+                        newvalue
+                    end
 
-                @gid = newvalue
+                @gid = new
                 
                 self.container&.should_update
             end
@@ -316,10 +358,17 @@ module JSS
             #
             # @return [void]
             def admin_group=(newvalue)
-                
-                raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
 
-                @admin_group = newvalue
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
+                        newvalue
+                    end
+
+                @admin_group = new
                 
                 self.container&.should_update
             end
@@ -336,9 +385,16 @@ module JSS
             # @return [void]
             def cached_credentials=(newvalue)
 
-                raise JSS::InvalidDataError, "cached_credentials must be an integer." unless newvalue.is_a? Integer
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "cached_credentials must be an integer." unless newvalue.is_a? Integer
+                        newvalue
+                    end
 
-                @cached_credentials = newvalue
+                @cached_credentials = new
                 
                 self.container&.should_update
             end
@@ -377,9 +433,16 @@ module JSS
             # @return [void]
             def users_ou=(newvalue)
 
-                raise JSS::InvalidDataError, "users_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "users_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                        newvalue
+                    end
 
-                @users_ou = newvalue
+                @users_ou = new
                 
                 self.container&.should_update
             end
@@ -397,9 +460,16 @@ module JSS
             # @return [void]
             def groups_ou=(newvalue)
 
-                raise JSS::InvalidDataError, "groups_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "groups_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                        newvalue
+                    end
 
-                @groups_ou = newvalue
+                @groups_ou = new
                 
                 self.container&.should_update
             end
@@ -417,9 +487,16 @@ module JSS
             # @return [void]
             def printers_ou=(newvalue)
 
-                raise JSS::InvalidDataError, "printers_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "printers_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                        newvalue
+                    end
 
-                @printers_ou = newvalue
+                @printers_ou = new
                 
                 self.container&.should_update
             end
@@ -437,9 +514,16 @@ module JSS
             # @return [void]
             def shared_folders_ou=(newvalue)
 
-                raise JSS::InvalidDataError, "shared_folders_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "shared_folders_ou must be either a string or nil." unless newvalue.is_a? String || newvalue.nil?
+                        newvalue
+                    end
 
-                @shared_folders_ou = newvalue
+                @shared_folders_ou = new
                 
                 self.container&.should_update
             end

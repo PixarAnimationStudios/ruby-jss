@@ -163,9 +163,16 @@ module JSS
             # @return [void]
             def zone=(newvalue)
 
-                raise JSS::InvalidDataError, "zone must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "zone must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
-                @zone = newvalue
+                @zone = new
 
                 self.container&.should_update
             end
@@ -182,9 +189,16 @@ module JSS
             # @return [void]
             def preferred_domain_server=(newvalue)
 
-                raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
-                @preferred_domain_server = newvalue
+                @preferred_domain_server = new
 
                 self.container&.should_update
             end
