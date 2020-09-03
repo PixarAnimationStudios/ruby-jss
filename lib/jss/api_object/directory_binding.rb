@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -113,6 +113,7 @@ module JSS
         # @return [String] The OU the computer object will reside in upon successful binding
         attr_reader :computer_ou
 
+        # @return [String] The type of binding
         attr_reader :type
 
         # @return [JSS::DirectoryBindingType] The DirectoryBindingType object that hold the settings for the specific directory binding type configured.

@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -76,21 +76,52 @@ module JSS
             # Attributes
             #####################################
 
+            # @return [Boolean] Require confirmation before creating the account locally
             attr_reader :require_confirmation
+
+            # @return [String] The path to the local home directory
             attr_reader :local_home
+
+            # @return [Symbol] The mount style for the home directory
             attr_reader :mount_style
+
+            # @return [String] The default shell to be used by the user
             attr_reader :default_shell
+
+            # @return [Boolean] Mount the network home share locally
             attr_reader :mount_network_home
+
+            # @return [String] The path the user's home folder(s) would be created in
             attr_reader :place_home_folders
+
+            # @return [String] The UID to be mapped to the user
             attr_reader :uid
+
+            # @return [String] The User's Group ID to be mapped to the user
             attr_reader :user_gid
+            
+            # @return [String] The Group ID to be mapped
             attr_reader :gid
-            attr_reader :admin_group
+
+            # @return [Array<String>] The groups to be given admin rights upon logging in
+            attr_reader :admin_groups
+
+            # @return [Boolean] Cache credentials for authentication off network
             attr_reader :cached_credentials
+
+            # @return [Boolean] Add the user as a local account
             attr_reader :add_user_to_local
+
+            # @return [String] The OU path for the user
             attr_reader :users_ou
+
+            # @return [String] The OU path for the group
             attr_reader :groups_ou
+
+            # @return [String] The OU path for the printers
             attr_reader :printers_ou
+
+            # @return [String] The OU path for the shared folders
             attr_reader :shared_folders_ou
 
             # Constructor
@@ -315,7 +346,7 @@ module JSS
             # @raise [JSS::InvalidDataError] If the new value is not an Array
             #
             # @return [void]
-            def admin_group=(newvalue)
+            def admin_groups=(newvalue)
                 
                 raise JSS::InvalidDataError, "An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals." unless newvalue.is_a? Array
 
@@ -472,7 +503,7 @@ module JSS
             # 
             # @author Tyler Morgan
             #
-            # @param newvalue [String] The admin group name you wish to remove from the admin group list
+            # @param value [String] The admin group name you wish to remove from the admin group list
             #
             # @raise [JSS::InvalidDataError] If the value provided is not a String
             # @raise [JSS::InvalidDataError] If the group provided is not in the admin_group array
