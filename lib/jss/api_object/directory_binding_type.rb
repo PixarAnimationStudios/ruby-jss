@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -33,10 +33,17 @@ module DirectoryBindingType
 
         # Module Methods
         #####################################
+
+        # Let the object know it should update
+        # @return [Void]
         def should_update
             @need_to_update = true
         end
 
+
+        # Set the type object for the specific settings for the provided JSS::DirectoryBinding
+        # @param settings [DirectoryBindingType] The settings object to be set for the specific JSS::DirectoryBinding object.
+        # @return [Void]
         def set_type_settings(settings)
             @type_settings = settings
             @type_settings.container = self

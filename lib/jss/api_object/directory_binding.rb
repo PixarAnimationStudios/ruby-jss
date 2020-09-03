@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -55,7 +55,8 @@ module JSS
         # Class Constants
         #####################################
 
-        #! You CAN update this
+        
+        # The directory binding type
         DIRECTORY_BINDING_TYPE = {
             open_directory: "Open Directory",
             active_directory: "Active Directory",
@@ -64,13 +65,14 @@ module JSS
             centrify: "Centrify"
         }.freeze
 
+        # The directory binding type class hash used to determine which directory binding type class should be used
         DIRECTORY_BINDING_TYPE_CLASSES = {
             "Open Directory" => JSS::DirectoryBindingType::OpenDirectory,
             "Active Directory" => JSS::DirectoryBindingType::ActiveDirectory,
             "PowerBroker Identity Services" => JSS::DirectoryBindingType::PowerBroker,
             "ADmitMac" => JSS::DirectoryBindingType::ADmitMac,
             "Centrify" => JSS::DirectoryBindingType::Centrify
-        }
+        }.freeze
 
         # The base for REST resources of this class
         RSRC_BASE = 'directorybindings'.freeze
@@ -89,23 +91,59 @@ module JSS
 
         # Attributes
         #####################################
+        
+        # @return [Integer] The Id of the object in the JSS
         attr_reader :id
+
+        # @return [String] The name of the object in the JSS
         attr_reader :name
+
+        # @return [Integer] The priority this binding has over others when multiple bindings are applied
         attr_reader :priority
+
+        ## @return [String] The domain server the binding will attempt to perform the bind to
         attr_reader :domain
+
+        # @return [String] The username that will be used to perform the binding
         attr_reader :username
+
+        # @return [String] The SHA256 hash of the user's password that would be used to perform the bind
         attr_reader :password_sha256
+
+        # @return [String] The OU the computer object will reside in upon successful binding
         attr_reader :computer_ou
+
+        # @return [String] The type of binding
         attr_reader :type
+
+        # @return [JSS::DirectoryBindingType] The DirectoryBindingType object that hold the settings for the specific directory binding type configured.
         attr_reader :type_settings
+        
+        # @note This is only available if the object is newly created and stored locally
+        # @return [String] The user's password that would be used to perform the bind
         attr_reader :password
 
         # Constructor
-        # @see JSS::APIObject.initialize
-        # @note When creating an object with specific properties use the
-        # objects name and then the settings.
-        # Ex: Creating an Active Directory object:
-        # JSS::DirectoryBinding.make name: "Example Binding", username: "BindingUser", password: "SuperMonkey123", computer_ou: "computers", active_directory: { multiple_domains: false }, domain: your.domain.server
+        #####################################
+
+        # When creating a new directory binding in the JSS, you must provide :username, :password, :domain, :type, :name, :computer_ou, and the specific symbol for the binding type object.
+        # @see JSS::APIObject#initialize
+        # @note When creating an object with specific properties use the objects name and then the settings.
+        # @param [Hash] args The options to create the Directory Binding object.
+        # @option args [Integer] :priority What level of priority does this binding have over others, lower is higher priority
+        # @option args [String] :domain The domain server you want this binding to perform the bind to
+        # @option args [String] :username The username of the account that has permission to perform the bind to the specified server
+        # @option args [String] :password The password to be used by the account to perform the bind.
+        # @option args [String] :password_sha256 The SHA256 hash of the password for the account being used to perform the bind to the specified server.
+        # @option args [String] :computer_ou The OU path that the computer object is to reside in
+        # @option args [String] :type The type of binding object, must be one of DIRECTORY_BINDING_TYPEs
+        # @option args [Hash] :active_directory The settings you want to be passed to create the Active Directory binding type object.
+        # @option args [Hash] :open_directory The settings you want to be passed to create the Open Directory binding type object.
+        # @option args [Hash] :powerbroker_identity_services The settings you want to be passed to create the PowerBroker binding type object.
+        # @option args [Hash] :admitmac The settings you want to be passed to create the ADmitMac binding type object.
+        # @option args [Hash] :centrify The settings you want to be passed to create the Centrify binding type object.
+        # @example Creating an Active Directory object
+        #   JSS::DirectoryBinding.make name: "Example Binding", username: "BindingUser", password: "SuperMonkey123", computer_ou: "computers", active_directory: { multiple_domains: false }, domain: your.domain.server
         #####################################
         def initialize(args = {})
             super args
@@ -145,20 +183,26 @@ module JSS
 
             end
 
-        end
+        end # init
 
         # Public Instance Methods
         #####################################
 
-        # The domain the device will be bound to.
+        # @see Creatable#create
         #
-        # @author Tyler Morgan
+        # @todo fill out this documentation
         #
-        # @param newvalue [String]
+        def create()
+            super()
+        end
+
+        # Set the domain that the binding object will attempt to bind to.
         #
-        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        # @param newvalue [String] The domain server address attempting to be bound to
         #
-        # @return [void]
+        # @raise [JSS::InvalidDataError] If the domain attempting to be set is not a String
+        #
+        # @return [Void]
         def domain=(newvalue)
             raise JSS::InvalidDataError, "Domain must be a String" unless newvalue.is_a? String
 
@@ -171,11 +215,11 @@ module JSS
         #
         # @author Tyler Morgan
         #
-        # @param newvalue [String]
+        # @param newvalue [String] The username to be used to perform the bind
         #
         # @raise [JSS::InvalidDataError] If newvalue is not a String
         #
-        # @return [void]
+        # @return [Void]
         def username=(newvalue)
             raise JSS::InvalidDataError, "Username must be a String" unless newvalue.is_a? String
 
@@ -188,7 +232,9 @@ module JSS
         #
         # @author Tyler Morgan
         #
-        # @param newvalue [Integer]
+        # @param newvalue [Integer] The priority this binding would have over other bindings that are installed
+        #
+        # @note The lower the number, the higher priority the binding has.
         #
         # @raise [JSS::InvalidDataError] If newvalue is not an Integer
         # @raise [JSS::InvalidDataError] If newvalue is not between 1 and 10

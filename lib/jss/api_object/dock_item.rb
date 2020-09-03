@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -76,9 +76,16 @@ module JSS
 
         # Attributes
         #####################################
+        # @return [Integer] The id of the dock item object
         attr_reader :id
+
+        # @return [String] The name of the dock item object
         attr_reader :name
+        
+        # @return [String] The type of dock item object
         attr_reader :type
+
+        # @return [String] The path for the specific icon
         attr_reader :path
 
         # Constructor

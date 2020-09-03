@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -41,9 +41,6 @@ module JSS
         # Class for the specific OpenDirectory DirectoryBinding type stored within the JSS
         # 
         # @author Tyler Morgan
-        #
-        # Attributes
-        # @!attribute [rw] require_confirmation
 
         class OpenDirectory < DirectoryBindingType
             # Mix-Ins
@@ -57,9 +54,17 @@ module JSS
 
             # Attributes
             #####################################
+
+            # @return [Boolean] Encrypt the connection using SSL
             attr_reader :encrypt_using_ssl
+
+            # @return [Boolean] Attempt to perform a secure bind to the domain server
             attr_reader :perform_secure_bind
+
+            # @return [Boolean] Use this domain server for authentication
             attr_reader :use_for_authentication
+
+            # @return [Boolean] Use this domain server for contact population
             attr_reader :use_for_contacts
 
             # Constructor

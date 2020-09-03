@@ -1,4 +1,4 @@
-### Copyright 2019 Rixar
+### Copyright 2019 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -60,10 +60,20 @@ module JSS
 
             # Attributes
             #####################################
+
+            # @return [Boolean] If the Centrify workstation mode would be activated
             attr_reader :workstation_mode
+
+            # @return [Boolean] Overwrite existing joined computer in the directory
             attr_reader :overwrite_existing
+
+            # @return [Boolean] Update the PAM module and overwrite Directoryservice configuration
             attr_reader :update_PAM
+
+            # @return [Boolean] The zone the computer will be joined to
             attr_reader :zone
+
+            # @return [String] The preferred domain server
             attr_reader :preferred_domain_server
 
             # Constructor
@@ -75,7 +85,12 @@ module JSS
             # @see JSS::DirectoryBinding
             # @see JSS::DirectoryBindingType
             #
-            # @param [Hash] initialize data
+            # @param [Hash] init_data The options to create the Centrify object
+            # @option init_data [Boolean] :workstation_mode Will the Centrify workstation mode be activated
+            # @option init_data [Boolean] :overwrite_existing Overwrite existing joined computer in the directory
+            # @option init_data [Boolean] :update_PAM Update the PAM module and overwrite directory service configuration
+            # @option init_data [String] :zone The zone the computer will be joined to
+            # @option init_data [String] :preferred_domain_server The preferred domain server
             def initialize(init_data)
 
                 # Return without processing anything since there is
