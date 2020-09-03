@@ -271,7 +271,7 @@ module Jamf
           else
             con.basic_auth @user, pw
           end
-          con.use Faraday::Adapter::NetHttp
+          con.adapter Faraday::Adapter::NetHttp
         end # Faraday.new
       end # token_connection
 
