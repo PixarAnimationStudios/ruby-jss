@@ -6,15 +6,15 @@
 <title>
   File: README
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "README";
   relpath = '';
 </script>
@@ -60,7 +60,8 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-ruby-jss-3A+Working+with+the+Jamf+Pro+Classic+API+in+Ruby">ruby-jss: Working with the Jamf Pro Classic API in Ruby</h1>
 
-<p><a href="http://badge.fury.io/rb/ruby-jss"><img src="https://badge.fury.io/rb/ruby-jss.svg"></a></p>
+<p><a href="http://badge.fury.io/rb/ruby-jss"><img
+src="https://badge.fury.io/rb/ruby-jss.svg"></a></p>
 
 <h3 id="label-Table+of+contents">Table of contents</h3>
 <ul><li>
@@ -72,7 +73,8 @@
 </li><li>
 <p><a href="#connecting-to-the-api">Connecting to the API</a></p>
 </li><li>
-<p><a href="#working-with-jss-objects-aka-rest-resources">Working with JSS Objects (a.k.a REST Resources)</a></p>
+<p><a href="#working-with-jss-objects-aka-rest-resources">Working with JSS
+Objects (a.k.a REST Resources)</a></p>
 </li><li>
 <p><a href="#listing-objects">Listing Objects</a></p>
 </li><li>
@@ -111,17 +113,38 @@
 
 <h2 id="label-DESCRIPTION">DESCRIPTION</h2>
 
-<p>ruby-jss defines a Ruby module called JSS, which is used for accessing the &#39;classic&#39; REST API of the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple devices from <a href="http://www.jamf.com/">Jamf.com</a>. It is available as a <a href="https://rubygems.org/gems/ruby-jss">ruby gem</a>, and the <a href="https://github.com/PixarAnimationStudios/ruby-jss">source is on github</a>.</p>
+<p>ruby-jss defines a Ruby module called JSS, which is used for accessing the
+&#39;classic&#39; REST API of the JAMF Software Server (JSS), the core of
+Jamf Pro, an enterprise-level management tool for Apple devices from <a
+href="http://www.jamf.com/">Jamf.com</a>. It is available as a <a
+href="https://rubygems.org/gems/ruby-jss">ruby gem</a>, and the <a
+href="https://github.com/PixarAnimationStudios/ruby-jss">source is on
+github</a>.</p>
 
-<p>The module abstracts many API resources as Ruby objects, and provides methods for interacting with those resources. It also provides some features that aren&#39;t a part of the API itself, but come with other Jamf-related tools, such as uploading .pkg and .dmg <a href="#beyond-the-api">JSS::Package} data to the master distribution point, and the installation of <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects on client machines. (See THE API</a>)</p>
+<p>The module abstracts many API resources as Ruby objects, and provides
+methods for interacting with those resources. It also provides some
+features that aren&#39;t a part of the API itself, but come with other
+Jamf-related tools, such as uploading .pkg and .dmg <a
+href="#beyond-the-api">JSS::Package} data to the master distribution point,
+and the installation of <span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects on client machines. (See
+THE API</a>)</p>
 
-<p>The module is not a complete implementation of the Jamf Pro Classic API. Only some API objects are modeled, some only minimally. Of those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted) See <a href="#objects-implemented">OBJECTS IMPLEMENTED</a> for a list.</p>
+<p>The module is not a complete implementation of the Jamf Pro Classic API.
+Only some API objects are modeled, some only minimally. Of those, some are
+read-only, some partially writable, some fully read-write (all implemented
+objects can be deleted) See <a href="#objects-implemented">OBJECTS
+IMPLEMENTED</a> for a list.</p>
 
-<p>We&#39;ve implemented the things we need in our environment, and as our needs grow, we&#39;ll add more. Hopefully others will find it useful, and add more to it as well.</p>
+<p>We&#39;ve implemented the things we need in our environment, and as our
+needs grow, we&#39;ll add more. Hopefully others will find it useful, and
+add more to it as well.</p>
 
-<p><a href="http://www.rubydoc.info/gems/ruby-jss/">Full technical documentation can be found here.</a></p>
+<p><a href="http://www.rubydoc.info/gems/ruby-jss/">Full technical
+documentation can be found here.</a></p>
 
-<p>NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API in a ruby module called &#39;Jamf&#39;, See README-JP-API.md in /lib/jamf, or in the &#39;Files&#39; section of the YARD docs file for details.</p>
+<p>NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API
+in a ruby module called &#39;Jamf&#39;, See README-JP-API.md in /lib/jamf,
+or in the &#39;Files&#39; section of the YARD docs file for details.</p>
 
 <h2 id="label-SYNOPSIS">SYNOPSIS</h2>
 
@@ -172,70 +195,118 @@
 
 <h3 id="label-Connecting+to+the+API">Connecting to the API</h3>
 
-<p>Before you can work with JSS Objects via the API, you have to connect to it.</p>
+<p>Before you can work with JSS Objects via the API, you have to connect to
+it.</p>
 
-<p>The method <code>JSS.api</code> returns the currently active connection to the API (an instance of a {JSS::APIConnection, q.v.).</p>
+<p>The method <code>JSS.api</code> returns the currently active connection to
+the API (an instance of a {JSS::APIConnection, q.v.).</p>
 
-<p>When the JSS Module is first loaded, that connection object isn&#39;t connected to anything. To remedy that, use <code>JSS.api.connect</code>, passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.</p>
+<p>When the JSS Module is first loaded, that connection object isn&#39;t
+connected to anything. To remedy that, use <code>JSS.api.connect</code>,
+passing it parameters for the connection. In this example, those parameters
+are stored in the local variables jss_user, jss_user_pw, and
+jss_server_hostname, and others are left as default.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">connect</a></span></span> <span class='label'>user:</span> <span class='id identifier rubyid_jss_user'>jss_user</span><span class='comma'>,</span> <span class='label'>pw:</span> <span class='id identifier rubyid_jss_user_pw'>jss_user_pw</span><span class='comma'>,</span> <span class='label'>server:</span> <span class='id identifier rubyid_jss_server_hostname'>jss_server_hostname</span>
 </code></pre>
 
-<p>Make sure the user has privileges in the JSS to do things with desired objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.</p>
+<p>Make sure the user has privileges in the JSS to do things with desired
+objects. Note that these might be more than you think, since some objects
+refer to other objects, like Sites and Categories.</p>
 
-<p>If the server name given ends with &#39;jamfcloud.com&#39; the port number will default to 443 via SSL. Otherwise, it defaults to 8443 with SSL (the default port for locally-hosted servers). In other situations, you can specify it with the <code>port:</code> and <code>use_ssl:</code> parameters.</p>
+<p>If the server name given ends with &#39;jamfcloud.com&#39; the port number
+will default to 443 via SSL. Otherwise, it defaults to 8443 with SSL (the
+default port for locally-hosted servers). In other situations, you can
+specify it with the <code>port:</code> and <code>use_ssl:</code>
+parameters.</p>
 
-<p>The connect method also accepts the symbols :stdin and :prompt as values for pw:, which will cause it to read the password from stdin, or prompt for it in the shell. See the <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> class for more connection options and details about its methods.</p>
+<p>The connect method also accepts the symbols :stdin and :prompt as values
+for pw:, which will cause it to read the password from stdin, or prompt for
+it in the shell. See the <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> class for more connection
+options and details about its methods.</p>
 
-<p>Also see JSS::Configuration, and the <a href="#configuration">CONFIGURATION</a> section below, for how to store server connection parameters in a simple config file.</p>
+<p>Also see JSS::Configuration, and the <a
+href="#configuration">CONFIGURATION</a> section below, for how to store
+server connection parameters in a simple config file.</p>
 
 <h3 id="label-Working+with+JSS+Objects">Working with JSS Objects</h3>
 
-<p>All of the ruby classes representing objects in Jamf Pro are subclasse of, or modules within, JSS::APIObject and share methods for creating, listing, retrieving, updating, and deleting via the API. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.</p>
+<p>All of the ruby classes representing objects in Jamf Pro are subclasse of,
+or modules within, JSS::APIObject and share methods for creating, listing,
+retrieving, updating, and deleting via the API. All supported objects can
+be listed, retrieved and deleted, but only some can be updated or created.
+See below for the level of implementation of each class.</p>
 
-<p>Some of those objects also provide access to more &#39;functional&#39; API resources. For example, the API resources for sending MDM commands to computers and mobile devices are available as class and instance methods of JSS::Computer and JSS::MobileDevice, as are the API resources for accessing management history.</p>
+<p>Some of those objects also provide access to more &#39;functional&#39; API
+resources. For example, the API resources for sending MDM commands to
+computers and mobile devices are available as class and instance methods of
+JSS::Computer and JSS::MobileDevice, as are the API resources for accessing
+management history.</p>
 <hr>
 
 <h4 id="label-Listing+Objects">Listing Objects</h4>
 
-<p>To get an Array with a summary of every object in the JSS of some Class, call that Class&#39;s .all method:</p>
+<p>To get an Array with a summary of every object in the JSS of some Class,
+call that Class&#39;s .all method:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'><span class='object_link'><a href="JSS/Computer.html#all-class_method" title="JSS::Computer.all (method)">all</a></span></span> <span class='comment'># =&gt; [{:name=&gt;&quot;cephei&quot;, :id=&gt;1122},{:name=&gt;&quot;peterparker&quot;, :id=&gt;1218}, {:name=&gt;&quot;rowdy&quot;, :id=&gt;931}, ...]
 </span></code></pre>
 
-<p>The Array will contain a Hash for each item, with at least a :name and an :id. Some classes provide more summary data for each item. To get just the names or just the ids in an Array, use the .all_names or .all_ids Class method</p>
+<p>The Array will contain a Hash for each item, with at least a :name and an
+:id. Some classes provide more summary data for each item. To get just the
+names or just the ids in an Array, use the .all_names or .all_ids Class
+method</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span> <span class='comment'># =&gt;  [&quot;cephei&quot;, &quot;peterparker&quot;, &quot;rowdy&quot;, ...]
 </span><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span> <span class='comment'># =&gt;  [1122, 1218, 931, ...]
 </span></code></pre>
 
-<p>Some Classes provide other ways to list objects, or subsets of them, depending on the data available, e.g. JSS::MobileDevice.all_udids or JSS::Computer.all_laptops</p>
+<p>Some Classes provide other ways to list objects, or subsets of them,
+depending on the data available, e.g. JSS::MobileDevice.all_udids or
+JSS::Computer.all_laptops</p>
 
-<p>You can also perform simple searches for JSS::Computer, JSS::MobileDevice and JSS::User with the <code>.match</code> class method. This is the API equivalent of using the simple search field at the top of the Computers, Devices, or Users pages in the Jamf Pro Web interface. This method will return an Array of Hashes for the matching items. Each Hash is a summary of info about a matching item, similar to the summaries returned by the <code>.all</code> methods for those items.</p>
+<p>You can also perform simple searches for JSS::Computer, JSS::MobileDevice
+and JSS::User with the <code>.match</code> class method. This is the API
+equivalent of using the simple search field at the top of the Computers,
+Devices, or Users pages in the Jamf Pro Web interface. This method will
+return an Array of Hashes for the matching items. Each Hash is a summary of
+info about a matching item, similar to the summaries returned by the
+<code>.all</code> methods for those items.</p>
 
-<p>To create, modify, or perform advanced searches, use the classes JSS::AdvancedComputerSearch, JSS::AdvancedMobileDeviceSearch, and JSS::AdvancedUserSearch.</p>
+<p>To create, modify, or perform advanced searches, use the classes
+JSS::AdvancedComputerSearch, JSS::AdvancedMobileDeviceSearch, and
+JSS::AdvancedUserSearch.</p>
 <hr>
 
 <h4 id="label-Retrieving+Objects">Retrieving Objects</h4>
 
-<p>To retrieve a single object call the class&#39;s <code>.fetch</code> method and provide a name:, id:, or other valid identifier.</p>
+<p>To retrieve a single object call the class&#39;s <code>.fetch</code> method
+and provide a name:, id:, or other valid identifier.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_a_dept'>a_dept</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Department.html" title="JSS::Department (class)">Department</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="JSS/APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Payroll</span><span class='tstring_end'>&#39;</span></span><span class='comment'># =&gt;  #&lt;JSS::Department:0x10b4c0818...
 </span></code></pre>
 
-<p>Some classes can use more than just the :id and name: keys for lookups, e.g. computers can be looked up with udid:, serial_number:, or mac_address:.</p>
+<p>Some classes can use more than just the :id and name: keys for lookups,
+e.g. computers can be looked up with udid:, serial_number:, or
+mac_address:.</p>
 
-<p>You can even fetch objects without specifying the kind of identifier, e.g. <code>JSS::Computer.fetch &#39;VM3X9483HD78&#39;</code>, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.</p>
+<p>You can even fetch objects without specifying the kind of identifier, e.g.
+<code>JSS::Computer.fetch &#39;VM3X9483HD78&#39;</code>, but this will be
+slower, since ruby-jss searches by matching the given value with all
+available identifiers, returning the first match.</p>
 <hr>
 
 <h4 id="label-Creating+Objects">Creating Objects</h4>
 
-<p>Some Objects can be created anew in the JSS via ruby. To do so, first make a Ruby object using the class&#39;s <code>.make</code> method and providing a unique :name:, e.g.</p>
+<p>Some Objects can be created anew in the JSS via ruby. To do so, first make
+a Ruby object using the class&#39;s <code>.make</code> method and providing
+a unique :name:, e.g.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_new_pkg'>new_pkg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">Package</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make'><span class='object_link'><a href="JSS/APIObject.html#make-class_method" title="JSS::APIObject.make (method)">make</a></span></span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transmogrifier-2.3-1.pkg</span><span class='tstring_end'>&quot;</span></span>
 </code></pre>
 
-<p><em>NOTE</em>: some classes require more data than just a name: when created with .make</p>
+<p><em>NOTE</em>: some classes require more data than just a name: when
+created with .make</p>
 
 <p>Then set the attributes of the new object as needed</p>
 
@@ -244,7 +315,8 @@
 <span class='comment'># etc..
 </span></code></pre>
 
-<p>Then use the #save method to create it in the JSS. The #create method is the same</p>
+<p>Then use the #save method to create it in the JSS. The #create method is
+the same</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_new_pkg'>new_pkg</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span> <span class='comment'># returns 453, the id number of the object just created
 </span></code></pre>
@@ -258,7 +330,8 @@
 <span class='id identifier rubyid_existing_script'>existing_script</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transmogrifier-2.3-1.post-install</span><span class='tstring_end'>&quot;</span></span>
 </code></pre>
 
-<p>After changing any attributes, use the #save method (also aliased to #update) to push the changes to the JSS.</p>
+<p>After changing any attributes, use the #save method (also aliased to
+#update) to push the changes to the JSS.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_existing_script'>existing_script</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span> <span class='comment'>#  =&gt; returns the id number of the object just saved
 </span></code></pre>
@@ -272,20 +345,33 @@
 <span class='id identifier rubyid_existing_script'>existing_script</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='comment'># =&gt; true # the delete was successful
 </span></code></pre>
 
-<p>To delete an object without fetching it, use the class&#39;s .delete method and provide the id, or an array of ids.</p>
+<p>To delete an object without fetching it, use the class&#39;s .delete method
+and provide the id, or an array of ids.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_delete'><span class='object_link'><a href="JSS/APIObject.html#delete-class_method" title="JSS::APIObject.delete (method)">delete</a></span></span> <span class='lbracket'>[</span><span class='int'>321</span><span class='comma'>,</span> <span class='int'>543</span><span class='comma'>,</span> <span class='int'>374</span><span class='rbracket'>]</span>
 </code></pre>
 
-<p>See <a href="http://www.rubydoc.info/gems/ruby-jss/JSS/APIObject">JSS::APIObject</a>, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.</p>
+<p>See <a
+href="http://www.rubydoc.info/gems/ruby-jss/JSS/APIObject">JSS::APIObject</a>,
+the parent class of all API resources, for general information about
+creating, reading, updating/saving, and deleting resources.</p>
 
 <p>See the individual subclasses for any details specific to them.</p>
 
 <h2 id="label-OBJECTS+IMPLEMENTED">OBJECTS IMPLEMENTED</h2>
 
-<p>While the API itself supports nearly full CRUD (Create,Read,Update,Delete) for all objects, ruby-jss doesn&#39;t yet do so. Why? Because implementing the data validation and other parts needed for creating &amp; updating can be time-consuming and we&#39;ve focused on what we needed. As we keep developing ruby-jss, this list changes. If you&#39;d like to help implement some of these objects more fully, please fork the github project and reach out to us at ruby-jss@pixar.com.</p>
+<p>While the API itself supports nearly full CRUD (Create,Read,Update,Delete)
+for all objects, ruby-jss doesn&#39;t yet do so. Why? Because implementing
+the data validation and other parts needed for creating &amp; updating can
+be time-consuming and we&#39;ve focused on what we needed. As we keep
+developing ruby-jss, this list changes. If you&#39;d like to help implement
+some of these objects more fully, please fork the github project and reach
+out to us at ruby-jss@pixar.com.</p>
 
-<p>Here&#39;s what we&#39;ve implemented so far. See each Class&#39;s [documentation(<a href="http://www.rubydoc.info/gems/ruby-jss">www.rubydoc.info/gems/ruby-jss</a>)] for details.</p>
+<p>Here&#39;s what we&#39;ve implemented so far. See each Class&#39;s
+[documentation(<a
+href="http://www.rubydoc.info/gems/ruby-jss">www.rubydoc.info/gems/ruby-jss</a>)]
+for details.</p>
 
 <h3 id="label-Creatable+and+Updatable">Creatable and Updatable</h3>
 <ul><li>
@@ -352,7 +438,8 @@
 <p><span class='object_link'><a href="JSS/WebHook.html" title="JSS::WebHook (class)">JSS::WebHook</a></span></p>
 </li></ul>
 
-<p><strong>NOTE</strong> Most Computer and MobileDevice data gathered by an Inventory Upate (a.k.a. &#39;recon&#39;) is not editable.</p>
+<p><strong>NOTE</strong> Most Computer and MobileDevice data gathered by an
+Inventory Upate (a.k.a. &#39;recon&#39;) is not editable.</p>
 
 <h3 id="label-Updatable-2C+but+must+be+created+in+the+Web+UI">Updatable, but must be created in the Web UI</h3>
 <ul><li>
@@ -387,52 +474,91 @@
 
 <h4 id="label-Other+useful+classes+-26+modules-3A">Other useful classes &amp; modules:</h4>
 <ul><li>
-<p><span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> - An object representing a connection to the Classic API on some server. The &#39;default&#39; connection object is available via <code>JSS.api</code> but you can create others, and pass them into calls like <code>.fetch</code> as needed. This is useful when working with multiple servers at a time, such as a production and a test server. Objects retrieved from a connection know which connection they came from, and will only send changes via that connection.</p>
+<p><span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> - An object representing a connection to the Classic
+API on some server. The &#39;default&#39; connection object is available
+via <code>JSS.api</code> but you can create others, and pass them into
+calls like <code>.fetch</code> as needed. This is useful when working with
+multiple servers at a time, such as a production and a test server. Objects
+retrieved from a connection know which connection they came from, and will
+only send changes via that connection.</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/DBConnection.html" title="JSS::DBConnection (class)">JSS::DBConnection</a></span> - An object representing the connection to MySQL database, if used.</p>
+<p><span class='object_link'><a href="JSS/DBConnection.html" title="JSS::DBConnection (class)">JSS::DBConnection</a></span> - An object representing the connection to MySQL
+database, if used.</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/Server.html" title="JSS::Server (class)">JSS::Server</a></span> - An object representing the Jamf Pro server being used by a connection. An instance is available in the #server attribute of a <span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span>.</p>
+<p><span class='object_link'><a href="JSS/Server.html" title="JSS::Server (class)">JSS::Server</a></span> - An object representing the Jamf Pro server being used by a
+connection. An instance is available in the #server attribute of a
+<span class='object_link'><a href="JSS/APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span>.</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> - An object representing the local machine as a Jamf-managed client, and provifing Jamf-related info and methods</p>
+<p><span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> - An object representing the local machine as a Jamf-managed
+client, and provifing Jamf-related info and methods</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/ManagementHistory.html" title="JSS::ManagementHistory (module)">JSS::ManagementHistory</a></span> - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine&#39;s history. It is accessed via the Computer and MobileDevice classes and their instances.</p>
+<p><span class='object_link'><a href="JSS/ManagementHistory.html" title="JSS::ManagementHistory (module)">JSS::ManagementHistory</a></span> - a module for handing the management history for
+Computers and Mobile Devices. It defines many read-only classes
+representing events in a machine&#39;s history. It is accessed via the
+Computer and MobileDevice classes and their instances.</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/Scopable.html" title="JSS::Scopable (module)">JSS::Scopable</a></span> - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects.</p>
+<p><span class='object_link'><a href="JSS/Scopable.html" title="JSS::Scopable (module)">JSS::Scopable</a></span> - a module that handles Scope for those objects that can be
+scoped. It defines the Scope class used in those objects.</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/MDM.html" title="JSS::MDM (module)">JSS::MDM</a></span> - a module that handles sending MDM commands. It is accessed via the Computer and MobileDevice classes and their instances.</p>
+<p><span class='object_link'><a href="JSS/MDM.html" title="JSS::MDM (module)">JSS::MDM</a></span> - a module that handles sending MDM commands. It is accessed via
+the Computer and MobileDevice classes and their instances.</p>
 </li></ul>
 
 <h2 id="label-Object-related+API+endpoints">Object-related API endpoints</h2>
 
-<p>The classic API provides many endpoints not just for objects stored in Jamf Pro, but also for accessing data <em>about</em> those objects or interacting with the machines they represent. ruby-jss embeds access to those endpoints into their related classes.</p>
+<p>The classic API provides many endpoints not just for objects stored in Jamf
+Pro, but also for accessing data <em>about</em> those objects or
+interacting with the machines they represent. ruby-jss embeds access to
+those endpoints into their related classes.</p>
 
 <p>For example:</p>
 <ul><li>
-<p>/computerapplications, /computerapplicationusage, /computerhardwaresoftwarereports, /computerhistory, etc.</p>
+<p>/computerapplications, /computerapplicationusage,
+/computerhardwaresoftwarereports, /computerhistory, etc.</p>
 </li><li>
-<p>The data provided by these endpoints are accessible via class and instance methods for <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span></p>
+<p>The data provided by these endpoints are accessible via class and instance
+methods for <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span></p>
 </li><li>
 <p>/computercheckin, /computerinventorycollection</p>
 </li><li>
-<p>These endpoints deal with server-wide settings regarding computer management, and are available via <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span> class methods</p>
+<p>These endpoints deal with server-wide settings regarding computer
+management, and are available via <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span> class methods</p>
 </li><li>
 <p>/computercommands, /mobiledevicecommands, /commandflush, etc.</p>
 </li><li>
-<p>These endpoints provide access to the MDM infrastructure, and can be used to send MDM commands. Ruby-jss provides these as class and instance methods in <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span>, <span class='object_link'><a href="JSS/ComputerGroup.html" title="JSS::ComputerGroup (class)">JSS::ComputerGroup</a></span>, <span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span>, and <span class='object_link'><a href="JSS/MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">JSS::MobileDeviceGroup</a></span></p>
+<p>These endpoints provide access to the MDM infrastructure, and can be used
+to send MDM commands. Ruby-jss provides these as class and instance methods
+in <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span>, <span class='object_link'><a href="JSS/ComputerGroup.html" title="JSS::ComputerGroup (class)">JSS::ComputerGroup</a></span>, <span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span>, and
+<span class='object_link'><a href="JSS/MobileDeviceGroup.html" title="JSS::MobileDeviceGroup (class)">JSS::MobileDeviceGroup</a></span></p>
 </li></ul>
 
 <h2 id="label-CONFIGURATION">CONFIGURATION</h2>
 
-<p>The <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> singleton class is used to read, write, and use site-specific defaults for the JSS module. When ruby-jss is required, the single instance of <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> is created and stored in the constant <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. At that time the system-wide file /etc/ruby-jss.conf is examined if it exists, and the items in it are loaded into the attributes of <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. The user-specific file ~/.ruby-hss.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.</p>
+<p>The <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> singleton class is used to read, write, and use
+site-specific defaults for the JSS module. When ruby-jss is required, the
+single instance of <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> is created and stored in the
+constant <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. At that time the system-wide file
+/etc/ruby-jss.conf is examined if it exists, and the items in it are loaded
+into the attributes of <span class='object_link'><a href="JSS.html#CONFIG-constant" title="JSS::CONFIG (constant)">JSS::CONFIG</a></span>. The user-specific file
+~/.ruby-hss.conf then is examined if it exists, and any items defined there
+will override those values from the system-wide file.</p>
 
-<p>The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling <span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">JSS::APIConnection#connect</a></span>. Values provided explicitly when calling JSS::APIConnection#connect will override the config values.</p>
+<p>The values defined in those files are used as defaults throughout the
+module. Currently, those values are only related to establishing the API
+connection. For example, if a server name is defined, then a :server does
+not have to be specified when calling <span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">JSS::APIConnection#connect</a></span>. Values
+provided explicitly when calling JSS::APIConnection#connect will override
+the config values.</p>
 
-<p>While the <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> class provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:</p>
+<p>While the <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> class provides methods for changing the
+values, saving the files, and re-reading them, or reading an arbitrary
+file, the files are text files with a simple format, and can be created by
+any means desired. The file format is one attribute per line, thus:</p>
 
-<pre class="code ruby"><code class="ruby">attr_name: value
-</code></pre>
+<pre class="code ruby"><code class="ruby">attr_name: value</code></pre>
 
-<p>Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.</p>
+<p>Lines that don’t start with a known attribute name followed by a colon are
+ignored. If an attribute is defined more than once, the last one wins.</p>
 
 <p>The currently known attributes are:</p>
 <ul><li>
@@ -440,31 +566,42 @@
 </li><li>
 <p>api_server_port [Integer] the port number for the API connection</p>
 </li><li>
-<p>api_verify_cert [Boolean] &#39;true&#39; or &#39;false&#39; - if SSL is used, should the certificate be verified? (usually false for a self-signed cert)</p>
+<p>api_verify_cert [Boolean] &#39;true&#39; or &#39;false&#39; - if SSL is
+used, should the certificate be verified? (usually false for a self-signed
+cert)</p>
 </li><li>
 <p>api_username [String] the JSS username for connecting to the API</p>
 </li><li>
-<p>api_timeout_open [Integer] the number of seconds for the open-connection timeout</p>
+<p>api_timeout_open [Integer] the number of seconds for the open-connection
+timeout</p>
 </li><li>
 <p>api_timeout [Integer] the number of seconds for the response timeout</p>
 </li></ul>
 
-<p>To put a standard server &amp; username on all client machines, and auto-accept the JSS&#39;s self-signed https certificate, create the file /etc/ruby-jss.conf containing three lines like this:</p>
+<p>To put a standard server &amp; username on all client machines, and
+auto-accept the JSS&#39;s self-signed https certificate, create the file
+/etc/ruby-jss.conf containing three lines like this:</p>
 
 <pre class="code ruby"><code class="ruby">api_server_name: jamfpro.myschool.edu
 api_username: readonly-api-user
-api_verify_cert: false
-</code></pre>
+api_verify_cert: false</code></pre>
 
-<p>and then any calls to JSS.api.connect will assume that server and username, and won&#39;t complain about the self-signed certificate.</p>
+<p>and then any calls to JSS.api.connect will assume that server and username,
+and won&#39;t complain about the self-signed certificate.</p>
 
 <h3 id="label-Passwords">Passwords</h3>
 
-<p>The config files don&#39;t store passwords and the <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span> instance doesn&#39;t work with them. You&#39;ll have to use your own methods for acquiring the password for the JSS.api.connect call.</p>
+<p>The config files don&#39;t store passwords and the <span class='object_link'><a href="JSS/Configuration.html" title="JSS::Configuration (class)">JSS::Configuration</a></span>
+instance doesn&#39;t work with them. You&#39;ll have to use your own
+methods for acquiring the password for the JSS.api.connect call.</p>
 
-<p>The <span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">JSS::APIConnection#connect</a></span> method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.</p>
+<p>The <span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">JSS::APIConnection#connect</a></span> method also accepts the symbols :stdin#
+and :prompt as values for the :pw argument, which will cause it to read the
+password from a line of stdin, or prompt for it in the shell.</p>
 
-<p>If you must store a password in a file, or retrieve it from the network, make sure it&#39;s stored securely, and that the JSS user has limited permissions.</p>
+<p>If you must store a password in a file, or retrieve it from the network,
+make sure it&#39;s stored securely, and that the JSS user has limited
+permissions.</p>
 
 <p>Here&#39;s an example of how to use a password stored in a file:</p>
 
@@ -472,7 +609,8 @@ api_verify_cert: false
 </span><span class='const'><span class='object_link'><a href="JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="JSS/APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">connect</a></span></span> <span class='label'>pw:</span> <span class='id identifier rubyid_password'>password</span>   <span class='comment'># other arguments used from the config settings
 </span></code></pre>
 
-<p>And here&#39;s an example of how to read a password from a web server and use it.</p>
+<p>And here&#39;s an example of how to read a password from a web server and
+use it.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>open-uri</span><span class='tstring_end'>&#39;</span></span>
 <span class='id identifier rubyid_password'>password</span> <span class='op'>=</span>  <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://server.org.org/path/to/password</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
@@ -481,15 +619,20 @@ api_verify_cert: false
 
 <h2 id="label-BEYOND+THE+API">BEYOND THE API</h2>
 
-<p>While the Jamf Pro Classic API provides access to object data in the JSS, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss uses the API to provide functionality found in various Jamf tools:</p>
+<p>While the Jamf Pro Classic API provides access to object data in the JSS,
+ruby-jss tries to use that data to provide more than just information
+exchange. Here are some examples of how ruby-jss uses the API to provide
+functionality found in various Jamf tools:</p>
 <ul><li>
 <p>Client Machine Access</p>
 </li><li>
-<p>The <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> module provides the ability to run jamf binary commands, and access the local cache of package receipts</p>
+<p>The <span class='object_link'><a href="JSS/Client.html" title="JSS::Client (class)">JSS::Client</a></span> module provides the ability to run jamf binary commands,
+and access the local cache of package receipts</p>
 </li><li>
 <p>Package Installation</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can be installed on the local machine, from the appropriate distribution point</p>
+<p><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can be installed on the local machine, from the
+appropriate distribution point</p>
 </li><li>
 <p>Script Execution</p>
 </li><li>
@@ -497,26 +640,33 @@ api_verify_cert: false
 </li><li>
 <p>Package Creation</p>
 </li><li>
-<p>The <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">JSS::Composer</a></span> module provides creation of very simple .pkg and .dmg packages</p>
+<p>The <span class='object_link'><a href="JSS/Composer.html" title="JSS::Composer (module)">JSS::Composer</a></span> module provides creation of very simple .pkg and .dmg
+packages</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can upload their .pkg or .dmg files to the master distribution point (<span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">JSS::Script</a></span> objects can also if you store them there.)</p>
+<p><span class='object_link'><a href="JSS/Package.html" title="JSS::Package (class)">JSS::Package</a></span> objects can upload their .pkg or .dmg files to the master
+distribution point (<span class='object_link'><a href="JSS/Script.html" title="JSS::Script (class)">JSS::Script</a></span> objects can also if you store them
+there.)</p>
 </li><li>
 <p>Reporting/AdvancedSearch exporting</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses can export their results to csv, tab, and xml files.</p>
+<p><span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses can export their results to csv, tab, and
+xml files.</p>
 </li><li>
 <p>MDM Commands</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span>s (and eventually <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span>s) can be sent MDM commands</p>
+<p><span class='object_link'><a href="JSS/MobileDevice.html" title="JSS::MobileDevice (class)">JSS::MobileDevice</a></span>s (and eventually <span class='object_link'><a href="JSS/Computer.html" title="JSS::Computer (class)">JSS::Computer</a></span>s) can be sent MDM
+commands</p>
 </li><li>
 <p>Extension Attributes</p>
 </li><li>
-<p><span class='object_link'><a href="JSS/ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">JSS::ExtensionAttribute</a></span> work with <span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses to provide extra reporting about Ext. Attrib. values.</p>
+<p><span class='object_link'><a href="JSS/ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">JSS::ExtensionAttribute</a></span> work with <span class='object_link'><a href="JSS/AdvancedSearch.html" title="JSS::AdvancedSearch (class)">JSS::AdvancedSearch</a></span> subclasses to
+provide extra reporting about Ext. Attrib. values.</p>
 </li></ul>
 
 <h2 id="label-INSTALL">INSTALL</h2>
 
-<p>NOTE: You may need to install XCode, or it&#39;s CLI tools, in order to install the required gems.</p>
+<p>NOTE: You may need to install XCode, or it&#39;s CLI tools, in order to
+install the required gems.</p>
 
 <p>In general, you can install ruby-jss with this command:</p>
 
@@ -533,29 +683,36 @@ api_verify_cert: false
 <p>Casper Suite version 10.4 or higher</p>
 </li></ul>
 
-<p>It also requires other ruby gems, which will be installed automatically if you install with <code>gem install ruby-jss</code> See the .gemspec file for details</p>
+<p>It also requires other ruby gems, which will be installed automatically if
+you install with <code>gem install ruby-jss</code> See the .gemspec file
+for details</p>
 
 <h2 id="label-HELP">HELP</h2>
 
-<p>Full documentation is available at <a href="http://www.rubydoc.info/gems/ruby-jss/">rubydoc.info</a>.</p>
+<p>Full documentation is available at <a
+href="http://www.rubydoc.info/gems/ruby-jss/">rubydoc.info</a>.</p>
 
-<p>There&#39;s a <a href="https://github.com/PixarAnimationStudios/ruby-jss/wiki">wiki on the github page</a>, feel free to contribute examples and tidbits.</p>
+<p>There&#39;s a <a
+href="https://github.com/PixarAnimationStudios/ruby-jss/wiki">wiki on the
+github page</a>, feel free to contribute examples and tidbits.</p>
 
 <p><a href="mailto:ruby-jss@pixar.com">Email the developers</a></p>
 
-<p><a href="https://macadmins.slack.com/messages/#jss-api/">Macadmins Slack Channel</a></p>
+<p><a href="https://macadmins.slack.com/messages/#jss-api/">Macadmins Slack
+Channel</a></p>
 
 <h2 id="label-LICENSE">LICENSE</h2>
 
-<p>Copyright 2019 Pixar</p>
+<p>Copyright 2020 Pixar</p>
 
-<p>Licensed under the Apache License, Version 2.0 (the “Apache License”) with modifications. See LICENSE.txt for details</p>
+<p>Licensed under the Apache License, Version 2.0 (the “Apache License”) with
+modifications. See LICENSE.txt for details</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:49 2020 by
+  Generated on Fri Aug  7 11:26:15 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

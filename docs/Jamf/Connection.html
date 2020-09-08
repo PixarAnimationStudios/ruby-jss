@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::Connection
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::Connection";
   relpath = '../';
 </script>
@@ -112,8 +112,7 @@
 - no xml
 - tokens &amp; keep_alive
 - no object class method wrappers in connection objects,
-  only passing connection objects into the class methods
-</code></pre>
+  only passing connection objects into the class methods</code></pre>
 
 
   </div>
@@ -156,7 +155,7 @@
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uapi</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
-        <dt id="MIN_API_VERSION-constant" class="">MIN_API_VERSION =
+        <dt id="MIN_JAMF_VERSION-constant" class="">MIN_JAMF_VERSION =
           <div class="docstring">
   <div class="discussion">
     
@@ -170,7 +169,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.0</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></pre></dd>
+        <dd><pre class="code"><span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.15.0</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></pre></dd>
       
         <dt id="HTTPS_SCHEME-constant" class="">HTTPS_SCHEME =
           
@@ -309,7 +308,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>refresh token if less than this many seconds until expiration. Default is 5 minutes if not specified</p>
+<p>refresh token if less than this many seconds until expiration. Default is 5
+minutes if not specified</p>
 
 
   </div>
@@ -360,7 +360,7 @@
         <dt id="VALID_URL_REGEX-constant" class="">VALID_URL_REGEX =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A</span><span class='embexpr_beg'>#{</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_regexp'>regexp</span><span class='lparen'>(</span><span class='qwords_beg'>%w[</span><span class='tstring_content'>https</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A</span><span class='embexpr_beg'>#{</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_regexp'>regexp</span><span class='lparen'>(</span><span class='qwords_beg'>%w[</span><span class='tstring_content'>https</span><span class='words_sep'>]</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>\z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="NOT_CONNECTED-constant" class="">NOT_CONNECTED =
           
@@ -371,7 +371,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Only these variables are displayed with PrettyPrint This avoids, especially, the caches, which are available as attr_readers</p>
+<p>Only these variables are displayed with PrettyPrint This avoids,
+especially, the caches, which are available as attr_readers</p>
 
 
   </div>
@@ -381,19 +382,20 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
-  </span><span class='tstring_content'>@name</span><span class='words_sep'>
-  </span><span class='tstring_content'>@connected</span><span class='words_sep'>
-  </span><span class='tstring_content'>@host</span><span class='words_sep'>
-  </span><span class='tstring_content'>@port</span><span class='words_sep'>
-  </span><span class='tstring_content'>@user</span><span class='words_sep'>
-  </span><span class='tstring_content'>@base_url</span><span class='words_sep'>
-  </span><span class='tstring_content'>@ssl_options</span><span class='words_sep'>
-  </span><span class='tstring_content'>@open_timeout</span><span class='words_sep'>
-  </span><span class='tstring_content'>@timeout</span><span class='words_sep'>
-  </span><span class='tstring_content'>@login_time</span><span class='words_sep'>
-  </span><span class='tstring_content'>@keep_alive</span><span class='words_sep'>
-  </span><span class='tstring_content'>@token_refresh</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[
+</span><span class='tstring_content'>  @name</span><span class='words_sep'>
+</span><span class='tstring_content'>  @connected</span><span class='words_sep'>
+</span><span class='tstring_content'>  @host</span><span class='words_sep'>
+</span><span class='tstring_content'>  @port</span><span class='words_sep'>
+</span><span class='tstring_content'>  @user</span><span class='words_sep'>
+</span><span class='tstring_content'>  @base_url</span><span class='words_sep'>
+</span><span class='tstring_content'>  @ssl_options</span><span class='words_sep'>
+</span><span class='tstring_content'>  @open_timeout</span><span class='words_sep'>
+</span><span class='tstring_content'>  @timeout</span><span class='words_sep'>
+</span><span class='tstring_content'>  @login_time</span><span class='words_sep'>
+</span><span class='tstring_content'>  @keep_alive</span><span class='words_sep'>
+</span><span class='tstring_content'>  @token_refresh</span><span class='words_sep'>
+</span><span class='tstring_content'>  @pw_fallback</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
@@ -455,7 +457,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This Hash holds the most recent API data (an Array of Hashes) for the list of all items in a CollectionResource subclass, keyed by the subclass itself.</p>
+<p>This Hash holds the most recent API data (an Array of Hashes) for the list
+of all items in a CollectionResource subclass, keyed by the subclass
+itself.</p>
 </div></span>
   
 </li>
@@ -513,7 +517,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This hash holds ExtensionAttribute instances, which are used for validating values passed to Extendable.set_ext_attr.</p>
+<p>This hash holds ExtensionAttribute instances, which are used for validating
+values passed to Extendable.set_ext_attr.</p>
 </div></span>
   
 </li>
@@ -659,6 +664,35 @@
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#pw_fallback-instance_method" title="#pw_fallback (instance method)">#<strong>pw_fallback</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>with the passwd used with .connect.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#rest_cnx-instance_method" title="#rest_cnx (instance method)">#<strong>rest_cnx</strong>  &#x21d2; RestClient::Resource </a>
     
 
@@ -708,7 +742,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This Hash holds the most recently fetched instance of a SingletonResource subclass, keyed by the subclass itself.</p>
+<p>This Hash holds the most recently fetched instance of a SingletonResource
+subclass, keyed by the subclass itself.</p>
 </div></span>
   
 </li>
@@ -838,28 +873,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#api_version-instance_method" title="#api_version (instance method)">#<strong>api_version</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#connect-instance_method" title="#connect (instance method)">#<strong>connect</strong>(url = nil, **params)  &#x21d2; Object </a>
     
 
@@ -921,7 +934,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>connect.</p>
+<p>reset all values to nil or empty.</p>
 </div></span>
   
 </li>
@@ -945,7 +958,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday connection object.</p>
+<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday
+connection object.</p>
 </div></span>
   
 </li>
@@ -969,7 +983,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Flush the collection and/or ea cache for the given class, or all cached data.</p>
+<p>Flush the collection and/or ea cache for the given class, or all cached
+data.</p>
 </div></span>
   
 </li>
@@ -992,7 +1007,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Get a resource.</p>
+</div></span>
   
 </li>
 
@@ -1019,6 +1036,50 @@
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of Connection.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_build-instance_method" title="#jamf_build (instance method)">#<strong>jamf_build</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_version-instance_method" title="#jamf_version (instance method)">#<strong>jamf_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -1089,7 +1150,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Same as disconnect, but invalidates the token.</p>
+<p>Same as disconnect, but invalidates the token on the server first.</p>
 </div></span>
   
 </li>
@@ -1179,7 +1240,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove large cached items from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove large cached items from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -1295,7 +1357,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Connection.</p>
+<p>Returns a new instance of Connection</p>
 
 
   </div>
@@ -1316,19 +1378,19 @@
       <pre class="lines">
 
 
-183
-184
-185
-186
-187
 188
 189
 190
 191
-192</pre>
+192
+193
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:name</span>
@@ -1389,12 +1451,12 @@
       <pre class="lines">
 
 
-141
 142
-143</pre>
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_base_url'>base_url</span>
   <span class='ivar'>@base_url</span>
@@ -1418,7 +1480,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This Hash holds the most recent API data (an Array of Hashes) for the list of all items in a CollectionResource subclass, keyed by the subclass itself.</p>
+<p>This Hash holds the most recent API data (an Array of Hashes) for the list
+of all items in a CollectionResource subclass, keyed by the subclass
+itself.</p>
 
 <p>CollectionResource.all return the appropriate data from here, if it exists,</p>
 
@@ -1449,12 +1513,12 @@
       <pre class="lines">
 
 
-169
-170
-171</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_collection_cache'>collection_cache</span>
   <span class='ivar'>@collection_cache</span>
@@ -1507,12 +1571,12 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connected'>connected</span>
   <span class='ivar'>@connected</span>
@@ -1536,7 +1600,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This hash holds ExtensionAttribute instances, which are used for validating values passed to Extendable.set_ext_attr.</p>
+<p>This hash holds ExtensionAttribute instances, which are used for validating
+values passed to Extendable.set_ext_attr.</p>
 
 
   </div>
@@ -1563,12 +1628,12 @@
       <pre class="lines">
 
 
-174
-175
-176</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ext_attr_cache'>ext_attr_cache</span>
   <span class='ivar'>@ext_attr_cache</span>
@@ -1617,12 +1682,12 @@
       <pre class="lines">
 
 
-123
 124
-125</pre>
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -1678,12 +1743,12 @@
       <pre class="lines">
 
 
-177
-178
-179</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_http_response'>last_http_response</span>
   <span class='ivar'>@last_http_response</span>
@@ -1721,12 +1786,12 @@
       <pre class="lines">
 
 
-151
-152
-153</pre>
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_login_time'>login_time</span>
   <span class='ivar'>@login_time</span>
@@ -1775,12 +1840,12 @@
       <pre class="lines">
 
 
-120
 121
-122</pre>
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
@@ -1829,15 +1894,76 @@
       <pre class="lines">
 
 
-126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="pw_fallback-instance_method">
+  
+    #<strong>pw_fallback</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>with the passwd used with .connect. Defaults to true</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if token refresh/keepaliave fails, try to get a new one</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pw_fallback'>pw_fallback</span>
+  <span class='ivar'>@pw_fallback</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1858,7 +1984,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the underlying rest resource.</p>
+<p>Returns the underlying rest resource</p>
 
 
   </div>
@@ -1890,12 +2016,12 @@
       <pre class="lines">
 
 
-148
-149
-150</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rest_cnx'>rest_cnx</span>
   <span class='ivar'>@rest_cnx</span>
@@ -1919,9 +2045,11 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This Hash holds the most recently fetched instance of a SingletonResource subclass, keyed by the subclass itself.</p>
+<p>This Hash holds the most recently fetched instance of a SingletonResource
+subclass, keyed by the subclass itself.</p>
 
-<p>SingletonResource.fetch will return the instance from here, if it exists, unless the first parameter is truthy.</p>
+<p>SingletonResource.fetch will return the instance from here, if it exists,
+unless the first parameter is truthy.</p>
 
 
   </div>
@@ -1948,12 +2076,12 @@
       <pre class="lines">
 
 
-160
-161
-162</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_singleton_cache'>singleton_cache</span>
   <span class='ivar'>@singleton_cache</span>
@@ -2002,12 +2130,12 @@
       <pre class="lines">
 
 
-132
 133
-134</pre>
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_timeout'>timeout</span>
   <span class='ivar'>@timeout</span>
@@ -2056,12 +2184,12 @@
       <pre class="lines">
 
 
-135
 136
-137</pre>
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_token'>token</span>
   <span class='ivar'>@token</span>
@@ -2085,7 +2213,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Refresh the token this many seconds before it expires.</p>
+<p>Returns Refresh the token this many seconds before it expires</p>
 
 
   </div>
@@ -2117,12 +2245,12 @@
       <pre class="lines">
 
 
-138
 139
-140</pre>
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_token_refresh'>token_refresh</span>
   <span class='ivar'>@token_refresh</span>
@@ -2171,12 +2299,12 @@
       <pre class="lines">
 
 
-129
 130
-131</pre>
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
   <span class='ivar'>@user</span>
@@ -2194,37 +2322,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="api_version-instance_method">
-  
-    #<strong>api_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-464
-465
-466</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 464</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_api_version'>api_version</span>
-  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_api_version'>api_version</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="connect-instance_method">
+  <h3 class="signature first" id="connect-instance_method">
   
     #<strong>connect</strong>(url = nil, **params)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
   
@@ -2237,7 +2335,8 @@
     
 <p>Connect this Connection object to an Jamf Pro API</p>
 
-<p>The first parameter may be a URL (must be https) from which the host &amp; port will be used, and if present, the user and password E.g.</p>
+<p>The first parameter may be a URL (must be https) from which the host &amp;
+port will be used, and if present, the user and password E.g.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_connect'>connect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://myuser:pass@host.domain.edu:8443</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
@@ -2247,27 +2346,38 @@
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_connect'>connect</span> <span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>host.domain.edu</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>8443</span><span class='comma'>,</span> <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>myuser</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>pw:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pass</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
-<p>When using a URL, other parameters below may be specified, however host: and port: parameters will be ignored, since they came from the URL, as will user: and :pw, if they are present in the URL. If the URL doesn&#39;t contain user and pw, they can be provided via the parameters, or left to default values.</p>
+<p>When using a URL, other parameters below may be specified, however host:
+and port: parameters will be ignored, since they came from the URL, as will
+user: and :pw, if they are present in the URL. If the URL doesn&#39;t
+contain user and pw, they can be provided via the parameters, or left to
+default values.</p>
 
-<p>### Passwords The pw: parameter also accepts the symbols :prompt, and :<a href="X">stdin</a></p>
+<p>### Passwords The pw: parameter also accepts the symbols :prompt, and :<a
+href="X">stdin</a></p>
 
-<p>If :prompt, the user is promted on the commandline to enter the password for the :user.</p>
+<p>If :prompt, the user is promted on the commandline to enter the password
+for the :user.</p>
 
 <p>If :stdin the password is read from the first line of stdin</p>
 
-<p>If :stdinX (where X is an integer) the password is read from the Xth line of stdin.see <span class='object_link'><a href="../Jamf.html#stdin-class_method" title="Jamf.stdin (method)">Jamf.stdin</a></span></p>
+<p>If :stdinX (where X is an integer) the password is read from the Xth line
+of stdin.see <span class='object_link'><a href="../Jamf.html#stdin-class_method" title="Jamf.stdin (method)">Jamf.stdin</a></span></p>
 
-<p>If omitted, and running from an interactive terminal, the user is prompted as with :prompt</p>
+<p>If omitted, and running from an interactive terminal, the user is prompted
+as with :prompt</p>
 
-<p>### Tokens Instead of a user and password, you may specify a valid &#39;token:&#39;, either:</p>
+<p>### Tokens Instead of a user and password, you may specify a valid
+&#39;token:&#39;, either:</p>
 
-<p>A Jamf::Connection::Token object, which  can be extracted from an active Jamf::Connection via its #token method</p>
+<p>A Jamf::Connection::Token object, which can be extracted from an active
+Jamf::Connection via its #token method</p>
 
 <p>or</p>
 
 <p>A token string e.g. “eyJhdXR…6EKoo” from any source can also be used.</p>
 
-<p>Any values available via Jamf.config will be used if they are not provided in the parameters.</p>
+<p>Any values available via Jamf.config will be used if they are not provided
+in the parameters.</p>
 
 
   </div>
@@ -2303,7 +2413,9 @@
       
         &mdash;
         <div class='inline'>
-<p>The API server port. If omitted, the value from Jamf.config will be used. If no config value, defaults to 443 if the host ends with &#39;jamfcloud.com&#39; or 8443 otherwise</p>
+<p>The API server port. If omitted, the value from Jamf.config will be used.
+If no config value, defaults to 443 if the host ends with
+&#39;jamfcloud.com&#39; or 8443 otherwise</p>
 </div>
       
     </li>
@@ -2351,7 +2463,28 @@
       
         &mdash;
         <div class='inline'>
-<p>An existing, valid token. When used, there&#39;s no need to provide user: or pw:.</p>
+<p>An existing, valid token. When used, there&#39;s no need to provide user:
+or pw:. NOTE if using pw_fallback:true (the default) while providing a
+token you will also need to provide the password for the token user in the
+pw: parameter, or be prompted for it. If you don&#39;t have the pw for the
+token user, be sure to set pw_fallback to false.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>token_refresh:</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Refresh the token this many seconds before it expires. Must be &gt;=
+DFT_TOKEN_REFRESH</p>
 </div>
       
     </li>
@@ -2415,7 +2548,9 @@
       
         &mdash;
         <div class='inline'>
-<p>Should the SSL certificate be verified? Default is true, should only be set to false if using a on-prem server with a self-signed certificate, which is rare</p>
+<p>Should the SSL certificate be verified? Default is true, should only be set
+to false if using a on-prem server with a self-signed certificate, which is
+rare</p>
 </div>
       
     </li>
@@ -2429,23 +2564,6 @@
       <pre class="lines">
 
 
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
 284
 285
 286
@@ -2478,16 +2596,41 @@
 313
 314
 315
-316</pre>
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 267</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 284</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='comment'># This sets all the instance vars to nil, and flushes/creates the caches
 </span>  <span class='id identifier rubyid_disconnect'>disconnect</span>
 
-  <span class='comment'># This sets @token, and adds host, port, user to params from a Token object
+  <span class='comment'># If there&#39;s a Token object in :token, this sets @token,
+</span>  <span class='comment'># and adds host, port, user from that token
 </span>  <span class='id identifier rubyid_parse_token'>parse_token</span> <span class='id identifier rubyid_params'>params</span>
 
   <span class='comment'># Get host, port, user and pw from a URL, add to params if needed
@@ -2496,7 +2639,9 @@
   <span class='comment'># apply defaults from config, client, and then this class.
 </span>  <span class='id identifier rubyid_apply_connection_defaults'>apply_connection_defaults</span> <span class='id identifier rubyid_params'>params</span>
 
-  <span class='comment'># make sure we have the minimum needed params for a connection
+  <span class='comment'># Once we&#39;re here, all params have been parsed &amp; defaulted into the
+</span>  <span class='comment'># params hash, so
+</span>  <span class='comment'># make sure we have the minimum needed params for a connection
 </span>  <span class='id identifier rubyid_verify_basic_params'>verify_basic_params</span> <span class='id identifier rubyid_params'>params</span>
 
   <span class='comment'># turn the params into instance vars
@@ -2504,15 +2649,20 @@
 
   <span class='comment'># if no @token already, get one from from
 </span>  <span class='comment'># either a token string or a pw
-</span>  <span class='ivar'>@token</span> <span class='op'>||=</span>
+</span>  <span class='kw'>unless</span> <span class='ivar'>@token</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
-      <span class='id identifier rubyid_tk'>tk</span> <span class='op'>=</span> <span class='id identifier rubyid_token_from'>token_from</span> <span class='symbol'>:token_string</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span>
+      <span class='ivar'>@token</span> <span class='op'>=</span> <span class='id identifier rubyid_token_from'>token_from</span> <span class='symbol'>:token_string</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span>
       <span class='comment'># get the user from the token
-</span>      <span class='ivar'>@user</span> <span class='op'>=</span> <span class='id identifier rubyid_tk'>tk</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span>
-      <span class='id identifier rubyid_tk'>tk</span>
+</span>      <span class='ivar'>@user</span> <span class='op'>=</span> <span class='ivar'>@toke</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span>
+      <span class='comment'># if @pw_fallback, the pw must be acquired, since it isn&#39;t in
+</span>      <span class='comment'># the token
+</span>      <span class='ivar'>@pw</span> <span class='op'>=</span> <span class='id identifier rubyid_acquire_password'>acquire_password</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:pw</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@pw_fallback</span>
     <span class='kw'>else</span>
-      <span class='id identifier rubyid_token_from'>token_from</span> <span class='symbol'>:pw</span><span class='comma'>,</span> <span class='id identifier rubyid_acquire_password'>acquire_password</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:pw</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='id identifier rubyid_acquire_password'>acquire_password</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:pw</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='ivar'>@token</span> <span class='op'>=</span> <span class='id identifier rubyid_token_from'>token_from</span> <span class='symbol'>:pw</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span>
+      <span class='ivar'>@pw</span> <span class='op'>=</span> <span class='id identifier rubyid_pw'>pw</span> <span class='kw'>if</span> <span class='ivar'>@pw_fallback</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 
   <span class='comment'># Now get some values from our token
 </span>  <span class='ivar'>@base_url</span> <span class='op'>=</span> <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_base_url'>base_url</span>
@@ -2522,13 +2672,12 @@
 </span>  <span class='ivar'>@rest_cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_create_connection'>create_connection</span>
 
   <span class='comment'># make sure versions are good
-</span>  <span class='id identifier rubyid_validate_api_version'>validate_api_version</span>
+</span>  <span class='id identifier rubyid_validate_jamf_version'>validate_jamf_version</span>
 
   <span class='ivar'>@connected</span> <span class='op'>=</span> <span class='kw'>true</span>
 
   <span class='comment'># start keepalive if needed
-</span>  <span class='ivar'>@keep_alive</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:keep_alive</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='kw'>false</span> <span class='op'>:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:keep_alive</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_start_keep_alive'>start_keep_alive</span> <span class='kw'>if</span> <span class='ivar'>@keep_alive</span>
+</span>  <span class='id identifier rubyid_start_keep_alive'>start_keep_alive</span> <span class='kw'>if</span> <span class='ivar'>@keep_alive</span>
 
   <span class='comment'># return our string output
 </span>  <span class='id identifier rubyid_to_s'>to_s</span>
@@ -2575,17 +2724,17 @@
       <pre class="lines">
 
 
-396
-397
-398
-399
-400
-401
-402
-403</pre>
+427
+428
+429
+430
+431
+432
+433
+434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 396</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 427</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_connected'>validate_connected</span>
@@ -2612,7 +2761,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>connect</p>
+<p>reset all values to nil or empty</p>
 
 
   </div>
@@ -2626,43 +2775,53 @@
       <pre class="lines">
 
 
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335</pre>
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 318</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disconnect'>disconnect</span>
-  <span class='comment'># reset everything except the timeouts
-</span>  <span class='id identifier rubyid_stop_keep_alive'>stop_keep_alive</span>
-
   <span class='ivar'>@connected</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#NOT_CONNECTED-constant" title="Jamf::Connection::NOT_CONNECTED (constant)">NOT_CONNECTED</a></span></span>
   <span class='ivar'>@login_time</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+  <span class='id identifier rubyid_stop_keep_alive'>stop_keep_alive</span>
+
   <span class='ivar'>@host</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@port</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@user</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='ivar'>@token</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@timeout</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@open_timeout</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@base_url</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@token</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@rest_cnx</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@ssl_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@keep_alive</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@token_refresh</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@pw_fallback</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@pw</span> <span class='op'>=</span> <span class='kw'>nil</span>
 
   <span class='id identifier rubyid_flushcache'>flushcache</span>
 <span class='kw'>end</span></pre>
@@ -2683,7 +2842,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday connection object</p>
+<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday
+connection object</p>
 
 
   </div>
@@ -2710,17 +2870,17 @@
       <pre class="lines">
 
 
-354
-355
-356
-357
-358
-359
-360
-361</pre>
+385
+386
+387
+388
+389
+390
+391
+392</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 385</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_temp_cnx'>temp_cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_create_connection'>create_connection</span><span class='lparen'>(</span><span class='kw'>false</span><span class='rparen'>)</span>
@@ -2747,7 +2907,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Flush the collection and/or ea cache for the given class, or all cached data</p>
+<p>Flush the collection and/or ea cache for the given class, or all cached
+data</p>
 
 
   </div>
@@ -2783,20 +2944,20 @@
       <pre class="lines">
 
 
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484</pre>
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 474</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 511</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flushcache'>flushcache</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_klass'>klass</span>
@@ -2826,6 +2987,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Get a resource</p>
+
 
   </div>
 </div>
@@ -2851,17 +3014,17 @@
       <pre class="lines">
 
 
-343
-344
-345
-346
-347
-348
-349
-350</pre>
+374
+375
+376
+377
+378
+379
+380
+381</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 343</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 374</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_connected'>validate_connected</span>
@@ -2870,6 +3033,66 @@
   <span class='kw'>return</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span> <span class='kw'>if</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
 
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Jamf::Connection (class)">Connection</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Connection/APIError.html" title="Jamf::Connection::APIError (class)">APIError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_resp'>resp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_build-instance_method">
+  
+    #<strong>jamf_build</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+501
+502
+503</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 501</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_jamf_build'>jamf_build</span>
+  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_jamf_build'>jamf_build</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_version-instance_method">
+  
+    #<strong>jamf_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+497
+498
+499</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 497</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_jamf_version'>jamf_version</span>
+  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_jamf_version'>jamf_version</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2902,12 +3125,12 @@
       <pre class="lines">
 
 
-452
-453
-454</pre>
+485
+486
+487</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 452</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_keep_alive='>keep_alive=</span><span class='lparen'>(</span><span class='id identifier rubyid_bool'>bool</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bool'>bool</span> <span class='op'>?</span> <span class='id identifier rubyid_start_keep_alive'>start_keep_alive</span> <span class='op'>:</span> <span class='id identifier rubyid_stop_keep_alive'>stop_keep_alive</span>
@@ -2956,15 +3179,19 @@
       <pre class="lines">
 
 
-425
-426
-427</pre>
+456
+457
+458
+459
+460</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 456</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_keep_alive?'>keep_alive?</span>
-  <span class='ivar'>@keep_alive_thread</span><span class='op'>&amp;.</span><span class='id identifier rubyid_alive?'>alive?</span> <span class='op'>||</span> <span class='kw'>false</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='ivar'>@keep_alive_thread</span>
+
+  <span class='ivar'>@keep_alive_thread</span><span class='period'>.</span><span class='id identifier rubyid_alive?'>alive?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2983,7 +3210,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Same as disconnect, but invalidates the token</p>
+<p>Same as disconnect, but invalidates the token on the server first</p>
 
 
   </div>
@@ -2997,13 +3224,13 @@
       <pre class="lines">
 
 
-338
-339
-340
-341</pre>
+368
+369
+370
+371</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 368</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_logout'>logout</span>
   <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_destroy'>destroy</span>
@@ -3051,14 +3278,14 @@
       <pre class="lines">
 
 
-430
-431
-432
-433
-434</pre>
+463
+464
+465
+466
+467</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 430</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 463</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_next_refresh'>next_refresh</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_keep_alive?'>keep_alive?</span>
@@ -3107,19 +3334,19 @@
       <pre class="lines">
 
 
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394</pre>
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 385</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 416</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_patch'>patch</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_connected'>validate_connected</span>
@@ -3173,19 +3400,19 @@
       <pre class="lines">
 
 
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372</pre>
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 394</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_connected'>validate_connected</span>
@@ -3214,7 +3441,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove large cached items from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove large cached items from the instance_variables used to create
+pretty-print (pp) output.</p>
 
 
   </div>
@@ -3246,12 +3474,12 @@
       <pre class="lines">
 
 
-492
-493
-494</pre>
+529
+530
+531</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 492</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 529</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='const'><span class='object_link'><a href="#PP_VARS-constant" title="Jamf::Connection::PP_VARS (constant)">PP_VARS</a></span></span>
@@ -3298,19 +3526,19 @@
       <pre class="lines">
 
 
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383</pre>
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 374</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 405</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put'>put</span><span class='lparen'>(</span><span class='id identifier rubyid_rsrc'>rsrc</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_connected'>validate_connected</span>
@@ -3364,14 +3592,14 @@
       <pre class="lines">
 
 
-437
-438
-439
-440
-441</pre>
+470
+471
+472
+473
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 437</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 470</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_secs_to_refresh'>secs_to_refresh</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_keep_alive?'>keep_alive?</span>
@@ -3395,7 +3623,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”.</p>
+<p>Returns e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”</p>
 
 
   </div>
@@ -3427,15 +3655,15 @@
       <pre class="lines">
 
 
-444
-445
-446
-447
-448
-449</pre>
+477
+478
+479
+480
+481
+482</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 444</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 477</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_time_to_refresh'>time_to_refresh</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_keep_alive?'>keep_alive?</span>
@@ -3487,18 +3715,18 @@
       <pre class="lines">
 
 
-409
-410
-411
-412
-413
-414
-415
-416
-417</pre>
+440
+441
+442
+443
+444
+445
+446
+447
+448</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 409</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 440</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span>
@@ -3519,9 +3747,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:03 2020 by
+  Generated on Fri Aug  7 11:26:48 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::DeviceEnrollment
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::DeviceEnrollment";
   relpath = '../';
 </script>
@@ -115,9 +115,13 @@
     
 <p>A decvice enrollment defined in the Jamf Pro.</p>
 
-<p>This is a connection to Apple&#39;s Device Enrollment Program. A single Jamf server may have many of them, and they can belong to different sites.</p>
+<p>This is a connection to Apple&#39;s Device Enrollment Program. A single
+Jamf server may have many of them, and they can belong to different sites.</p>
 
-<p>These objects can be used to find the details of all the devices connected to them, including the device serial numbers. To see how or if those devices are assigned to prestages, see Jamf::Prestage and its subclasses ComputerPrestage and MobileDevicePrestage</p>
+<p>These objects can be used to find the details of all the devices connected
+to them, including the device serial numbers. To see how or if those
+devices are assigned to prestages, see Jamf::Prestage and its subclasses
+ComputerPrestage and MobileDevicePrestage</p>
 
 
   </div>
@@ -159,7 +163,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of
+how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -270,7 +275,7 @@
         <dt id="TYPES-constant" class="">TYPES =
           
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computers</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevices</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computers</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevices</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="COMPUTERS_RE-constant" class="">COMPUTERS_RE =
           
@@ -641,7 +646,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The serial numbers assigned bu Apple to one, or all of your Device Enrollment instances.</p>
+<p>The serial numbers assigned bu Apple to one, or all of your Device
+Enrollment instances.</p>
 </div></span>
   
 </li>
@@ -665,7 +671,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>All devices associated by Apple with a given DeviceEnrollment instance or all defined DeviceEnrollment instances.</p>
+<p>All devices associated by Apple with a given DeviceEnrollment instance or
+all defined DeviceEnrollment instances.</p>
 </div></span>
   
 </li>
@@ -737,7 +744,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is the given serial number in one, or any, or your Device Enrollment instances?.</p>
+<p>Is the given serial number in one, or any, or your Device Enrollment
+instances?.</p>
 </div></span>
   
 </li>
@@ -761,7 +769,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The history of sync operations between Apple and a given DeviceEnrollment instanace, or all instances.</p>
+<p>The history of sync operations between Apple and a given DeviceEnrollment
+instanace, or all instances.</p>
 </div></span>
   
 </li>
@@ -1633,7 +1642,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Fetch a single device from any defined DeviceEnrollment instance. The instance id containing the device is available in its .deviceEnrollmentProgramInstanceId attribute.</p>
+<p>Fetch a single device from any defined DeviceEnrollment instance. The
+instance id containing the device is available in its
+.deviceEnrollmentProgramInstanceId attribute.</p>
 
 <p>in which to look for the sn. All instances are searched if omitted.</p>
 
@@ -1670,8 +1681,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1687,8 +1696,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -1777,7 +1784,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The serial numbers assigned bu Apple to one, or all of your Device Enrollment instances</p>
+<p>The serial numbers assigned bu Apple to one, or all of your Device
+Enrollment instances</p>
 
 <p>See .devices</p>
 
@@ -1838,9 +1846,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>All devices associated by Apple with a given DeviceEnrollment instance or all defined DeviceEnrollment instances.</p>
+<p>All devices associated by Apple with a given DeviceEnrollment instance or
+all defined DeviceEnrollment instances.</p>
 
-<p>This data is cached the first time it is read from the API, similarly to how CollectionResources are cached. To refresh the cache, pass a truthy value to the refresh: parameter, or use the Connection&#39;s .flushcache method</p>
+<p>This data is cached the first time it is read from the API, similarly to
+how CollectionResources are cached. To refresh the cache, pass a truthy
+value to the refresh: parameter, or use the Connection&#39;s .flushcache
+method</p>
 
 
   </div>
@@ -1862,7 +1874,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the id or name of the DeviceEnrollment instance for which to list the devices. If omitted, the devices for all instances will be returned.</p>
+<p>the id or name of the DeviceEnrollment instance for which to list the
+devices. If omitted, the devices for all instances will be returned.</p>
 </div>
       
     </li>
@@ -1874,8 +1887,6 @@
       
         <span class='type'>(<tt>Symbol</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1893,8 +1904,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1910,8 +1919,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -1935,7 +1942,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The devices associated with the given DeviceEnrollment instance, or all instances</p>
+<p>The devices associated with the given DeviceEnrollment instance, or all
+instances</p>
 </div>
       
     </li>
@@ -1999,7 +2007,8 @@
     
 <p>See .devices</p>
 
-<p>Returns just those devices with the desired profileStatus, which must be an item in DeviceEnrollmentDevice::PROFILE_STATUSES</p>
+<p>Returns just those devices with the desired profileStatus, which must be an
+item in DeviceEnrollmentDevice::PROFILE_STATUSES</p>
 
 
   </div>
@@ -2038,7 +2047,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The devices with the desired status, associated with the given, or all,  instances</p>
+<p>The devices with the desired status, associated with the given, or all, 
+instances</p>
 </div>
       
     </li>
@@ -2135,8 +2145,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2210,7 +2218,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is the given serial number in one, or any, or your Device Enrollment instances?</p>
+<p>Is the given serial number in one, or any, or your Device Enrollment
+instances?</p>
 
 <p>See .devices</p>
 
@@ -2293,7 +2302,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The history of sync operations between Apple and a given DeviceEnrollment instanace, or all instances.</p>
+<p>The history of sync operations between Apple and a given DeviceEnrollment
+instanace, or all instances.</p>
 
 
   </div>
@@ -2315,7 +2325,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the id or name of the DeviceEnrollment instance for which to get the history. If omitted, the history for all instances will be returned.</p>
+<p>the id or name of the DeviceEnrollment instance for which to get the
+history. If omitted, the history for all instances will be returned.</p>
 </div>
       
     </li>
@@ -2345,8 +2356,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -2463,7 +2472,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a note to this resource&#39;s change log.</p>
 
-<p>If the change history has been cached already, it is recached after adding the note.</p>
+<p>If the change history has been cached already, it is recached after adding
+the note.</p>
 
 
   </div>
@@ -2513,7 +2523,8 @@
     
 <p>The change and note history for this resource.</p>
 
-<p>The history is cached internally and only re-fetched when a truthy parameter is given.</p>
+<p>The history is cached internally and only re-fetched when a truthy
+parameter is given.</p>
 
 
   </div>
@@ -2812,9 +2823,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:07 2020 by
+  Generated on Fri Aug  7 11:27:02 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

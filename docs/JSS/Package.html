@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Package
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::Package";
   relpath = '../';
 </script>
@@ -113,7 +113,8 @@
     
 <p>A Package in the JSS</p>
 
-<p>Also the API provides no access to the package&#39;s file list (index), so indexing must be done separately (usually via Casper Admin)</p>
+<p>Also the API provides no access to the package&#39;s file list (index), so
+indexing must be done separately (usually via Casper Admin)</p>
 
 
   </div>
@@ -166,7 +167,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -208,7 +210,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>None</span><span class='words_sep'> </span><span class='tstring_content'>x86</span><span class='words_sep'> </span><span class='tstring_content'>ppc</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>None</span><span class='words_sep'> </span><span class='tstring_content'>x86</span><span class='words_sep'> </span><span class='tstring_content'>ppc</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="PRIORITIES-constant" class="">PRIORITIES =
           <div class="docstring">
@@ -326,7 +328,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Mapping of the hash types to the maching Digest modules See <span class='object_link'><a href="#calculate_checksum-instance_method" title="JSS::Package#calculate_checksum (method)">#calculate_checksum</a></span></p>
+<p>Mapping of the hash types to the maching Digest modules See
+<span class='object_link'><a href="#calculate_checksum-instance_method" title="JSS::Package#calculate_checksum (method)">#calculate_checksum</a></span></p>
 
 
   </div>
@@ -350,7 +353,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -509,7 +513,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>@ @return [Symbol] The checksum hash type used to generate the checksum value,  either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.</p>
+<p>@ @return [Symbol] The checksum hash type used to generate the checksum
+value,  either :md5 or :sha512, defaults to :sha512 if there is no checksum
+yet.</p>
 </div></span>
   
 </li>
@@ -621,7 +627,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The info field for this pkg - stores d3&#39;s basename &amp; swupdate values.</p>
+<p>The info field for this pkg - stores d3&#39;s basename &amp; swupdate
+values.</p>
 </div></span>
   
 </li>
@@ -650,7 +657,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
+<p>Only install this pkg if it&#39;s available in the commandline
+softwareupdate.</p>
 </div></span>
   
 </li>
@@ -854,7 +862,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;.</p>
+<p>Limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;,
+&#39;None&#39;.</p>
 </div></span>
   
 </li>
@@ -910,7 +919,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed.</p>
+<p>The name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t
+be installed.</p>
 </div></span>
   
 </li>
@@ -956,6 +966,31 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#all_filenames_by-class_method" title="all_filenames_by (class method)">.<strong>all_filenames_by</strong>(key, api: JSS.api)  &#x21d2; Hash{Ingeter,String =&gt; String} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A Hash of all dist-point filenames used by all JSS packages, keyed by
+package name or id.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#calculate_checksum-class_method" title="calculate_checksum (class method)">.<strong>calculate_checksum</strong>(filepath, type = DEFAULT_CHECKSUM_HASH_TYPE)  &#x21d2; String </a>
     
 
@@ -971,7 +1006,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a file path, and hash type, generate the checksum for an arbitrary file.</p>
+<p>Given a file path, and hash type, generate the checksum for an arbitrary
+file.</p>
 </div></span>
   
 </li>
@@ -980,7 +1016,29 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#missing_files-class_method" title="missing_files (class method)">.<strong>missing_files</strong>(ro_pw, unmount = true, api: JSS.api)  &#x21d2; Array&lt;String&gt; </a>
+      <a href="#fetch_dist_point-class_method" title="fetch_dist_point (class method)">.<strong>fetch_dist_point</strong>(dist_point, api: JSS.api)  &#x21d2; JSS::DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#missing_files-class_method" title="missing_files (class method)">.<strong>missing_files</strong>(ro_pw, unmount = true, api: JSS.api, dist_point: nil)  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -995,7 +1053,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An array of String filenames for all filenames in any JSS::Package that don&#39;t exist on DIST_POINT_PKGS_FOLDER.</p>
+<p>An array of String filenames for all filenames in any JSS::Package that
+don&#39;t exist on DIST_POINT_PKGS_FOLDER.</p>
 </div></span>
   
 </li>
@@ -1004,7 +1063,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#orphaned_files-class_method" title="orphaned_files (class method)">.<strong>orphaned_files</strong>(ro_pw, unmount = true, api: JSS.api)  &#x21d2; Array&lt;String&gt; </a>
+      <a href="#orphaned_files-class_method" title="orphaned_files (class method)">.<strong>orphaned_files</strong>(ro_pw, unmount = true, api: JSS.api, dist_point: nil)  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -1019,7 +1078,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that aren&#39;t used by a JSS::Package.</p>
+<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that
+aren&#39;t used by a JSS::Package.</p>
 </div></span>
   
 </li>
@@ -1037,7 +1097,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#calculate_checksum-instance_method" title="#calculate_checksum (instance method)">#<strong>calculate_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; String </a>
+      <a href="#calculate_checksum-instance_method" title="#calculate_checksum (instance method)">#<strong>calculate_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; String </a>
     
 
     
@@ -1052,7 +1112,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Caclulate and return the checksum hash for a given local file, or the file on the master dist point if no local file is given.</p>
+<p>Caclulate and return the checksum hash for a given local file, or the file
+on the master dist point if no local file is given.</p>
 </div></span>
   
 </li>
@@ -1210,7 +1271,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#checksum_valid%3F-instance_method" title="#checksum_valid? (instance method)">#<strong>checksum_valid?</strong>(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; Boolean </a>
+      <a href="#checksum_valid%3F-instance_method" title="#checksum_valid? (instance method)">#<strong>checksum_valid?</strong>(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; Boolean </a>
     
 
     
@@ -1292,7 +1353,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>(delete_file: false, rw_pw: nil, unmount: true)  &#x21d2; Object </a>
+      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>(delete_file: false, rw_pw: nil, unmount: true, dist_point: nil)  &#x21d2; void </a>
     
 
     
@@ -1307,7 +1368,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Delete this package from the JSS, optionally deleting the master dist point file also.</p>
+<p>Delete this package from the JSS, optionally deleting the master dist point
+file also.</p>
 </div></span>
   
 </li>
@@ -1316,7 +1378,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_master_file-instance_method" title="#delete_master_file (instance method)">#<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; Boolean </a>
+      <a href="#delete_master_file-instance_method" title="#delete_master_file (instance method)">#<strong>delete_master_file</strong>(rw_pw, unmount = true, dist_point: nil)  &#x21d2; Boolean </a>
     
 
     
@@ -1360,7 +1422,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -1410,7 +1473,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Install this package via the jamf binary &#39;install&#39; command from the distribution point for this machine.</p>
+<p>Install this package via the jamf binary &#39;install&#39; command from the
+distribution point for this machine.</p>
 </div></span>
   
 </li>
@@ -1434,7 +1498,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is this packaged installed on the current machine (via casper)? We just look for the receipt, which is the @filename less any possible .zip extension.</p>
+<p>Is this packaged installed on the current machine (via casper)? We just
+look for the receipt, which is the @filename less any possible .zip
+extension.</p>
 </div></span>
   
 </li>
@@ -1463,7 +1529,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -1520,7 +1587,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reset_checksum-instance_method" title="#reset_checksum (instance method)">#<strong>reset_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; void </a>
+      <a href="#reset_checksum-instance_method" title="#reset_checksum (instance method)">#<strong>reset_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; void </a>
     
 
     
@@ -1650,7 +1717,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_master_filename-instance_method" title="#update_master_filename (instance method)">#<strong>update_master_filename</strong>(old_file_name, new_file_name, rw_pw, unmount = true)  &#x21d2; nil </a>
+      <a href="#update_master_filename-instance_method" title="#update_master_filename (instance method)">#<strong>update_master_filename</strong>(old_file_name, new_file_name, rw_pw, unmount = true, dist_point: nil)  &#x21d2; nil </a>
     
 
     
@@ -1674,7 +1741,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload_master_file-instance_method" title="#upload_master_file (instance method)">#<strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE)  &#x21d2; void </a>
+      <a href="#upload_master_file-instance_method" title="#upload_master_file (instance method)">#<strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE, dist_point: nil)  &#x21d2; void </a>
     
 
     
@@ -1721,7 +1788,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Package.</p>
+<p>Returns a new instance of Package</p>
 
 
   </div>
@@ -1742,38 +1809,38 @@
       <pre class="lines">
 
 
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278</pre>
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -1832,7 +1899,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns can this item be uninstalled? Some, e.g. OS Updates, can&#39;t.</p>
+<p>Returns can this item be uninstalled? Some, e.g. OS Updates, can&#39;t</p>
 
 
   </div>
@@ -1864,12 +1931,12 @@
       <pre class="lines">
 
 
-220
-221
-222</pre>
+261
+262
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 261</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_allow_uninstalled'>allow_uninstalled</span>
   <span class='ivar'>@allow_uninstalled</span>
@@ -1897,7 +1964,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should this pkg be installed on the boot volume during imaging.</p>
+<p>Returns should this pkg be installed on the boot volume during imaging</p>
 
 
   </div>
@@ -1929,12 +1996,12 @@
       <pre class="lines">
 
 
-232
-233
-234</pre>
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_boot_volume_required'>boot_volume_required</span>
   <span class='ivar'>@boot_volume_required</span>
@@ -1958,7 +2025,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the checksum value for the package file on the dist. point, if it&#39;s been calculated.</p>
+<p>Returns the checksum value for the package file on the dist. point, if
+it&#39;s been calculated.</p>
 
 
   </div>
@@ -1977,7 +2045,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the checksum value for the package file on the dist. point, if it&#39;s been calculated.</p>
+<p>the checksum value for the package file on the dist. point, if it&#39;s
+been calculated.</p>
 </div>
       
     </li>
@@ -1990,12 +2059,12 @@
       <pre class="lines">
 
 
-246
-247
-248</pre>
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_checksum'>checksum</span>
   <span class='ivar'>@checksum</span>
@@ -2019,10 +2088,10 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>@ @return [Symbol] The checksum hash type used to generate the checksum value,</p>
+<p>@ @return [Symbol] The checksum hash type used to generate the checksum
+value,</p>
 
-<pre class="code ruby"><code class="ruby">either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.
-</code></pre>
+<pre class="code ruby"><code class="ruby">either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.</code></pre>
 
 
   </div>
@@ -2036,12 +2105,12 @@
       <pre class="lines">
 
 
-242
-243
-244</pre>
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 283</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_checksum_type'>checksum_type</span>
   <span class='ivar'>@checksum_type</span>
@@ -2065,7 +2134,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the filename of the .pkg, .mpkg, or .dmg on the Casper server.</p>
+<p>Returns the filename of the .pkg, .mpkg, or .dmg on the Casper server</p>
 
 
   </div>
@@ -2097,12 +2166,12 @@
       <pre class="lines">
 
 
-196
-197
-198</pre>
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filename'>filename</span>
   <span class='ivar'>@filename</span>
@@ -2130,7 +2199,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item &#39;Fill Existing Users&#39; when jamf installs it?.</p>
+<p>Returns does this item &#39;Fill Existing Users&#39; when jamf installs it?</p>
 
 
   </div>
@@ -2162,12 +2231,12 @@
       <pre class="lines">
 
 
-202
-203
-204</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 243</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fill_existing_users'>fill_existing_users</span>
   <span class='ivar'>@fill_existing_users</span>
@@ -2195,7 +2264,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this pkg also get install in the OS user homedir template.</p>
+<p>Returns does this pkg also get install in the OS user homedir template</p>
 
 
   </div>
@@ -2227,12 +2296,12 @@
       <pre class="lines">
 
 
-205
-206
-207</pre>
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fill_user_template'>fill_user_template</span>
   <span class='ivar'>@fill_user_template</span>
@@ -2256,7 +2325,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the info field for this pkg - stores d3&#39;s basename &amp; swupdate values.</p>
+<p>Returns the info field for this pkg - stores d3&#39;s basename &amp;
+swupdate values</p>
 
 
   </div>
@@ -2275,7 +2345,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the info field for this pkg - stores d3&#39;s basename &amp; swupdate values</p>
+<p>the info field for this pkg - stores d3&#39;s basename &amp; swupdate
+values</p>
 </div>
       
     </li>
@@ -2288,12 +2359,12 @@
       <pre class="lines">
 
 
-223
-224
-225</pre>
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 223</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 264</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_info'>info</span>
   <span class='ivar'>@info</span>
@@ -2321,7 +2392,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
+<p>Returns only install this pkg if it&#39;s available in the commandline
+softwareupdate.</p>
 
 
   </div>
@@ -2340,7 +2412,8 @@
       
         &mdash;
         <div class='inline'>
-<p>only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
+<p>only install this pkg if it&#39;s available in the commandline
+softwareupdate.</p>
 </div>
       
     </li>
@@ -2353,12 +2426,12 @@
       <pre class="lines">
 
 
-229
-230
-231</pre>
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_install_if_reported_available'>install_if_reported_available</span>
   <span class='ivar'>@install_if_reported_available</span>
@@ -2387,7 +2460,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -2430,7 +2503,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the notes field for this pkg.</p>
+<p>Returns the notes field for this pkg</p>
 
 
   </div>
@@ -2462,12 +2535,12 @@
       <pre class="lines">
 
 
-226
-227
-228</pre>
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 267</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_notes'>notes</span>
   <span class='ivar'>@notes</span>
@@ -2495,7 +2568,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS versions this can be installed onto. For all minor versions, the format is 10.5.x.</p>
+<p>Returns the OS versions this can be installed onto. For all minor versions,
+the format is 10.5.x</p>
 
 
   </div>
@@ -2514,7 +2588,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the OS versions this can be installed onto. For all minor versions, the format is 10.5.x</p>
+<p>the OS versions this can be installed onto. For all minor versions, the
+format is 10.5.x</p>
 </div>
       
     </li>
@@ -2527,12 +2602,12 @@
       <pre class="lines">
 
 
-211
-212
-213</pre>
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_requirements'>os_requirements</span>
   <span class='ivar'>@os_requirements</span>
@@ -2556,7 +2631,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Priority to use for deploying or uninstalling the package.</p>
+<p>Returns Priority to use for deploying or uninstalling the package</p>
 
 
   </div>
@@ -2588,12 +2663,12 @@
       <pre class="lines">
 
 
-235
-236
-237</pre>
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_priority'>priority</span>
   <span class='ivar'>@priority</span>
@@ -2621,7 +2696,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item require a reboot after installation?.</p>
+<p>Returns does this item require a reboot after installation?</p>
 
 
   </div>
@@ -2653,12 +2728,12 @@
       <pre class="lines">
 
 
-208
-209
-210</pre>
+249
+250
+251</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 249</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reboot_required'>reboot_required</span>
   <span class='ivar'>@reboot_required</span>
@@ -2682,7 +2757,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the local receipt when this pkg is installed.</p>
+<p>Returns the local receipt when this pkg is installed</p>
 
 
   </div>
@@ -2714,12 +2789,12 @@
       <pre class="lines">
 
 
-199
-200
-201</pre>
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 240</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_receipt'>receipt</span>
   <span class='ivar'>@receipt</span>
@@ -2747,7 +2822,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;.</p>
+<p>Returns limit installation to these architectures: &#39;x86&#39;, 
+&#39;ppc&#39;, &#39;None&#39;</p>
 
 
   </div>
@@ -2766,7 +2842,8 @@
       
         &mdash;
         <div class='inline'>
-<p>limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;</p>
+<p>limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;,
+&#39;None&#39;</p>
 </div>
       
     </li>
@@ -2779,12 +2856,12 @@
       <pre class="lines">
 
 
-214
-215
-216</pre>
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 255</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_required_processor'>required_processor</span>
   <span class='ivar'>@required_processor</span>
@@ -2812,7 +2889,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this pkg cause a notification to be sent on self-heal?.</p>
+<p>Returns does this pkg cause a notification to be sent on self-heal?</p>
 
 
   </div>
@@ -2844,12 +2921,12 @@
       <pre class="lines">
 
 
-238
-239
-240</pre>
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 279</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_notification'>send_notification</span>
   <span class='ivar'>@send_notification</span>
@@ -2873,7 +2950,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed.</p>
+<p>Returns the name of a pkg to install (or “Do Not Install”) when this pkg
+can&#39;t be installed</p>
 
 
   </div>
@@ -2892,7 +2970,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed</p>
+<p>the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t
+be installed</p>
 </div>
       
     </li>
@@ -2905,12 +2984,12 @@
       <pre class="lines">
 
 
-217
-218
-219</pre>
+258
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 258</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_switch_with_package'>switch_with_package</span>
   <span class='ivar'>@switch_with_package</span>
@@ -2958,12 +3037,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use Defaults to the corrently active API. See
+<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2997,17 +3075,141 @@
 
 123
 124
-125
-126
-127</pre>
+125</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_filenames'>all_filenames</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_pkgs_in_use'>pkgs_in_use</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pkg_id'>pkg_id</span><span class='op'>|</span> <span class='id identifier rubyid_pkgs_in_use'>pkgs_in_use</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_pkg_id'>pkg_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_filename'>filename</span> <span class='rbrace'>}</span>
-  <span class='id identifier rubyid_pkgs_in_use'>pkgs_in_use</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
+  <span class='id identifier rubyid_all_filenames_by'>all_filenames_by</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_filenames_by-class_method">
+  
+    .<strong>all_filenames_by</strong>(key, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Ingeter,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A Hash of all dist-point filenames used by all JSS packages, keyed by
+package name or id</p>
+
+<p>Slow cuz we have to instantiate every pkg</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either :id, or :name</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use Defaults to the corrently active API. See
+<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Ingeter,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current file names by key</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 139</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_filenames_by'>all_filenames_by</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key must be :id or :name</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_key'>key</span>
+
+  <span class='id identifier rubyid_files_in_use'>files_in_use</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='symbol'>:refresh</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pkg_id'>pkg_id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_pkg'>pkg</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_pkg_id'>pkg_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='id identifier rubyid_files_in_use'>files_in_use</span><span class='lbracket'>[</span><span class='id identifier rubyid_pkg'>pkg</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_pkg'>pkg</span><span class='period'>.</span><span class='id identifier rubyid_filename'>filename</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_files_in_use'>files_in_use</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3026,7 +3228,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a file path, and hash type, generate the checksum for an arbitrary file.</p>
+<p>Given a file path, and hash type, generate the checksum for an arbitrary
+file.</p>
 
 
   </div>
@@ -3064,7 +3267,8 @@
       
         &mdash;
         <div class='inline'>
-<p>One of the keys of CHECKSUM_HASH_TYPES, either CHECKSUM_HASH_TYPE_MD5 or CHECKSUM_HASH_TYPE_SHA512</p>
+<p>One of the keys of CHECKSUM_HASH_TYPES, either CHECKSUM_HASH_TYPE_MD5 or
+CHECKSUM_HASH_TYPE_SHA512</p>
 </div>
       
     </li>
@@ -3109,13 +3313,13 @@
       <pre class="lines">
 
 
-187
-188
-189
-190</pre>
+216
+217
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CHECKSUM_HASH_TYPE-constant" title="JSS::Package::DEFAULT_CHECKSUM_HASH_TYPE (constant)">DEFAULT_CHECKSUM_HASH_TYPE</a></span></span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Unknown checksum hash type</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#CHECKSUM_HASH_TYPES-constant" title="JSS::Package::CHECKSUM_HASH_TYPES (constant)">CHECKSUM_HASH_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_type'>type</span>
@@ -3127,9 +3331,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="missing_files-class_method">
+  <h3 class="signature " id="fetch_dist_point-class_method">
   
-    .<strong>missing_files</strong>(ro_pw, unmount = true, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+    .<strong>fetch_dist_point</strong>(dist_point, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
   
 
   
@@ -3138,7 +3342,89 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An array of String filenames for all filenames in any JSS::Package that don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+225
+226
+227
+228
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 225</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_dist_point'>dist_point</span>
+    <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='kw'>else</span>
+    <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="missing_files-class_method">
+  
+    .<strong>missing_files</strong>(ro_pw, unmount = true, api: JSS.api, dist_point: nil)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>An array of String filenames for all filenames in any JSS::Package that
+don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
 
 <p>Slow cuz we have to instantiate every pkg</p>
 
@@ -3191,12 +3477,28 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use Defaults to the corrently active API. See
+<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
       
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -3228,23 +3530,23 @@
       <pre class="lines">
 
 
-169
-170
-171
-172
-173
-174
-175</pre>
+198
+199
+200
+201
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 198</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_missing_files'>missing_files</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
-  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span>
-  <span class='id identifier rubyid_files_on_mdp'>files_on_mdp</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
-  <span class='id identifier rubyid_all_filenames'>all_filenames</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_files_on_mdp'>files_on_mdp</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_missing_files'>missing_files</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span>
+  <span class='id identifier rubyid_files_on_dp'>files_on_dp</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='id identifier rubyid_all_filenames'>all_filenames</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_files_on_dp'>files_on_dp</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3254,7 +3556,7 @@
       <div class="method_details ">
   <h3 class="signature " id="orphaned_files-class_method">
   
-    .<strong>orphaned_files</strong>(ro_pw, unmount = true, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+    .<strong>orphaned_files</strong>(ro_pw, unmount = true, api: JSS.api, dist_point: nil)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
   
 
   
@@ -3263,7 +3565,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that aren&#39;t used by a JSS::Package</p>
+<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that
+aren&#39;t used by a JSS::Package</p>
 
 <p>Slow cuz we have to instantiate every pkg</p>
 
@@ -3316,12 +3619,28 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use Defaults to the corrently active API. See
+<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
       
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -3353,23 +3672,23 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151</pre>
+170
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 170</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_orphaned_files'>orphaned_files</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
-  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span>
-  <span class='id identifier rubyid_files_on_mdp'>files_on_mdp</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
-  <span class='id identifier rubyid_files_on_mdp'>files_on_mdp</span> <span class='op'>-</span> <span class='id identifier rubyid_all_filenames'>all_filenames</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_orphaned_files'>orphaned_files</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span>
+  <span class='id identifier rubyid_files_on_dp'>files_on_dp</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='id identifier rubyid_files_on_dp'>files_on_dp</span> <span class='op'>-</span> <span class='id identifier rubyid_all_filenames'>all_filenames</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3385,7 +3704,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="calculate_checksum-instance_method">
   
-    #<strong>calculate_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>calculate_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
   
 
   
@@ -3394,7 +3713,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Caclulate and return the checksum hash for a given local file, or the file on the master dist point if no local file is given.</p>
+<p>Caclulate and return the checksum hash for a given local file, or the file
+on the master dist point if no local file is given.</p>
 
 
   </div>
@@ -3410,8 +3730,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3429,12 +3747,12 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the server. If omitted, the master dist. point will be mounted and the file read from there.</p>
+<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the
+server. If omitted, the master dist. point will be mounted and the file
+read from there.</p>
 </div>
       
     </li>
@@ -3447,12 +3765,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The read-write password for mounting the master dist point. Either this or the ro_pw must be provided if no local_file</p>
+<p>The read-write password for mounting the master dist point. Either this or
+the ro_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3465,12 +3782,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The read-onlypassword for mounting the master dist point. Either this or the rw_pw must be provided if no local_file</p>
+<p>The read-onlypassword for mounting the master dist point. Either this or
+the rw_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3483,12 +3799,28 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>Unmount the master dist point after using it. Only used if the dist point
+is mounted. default: true</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
       
       
         &mdash;
         <div class='inline'>
-<p>Unmount the master dist point after using it. Only used if the dist point is mounted. default: true</p>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -3520,35 +3852,35 @@
       <pre class="lines">
 
 
-699
-700
-701
-702
-703
-704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720</pre>
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 699</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 748</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span><span class='label'>type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span> <span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span><span class='label'>type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CHECKSUM_HASH_TYPE-constant" title="JSS::Package::DEFAULT_CHECKSUM_HASH_TYPE (constant)">DEFAULT_CHECKSUM_HASH_TYPE</a></span></span>
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_local_file'>local_file</span>
     <span class='id identifier rubyid_file_to_calc'>file_to_calc</span> <span class='op'>=</span> <span class='id identifier rubyid_local_file'>local_file</span>
@@ -3562,10 +3894,10 @@
     <span class='kw'>else</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Either rw_pw: or ro_pw: must be provided</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
-    <span class='id identifier rubyid_file_to_calc'>file_to_calc</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_dppw'>dppw</span><span class='comma'>,</span> <span class='id identifier rubyid_mnt'>mnt</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_file_to_calc'>file_to_calc</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_dppw'>dppw</span><span class='comma'>,</span> <span class='id identifier rubyid_mnt'>mnt</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_new_checksum'>new_checksum</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span><span class='id identifier rubyid_file_to_calc'>file_to_calc</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mounted?'>mounted?</span>
+  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mounted?'>mounted?</span>
   <span class='id identifier rubyid_new_checksum'>new_checksum</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3590,7 +3922,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will
+unset the category</p>
 
 
   </div>
@@ -3751,7 +4084,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this
+is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -3829,7 +4163,7 @@
       <div class="method_details ">
   <h3 class="signature " id="checksum_valid?-instance_method">
   
-    #<strong>checksum_valid?</strong>(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>checksum_valid?</strong>(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -3855,12 +4189,12 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the server. If omitted, the master dist. point will be mounted and the file read from there.</p>
+<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the
+server. If omitted, the master dist. point will be mounted and the file
+read from there.</p>
 </div>
       
     </li>
@@ -3873,12 +4207,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The read-write password for mounting the master dist point. Either this or the ro_pw must be provided if no local_file</p>
+<p>The read-write password for mounting the master dist point. Either this or
+the ro_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3891,12 +4224,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The read-onlypassword for mounting the master dist point. Either this or the rw_pw must be provided if no local_file</p>
+<p>The read-onlypassword for mounting the master dist point. Either this or
+the rw_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3909,12 +4241,28 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>Unmount the master dist point after using it. Only used if the dist point
+is mounted. default: true</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
       
       
         &mdash;
         <div class='inline'>
-<p>Unmount the master dist point after using it. Only used if the dist point is mounted. default: true</p>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -3933,7 +4281,8 @@
       
         &mdash;
         <div class='inline'>
-<p>false if there is no checksum for this pkg, otherwise, does the calculated checksum match the one stored for the pkg?</p>
+<p>false if there is no checksum for this pkg, otherwise, does the calculated
+checksum match the one stored for the pkg?</p>
 </div>
       
     </li>
@@ -3946,29 +4295,31 @@
       <pre class="lines">
 
 
-740
-741
-742
-743
-744
-745
-746
-747
-748
-749
-750</pre>
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 740</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 792</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_checksum_valid?'>checksum_valid?</span><span class='lparen'>(</span><span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_checksum_valid?'>checksum_valid?</span><span class='lparen'>(</span><span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span> <span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='ivar'>@checksum</span>
   <span class='id identifier rubyid_new_checksum'>new_checksum</span> <span class='op'>=</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span>
     <span class='label'>type:</span> <span class='ivar'>@checksum_type</span><span class='comma'>,</span>
     <span class='label'>local_file:</span> <span class='id identifier rubyid_local_file'>local_file</span><span class='comma'>,</span>
     <span class='label'>rw_pw:</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span>
     <span class='label'>ro_pw:</span> <span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span>
-    <span class='label'>unmount:</span> <span class='id identifier rubyid_unmount'>unmount</span>
+    <span class='label'>unmount:</span> <span class='id identifier rubyid_unmount'>unmount</span><span class='comma'>,</span>
+    <span class='label'>dist_point:</span> <span class='id identifier rubyid_dist_point'>dist_point</span>
   <span class='rparen'>)</span>
   <span class='id identifier rubyid_new_checksum'>new_checksum</span> <span class='op'>==</span> <span class='ivar'>@checksum</span>
 <span class='kw'>end</span></pre>
@@ -3994,7 +4345,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -4027,12 +4379,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -4111,7 +4462,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -4156,7 +4508,7 @@
       <div class="method_details ">
   <h3 class="signature " id="delete-instance_method">
   
-    #<strong>delete</strong>(delete_file: false, rw_pw: nil, unmount: true)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    #<strong>delete</strong>(delete_file: false, rw_pw: nil, unmount: true, dist_point: nil)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -4164,8 +4516,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Delete this package from the JSS, optionally deleting the master dist point file also.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Delete this package from the JSS, optionally deleting the master dist point
+file also.</p>
 
 
   </div>
@@ -4181,8 +4534,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -4200,12 +4551,12 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point or :prompt, or :stdin# where # is the line of stdin containing the password. See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point or
+:prompt, or :stdin# where # is the line of stdin containing the password.
+See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -4218,12 +4569,27 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
 <p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -4237,17 +4603,17 @@
       <pre class="lines">
 
 
-819
-820
-821
-822</pre>
+883
+884
+885
+886</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 819</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 883</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='label'>delete_file:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='label'>delete_file:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_delete_file'>delete_file</span>
+  <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_delete_file'>delete_file</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4257,7 +4623,7 @@
       <div class="method_details ">
   <h3 class="signature " id="delete_master_file-instance_method">
   
-    #<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>delete_master_file</strong>(rw_pw, unmount = true, dist_point: nil)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -4268,7 +4634,8 @@
     
 <p>Delete the filename from the master distribution point, if it exists.</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished.</p>
 
 
   </div>
@@ -4288,7 +4655,9 @@
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point or :prompt, or :stdin# where # is the line of stdin containing the password. See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point or
+:prompt, or :stdin# where # is the line of stdin containing the password.
+See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -4307,6 +4676,23 @@
         &mdash;
         <div class='inline'>
 <p>whether or not ot unount the distribution point when finished.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -4338,32 +4724,32 @@
       <pre class="lines">
 
 
-796
-797
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807</pre>
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 796</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 856</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
-  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
     <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
     <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='kw'>end</span> <span class='comment'># if exists
-</span>  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+</span>  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
   <span class='id identifier rubyid_did_it'>did_it</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -4388,7 +4774,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -4465,9 +4852,12 @@
   </div>
 
 
-<p>Install this package via the jamf binary &#39;install&#39; command from the distribution point for this machine. See <span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
+<p>Install this package via the jamf binary &#39;install&#39; command from the
+distribution point for this machine. See
+<span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
 
-<p>The read-only or http passwd for the dist. point must be provided, except for non-authenticated http downloads)</p>
+<p>The read-only or http passwd for the dist. point must be provided, except
+for non-authenticated http downloads)</p>
 
 
   </div>
@@ -4510,7 +4900,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the read-only or http password for the distribution point for the local machine (http will be used if available, and may not need a pw)</p>
+<p>the read-only or http password for the distribution point for the local
+machine (http will be used if available, and may not need a pw)</p>
 </div>
           
         </li>
@@ -4575,7 +4966,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>unmount the distribution point when finished?(if we mounted it), defaults to false</p>
+<p>unmount the distribution point when finished?(if we mounted it), defaults
+to false</p>
 </div>
           
         </li>
@@ -4601,7 +4993,10 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>Use this url for an http download, regardless of distribution point settings. This can be used to access Cloud Distribution Points if the fileshare isn&#39;t available. The URL should already be ur The package filename will be removed or appended as needed.</p>
+<p>Use this url for an http download, regardless of distribution point
+settings. This can be used to access Cloud Distribution Points if the
+fileshare isn&#39;t available. The URL should already be ur The package
+filename will be removed or appended as needed.</p>
 </div>
           
         </li>
@@ -4647,70 +5042,6 @@
       <pre class="lines">
 
 
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926
-927
 928
 929
 930
@@ -4721,10 +5052,74 @@
 935
 936
 937
-938</pre>
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 864</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 928</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_install'>install</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>You must have root privileges to install packages</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_superuser?'><span class='object_link'><a href="../JSS.html#superuser%3F-class_method" title="JSS.superuser? (method)">superuser?</a></span></span>
@@ -4750,7 +5145,7 @@
 
     <span class='comment'># we&#39;ll re-add the filename below if needed.
 </span>    <span class='id identifier rubyid_src_path'>src_path</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:alt_download_url</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-
+    <span class='id identifier rubyid_using_http'>using_http</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='comment'># use our appropriate dist. point for download
 </span>  <span class='kw'>else</span>
     <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'><span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">my_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
@@ -4818,7 +5213,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is this packaged installed on the current machine (via casper)? We just look for the receipt, which is the @filename less any possible .zip extension.</p>
+<p>Is this packaged installed on the current machine (via casper)? We just
+look for the receipt, which is the @filename less any possible .zip
+extension.</p>
 
 
   </div>
@@ -4845,12 +5242,12 @@
       <pre class="lines">
 
 
-569
-570
-571</pre>
+610
+611
+612</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 569</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 610</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_installed?'>installed?</span>
   <span class='ivar'>@receipt</span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
@@ -4877,7 +5274,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -4987,12 +5385,12 @@
       <pre class="lines">
 
 
-472
-473
-474</pre>
+513
+514
+515</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 472</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 513</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_ok?'>os_ok?</span><span class='lparen'>(</span><span class='id identifier rubyid_os'>os</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_os_ok?'><span class='object_link'><a href="../JSS.html#os_ok%3F-class_method" title="JSS.os_ok? (method)">os_ok?</a></span></span> <span class='ivar'>@os_requirements</span><span class='comma'>,</span> <span class='id identifier rubyid_os'>os</span>
@@ -5068,12 +5466,12 @@
       <pre class="lines">
 
 
-529
-530
-531</pre>
+570
+571
+572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 529</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 570</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_processor_ok?'>processor_ok?</span><span class='lparen'>(</span><span class='id identifier rubyid_processor'>processor</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_processor_ok?'><span class='object_link'><a href="../JSS.html#processor_ok%3F-class_method" title="JSS.processor_ok? (method)">processor_ok?</a></span></span> <span class='ivar'>@required_processor</span><span class='comma'>,</span> <span class='id identifier rubyid_processor'>processor</span>
@@ -5086,7 +5484,7 @@
       <div class="method_details ">
   <h3 class="signature " id="reset_checksum-instance_method">
   
-    #<strong>reset_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true)  &#x21d2; <tt>void</tt> 
+    #<strong>reset_checksum</strong>(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -5095,11 +5493,14 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Using either a local file, or the file on the master dist. point, re-set the checksum for this package. Call #update to save the new one to the JSS.</p>
+<p>Using either a local file, or the file on the master dist. point, re-set
+the checksum for this package. Call #update to save the new one to the JSS.</p>
 
-<p>BE VERY CAREFUL if using a local copy of the file - make sure its identical to the one on the dist point.</p>
+<p>BE VERY CAREFUL if using a local copy of the file - make sure its identical
+to the one on the dist point.</p>
 
-<p>This can be used to change the checksum type, and by default will use DEFAULT_CHECKSUM_HASH_TYPE (&#39;SHA_512&#39;)</p>
+<p>This can be used to change the checksum type, and by default will use
+DEFAULT_CHECKSUM_HASH_TYPE (&#39;SHA_512&#39;)</p>
 
 
   </div>
@@ -5133,27 +5534,28 @@
       <pre class="lines">
 
 
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676</pre>
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 661</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 706</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_reset_checksum'>reset_checksum</span><span class='lparen'>(</span><span class='label'>type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_reset_checksum'>reset_checksum</span><span class='lparen'>(</span><span class='label'>type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>local_file:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>rw_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ro_pw:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CHECKSUM_HASH_TYPE-constant" title="JSS::Package::DEFAULT_CHECKSUM_HASH_TYPE (constant)">DEFAULT_CHECKSUM_HASH_TYPE</a></span></span>
 
   <span class='id identifier rubyid_new_checksum'>new_checksum</span> <span class='op'>=</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span><span class='lparen'>(</span>
@@ -5161,7 +5563,8 @@
     <span class='label'>local_file:</span> <span class='id identifier rubyid_local_file'>local_file</span><span class='comma'>,</span>
     <span class='label'>rw_pw:</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span>
     <span class='label'>ro_pw:</span> <span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='comma'>,</span>
-    <span class='label'>unmount:</span> <span class='id identifier rubyid_unmount'>unmount</span>
+    <span class='label'>unmount:</span> <span class='id identifier rubyid_unmount'>unmount</span><span class='comma'>,</span>
+    <span class='label'>dist_point:</span> <span class='id identifier rubyid_dist_point'>dist_point</span>
   <span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@checksum</span> <span class='op'>==</span> <span class='id identifier rubyid_new_checksum'>new_checksum</span>
 
@@ -5218,16 +5621,16 @@
       <pre class="lines">
 
 
-981
-982
-983
-984
-985
-986
-987</pre>
+1045
+1046
+1047
+1048
+1049
+1050
+1051</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 981</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 1045</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='kw'>case</span> <span class='ivar'>@filename</span>
@@ -5389,29 +5792,29 @@
       <pre class="lines">
 
 
-956
-957
-958
-959
-960
-961
-962
-963
-964
-965
-966
-967
-968
-969
-970
-971
-972
-973
-974
-975</pre>
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 956</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 1020</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uninstall'>uninstall</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_removable?'>removable?</span>
@@ -5528,7 +5931,7 @@
       <div class="method_details ">
   <h3 class="signature " id="update_master_filename-instance_method">
   
-    #<strong>update_master_filename</strong>(old_file_name, new_file_name, rw_pw, unmount = true)  &#x21d2; <tt>nil</tt> 
+    #<strong>update_master_filename</strong>(old_file_name, new_file_name, rw_pw, unmount = true, dist_point: nil)  &#x21d2; <tt>nil</tt> 
   
 
   
@@ -5597,7 +6000,26 @@
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point, or :prompt, or :stdin# where # is the line of stdin containing the password See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point,
+or :prompt, or :stdin# where # is the line of stdin containing the password
+See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -5637,30 +6059,32 @@
       <pre class="lines">
 
 
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774
-775
-776
-777
-778
-779
-780</pre>
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 765</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 821</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_update_master_filename'>update_master_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_old_file_name'>old_file_name</span><span class='comma'>,</span> <span class='id identifier rubyid_new_file_name'>new_file_name</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_update_master_filename'>update_master_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_old_file_name'>old_file_name</span><span class='comma'>,</span> <span class='id identifier rubyid_new_file_name'>new_file_name</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_old_file_name'>old_file_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> does not exist in the jss.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
-  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'><span class='object_link'><a href="APIObject.html#to_s-instance_method" title="JSS::APIObject#to_s (method)">to_s</a></span></span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'><span class='object_link'><a href="APIObject.html#to_s-instance_method" title="JSS::APIObject#to_s (method)">to_s</a></span></span>
   <span class='id identifier rubyid_old_file'>old_file</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>+</span> <span class='id identifier rubyid_old_file_name'>old_file_name</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>File not found on the master distribution point at </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_old_file_name'>old_file_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> \
     <span class='id identifier rubyid_old_file'>old_file</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
@@ -5670,7 +6094,7 @@
 </span>  <span class='id identifier rubyid_new_file'>new_file</span> <span class='op'>=</span> <span class='id identifier rubyid_pkgs_dir'>pkgs_dir</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_new_file_name'>new_file_name</span> <span class='op'>+</span> <span class='id identifier rubyid_old_file'>old_file</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_file'>new_file</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
 
   <span class='id identifier rubyid_old_file'>old_file</span><span class='period'>.</span><span class='id identifier rubyid_rename'>rename</span> <span class='id identifier rubyid_new_file'>new_file</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -5681,7 +6105,7 @@
       <div class="method_details ">
   <h3 class="signature " id="upload_master_file-instance_method">
   
-    #<strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE)  &#x21d2; <tt>void</tt> 
+    #<strong>upload_master_file</strong>(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE, dist_point: nil)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -5690,11 +6114,17 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Upload a locally-readable file to the master distribution point. If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before uploading and the @filename will be adjusted accordingly by adding a .zip extension</p>
+<p>Upload a locally-readable file to the master distribution point. If the
+file is a directory (like a bundle .pk/.mpkg) it will be zipped before
+uploading and the @filename will be adjusted accordingly by adding a .zip
+extension</p>
 
-<p>The name of the local file doesn&#39;t matter, the file on the dist. point will use the @filename (possibly with .zip)</p>
+<p>The name of the local file doesn&#39;t matter, the file on the dist. point
+will use the @filename (possibly with .zip)</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished with JSS::DistributionPoint.master_distribution_point.unmount</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished with
+JSS::DistributionPoint.master_distribution_point.unmount</p>
 
 
   </div>
@@ -5730,7 +6160,9 @@
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point, or :prompt, or :stdin# where # is the line of stdin containing the password See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point,
+or :prompt, or :stdin# where # is the line of stdin containing the password
+See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -5761,12 +6193,28 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>DEFAULT_CHECKSUM_HASH_TYPE</tt>)</em>
+      
+        &mdash;
+        <div class='inline'>
+<p>the constants CHECKSUM_HASH_TYPE_SHA512 or CHECKSUM_HASH_TYPE_MD5. Anything
+else means don&#39;t calc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dist_point</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
       
       
         &mdash;
         <div class='inline'>
-<p>the constants CHECKSUM_HASH_TYPE_SHA512 or CHECKSUM_HASH_TYPE_MD5. Anything else means don&#39;t calc.</p>
+<p>the name or id of the distribution point to use. Defaults to the Master
+Dist. Point</p>
 </div>
       
     </li>
@@ -5793,66 +6241,68 @@
       <pre class="lines">
 
 
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
 639
 640
 641
 642
 643
 644
-645</pre>
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 595</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 639</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_upload_master_file'>upload_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_local_file_path'>local_file_path</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>chksum:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CHECKSUM_HASH_TYPE-constant" title="JSS::Package::DEFAULT_CHECKSUM_HASH_TYPE (constant)">DEFAULT_CHECKSUM_HASH_TYPE</a></span></span> <span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_master_file'>upload_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_local_file_path'>local_file_path</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>chksum:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CHECKSUM_HASH_TYPE-constant" title="JSS::Package::DEFAULT_CHECKSUM_HASH_TYPE (constant)">DEFAULT_CHECKSUM_HASH_TYPE</a></span></span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Please create this package in the JSS before uploading it.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
 
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
-  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fetch_dist_point'>fetch_dist_point</span><span class='lparen'>(</span><span class='id identifier rubyid_dist_point'>dist_point</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_PKGS_FOLDER-constant" title="JSS::Package::DIST_POINT_PKGS_FOLDER (constant)">DIST_POINT_PKGS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 
   <span class='id identifier rubyid_local_path'>local_path</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_local_file_path'>local_file_path</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Local file &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@local_file</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; doesn&#39;t exist</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_local_path'>local_path</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
@@ -5893,11 +6343,11 @@
 
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="#CHECKSUM_HASH_TYPES-constant" title="JSS::Package::CHECKSUM_HASH_TYPES (constant)">CHECKSUM_HASH_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_chksum'>chksum</span>
     <span class='ivar'>@checksum_type</span> <span class='op'>=</span> <span class='id identifier rubyid_chksum'>chksum</span>
-    <span class='ivar'>@checksum</span> <span class='op'>=</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span> <span class='label'>local_file:</span> <span class='id identifier rubyid_local_path'>local_path</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='id identifier rubyid_chksum'>chksum</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>false</span>
+    <span class='ivar'>@checksum</span> <span class='op'>=</span> <span class='id identifier rubyid_calculate_checksum'>calculate_checksum</span> <span class='label'>local_file:</span> <span class='id identifier rubyid_local_path'>local_path</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='id identifier rubyid_chksum'>chksum</span><span class='comma'>,</span> <span class='label'>unmount:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>dist_point:</span> <span class='id identifier rubyid_dist_point'>dist_point</span>
     <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_update'>update</span> <span class='kw'>if</span> <span class='ivar'>@need_to_update</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -5909,9 +6359,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:01 2020 by
+  Generated on Fri Aug  7 11:26:42 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

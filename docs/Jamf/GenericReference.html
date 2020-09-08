@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::GenericReference
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::GenericReference";
   relpath = '../';
 </script>
@@ -113,17 +113,21 @@
   <div class='inline'></div>
 </div>
 
-<p>This class is a reference to an individual API object from some other API object.</p>
+<p>This class is a reference to an individual API object from some other API
+object.</p>
 
-<p>This class is subclassed automatically when the <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span> module is included into a class.</p>
+<p>This class is subclassed automatically when the <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span> module is
+included into a class.</p>
 
 <p>See <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span> for how to use the subclasses of GenericReference.</p>
 
 <p>Subclasses must define:</p>
 
-<p>REFERENT_CLASS - the full class to which this is a reference e.g. for BuildingReference it would be Jamf::Building</p>
+<p>REFERENT_CLASS - the full class to which this is a reference e.g. for
+BuildingReference it would be Jamf::Building</p>
 
-<p>Defining REFERENT_CLASS is handled automatically by including the Referable module</p>
+<p>Defining REFERENT_CLASS is handled automatically by including the Referable
+module</p>
 
 
   </div>
@@ -209,7 +213,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 </div></span>
   
 </li>
@@ -308,8 +313,7 @@ e.g.
 - Policy::OBJECT_MODEL[:category][:class] is Jamf::Category::Reference
 - the policy JSON from the api might contain `category: { id: 234, name: &#39;foobar&#39; }`
 - that hash will be passed into Jamf::Category::Reference.new, and the
-  resulting instance used as the value of the  policy&#39;s :category attribute.
-</code></pre>
+  resulting instance used as the value of the  policy&#39;s :category attribute.</code></pre>
 
 <p>2) An instance of the REFERENT_CLASS.</p>
 
@@ -318,8 +322,7 @@ the referent class.
 
 e.g. if you have an instance of Category in the variable `my_cat`
 then `ref_to_my_cat = Category::Reference.new my_cat` will work as
-expected.
-</code></pre>
+expected.</code></pre>
 
 <p>3) A valid identifier for an existing REFERENT_CLASS in the JSS.</p>
 
@@ -328,12 +331,13 @@ to see if there&#39;s a matching instance, which the reference refers to.
 
 e.g. `ref_to_my_cat = Category::Reference.new 12` creates a reference
 to Category id 12, and `ref_to_my_cat = Category::Reference.new &#39;foo&#39;`
-creates a reference to the category named &#39;foo&#39; - assuming they exist.
-</code></pre>
+creates a reference to the category named &#39;foo&#39; - assuming they exist.</code></pre>
 
-<p>The last two of these are commonly used with setters for attributes that have class: &lt;some reference class&gt;</p>
+<p>The last two of these are commonly used with setters for attributes that
+have class: &lt;some reference class&gt;</p>
 
-<p>e.g. setting the category of a policy when <a href=":category">Policy::OBJECT_MODEL</a> is Category::Reference</p>
+<p>e.g. setting the category of a policy when <a
+href=":category">Policy::OBJECT_MODEL</a> is Category::Reference</p>
 
 <pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>mypolicy.category = a_cat</span><span class='tstring_end'>`</span></span> <span class='comment'># a_cat is a Category instance
 </span><span class='backtick'>`</span><span class='tstring_content'>mypolicy.category = 12</span><span class='tstring_end'>`</span></span>    <span class='comment'># use categoty id 12
@@ -440,7 +444,8 @@ creates a reference to the category named &#39;foo&#39; - assuming they exist.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 
 
   </div>
@@ -507,9 +512,9 @@ creates a reference to the category named &#39;foo&#39; - assuming they exist.
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:05 2020 by
+  Generated on Fri Aug  7 11:26:53 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

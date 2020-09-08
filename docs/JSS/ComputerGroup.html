@@ -6,15 +6,15 @@
 <title>
   Class: JSS::ComputerGroup
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::ComputerGroup";
   relpath = '../';
 </script>
@@ -177,7 +177,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -241,7 +242,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -1271,7 +1273,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -1486,7 +1488,8 @@
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an
+optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -1809,8 +1812,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1826,8 +1827,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1845,8 +1844,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1863,8 +1860,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1880,8 +1875,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -2356,7 +2349,10 @@
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be
+re-installed immediately unless the computer is also no longer managed by
+Jamf Pro itself. To fully unmanage a computer, use the
+<span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -2437,8 +2433,6 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2455,12 +2449,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if
+no wallpaper_id</p>
 </div>
       
     </li>
@@ -2473,12 +2466,11 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
+wallpaper_content</p>
 </div>
       
     </li>
@@ -2494,9 +2486,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:57 2020 by
+  Generated on Fri Aug  7 11:26:33 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

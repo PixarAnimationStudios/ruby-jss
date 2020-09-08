@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Uploadable
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::Uploadable";
   relpath = '../';
 </script>
@@ -91,45 +91,55 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A mixin module providing file-upload capabilities to JSSAPIObject subclasses.</p>
+<p>A mixin module providing file-upload capabilities to JSSAPIObject
+subclasses.</p>
 
-<p>Classes mixing in this module are required to define a constant UPLOAD_TYPES which is a Hash of :type =&gt; :resource pairs, like this:</p>
+<p>Classes mixing in this module are required to define a constant
+UPLOAD_TYPES which is a Hash of :type =&gt; :resource pairs, like this:</p>
 
 <pre class="code ruby"><code class="ruby">UPLOAD_TYPES = {
    :icon =&gt; :mobiledeviceapplicationsicon
    :app =&gt; mobiledeviceapplicationsipa
    :attachment =&gt; mobiledeviceapplications
- }
-</code></pre>
+ }</code></pre>
 
-<p>with one pair for each type of upload that the class can handle. (most of them only handle one, usually :attachment)</p>
+<p>with one pair for each type of upload that the class can handle. (most of
+them only handle one, usually :attachment)</p>
 
-<p>When the #upload method is called, one of the keys from that Hash must be specified</p>
+<p>When the #upload method is called, one of the keys from that Hash must be
+specified</p>
 
-<p>Classes with only one upload type may want to redefine #upload to always call super with that one type.</p>
+<p>Classes with only one upload type may want to redefine #upload to always
+call super with that one type.</p>
 <hr>
 
-<p>Implementation Notes from <a href="https://casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post">casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post</a></p>
+<p>Implementation Notes from <a
+href="https://casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post">casperserver:8443/api/index.htm#!/fileuploads/uploadFiles_post</a></p>
 
-<pre class="code ruby"><code class="ruby">POST ...JSSResource/fileuploads/&lt;resource&gt;/&lt;idType&gt;/&lt;id&gt;
-</code></pre>
+<pre class="code ruby"><code class="ruby">POST ...JSSResource/fileuploads/&lt;resource&gt;/&lt;idType&gt;/&lt;id&gt;</code></pre>
 
-<p>You can POST different types of files by entering parameters for &lt;resource&gt;, &lt;idType&gt;, and &lt;id&gt;. For example /JSSResource/fileuploads/computers/id/2.</p>
+<p>You can POST different types of files by entering parameters for
+&lt;resource&gt;, &lt;idType&gt;, and &lt;id&gt;. For example
+/JSSResource/fileuploads/computers/id/2.</p>
 
-<p>Attachments can be uploaded by specifying computers, mobiledevices, enrollmentprofiles, or peripherals as the resource.</p>
+<p>Attachments can be uploaded by specifying computers, mobiledevices,
+enrollmentprofiles, or peripherals as the resource.</p>
 
-<p>Icons can be uploaded by specifying policies, ebooks, or mobiledeviceapplicationsicon as the resource.</p>
+<p>Icons can be uploaded by specifying policies, ebooks, or
+mobiledeviceapplicationsicon as the resource.</p>
 
-<p>A mobile device application can be uploaded by using mobiledeviceapplicationsipa as the resource.</p>
+<p>A mobile device application can be uploaded by using
+mobiledeviceapplicationsipa as the resource.</p>
 
-<p>A disk encryption can be uploaded by specifying diskencryptionconfigurations as the resource.</p>
+<p>A disk encryption can be uploaded by specifying
+diskencryptionconfigurations as the resource.</p>
 
-<p>idTypes supported are “id” and “name”, although peripheral names are not supported.</p>
+<p>idTypes supported are “id” and “name”, although peripheral names are not
+supported.</p>
 
 <p>A sample command is:</p>
 
-<pre class="code ruby"><code class="ruby">curl -k -u user:password https://my.jss:8443/JSSResource/fileuploads/computers/id/2 -F name=@/Users/admin/Documents/Sample.doc -X POST
-</code></pre>
+<pre class="code ruby"><code class="ruby">curl -k -u user:password https://my.jss:8443/JSSResource/fileuploads/computers/id/2 -F name=@/Users/admin/Documents/Sample.doc -X POST</code></pre>
 
 
   </div>
@@ -202,7 +212,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 </div></span>
   
 </li>
@@ -229,7 +240,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 
 
   </div>
@@ -249,7 +261,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the
+class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -358,9 +371,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:55 2020 by
+  Generated on Fri Aug  7 11:26:26 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Module: JSS::MDM
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::MDM";
   relpath = '../';
 </script>
@@ -93,14 +93,14 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This module provides the ability to work with MDM commands for objects that can receive them.</p>
+<p>This module provides the ability to work with MDM commands for objects that
+can receive them.</p>
 
 <p>Objects mixing in this module MUST:</p>
 <ul><li>
 <p>Define the constant MDM_COMMAND_TARGET - One of:</p>
 
-<pre class="code ruby"><code class="ruby">:computers, :computergroups, :mobiledevices, :mobiledevicegroups
-</code></pre>
+<pre class="code ruby"><code class="ruby">:computers, :computergroups, :mobiledevices, :mobiledevicegroups</code></pre>
 </li></ul>
 
 
@@ -142,7 +142,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computers</span><span class='words_sep'> </span><span class='tstring_content'>computergroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computers</span><span class='words_sep'> </span><span class='tstring_content'>computergroups</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="COMPUTER_RSRC-constant" class="">COMPUTER_RSRC =
           <div class="docstring">
@@ -174,7 +174,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>mobiledevices</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>mobiledevices</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="DEVICE_RSRC-constant" class="">DEVICE_RSRC =
           <div class="docstring">
@@ -196,7 +196,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>These targets are groups, and need their member ids expanded for sending commands</p>
+<p>These targets are groups, and need their member ids expanded for sending
+commands</p>
 
 
   </div>
@@ -206,7 +207,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computergroups</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>computergroups</span><span class='words_sep'> </span><span class='tstring_content'>mobiledevicegroups</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="BLANK_PUSH-constant" class="">BLANK_PUSH =
           <div class="docstring">
@@ -500,7 +501,11 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Symbols that can be used to represent the commands to the send_mdm_command Class method. Alternates are provided to match both the actual API command, and the command label in the JSS web UI, as well as common variants. e.g. the DeviceLock command in the API, is recognized as: :device_lock and :lock_device, and just :lock</p>
+<p>Symbols that can be used to represent the commands to the
+send_mdm_command Class method. Alternates are provided to match both the
+actual API command, and the command label in the JSS web UI, as well as
+common variants. e.g. the DeviceLock command in the API, is recognized as:
+:device_lock and :lock_device, and just :lock</p>
 
 
   </div>
@@ -1716,7 +1721,8 @@
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an
+optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -2169,8 +2175,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2186,8 +2190,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2205,8 +2207,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2223,8 +2223,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2240,8 +2238,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -2743,7 +2739,10 @@
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be
+re-installed immediately unless the computer is also no longer managed by
+Jamf Pro itself. To fully unmanage a computer, use the
+<span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -2850,8 +2849,6 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2868,12 +2865,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if
+no wallpaper_id</p>
 </div>
       
     </li>
@@ -2886,12 +2882,11 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
+wallpaper_content</p>
 </div>
       
     </li>
@@ -2937,9 +2932,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:54 2020 by
+  Generated on Fri Aug  7 11:26:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

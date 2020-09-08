@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::Timestamp
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::Timestamp";
   relpath = '../';
 </script>
@@ -106,13 +106,21 @@
     
 <p>A timestamp as used in the JAMF API JSON data</p>
 
-<p>Instantiate with a String in iso6801 format (used in the API JSON for all(?) time/date values), or with a Time or Jamf::Timestamp instance, or with an Integer unix epoch, which is treated Jamf-style if 1_000_000_000_000 or higher</p>
+<p>Instantiate with a String in iso6801 format (used in the API JSON for
+all(?) time/date values), or with a Time or Jamf::Timestamp instance, or
+with an Integer unix epoch, which is treated Jamf-style if
+1_000_000_000_000 or higher</p>
 
-<p>To unset a timestamp value, instantiate with nil or an empty string. The Time value will be &#39;1970-01-01 00:00:00 -0000&#39;, the unix epoch, and the to_jamf method will return an empty string.</p>
+<p>To unset a timestamp value, instantiate with nil or an empty string. The
+Time value will be &#39;1970-01-01 00:00:00 -0000&#39;, the unix epoch, and
+the to_jamf method will return an empty string.</p>
 
-<p>NOTE: Passing &#39;1970-01-01 00:00:00 -0000&#39; or the equivalent explicitly will NOT be treated as an empty timestamp, but as that actual value. You must pass nil or an empty string to indicate an empty value</p>
+<p>NOTE: Passing &#39;1970-01-01 00:00:00 -0000&#39; or the equivalent
+explicitly will NOT be treated as an empty timestamp, but as that actual
+value. You must pass nil or an empty string to indicate an empty value</p>
 
-<p>TODO: Find out: will an empty string work, e.g. in ext attrs with a DATE value, when used in criteria?</p>
+<p>TODO: Find out: will an empty string work, e.g. in ext attrs with a DATE
+value, when used in criteria?</p>
 
 <p>This class is a subclass of Time, so all Time methods are available.</p>
 <ul><li>
@@ -121,7 +129,8 @@
 <p>use .to_f for a unix epoch with fractions</p>
 </li></ul>
 
-<p>Use #to_jamf to get the formated string to use in JSON for sending to the API - it <strong>should</strong> always be in ISO8601 format</p>
+<p>Use #to_jamf to get the formated string to use in JSON for sending to the
+API - it <strong>should</strong> always be in ISO8601 format</p>
 
 
   </div>
@@ -142,7 +151,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>When we are unsetting a timestamp by intializing with nil, we still have to have a time object - so use the unix epoch</p>
+<p>When we are unsetting a timestamp by intializing with nil, we still have to
+have a time object - so use the unix epoch</p>
 
 
   </div>
@@ -158,7 +168,10 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Integers with this value or higher are a jamf-style epoch, meaning the first 10 digits are a unix epoch, and the last 3 are milliseconds. Integers below this shouldn&#39;t appear, but will be treated as a regular unix epoch. (999_999_999_999 = 33658-09-27 01:46:39 UTC)</p>
+<p>Integers with this value or higher are a jamf-style epoch, meaning the
+first 10 digits are a unix epoch, and the last 3 are milliseconds. Integers
+below this shouldn&#39;t appear, but will be treated as a regular unix
+epoch. (999_999_999_999 = 33658-09-27 01:46:39 UTC)</p>
 
 
   </div>
@@ -174,7 +187,9 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Stings containing integers of this length are a jamf-style epoch, meaning the first 10 digits are a unix epoch, and the last 3 are milliseconds. This length-test will be valid until the year 2286.</p>
+<p>Stings containing integers of this length are a jamf-style epoch, meaning
+the first 10 digits are a unix epoch, and the last 3 are milliseconds. This
+length-test will be valid until the year 2286.</p>
 
 
   </div>
@@ -319,7 +334,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Timestamp.</p>
+<p>Returns a new instance of Timestamp</p>
 
 
   </div>
@@ -427,7 +442,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the milliseconds of the Time.</p>
+<p>Returns the milliseconds of the Time</p>
 
 
   </div>
@@ -576,9 +591,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:04 2020 by
+  Generated on Fri Aug  7 11:26:51 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

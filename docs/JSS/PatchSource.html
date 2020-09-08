@@ -6,15 +6,15 @@
 <title>
   Class: JSS::PatchSource
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::PatchSource";
   relpath = '../';
 </script>
@@ -109,7 +109,8 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A patch source. The abstract parent class of <span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span> and <span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></p>
+<p>A patch source. The abstract parent class of <span class='object_link'><a href="PatchInternalSource.html" title="JSS::PatchInternalSource (class)">PatchInternalSource</a></span> and
+<span class='object_link'><a href="PatchExternalSource.html" title="JSS::PatchExternalSource (class)">PatchExternalSource</a></span></p>
 
 
   </div>
@@ -176,7 +177,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for PatchReport XML data parsing cuz Borked JSON</p>
+<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for
+PatchReport XML data parsing cuz Borked JSON</p>
 
 
   </div>
@@ -528,7 +530,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>FOr a given patch source, an array of available &#39;name_id&#39;s which are uniq identifiers for titles available on that source.</p>
+<p>FOr a given patch source, an array of available &#39;name_id&#39;s which
+are uniq identifiers for titles available on that source.</p>
 </div></span>
   
 </li>
@@ -552,7 +555,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get a list of patch titles available from a Patch Source (either internal or external, since they have unique ids ).</p>
+<p>Get a list of patch titles available from a Patch Source (either internal
+or external, since they have unique ids ).</p>
 </div></span>
   
 </li>
@@ -648,7 +652,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a name or id for a Patch Source (internal or external) return the id if it exists, or nil if it doesn&#39;t.</p>
+<p>Given a name or id for a Patch Source (internal or external) return the id
+if it exists, or nil if it doesn&#39;t.</p>
 </div></span>
   
 </li>
@@ -672,7 +677,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a name or id for a Patch Source return :internal or :external if it exists, or nil if it doesnt.</p>
+<p>Given a name or id for a Patch Source return :internal or :external if it
+exists, or nil if it doesnt.</p>
 </div></span>
   
 </li>
@@ -808,7 +814,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -972,7 +979,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this source enabled?.</p>
+<p>Returns Is this source enabled?</p>
 
 
   </div>
@@ -1037,7 +1044,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URL from which patch info is retrieved.</p>
+<p>Returns The URL from which patch info is retrieved</p>
 
 
   </div>
@@ -1102,7 +1109,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The host name of the patch source.</p>
+<p>Returns The host name of the patch source</p>
 
 
   </div>
@@ -1188,7 +1195,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -1231,7 +1238,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the TCP port of the patch source.</p>
+<p>Returns the TCP port of the patch source</p>
 
 
   </div>
@@ -1316,7 +1323,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is SSL enabled for the patch source?.</p>
+<p>Returns Is SSL enabled for the patch source?</p>
 
 
   </div>
@@ -1417,12 +1424,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -1490,8 +1496,7 @@
 
 <p>the same as JSS::PatchExternalSource.all refresh, api: api</p>
 
-<pre class="code ruby"><code class="ruby">@see  JSS::PatchExternalSource.all
-</code></pre>
+<pre class="code ruby"><code class="ruby">@see  JSS::PatchExternalSource.all</code></pre>
 
 
   </div>
@@ -1638,7 +1643,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>FOr a given patch source, an array of available &#39;name_id&#39;s which are uniq identifiers for titles available on that source.</p>
+<p>FOr a given patch source, an array of available &#39;name_id&#39;s which
+are uniq identifiers for titles available on that source.</p>
 
 
   </div>
@@ -1704,7 +1710,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get a list of patch titles available from a Patch Source (either internal or external, since they have unique ids )</p>
+<p>Get a list of patch titles available from a Patch Source (either internal
+or external, since they have unique ids )</p>
 
 <p>get the available titles</p>
 
@@ -1739,12 +1746,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The api connection to use for the query Defaults to the currently active connection</p>
+<p>The api connection to use for the query Defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1769,8 +1775,7 @@
 :current_version String
 :publisher String
 :last_modified Time
-:app_name  String
-</code></pre>
+:app_name  String</code></pre>
 </div>
       
     </li>
@@ -1929,7 +1934,8 @@
     
 <p>Fetch either an internal or external patch source</p>
 
-<p>BUG: there&#39;s an API bug: fetching a non-existent ids which is why we rescue internal server errors.</p>
+<p>BUG: there&#39;s an API bug: fetching a non-existent ids which is why we
+rescue internal server errors.</p>
 
 
   </div>
@@ -2077,9 +2083,11 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a name or id for a Patch Source (internal or external) return the id if it exists, or nil if it doesn&#39;t.</p>
+<p>Given a name or id for a Patch Source (internal or external) return the id
+if it exists, or nil if it doesn&#39;t.</p>
 
-<p>NOTE: does not indicate which kind of source it is, just that it exists and can be used as a source_id for a patch title.</p>
+<p>NOTE: does not indicate which kind of source it is, just that it exists and
+can be used as a source_id for a patch title.</p>
 
 
   </div>
@@ -2130,12 +2138,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2205,7 +2212,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a name or id for a Patch Source return :internal or :external if it exists, or nil if it doesnt.</p>
+<p>Given a name or id for a Patch Source return :internal or :external if it
+exists, or nil if it doesnt.</p>
 
 
   </div>
@@ -2256,12 +2264,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2482,7 +2489,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -2590,9 +2598,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:04 2020 by
+  Generated on Fri Aug  7 11:26:50 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

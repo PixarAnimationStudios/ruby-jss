@@ -6,15 +6,15 @@
 <title>
   Class: JSS::PeripheralType
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::PeripheralType";
   relpath = '../';
 </script>
@@ -113,11 +113,14 @@
     
 <p>A peripheral_type in the JSS.</p>
 
-<p>A PeripheralType (as opposed to an individual <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>) is just an id, a name, and an Array of Hashes describing the fields of data to be stored for peripherals of this type.</p>
+<p>A PeripheralType (as opposed to an individual <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>) is just an
+id, a name, and an Array of Hashes describing the fields of data to be
+stored for peripherals of this type.</p>
 
 <p>See <span class='object_link'><a href="#fields-instance_method" title="JSS::PeripheralType#fields (method)">#fields</a></span> for a desciption of how field definitions are stored.</p>
 
-<p>For manipulating the fields, see <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span></p>
+<p>For manipulating the fields, see <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>,
+<span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span></p>
 
 
   </div>
@@ -177,7 +180,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -209,7 +213,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -504,7 +509,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -676,7 +682,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -798,7 +804,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -831,12 +838,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -915,7 +921,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -1046,14 +1053,19 @@
 <ul><li>
 <p>:name, String, the name of the field</p>
 </li><li>
-<p>:type, String or Symbol, the kind of data to be stored in the field, either :text or :menu</p>
+<p>:type, String or Symbol, the kind of data to be stored in the field, either
+:text or :menu</p>
 </li><li>
 <p>:choices, Array of Strings - if type is :menu, these are the menu choices.</p>
 </li><li>
 <p>:order, the one-based index of this field amongst it&#39;s peers.</p>
 </li></ul>
 
-<p>Since Arrays are zero-based, and the field order is one-based, keeping a nil at the front of the Array will keep the :order number in sync with the Array index of each field definition. This is done automatically by the field-editing methods: <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span>.</p>
+<p>Since Arrays are zero-based, and the field order is one-based, keeping a
+nil at the front of the Array will keep the :order number in sync with the
+Array index of each field definition. This is done automatically by the
+field-editing methods: <span class='object_link'><a href="#fields=-instance_method" title="JSS::PeripheralType#fields= (method)">#fields=</a></span>, <span class='object_link'><a href="#set_field-instance_method" title="JSS::PeripheralType#set_field (method)">#set_field</a></span>, <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>,
+<span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span>, and <span class='object_link'><a href="#delete_field-instance_method" title="JSS::PeripheralType#delete_field (method)">#delete_field</a></span>.</p>
 
 <p>So the Array from the API comes like this:</p>
 
@@ -1136,7 +1148,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Replace the entire Array of field definitions. The :order of each will be set based on the indexes of the Array provided.</p>
+<p>Replace the entire Array of field definitions. The :order of each will be
+set based on the indexes of the Array provided.</p>
 
 
   </div>
@@ -1301,7 +1314,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -1428,7 +1442,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Replace the details of one specific field.</p>
 
-<p>The order must already exist. Otherwise use <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>, <span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, or <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span></p>
+<p>The order must already exist. Otherwise use <span class='object_link'><a href="#append_field-instance_method" title="JSS::PeripheralType#append_field (method)">#append_field</a></span>,
+<span class='object_link'><a href="#prepend_field-instance_method" title="JSS::PeripheralType#prepend_field (method)">#prepend_field</a></span>, or <span class='object_link'><a href="#insert_field-instance_method" title="JSS::PeripheralType#insert_field (method)">#insert_field</a></span></p>
 
 
   </div>
@@ -1578,9 +1593,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:01 2020 by
+  Generated on Fri Aug  7 11:26:43 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

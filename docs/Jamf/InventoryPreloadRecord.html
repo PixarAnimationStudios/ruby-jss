@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::InventoryPreloadRecord
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::InventoryPreloadRecord";
   relpath = '../';
 </script>
@@ -115,9 +115,14 @@
     
 <p>An Inventory Preload record for a Computer or Mobile Device in Jamf.</p>
 
-<p>Since the JPAPI offers access to these records via JSON as well as CSV uploads, we are implementing JSON access, to stay in line with the rest of how ruby-jss works, and keep things simple.</p>
+<p>Since the JPAPI offers access to these records via JSON as well as CSV
+uploads, we are implementing JSON access, to stay in line with the rest of
+how ruby-jss works, and keep things simple.</p>
 
-<p>If you want to use a CSV as your data source, you should use a ruby CSV library, such as the one built in to ruby, and loop thru your CSV records, creating or fetching instances of this class as needed, manipulating them, and saving them.</p>
+<p>If you want to use a CSV as your data source, you should use a ruby CSV
+library, such as the one built in to ruby, and loop thru your CSV records,
+creating or fetching instances of this class as needed, manipulating them,
+and saving them.</p>
 
 
   </div>
@@ -193,13 +198,14 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>serialNumber</span><span class='words_sep'> </span><span class='tstring_content'>deviceType</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>serialNumber</span><span class='words_sep'> </span><span class='tstring_content'>deviceType</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_MODEL-constant" class="">OBJECT_MODEL =
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of
+how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -361,7 +367,7 @@
 </span>  <span class='label'>extensionAttributes:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InventoryPreloadExtensionAttribute.html" title="Jamf::InventoryPreloadExtensionAttribute (class)">InventoryPreloadExtensionAttribute</a></span></span><span class='comma'>,</span>
     <span class='label'>multi:</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ext_attrs</span><span class='words_sep'> </span><span class='tstring_content'>eas</span><span class='tstring_end'>]</span></span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>eas</span><span class='words_sep'>]</span>
   <span class='rbrace'>}</span>
 
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
@@ -1084,6 +1090,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#ext_attrs-instance_method" title="#ext_attrs (instance method)">#<strong>ext_attrs</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a Hash of ea name =&gt; ea_value for all eas currently set.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#remove_ext_attr-instance_method" title="#remove_ext_attr (instance method)">#<strong>remove_ext_attr</strong>(ea_name)  &#x21d2; Object </a>
     
 
@@ -1123,7 +1153,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: validation for ea&#39;s existance and value data type, once EAs are implemented in JPAPI (see inventory_preload_extension_attribute.rb).</p>
+<p>TODO: validation for ea&#39;s existance and value data type, once EAs are
+implemented in JPAPI (see inventory_preload_extension_attribute.rb).</p>
 </div></span>
   
 </li>
@@ -2379,7 +2410,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a note to this resource&#39;s change log.</p>
 
-<p>If the change history has been cached already, it is recached after adding the note.</p>
+<p>If the change history has been cached already, it is recached after adding
+the note.</p>
 
 
   </div>
@@ -2429,7 +2461,8 @@
     
 <p>The change and note history for this resource.</p>
 
-<p>The history is cached internally and only re-fetched when a truthy parameter is given.</p>
+<p>The history is cached internally and only re-fetched when a truthy
+parameter is given.</p>
 
 
   </div>
@@ -2512,13 +2545,6 @@
       <pre class="lines">
 
 
-255
-256
-257
-258
-259
-260
-261
 262
 263
 264
@@ -2527,10 +2553,17 @@
 267
 268
 269
-270</pre>
+270
+271
+272
+273
+274
+275
+276
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/inventory_preload_record.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/inventory_preload_record.rb', line 262</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear'>clear</span>
   <span class='const'><span class='object_link'><a href="#OBJECT_MODEL-constant" title="Jamf::InventoryPreloadRecord::OBJECT_MODEL (constant)">OBJECT_MODEL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr'>attr</span><span class='op'>|</span>
@@ -2547,6 +2580,51 @@
 
     <span class='id identifier rubyid_send'>send</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr'>attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ext_attrs-instance_method">
+  
+    #<strong>ext_attrs</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a Hash of ea name =&gt; ea_value for all eas currently set.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/inventory_preload_record.rb', line 255</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ext_attrs'>ext_attrs</span>
+  <span class='id identifier rubyid_eas'>eas</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_extensionAttributes'>extensionAttributes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ea'>ea</span><span class='op'>|</span> <span class='id identifier rubyid_eas'>eas</span><span class='lbracket'>[</span><span class='id identifier rubyid_ea'>ea</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_ea'>ea</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_eas'>eas</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2608,7 +2686,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>TODO: validation for ea&#39;s existance and value data type, once EAs are implemented in JPAPI (see inventory_preload_extension_attribute.rb)</p>
+<p>TODO: validation for ea&#39;s existance and value data type, once EAs are
+implemented in JPAPI (see inventory_preload_extension_attribute.rb)</p>
 
 
   </div>
@@ -2680,9 +2759,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:07 2020 by
+  Generated on Fri Aug  7 11:27:03 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

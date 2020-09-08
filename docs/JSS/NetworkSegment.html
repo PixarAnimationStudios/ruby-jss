@@ -6,15 +6,15 @@
 <title>
   Class: JSS::NetworkSegment
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::NetworkSegment";
   relpath = '../';
 </script>
@@ -164,7 +164,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -180,7 +181,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -538,7 +540,33 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a starting address &amp; ending address, mask, or cidr, return a Range object of IPAddr objects.</p>
+<p>Given a starting address &amp; ending address, mask, or cidr, return a
+Range object of IPAddr objects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_range_width-class_method" title="ip_range_width (class method)">.<strong>ip_range_width</strong>(ip1, ip2)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many
+IP addresses exist between them.</p>
 </div></span>
   
 </li>
@@ -568,10 +596,10 @@
 </li>
 
       
-        <li class="public deprecated">
+        <li class="public ">
   <span class="summary_signature">
     
-      <a href="#my_network_segment-class_method" title="my_network_segment (class method)">.<strong>my_network_segment</strong>(api: JSS.api)  &#x21d2; Object </a>
+      <a href="#my_network_segment-class_method" title="my_network_segment (class method)">.<strong>my_network_segment</strong>(refresh = false, name: false, api: JSS.api)  &#x21d2; Integer, ... </a>
     
 
     
@@ -581,12 +609,13 @@
   
   
   
-  <span class="deprecated note title">deprecated</span>
+  
   
 
   
-    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
-<p>use my_network_segments</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Which network segment is seen as current? According to the Jamf Pro Admin
+Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.</p>
 </div></span>
   
 </li>
@@ -595,7 +624,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#my_network_segments-class_method" title="my_network_segments (class method)">.<strong>my_network_segments</strong>(refresh = false, names: false, api: JSS.api)  &#x21d2; Array&lt;Integer&gt; </a>
+      <a href="#my_network_segments-class_method" title="my_network_segments (class method)">.<strong>my_network_segments</strong>(refresh = false, names: false, api: JSS.api)  &#x21d2; Array&lt;Integer&gt;, Array&lt;String&gt; </a>
     
 
     
@@ -634,16 +663,17 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>All NetworkSegments in the given API as IPAddr object Ranges representing the Segment, e.g.</p>
+<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances
+representing the Segment, e.g.</p>
 </div></span>
   
 </li>
 
       
-        <li class="public deprecated">
+        <li class="public ">
   <span class="summary_signature">
     
-      <a href="#network_segment_for_ip-class_method" title="network_segment_for_ip (class method)">.<strong>network_segment_for_ip</strong>(ip, api: JSS.api)  &#x21d2; Object </a>
+      <a href="#network_ranges_as_integers-class_method" title="network_ranges_as_integers (class method)">.<strong>network_ranges_as_integers</strong>(refresh = false, api: JSS.api)  &#x21d2; Hash{Integer =&gt; Range} </a>
     
 
     
@@ -653,12 +683,13 @@
   
   
   
-  <span class="deprecated note title">deprecated</span>
+  
   
 
   
-    <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
-<p>use network_segments_for_ip</p>
+    <span class="summary_desc"><div class='inline'>
+<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit
+integers.</p>
 </div></span>
   
 </li>
@@ -667,7 +698,31 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#network_segments_for_ip-class_method" title="network_segments_for_ip (class method)">.<strong>network_segments_for_ip</strong>(ip, refresh = false, api: JSS.api)  &#x21d2; Array&lt;Integer&gt; </a>
+      <a href="#network_segment_for_ip-class_method" title="network_segment_for_ip (class method)">.<strong>network_segment_for_ip</strong>(ipaddr, refresh: false, api: JSS.api)  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Which network segment is seen as current for a given IP addr?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#network_segments_for_ip-class_method" title="network_segments_for_ip (class method)">.<strong>network_segments_for_ip</strong>(ipaddr, refresh = false, api: JSS.api)  &#x21d2; Array&lt;Integer&gt; </a>
     
 
     
@@ -763,7 +818,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Does this network segment equal another? equality means the ranges are equal.</p>
+<p>Does this network segment equal another? equality means the ranges are
+equal.</p>
 </div></span>
   
 </li>
@@ -789,7 +845,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g. 255.255.255.0).</p>
+<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g.
+255.255.255.0).</p>
 </div></span>
   
 </li>
@@ -871,7 +928,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Does this network segment include an address or another segment? Inclusion means the other is completely inside this one.</p>
+<p>Does this network segment include an address or another segment? Inclusion
+means the other is completely inside this one.</p>
 </div></span>
   
 </li>
@@ -926,7 +984,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -1076,35 +1135,35 @@
       <pre class="lines">
 
 
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316</pre>
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 377</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span> <span class='id identifier rubyid_args'>args</span>
@@ -1156,7 +1215,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns building for this segment. Must be one of the buildings in the JSS.</p>
+<p>Returns building for this segment. Must be one of the buildings in the JSS</p>
 
 
   </div>
@@ -1188,12 +1247,12 @@
       <pre class="lines">
 
 
-263
-264
-265</pre>
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 263</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 349</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_building'>building</span>
   <span class='ivar'>@building</span>
@@ -1217,7 +1276,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns department for this segment. Must be one of the depts in the JSS.</p>
+<p>Returns department for this segment. Must be one of the depts in the JSS</p>
 
 
   </div>
@@ -1249,12 +1308,12 @@
       <pre class="lines">
 
 
-266
-267
-268</pre>
+352
+353
+354</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 266</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 352</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_department'>department</span>
   <span class='ivar'>@department</span>
@@ -1278,7 +1337,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the distribution point to be used from this network segment.</p>
+<p>Returns the name of the distribution point to be used from this network
+segment</p>
 
 
   </div>
@@ -1310,12 +1370,12 @@
       <pre class="lines">
 
 
-269
-270
-271</pre>
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_distribution_point'>distribution_point</span>
   <span class='ivar'>@distribution_point</span>
@@ -1339,7 +1399,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns ending IP adresss.</p>
+<p>Returns ending IP adresss</p>
 
 
   </div>
@@ -1371,12 +1431,12 @@
       <pre class="lines">
 
 
-260
-261
-262</pre>
+346
+347
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ending_address'>ending_address</span>
   <span class='ivar'>@ending_address</span>
@@ -1405,7 +1465,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -1448,7 +1508,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the netboot server for this segment.</p>
+<p>Returns the netboot server for this segment</p>
 
 
   </div>
@@ -1480,12 +1540,12 @@
       <pre class="lines">
 
 
-275
-276
-277</pre>
+361
+362
+363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 361</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_netboot_server'>netboot_server</span>
   <span class='ivar'>@netboot_server</span>
@@ -1509,7 +1569,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should machines checking in from this segment update their building.</p>
+<p>Returns should machines checking in from this segment update their building</p>
 
 
   </div>
@@ -1541,12 +1601,12 @@
       <pre class="lines">
 
 
-284
-285
-286</pre>
+370
+371
+372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 370</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_override_buildings'>override_buildings</span>
   <span class='ivar'>@override_buildings</span>
@@ -1570,7 +1630,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should machines checking in from this segment update their dept.</p>
+<p>Returns should machines checking in from this segment update their dept</p>
 
 
   </div>
@@ -1602,12 +1662,12 @@
       <pre class="lines">
 
 
-281
-282
-283</pre>
+367
+368
+369</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 281</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 367</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_override_departments'>override_departments</span>
   <span class='ivar'>@override_departments</span>
@@ -1631,7 +1691,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns starting IP adresss.</p>
+<p>Returns starting IP adresss</p>
 
 
   </div>
@@ -1663,12 +1723,12 @@
       <pre class="lines">
 
 
-257
-258
-259</pre>
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_starting_address'>starting_address</span>
   <span class='ivar'>@starting_address</span>
@@ -1724,12 +1784,12 @@
       <pre class="lines">
 
 
-278
-279
-280</pre>
+364
+365
+366</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 364</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_swu_server'>swu_server</span>
   <span class='ivar'>@swu_server</span>
@@ -1753,7 +1813,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the mount url for the distribution point.</p>
+<p>Returns the mount url for the distribution point</p>
 
 
   </div>
@@ -1785,12 +1845,12 @@
       <pre class="lines">
 
 
-272
-273
-274</pre>
+358
+359
+360</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 272</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 358</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span>
   <span class='ivar'>@url</span>
@@ -1819,17 +1879,26 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a starting address &amp; ending address, mask, or cidr, return a Range object of IPAddr objects.</p>
+<p>Given a starting address &amp; ending address, mask, or cidr, return a
+Range object of IPAddr objects.</p>
 
-<p>starting_address: must be provided, and may be a masked address, in which case nothing else is needed.</p>
+<p>starting_address: must be provided, and may be a masked address, in which
+case nothing else is needed.</p>
 
-<p>If starting_address: is an unmasked address, then one of ending_address: cidr: or mask: must be provided.</p>
+<p>If starting_address: is an unmasked address, then one of ending_address:
+cidr: or mask: must be provided.</p>
 
-<p>If given, ending_address: overrides mask:, cidr:, and a masked starting_address:</p>
+<p>If given, ending_address: overrides mask:, cidr:, and a masked
+starting_address:</p>
 
 <p>These give the same result:</p>
 
-<p>ip_range starting_address: &#39;192.168.1.0&#39;, ending_address: &#39;192.168.1.255&#39; ip_range starting_address: &#39;192.168.1.0&#39;, mask: &#39;255.255.255.0&#39; ip_range starting_address: &#39;192.168.1.0&#39;, cidr: 24 ip_range starting_address: &#39;192.168.1.0/24&#39; ip_range starting_address: &#39;192.168.1.0/255.255.255.0&#39;</p>
+<p>ip_range starting_address: &#39;192.168.1.0&#39;, ending_address:
+&#39;192.168.1.255&#39; ip_range starting_address: &#39;192.168.1.0&#39;,
+mask: &#39;255.255.255.0&#39; ip_range starting_address:
+&#39;192.168.1.0&#39;, cidr: 24 ip_range starting_address:
+&#39;192.168.1.0/24&#39; ip_range starting_address:
+&#39;192.168.1.0/255.255.255.0&#39;</p>
 
 <p>All the above will produce:</p>
 
@@ -1853,8 +1922,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1871,12 +1938,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The ending address. If given, it overrides mask:, cidr: and a masked starting_address:</p>
+<p>The ending address. If given, it overrides mask:, cidr: and a masked
+starting_address:</p>
 </div>
       
     </li>
@@ -1888,8 +1954,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1906,8 +1970,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1957,27 +2019,27 @@
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151</pre>
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ip_range'>ip_range</span><span class='lparen'>(</span><span class='label'>starting_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ending_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>mask:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cidr:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>starting_address: must be provided</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_starting_address'>starting_address</span>
@@ -1996,6 +2058,67 @@
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_startip'>startip</span><span class='op'>..</span><span class='id identifier rubyid_endip'>endip</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ip_range_width-class_method">
+  
+    .<strong>ip_range_width</strong>(ip1, ip2)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many
+IP addresses exist between them.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+298
+299
+300
+301
+302
+303</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 298</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ip_range_width'>ip_range_width</span><span class='lparen'>(</span><span class='id identifier rubyid_ip1'>ip1</span><span class='comma'>,</span> <span class='id identifier rubyid_ip2'>ip2</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Parameters must be IPAddr objects</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_ip1'>ip1</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_ip2'>ip2</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_low'>low</span><span class='comma'>,</span> <span class='id identifier rubyid_high'>high</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_ip1'>ip1</span><span class='comma'>,</span> <span class='id identifier rubyid_ip2'>ip2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
+  <span class='id identifier rubyid_high'>high</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>-</span> <span class='id identifier rubyid_low'>low</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2047,8 +2170,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2064,8 +2185,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2102,13 +2221,13 @@
       <pre class="lines">
 
 
-165
-166
-167
-168</pre>
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_masked_starting_address'>masked_starting_address</span><span class='lparen'>(</span><span class='label'>starting_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>mask:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cidr:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_starting_address'>starting_address</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_starting'>starting</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_mask'>mask</span> <span class='op'>||</span> <span class='id identifier rubyid_cidr'>cidr</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_mask'>mask</span> <span class='op'>||</span> <span class='id identifier rubyid_cidr'>cidr</span>
@@ -2122,51 +2241,7 @@
       <div class="method_details ">
   <h3 class="signature " id="my_network_segment-class_method">
   
-    .<strong>my_network_segment</strong>(api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
-<p>use my_network_segments</p>
-</div></div>
-
-<p>Here for backward compatibility</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-225
-226
-227</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 225</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_network_segment'>my_network_segment</span><span class='lparen'>(</span><span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_my_network_segments'>my_network_segments</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="my_network_segments-class_method">
-  
-    .<strong>my_network_segments</strong>(refresh = false, names: false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt> 
+    .<strong>my_network_segment</strong>(refresh = false, name: false, api: JSS.api)  &#x21d2; <tt>Integer</tt>, ... 
   
 
   
@@ -2175,26 +2250,49 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Find the current network segment ids for the machine running this code</p>
+<p>Which network segment is seen as current? According to the Jamf Pro Admin
+Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.
+If multiple ones have the same number of IPs, then its the one with the
+lowest starting address</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>return the name of the netsegment, not the id</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>the NetworkSegment ids for this machine right now.</p>
+<p>the id of the current net segment, or nil</p>
 </div>
       
     </li>
@@ -2207,16 +2305,109 @@
       <pre class="lines">
 
 
-215
-216
-217
-218
-219
-220
-221</pre>
+329
+330
+331
+332
+333
+334
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 329</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_network_segment'>my_network_segment</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_my_ip'>my_ip</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_ip_address'><span class='object_link'><a href="Client.html#my_ip_address-class_method" title="JSS::Client.my_ip_address (method)">my_ip_address</a></span></span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_my_ip'>my_ip</span>
+
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_network_segment_for_ip'>network_segment_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_my_ip'>my_ip</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_id'>id</span> <span class='kw'>unless</span> <span class='id identifier rubyid_name'>name</span>
+
+  <span class='id identifier rubyid_map_all_ids_to'>map_all_ids_to</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_network_segments-class_method">
+  
+    .<strong>my_network_segments</strong>(refresh = false, names: false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Find the current network segment ids for the machine running this code</p>
+
+<p>See my_network_segment to get the current one according to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>names</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the array will contain Network Segment names, not ids</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the NetworkSegment ids or names for this machine right now.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315
+316
+317
+318
+319</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 313</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_network_segments'>my_network_segments</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>names:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ids'>ids</span> <span class='op'>=</span> <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_ip_address'><span class='object_link'><a href="Client.html#my_ip_address-class_method" title="JSS::Client.my_ip_address (method)">my_ip_address</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2242,12 +2433,25 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>All NetworkSegments in the given API as IPAddr object Ranges representing the Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254 the range looks like:</p>
+<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances
+representing the Segment, e.g. with starting = 10.24.9.1 and ending =
+10.24.15.254 the range looks like:</p>
 
-<pre class="code ruby"><code class="ruby">&lt;IPAddr: IPv4:10.24.9.1/255.255.255.255&gt;..#&lt;IPAddr: IPv4:10.24.15.254/255.255.255.255&gt;
-</code></pre>
+<pre class="code ruby"><code class="ruby">&lt;IPAddr: IPv4:10.24.9.1/255.255.255.255&gt;
+ ..
+&lt;IPAddr: IPv4:10.24.15.254/255.255.255.255&gt;</code></pre>
 
 <p>Using the #include? method on those Ranges is very useful.</p>
+
+<p>Note1: We don&#39;t use the IPAddr#to_range method because that works</p>
+
+<pre class="code ruby"><code class="ruby">best for masked IPAddrs (which are ranges of IPs with widths
+determined by the mask) and Jamf Network Segments can have arbitrary
+widths.</code></pre>
+
+<p>Note2: See the network_ranges_as_integers method below, which is similar</p>
+
+<pre class="code ruby"><code class="ruby">but much faster.</code></pre>
 
 
   </div>
@@ -2281,8 +2485,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2319,15 +2521,152 @@
       <pre class="lines">
 
 
-83
-84
-85</pre>
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_ranges'>network_ranges</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_network_ranges'>network_ranges</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='ivar'>@network_ranges</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@network_ranges</span> <span class='kw'>if</span> <span class='ivar'>@network_ranges</span>
+
+  <span class='ivar'>@network_ranges</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ns'>ns</span><span class='op'>|</span>
+    <span class='ivar'>@network_ranges</span><span class='lbracket'>[</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:starting_address</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='op'>..</span><span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:ending_address</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@network_ranges</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="network_ranges_as_integers-class_method">
+  
+    .<strong>network_ranges_as_integers</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Integer =&gt; Range}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit
+integers. e.g. &#39;10.0.69.1&#39; is really the integer 167789825 The
+#to_i method of IPAddr objects returns that integer (or the first of them
+if the IPAddr is masked).</p>
+
+<p>Using ranges made of those integers is far faster than using ranges if
+IPAddr objects, so that&#39;s what this method returns.</p>
+
+<p>See also: the network_ranges method above</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the data be re-queried?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the APIConnection to query</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Integer =&gt; Range}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the network segments as Integer Ranges keyed by id</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_ranges_as_integers'>network_ranges_as_integers</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@network_ranges_as_integers</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@network_ranges_as_integers</span> <span class='kw'>if</span> <span class='ivar'>@network_ranges_as_integers</span>
+
+  <span class='ivar'>@network_ranges_as_integers</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ns'>ns</span><span class='op'>|</span>
+    <span class='id identifier rubyid_first'>first</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:starting_address</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='id identifier rubyid_last'>last</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:ending_address</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='ivar'>@network_ranges_as_integers</span><span class='lbracket'>[</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_first'>first</span><span class='op'>..</span><span class='id identifier rubyid_last'>last</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@network_ranges_as_integers</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2337,7 +2676,7 @@
       <div class="method_details ">
   <h3 class="signature " id="network_segment_for_ip-class_method">
   
-    .<strong>network_segment_for_ip</strong>(ip, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    .<strong>network_segment_for_ip</strong>(ipaddr, refresh: false, api: JSS.api)  &#x21d2; <tt>Integer</tt><sup>?</sup> 
   
 
   
@@ -2345,17 +2684,39 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
-<p>use network_segments_for_ip</p>
-</div></div>
+    
+<p>Which network segment is seen as current for a given IP addr?</p>
 
-<p>Here for Backward compatibility</p>
+<p>According to the Jamf Pro Admin Guide, if an IP is in more than one network
+segment, it uses the &#39;smallest&#39; (narrowest) one - the one with
+fewest IP addrs within it.</p>
+
+<p>If multiple ones have the same width, then it uses the one of those with
+the lowest starting address</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the current net segment, or nil</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2363,15 +2724,69 @@
       <pre class="lines">
 
 
-207
-208
-209</pre>
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 265</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_segment_for_ip'>network_segment_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_segment_for_ip'>network_segment_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ipaddr'>ipaddr</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='comment'># get the ip as a 32bit interger
+</span>  <span class='id identifier rubyid_ip'>ip</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ipaddr'>ipaddr</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='comment'># a hash of NetSeg ids =&gt; Range&lt;Integer&gt;
+</span>  <span class='id identifier rubyid_ranges'>ranges</span> <span class='op'>=</span> <span class='id identifier rubyid_network_ranges_as_integers'>network_ranges_as_integers</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__id'>_id</span><span class='comma'>,</span> <span class='id identifier rubyid_range'>range</span><span class='op'>|</span> <span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_ip'>ip</span> <span class='rbrace'>}</span>
+
+  <span class='comment'># we got nuttin
+</span>  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_ranges'>ranges</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='comment'># if we got only one, its the one
+</span>  <span class='kw'>return</span> <span class='id identifier rubyid_ranges'>ranges</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='kw'>if</span> <span class='id identifier rubyid_ranges'>ranges</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
+
+  <span class='comment'># got more than one, sort by range size/width, asc.
+</span>  <span class='id identifier rubyid_sorted_by_size'>sorted_by_size</span> <span class='op'>=</span> <span class='id identifier rubyid_ranges'>ranges</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__i'>_i</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+
+  <span class='comment'># the first one is the smallest/narrowest.
+</span>  <span class='id identifier rubyid__smallest_range_id'>_smallest_range_id</span><span class='comma'>,</span> <span class='id identifier rubyid_smallest_range'>smallest_range</span> <span class='op'>=</span> <span class='id identifier rubyid_sorted_by_size'>sorted_by_size</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+
+  <span class='id identifier rubyid_smallest_range_size'>smallest_range_size</span> <span class='op'>=</span> <span class='id identifier rubyid_smallest_range'>smallest_range</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+
+  <span class='comment'># select all of them that are the same size
+</span>  <span class='id identifier rubyid_all_of_small_size'>all_of_small_size</span> <span class='op'>=</span> <span class='id identifier rubyid_sorted_by_size'>sorted_by_size</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__i'>_i</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='id identifier rubyid_smallest_range_size'>smallest_range_size</span> <span class='rbrace'>}</span>
+
+  <span class='comment'># sort them by the start of each range (r.first)
+</span>  <span class='comment'># and return the lowest start (returned by min_by)
+</span>  <span class='id identifier rubyid_my_range_id'>my_range_id</span><span class='comma'>,</span> <span class='id identifier rubyid__my_range'>_my_range</span> <span class='op'>=</span> <span class='id identifier rubyid_all_of_small_size'>all_of_small_size</span><span class='period'>.</span><span class='id identifier rubyid_min_by'>min_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__i'>_i</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='rbrace'>}</span>
+
+  <span class='comment'># and return the id
+</span>  <span class='id identifier rubyid_my_range_id'>my_range_id</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2381,7 +2796,7 @@
       <div class="method_details ">
   <h3 class="signature " id="network_segments_for_ip-class_method">
   
-    .<strong>network_segments_for_ip</strong>(ip, refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt> 
+    .<strong>network_segments_for_ip</strong>(ipaddr, refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer&gt;</tt> 
   
 
   
@@ -2392,7 +2807,9 @@
     
 <p>Find the ids of the network segments that contain a given IP address.</p>
 
-<p>Even tho IPAddr.include? will take a String or an IPAddr I convert the ip to an IPAddr so that an exception will be raised if the ip isn&#39;t a valid ip.</p>
+<p>Even tho IPAddr.include? will take a String or an IPAddr I convert the ip
+to an IPAddr so that an exception will be raised if the ip isn&#39;t a
+valid ip.</p>
 
 
   </div>
@@ -2443,8 +2860,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2480,21 +2895,21 @@
       <pre class="lines">
 
 
-198
-199
-200
-201
-202
-203</pre>
+247
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 247</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_ok_ip'>ok_ip</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_matches'>matches</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_network_ranges'>network_ranges</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_subnet'>subnet</span><span class='op'>|</span> <span class='id identifier rubyid_matches'>matches</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_id'>id</span> <span class='kw'>if</span> <span class='id identifier rubyid_subnet'>subnet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_ok_ip'>ok_ip</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='id identifier rubyid_matches'>matches</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ipaddr'>ipaddr</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='comment'># get the ip as a 32bit interger
+</span>  <span class='id identifier rubyid_ip'>ip</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ipaddr'>ipaddr</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='comment'># a hash of NetSeg ids =&gt; Range&lt;Integer&gt;
+</span>  <span class='id identifier rubyid_network_ranges_as_integers'>network_ranges_as_integers</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__id'>_id</span><span class='comma'>,</span> <span class='id identifier rubyid_range'>range</span><span class='op'>|</span> <span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_ip'>ip</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2536,12 +2951,12 @@
       <pre class="lines">
 
 
-93
-94
-95</pre>
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_subnets'>subnets</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_network_ranges'>network_ranges</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2626,14 +3041,14 @@
       <pre class="lines">
 
 
-178
-179
-180
-181
-182</pre>
+227
+228
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_validate_ip_range'>validate_ip_range</span><span class='lparen'>(</span><span class='id identifier rubyid_startip'>startip</span><span class='comma'>,</span> <span class='id identifier rubyid_endip'>endip</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_startip'>startip</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_endip'>endip</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
@@ -2663,7 +3078,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Does this network segment equal another? equality means the ranges are equal</p>
+<p>Does this network segment equal another? equality means the ranges are
+equal</p>
 
 
   </div>
@@ -2728,14 +3144,14 @@
       <pre class="lines">
 
 
-363
-364
-365
-366
-367</pre>
+449
+450
+451
+452
+453</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 449</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Argument must be a JSS::NetworkSegment</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> \
@@ -2763,7 +3179,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g. 255.255.255.0)</p>
+<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g.
+255.255.255.0)</p>
 
 
   </div>
@@ -2797,15 +3214,15 @@
       <pre class="lines">
 
 
-490
-491
-492
-493
-494
-495</pre>
+584
+585
+586
+587
+588
+589</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 490</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 584</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cidr='>cidr=</span><span class='lparen'>(</span><span class='id identifier rubyid_newval'>newval</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_end'>new_end</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@starting_address</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_newval'>newval</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_range'>to_range</span><span class='period'>.</span><span class='id identifier rubyid_end'>end</span><span class='period'>.</span><span class='id identifier rubyid_mask'>mask</span> <span class='int'>32</span>
@@ -2835,7 +3252,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -2868,12 +3286,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -2952,7 +3369,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -3006,7 +3424,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Does this network segment include an address or another segment? Inclusion means the other is completely inside this one.</p>
+<p>Does this network segment include an address or another segment? Inclusion
+means the other is completely inside this one.</p>
 
 
   </div>
@@ -3058,17 +3477,17 @@
       <pre class="lines">
 
 
-347
-348
-349
-350
-351
-352
-353
-354</pre>
+433
+434
+435
+436
+437
+438
+439
+440</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 433</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_thing'>thing</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span>
@@ -3100,7 +3519,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -3221,15 +3641,15 @@
       <pre class="lines">
 
 
-333
-334
-335
-336
-337
-338</pre>
+419
+420
+421
+422
+423
+424</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 419</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_overlap?'>overlap?</span><span class='lparen'>(</span><span class='id identifier rubyid_other_segment'>other_segment</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Argument must be a JSS::NetworkSegment</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> \
@@ -3258,7 +3678,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>a Range built from the start and end addresses. To be used for finding inclusion and overlaps.</p>
+<p>a Range built from the start and end addresses. To be used for finding
+inclusion and overlaps.</p>
 
 
   </div>
@@ -3290,12 +3711,12 @@
       <pre class="lines">
 
 
-323
-324
-325</pre>
+409
+410
+411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 409</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_range'>range</span>
   <span class='ivar'>@starting_address</span><span class='op'>..</span><span class='ivar'>@ending_address</span>
@@ -3336,8 +3757,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3353,8 +3772,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3372,8 +3789,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3389,8 +3804,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3409,20 +3822,20 @@
       <pre class="lines">
 
 
-514
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524</pre>
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 514</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 608</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_ip_range'>set_ip_range</span><span class='lparen'>(</span><span class='label'>starting_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ending_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>mask:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cidr:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_range'>range</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_ip_range'>ip_range</span><span class='lparen'>(</span>
@@ -3504,9 +3917,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:00 2020 by
+  Generated on Fri Aug  7 11:26:41 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

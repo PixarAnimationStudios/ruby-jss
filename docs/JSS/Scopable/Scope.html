@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Scopable::Scope
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::Scopable::Scope";
   relpath = '../../';
 </script>
@@ -104,11 +104,96 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This class represents a Scope in the JSS, as can be applied to Scopable objects like Policies, Profiles, etc. Instances of this class are generally used as the value of the @scope attribute of those objects.</p>
+<p>This class represents a Scope in the JSS, as can be applied to Scopable
+objects like Policies, Profiles, etc. Instances of this class are generally
+used as the value of the @scope attribute of those objects.</p>
 
-<p>Scope data comes from the API as a hash within the overall object data. The main keys of the hash define the included targets of the scope. A sub-hash defines limitations on those inclusions, and another sub-hash defines explicit exclusions.</p>
+<p>Scope data comes from the API as a hash within the overall object data. The
+main keys of the hash define the included targets of the scope. A sub-hash
+defines limitations on those inclusions, and another sub-hash defines
+explicit exclusions.</p>
 
-<p>This class provides methods for adding, removing, or fully replacing the various items in scope&#39;s realms: targets, limitations, and exclusions.</p>
+<p>This class provides methods for adding, removing, or fully replacing the
+various items in scope&#39;s realms: targets, limitations, and exclusions.</p>
+
+<p>IMPORTANT: The classic API has bugs regarding the use of Users, UserGroups,
+LDAP/Local Users, &amp; LDAP User Groups in scopes. Here&#39;s a discussion
+of those bugs and how ruby-jss handles them.</p>
+
+<p>Targets/Inclusions</p>
+
+<pre class="code ruby"><code class="ruby">- &#39;Users&#39; can only be JSS::Users - No LDAP
+  - BUG: They do not appear in API data (XML or JSON) and are
+    NOT SUPPORTED in ruby-jss.
+  - You must use the Web UI to work with them in a Scope.
+- &#39;User Groups&#39; can only be JSS::UserGroups - No LDAP
+  - BUG: They do not appear in API data (XML or JSON) and are
+    NOT SUPPORTED in ruby-jss.
+  - You must use the Web UI to work with them in a Scope.</code></pre>
+
+<p>Limitations</p>
+
+<pre class="code ruby"><code class="ruby">- &#39;LDAP/Local Users&#39; can be any string
+  - The Web UI accepts any string, even if no matching Local or LDAP user.
+  - The data shows up in API data in scope=&gt;limitations=&gt;users
+    by name only (the string provided), no IDs
+- &#39;LDAP User Groups&#39; can only be LDAP groups that actually exist
+  - The Web UI won&#39;t let you add a group that doesn&#39;t exist in ldap
+  - The data shows up in API data in scope=&gt;limitations=&gt;user_groups
+    by name and LDAP ID (which may be empty)
+  - The data ALSO shows up in API data in scope=&gt;limit_to_users=&gt;user_groups
+    by name only, no LDAP IDs. ruby-jss ignores this and looks at
+    scope=&gt;limitations=&gt;user_groups</code></pre>
+
+<p>Exclusions, combines the behavior of Inclusions &amp; Limitations</p>
+
+<pre class="code ruby"><code class="ruby">- &#39;Users&#39; can only be JSS::Users - No LDAP
+  - BUG: They do not appear in API data (XML or JSON) and are
+    NOT SUPPORTED in ruby-jss.
+  - You must use the Web UI to work with them in a Scope.
+- &#39;User Groups&#39; can only be JSS::UserGroups - No LDAP
+  - BUG: They do not appear in API data (XML or JSON) and are
+    NOT SUPPORTED in ruby-jss.
+  - You must use the Web UI to work with them in a Scope.
+- &#39;LDAP/Local Users&#39; can be any string
+  - The Web UI accepts any string, even if no matching Local or LDAP user.
+  - The data shows up in API data in scope=&gt;exclusions=&gt;users
+    by name only (the string provided), no IDs
+- &#39;LDAP User Groups&#39; can only be LDAP groups that actually exist
+  - The Web UI won&#39;t let you add a group that doesn&#39;t exist in ldap
+  - The data shows up in API data in scope=&gt;exclusions=&gt;user_groups
+    by name and LDAP ID (which may be empty)</code></pre>
+
+<p>How ruby-jss handles this:</p>
+
+<pre class="code ruby"><code class="ruby"> - Methods #set_targets and #add_target will not accept the keys
+   :user, :users, :user_group, :user_groups.
+
+ - Method #remove_target will ignore them.
+
+ - Methods #set_limitations, #add_limitation &amp; #remove_limitation will accept:
+   - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
+     with &#39;LDAP/Local Users&#39;. When setting or adding, the provided
+     string(s) must exist as either a JSS::User or an LDAP user
+   - :user_group or :ldap_user_group (and their plurals) for working with
+     &#39;LDAP User Groups&#39;. When setting or adding, the provided string
+     must exist as a group in LDAP.
+
+ - Methods #set_exclusions, #add_exclusion &amp; #remove_exclusion will accept:
+   - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
+     with &#39;LDAP/Local Users&#39;. When setting or adding, the provided string(s)
+     must exist as either a JSS::User or an LDAP user.
+   - :user_group or :ldap_user_group (and their plurals) for working with
+     &#39;LDAP User Groups&#39;&#39;. When setting or adding, the provided string
+     must exist as a group in LDAP.
+
+Internally in the Scope instance:
+
+- The limitations and exclusions that match the WebUI&#39;s &#39;LDAP/Local Users&#39;
+  are in @limitations[:jamf_ldap_users]  and @exclusions[:jamf_ldap_users]
+
+- The  limitations and exclusions that match the WebUI&#39;s &#39;LDAP User Groups&#39;
+  are in @limitations[:ldap_user_groups]  and @exclusions[:ldap_user_groups]</code></pre>
 
 
   </div>
@@ -136,7 +221,9 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>These are the classes that Scopes can use for defining a scope, keyed by appropriate symbols.</p>
+<p>These are the classes that Scopes can use for defining a scope, keyed by
+appropriate symbols. NOTE: All the user and group ones don&#39;t actually
+refer to JSS::User or JSS::UserGroup. See IMPORTANT discussion above.</p>
 
 
   </div>
@@ -161,17 +248,25 @@
   <span class='label'>department:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Department.html" title="JSS::Department (class)">Department</a></span></span><span class='comma'>,</span>
   <span class='label'>network_segments:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='comma'>,</span>
   <span class='label'>network_segment:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='comma'>,</span>
-  <span class='label'>users:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../User.html" title="JSS::User (class)">User</a></span></span><span class='comma'>,</span>
-  <span class='label'>user:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../User.html" title="JSS::User (class)">User</a></span></span><span class='comma'>,</span>
-  <span class='label'>user_groups:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UserGroup.html" title="JSS::UserGroup (class)">UserGroup</a></span></span><span class='comma'>,</span>
-  <span class='label'>user_group:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UserGroup.html" title="JSS::UserGroup (class)">UserGroup</a></span></span>
+  <span class='label'>ibeacon:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span></span><span class='comma'>,</span>
+  <span class='label'>ibeacons:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span></span><span class='comma'>,</span>
+  <span class='label'>user:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>users:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>ldap_user:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>ldap_users:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>jamf_ldap_user:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>jamf_ldap_users:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>user_group:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>user_groups:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>ldap_user_group:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+  <span class='label'>ldap_user_groups:</span> <span class='kw'>nil</span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
-        <dt id="LDAP_USER_KEYS-constant" class="">LDAP_USER_KEYS =
+        <dt id="LDAP_JAMF_USER_KEYS-constant" class="">LDAP_JAMF_USER_KEYS =
           <div class="docstring">
   <div class="discussion">
     
-<p>Some things get checked in LDAP as well as the JSS</p>
+<p>These keys always mean :jamf_ldap_users</p>
 
 
   </div>
@@ -181,23 +276,42 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>user</span><span class='words_sep'> </span><span class='tstring_content'>users</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[
+</span><span class='tstring_content'>  user</span><span class='words_sep'>
+</span><span class='tstring_content'>  users</span><span class='words_sep'>
+</span><span class='tstring_content'>  ldap_user</span><span class='words_sep'>
+</span><span class='tstring_content'>  ldap_users</span><span class='words_sep'>
+</span><span class='tstring_content'>  jamf_ldap_user</span><span class='words_sep'>
+</span><span class='tstring_content'>  jamf_ldap_users</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="LDAP_GROUP_KEYS-constant" class="">LDAP_GROUP_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>These keys always mean :ldap_user_groups</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>user_groups</span><span class='words_sep'> </span><span class='tstring_content'>user_group</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
-      
-        <dt id="CHECK_LDAP_KEYS-constant" class="">CHECK_LDAP_KEYS =
-          
-        </dt>
-        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#LDAP_USER_KEYS-constant" title="JSS::Scopable::Scope::LDAP_USER_KEYS (constant)">LDAP_USER_KEYS</a></span></span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#LDAP_GROUP_KEYS-constant" title="JSS::Scopable::Scope::LDAP_GROUP_KEYS (constant)">LDAP_GROUP_KEYS</a></span></span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[
+</span><span class='tstring_content'>  user_group</span><span class='words_sep'>
+</span><span class='tstring_content'>  user_groups</span><span class='words_sep'>
+</span><span class='tstring_content'>  ldap_user_group</span><span class='words_sep'>
+</span><span class='tstring_content'>  ldap_user_groups</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="TARGETS_AND_GROUPS-constant" class="">TARGETS_AND_GROUPS =
           <div class="docstring">
   <div class="discussion">
     
-<p>This hash maps the availble Scope Target keys from SCOPING_CLASSES to their corresponding target group keys from SCOPING_CLASSES.</p>
+<p>This hash maps the availble Scope Target keys from SCOPING_CLASSES to their
+corresponding target group keys from SCOPING_CLASSES.</p>
 
 
   </div>
@@ -213,7 +327,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>added to the ends of singular key names if needed, e.g. computer_group =&gt; computer_groups</p>
+<p>added to the ends of singular key names if needed, e.g. computer_group
+=&gt; computer_groups</p>
 
 
   </div>
@@ -229,7 +344,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>These can be part of the base inclusion list of the scope, along with the appropriate target and target group keys</p>
+<p>These can be part of the base inclusion list of the scope, along with the
+appropriate target and target group keys</p>
 
 
   </div>
@@ -239,13 +355,16 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>buildings</span><span class='words_sep'> </span><span class='tstring_content'>departments</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>buildings</span><span class='words_sep'> </span><span class='tstring_content'>departments</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="LIMITATIONS-constant" class="">LIMITATIONS =
           <div class="docstring">
   <div class="discussion">
     
-<p>These can limit the inclusion list</p>
+<p>These can limit the inclusion list These are the keys that come from the
+API the  :users key from the API is what we call :jamf_ldap_users and the
+:user_groups key from the API we call :ldap_user_groups See the IMPORTANT
+discussion above.</p>
 
 
   </div>
@@ -255,7 +374,12 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>network_segments</span><span class='words_sep'> </span><span class='tstring_content'>users</span><span class='words_sep'> </span><span class='tstring_content'>user_groups</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[
+</span><span class='tstring_content'>  ibeacons</span><span class='words_sep'>
+</span><span class='tstring_content'>  network_segments</span><span class='words_sep'>
+</span><span class='tstring_content'>  jamf_ldap_users</span><span class='words_sep'>
+</span><span class='tstring_content'>  ldap_user_groups</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="EXCLUSIONS-constant" class="">EXCLUSIONS =
           <div class="docstring">
@@ -384,7 +508,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The items in these arrays are the exclusions applied to targets in the @inclusions .</p>
+<p>The items in these arrays are the exclusions applied to targets in the
+@inclusions .</p>
 </div></span>
   
 </li>
@@ -442,7 +567,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The items in these arrays are the limitations applied to targets in the @inclusions .</p>
+<p>The items in these arrays are the limitations applied to targets in the
+@inclusions .</p>
 </div></span>
   
 </li>
@@ -498,7 +624,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should we expect a potential 409 Conflict if we can&#39;t connect to LDAP servers for verification?.</p>
+<p>Should we expect a potential 409 Conflict if we can&#39;t connect to LDAP
+servers for verification?.</p>
 </div></span>
   
 </li>
@@ -635,7 +762,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>If raw_scope is empty, a default scope, scoped to all targets, is created, and can be modified as needed.</p>
+<p>If raw_scope is empty, a default scope, scoped to all targets, is created,
+and can be modified as needed.</p>
 </div></span>
   
 </li>
@@ -659,7 +787,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the init_data and api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the init_data and api object from the instance_variables used to
+create pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -757,7 +886,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML Element containing the current state of the Scope for adding into the XML of the container.</p>
+<p>Return a REXML Element containing the current state of the Scope for adding
+into the XML of the container.</p>
 </div></span>
   
 </li>
@@ -857,7 +987,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>If raw_scope is empty, a default scope, scoped to all targets, is created, and can be modified as needed.</p>
+<p>If raw_scope is empty, a default scope, scoped to all targets, is created,
+and can be modified as needed.</p>
 
 
   </div>
@@ -902,19 +1033,6 @@
   
 </ul>
 
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -922,54 +1040,98 @@
       <pre class="lines">
 
 
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220</pre>
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_target_key'>target_key</span><span class='comma'>,</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raw_scope'>raw_scope</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_SCOPE-constant" title="JSS::Scopable::Scope::DEFAULT_SCOPE (constant)">DEFAULT_SCOPE</a></span></span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The target class of a Scope must be one of the symbols :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TARGETS_AND_GROUPS-constant" title="JSS::Scopable::Scope::TARGETS_AND_GROUPS (constant)">TARGETS_AND_GROUPS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#TARGETS_AND_GROUPS-constant" title="JSS::Scopable::Scope::TARGETS_AND_GROUPS (constant)">TARGETS_AND_GROUPS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_target_key'>target_key</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#TARGETS_AND_GROUPS-constant" title="JSS::Scopable::Scope::TARGETS_AND_GROUPS (constant)">TARGETS_AND_GROUPS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_target_key'>target_key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The target class of a Scope must be one of the symbols :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TARGETS_AND_GROUPS-constant" title="JSS::Scopable::Scope::TARGETS_AND_GROUPS (constant)">TARGETS_AND_GROUPS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
   <span class='ivar'>@target_key</span> <span class='op'>=</span> <span class='id identifier rubyid_target_key'>target_key</span>
   <span class='ivar'>@target_class</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='ivar'>@target_key</span><span class='rbracket'>]</span>
@@ -987,25 +1149,65 @@
 </span>  <span class='ivar'>@inclusions</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@inclusion_keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span>
     <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>  <span class='rbrace'>}</span>
+    <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span> <span class='comment'># @inclusion_keys.each do |k|
 </span>
-  <span class='ivar'>@limitations</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='comment'># the  :users key from the API is what we call :jamf_ldap_users
+</span>  <span class='comment'># and the :user_groups key from the API we call :ldap_user_groups
+</span>  <span class='comment'># See the IMPORTANT discussion above.
+</span>  <span class='ivar'>@limitations</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span>
+
     <span class='const'><span class='object_link'><a href="#LIMITATIONS-constant" title="JSS::Scopable::Scope::LIMITATIONS (constant)">LIMITATIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span>
-      <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-      <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
+      <span class='comment'># :jamf_ldap_users comes from :users in the API data
+</span>      <span class='kw'>if</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>==</span> <span class='symbol'>:jamf_ldap_users</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:users</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+
+      <span class='comment'># :ldap_user_groups comes from :user_groups in the API data
+</span>      <span class='kw'>elsif</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>==</span> <span class='symbol'>:ldap_user_groups</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:user_groups</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+
+      <span class='comment'># others handled normally.
+</span>      <span class='kw'>else</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:limitations</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span> <span class='comment'># LIMITATIONS.each do |k|
 </span>  <span class='kw'>end</span> <span class='comment'># if raw_scope[:limitations]
 </span>
-  <span class='ivar'>@exclusions</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='comment'># the  :users key from the API is what we call :jamf_ldap_users
+</span>  <span class='comment'># and the :user_groups key from the API we call :ldap_user_groups
+</span>  <span class='comment'># See the IMPORTANT discussion above.
+</span>  <span class='ivar'>@exclusions</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span>
-    <span class='ivar'>@exclusion_keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span>
-      <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-      <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
 
+    <span class='ivar'>@exclusion_keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span>
+      <span class='comment'># :jamf_ldap_users comes from :users in the API data
+</span>      <span class='kw'>if</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>==</span> <span class='symbol'>:jamf_ldap_users</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:users</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+
+      <span class='comment'># :ldap_user_groups comes from :user_groups in the API data
+</span>      <span class='kw'>elsif</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>==</span> <span class='symbol'>:ldap_user_groups</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:user_groups</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+
+      <span class='comment'># others handled normally.
+</span>      <span class='kw'>else</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>=</span> <span class='id identifier rubyid_raw_scope'>raw_scope</span><span class='lbracket'>[</span><span class='symbol'>:exclusions</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_api_data'>api_data</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_api_data'>api_data</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span> <span class='comment'># if ...elsif... else
+</span>    <span class='kw'>end</span> <span class='comment'># @exclusion_keys.each
+</span>  <span class='kw'>end</span> <span class='comment'># if raw_scope[:exclusions]
+</span>
   <span class='ivar'>@container</span> <span class='op'>=</span> <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1038,7 +1240,8 @@
     
 <p>Does this scope cover all targets?</p>
 
-<p>If this is true, the @inclusions Hash is ignored, and all targets in the JSS form the base scope.</p>
+<p>If this is true, the @inclusions Hash is ignored, and all targets in the
+JSS form the base scope.</p>
 
 
   </div>
@@ -1065,12 +1268,12 @@
       <pre class="lines">
 
 
-142
-143
-144</pre>
+253
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all_targets'>all_targets</span>
   <span class='ivar'>@all_targets</span>
@@ -1123,12 +1326,12 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_container'>container</span>
   <span class='ivar'>@container</span>
@@ -1152,7 +1355,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The items in these arrays are the exclusions applied to targets in the @inclusions .</p>
+<p>The items in these arrays are the exclusions applied to targets in the
+@inclusions .</p>
 
 <p>The arrays of names are:</p>
 <ul><li>
@@ -1196,12 +1400,12 @@
       <pre class="lines">
 
 
-168
-169
-170</pre>
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 279</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exclusions'>exclusions</span>
   <span class='ivar'>@exclusions</span>
@@ -1227,7 +1431,8 @@
     
 <p>The items which form the base scope of included targets</p>
 
-<p>This is the group of targets to which the limitations and exclusions apply. they keys are:</p>
+<p>This is the group of targets to which the limitations and exclusions apply.
+they keys are:</p>
 <ul><li>
 <p>:targets</p>
 </li><li>
@@ -1265,12 +1470,12 @@
       <pre class="lines">
 
 
-133
-134
-135</pre>
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 244</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inclusions'>inclusions</span>
   <span class='ivar'>@inclusions</span>
@@ -1294,7 +1499,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The items in these arrays are the limitations applied to targets in the @inclusions .</p>
+<p>The items in these arrays are the limitations applied to targets in the
+@inclusions .</p>
 
 <p>The arrays of names are:</p>
 <ul><li>
@@ -1330,12 +1536,12 @@
       <pre class="lines">
 
 
-153
-154
-155</pre>
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 264</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_limitations'>limitations</span>
   <span class='ivar'>@limitations</span>
@@ -1373,12 +1579,12 @@
       <pre class="lines">
 
 
-119
-120
-121</pre>
+230
+231
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 230</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_target_class'>target_class</span>
   <span class='ivar'>@target_class</span>
@@ -1402,7 +1608,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should we expect a potential 409 Conflict if we can&#39;t connect to LDAP servers for verification?.</p>
+<p>Returns should we expect a potential 409 Conflict if we can&#39;t connect
+to LDAP servers for verification?</p>
 
 
   </div>
@@ -1421,7 +1628,8 @@
       
         &mdash;
         <div class='inline'>
-<p>should we expect a potential 409 Conflict if we can&#39;t connect to LDAP servers for verification?</p>
+<p>should we expect a potential 409 Conflict if we can&#39;t connect to LDAP
+servers for verification?</p>
 </div>
       
     </li>
@@ -1434,12 +1642,12 @@
       <pre class="lines">
 
 
-116
-117
-118</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unable_to_verify_ldap_entries'>unable_to_verify_ldap_entries</span>
   <span class='ivar'>@unable_to_verify_ldap_entries</span>
@@ -1470,7 +1678,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a single item for exclusions of this scope.</p>
 
-<p>The item name will be checked for existence in the JSS, and an exception raised if the item doesn&#39;t exist.</p>
+<p>The item name will be checked for existence in the JSS, and an exception
+raised if the item doesn&#39;t exist.</p>
 
 
   </div>
@@ -1541,25 +1750,29 @@
       <pre class="lines">
 
 
-468
-469
-470
-471
-472
-473
-474
-475
-476
-477</pre>
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 468</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 632</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_exclusion'>add_exclusion</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:exclusion</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> scope to &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_item'>item</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already explicitly included.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
+
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_item'>item</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit limitation.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
 
   <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_item_id'>item_id</span>
@@ -1592,7 +1805,8 @@
 <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a single item for limiting this scope.</p>
 
-<p>The item name will be checked for existence in the JSS, and an exception raised if the item doesn&#39;t exist.</p>
+<p>The item name will be checked for existence in the JSS, and an exception
+raised if the item doesn&#39;t exist.</p>
 
 
   </div>
@@ -1643,19 +1857,6 @@
   
 </ul>
 
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">JSS::AlreadyExistsError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1663,26 +1864,30 @@
       <pre class="lines">
 
 
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395</pre>
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 386</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 545</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_limitation'>add_limitation</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:limitation</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> limitation for &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> limitation for &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
   <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='ivar'>@container</span><span class='period'>.</span><span class='id identifier rubyid_should_update'>should_update</span> <span class='kw'>if</span> <span class='ivar'>@container</span>
@@ -1712,8 +1917,7 @@
 
 <p>The item name will be checked for existence in the JSS, and an exception</p>
 
-<pre class="code ruby"><code class="ruby">raised if the item doesn&#39;t exist.
-</code></pre>
+<pre class="code ruby"><code class="ruby">raised if the item doesn&#39;t exist.</code></pre>
 
 
   </div>
@@ -1744,7 +1948,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the key from #<span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span> for the kind of item being added, :computer, :building, etc…</p>
+<p>the key from #<span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span> for the kind of item being added,
+:computer, :building, etc…</p>
 </div>
       
     </li>
@@ -1787,25 +1992,25 @@
       <pre class="lines">
 
 
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313</pre>
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 458</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_target'>add_target</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:target</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> target to &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_item'>item</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
 
@@ -1832,7 +2037,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Set the scope&#39;s inclusions to all targets.</p>
 
-<p>By default, the limitations and exclusions remain. If a non-false parameter is provided, they will be removed also.</p>
+<p>By default, the limitations and exclusions remain. If a non-false parameter
+is provided, they will be removed also.</p>
 
 
   </div>
@@ -1868,22 +2074,22 @@
       <pre class="lines">
 
 
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243</pre>
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 384</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_include_all'>include_all</span><span class='lparen'>(</span><span class='id identifier rubyid_clear'>clear</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@inclusions</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1915,7 +2121,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the init_data and api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the init_data and api object from the instance_variables used to
+create pretty-print (pp) output.</p>
 
 
   </div>
@@ -1947,14 +2154,14 @@
       <pre class="lines">
 
 
-539
-540
-541
-542
-543</pre>
+734
+735
+736
+737
+738</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 539</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 734</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -2006,7 +2213,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the type of item being removed from the excludions, :computer, :building, etc…</p>
+<p>the type of item being removed from the excludions, :computer, :building,
+etc…</p>
 </div>
       
     </li>
@@ -2036,21 +2244,23 @@
       <pre class="lines">
 
 
-490
-491
-492
-493
-494
-495
-496</pre>
+656
+657
+658
+659
+660
+661
+662
+663</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 490</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 656</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_exclusion'>remove_exclusion</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span> <span class='symbol'>:exclusion</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='label'>error_if_not_found:</span> <span class='kw'>false</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+
   <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='ivar'>@container</span><span class='period'>.</span><span class='id identifier rubyid_should_update'>should_update</span> <span class='kw'>if</span> <span class='ivar'>@container</span>
 <span class='kw'>end</span></pre>
@@ -2137,23 +2347,25 @@
       <pre class="lines">
 
 
-410
-411
-412
-413
-414
-415
-416
-417</pre>
+571
+572
+573
+574
+575
+576
+577
+578
+579</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 410</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 571</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_limitation'>remove_limitation</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span> <span class='symbol'>:limitation</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='label'>error_if_not_found:</span> <span class='kw'>false</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_item_id'>item_id</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+
   <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='ivar'>@container</span><span class='period'>.</span><span class='id identifier rubyid_should_update'>should_update</span> <span class='kw'>if</span> <span class='ivar'>@container</span>
 <span class='kw'>end</span></pre>
@@ -2206,7 +2418,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the key from #<span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span> for the kind of item being removed, :computer, :building, etc…</p>
+<p>the key from #<span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span> for the kind of item being removed,
+:computer, :building, etc…</p>
 </div>
       
     </li>
@@ -2236,23 +2449,25 @@
       <pre class="lines">
 
 
-327
-328
-329
-330
-331
-332
-333
-334</pre>
+482
+483
+484
+485
+486
+487
+488
+489
+490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 482</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_target'>remove_target</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span> <span class='symbol'>:target</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='label'>error_if_not_found:</span> <span class='kw'>false</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_item_id'>item_id</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+
   <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='ivar'>@container</span><span class='period'>.</span><span class='id identifier rubyid_should_update'>should_update</span> <span class='kw'>if</span> <span class='ivar'>@container</span>
 <span class='kw'>end</span></pre>
@@ -2277,7 +2492,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Return a REXML Element containing the current state of the Scope for adding into the XML of the container.</p>
+<p>Return a REXML Element containing the current state of the Scope for adding
+into the XML of the container.</p>
 
 
   </div>
@@ -2304,37 +2520,65 @@
       <pre class="lines">
 
 
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531</pre>
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 504</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 671</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scope_xml'>scope_xml</span>
   <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Element</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>scope</span><span class='tstring_end'>&#39;</span></span>
@@ -2343,24 +2587,52 @@
   <span class='ivar'>@inclusions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='op'>|</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_list_as_hash'>list_as_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
-    <span class='id identifier rubyid_scope'>scope</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hash'>list_as_hash</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_scope'>scope</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_limitations'>limitations</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>limitations</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='ivar'>@limitations</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='op'>|</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_list_as_hash'>list_as_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
-    <span class='id identifier rubyid_limitations'>limitations</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hash'>list_as_hash</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_klass'>klass</span> <span class='op'>==</span> <span class='symbol'>:jamf_ldap_users</span>
+      <span class='id identifier rubyid_users_xml'>users_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_limitations'>limitations</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+        <span class='id identifier rubyid_user_xml'>user_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_users_xml'>users_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_user_xml'>user_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+      <span class='kw'>end</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_klass'>klass</span> <span class='op'>==</span> <span class='symbol'>:ldap_user_groups</span>
+      <span class='id identifier rubyid_user_groups_xml'>user_groups_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_limitations'>limitations</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_groups</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+        <span class='id identifier rubyid_user_group_xml'>user_group_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_user_groups_xml'>user_groups_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_group</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_user_group_xml'>user_group_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_limitations'>limitations</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_exclusions'>exclusions</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>exclusions</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='ivar'>@exclusions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='op'>|</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_list_as_hash'>list_as_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
-    <span class='id identifier rubyid_exclusions'>exclusions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hash'>list_as_hash</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_klass'>klass</span> <span class='op'>==</span> <span class='symbol'>:jamf_ldap_users</span>
+      <span class='id identifier rubyid_users_xml'>users_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_exclusions'>exclusions</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+        <span class='id identifier rubyid_user_xml'>user_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_users_xml'>users_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_user_xml'>user_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+      <span class='kw'>end</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_klass'>klass</span> <span class='op'>==</span> <span class='symbol'>:ldap_user_groups</span>
+      <span class='id identifier rubyid_user_groups_xml'>user_groups_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_exclusions'>exclusions</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_groups</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+        <span class='id identifier rubyid_user_group_xml'>user_group_xml</span> <span class='op'>=</span> <span class='id identifier rubyid_user_groups_xml'>user_groups_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_group</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_user_group_xml'>user_group_xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_i'>i</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_exclusions'>exclusions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="#SCOPING_CLASSES-constant" title="JSS::Scopable::Scope::SCOPING_CLASSES (constant)">SCOPING_CLASSES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_xml_list'>xml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_as_hashes'>list_as_hashes</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_scope'>scope</span>
 <span class='kw'>end</span></pre>
@@ -2383,7 +2655,9 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Replace an exclusion list for this scope</p>
 
-<p>The list must be an Array of names of items of the Class being excluded from the scope Each will be checked for existence in the JSS, and an exception raised if the item doesn&#39;t exist.</p>
+<p>The list must be an Array of names of items of the Class being excluded
+from the scope Each will be checked for existence in the JSS, and an
+exception raised if the item doesn&#39;t exist.</p>
 
 
   </div>
@@ -2454,30 +2728,32 @@
       <pre class="lines">
 
 
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453</pre>
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 433</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 595</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_exclusion'>set_exclusion</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -2488,9 +2764,11 @@
     <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:exclusion</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_ident'>ident</span><span class='rparen'>)</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_key'>key</span>
     <span class='kw'>when</span> <span class='op'>*</span><span class='ivar'>@inclusion_keys</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already explicitly included.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already explicitly included.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@inclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
     <span class='kw'>when</span> <span class='op'>*</span><span class='const'><span class='object_link'><a href="#LIMITATIONS-constant" title="JSS::Scopable::Scope::LIMITATIONS (constant)">LIMITATIONS</a></span></span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit limitation.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='ivar'>@limitations</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t exclude </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit limitation.</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='kw'>end</span> <span class='comment'># each
@@ -2531,7 +2809,9 @@
 <p class="note returns_void">This method returns an undefined value.</p>
 <p>Replace a limitation list for this scope.</p>
 
-<p>The list must be an Array of names of items of the Class represented by the key. Each will be checked for existence in the JSS, and an exception raised if the item doesn&#39;t exist.</p>
+<p>The list must be an Array of names of items of the Class represented by the
+key. Each will be checked for existence in the JSS, and an exception raised
+if the item doesn&#39;t exist.</p>
 
 
   </div>
@@ -2602,25 +2882,28 @@
       <pre class="lines">
 
 
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368</pre>
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 353</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 509</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_limitation'>set_limitation</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -2629,7 +2912,10 @@
   <span class='comment'># check the idents
 </span>  <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ident'>ident</span><span class='op'>|</span>
     <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:limitation</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_ident'>ident</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> limitation for &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> limitation for &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
     <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='kw'>end</span> <span class='comment'># each
 </span>
@@ -2661,7 +2947,9 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Replace a list of item names for as targets in this scope.</p>
 
-<p>The list must be an Array of names of items of the Class represented by the key. Each will be checked for existence in the JSS, and an exception raised if the item doesn&#39;t exist.</p>
+<p>The list must be an Array of names of items of the Class represented by the
+key. Each will be checked for existence in the JSS, and an exception raised
+if the item doesn&#39;t exist.</p>
 
 <p>being included, :computer, :building, etc…</p>
 
@@ -2734,29 +3022,31 @@
       <pre class="lines">
 
 
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281</pre>
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable/scope.rb', line 415</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_targets'>set_targets</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_pluralize_key'>pluralize_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -2765,10 +3055,12 @@
   <span class='comment'># check the idents
 </span>  <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ident'>ident</span><span class='op'>|</span>
     <span class='id identifier rubyid_item_id'>item_id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_item'>validate_item</span><span class='lparen'>(</span><span class='symbol'>:target</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_ident'>ident</span><span class='rparen'>)</span>
+
     <span class='kw'>if</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@exclusions</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_item_id'>item_id</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> \
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> target to &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t set </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'> target to &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; because it&#39;s already an explicit exclusion.</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
+
     <span class='id identifier rubyid_item_id'>item_id</span>
   <span class='kw'>end</span> <span class='comment'># each
 </span>
@@ -2788,9 +3080,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:55 2020 by
+  Generated on Fri Aug  7 11:26:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

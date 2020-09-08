@@ -6,15 +6,15 @@
 <title>
   Module: JamfRubyExtensions::String::Predicates
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JamfRubyExtensions::String::Predicates";
   relpath = '../../';
 </script>
@@ -100,7 +100,12 @@
         <dt id="INTEGER_RE-constant" class="">INTEGER_RE =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9]+\Z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A-?[0-9]+\Z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="FLOAT_RE-constant" class="">FLOAT_RE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A-?[0-9]+\.[0-9]+\Z</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -122,6 +127,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#j_float%3F-instance_method" title="#j_float? (instance method)">#<strong>j_float?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this string also a floar? (i.e. it consists only of numberic digits).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#j_integer%3F-instance_method" title="#j_integer? (instance method)">#<strong>j_integer?</strong>  &#x21d2; Boolean </a>
     
 
@@ -137,7 +166,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is this string also a positive integer? (i.e. it consists only of numberic digits).</p>
+<p>Is this string also an integer? (i.e. it consists only of numberic digits,
+maybe with a dash in front).</p>
 </div></span>
   
 </li>
@@ -153,9 +183,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="j_integer?-instance_method">
+  <h3 class="signature first" id="j_float?-instance_method">
   
-    #<strong>j_integer?</strong>  &#x21d2; <tt>Boolean</tt> 
+    #<strong>j_float?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -164,7 +194,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is this string also a positive integer? (i.e. it consists only of numberic digits)</p>
+<p>Is this string also a floar? (i.e. it consists only of numberic digits)</p>
 
 
   </div>
@@ -191,12 +221,67 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/string/predicates.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/string/predicates.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_float?'>j_float?</span>
+  <span class='kw'>self</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#FLOAT_RE-constant" title="JamfRubyExtensions::String::Predicates::FLOAT_RE (constant)">FLOAT_RE</a></span></span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_integer?-instance_method">
+  
+    #<strong>j_integer?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is this string also an integer? (i.e. it consists only of numberic digits,
+maybe with a dash in front)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/string/predicates.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_j_integer?'>j_integer?</span>
   <span class='kw'>self</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#INTEGER_RE-constant" title="JamfRubyExtensions::String::Predicates::INTEGER_RE (constant)">INTEGER_RE</a></span></span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
@@ -211,9 +296,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:55 2020 by
+  Generated on Fri Aug  7 11:26:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

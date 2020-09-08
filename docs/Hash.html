@@ -6,15 +6,15 @@
 <title>
   Class: Hash
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Hash";
   relpath = '';
 </script>
@@ -89,7 +89,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="JamfRubyExtensions/Hash/BackPorts.html" title="JamfRubyExtensions::Hash::BackPorts (module)">JamfRubyExtensions::Hash::BackPorts</a></span></dd>
+      <dd><span class='object_link'><a href="JamfRubyExtensions/Hash/BackPorts.html" title="JamfRubyExtensions::Hash::BackPorts (module)">JamfRubyExtensions::Hash::BackPorts</a></span>, <span class='object_link'><a href="RubyDig.html" title="RubyDig (module)">RubyDig</a></span></dd>
   </dl>
   
   
@@ -99,8 +99,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/jamf/ruby_extensions/hash.rb<span class="defines">,<br />
-  lib/jss/compatibility.rb,<br /> lib/jamf/compatibility.rb,<br /> lib/jss/ruby_extensions/hash.rb</span>
+    <dd>lib/jamf/ruby_extensions/dig.rb<span class="defines">,<br />
+  lib/jss/compatibility.rb,<br /> lib/jamf/compatibility.rb,<br /> lib/jss/ruby_extensions/hash.rb,<br /> lib/jamf/ruby_extensions/hash.rb</span>
 </dd>
   </dl>
   
@@ -131,6 +131,33 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dig-instance_method" title="#dig (instance method)">#<strong>dig</strong>(key, *rest)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="RubyDig.html#dig-instance_method" title="RubyDig#dig (method)">RubyDig</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -176,7 +203,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Since a lot of JSON data from the API comes as deeply-nested structures of Hashes and Arrays, it can be a pain to reference some of the deeper data inside, and it isn&#39;t worth coding them out into instance attributes.</p>
+<p>Since a lot of JSON data from the API comes as deeply-nested structures of
+Hashes and Arrays, it can be a pain to reference some of the deeper data
+inside, and it isn&#39;t worth coding them out into instance attributes.</p>
 </div></span>
   
 </li>
@@ -296,13 +325,32 @@
 
   
   
+  
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="jss_nillify!-instance_method">
+  <h3 class="signature first" id="dig-instance_method">
+  
+    #<strong>dig</strong>(key, *rest)  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="RubyDig.html#dig-instance_method" title="RubyDig#dig (method)">RubyDig</a></span>
+    </span>
+  
+</h3>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jss_nillify!-instance_method">
   
     #<strong>jss_nillify!</strong>(to_nils = &#39;&#39;, recurse = false) {|value| ... } &#x21d2; <tt><span class='object_link'><a href="" title="Hash (class)">Hash</a></span></tt> 
   
@@ -315,9 +363,12 @@
     
 <p>Convert Hash values to nil.</p>
 
-<p>With no block, values equalling the String, or any member of the Array, given will be converted to nil. Equality is evaluated with == and Array#include?</p>
+<p>With no block, values equalling the String, or any member of the Array,
+given will be converted to nil. Equality is evaluated with == and
+Array#include?</p>
 
-<p>With a block, if the result of the block evaluates to true, the value is converted to nil.</p>
+<p>With a block, if the result of the block evaluates to true, the value is
+converted to nil.</p>
 
 <p>Subhashes are ignored unless recurse is true.</p>
 
@@ -488,18 +539,26 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Since a lot of JSON data from the API comes as deeply-nested structures of Hashes and Arrays, it can be a pain to reference some of the deeper data inside, and it isn&#39;t worth coding them out into instance attributes.</p>
+<p>Since a lot of JSON data from the API comes as deeply-nested structures of
+Hashes and Arrays, it can be a pain to reference some of the deeper data
+inside, and it isn&#39;t worth coding them out into instance attributes.</p>
 
-<p>For example see the &#39;hardware&#39; subset of a JSS::Computer&#39;s API data, which is stored as a Hash in the <span class='object_link'><a href="JSS/Computer.html#hardware-instance_method" title="JSS::Computer#hardware (method)">JSS::Computer#hardware</a></span> attribute.</p>
+<p>For example see the &#39;hardware&#39; subset of a JSS::Computer&#39;s API
+data, which is stored as a Hash in the <span class='object_link'><a href="JSS/Computer.html#hardware-instance_method" title="JSS::Computer#hardware (method)">JSS::Computer#hardware</a></span> attribute.</p>
 
-<p>To refer to the percent-full value of one of the machine&#39;s drives, you need to use e.g. this:</p>
+<p>To refer to the percent-full value of one of the machine&#39;s drives, you
+need to use e.g. this:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_computer_instance'>computer_instance</span><span class='period'>.</span><span class='id identifier rubyid_hardware'>hardware</span><span class='lbracket'>[</span><span class='symbol'>:storage</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='lbracket'>[</span><span class='symbol'>:partition</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:percentage_full</span><span class='rbracket'>]</span>
 </code></pre>
 
-<p>It would be nice to use method-like chains to access that data, similar to what OpenStruct provides.</p>
+<p>It would be nice to use method-like chains to access that data, similar to
+what OpenStruct provides.</p>
 
-<p>But, there are two problems with just storing #hardware as an OpenStruct: 1) we&#39;d lose some important Hash methods, like #keys and #values, breaking backward compatibility. 2) OpenStructs only work on the Hash itself, not its contents.</p>
+<p>But, there are two problems with just storing #hardware as an OpenStruct:
+1) we&#39;d lose some important Hash methods, like #keys and #values,
+breaking backward compatibility. 2) OpenStructs only work on the Hash
+itself, not its contents.</p>
 
 <p>So to get the best of both worlds, we use the RecursiveOpenStruct gem</p>
 
@@ -508,7 +567,8 @@
 
 <p>which subclasses OpenStruct to be recursive.</p>
 
-<p>And, instead of replacing the Hash, we&#39;ll add a RecursiveOpenStruct version of itself to itself as an attribute.</p>
+<p>And, instead of replacing the Hash, we&#39;ll add a RecursiveOpenStruct
+version of itself to itself as an attribute.</p>
 
 <p>Now, we can access the same data using this:</p>
 
@@ -517,15 +577,26 @@
 
 <p>CAVEAT: Treat these as read-only.</p>
 
-<p>While the Hashes themselves may be mutable, their use in ruby-jss Classes should usually be considered read-only - neither the Hash, nor the RecursiveOpenStruct  object created by this method should be changed. Changes to the Hash or the RecursiveOpenStruct are NOT synced between them, and ruby-jss won&#39;t know to send such changes back to the API when #update is called.</p>
+<p>While the Hashes themselves may be mutable, their use in ruby-jss Classes
+should usually be considered read-only - neither the Hash, nor the
+RecursiveOpenStruct  object created by this method should be changed.
+Changes to the Hash or the RecursiveOpenStruct are NOT synced between them,
+and ruby-jss won&#39;t know to send such changes back to the API when
+#update is called.</p>
 
-<p>This should be fine for the intended uses. Data like Computer#hardware isn&#39;t sent back to the JSS via Computer#update, since it must come from a &#39;recon&#39; anyway.</p>
+<p>This should be fine for the intended uses. Data like Computer#hardware
+isn&#39;t sent back to the JSS via Computer#update, since it must come from
+a &#39;recon&#39; anyway.</p>
 
-<p>Data that is sent back to the JSS will have setter methods defined in the class or a mixin module (e.g. the Locatable module).</p>
+<p>Data that is sent back to the JSS will have setter methods defined in the
+class or a mixin module (e.g. the Locatable module).</p>
 
-<p>Since the data is functionally read-only, why not use the ImmutableStruct gem, used elsewhere in ruby-jss?</p>
+<p>Since the data is functionally read-only, why not use the ImmutableStruct
+gem, used elsewhere in ruby-jss?</p>
 
-<p>Because ImmutableStruct is really for creating fully-fleshed-out read-only classes, with a known set of attributes rather than just giving us a nicer way to access Hash data with arbitrary keys.</p>
+<p>Because ImmutableStruct is really for creating fully-fleshed-out read-only
+classes, with a known set of attributes rather than just giving us a nicer
+way to access Hash data with arbitrary keys.</p>
 
 
   </div>
@@ -627,9 +698,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:03 2020 by
+  Generated on Fri Aug  7 11:26:47 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

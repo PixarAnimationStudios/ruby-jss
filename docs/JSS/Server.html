@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Server
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::Server";
   relpath = '../';
 </script>
@@ -104,11 +104,15 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A class representing the currently-connected JSS Server in a JSS::APIConnection instance.</p>
+<p>A class representing the currently-connected JSS Server in a
+JSS::APIConnection instance.</p>
 
-<p>The <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span> instance has a JSS::Server instance in its #server attribute. It is created fresh every time <span class='object_link'><a href="APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">APIConnection#connect</a></span> is called.</p>
+<p>The <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span> instance has a JSS::Server instance in its #server
+attribute. It is created fresh every time <span class='object_link'><a href="APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">APIConnection#connect</a></span> is
+called.</p>
 
-<p>That&#39;s the only time it should be instantiated, and all access should be through the #server attribute of the APIConnection instance.</p>
+<p>That&#39;s the only time it should be instantiated, and all access should
+be through the #server attribute of the APIConnection instance.</p>
 
 
   </div>
@@ -446,7 +450,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server.</p>
+<p>Initialize! THe jss_data to be passed in is the JSON output of the
+&#39;jssuser&#39; resource on the API server.</p>
 </div></span>
   
 </li>
@@ -496,7 +501,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the api object from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -520,9 +526,15 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server. the jssuser resource is readable by anyone with a JSS acct regardless of their permissions. However, it&#39;s marked as &#39;deprecated&#39;. Hopefully jamf will keep this basic level of info available for basic authentication and JSS version checking.</p>
+<p>Initialize! THe jss_data to be passed in is the JSON output of the
+&#39;jssuser&#39; resource on the API server. the jssuser resource is
+readable by anyone with a JSS acct regardless of their permissions.
+However, it&#39;s marked as &#39;deprecated&#39;. Hopefully jamf will keep
+this basic level of info available for basic authentication and JSS version
+checking.</p>
 
-<p>The &#39;api&#39; is a reference to the JSS::APIConnection instance which this JSS::Server instance is a part of.</p>
+<p>The &#39;api&#39; is a reference to the JSS::APIConnection instance which
+this JSS::Server instance is a part of.</p>
 
 
   </div>
@@ -586,7 +598,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The APIConnection object that contains this instance of Server.</p>
+<p>Returns The APIConnection object that contains this instance of Server</p>
 
 
   </div>
@@ -647,7 +659,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the type of server licence.</p>
+<p>Returns the type of server licence</p>
 
 
   </div>
@@ -798,7 +810,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the license product name.</p>
+<p>Returns the license product name</p>
 
 
   </div>
@@ -945,7 +957,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>@return [String] The version of the JSS. See the method JSS.parse_jss_version</p>
+<p>@return [String] The version of the JSS. See the method
+JSS.parse_jss_version</p>
 
 
   </div>
@@ -993,7 +1006,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the activation code for the server licence.</p>
+<p>Returns the activation code for the server licence</p>
 
 
   </div>
@@ -1058,7 +1071,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the organization to which the server is licensed.</p>
+<p>Returns the organization to which the server is licensed</p>
 
 
   </div>
@@ -1119,7 +1132,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the api object from the instance_variables used to create
+pretty-print (pp) output.</p>
 
 
   </div>
@@ -1175,9 +1189,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:56 2020 by
+  Generated on Fri Aug  7 11:26:29 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

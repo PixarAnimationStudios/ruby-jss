@@ -6,15 +6,15 @@
 <title>
   Class: JSS::PatchPolicy
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::PatchPolicy";
   relpath = '../';
 </script>
@@ -113,13 +113,16 @@
     
 <p>A Patch Policy in the JSS</p>
 
-<p>When making new Patch Polices :patch_title and :target_version must be provided as well as :name.</p>
+<p>When making new Patch Polices :patch_title and :target_version must be
+provided as well as :name.</p>
 
 <p>:patch_title is the name or id of a currently active patch title</p>
 
-<p>:target_version is the string identfier of an available version of the title. The target version MUST have a package assigned to it.</p>
+<p>:target_version is the string identfier of an available version of the
+title. The target version MUST have a package assigned to it.</p>
 
-<p>See <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span> and <span class='object_link'><a href="PatchSource.html#available_titles-class_method" title="JSS::PatchSource.available_titles (method)">JSS::PatchSource.available_titles</a></span> for methods to acquire such info.</p>
+<p>See <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span> and <span class='object_link'><a href="PatchSource.html#available_titles-class_method" title="JSS::PatchSource.available_titles (method)">JSS::PatchSource.available_titles</a></span> for methods
+to acquire such info.</p>
 
 
   </div>
@@ -575,7 +578,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+<p>The message displayed asking the user to quit the killapps within
+@grace_period minutes.</p>
 </div></span>
   
 </li>
@@ -604,7 +608,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+<p>The Subject of the message displayed asking the user to quit the killapps
+within @grace_period minutes.</p>
 </div></span>
   
 </li>
@@ -983,7 +988,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
+id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -1113,7 +1119,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX
+SSvc only).</p>
 </div></span>
   
 </li>
@@ -1373,7 +1380,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification
+repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1468,7 +1476,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>When setting, the version must exist in the policy&#39;s PatchTitle, and have a package assigned to it.</p>
+<p>When setting, the version must exist in the policy&#39;s PatchTitle, and
+have a package assigned to it.</p>
 </div></span>
   
 </li>
@@ -1725,7 +1734,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>When making new Patch Polices :patch_title is required and is a JSS::PatchTitle or the name or id of one.</p>
+<p>When making new Patch Polices :patch_title is required and is a
+JSS::PatchTitle or the name or id of one.</p>
 </div></span>
   
 </li>
@@ -1754,7 +1764,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -1783,7 +1794,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -2087,7 +2099,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 </div></span>
   
 </li>
@@ -2152,9 +2165,11 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>When making new Patch Polices :patch_title is required and is a JSS::PatchTitle or the name or id of one</p>
+<p>When making new Patch Polices :patch_title is required and is a
+JSS::PatchTitle or the name or id of one</p>
 
-<p>If target_version: is provided, it must exist in the PatchTitle, and must have a package assigned to it.</p>
+<p>If target_version: is provided, it must exist in the PatchTitle, and must
+have a package assigned to it.</p>
 
 
   </div>
@@ -2399,7 +2414,8 @@
       
         &mdash;
         <div class='inline'>
-<p>:none, or a positive integer. Integers &lt; 1 have the same meaning as :none</p>
+<p>:none, or a positive integer. Integers &lt; 1 have the same meaning as
+:none</p>
 </div>
       
     </li>
@@ -2464,7 +2480,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this patch policy enabled?.</p>
+<p>Returns is this patch policy enabled?</p>
 
 
   </div>
@@ -2529,7 +2545,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How many minutes does the user have to quit the killapps?.</p>
+<p>Returns How many minutes does the user have to quit the killapps?</p>
 
 
   </div>
@@ -2610,7 +2626,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+<p>Returns The message displayed asking the user to quit the killapps within
+@grace_period minutes</p>
 
 
   </div>
@@ -2649,7 +2666,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The message displayed asking the user to quit the killapps within @grace_period minutes</p>
+<p>The message displayed asking the user to quit the killapps within
+@grace_period minutes</p>
 </div>
       
     </li>
@@ -2695,7 +2713,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+<p>Returns The Subject of the message displayed asking the user to quit the
+killapps within @grace_period minutes</p>
 
 
   </div>
@@ -2734,7 +2753,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes</p>
+<p>The Subject of the message displayed asking the user to quit the killapps
+within @grace_period minutes</p>
 </div>
       
     </li>
@@ -2785,7 +2805,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service.</p>
+<p>Returns The icon used in self-service</p>
 
 
   </div>
@@ -2837,7 +2857,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?.</p>
+<p>Returns Is this thing available in Self Service?</p>
 
 
   </div>
@@ -2884,7 +2904,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns must this patch be installed only over the prev. version?.</p>
+<p>Returns must this patch be installed only over the prev. version?</p>
 
 
   </div>
@@ -2945,7 +2965,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The apps that cannot be running when this is installed. each Hash contains :kill_app_name and :kill_app_bundle_id, both Strings.</p>
+<p>Returns The apps that cannot be running when this is installed. each Hash
+contains :kill_app_name and :kill_app_bundle_id, both Strings</p>
 
 
   </div>
@@ -2964,7 +2985,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The apps that cannot be running when this is installed. each Hash contains :kill_app_name and :kill_app_bundle_id, both Strings</p>
+<p>The apps that cannot be running when this is installed. each Hash contains
+:kill_app_name and :kill_app_bundle_id, both Strings</p>
 </div>
       
     </li>
@@ -3006,7 +3028,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The min. OS version require to install this patch.</p>
+<p>Returns The min. OS version require to install this patch</p>
 
 
   </div>
@@ -3072,7 +3094,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -3119,7 +3141,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id of the JSS::PatchTitle for this policy. Can be set with the patch_title: param of .make, but is read-only after that.</p>
+<p>Returns the id of the JSS::PatchTitle for this policy. Can be set with the
+patch_title: param of .make, but is read-only after that.</p>
 
 
   </div>
@@ -3138,7 +3161,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the id of the JSS::PatchTitle for this policy. Can be set with the patch_title: param of .make, but is read-only after that.</p>
+<p>the id of the JSS::PatchTitle for this policy. Can be set with the
+patch_title: param of .make, but is read-only after that.</p>
 </div>
       
     </li>
@@ -3259,7 +3283,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this patch require a reboot after installation?.</p>
+<p>Returns does this patch require a reboot after installation?</p>
 
 
   </div>
@@ -3320,7 +3344,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns when the target_version was released.</p>
+<p>Returns when the target_version was released</p>
 
 
   </div>
@@ -3425,9 +3449,11 @@
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category
+in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
+SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -3476,7 +3502,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item.</p>
+<p>Returns The verbage that appears in SelfSvc for this item</p>
 
 
   </div>
@@ -3624,7 +3650,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+<p>Returns Should an extra window appear before the user can install the item?
+(OSX SSvc only)</p>
 
 
   </div>
@@ -3643,7 +3670,8 @@
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX
+SSvc only)</p>
 </div>
       
     </li>
@@ -3720,7 +3748,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification.</p>
+<p>Returns The message text of the notification</p>
 
 
   </div>
@@ -3816,7 +3844,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+<p>Returns How should notifications be sent either :ssvc_only or
+:ssvc_and_nctr</p>
 
 
   </div>
@@ -3868,7 +3897,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?.</p>
+<p>Returns Should jamf send notifications to self service?</p>
 
 
   </div>
@@ -3964,7 +3993,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given.</p>
+<p>Returns How often (in days) should reminders be given</p>
 
 
   </div>
@@ -4016,7 +4045,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
+<p>Returns Should self service give reminders by displaying the notification
+repeatedly?</p>
 
 
   </div>
@@ -4035,7 +4065,8 @@
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification repeatedly?</p>
+<p>Should self service give reminders by displaying the notification
+repeatedly?</p>
 </div>
       
     </li>
@@ -4112,7 +4143,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
 
 
   </div>
@@ -4159,7 +4190,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>When setting, the version must exist in the policy&#39;s PatchTitle, and have a package assigned to it.</p>
+<p>When setting, the version must exist in the policy&#39;s PatchTitle, and
+have a package assigned to it.</p>
 
 
   </div>
@@ -4265,7 +4297,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the PatchTitle for which to retrieve a list of patch policies</p>
+<p>the name or id of the PatchTitle for which to retrieve a list of patch
+policies</p>
 </div>
       
     </li>
@@ -4343,7 +4376,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Override APIObject.fetch, since there&#39;s no …/patchpolicies/name/… endpoint</p>
+<p>Override APIObject.fetch, since there&#39;s no …/patchpolicies/name/…
+endpoint</p>
 
 
   </div>
@@ -4453,12 +4487,11 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only
+meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -4471,12 +4504,12 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only
+meaningful in applicable classes. NOTE: this will always be false if
+display_in is false.</p>
 </div>
       
     </li>
@@ -4545,7 +4578,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -4578,12 +4612,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -4807,7 +4840,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -4872,7 +4906,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data</p>
 
 
   </div>
@@ -4973,7 +5008,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the PatchTitle for this patch policy.</p>
+<p>Returns the name of the PatchTitle for this patch policy</p>
 
 
   </div>
@@ -5115,7 +5150,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service.</p>
+<p>Returns The url to view this thing in Self Service</p>
 
 
   </div>
@@ -5253,7 +5288,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service.</p>
+<p>Returns The url to view this thing in Self Service</p>
 
 
   </div>
@@ -5394,7 +5429,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 
 
   </div>
@@ -5414,7 +5450,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the
+class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -5523,9 +5560,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:01 2020 by
+  Generated on Fri Aug  7 11:26:43 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

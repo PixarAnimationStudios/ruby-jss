@@ -6,15 +6,15 @@
 <title>
   Class: JSS::DistributionPoint
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::DistributionPoint";
   relpath = '../';
 </script>
@@ -106,15 +106,30 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A Distribution Point in the JSS</p>
+<p>A FileShare Distribution Point in the JSS</p>
 
-<p>As well as the normal Class and Instance methods for <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclasses, the DistributionPoint class provides more interaction with other parts of the API.</p>
+<p>As well as the normal Class and Instance methods for <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span>
+subclasses, the DistributionPoint class provides more interaction with
+other parts of the API.</p>
 
-<p>Beyond the standard listing methods DistributionPoint.all, .all_ids, etc, every JSS has a single “master” distribution point.  The Class method <span class='object_link'><a href="#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span> will return the JSS::DistributionPoint object for that master.</p>
+<p>Beyond the standard listing methods DistributionPoint.all, .all_ids, etc,
+every JSS has a single “master” distribution point.  The Class method
+<span class='object_link'><a href="#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span> will return the
+JSS::DistributionPoint object for that master.</p>
 
-<p>Also, some network segments have specific DistributionPoints assigned to them. Calling the Class method <span class='object_link'><a href="#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span> will return a JSS::DistributionPoint object for your local IP address.</p>
+<p>Also, some network segments have specific DistributionPoints assigned to
+them. Calling the Class method <span class='object_link'><a href="#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span>
+will return a JSS::DistributionPoint object for your local IP address.</p>
 
-<p>Once you have an instance of JSS::DistributionPoint, you can mount it (on a Mac) by calling its <span class='object_link'><a href="#mount-instance_method" title="JSS::DistributionPoint#mount (method)">#mount</a></span> method and unmount it with <span class='object_link'><a href="#unmount-instance_method" title="JSS::DistributionPoint#unmount (method)">#unmount</a></span>. The <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span> and possibly <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span> classes use this to upload items to the master.</p>
+<p>Once you have an instance of JSS::DistributionPoint, you can mount it (on a
+Mac) by calling its <span class='object_link'><a href="#mount-instance_method" title="JSS::DistributionPoint#mount (method)">#mount</a></span> method and unmount it with <span class='object_link'><a href="#unmount-instance_method" title="JSS::DistributionPoint#unmount (method)">#unmount</a></span>. The
+<span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span> and possibly <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span> classes use this to upload items
+to the master.</p>
+
+<p>NOTE: This class only deals with FileShare Distribution Points. There is no
+access to the Cloud Distribution Point in the classic API. See the
+.master_distribution_point and .my_distribution_point class methods for how
+they handle things when the Cloud DP is the master.</p>
 
 
   </div>
@@ -158,7 +173,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the hash key used for the JSON list output of all objects in the JSS its also used in various error messages</p>
+<p>the hash key used for the JSON list output of all objects in the JSS its
+also used in various error messages</p>
 
 
   </div>
@@ -174,7 +190,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -190,7 +207,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>what  are the mount options? these are comma-separated, and are passed with -o</p>
+<p>what  are the mount options? these are comma-separated, and are passed with
+-o</p>
 
 
   </div>
@@ -243,7 +261,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -374,7 +393,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The “context” for http downloads (what goes after the hostname part of the URL).</p>
+<p>The “context” for http downloads (what goes after the hostname part of the
+URL).</p>
 </div></span>
   
 </li>
@@ -1067,7 +1087,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#master_distribution_point-class_method" title="master_distribution_point (class method)">.<strong>master_distribution_point</strong>(refresh = false, api: JSS.api)  &#x21d2; JSS::DistributionPoint </a>
+      <a href="#master_distribution_point-class_method" title="master_distribution_point (class method)">.<strong>master_distribution_point</strong>(refresh = false, default: nil, api: JSS.api)  &#x21d2; JSS::DistributionPoint </a>
     
 
     
@@ -1082,7 +1102,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get the DistributionPoint instance for the master distribution point in the JSS.</p>
+<p>Get the DistributionPoint instance for the master distribution point.</p>
 </div></span>
   
 </li>
@@ -1091,7 +1111,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#my_distribution_point-class_method" title="my_distribution_point (class method)">.<strong>my_distribution_point</strong>(refresh = false, api: JSS.api)  &#x21d2; JSS::DistributionPoint </a>
+      <a href="#my_distribution_point-class_method" title="my_distribution_point (class method)">.<strong>my_distribution_point</strong>(refresh = false, default: :master, api: JSS.api)  &#x21d2; JSS::DistributionPoint </a>
     
 
     
@@ -1106,7 +1126,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get the DistributionPoint instance for the machine running this code, based on its IP address.</p>
+<p>Get the DistributionPoint instance for the machine running this code, based
+on its IP address.</p>
 </div></span>
   
 </li>
@@ -1165,7 +1186,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>As well as the standard :id, :name, and :data, you can instantiate this class with :id =&gt; :master, in which case you&#39;ll get the Master Distribution Point as defined in the JSS.</p>
+<p>As well as the standard :id, :name, and :data, you can instantiate this
+class with :id =&gt; :master, in which case you&#39;ll get the Master
+Distribution Point as defined in the JSS.</p>
 </div></span>
   
 </li>
@@ -1237,7 +1260,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Check to see if this dist point is reachable for downloads (read-only) via either http, if available, or filesharing.</p>
+<p>Check to see if this dist point is reachable for downloads (read-only) via
+either http, if available, or filesharing.</p>
 </div></span>
   
 </li>
@@ -1261,7 +1285,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Check to see if this dist point is reachable for uploads (read-write) via filesharing.</p>
+<p>Check to see if this dist point is reachable for uploads (read-write) via
+filesharing.</p>
 </div></span>
   
 </li>
@@ -1313,7 +1338,10 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>As well as the standard :id, :name, and :data, you can instantiate this class with :id =&gt; :master, in which case you&#39;ll get the Master Distribution Point as defined in the JSS. An error will be raised if one hasn&#39;t been defined.</p>
+<p>As well as the standard :id, :name, and :data, you can instantiate this
+class with :id =&gt; :master, in which case you&#39;ll get the Master
+Distribution Point as defined in the JSS. An error will be raised if one
+hasn&#39;t been defined.</p>
 
 <p>You can also do this more easily by calling JSS.master_distribution_point</p>
 
@@ -1329,80 +1357,80 @@
       <pre class="lines">
 
 
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
 273
 274
 275
 276
 277
-278</pre>
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='comment'># TODO: this looks redundant with super....
@@ -1473,7 +1501,7 @@
 </span>  <span class='comment'># Seemms the read-only pw isn&#39;t available in the API
 </span>
   <span class='comment'># if we mount for fileservice, where&#39;s the mountpoint?
-</span>  <span class='ivar'>@mountpoint</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_DIR-constant" title="JSS::DistributionPoint::DEFAULT_MOUNTPOINT_DIR (constant)">DEFAULT_MOUNTPOINT_DIR</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_PREFIX-constant" title="JSS::DistributionPoint::DEFAULT_MOUNTPOINT_PREFIX (constant)">DEFAULT_MOUNTPOINT_PREFIX</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+</span>  <span class='ivar'>@mountpoint</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_DIR-constant" title="JSS::DistributionPoint::DEFAULT_MOUNTPOINT_DIR (constant)">DEFAULT_MOUNTPOINT_DIR</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_PREFIX-constant" title="JSS::DistributionPoint::DEFAULT_MOUNTPOINT_PREFIX (constant)">DEFAULT_MOUNTPOINT_PREFIX</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1531,12 +1559,12 @@
       <pre class="lines">
 
 
-185
-186
-187</pre>
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 250</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_certificate'>certificate</span>
   <span class='ivar'>@certificate</span>
@@ -1560,7 +1588,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do http downloads use cert. authentication?.</p>
+<p>Returns do http downloads use cert. authentication?</p>
 
 
   </div>
@@ -1592,12 +1620,12 @@
       <pre class="lines">
 
 
-173
-174
-175</pre>
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_certificate_required'>certificate_required</span>
   <span class='ivar'>@certificate_required</span>
@@ -1621,7 +1649,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Protocol for fileservice access (e.g. AFP, SMB).</p>
+<p>Returns Protocol for fileservice access (e.g. AFP, SMB)</p>
 
 
   </div>
@@ -1653,12 +1681,12 @@
       <pre class="lines">
 
 
-132
-133
-134</pre>
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connection_type'>connection_type</span>
   <span class='ivar'>@connection_type</span>
@@ -1682,7 +1710,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the “context” for http downloads (what goes after the hostname part of the URL).</p>
+<p>Returns the “context” for http downloads (what goes after the hostname part
+of the URL)</p>
 
 
   </div>
@@ -1701,7 +1730,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the “context” for http downloads (what goes after the hostname part of the URL)</p>
+<p>the “context” for http downloads (what goes after the hostname part of the
+URL)</p>
 </div>
       
     </li>
@@ -1714,12 +1744,12 @@
       <pre class="lines">
 
 
-167
-168
-169</pre>
+232
+233
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_context'>context</span>
   <span class='ivar'>@context</span>
@@ -1743,7 +1773,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns load balanacing enabled?.</p>
+<p>Returns load balanacing enabled?</p>
 
 
   </div>
@@ -1775,12 +1805,12 @@
       <pre class="lines">
 
 
-121
-122
-123</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_load_balancing'>enable_load_balancing</span>
   <span class='ivar'>@enable_load_balancing</span>
@@ -1804,7 +1834,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id of the DP to use for failover.</p>
+<p>Returns the id of the DP to use for failover</p>
 
 
   </div>
@@ -1836,12 +1866,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failover_point'>failover_point</span>
   <span class='ivar'>@failover_point</span>
@@ -1865,7 +1895,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the URL to use if this one doesn&#39;t work.</p>
+<p>Returns the URL to use if this one doesn&#39;t work</p>
 
 
   </div>
@@ -1897,12 +1927,12 @@
       <pre class="lines">
 
 
-191
-192
-193</pre>
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failover_point_url'>failover_point_url</span>
   <span class='ivar'>@failover_point_url</span>
@@ -1926,7 +1956,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns are http downloads available from this DP?.</p>
+<p>Returns are http downloads available from this DP?</p>
 
 
   </div>
@@ -1958,12 +1988,12 @@
       <pre class="lines">
 
 
-158
-159
-160</pre>
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_http_downloads_enabled'>http_downloads_enabled</span>
   <span class='ivar'>@http_downloads_enabled</span>
@@ -1987,7 +2017,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the password for http downloads, if needed, as a SHA256 digest.</p>
+<p>Returns the password for http downloads, if needed, as a SHA256 digest</p>
 
 
   </div>
@@ -2019,12 +2049,12 @@
       <pre class="lines">
 
 
-182
-183
-184</pre>
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_http_password_sha256'>http_password_sha256</span>
   <span class='ivar'>@http_password_sha256</span>
@@ -2048,7 +2078,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the URL for http downloads.</p>
+<p>Returns the URL for http downloads</p>
 
 
   </div>
@@ -2080,12 +2110,12 @@
       <pre class="lines">
 
 
-188
-189
-190</pre>
+253
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_http_url'>http_url</span>
   <span class='ivar'>@http_url</span>
@@ -2109,7 +2139,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the username to use for http downloads if needed for user/pw auth.</p>
+<p>Returns the username to use for http downloads if needed for user/pw auth</p>
 
 
   </div>
@@ -2141,12 +2171,12 @@
       <pre class="lines">
 
 
-179
-180
-181</pre>
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 244</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_http_username'>http_username</span>
   <span class='ivar'>@http_username</span>
@@ -2174,7 +2204,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the hostname of this DP.</p>
+<p>Returns the hostname of this DP</p>
 
 
   </div>
@@ -2206,12 +2236,12 @@
       <pre class="lines">
 
 
-115
-116
-117</pre>
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ip_address'>ip_address</span>
   <span class='ivar'>@ip_address</span>
@@ -2239,7 +2269,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this the master DP?.</p>
+<p>Returns is this the master DP?</p>
 
 
   </div>
@@ -2271,12 +2301,12 @@
       <pre class="lines">
 
 
-127
-128
-129</pre>
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_master'>is_master</span>
   <span class='ivar'>@is_master</span>
@@ -2300,7 +2330,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the local path on the server to the distribution point directory.</p>
+<p>Returns the local path on the server to the distribution point directory</p>
 
 
   </div>
@@ -2332,12 +2362,12 @@
       <pre class="lines">
 
 
-118
-119
-120</pre>
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_path'>local_path</span>
   <span class='ivar'>@local_path</span>
@@ -2361,7 +2391,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do http downloads work without auth?.</p>
+<p>Returns do http downloads work without auth?</p>
 
 
   </div>
@@ -2393,12 +2423,12 @@
       <pre class="lines">
 
 
-170
-171
-172</pre>
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 235</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_no_authentication_required'>no_authentication_required</span>
   <span class='ivar'>@no_authentication_required</span>
@@ -2422,7 +2452,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the port for http access.</p>
+<p>Returns the port for http access</p>
 
 
   </div>
@@ -2454,12 +2484,12 @@
       <pre class="lines">
 
 
-164
-165
-166</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 229</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
@@ -2483,7 +2513,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the protocol to use for http downloads (http/https).</p>
+<p>Returns the protocol to use for http downloads (http/https)</p>
 
 
   </div>
@@ -2515,12 +2545,12 @@
       <pre class="lines">
 
 
-161
-162
-163</pre>
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 226</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_protocol'>protocol</span>
   <span class='ivar'>@protocol</span>
@@ -2544,7 +2574,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns read-only password as a SHA256 digest.</p>
+<p>Returns read-only password as a SHA256 digest</p>
 
 
   </div>
@@ -2576,12 +2606,12 @@
       <pre class="lines">
 
 
-150
-151
-152</pre>
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 215</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read_only_password_sha256'>read_only_password_sha256</span>
   <span class='ivar'>@read_only_password_sha256</span>
@@ -2605,7 +2635,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns read-only username for fileservice.</p>
+<p>Returns read-only username for fileservice</p>
 
 
   </div>
@@ -2637,12 +2667,12 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read_only_username'>read_only_username</span>
   <span class='ivar'>@read_only_username</span>
@@ -2666,7 +2696,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the read-write password as a SHA256 digest.</p>
+<p>Returns the read-write password as a SHA256 digest</p>
 
 
   </div>
@@ -2698,12 +2728,12 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read_write_password_sha256'>read_write_password_sha256</span>
   <span class='ivar'>@read_write_password_sha256</span>
@@ -2727,7 +2757,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the read-write username for fileservice access.</p>
+<p>Returns the read-write username for fileservice access</p>
 
 
   </div>
@@ -2759,12 +2789,12 @@
       <pre class="lines">
 
 
-141
-142
-143</pre>
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 206</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read_write_username'>read_write_username</span>
   <span class='ivar'>@read_write_username</span>
@@ -2788,7 +2818,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the fileservice sharepoint.</p>
+<p>Returns the name of the fileservice sharepoint</p>
 
 
   </div>
@@ -2820,12 +2850,12 @@
       <pre class="lines">
 
 
-138
-139
-140</pre>
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 203</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_share_name'>share_name</span>
   <span class='ivar'>@share_name</span>
@@ -2849,7 +2879,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the port for fileservice access.</p>
+<p>Returns the port for fileservice access</p>
 
 
   </div>
@@ -2881,12 +2911,12 @@
       <pre class="lines">
 
 
-135
-136
-137</pre>
+200
+201
+202</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_share_port'>share_port</span>
   <span class='ivar'>@share_port</span>
@@ -2910,7 +2940,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the ssh password as a SHA256 digest.</p>
+<p>Returns the ssh password as a SHA256 digest</p>
 
 
   </div>
@@ -2942,12 +2972,12 @@
       <pre class="lines">
 
 
-199
-200
-201</pre>
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 264</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ssh_password_sha256'>ssh_password_sha256</span>
   <span class='ivar'>@ssh_password_sha256</span>
@@ -2971,7 +3001,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns ssh username.</p>
+<p>Returns ssh username</p>
 
 
   </div>
@@ -3003,12 +3033,12 @@
       <pre class="lines">
 
 
-196
-197
-198</pre>
+261
+262
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 261</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ssh_username'>ssh_username</span>
   <span class='ivar'>@ssh_username</span>
@@ -3032,7 +3062,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do http downloads use user/pw auth?.</p>
+<p>Returns do http downloads use user/pw auth?</p>
 
 
   </div>
@@ -3064,12 +3094,12 @@
       <pre class="lines">
 
 
-176
-177
-178</pre>
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_username_password_required'>username_password_required</span>
   <span class='ivar'>@username_password_required</span>
@@ -3093,7 +3123,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns work group or domain for SMB.</p>
+<p>Returns work group or domain for SMB</p>
 
 
   </div>
@@ -3125,12 +3155,12 @@
       <pre class="lines">
 
 
-153
-154
-155</pre>
+218
+219
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_workgroup_or_domain'>workgroup_or_domain</span>
   <span class='ivar'>@workgroup_or_domain</span>
@@ -3150,7 +3180,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="master_distribution_point-class_method">
   
-    .<strong>master_distribution_point</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
+    .<strong>master_distribution_point</strong>(refresh = false, default: nil, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
   
 
   
@@ -3159,7 +3189,15 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get the DistributionPoint instance for the master distribution point in the JSS. If there&#39;s only one in the JSS, return it even if not marked as master.</p>
+<p>Get the DistributionPoint instance for the master distribution point.</p>
+
+<p>If the Cloud Dist Point is master, then the classic API has no way to know
+that or access it. In that case you can provide the &#39;default:&#39;
+parameter. Give it the name or id of any dist. point to be used instead, or
+give it :random to randomly choose one.</p>
+
+<p>If there are no fileshare dist points defined (the cloud is the only one)
+then this whole class can&#39;t really be used.</p>
 
 
   </div>
@@ -3188,13 +3226,28 @@
   
     <li>
       
+        <span class='name'>default</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name or ID of a dist point to use if no master is found, or :random to
+randomly choose one.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>api</span>
       
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -3219,94 +3272,13 @@
     </li>
   
 </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-93
-94
-95</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 93</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="my_distribution_point-class_method">
-  
-    .<strong>my_distribution_point</strong>(refresh = false, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Get the DistributionPoint instance for the machine running this code, based on its IP address. If none is defined for this IP address, use the result of master_distribution_point</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>refresh</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>should the distribution point be re-queried?</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>api</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>which API connection should we query?</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
       
       
       
@@ -3322,13 +3294,216 @@
 
 107
 108
-109</pre>
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 107</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+
+  <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dp_id'>dp_id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_dp_id'>dp_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_master?'>master?</span>
+      <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># If we&#39;re here, the Cloud DP might be master, but there&#39;s no
+</span>  <span class='comment'># access to it in the API :/
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No Master FileShare Distribtion Point. Use the default: parameter if needed.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@master_distribution_point</span> <span class='op'>||</span> <span class='id identifier rubyid_default'>default</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+    <span class='ivar'>@master_distribution_point</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_default'>default</span> <span class='op'>==</span> <span class='symbol'>:random</span>
+    <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_distribution_point-class_method">
+  
+    .<strong>my_distribution_point</strong>(refresh = false, default: :master, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the DistributionPoint instance for the machine running this code, based
+on its IP address. If none is defined for this IP address, use the name or
+id provided as default. If no default: is provided, the master dp is used.
+If no master dp available (meaning its the cloud dp) then use a randomly
+chosen dp.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the distribution point be re-queried?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>default</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of a Dist Point to use if none is specified for this IP
+addr. Or :master, to use the master DP, or :random to use a randomly chosen
+one. If :master is specified and there is no master (master is cloud) then
+a random one is used.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which API connection should we query?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="JSS::DistributionPoint (class)">JSS::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='symbol'>:master</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
+
+  <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_network_segment'><span class='object_link'><a href="NetworkSegment.html#my_network_segment-class_method" title="JSS::NetworkSegment.my_network_segment (method)">my_network_segment</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span>
+    <span class='id identifier rubyid_my_net_seg'>my_net_seg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='id identifier rubyid_my_dp_name'>my_dp_name</span> <span class='op'>=</span> <span class='id identifier rubyid_my_net_seg'>my_net_seg</span><span class='period'>.</span><span class='id identifier rubyid_distribution_point'>distribution_point</span>
+    <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>name:</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span>
+  <span class='kw'>end</span> <span class='comment'># if my_net_seg_id
+</span>
+  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
+
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_default'>default</span>
+    <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>name:</span> <span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>when</span> <span class='const'>Integer</span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>when</span> <span class='symbol'>:master</span>
+      <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='symbol'>:random</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>when</span> <span class='symbol'>:random</span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+    <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3408,7 +3583,8 @@
       
         &mdash;
         <div class='inline'>
-<p>was the password correct? nil is returned if there is no password set in the JSS.</p>
+<p>was the password correct? nil is returned if there is no password set in
+the JSS.</p>
 </div>
       
     </li>
@@ -3434,26 +3610,26 @@
       <pre class="lines">
 
 
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302</pre>
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 354</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_pw'>check_pw</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The first parameter must be one of :ro, :rw, :ssh, :http</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ro</span><span class='words_sep'> </span><span class='tstring_content'>rw</span><span class='words_sep'> </span><span class='tstring_content'>ssh</span><span class='words_sep'> </span><span class='tstring_content'>http</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The first parameter must be one of :ro, :rw, :ssh, :http</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ro</span><span class='words_sep'> </span><span class='tstring_content'>rw</span><span class='words_sep'> </span><span class='tstring_content'>ssh</span><span class='words_sep'> </span><span class='tstring_content'>http</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_user'>user</span>
 
   <span class='id identifier rubyid_sha256'>sha256</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_user'>user</span>
            <span class='kw'>when</span> <span class='symbol'>:rw</span> <span class='kw'>then</span> <span class='ivar'>@read_write_password_sha256</span>
@@ -3505,7 +3681,11 @@
       
         &mdash;
         <div class='inline'>
-<p>the read-only or read-write password for this DistributionPoint If :prompt, the user is promted on the commandline to enter the password for the :user. If :stdin#, the password is read from a line of std in represented by the digits at #, so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
+<p>the read-only or read-write password for this DistributionPoint If :prompt,
+the user is promted on the commandline to enter the password for the :user.
+If :stdin#, the password is read from a line of std in represented by the
+digits at #, so :stdin3 reads the passwd from the third line of standard
+input. defaults to line 2, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
 </div>
       
     </li>
@@ -3523,7 +3703,8 @@
       
         &mdash;
         <div class='inline'>
-<p>how to mount the DistributionPoint, and which password to expect. :ro (or anything else) = read-only, :rw = read-write</p>
+<p>how to mount the DistributionPoint, and which password to expect. :ro (or
+anything else) = read-only, :rw = read-write</p>
 </div>
       
     </li>
@@ -3555,55 +3736,55 @@
       <pre class="lines">
 
 
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
 432
 433
-434</pre>
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 389</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 432</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_access'>access</span> <span class='op'>=</span> <span class='symbol'>:ro</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@mountpoint</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
@@ -3695,12 +3876,12 @@
       <pre class="lines">
 
 
-459
-460
-461</pre>
+502
+503
+504</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 502</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
   <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span>
@@ -3722,7 +3903,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Check to see if this dist point is reachable for downloads (read-only) via either http, if available, or filesharing.</p>
+<p>Check to see if this dist point is reachable for downloads (read-only) via
+either http, if available, or filesharing.</p>
 
 
   </div>
@@ -3744,7 +3926,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the read-only password to use for checking the connection If http downloads are enabled, and no http password is required this can be omitted.</p>
+<p>the read-only password to use for checking the connection If http downloads
+are enabled, and no http password is required this can be omitted.</p>
 </div>
       
     </li>
@@ -3762,7 +3945,9 @@
       
         &mdash;
         <div class='inline'>
-<p>should we try the http download first, if enabled? If you&#39;re intentionally using the ro password for filesharing, and want to check only filesharing, then set this to false.</p>
+<p>should we try the http download first, if enabled? If you&#39;re
+intentionally using the ro password for filesharing, and want to check only
+filesharing, then set this to false.</p>
 </div>
       
     </li>
@@ -3794,78 +3979,34 @@
       <pre class="lines">
 
 
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352</pre>
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 382</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reachable_for_download?'>reachable_for_download?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_check_http'>check_http</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_pw'>pw</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_http_checked'>http_checked</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_check_http'>check_http</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_http_downloads_enabled'>http_downloads_enabled</span>
-    <span class='kw'>if</span> <span class='ivar'>@username_password_required</span>
-      <span class='comment'># we don&#39;t check the pw here, because if the connection fails, we&#39;ll
-</span>      <span class='comment'># drop down below to try the password for mounting.
-</span>      <span class='comment'># we&#39;ll escape all the chars that aren&#39;t unreserved
-</span>      <span class='comment'># reserved_chars = Regexp.new(&quot;[^#{URI::REGEXP::PATTERN::UNRESERVED}]&quot;)
-</span>      <span class='id identifier rubyid_user_pass'>user_pass</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='ivar'>@http_username</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_ro_pw'>ro_pw</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@http_url</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ip_address</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user_pass'>user_pass</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ip_address</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@http_url</span>
-    <span class='kw'>end</span>
-
-    <span class='kw'>begin</span>
-      <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
-      <span class='kw'>return</span> <span class='symbol'>:http</span>
-    <span class='kw'>rescue</span>
-      <span class='id identifier rubyid_http_checked'>http_checked</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http and </span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span> <span class='comment'># if  check_http &amp;&amp; http_downloads_enabled
-</span>
+  <span class='kw'>return</span> <span class='symbol'>:http</span> <span class='kw'>if</span> <span class='id identifier rubyid_check_http'>check_http</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_http_reachable?'>http_reachable?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='symbol'>:mountable</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
-
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_check_pw'>check_pw</span> <span class='symbol'>:ro</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span>
 
   <span class='kw'>begin</span>
     <span class='id identifier rubyid_mount'>mount</span> <span class='id identifier rubyid_pw'>pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span>
-    <span class='kw'>return</span> <span class='symbol'>:mountable</span>
+    <span class='symbol'>:mountable</span>
   <span class='kw'>rescue</span>
-    <span class='kw'>return</span> <span class='kw'>false</span>
+    <span class='kw'>false</span>
   <span class='kw'>ensure</span>
     <span class='id identifier rubyid_unmount'>unmount</span>
   <span class='kw'>end</span>
@@ -3887,7 +4028,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Check to see if this dist point is reachable for uploads (read-write) via filesharing.</p>
+<p>Check to see if this dist point is reachable for uploads (read-write) via
+filesharing.</p>
 
 
   </div>
@@ -3939,22 +4081,22 @@
       <pre class="lines">
 
 
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373</pre>
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 361</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reachable_for_upload?'>reachable_for_upload?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='symbol'>:mountable</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
@@ -4006,21 +4148,21 @@
       <pre class="lines">
 
 
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453</pre>
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 442</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/distribution_point.rb', line 485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unmount'>unmount</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
@@ -4044,9 +4186,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:59 2020 by
+  Generated on Fri Aug  7 11:26:38 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

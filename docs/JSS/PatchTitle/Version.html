@@ -6,15 +6,15 @@
 <title>
   Class: JSS::PatchTitle::Version
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::PatchTitle::Version";
   relpath = '../../';
 </script>
@@ -104,11 +104,17 @@
     
 <p>A Patch Software Title Version in the JSS.</p>
 
-<p>This class corresponds to a “version” returned from the &#39;patchsoftwaretitles&#39; resource of the API</p>
+<p>This class corresponds to a “version” returned from the
+&#39;patchsoftwaretitles&#39; resource of the API</p>
 
-<p>Not only does each one have a &#39;version&#39;, e.g. &#39;8.3.2b12&#39;, but also knows its parent PatchTitle, the matching JSS::Package, if any, and can report the names and ids of the computers that have it installed.</p>
+<p>Not only does each one have a &#39;version&#39;, e.g. &#39;8.3.2b12&#39;,
+but also knows its parent PatchTitle, the matching JSS::Package, if any,
+and can report the names and ids of the computers that have it installed.</p>
 
-<p>To set or change the JSS::Package associated with a PatchTitle::Version, first fetch the corresponding SoftwareTitle, use the #package= method of the Version object in its #versions attribute, then save the PatchTitle back to the JSS.</p>
+<p>To set or change the JSS::Package associated with a PatchTitle::Version,
+first fetch the corresponding SoftwareTitle, use the #package= method of
+the Version object in its #versions attribute, then save the PatchTitle
+back to the JSS.</p>
 
 
   </div>
@@ -363,7 +369,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This should only be instantiated by the JSS::PatchTitle that contains this version.</p>
+<p>This should only be instantiated by the JSS::PatchTitle that contains this
+version.</p>
 </div></span>
   
 </li>
@@ -461,7 +468,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -509,7 +517,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This should only be instantiated by the JSS::PatchTitle that contains this version.</p>
+<p>This should only be instantiated by the JSS::PatchTitle that contains this
+version.</p>
 
 
   </div>
@@ -573,7 +582,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id of the JSS::Package that installs this PatchVersion, if defined.</p>
+<p>Returns the id of the JSS::Package that installs this PatchVersion, if
+defined.</p>
 
 
   </div>
@@ -634,7 +644,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the JSS::Package that installs this PatchVersion, if defined.</p>
+<p>Returns the name of the JSS::Package that installs this PatchVersion, if
+defined</p>
 
 
   </div>
@@ -695,7 +706,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the software version number for this PatchVersion. name_id is a unique identfier created from the patch name.</p>
+<p>Returns the software version number for this PatchVersion. name_id is a
+unique identfier created from the patch name</p>
 
 
   </div>
@@ -714,7 +726,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the software version number for this PatchVersion. name_id is a unique identfier created from the patch name</p>
+<p>the software version number for this PatchVersion. name_id is a unique
+identfier created from the patch name</p>
 </div>
       
     </li>
@@ -761,7 +774,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The ids of #computers.</p>
+<p>Returns The ids of #computers</p>
 
 
   </div>
@@ -820,7 +833,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The names of #computers.</p>
+<p>Returns The names of #computers</p>
 
 
   </div>
@@ -879,7 +892,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The serial_numbers of #computers.</p>
+<p>Returns The serial_numbers of #computers</p>
 
 
   </div>
@@ -938,7 +951,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The udids of #computers.</p>
+<p>Returns The udids of #computers</p>
 
 
   </div>
@@ -997,7 +1010,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns A hash of identifiers for each computer with this version installed.</p>
+<p>Returns A hash of identifiers for each computer with this version
+installed.</p>
 
 
   </div>
@@ -1056,7 +1070,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Assign a new JSS::Package to this PatchTitle::Version. The Package must exist in the JSS. Be sure to call #update on the PatchTitle containing this Version.</p>
+<p>Assign a new JSS::Package to this PatchTitle::Version. The Package must
+exist in the JSS. Be sure to call #update on the PatchTitle containing this
+Version.</p>
 
 
   </div>
@@ -1076,7 +1092,8 @@
       
         &mdash;
         <div class='inline'>
-<p>A name or id of a JSS::Package. use :none to unset a package for this version.</p>
+<p>A name or id of a JSS::Package. use :none to unset a package for this
+version.</p>
 </div>
       
     </li>
@@ -1158,7 +1175,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Has a package been assigned to this version?.</p>
+<p>Returns Has a package been assigned to this version?</p>
 
 
   </div>
@@ -1262,7 +1279,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 
 
   </div>
@@ -1325,7 +1343,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How many #computers have this version?.</p>
+<p>Returns How many #computers have this version?</p>
 
 
   </div>
@@ -1377,9 +1395,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:04 2020 by
+  Generated on Fri Aug  7 11:26:51 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Script
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::Script";
   relpath = '../';
 </script>
@@ -113,13 +113,18 @@
     
 <p>A Script in the JSS.</p>
 
-<p>As of Casper 9.4, the script contents as stored in the database are accessible via the API</p>
+<p>As of Casper 9.4, the script contents as stored in the database are
+accessible via the API</p>
 
-<p>This class will save the script contents back to the database with the <span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span> or <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable#update</a></span> methods</p>
+<p>This class will save the script contents back to the database with the
+<span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span> or <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable#update</a></span> methods</p>
 
-<p>If your scripts are stored on the master distribution point instead of the database, you can use <span class='object_link'><a href="#upload_master_file-instance_method" title="JSS::Script#upload_master_file (method)">#upload_master_file</a></span> to save it to the server, and <span class='object_link'><a href="#delete_master_file-instance_method" title="JSS::Script#delete_master_file (method)">#delete_master_file</a></span> to delete it from the server.</p>
+<p>If your scripts are stored on the master distribution point instead of the
+database, you can use <span class='object_link'><a href="#upload_master_file-instance_method" title="JSS::Script#upload_master_file (method)">#upload_master_file</a></span> to save it to the server, and
+<span class='object_link'><a href="#delete_master_file-instance_method" title="JSS::Script#delete_master_file (method)">#delete_master_file</a></span> to delete it from the server.</p>
 
-<p>Use the <span class='object_link'><a href="#run-instance_method" title="JSS::Script#run (method)">#run</a></span> method to run the script on the local machine via the &#39;jamf runScript&#39; command</p>
+<p>Use the <span class='object_link'><a href="#run-instance_method" title="JSS::Script#run (method)">#run</a></span> method to run the script on the local machine via the
+&#39;jamf runScript&#39; command</p>
 
 
   </div>
@@ -179,7 +184,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -211,7 +217,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Priority to use for running the script in relation to other actions during imaging</p>
+<p>Priority to use for running the script in relation to other actions during
+imaging</p>
 
 
   </div>
@@ -259,7 +266,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -806,7 +814,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -986,7 +995,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Save the @script_contents for this script to a file on the Master Distribution point.</p>
+<p>Save the @script_contents for this script to a file on the Master
+Distribution point.</p>
 </div></span>
   
 </li>
@@ -1018,7 +1028,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Script.</p>
+<p>Returns a new instance of Script</p>
 
 
   </div>
@@ -1082,7 +1092,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the file name of the script, if stored in a dist. point.</p>
+<p>Returns the file name of the script, if stored in a dist. point</p>
 
 
   </div>
@@ -1143,7 +1153,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the info field for this script.</p>
+<p>Returns the info field for this script</p>
 
 
   </div>
@@ -1209,7 +1219,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -1252,7 +1262,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the notes field for this script.</p>
+<p>Returns the notes field for this script</p>
 
 
   </div>
@@ -1317,7 +1327,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS versions this can be installed onto. For all minor versions, the format is 10.5.x.</p>
+<p>Returns the OS versions this can be installed onto. For all minor versions,
+the format is 10.5.x</p>
 
 
   </div>
@@ -1336,7 +1347,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the OS versions this can be installed onto. For all minor versions, the format is 10.5.x</p>
+<p>the OS versions this can be installed onto. For all minor versions, the
+format is 10.5.x</p>
 </div>
       
     </li>
@@ -1378,7 +1390,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns script parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username.</p>
+<p>Returns script parameters 4-11. Parameters 1-3 are predefined as target
+drive, computer name, and username</p>
 
 
   </div>
@@ -1397,7 +1410,8 @@
       
         &mdash;
         <div class='inline'>
-<p>script parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username</p>
+<p>script parameters 4-11. Parameters 1-3 are predefined as target drive,
+computer name, and username</p>
 </div>
       
     </li>
@@ -1504,7 +1518,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the actual code for this script, if it&#39;s stored in the database.</p>
+<p>Returns the actual code for this script, if it&#39;s stored in the
+database.</p>
 
 
   </div>
@@ -1575,7 +1590,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will
+unset the category</p>
 
 
   </div>
@@ -1736,7 +1752,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this
+is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -1828,7 +1845,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -1861,12 +1879,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -1945,7 +1962,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -2001,7 +2019,8 @@
     
 <p>Delete the filename from the master distribution point, if it exists.</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished.</p>
 
 
   </div>
@@ -2119,7 +2138,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -2282,24 +2302,40 @@
     
 <p>Run this script on the current machine using the “jamf runScript” command.</p>
 
-<p>If the script code is available in the <span class='object_link'><a href="#script_contents-instance_method" title="JSS::Script#script_contents (method)">#script_contents</a></span> attribute, then that code is saved to a tmp file, and executed. Otherwise, the script is assumed to be stored on the distribution point.</p>
+<p>If the script code is available in the <span class='object_link'><a href="#script_contents-instance_method" title="JSS::Script#script_contents (method)">#script_contents</a></span> attribute, then
+that code is saved to a tmp file, and executed. Otherwise, the script is
+assumed to be stored on the distribution point.</p>
 
-<p>If the dist. point has http downloads enabled, then the URL is used as the path with the &#39;jamf runScript&#39; command.</p>
+<p>If the dist. point has http downloads enabled, then the URL is used as the
+path with the &#39;jamf runScript&#39; command.</p>
 
-<p>If http is not an option, the dist.point is mounted, and the script copied locally before running. In this case the options must include :ro_pw =&gt; &#39;somepass&#39; to provide the read-only password for mounting the distribution point. If :unmount =&gt; true is provided, the dist. point will be unmounted immediately after copying the script locally.  Otherwise it will remain mounted, in case there&#39;s further need of it.</p>
+<p>If http is not an option, the dist.point is mounted, and the script copied
+locally before running. In this case the options must include :ro_pw =&gt;
+&#39;somepass&#39; to provide the read-only password for mounting the
+distribution point. If :unmount =&gt; true is provided, the dist. point
+will be unmounted immediately after copying the script locally.  Otherwise
+it will remain mounted, in case there&#39;s further need of it.</p>
 
 <p>Any local on-disk copies of the script are removed after running.</p>
 
 <p>After the script runs, this method returns a two-item Array.</p>
 <ul><li>
-<p>the first item is an Integer, the exit status of the script itself (0 means success)</p>
+<p>the first item is an Integer, the exit status of the script itself (0 means
+success)</p>
 </li><li>
-<p>the second item is a String, the output (stdout + stderr) of the jamf binary, which will include the script output.</p>
+<p>the second item is a String, the output (stdout + stderr) of the jamf
+binary, which will include the script output.</p>
 </li></ul>
 
-<p>The exit status of the jamf binary process will be available as a Process::Status object in $? immediately after running.</p>
+<p>The exit status of the jamf binary process will be available as a
+Process::Status object in $? immediately after running.</p>
 
-<p><strong>NOTE</strong> In the WEB UI and API, the definable parameters are numbered 4-11, since 1, 2, &amp; 3 are the target drive, computer name, and user name respectively.  However, the jamf binary refers to them as p1-p8, and that&#39;s how they are expected as options to #run. So if :p1=&gt; “new param” is given as an aption to #run, it will override any value that the API provided in @<a href=":parameter4">parameters</a></p>
+<p><strong>NOTE</strong> In the WEB UI and API, the definable parameters are
+numbered 4-11, since 1, 2, &amp; 3 are the target drive, computer name, and
+user name respectively.  However, the jamf binary refers to them as p1-p8,
+and that&#39;s how they are expected as options to #run. So if :p1=&gt;
+“new param” is given as an aption to #run, it will override any value that
+the API provided in @<a href=":parameter4">parameters</a></p>
 
 
   </div>
@@ -2342,7 +2378,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the &#39;target drive&#39;, passed to the script as the first commandline option. Defaults to &#39;/&#39;</p>
+<p>the &#39;target drive&#39;, passed to the script as the first commandline
+option. Defaults to &#39;/&#39;</p>
 </div>
           
         </li>
@@ -2355,7 +2392,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the name of the computer, passed to the script as the second commandline option. Defaults to the name of the current machine</p>
+<p>the name of the computer, passed to the script as the second commandline
+option. Defaults to the name of the current machine</p>
 </div>
           
         </li>
@@ -2381,7 +2419,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the values to be passed as the 4th - 11th commandline options, overriding those defined with the script in the JSS</p>
+<p>the values to be passed as the 4th - 11th commandline options, overriding
+those defined with the script in the JSS</p>
 </div>
           
         </li>
@@ -2433,7 +2472,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>should the output (stdout + stderr) of &#39;jamf runScript&#39; be copied to stdout in realtime, as well as returned?</p>
+<p>should the output (stdout + stderr) of &#39;jamf runScript&#39; be copied
+to stdout in realtime, as well as returned?</p>
 </div>
           
         </li>
@@ -2453,7 +2493,9 @@
       
         &mdash;
         <div class='inline'>
-<p>the exit status of the <strong>script</strong> and stdout+stderr of &#39;jamf runScript&#39;. The exit status of the jamf binary will be available in $? immediately after running.</p>
+<p>the exit status of the <strong>script</strong> and stdout+stderr of
+&#39;jamf runScript&#39;. The exit status of the jamf binary will be
+available in $? immediately after running.</p>
 </div>
       
     </li>
@@ -2870,11 +2912,14 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Save the @script_contents for this script to a file on the Master Distribution point.</p>
+<p>Save the @script_contents for this script to a file on the Master
+Distribution point.</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false,
+and do it manually when all are finished.</p>
 
-<p>use <span class='object_link'><a href="#script_contents=-instance_method" title="JSS::Script#script_contents= (method)">#script_contents=</a></span>  to set the script_contents from a String or Pathname</p>
+<p>use <span class='object_link'><a href="#script_contents=-instance_method" title="JSS::Script#script_contents= (method)">#script_contents=</a></span>  to set the script_contents from a String or
+Pathname</p>
 
 
   </div>
@@ -2973,9 +3018,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:02 2020 by
+  Generated on Fri Aug  7 11:26:46 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

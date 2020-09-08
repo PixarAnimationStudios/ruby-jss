@@ -6,15 +6,15 @@
 <title>
   Module: JSS::XMLWorkaround
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::XMLWorkaround";
   relpath = '../';
 </script>
@@ -86,9 +86,13 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Since a non-trivial amounts of the JSON data from the API are borked, the methods here can be used to parse the XML data into usable JSON, which we can then treat normally.</p>
+<p>Since a non-trivial amounts of the JSON data from the API are borked, the
+methods here can be used to parse the XML data into usable JSON, which we
+can then treat normally.</p>
 
-<p>For classes with borked JSON, set the constant USE_XML_WORKAROUND to a Hash with a single key that maps the structure of the XML and resultant Ruby data.</p>
+<p>For classes with borked JSON, set the constant USE_XML_WORKAROUND to a Hash
+with a single key that maps the structure of the XML and resultant Ruby
+data.</p>
 
 <p>As an example, here&#39;s the data map from JSS::PatchTitle</p>
 
@@ -115,36 +119,57 @@
       }
     }
   ]
-}
-</code></pre>
+}</code></pre>
 
 <p>}.freeze</p>
 
-<p>The constant must always be a hash that represents the data structure of the object. The keys match the names of the XML elements, and the values indicate how to handle the element values.</p>
+<p>The constant must always be a hash that represents the data structure of
+the object. The keys match the names of the XML elements, and the values
+indicate how to handle the element values.</p>
 
-<p>Single-value attributes will be converted based on the provided map example The class of the map example is the class of the desired data, and the value of the map example is the value to use when the XML data is nil or empty.</p>
+<p>Single-value attributes will be converted based on the provided map example
+The class of the map example is the class of the desired data, and the
+value of the map example is the value to use when the XML data is nil or
+empty.</p>
 
-<p>So a map example of &#39;&#39; (an empty string, a.k.a. JSS::BLANK) indicates that the value should be a String and if the XML element is nil or empty, use &#39;&#39; in the Ruby data. If its -1, that means the value should be an Integer, and if its empty or nil, use -1 in Ruby.</p>
+<p>So a map example of &#39;&#39; (an empty string, a.k.a. JSS::BLANK)
+indicates that the value should be a String and if the XML element is nil
+or empty, use &#39;&#39; in the Ruby data. If its -1, that means the value
+should be an Integer, and if its empty or nil, use -1 in Ruby.</p>
 
-<p>Booleans are special: the map example must be nil, and nil is used when the xml is empty, since you want to be able to know that the XML value was neither true nor false.</p>
+<p>Booleans are special: the map example must be nil, and nil is used when the
+xml is empty, since you want to be able to know that the XML value was
+neither true nor false.</p>
 
 <p>Allowed single value classes and common default examples are:</p>
 
 <pre class="code ruby"><code class="ruby">String, common default: &#39;&#39; or JSS::BLANK
 Integer, common default: -1
 Float, common default: -1.0
-Boolean, required default: nil
-</code></pre>
+Boolean, required default: nil</code></pre>
 
-<p>Arrays and Hashes will be recognized as such, and their contents will be converted recursively using the same process.</p>
+<p>Arrays and Hashes will be recognized as such, and their contents will be
+converted recursively using the same process.</p>
 
-<p>For Arrays, provide one example in the map of an Array item, and all sub elements will be processd like the example. See the &#39;:versions&#39; array defiend in the example above</p>
+<p>For Arrays, provide one example in the map of an Array item, and all sub
+elements will be processd like the example. See the &#39;:versions&#39;
+array defiend in the example above</p>
 
-<p>For sub-hashes, use the same technique as for the main hash. see the :category value above.</p>
+<p>For sub-hashes, use the same technique as for the main hash. see the
+:category value above.</p>
 
-<p>IMPORTANT NOTE: Lots of Arrays in the XML have a matching &#39;size&#39; element containing an integer indicating how many items are in the array. Unfortunately there is zero consistency about their existence or location. If they exist at all, sometimes the are adjacent to the Array element, sometimes within it.</p>
+<p>IMPORTANT NOTE: Lots of Arrays in the XML have a matching &#39;size&#39;
+element containing an integer indicating how many items are in the array.
+Unfortunately there is zero consistency about their existence or location.
+If they exist at all, sometimes the are adjacent to the Array element,
+sometimes within it.</p>
 
-<p>Fortunately in Ruby, all container/enumerable classes have a &#39;size&#39; or &#39;count&#39; method to easily get that number. As such, when parsing XML elements, any &#39;size&#39; element that exists with no other &#39;size&#39; elements, and contains only an integer value and no sub- elements, are ignored. I haven&#39;t yet found any cases of a &#39;size&#39; element that is used for anything else.</p>
+<p>Fortunately in Ruby, all container/enumerable classes have a &#39;size&#39;
+or &#39;count&#39; method to easily get that number. As such, when parsing
+XML elements, any &#39;size&#39; element that exists with no other
+&#39;size&#39; elements, and contains only an integer value and no sub-
+elements, are ignored. I haven&#39;t yet found any cases of a
+&#39;size&#39; element that is used for anything else.</p>
 
 
   </div>
@@ -164,7 +189,7 @@ Boolean, required default: nil
         <dt id="BOOLEAN_STRINGS-constant" class="">BOOLEAN_STRINGS =
           
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>true</span><span class='words_sep'> </span><span class='tstring_content'>false</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>true</span><span class='words_sep'> </span><span class='tstring_content'>false</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="TRUE_STRING-constant" class="">TRUE_STRING =
           
@@ -211,7 +236,8 @@ Boolean, required default: nil
 
   
     <span class="summary_desc"><div class='inline'>
-<p>When APIObject classes are fetched, API JSON data is retrieved by the APIObject#lookup_object_data method, which parses the JSON into Ruby data.</p>
+<p>When APIObject classes are fetched, API JSON data is retrieved by the
+APIObject#lookup_object_data method, which parses the JSON into Ruby data.</p>
 </div></span>
   
 </li>
@@ -307,7 +333,12 @@ Boolean, required default: nil
 
   
     <span class="summary_desc"><div class='inline'>
-<p>remove the &#39;size&#39; sub element from a given element as long as: - a sub element named &#39;size&#39; exists - there&#39;s only one sub element named &#39;size&#39; - it doesn&#39;t have sub elements itself - and it contains an integer value Such elements are extraneous for the most part, and are not consistently located - sometimes they are in the Array-ish elements they reference, sometimes they are alongside them.</p>
+<p>remove the &#39;size&#39; sub element from a given element as long as: - a
+sub element named &#39;size&#39; exists - there&#39;s only one sub element
+named &#39;size&#39; - it doesn&#39;t have sub elements itself - and it
+contains an integer value Such elements are extraneous for the most part,
+and are not consistently located - sometimes they are in the Array-ish
+elements they reference, sometimes they are alongside them.</p>
 </div></span>
   
 </li>
@@ -334,11 +365,15 @@ Boolean, required default: nil
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>When APIObject classes are fetched, API JSON data is retrieved by the APIObject#lookup_object_data method, which parses the JSON into Ruby data.</p>
+<p>When APIObject classes are fetched, API JSON data is retrieved by the
+APIObject#lookup_object_data method, which parses the JSON into Ruby data.</p>
 
-<p>If the APIObject class has the constant USE_XML_WORKAROUND defined, that means the JSON data from the API is invalid, incorrect, or otherwise borked. So instead, the  XML is retrieved from the API here.</p>
+<p>If the APIObject class has the constant USE_XML_WORKAROUND defined, that
+means the JSON data from the API is invalid, incorrect, or otherwise
+borked. So instead, the  XML is retrieved from the API here.</p>
 
-<p>It is then parsed by using the methods in this module and returned to the APIObject#lookup_object_data method, which then treats it normally.</p>
+<p>It is then parsed by using the methods in this module and returned to the
+APIObject#lookup_object_data method, which then treats it normally.</p>
 
 
   </div>
@@ -503,9 +538,11 @@ Boolean, required default: nil
     
 <p>given a REXML element, return its ruby value</p>
 
-<p>This method is then called recursively as needed when traversing XML elements that contain sub-elements.</p>
+<p>This method is then called recursively as needed when traversing XML
+elements that contain sub-elements.</p>
 
-<p>XML Elements that do not contain other elements are converted to a single ruby value.</p>
+<p>XML Elements that do not contain other elements are converted to a single
+ruby value.</p>
 
 
   </div>
@@ -585,7 +622,10 @@ Boolean, required default: nil
 <p>and it contains an integer value</p>
 </li></ul>
 
-<p>Such elements are extraneous for the most part, and are not consistently located - sometimes they are in the Array-ish elements they reference, sometimes they are alongside them. In any case they confuse the logic when deciding if an element with sub-elements should become an Array or a Hash.</p>
+<p>Such elements are extraneous for the most part, and are not consistently
+located - sometimes they are in the Array-ish elements they reference,
+sometimes they are alongside them. In any case they confuse the logic when
+deciding if an element with sub-elements should become an Array or a Hash.</p>
 
 
   </div>
@@ -631,9 +671,9 @@ Boolean, required default: nil
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:54 2020 by
+  Generated on Fri Aug  7 11:26:26 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

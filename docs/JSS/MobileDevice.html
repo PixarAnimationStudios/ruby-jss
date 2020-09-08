@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MobileDevice
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::MobileDevice";
   relpath = '../';
 </script>
@@ -121,21 +121,31 @@
 
 <h3 id="label-Adding+devices+to+the+JSS">Adding devices to the JSS</h3>
 
-<p>When creating new MobileDevices in the JSS with this class (using make) you must specify a udid, and serial_number before calling `create` or `save`. You can provide these values with the `.make` call, or afterward using setters.</p>
+<p>When creating new MobileDevices in the JSS with this class (using
+make) you must specify a udid, and serial_number before
+calling `create` or `save`. You can provide these values with the `.make`
+call, or afterward using setters.</p>
 <hr>
 
 <h3 id="label-Management+History+-26+Logs">Management History &amp; Logs</h3>
 
-<p>MobileDevice Management History and logs can now be retrieved both from a MobileDevice instance, and directly via class methods without fetching an instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module, Q.V. for details.</p>
+<p>MobileDevice Management History and logs can now be retrieved both from a
+MobileDevice instance, and directly via class methods without fetching an
+instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module,
+Q.V. for details.</p>
 <hr>
 
 <h3 id="label-MDM+Commands">MDM Commands</h3>
 
-<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending MDM commands to mobiledevices.</p>
+<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending
+MDM commands to mobiledevices.</p>
 
-<p>To send MDM commands without fetching mobiledevice instances, use the class methods, which can take multiple identifiers at once.</p>
+<p>To send MDM commands without fetching mobiledevice instances, use the class
+methods, which can take multiple identifiers at once.</p>
 
-<p>NOTE: If the <span class='object_link'><a href="#name=-instance_method" title="JSS::MobileDevice#name= (method)">#name=</a></span> method is used to change the name of a supervized device, the DeviceName MDM command will be sent to the device when the changes are sent to the server via <span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span> or <span class='object_link'><a href="#update-instance_method" title="JSS::MobileDevice#update (method)">#update</a></span></p>
+<p>NOTE: If the <span class='object_link'><a href="#name=-instance_method" title="JSS::MobileDevice#name= (method)">#name=</a></span> method is used to change the name of a supervized
+device, the DeviceName MDM command will be sent to the device when the
+changes are sent to the server via <span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span> or <span class='object_link'><a href="#update-instance_method" title="JSS::MobileDevice#update (method)">#update</a></span></p>
 
 
   </div>
@@ -188,7 +198,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -220,7 +231,9 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS the wierd alises wifi_mac_addresse,  mac_addresse and macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
+<p>these keys,  as well as :id and :name, can be used to look up objects of
+this class in the JSS the wierd alises wifi_mac_addresse,  mac_addresse and
+macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
 
 
   </div>
@@ -252,10 +265,42 @@
   <span class='rbrace'>}</span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="HW_PREFIX_TV-constant" class="">HW_PREFIX_TV =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AppleTV</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HW_PREFIX_IPAD-constant" class="">HW_PREFIX_IPAD =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iPad</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HW_PREFIX_IPHONE-constant" class="">HW_PREFIX_IPHONE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iPhone</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="NON_UNIQUE_NAMES-constant" class="">NON_UNIQUE_NAMES =
           
         </dt>
         <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="UPLOAD_TYPES-constant" class="">UPLOAD_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>file uploads can send attachments to the JSS using :mobiledevices as the
+sub-resource.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span> <span class='label'>attachment:</span> <span class='symbol'>:mobiledevices</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="SEARCH_CLASS-constant" class="">SEARCH_CLASS =
           <div class="docstring">
@@ -309,7 +354,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -3165,7 +3211,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
+&#39;Date&#39;).</p>
 </div></span>
   
 </li>
@@ -3401,7 +3448,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it.</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc
+and add (or not) the EA xml to it.</p>
 </div></span>
   
 </li>
@@ -3665,7 +3713,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>When creating new records with .make, udid:, serial_number:, and asset_tag: can be provided in the args.</p>
+<p>When creating new records with .make, udid:, serial_number:, and asset_tag:
+can be provided in the args.</p>
 </div></span>
   
 </li>
@@ -3729,6 +3778,50 @@
     <span class="summary_desc"><div class='inline'>
 <p>shortcut for ebook_history where status = :installed.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ipad%3F-instance_method" title="#ipad? (instance method)">#<strong>ipad?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#iphone%3F-instance_method" title="#iphone? (instance method)">#<strong>iphone?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -3814,7 +3907,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset.</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
+objects that have a Location subset.</p>
 </div></span>
   
 </li>
@@ -3957,9 +4051,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>initialize.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -3987,7 +4079,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values.</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the
+API) and @ext_attr_names, which is a Hash mapping the EA names to their
+values.</p>
 </div></span>
   
 </li>
@@ -4016,7 +4110,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data.</p>
+<p>Call this during initialization of objects that have a Location subset and
+the location attributes will be populated (as primary attributes) from
+@init_data.</p>
 </div></span>
   
 </li>
@@ -4045,7 +4141,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data.</p>
+<p>Call this during initialization of objects that have a Purchasing subset
+and the purchasing attribute will be populated from @init_data.</p>
 </div></span>
   
 </li>
@@ -4283,7 +4380,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
+mix-in this module.</p>
 </div></span>
   
 </li>
@@ -4352,7 +4450,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_ext_attr-instance_method" title="#set_ext_attr (instance method)">#<strong>set_ext_attr</strong>(name, value, validate_popup_choice: true, refresh: false)  &#x21d2; void </a>
+      <a href="#set_ext_attr-instance_method" title="#set_ext_attr (instance method)">#<strong>set_ext_attr</strong>(ea_name, value, validate_popup_choice: true, refresh: false)  &#x21d2; void </a>
     
 
     
@@ -4559,6 +4657,32 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#tv%3F-instance_method" title="#tv? (instance method)">#<strong>tv?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #apple_tv?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>initialize.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#unlock_user_account-instance_method" title="#unlock_user_account (instance method)">#<strong>unlock_user_account</strong>(user)  &#x21d2; Object </a>
     
 
@@ -4677,7 +4801,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Object </a>
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>(no_mdm_rename: false)  &#x21d2; Object </a>
     
 
     
@@ -4750,7 +4874,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 </div></span>
   
 </li>
@@ -4788,7 +4913,66 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#validate_popup_value-instance_method" title="#validate_popup_value (instance method)">#<strong>validate_popup_value</strong>(name, value, refresh)  &#x21d2; Object </a>
+      <a href="#validate_ea_value-instance_method" title="#validate_ea_value (instance method)">#<strong>validate_ea_value</strong>(ea_name, value, validate_popup_choice, refresh)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Extendable.html#validate_ea_value-instance_method" title="JSS::Extendable#validate_ea_value (method)">Extendable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed
+(e.g. strings to integers or Times).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_integer_ea_value-instance_method" title="#validate_integer_ea_value (instance method)">#<strong>validate_integer_ea_value</strong>(ea_name, value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Extendable.html#validate_integer_ea_value-instance_method" title="JSS::Extendable#validate_integer_ea_value (method)">Extendable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>raise error if the value isn&#39;t an integer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_popup_value-instance_method" title="#validate_popup_value (instance method)">#<strong>validate_popup_value</strong>(ea_name, value, refresh)  &#x21d2; Object </a>
     
 
     
@@ -4808,7 +4992,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Used by set_ext_attr.</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value
+isn&#39;t one of the menu items.</p>
 </div></span>
   
 </li>
@@ -4885,7 +5070,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>When creating new records with .make, udid:, serial_number:, and asset_tag: can be provided in the args.</p>
+<p>When creating new records with .make, udid:, serial_number:, and asset_tag:
+can be provided in the args.</p>
 
 
   </div>
@@ -4906,13 +5092,6 @@
       <pre class="lines">
 
 
-418
-419
-420
-421
-422
-423
-424
 425
 426
 427
@@ -4978,10 +5157,17 @@
 487
 488
 489
-490</pre>
+490
+491
+492
+493
+494
+495
+496
+497</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 418</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 425</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span> <span class='id identifier rubyid_args'>args</span>
@@ -5080,7 +5266,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the airplay passwd on devices that can receive AirPlay (i.e. apple tvs).</p>
+<p>Returns the airplay passwd on devices that can receive AirPlay (i.e. apple
+tvs)</p>
 
 
   </div>
@@ -5112,12 +5299,12 @@
       <pre class="lines">
 
 
-244
-245
-246</pre>
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 244</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 251</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_airplay_password'>airplay_password</span>
   <span class='ivar'>@airplay_password</span>
@@ -5182,7 +5369,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the applications on the device.</p>
+<p>Returns the applications on the device</p>
 
 
   </div>
@@ -5214,12 +5401,12 @@
       <pre class="lines">
 
 
-339
-340
-341</pre>
+346
+347
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_applications'>applications</span>
   <span class='ivar'>@applications</span>
@@ -5268,12 +5455,12 @@
       <pre class="lines">
 
 
-206
-207
-208</pre>
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_asset_tag'>asset_tag</span>
   <span class='ivar'>@asset_tag</span>
@@ -5301,7 +5488,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns how much space available on the device?.</p>
+<p>Returns how much space available on the device?</p>
 
 
   </div>
@@ -5333,12 +5520,12 @@
       <pre class="lines">
 
 
-286
-287
-288</pre>
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 286</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 293</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_mb'>available_mb</span>
   <span class='ivar'>@available_mb</span>
@@ -5366,7 +5553,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns what percentage of the battery is remaining.</p>
+<p>Returns what percentage of the battery is remaining</p>
 
 
   </div>
@@ -5398,12 +5585,12 @@
       <pre class="lines">
 
 
-297
-298
-299</pre>
+304
+305
+306</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 297</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 304</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_battery_level'>battery_level</span>
   <span class='ivar'>@battery_level</span>
@@ -5427,7 +5614,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device ble_capable?.</p>
+<p>Returns is this device ble_capable?</p>
 
 
   </div>
@@ -5459,12 +5646,12 @@
       <pre class="lines">
 
 
-241
-242
-243</pre>
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 248</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ble_capable'>ble_capable</span>
   <span class='ivar'>@ble_capable</span>
@@ -5488,7 +5675,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the bluetooth mac addr.</p>
+<p>Returns the bluetooth mac addr</p>
 
 
   </div>
@@ -5520,12 +5707,12 @@
       <pre class="lines">
 
 
-304
-305
-306</pre>
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 311</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bluetooth_mac_address'>bluetooth_mac_address</span>
   <span class='ivar'>@bluetooth_mac_address</span>
@@ -5594,7 +5781,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns total storage on the device.</p>
+<p>Returns total storage on the device</p>
 
 
   </div>
@@ -5626,12 +5813,12 @@
       <pre class="lines">
 
 
-290
-291
-292</pre>
+297
+298
+299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 297</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_capacity_mb'>capacity_mb</span>
   <span class='ivar'>@capacity_mb</span>
@@ -5689,12 +5876,12 @@
       <pre class="lines">
 
 
-348
-349
-350</pre>
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_certificates'>certificates</span>
   <span class='ivar'>@certificates</span>
@@ -5756,12 +5943,12 @@
       <pre class="lines">
 
 
-359
-360
-361</pre>
+366
+367
+368</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 359</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 366</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration_profiles'>configuration_profiles</span>
   <span class='ivar'>@configuration_profiles</span>
@@ -5826,7 +6013,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns An Apple TV identifier.</p>
+<p>Returns An Apple TV identifier</p>
 
 
   </div>
@@ -5858,12 +6045,12 @@
       <pre class="lines">
 
 
-215
-216
-217</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_device_id'>device_id</span>
   <span class='ivar'>@device_id</span>
@@ -5912,12 +6099,12 @@
       <pre class="lines">
 
 
-212
-213
-214</pre>
+219
+220
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 219</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_device_name'>device_name</span>
   <span class='ivar'>@device_name</span>
@@ -5941,7 +6128,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the device_ownership_level.</p>
+<p>Returns the device_ownership_level</p>
 
 
   </div>
@@ -5973,12 +6160,12 @@
       <pre class="lines">
 
 
-232
-233
-234</pre>
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 239</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_device_ownership_level'>device_ownership_level</span>
   <span class='ivar'>@device_ownership_level</span>
@@ -6027,12 +6214,12 @@
       <pre class="lines">
 
 
-209
-210
-211</pre>
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_display_name'>display_name</span>
   <span class='ivar'>@display_name</span>
@@ -6122,12 +6309,12 @@
       <pre class="lines">
 
 
-218
-219
-220</pre>
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exchange_activesync_device_identifier'>exchange_activesync_device_identifier</span>
   <span class='ivar'>@exchange_activesync_device_identifier</span>
@@ -6156,7 +6343,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The extension attribute values for the object.</p>
+<p>Returns The extension attribute values for the object</p>
 
 
   </div>
@@ -6199,7 +6386,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s initial_entry_date_epoch.</p>
+<p>Returns uses the value from the API&#39;s initial_entry_date_epoch</p>
 
 
   </div>
@@ -6231,12 +6418,12 @@
       <pre class="lines">
 
 
-320
-321
-322</pre>
+327
+328
+329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 320</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 327</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initial_entry_date'>initial_entry_date</span>
   <span class='ivar'>@initial_entry_date</span>
@@ -6260,7 +6447,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the IP addr.</p>
+<p>Returns the IP addr</p>
 
 
   </div>
@@ -6292,12 +6479,12 @@
       <pre class="lines">
 
 
-310
-311
-312</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ip_address'>ip_address</span>
   <span class='ivar'>@ip_address</span>
@@ -6411,7 +6598,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the languages.</p>
+<p>Returns the languages</p>
 
 
   </div>
@@ -6443,12 +6630,12 @@
       <pre class="lines">
 
 
-247
-248
-249</pre>
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 254</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_languages'>languages</span>
   <span class='ivar'>@languages</span>
@@ -6476,7 +6663,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s last_backup_time_epoch.</p>
+<p>Returns uses the value from the API&#39;s last_backup_time_epoch</p>
 
 
   </div>
@@ -6508,12 +6695,12 @@
       <pre class="lines">
 
 
-323
-324
-325</pre>
+330
+331
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 330</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_backup_time'>last_backup_time</span>
   <span class='ivar'>@last_backup_time</span>
@@ -6537,7 +6724,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns last_cloud_backup_date.</p>
+<p>Returns last_cloud_backup_date</p>
 
 
   </div>
@@ -6569,12 +6756,12 @@
       <pre class="lines">
 
 
-334
-335
-336</pre>
+341
+342
+343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 334</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 341</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_cloud_backup_date'>last_cloud_backup_date</span>
   <span class='ivar'>@last_cloud_backup_date</span>
@@ -6598,7 +6785,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last time this device enrolled in Jamf.</p>
+<p>Returns the last time this device enrolled in Jamf</p>
 
 
   </div>
@@ -6630,12 +6817,12 @@
       <pre class="lines">
 
 
-331
-332
-333</pre>
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 338</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_enrollment'>last_enrollment</span>
   <span class='ivar'>@last_enrollment</span>
@@ -6659,7 +6846,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s last_inventory_update_utc.</p>
+<p>Returns uses the value from the API&#39;s last_inventory_update_utc</p>
 
 
   </div>
@@ -6691,12 +6878,12 @@
       <pre class="lines">
 
 
-328
-329
-330</pre>
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 328</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_inventory_update'>last_inventory_update</span>
   <span class='ivar'>@last_inventory_update</span>
@@ -6802,7 +6989,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the locales.</p>
+<p>Returns the locales</p>
 
 
   </div>
@@ -6834,12 +7021,12 @@
       <pre class="lines">
 
 
-250
-251
-252</pre>
+257
+258
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 257</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_locales'>locales</span>
   <span class='ivar'>@locales</span>
@@ -6867,7 +7054,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device managed?.</p>
+<p>Returns is this device managed?</p>
 
 
   </div>
@@ -6899,12 +7086,12 @@
       <pre class="lines">
 
 
-224
-225
-226</pre>
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_managed'>managed</span>
   <span class='ivar'>@managed</span>
@@ -6962,12 +7149,12 @@
       <pre class="lines">
 
 
-368
-369
-370</pre>
+375
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 368</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mobile_device_groups'>mobile_device_groups</span>
   <span class='ivar'>@mobile_device_groups</span>
@@ -6991,7 +7178,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model.</p>
+<p>Returns the display name of the model</p>
 
 
   </div>
@@ -7023,12 +7210,12 @@
       <pre class="lines">
 
 
-271
-272
-273</pre>
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 278</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_model'>model</span>
   <span class='ivar'>@model</span>
@@ -7052,7 +7239,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model.</p>
+<p>Returns the display name of the model</p>
 
 
   </div>
@@ -7084,12 +7271,12 @@
       <pre class="lines">
 
 
-277
-278
-279</pre>
+284
+285
+286</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 284</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_model_display'>model_display</span>
   <span class='ivar'>@model_display</span>
@@ -7113,7 +7300,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the model identifier.</p>
+<p>Returns the model identifier</p>
 
 
   </div>
@@ -7145,12 +7332,12 @@
       <pre class="lines">
 
 
-280
-281
-282</pre>
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_model_identifier'>model_identifier</span>
   <span class='ivar'>@model_identifier</span>
@@ -7174,7 +7361,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model.</p>
+<p>Returns the display name of the model</p>
 
 
   </div>
@@ -7206,12 +7393,12 @@
       <pre class="lines">
 
 
-274
-275
-276</pre>
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 281</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_model_number'>model_number</span>
   <span class='ivar'>@model_number</span>
@@ -7235,7 +7422,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the model firmware.</p>
+<p>Returns the model firmware</p>
 
 
   </div>
@@ -7267,12 +7454,12 @@
       <pre class="lines">
 
 
-256
-257
-258</pre>
+263
+264
+265</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 263</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_modem_firmware'>modem_firmware</span>
   <span class='ivar'>@modem_firmware</span>
@@ -7301,7 +7488,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -7400,12 +7587,12 @@
       <pre class="lines">
 
 
-388
-389
-390</pre>
+395
+396
+397</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 388</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 395</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_network'>network</span>
   <span class='ivar'>@network</span>
@@ -7429,7 +7616,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS build.</p>
+<p>Returns the OS build</p>
 
 
   </div>
@@ -7461,12 +7648,12 @@
       <pre class="lines">
 
 
-262
-263
-264</pre>
+269
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 269</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_build'>os_build</span>
   <span class='ivar'>@os_build</span>
@@ -7490,7 +7677,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS type.</p>
+<p>Returns the OS type</p>
 
 
   </div>
@@ -7522,12 +7709,12 @@
       <pre class="lines">
 
 
-265
-266
-267</pre>
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 272</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_type'>os_type</span>
   <span class='ivar'>@os_type</span>
@@ -7551,7 +7738,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS version.</p>
+<p>Returns the OS version</p>
 
 
   </div>
@@ -7583,12 +7770,12 @@
       <pre class="lines">
 
 
-259
-260
-261</pre>
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 259</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 266</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_version'>os_version</span>
   <span class='ivar'>@os_version</span>
@@ -7612,7 +7799,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns how much of the capacity is in use?.</p>
+<p>Returns how much of the capacity is in use?</p>
 
 
   </div>
@@ -7644,12 +7831,12 @@
       <pre class="lines">
 
 
-294
-295
-296</pre>
+301
+302
+303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 294</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 301</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_percentage_used'>percentage_used</span>
   <span class='ivar'>@percentage_used</span>
@@ -7864,12 +8051,12 @@
       <pre class="lines">
 
 
-394
-395
-396</pre>
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 394</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 401</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_provisioning_profiles'>provisioning_profiles</span>
   <span class='ivar'>@provisioning_profiles</span>
@@ -8140,12 +8327,12 @@
       <pre class="lines">
 
 
-407
-408
-409</pre>
+414
+415
+416</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 407</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 414</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_security'>security</span>
   <span class='ivar'>@security</span>
@@ -8198,12 +8385,12 @@
       <pre class="lines">
 
 
-198
-199
-200</pre>
+205
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serial_number'>serial_number</span>
   <span class='ivar'>@serial_number</span>
@@ -8227,7 +8414,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device shared?.</p>
+<p>Returns is this device shared?</p>
 
 
   </div>
@@ -8259,12 +8446,12 @@
       <pre class="lines">
 
 
-238
-239
-240</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_shared'>shared</span>
   <span class='ivar'>@shared</span>
@@ -8292,7 +8479,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the phone number of the device&#39;s SIM card.</p>
+<p>Returns the phone number of the device&#39;s SIM card</p>
 
 
   </div>
@@ -8324,12 +8511,12 @@
       <pre class="lines">
 
 
-313
-314
-315</pre>
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sim_phone_number'>sim_phone_number</span>
   <span class='ivar'>@sim_phone_number</span>
@@ -8357,7 +8544,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device supervised?.</p>
+<p>Returns is this device supervised?</p>
 
 
   </div>
@@ -8389,12 +8576,12 @@
       <pre class="lines">
 
 
-228
-229
-230</pre>
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 235</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_supervised'>supervised</span>
   <span class='ivar'>@supervised</span>
@@ -8418,7 +8605,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the tether state of the device.</p>
+<p>Returns the tether state of the device</p>
 
 
   </div>
@@ -8450,12 +8637,12 @@
       <pre class="lines">
 
 
-235
-236
-237</pre>
+242
+243
+244</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 242</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tethered'>tethered</span>
   <span class='ivar'>@tethered</span>
@@ -8504,12 +8691,12 @@
       <pre class="lines">
 
 
-203
-204
-205</pre>
+210
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 210</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_udid'>udid</span>
   <span class='ivar'>@udid</span>
@@ -8660,7 +8847,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the wifi mac addr.</p>
+<p>Returns the wifi mac addr</p>
 
 
   </div>
@@ -8692,12 +8879,12 @@
       <pre class="lines">
 
 
-307
-308
-309</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wifi_mac_address'>wifi_mac_address</span>
   <span class='ivar'>@wifi_mac_address</span>
@@ -8726,7 +8913,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPads.</p>
+<p>Returns the list of all iPads</p>
 
 
   </div>
@@ -8758,12 +8945,12 @@
       <pre class="lines">
 
 
-184
-185
-186</pre>
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 191</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_apple_tvs'>all_apple_tvs</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:model_identifier</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AppleTV</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
@@ -8785,7 +8972,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPads.</p>
+<p>Returns the list of all iPads</p>
 
 
   </div>
@@ -8817,12 +9004,12 @@
       <pre class="lines">
 
 
-179
-180
-181</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_ipads'>all_ipads</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iPad</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
@@ -8844,7 +9031,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPhones.</p>
+<p>Returns the list of all iPhones</p>
 
 
   </div>
@@ -8876,12 +9063,12 @@
       <pre class="lines">
 
 
-174
-175
-176</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_iphones'>all_iphones</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iPhone</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
@@ -8903,7 +9090,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all managed mobile devices.</p>
+<p>Returns the list of all managed mobile devices</p>
 
 
   </div>
@@ -8935,12 +9122,12 @@
       <pre class="lines">
 
 
-154
-155
-156</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_managed'>all_managed</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:managed</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -8962,7 +9149,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all mobiledevice phone numbers.</p>
+<p>Returns all mobiledevice phone numbers</p>
 
 
   </div>
@@ -8994,12 +9181,12 @@
       <pre class="lines">
 
 
-149
-150
-151</pre>
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_phone_numbers'>all_phone_numbers</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='symbol'>:phone_number</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:empty?</span><span class='rparen'>)</span>
@@ -9021,7 +9208,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all supervised mobile devices.</p>
+<p>Returns the list of all supervised mobile devices</p>
 
 
   </div>
@@ -9053,12 +9240,12 @@
       <pre class="lines">
 
 
-164
-165
-166</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_supervised'>all_supervised</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:supervised</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9080,7 +9267,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all unmanaged mobile devices.</p>
+<p>Returns the list of all unmanaged mobile devices</p>
 
 
   </div>
@@ -9112,12 +9299,12 @@
       <pre class="lines">
 
 
-159
-160
-161</pre>
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_unmanaged'>all_unmanaged</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:managed</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9139,7 +9326,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all unsupervised mobile devices.</p>
+<p>Returns the list of all unsupervised mobile devices</p>
 
 
   </div>
@@ -9171,12 +9358,12 @@
       <pre class="lines">
 
 
-169
-170
-171</pre>
+176
+177
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 176</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_unsupervised'>all_unsupervised</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:supervised</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9205,7 +9392,8 @@
     
 <p>Perform a match, returning an Array of Hashes, one for each item matched</p>
 
-<p>At the moment, it appears the search is an “exact match” search regardless of the prefs of the user connected to the API.</p>
+<p>At the moment, it appears the search is an “exact match” search regardless
+of the prefs of the user connected to the API.</p>
 
 
   </div>
@@ -9554,7 +9742,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -9587,12 +9776,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -9784,7 +9972,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -9917,7 +10106,8 @@
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an
+optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -10085,7 +10275,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of all known EAs.</p>
+<p>Returns the names of all known EAs</p>
 
 
   </div>
@@ -10131,7 +10321,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
+<p>Returns EA names =&gt; data type (one of &#39;String&#39;,
+&#39;Number&#39;, or &#39;Date&#39;)</p>
 
 
   </div>
@@ -10150,7 +10341,8 @@
       
         &mdash;
         <div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;)</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
+&#39;Date&#39;)</p>
 </div>
       
     </li>
@@ -10319,8 +10511,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -10336,8 +10526,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -10355,8 +10543,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -10373,8 +10559,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -10390,8 +10574,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -10510,7 +10692,9 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works, as called from Computer.rest_xml</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc
+and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works,
+as called from Computer.rest_xml</p>
 
 
   </div>
@@ -10529,7 +10713,8 @@
       
         &mdash;
         <div class='inline'>
-<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of
+objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -10556,7 +10741,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until its needed, to speed up instantiation.</p>
+<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until
+its needed, to speed up instantiation.</p>
 
 
   </div>
@@ -10784,7 +10970,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does this item have location data?.</p>
+<p>Returns Does this item have location data?</p>
 
 
   </div>
@@ -10830,7 +11016,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item have any purchasing info?.</p>
+<p>Returns does this item have any purchasing info?</p>
 
 
   </div>
@@ -10938,6 +11124,110 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="ipad?-instance_method">
+  
+    #<strong>ipad?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+504
+505
+506</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 504</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ipad?'>ipad?</span>
+  <span class='id identifier rubyid_model_identifier'>model_identifier</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='const'><span class='object_link'><a href="#HW_PREFIX_IPAD-constant" title="JSS::MobileDevice::HW_PREFIX_IPAD (constant)">HW_PREFIX_IPAD</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="iphone?-instance_method">
+  
+    #<strong>iphone?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+508
+509
+510</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 508</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_iphone?'>iphone?</span>
+  <span class='id identifier rubyid_model_identifier'>model_identifier</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='const'><span class='object_link'><a href="#HW_PREFIX_IPHONE-constant" title="JSS::MobileDevice::HW_PREFIX_IPHONE (constant)">HW_PREFIX_IPHONE</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="last_mdm_contact-instance_method">
   
     #<strong>last_mdm_contact</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -10991,7 +11281,8 @@
     
 <p>All the location data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
+directly.</p>
 
 
   </div>
@@ -11041,7 +11332,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
+objects that have a Location subset</p>
 
 
   </div>
@@ -11222,30 +11514,19 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>initialize</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-492
-493
-494
-495</pre>
+512
+513
+514
+515</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 492</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 512</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_name'>new_name</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -11273,7 +11554,10 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values. This is called during initialization for all objects that mix in this module</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the
+API) and @ext_attr_names, which is a Hash mapping the EA names to their
+values. This is called during initialization for all objects that mix in
+this module</p>
 
 
   </div>
@@ -11301,7 +11585,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data</p>
+<p>Call this during initialization of objects that have a Location subset and
+the location attributes will be populated (as primary attributes) from
+@init_data</p>
 
 
   </div>
@@ -11333,7 +11619,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data</p>
+<p>Call this during initialization of objects that have a Purchasing subset
+and the purchasing attribute will be populated from @init_data</p>
 
 
   </div>
@@ -11591,7 +11878,8 @@
     
 <p>All the purchasing data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
+directly.</p>
 
 
   </div>
@@ -11641,7 +11929,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of
+objects that mix-in this module.</p>
 
 
   </div>
@@ -11660,7 +11949,8 @@
       
         &mdash;
         <div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
+mix-in this module.</p>
 </div>
       
     </li>
@@ -11740,7 +12030,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_ext_attr-instance_method">
   
-    #<strong>set_ext_attr</strong>(name, value, validate_popup_choice: true, refresh: false)  &#x21d2; <tt>void</tt> 
+    #<strong>set_ext_attr</strong>(ea_name, value, validate_popup_choice: true, refresh: false)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -11758,20 +12048,33 @@
 
 <p>The new value is validated based on the data type of the Ext. Attrib:</p>
 <ul><li>
-<p>If the ext. attrib. is defined with a data type of Integer/Number, the value must be an Integer.</p>
+<p>If the ext. attrib. is defined with a data type of Integer/Number, the
+value must be an Integer.</p>
 </li><li>
-<p>If defined with a data type of Date, the value will be parsed as a timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
+<p>If defined with a data type of Date, the value will be parsed as a
+timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
 </li><li>
 <p>If defined wth data type of String, `to_s` will be called on the value.</p>
 </li></ul>
 
-<p>By default, the full EA definition object is fetched to see if the EA&#39;s input type is &#39;popup menu&#39;, and if so, the new value must be one of the defined popup choices, or blank.</p>
+<p>By default, the full EA definition object is fetched to see if the EA&#39;s
+input type is &#39;popup menu&#39;, and if so, the new value must be one of
+the defined popup choices, or blank.</p>
 
-<p>The EA definitions used for popup validation are cached, so we don&#39;t have to reach out to the server every time. If you expect the definition to have changed since it was cached, provide a truthy value to the refresh: parameter</p>
+<p>The EA definitions used for popup validation are cached, so we don&#39;t
+have to reach out to the server every time. If you expect the definition to
+have changed since it was cached, provide a truthy value to the refresh:
+parameter</p>
 
-<p>To bypass popup validation complepletely, provide a falsey value to the validate_popup_choice: parameter. WARNING: beware that your value is the correct type and format, or you might get errors when saving back to the API.</p>
+<p>To bypass popup validation complepletely, provide a falsey value to the
+validate_popup_choice: parameter. WARNING: beware that your value is the
+correct type and format, or you might get errors when saving back to the
+API.</p>
 
-<p>Note that while the Jamf Pro Web interface does not allow editing the values of Extension Attributes populated by Scripts or LDAP,  the API does allow it. Bear in mind however that those values will be reset again at the next recon.</p>
+<p>Note that while the Jamf Pro Web interface does not allow editing the
+values of Extension Attributes populated by Scripts or LDAP,  the API does
+allow it. Bear in mind however that those values will be reset again at the
+next recon.</p>
 
 
   </div>
@@ -11820,8 +12123,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -11837,8 +12138,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -11916,7 +12215,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the
+site</p>
 
 
   </div>
@@ -12073,7 +12373,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is
+aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -12149,6 +12450,64 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="tv?-instance_method">
+  
+    #<strong>tv?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='apple_tv?-instance_method'>apple_tv?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>initialize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+499
+500
+501</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 499</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tv?'>tv?</span>
+  <span class='id identifier rubyid_model_identifier'>model_identifier</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='const'><span class='object_link'><a href="#HW_PREFIX_TV-constant" title="JSS::MobileDevice::HW_PREFIX_TV (constant)">HW_PREFIX_TV</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="unlock_user_account-instance_method">
   
     #<strong>unlock_user_account</strong>(user)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -12219,7 +12578,10 @@
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be
+re-installed immediately unless the computer is also no longer managed by
+Jamf Pro itself. To fully unmanage a computer, use the
+<span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -12302,32 +12664,64 @@
       <div class="method_details ">
   <h3 class="signature " id="update-instance_method">
   
-    #<strong>update</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    #<strong>update</strong>(no_mdm_rename: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>no_mdm_rename</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should a MDM `set device name` command be sent if the device is managed and
+supervised?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-520
-521
-522
-523
-524
-525
-526</pre>
+542
+543
+544
+545
+546
+547
+548
+549</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 520</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device.rb', line 542</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
-  <span class='kw'>super</span>
-  <span class='kw'>return</span> <span class='ivar'>@id</span> <span class='kw'>unless</span> <span class='ivar'>@needs_mdm_name_change</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>no_mdm_rename:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@id</span> <span class='kw'>if</span> <span class='id identifier rubyid_no_mdm_rename'>no_mdm_rename</span> <span class='op'>||</span> <span class='op'>!</span><span class='ivar'>@needs_mdm_name_change</span>
+
   <span class='id identifier rubyid_set_device_name'>set_device_name</span> <span class='ivar'>@name</span> <span class='kw'>if</span> <span class='id identifier rubyid_managed?'>managed?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_supervised?'>supervised?</span>
   <span class='ivar'>@needs_mdm_name_change</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@id</span>
@@ -12386,7 +12780,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 
 
   </div>
@@ -12406,7 +12801,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the
+class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -12500,9 +12896,157 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="validate_ea_value-instance_method">
+  
+    #<strong>validate_ea_value</strong>(ea_name, value, validate_popup_choice, refresh)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Extendable.html#validate_ea_value-instance_method" title="JSS::Extendable#validate_ea_value (method)">Extendable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is the value being passed to set_ext_attr valid? Converts values as needed
+(e.g. strings to integers or Times)</p>
+
+<p>If the EA is defined to hold a string, any value is accepted and converted
+with #to_s</p>
+
+<p>Note: All EAs can be blank</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the extension attribute to set</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new value for the extension attribute for this user</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>validate_popup_choice</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>validate the new value against the E.A. definition. Defaults to true.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Re-read the ext. attrib definition from the API, for popup validation.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the possibly modified valid value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_integer_ea_value-instance_method">
+  
+    #<strong>validate_integer_ea_value</strong>(ea_name, value)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Extendable.html#validate_integer_ea_value-instance_method" title="JSS::Extendable#validate_integer_ea_value (method)">Extendable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>raise error if the value isn&#39;t an integer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="validate_popup_value-instance_method">
   
-    #<strong>validate_popup_value</strong>(name, value, refresh)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    #<strong>validate_popup_value</strong>(ea_name, value, refresh)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
   
 
   
@@ -12516,7 +13060,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Used by set_ext_attr</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value
+isn&#39;t one of the menu items</p>
 
 
   </div>
@@ -12578,8 +13123,6 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -12596,12 +13139,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if
+no wallpaper_id</p>
 </div>
       
     </li>
@@ -12614,12 +13156,11 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
+wallpaper_content</p>
 </div>
       
     </li>
@@ -12635,9 +13176,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:00 2020 by
+  Generated on Fri Aug  7 11:26:40 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

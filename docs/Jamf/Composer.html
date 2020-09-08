@@ -6,15 +6,15 @@
 <title>
   Module: Jamf::Composer
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::Composer";
   relpath = '../';
 </script>
@@ -86,11 +86,17 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This module provides two methods for building very simple Casper-happy .pkg and .dmg packages for deployment.</p>
+<p>This module provides two methods for building very simple Casper-happy .pkg
+and .dmg packages for deployment.</p>
 
-<p>Unlike Composer.app from JAMF, this module currently doesn&#39;t offer a way to do a before/after disk scan and use the differences to build the root folder from which the package is built. Nor does the module support editing the pre/post install scripts in .pkgs.</p>
+<p>Unlike Composer.app from JAMF, this module currently doesn&#39;t offer a
+way to do a before/after disk scan and use the differences to build the
+root folder from which the package is built. Nor does the module support
+editing the pre/post install scripts in .pkgs.</p>
 
-<p>The &#39;root folder&#39;, a folder representing the root filesystem of the target machine where the package will be installed, must already exist and be fully populated and with correct permissions.</p>
+<p>The &#39;root folder&#39;, a folder representing the root filesystem of the
+target machine where the package will be installed, must already exist and
+be fully populated and with correct permissions.</p>
 
 
   </div>
@@ -222,7 +228,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Make a casper-happy .dmg out of a root folder, permissions are assumed to be correct.</p>
+<p>Make a casper-happy .dmg out of a root folder, permissions are assumed to
+be correct.</p>
 </div></span>
   
 </li>
@@ -246,7 +253,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Make a casper-happy .pkg out of a root folder, permissions are assumed to be correct.</p>
+<p>Make a casper-happy .pkg out of a root folder, permissions are assumed to
+be correct.</p>
 </div></span>
   
 </li>
@@ -273,7 +281,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Make a casper-happy .dmg out of a root folder, permissions are assumed to be correct.</p>
+<p>Make a casper-happy .dmg out of a root folder, permissions are assumed to
+be correct.</p>
 
 
   </div>
@@ -309,7 +318,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the path to the “root folder” representing the root file system of the target install drive</p>
+<p>the path to the “root folder” representing the root file system of the
+target install drive</p>
 </div>
       
     </li>
@@ -410,7 +420,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Make a casper-happy .pkg out of a root folder, permissions are assumed to be correct.</p>
+<p>Make a casper-happy .pkg out of a root folder, permissions are assumed to
+be correct.</p>
 
 
   </div>
@@ -462,7 +473,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the path to the &#39;root folder&#39; representing the root file system of the target install drive</p>
+<p>the path to the &#39;root folder&#39; representing the root file system of
+the target install drive</p>
 </div>
       
     </li>
@@ -507,7 +519,10 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the pkg bundle identifier prefix. If no :pkg_id is provided, one is made using this prefix and the name provided. e.g. &#39;com.mycompany&#39; Defaults to &#39;<span class='object_link'><a href="#PKG_BUNDLE_ID_PFX-constant" title="Jamf::Composer::PKG_BUNDLE_ID_PFX (constant)">PKG_BUNDLE_ID_PFX</a></span>&#39;. See &#39;man pkgbuild&#39; for more info</p>
+<p>the pkg bundle identifier prefix. If no :pkg_id is provided, one is made
+using this prefix and the name provided. e.g. &#39;com.mycompany&#39;
+Defaults to &#39;<span class='object_link'><a href="#PKG_BUNDLE_ID_PFX-constant" title="Jamf::Composer::PKG_BUNDLE_ID_PFX (constant)">PKG_BUNDLE_ID_PFX</a></span>&#39;. See &#39;man pkgbuild&#39; for
+more info</p>
 </div>
           
         </li>
@@ -533,7 +548,9 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>If true, the owner/group of the rootpath are preserved. Default is false: they become the pkgbuild/installer &#39;recommended&#39; (root/wheel or root/admin)</p>
+<p>If true, the owner/group of the rootpath are preserved. Default is false:
+they become the pkgbuild/installer &#39;recommended&#39; (root/wheel or
+root/admin)</p>
 </div>
           
         </li>
@@ -546,7 +563,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the optional name of the signing identity (certificate) to use for signing the pkg. See `man pkgbuild` for details</p>
+<p>the optional name of the signing identity (certificate) to use for signing
+the pkg. See `man pkgbuild` for details</p>
 </div>
           
         </li>
@@ -559,7 +577,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>the optional string of options to pass to pkgbuild. See `man pkgbuild` for details</p>
+<p>the optional string of options to pass to pkgbuild. See `man pkgbuild` for
+details</p>
 </div>
           
         </li>
@@ -747,9 +766,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:54 2020 by
+  Generated on Fri Aug  7 11:26:25 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

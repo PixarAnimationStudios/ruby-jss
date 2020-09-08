@@ -6,15 +6,15 @@
 <title>
   Class: JSS::DBConnection
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::DBConnection";
   relpath = '../';
 </script>
@@ -111,13 +111,20 @@
     
 <p>A mysql connection to the JSS database.</p>
 
-<p>This is a singleton class, only one can exist at a time, and it is created, but not connected, automatically when the module loads.</p>
+<p>This is a singleton class, only one can exist at a time, and it is created,
+but not connected, automatically when the module loads.</p>
 
-<p>Use it via the JSS::DB_CNX constant (for connection metadata) and the JSS::DB_CNX.db attribute (which contains the actual mysql query interface) for making queries</p>
+<p>Use it via the JSS::DB_CNX constant (for connection metadata) and the
+JSS::DB_CNX.db attribute (which contains the actual mysql query interface)
+for making queries</p>
 
-<p>Direct MySQL access is minimal and discouraged, since it bypasses the API, and can be very dangerous. However, it&#39;s necessary to overcome some limitations of the API or to access custom tables.</p>
+<p>Direct MySQL access is minimal and discouraged, since it bypasses the API,
+and can be very dangerous. However, it&#39;s necessary to overcome some
+limitations of the API or to access custom tables.</p>
 
-<p>While a database connction isn&#39;t required for most things, warnings will be sent to stderr when functionality is limited due to a lack of a database connection i.e. when JSS::DB_CNX.connected? == false</p>
+<p>While a database connction isn&#39;t required for most things, warnings
+will be sent to stderr when functionality is limited due to a lack of a
+database connection i.e. when JSS::DB_CNX.connected? == false</p>
 
 <p>To make a connection with credentials, just call the #connect method thus:</p>
 
@@ -131,10 +138,10 @@
 :connect_timeout =&gt; seconds to wait before giving up on connection, defaults to 120
 :read_timeout =&gt; seconds to wait before giving up on recieving data, defaults to 120
 :write_timeout =&gt; seconds to wait before giving up on sending data, defaults to 120
-:timeout =&gt; sets all three timeouts to the same value, defaults to 120
-</code></pre>
+:timeout =&gt; sets all three timeouts to the same value, defaults to 120</code></pre>
 
-<p>Calling JSS::DB_CNX.connect again will re-use any values not provided. but will create a new connection.</p>
+<p>Calling JSS::DB_CNX.connect again will re-use any values not provided. but
+will create a new connection.</p>
 
 
   </div>
@@ -171,7 +178,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>give the connection a 60 second timeout, for really slow net connections (like… from airplanes)</p>
+<p>give the connection a 60 second timeout, for really slow net connections
+(like… from airplanes)</p>
 
 
   </div>
@@ -587,7 +595,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>close the connection to the database it&#39;ll have to be re-connected before using again.</p>
+<p>close the connection to the database it&#39;ll have to be re-connected
+before using again.</p>
 </div></span>
   
 </li>
@@ -611,7 +620,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect.</p>
+<p>The server to which we are connected, or will try connecting to if none is
+specified with the call to #connect.</p>
 </div></span>
   
 </li>
@@ -686,7 +696,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of DBConnection.</p>
+<p>Returns a new instance of DBConnection</p>
 
 
   </div>
@@ -738,7 +748,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute connect_timeout.</p>
+<p>Returns the value of attribute connect_timeout</p>
 
 
   </div>
@@ -785,7 +795,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute connected.</p>
+<p>Returns the value of attribute connected</p>
 
 
   </div>
@@ -828,7 +838,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute db_name.</p>
+<p>Returns the value of attribute db_name</p>
 
 
   </div>
@@ -871,7 +881,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute port.</p>
+<p>Returns the value of attribute port</p>
 
 
   </div>
@@ -914,7 +924,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute read_timeout.</p>
+<p>Returns the value of attribute read_timeout</p>
 
 
   </div>
@@ -957,7 +967,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute server.</p>
+<p>Returns the value of attribute server</p>
 
 
   </div>
@@ -1000,7 +1010,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute socket.</p>
+<p>Returns the value of attribute socket</p>
 
 
   </div>
@@ -1043,7 +1053,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute user.</p>
+<p>Returns the value of attribute user</p>
 
 
   </div>
@@ -1086,7 +1096,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute write_timeout.</p>
+<p>Returns the value of attribute write_timeout</p>
 
 
   </div>
@@ -1242,7 +1252,11 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the user is promted on the commandline to enter the password for the :user. If :stdin#, the password is read from a line of std in represented by the digit at #, so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
+<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the
+user is promted on the commandline to enter the password for the :user. If
+:stdin#, the password is read from a line of std in represented by the
+digit at #, so :stdin3 reads the passwd from the third line of standard
+input. defaults to line 2, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
 </div>
           
         </li>
@@ -1491,7 +1505,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The mysql database connection itself.</p>
+<p>Returns The mysql database connection itself</p>
 
 
   </div>
@@ -1565,7 +1579,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>close the connection to the database it&#39;ll have to be re-connected before using again</p>
+<p>close the connection to the database it&#39;ll have to be re-connected
+before using again</p>
 
 
   </div>
@@ -1624,7 +1639,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect</p>
+<p>The server to which we are connected, or will try connecting to if none is
+specified with the call to #connect</p>
 
 
   </div>
@@ -1809,9 +1825,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:56 2020 by
+  Generated on Fri Aug  7 11:26:29 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

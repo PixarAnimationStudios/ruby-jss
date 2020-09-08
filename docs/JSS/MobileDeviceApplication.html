@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MobileDeviceApplication
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::MobileDeviceApplication";
   relpath = '../';
 </script>
@@ -164,7 +164,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -227,14 +228,15 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='label'>bundle_id:</span> <span class='lbrace'>{</span> <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>bundleid</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='label'>fetch_rsrc_key:</span> <span class='symbol'>:bundleid</span> <span class='rbrace'>}</span>
+  <span class='label'>bundle_id:</span> <span class='lbrace'>{</span> <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>bundleid</span><span class='words_sep'>]</span><span class='comma'>,</span> <span class='label'>fetch_rsrc_key:</span> <span class='symbol'>:bundleid</span> <span class='rbrace'>}</span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -875,7 +877,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should this app be able to backup its data when the device does its backups (to icloud or itunes)?.</p>
+<p>Should this app be able to backup its data when the device does its backups
+(to icloud or itunes)?.</p>
 </div></span>
   
 </li>
@@ -1031,7 +1034,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
+id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -1161,7 +1165,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX
+SSvc only).</p>
 </div></span>
   
 </li>
@@ -1421,7 +1426,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification
+repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1514,7 +1520,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>If the user installs this app on their own, should Jamf take over managing it?.</p>
+<p>If the user installs this app on their own, should Jamf take over managing
+it?.</p>
 </div></span>
   
 </li>
@@ -2007,7 +2014,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -2062,7 +2070,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -2091,7 +2100,33 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_print_instance_variables-instance_method" title="#pretty_print_instance_variables (instance method)">#<strong>pretty_print_instance_variables</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -2581,7 +2616,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 </div></span>
   
 </li>
@@ -2811,7 +2847,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns e.g. com.company.appname.</p>
+<p>Returns e.g. com.company.appname</p>
 
 
   </div>
@@ -2872,7 +2908,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Pre-configuration data for installing the app. Currently there&#39;s only one key in the :configuration hash, :preferences, which contains a plist &lt;dict&gt; element with config data.</p>
+<p>Returns Pre-configuration data for installing the app. Currently
+there&#39;s only one key in the :configuration hash, :preferences, which
+contains a plist &lt;dict&gt; element with config data.</p>
 
 
   </div>
@@ -2891,7 +2929,9 @@
       
         &mdash;
         <div class='inline'>
-<p>Pre-configuration data for installing the app. Currently there&#39;s only one key in the :configuration hash, :preferences, which contains a plist &lt;dict&gt; element with config data.</p>
+<p>Pre-configuration data for installing the app. Currently there&#39;s only
+one key in the :configuration hash, :preferences, which contains a plist
+&lt;dict&gt; element with config data.</p>
 </div>
       
     </li>
@@ -2933,7 +2973,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should this app be mananged?.</p>
+<p>Returns Should this app be mananged?</p>
 
 
   </div>
@@ -3048,7 +3088,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user-facing name (i.e. in self service).</p>
+<p>Returns The user-facing name (i.e. in self service)</p>
 
 
   </div>
@@ -3109,7 +3149,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns If :host_externally is true, the URL for the app.</p>
+<p>Returns If :host_externally is true, the URL for the app</p>
 
 
   </div>
@@ -3174,7 +3214,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this a free app?.</p>
+<p>Returns is this a free app?</p>
 
 
   </div>
@@ -3235,7 +3275,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does the app itself come from outside the JSS?.</p>
+<p>Returns Does the app itself come from outside the JSS?</p>
 
 
   </div>
@@ -3305,7 +3345,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service.</p>
+<p>Returns The icon used in self-service</p>
 
 
   </div>
@@ -3357,7 +3397,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?.</p>
+<p>Returns Is this thing available in Self Service?</p>
 
 
   </div>
@@ -3454,7 +3494,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The .ipa file info.</p>
+<p>Returns The .ipa file info</p>
 
 
   </div>
@@ -3515,7 +3555,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The app&#39;s country/region code in the iTunes store.</p>
+<p>Returns The app&#39;s country/region code in the iTunes store</p>
 
 
   </div>
@@ -3576,7 +3616,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URL of this item in the iTunes store, if applicable.</p>
+<p>Returns The URL of this item in the iTunes store, if applicable</p>
 
 
   </div>
@@ -3637,7 +3677,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The last time the app and data was synced from iTunes (I think).</p>
+<p>Returns The last time the app and data was synced from iTunes (I think)</p>
 
 
   </div>
@@ -3698,7 +3738,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should the JSS update the icon and description from the app source?.</p>
+<p>Returns should the JSS update the icon and description from the app source?</p>
 
 
   </div>
@@ -3763,7 +3803,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Will this still appear in SelfSvc after installation (I think).</p>
+<p>Returns Will this still appear in SelfSvc after installation (I think)</p>
 
 
   </div>
@@ -3829,7 +3869,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -3872,7 +3912,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should this app be able to backup its data when the device does its backups (to icloud or itunes)?.</p>
+<p>Returns Should this app be able to backup its data when the device does its
+backups (to icloud or itunes)?</p>
 
 
   </div>
@@ -3891,7 +3932,8 @@
       
         &mdash;
         <div class='inline'>
-<p>Should this app be able to backup its data when the device does its backups (to icloud or itunes)?</p>
+<p>Should this app be able to backup its data when the device does its backups
+(to icloud or itunes)?</p>
 </div>
       
     </li>
@@ -3933,7 +3975,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The provisioning profile info for this app.</p>
+<p>Returns The provisioning profile info for this app</p>
 
 
   </div>
@@ -4039,7 +4081,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should the app be removed when the device is unmanaged?.</p>
+<p>Returns Should the app be removed when the device is unmanaged?</p>
 
 
   </div>
@@ -4144,9 +4186,11 @@
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category
+in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
+SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -4195,7 +4239,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item.</p>
+<p>Returns The verbage that appears in SelfSvc for this item</p>
 
 
   </div>
@@ -4343,7 +4387,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+<p>Returns Should an extra window appear before the user can install the item?
+(OSX SSvc only)</p>
 
 
   </div>
@@ -4362,7 +4407,8 @@
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX
+SSvc only)</p>
 </div>
       
     </li>
@@ -4439,7 +4485,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification.</p>
+<p>Returns The message text of the notification</p>
 
 
   </div>
@@ -4535,7 +4581,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+<p>Returns How should notifications be sent either :ssvc_only or
+:ssvc_and_nctr</p>
 
 
   </div>
@@ -4587,7 +4634,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?.</p>
+<p>Returns Should jamf send notifications to self service?</p>
 
 
   </div>
@@ -4683,7 +4730,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given.</p>
+<p>Returns How often (in days) should reminders be given</p>
 
 
   </div>
@@ -4735,7 +4782,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
+<p>Returns Should self service give reminders by displaying the notification
+repeatedly?</p>
 
 
   </div>
@@ -4754,7 +4802,8 @@
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification repeatedly?</p>
+<p>Should self service give reminders by displaying the notification
+repeatedly?</p>
 </div>
       
     </li>
@@ -4831,7 +4880,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
 
 
   </div>
@@ -4874,7 +4923,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns If the user installs this app on their own, should Jamf take over managing it?.</p>
+<p>Returns If the user installs this app on their own, should Jamf take over
+managing it?</p>
 
 
   </div>
@@ -4893,7 +4943,8 @@
       
         &mdash;
         <div class='inline'>
-<p>If the user installs this app on their own, should Jamf take over managing it?</p>
+<p>If the user installs this app on their own, should Jamf take over managing
+it?</p>
 </div>
       
     </li>
@@ -4980,7 +5031,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URL for downloading this app.</p>
+<p>Returns The URL for downloading this app</p>
 
 
   </div>
@@ -5269,12 +5320,11 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only
+meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -5287,12 +5337,12 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only
+meaningful in applicable classes. NOTE: this will always be false if
+display_in is false.</p>
 </div>
       
     </li>
@@ -5361,7 +5411,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will
+unset the category</p>
 
 
   </div>
@@ -5522,7 +5573,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this
+is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -5614,7 +5666,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -5647,12 +5700,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -5739,7 +5791,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -5805,7 +5858,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -5870,7 +5924,8 @@
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope
+instance will be created from @init_data</p>
 
 
   </div>
@@ -5879,6 +5934,70 @@
   
 
 </div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_print_instance_variables-instance_method">
+  
+    #<strong>pretty_print_instance_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the desired instance_variables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+453
+454
+455
+456
+457</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 453</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
+  <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='kw'>super</span>
+  <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:@ipa</span>
+  <span class='id identifier rubyid_vars'>vars</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
 </div>
     
       <div class="method_details ">
@@ -5971,7 +6090,8 @@
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Save the application to a file.</p>
 
-<p>If the path given is an existing directory, the ipa&#39;s current filename will be used, if known.</p>
+<p>If the path given is an existing directory, the ipa&#39;s current filename
+will be used, if known.</p>
 
 
   </div>
@@ -6080,7 +6200,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service.</p>
+<p>Returns The url to view this thing in Self Service</p>
 
 
   </div>
@@ -6218,7 +6338,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service.</p>
+<p>Returns The url to view this thing in Self Service</p>
 
 
   </div>
@@ -6292,7 +6412,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the
+site</p>
 
 
   </div>
@@ -6449,7 +6570,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is
+aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -6625,7 +6747,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this module is mixed in.</p>
+<p>Upload a file to the JSS via the REST Resource of the object to which this
+module is mixed in.</p>
 
 
   </div>
@@ -6645,7 +6768,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the
+class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -6819,9 +6943,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:00 2020 by
+  Generated on Fri Aug  7 11:26:41 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

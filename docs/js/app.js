@@ -171,7 +171,6 @@ function generateTOC() {
   var counter = 0;
   var tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
   var i;
-  var curli;
   if ($('#filecontents h1').length > 1) tags.unshift('h1');
   for (i = 0; i < tags.length; i++) { tags[i] = '#filecontents ' + tags[i]; }
   var lastTag = parseInt(tags[0][1], 10);
@@ -191,25 +190,15 @@ function generateTOC() {
     }
     if (thisTag > lastTag) {
       for (i = 0; i < thisTag - lastTag; i++) {
-        if ( typeof(curli) == "undefined" ) {
-          curli = $('<li/>');
-          toc.append(curli);
-        }
-        toc = $('<ol/>');
-        curli.append(toc);
-        curli = undefined;
+        var tmp = $('<ol/>'); toc.append(tmp); toc = tmp;
       }
     }
     if (thisTag < lastTag) {
-      for (i = 0; i < lastTag - thisTag; i++) {
-        toc = toc.parent();
-        toc = toc.parent();
-      }
+      for (i = 0; i < lastTag - thisTag; i++) toc = toc.parent();
     }
     var title = $(this).attr('toc-title');
     if (typeof(title) == "undefined") title = $(this).text();
-    curli =$('<li><a href="#' + this.id + '">' + title + '</a></li>'); 
-    toc.append(curli);
+    toc.append('<li><a href="#' + this.id + '">' + title + '</a></li>');
     lastTag = thisTag;
   });
   if (!show) return;

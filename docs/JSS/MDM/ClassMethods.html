@@ -6,15 +6,15 @@
 <title>
   Module: JSS::MDM::ClassMethods
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::MDM::ClassMethods";
   relpath = '../../';
 </script>
@@ -86,7 +86,10 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+<p>See <a
+href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a>
+for discussion of this technique for mixing in both Class and Instance
+methods when including a module.</p>
 
 
   </div>
@@ -567,7 +570,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Generate the XML to send to the API, sending the MDM command to the targets.</p>
+<p>Generate the XML to send to the API, sending the MDM command to the
+targets.</p>
 </div></span>
   
 </li>
@@ -639,7 +643,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the result of senting a computer MDM command into the appropriate hash.</p>
+<p>Convert the result of senting a computer MDM command into the appropriate
+hash.</p>
 </div></span>
   
 </li>
@@ -663,7 +668,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the result of senting a device MDM command into the appropriate hash.</p>
+<p>Convert the result of senting a device MDM command into the appropriate
+hash.</p>
 </div></span>
   
 </li>
@@ -687,7 +693,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the targets provided for sending a command into the final list of computers or mobile devices.</p>
+<p>Convert the targets provided for sending a command into the final list of
+computers or mobile devices.</p>
 </div></span>
   
 </li>
@@ -887,7 +894,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Validate that this command is known and can be sent to this kind of object, raising an error if not.</p>
+<p>Validate that this command is known and can be sent to this kind of object,
+raising an error if not.</p>
 </div></span>
   
 </li>
@@ -976,8 +984,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -1074,8 +1080,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1100,12 +1104,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1178,8 +1188,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1204,12 +1212,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1298,8 +1312,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1324,12 +1336,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1406,8 +1424,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1424,8 +1440,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1441,8 +1455,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -1468,12 +1480,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1582,8 +1600,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1608,12 +1624,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1686,8 +1708,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1712,12 +1732,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1790,8 +1816,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1816,12 +1840,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1894,8 +1924,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1920,12 +1948,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -1998,8 +2032,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2024,12 +2056,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2102,8 +2140,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2128,12 +2164,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2206,8 +2248,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2232,12 +2272,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2310,8 +2356,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2336,12 +2380,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2414,8 +2464,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2440,12 +2488,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2520,8 +2574,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2537,8 +2589,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2556,8 +2606,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2573,8 +2621,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -2592,8 +2638,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2609,8 +2653,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2636,12 +2678,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2757,8 +2805,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2783,12 +2829,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -2865,8 +2917,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2883,8 +2933,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2900,8 +2948,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2927,12 +2973,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -3008,7 +3060,10 @@
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the device or group to flush commands, or an array of such names or ids, or a comma-separated string of them. NOTE: when calling this on a Group class, the targets are the groups themselves, not the individual members.</p>
+<p>the name or id of the device or group to flush commands, or an array of
+such names or ids, or a comma-separated string of them. NOTE: when calling
+this on a Group class, the targets are the groups themselves, not the
+individual members.</p>
 </div>
       
     </li>
@@ -3020,8 +3075,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3039,12 +3092,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use. Defaults to the corrently active API. See <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use. Defaults to the corrently active API. See
+<span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3355,8 +3407,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3381,12 +3431,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -3459,8 +3515,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3485,12 +3539,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -3530,7 +3590,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the result of senting a computer MDM command into the appropriate hash</p>
+<p>Convert the result of senting a computer MDM command into the appropriate
+hash</p>
 
 
   </div>
@@ -3571,12 +3632,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -3628,7 +3695,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the result of senting a device MDM command into the appropriate hash</p>
+<p>Convert the result of senting a device MDM command into the appropriate
+hash</p>
 
 
   </div>
@@ -3669,12 +3737,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -3728,7 +3802,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the targets provided for sending a command into the final list of computers or mobile devices.</p>
+<p>Convert the targets provided for sending a command into the final list of
+computers or mobile devices.</p>
 
 
   </div>
@@ -3761,8 +3836,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3778,8 +3851,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -3934,8 +4005,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3960,12 +4029,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4080,9 +4155,12 @@
     
 <p>Send an MDM command to one or more targets without instantiating them.</p>
 
-<p>This general class method, and all the specific ones that all it, have matching instance methods. Use the class method when you don&#39;t have, or don&#39;t want to retrieve, instances of all the targets.</p>
+<p>This general class method, and all the specific ones that all it, have
+matching instance methods. Use the class method when you don&#39;t have, or
+don&#39;t want to retrieve, instances of all the targets.</p>
 
-<p>If you do have an instance or a target, call the matching instance method to send commands to that specific target.</p>
+<p>If you do have an instance or a target, call the matching instance method
+to send commands to that specific target.</p>
 
 
   </div>
@@ -4133,7 +4211,10 @@
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the device(s), or devicegroup(s) to receive the command, or an array of such names or ids. NOTE: when calling this on a Group class, the targets are the groups themselves, not the individual members - the membership will be expanded.</p>
+<p>the name or id of the device(s), or devicegroup(s) to receive the command,
+or an array of such names or ids. NOTE: when calling this on a Group class,
+the targets are the groups themselves, not the individual members - the
+membership will be expanded.</p>
 </div>
       
     </li>
@@ -4162,8 +4243,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4180,12 +4259,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API connection to use. Defaults to the currently active API, see <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>the API connection to use. Defaults to the currently active API, see
+<span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -4206,12 +4284,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4338,8 +4422,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4364,12 +4446,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4458,8 +4546,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4484,12 +4570,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4535,7 +4627,10 @@
     
 <p>Send an Unmanage Device command to one or more targets</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="../Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be
+re-installed immediately unless the computer is also no longer managed by
+Jamf Pro itself. To fully unmanage a computer, use the
+<span class='object_link'><a href="../Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -4568,8 +4663,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4594,12 +4687,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4676,8 +4775,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4702,12 +4799,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -4747,7 +4850,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Validate that this command is known and can be sent to this kind of object, raising an error if not.</p>
+<p>Validate that this command is known and can be sent to this kind of object,
+raising an error if not.</p>
 
 
   </div>
@@ -4902,8 +5006,6 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4920,12 +5022,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if
+no wallpaper_id</p>
 </div>
       
     </li>
@@ -4938,12 +5039,11 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
+wallpaper_content</p>
 </div>
       
     </li>
@@ -4955,8 +5055,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -4982,12 +5080,18 @@
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid
+can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last
+device to have the command sent to it. (even in the Database, not just in
+the API). So instead, the Hash value is the status of the command for that
+device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always
+&#39;Command sent&#39; (an error will be raised if there are problems
+sending)</p>
 </div>
       
     </li>
@@ -5061,9 +5165,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:54 2020 by
+  Generated on Fri Aug  7 11:26:26 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: Time
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Time";
   relpath = '';
 </script>
@@ -104,18 +104,26 @@
     
 <p>The JSS API can take incoming timestamp data in three formats:</p>
 <ul><li>
-<p>plain date: YYYY-mm-dd HH:MM:SS, which is assumed to be in the local timezone</p>
+<p>plain date: YYYY-mm-dd HH:MM:SS, which is assumed to be in the local
+timezone</p>
 </li><li>
-<p>UTC date: YYYY-mm-ddTHH:MM:SS.mmm [+-]zzzz, the local time with milliseconds and the timezone offset</p>
+<p>UTC date: YYYY-mm-ddTHH:MM:SS.mmm [+-]zzzz, the local time with
+milliseconds and the timezone offset</p>
 </li><li>
-<p>Unix epoch with milliseconds, nnnnnnnnnnnnn,  which like all epoch times, is UTC</p>
+<p>Unix epoch with milliseconds, nnnnnnnnnnnnn,  which like all epoch times,
+is UTC</p>
 </li></ul>
 
-<p>Here we extend Time to return the three formats for use in XML data to pass back to the API. The API xml works with any of the formats, in appropriate elements.</p>
+<p>Here we extend Time to return the three formats for use in XML data to pass
+back to the API. The API xml works with any of the formats, in appropriate
+elements.</p>
 
-<p>Generally this gem uses the epoch format for passing values back to the API, just to help avoid timezone weirdness, but any should work.</p>
+<p>Generally this gem uses the epoch format for passing values back to the
+API, just to help avoid timezone weirdness, but any should work.</p>
 
-<p>When reading from the API, all three formats are returned in different xml elements, and the APIObjects in the gem will use the epoch format and the JSS.epoch_to_time method (q.v.) to store the data as a Ruby Time.</p>
+<p>When reading from the API, all three formats are returned in different xml
+elements, and the APIObjects in the gem will use the epoch format and the
+JSS.epoch_to_time method (q.v.) to store the data as a Ruby Time.</p>
 
 
   </div>
@@ -259,7 +267,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the milliseconds of the Time.</p>
+<p>Returns the milliseconds of the Time</p>
 
 
   </div>
@@ -318,7 +326,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the Time formatted for a plain JSS XML date element.</p>
+<p>Returns the Time formatted for a plain JSS XML date element</p>
 
 
   </div>
@@ -377,7 +385,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The Time as a unix epoch with milliseconds appended.</p>
+<p>Returns The Time as a unix epoch with milliseconds appended</p>
 
 
   </div>
@@ -436,7 +444,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the Time formatted for a JSS UTC XML date element.</p>
+<p>Returns the Time formatted for a JSS UTC XML date element</p>
 
 
   </div>
@@ -488,9 +496,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:03 2020 by
+  Generated on Fri Aug  7 11:26:48 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

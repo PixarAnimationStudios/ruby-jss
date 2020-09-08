@@ -6,15 +6,15 @@
 <title>
   Class: JSS::PatchTitle
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::PatchTitle";
   relpath = '../';
 </script>
@@ -113,17 +113,31 @@
     
 <p>An active Patch Software Title in the JSS.</p>
 
-<p>This class provides access to titles that have been added to Jamf Pro via a PatchInternalSource or a PatchExternalSource, and the versions contained therein.</p>
+<p>This class provides access to titles that have been added to Jamf Pro via a
+PatchInternalSource or a PatchExternalSource, and the versions contained
+therein.</p>
 
-<p>Patch versions for the title are available in the #versions read-only attribute, a Hash of versions keyed by the version string. The values are JSS::PatchTitle::Version objects.</p>
+<p>Patch versions for the title are available in the #versions read-only
+attribute, a Hash of versions keyed by the version string. The values are
+JSS::PatchTitle::Version objects.</p>
 
-<p>When creating/activating new Patch Titles, with .make, a unique name:, a source: and a name_id: must be provided - the source must be the name or id of an existing PatchSource, and the name_id must be offered by that source. Once created, the source_id and name_id cannot be changed.</p>
+<p>When creating/activating new Patch Titles, with .make, a unique name:, a
+source: and a name_id: must be provided - the source must be the name or id
+of an existing PatchSource, and the name_id must be offered by that source.
+Once created, the source_id and name_id cannot be changed.</p>
 
-<p>When fetching titles, they can be fetched by id:, source_name_id:, or both source: and name_id:</p>
+<p>When fetching titles, they can be fetched by id:, source_name_id:, or both
+source: and name_id:</p>
 
-<p>WARNING: While they can be fetched by name, beware: the JSS does not enforce unique names of titles even thought ruby-jss does. If there are duplicates of the name you fetch, which one you get is undefined.</p>
+<p>WARNING: While they can be fetched by name, beware: the JSS does not
+enforce unique names of titles even thought ruby-jss does. If there are
+duplicates of the name you fetch, which one you get is undefined.</p>
 
-<p>Use the patch_report class or instance method, or PatchTitle::Version.patch_report, to retrieve a report of computers with a specific version of the title installed, or :all, :latest, or :unknown versions. Reports called on the class or an instance default to :all versions, and are slower to retrieve than a specific version,</p>
+<p>Use the patch_report class or instance method, or
+PatchTitle::Version.patch_report, to retrieve a report of computers with a
+specific version of the title installed, or :all, :latest, or :unknown
+versions. Reports called on the class or an instance default to :all
+versions, and are slower to retrieve than a specific version,</p>
 
 
   </div>
@@ -161,7 +175,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for PatchTitle XML data parsing cuz Borked JSON</p>
+<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for
+PatchTitle XML data parsing cuz Borked JSON</p>
 
 
   </div>
@@ -212,7 +227,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for PatchReport XML data parsing cuz Borked JSON</p>
+<p>TODO: remove this and adjust parsing when jamf fixes the JSON Data map for
+PatchReport XML data parsing cuz Borked JSON</p>
 
 
   </div>
@@ -288,7 +304,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various
+error messages</p>
 
 
   </div>
@@ -309,7 +326,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span> TODO: comfirm this in 10.4</p>
+<p>the object type for this object in the object history table. See
+<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span> TODO: comfirm this in 10.4</p>
 
 
   </div>
@@ -614,7 +632,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The same as  @see APIObject.all but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 </div></span>
   
 </li>
@@ -638,7 +658,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The same as  @see APIObject.all_ids but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all_ids but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 </div></span>
   
 </li>
@@ -662,7 +684,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The same as  @see APIObject.all_names but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all_names but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 </div></span>
   
 </li>
@@ -782,7 +806,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Override the <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span>, since patch sources are so non-standard Accept id, source_name_id, or name.</p>
+<p>Override the <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span>, since patch sources are so non-standard
+Accept id, source_name_id, or name.</p>
 </div></span>
   
 </li>
@@ -964,7 +989,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>this is called by JSS::PatchTitle::Version#package= to update @changed_pkgs which is used by #rest_xml to change the package assigned to a patch version in this title.</p>
+<p>this is called by JSS::PatchTitle::Version#package= to update @changed_pkgs
+which is used by #rest_xml to change the package assigned to a patch
+version in this title.</p>
 </div></span>
   
 </li>
@@ -1046,7 +1073,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -1101,7 +1129,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 </div></span>
   
 </li>
@@ -1151,7 +1180,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -1462,7 +1492,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of PatchTitle.</p>
+<p>Returns a new instance of PatchTitle</p>
 
 
   </div>
@@ -1584,7 +1614,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Are new patches announced by email?.</p>
+<p>Returns Are new patches announced by email?</p>
 
 
   </div>
@@ -1645,7 +1675,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the &#39;name_id&#39; for this patch title. name_id is a unique identfier provided by the patch source.</p>
+<p>Returns the &#39;name_id&#39; for this patch title. name_id is a unique
+identfier provided by the patch source</p>
 
 
   </div>
@@ -1664,7 +1695,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the &#39;name_id&#39; for this patch title. name_id is a unique identfier provided by the patch source</p>
+<p>the &#39;name_id&#39; for this patch title. name_id is a unique identfier
+provided by the patch source</p>
 </div>
       
     </li>
@@ -1711,7 +1743,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?.</p>
+<p>Returns do we have unsaved changes?</p>
 
 
   </div>
@@ -1754,7 +1786,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id of the patch source from which we get patches for this title.</p>
+<p>Returns the id of the patch source from which we get patches for this title</p>
 
 
   </div>
@@ -1815,7 +1847,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the source_id and name_id joined by &#39;-&#39;, a unique identifier.</p>
+<p>Returns the source_id and name_id joined by &#39;-&#39;, a unique
+identifier</p>
 
 
   </div>
@@ -1880,7 +1913,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Are new patches announced in the JSS web ui?.</p>
+<p>Returns Are new patches announced in the JSS web ui?</p>
 
 
   </div>
@@ -1946,11 +1979,15 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The same as  @see APIObject.all but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 
-<p>Also - since the combined source_id and name_id are unique, create an identifier key &#39;:source_name_id&#39; by joining them with &#39;-&#39;</p>
+<p>Also - since the combined source_id and name_id are unique, create an
+identifier key &#39;:source_name_id&#39; by joining them with &#39;-&#39;</p>
 
-<p>JAMF BUG: More broken json - the id is coming as a string. so here we turn it into an integer manually :-( Ditto for source_id</p>
+<p>JAMF BUG: More broken json - the id is coming as a string. so here we turn
+it into an integer manually :-( Ditto for source_id</p>
 
 
   </div>
@@ -2005,7 +2042,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The same as  @see APIObject.all_ids but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all_ids but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 
 
   </div>
@@ -2046,7 +2085,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The same as  @see APIObject.all_names but also takes an optional source_id: parameter, which limites the results to patch titles with the specified source_id.</p>
+<p>The same as  @see APIObject.all_names but also takes an optional source_id:
+parameter, which limites the results to patch titles with the specified
+source_id.</p>
 
 
   </div>
@@ -2089,9 +2130,11 @@
     
 <p>Returns an Array of unique source_ids used by active Patches</p>
 
-<p>e.g. if there are patches that come from one internal source and two external sources this might return [1,3,4].</p>
+<p>e.g. if there are patches that come from one internal source and two
+external sources this might return [1,3,4].</p>
 
-<p>Regardless of how many patches come from each source, the source id appears only once in this array.</p>
+<p>Regardless of how many patches come from each source, the source id appears
+only once in this array.</p>
 
 
   </div>
@@ -2126,12 +2169,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2190,7 +2232,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all &#39;source_name_id&#39; values for active patches.</p>
+<p>Returns all &#39;source_name_id&#39; values for active patches</p>
 
 
   </div>
@@ -2249,7 +2291,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Patch titles only have an id-based GET resource in the API. so all other lookup values have to be converted to ID before the call to super</p>
+<p>Patch titles only have an id-based GET resource in the API. so all other
+lookup values have to be converted to ID before the call to super</p>
 
 
   </div>
@@ -2355,7 +2398,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get a patch report for a softwaretitle, withouth fetching an instance. Defaults to reporting all versions. Specifiying a version will be faster.</p>
+<p>Get a patch report for a softwaretitle, withouth fetching an instance.
+Defaults to reporting all versions. Specifiying a version will be faster.</p>
 
 <p>The Hash returned has 3 keys:</p>
 
@@ -2364,10 +2408,10 @@
     Always 1 if you report a specific version
 - :versions [Hash {String =&gt; Array&lt;Hash&gt;}] Keys are the version(s) requested
   values are Arrays of Hashes, one per computer with the keyed version
-  installed. Computer Hashes have identifiers as keys.
-</code></pre>
+  installed. Computer Hashes have identifiers as keys.</code></pre>
 
-<p>PatchTitle#patch_report calls this method, as does PatchTitle::Version.patch_report.</p>
+<p>PatchTitle#patch_report calls this method, as does
+PatchTitle::Version.patch_report.</p>
 
 
   </div>
@@ -2400,12 +2444,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>:all</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>Limit the report to this version. Can be a string version number like &#39;8.13.2&#39; or :latest, :unknown, or :all. Defaults to :all</p>
+<p>Limit the report to this version. Can be a string version number like
+&#39;8.13.2&#39; or :latest, :unknown, or :all. Defaults to :all</p>
 </div>
       
     </li>
@@ -2418,12 +2461,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2541,7 +2583,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Override the <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span>, since patch sources are so non-standard Accept id, source_name_id, or name. Note name may not be unique, and if not, ymmv</p>
+<p>Override the <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span>, since patch sources are so non-standard
+Accept id, source_name_id, or name. Note name may not be unique, and if
+not, ymmv</p>
 
 
   </div>
@@ -2599,7 +2643,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will
+unset the category</p>
 
 
   </div>
@@ -2760,7 +2805,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this
+is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -2847,7 +2893,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>this is called by JSS::PatchTitle::Version#package= to update @changed_pkgs which is used by #rest_xml to change the package assigned to a patch version in this title.</p>
+<p>this is called by JSS::PatchTitle::Version#package= to update @changed_pkgs
+which is used by #rest_xml to change the package assigned to a patch
+version in this title.</p>
 
 
   </div>
@@ -2895,7 +2943,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be creatable</p>
+<p>make a clone of this API object, with a new name. The class must be
+creatable</p>
 
 
   </div>
@@ -2928,12 +2977,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to
+instantiate this object</p>
 </div>
       
     </li>
@@ -3035,7 +3083,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use
+APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -3101,7 +3150,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the server.</p>
+<p>Change the name of this item Remember to #update to push changes to the
+server.</p>
 
 
   </div>
@@ -3204,7 +3254,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 
 
   </div>
@@ -3272,7 +3323,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the
+site</p>
 
 
   </div>
@@ -3429,7 +3481,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is
+aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -3617,7 +3670,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The JSS::PatchVersions fetched for this title, keyed by version string.</p>
+<p>Returns The JSS::PatchVersions fetched for this title, keyed by version
+string</p>
 
 
   </div>
@@ -3682,7 +3736,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Subset of @versions, containing those which have packages assigned.</p>
+<p>Returns Subset of @versions, containing those which have packages assigned</p>
 
 
   </div>
@@ -3734,9 +3788,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:03 2020 by
+  Generated on Fri Aug  7 11:26:49 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

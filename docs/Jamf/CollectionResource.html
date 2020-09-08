@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::CollectionResource
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::CollectionResource";
   relpath = '../';
 </script>
@@ -124,23 +124,34 @@
 
 <p>See <span class='object_link'><a href="Resource.html" title="Jamf::Resource (class)">Resource</a></span> for general info about API resources.</p>
 
-<p>Collection resources have more than one resource within them, and those can (usually) be created and deleted as well as fetched and updated. The entire collection (or a part of it) can also be fetched as an Array. When the whole collection is fetched, the result is cached for future use.</p>
+<p>Collection resources have more than one resource within them, and those can
+(usually) be created and deleted as well as fetched and updated. The entire
+collection (or a part of it) can also be fetched as an Array. When the
+whole collection is fetched, the result is cached for future use.</p>
 
 <p># Subclassing</p>
 
 <p>## Creatability, &amp; Deletability</p>
 
-<p>Sometimes the API doesn&#39;t support creation of new members of the collection. If that&#39;s the case, just extend the subclass with Jamf::UnCreatable and the &#39;.create&#39; class method will raise an error.</p>
+<p>Sometimes the API doesn&#39;t support creation of new members of the
+collection. If that&#39;s the case, just extend the subclass with
+Jamf::UnCreatable and the &#39;.create&#39; class method will raise an
+error.</p>
 
-<p>Similarly for deletion of members: if the API doesn&#39;t have a way to delete them, extend the subclass with Jamf::UnDeletable</p>
+<p>Similarly for deletion of members: if the API doesn&#39;t have a way to
+delete them, extend the subclass with Jamf::UnDeletable</p>
 
-<p>See also Jamf::JSONObject, which talks about extending subclasses with Jamf::Immutable</p>
+<p>See also Jamf::JSONObject, which talks about extending subclasses with
+Jamf::Immutable</p>
 
 <p>## Bulk Deletion</p>
 
-<p>Some collection resources have a resource for bulk deletion, passing in a JSON array of ids to delete.</p>
+<p>Some collection resources have a resource for bulk deletion, passing in a
+JSON array of ids to delete.</p>
 
-<p>If so, just define a BULK_DELETE_RSRC, and the .delete class method will use it, rather than making multiple calls to delete individual items. See Jamf::Category::BULK_DELETE_RSRC for an example</p>
+<p>If so, just define a BULK_DELETE_RSRC, and the .delete class method will
+use it, rather than making multiple calls to delete individual items. See
+Jamf::Category::BULK_DELETE_RSRC for an example</p>
 
 
   </div>
@@ -185,7 +196,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The Collection members Array for this class, retrieved from the RSRC_PATH as Parsed JSON, but not instantiated into instances unless instantiate: is truthy.</p>
+<p>The Collection members Array for this class, retrieved from the RSRC_PATH
+as Parsed JSON, but not instantiated into instances unless instantiate: is
+truthy.</p>
 </div></span>
   
 </li>
@@ -242,7 +255,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-class_method" title="create (class method)">.<strong>create</strong>(params, cnx: Jamf.cnx)  &#x21d2; Object </a>
+      <a href="#create-class_method" title="create (class method)">.<strong>create</strong>(**params)  &#x21d2; Object </a>
     
 
     
@@ -305,7 +318,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Delete one or more objects by identifier Any valid identifier for the class can be used (id, name, udid, etc) Identifiers can be provided as an array or as separate parameters.</p>
+<p>Delete one or more objects by identifier Any valid identifier for the class
+can be used (id, name, udid, etc) Identifiers can be provided as an array
+or as separate parameters.</p>
 </div></span>
   
 </li>
@@ -377,7 +392,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A Hash of all members of this collection where the keys are some identifier and values are any other attribute.</p>
+<p>A Hash of all members of this collection where the keys are some identifier
+and values are any other attribute.</p>
 </div></span>
   
 </li>
@@ -406,7 +422,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 </div></span>
   
 </li>
@@ -430,7 +447,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given any identfier value for this collection, return the id of the object that has such an identifier.</p>
+<p>Given any identfier value for this collection, return the id of the object
+that has such an identifier.</p>
 </div></span>
   
 </li>
@@ -463,7 +481,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Two collection resource objects are the same if their id&#39;s are the same.</p>
+<p>Two collection resource objects are the same if their id&#39;s are the
+same.</p>
 </div></span>
   
 </li>
@@ -571,13 +590,19 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The Collection members Array for this class, retrieved from the RSRC_PATH as Parsed JSON, but not instantiated into instances unless instantiate: is truthy.</p>
+<p>The Collection members Array for this class, retrieved from the RSRC_PATH
+as Parsed JSON, but not instantiated into instances unless instantiate: is
+truthy.</p>
 
-<p>E.g. for Settings::Building, this would be the Array of Hashes returned by GETing the resource …/settings/obj/building</p>
+<p>E.g. for Settings::Building, this would be the Array of Hashes
+returned by GETing the resource …/settings/obj/building</p>
 
-<p>This Array is cached in the <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span> instance used to retrieve it, and future calls to .all will return the cached Array unless refresh is truthy.</p>
+<p>This Array is cached in the <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span> instance used to retrieve
+it, and future calls to .all will return the cached Array unless refresh is
+truthy.</p>
 
-<p>TODO: Investigate <a href="https://www.rubydoc.info/github/mloughran/api_cache">www.rubydoc.info/github/mloughran/api_cache</a></p>
+<p>TODO: Investigate <a
+href="https://www.rubydoc.info/github/mloughran/api_cache">www.rubydoc.info/github/mloughran/api_cache</a></p>
 
 
   </div>
@@ -612,12 +637,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
 </div>
       
     </li>
@@ -630,12 +654,11 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The Array contains instances of this class rather than the JSON Hashes from the API.</p>
+<p>The Array contains instances of this class rather than the JSON Hashes from
+the API.</p>
 </div>
       
     </li>
@@ -687,7 +710,15 @@
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 100</span>
@@ -701,13 +732,21 @@
     <span class='kw'>return</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_collection_cache'>collection_cache</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span> <span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_m'>m</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span> <span class='id identifier rubyid_rsrc_path'>rsrc_path</span>
-  <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_collection_cache'>collection_cache</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='op'>=</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_raw'>raw</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_raw'>raw</span>
-    <span class='kw'>end</span>
+  <span class='comment'># TODO:  make sure all collection resources use this format
+</span>  <span class='comment'># for paging. Also -ask Jamf about a  url that returns
+</span>  <span class='comment'># ALL objects in one query, regardless of number.
+</span>  <span class='id identifier rubyid_page'>page</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rsrc_path'>rsrc_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>?page=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page'>page</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;size=1000000&amp;sort=id%3Aasc</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span>
+
+  <span class='kw'>until</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:totalCount</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_page'>page</span> <span class='op'>+=</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rsrc_path'>rsrc_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>?page=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page'>page</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;size=1000000&amp;sort=id%3Aasc</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='id identifier rubyid_raw'>raw</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+
+  <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_collection_cache'>collection_cache</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_results'>results</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_collection_cache'>collection_cache</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_instantiate'>instantiate</span>
 
@@ -730,7 +769,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An array of the ids for all collection members. According to the specs ALL collection resources must have an ID, which is used in the resource path.</p>
+<p>An array of the ids for all collection members. According to the specs ALL
+collection resources must have an ID, which is used in the resource path.</p>
 
 
   </div>
@@ -765,12 +805,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
 </div>
       
     </li>
@@ -797,12 +836,12 @@
       <pre class="lines">
 
 
-132
-133
-134</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>  <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -824,7 +863,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Bu default, subclasses are creatable, i.e. new instances can be created with .create, and added to the JSS with .save If a subclass is NOT creatble for any reason, just add</p>
+<p>Bu default, subclasses are creatable, i.e. new instances can be created
+with .create, and added to the JSS with .save If a subclass is NOT creatble
+for any reason, just add</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extend'>extend</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnCreatable.html" title="Jamf::UnCreatable (module)">UnCreatable</a></span></span>
 </code></pre>
@@ -856,12 +897,12 @@
       <pre class="lines">
 
 
-239
-240
-241</pre>
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_creatable?'>creatable?</span>
   <span class='kw'>true</span>
@@ -874,7 +915,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create-class_method">
   
-    .<strong>create</strong>(params, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    .<strong>create</strong>(**params)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
   
 
   
@@ -910,28 +951,42 @@
       <pre class="lines">
 
 
-244
-245
-246
-247
-248
-249
-250
-251
 252
 253
-254</pre>
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 244</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 252</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s are not currently creatable via the API</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_creatable?'>creatable?</span>
-
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_not_abstract'>validate_not_abstract</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s are not currently creatable via the API</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_creatable?'>creatable?</span>
+
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:cnx</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span>
+
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:id</span> <span class='comment'># no such animal when .creating
 </span>
-  <span class='id identifier rubyid_validate_create_params'>validate_create_params</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_param'>param</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown parameter: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_param'>param</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>OBJECT_MODEL</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_param'>param</span>
+
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param'>param</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_attr'>validate_attr</span> <span class='id identifier rubyid_param'>param</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param'>param</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='kw'>end</span>
 
   <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:creating_from_create</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
@@ -953,7 +1008,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>By default, CollectionResource subclass instances are deletable. If not, just extend the subclass with Jamf::UnDeletable, and this will return false, and .delete &amp; #delete will raise errors</p>
+<p>By default, CollectionResource subclass instances are deletable. If not,
+just extend the subclass with Jamf::UnDeletable, and this will return
+false, and .delete &amp; #delete will raise errors</p>
 
 
   </div>
@@ -980,12 +1037,12 @@
       <pre class="lines">
 
 
-301
-302
-303</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 301</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_deletable?'>deletable?</span>
   <span class='kw'>true</span>
@@ -1007,9 +1064,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Delete one or more objects by identifier Any valid identifier for the class can be used (id, name, udid, etc) Identifiers can be provided as an array or as separate parameters</p>
+<p>Delete one or more objects by identifier Any valid identifier for the class
+can be used (id, name, udid, etc) Identifiers can be provided as an array
+or as separate parameters</p>
 
-<p>e.g. .delete [1,3, 34, 4] or .delete &#39;myComputer&#39;, &#39;that-computer&#39;, &#39;OtherComputer&#39;</p>
+<p>e.g. .delete [1,3, 34, 4] or .delete &#39;myComputer&#39;,
+&#39;that-computer&#39;, &#39;OtherComputer&#39;</p>
 
 
   </div>
@@ -1036,8 +1096,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
     </li>
@@ -1082,27 +1140,27 @@
       <pre class="lines">
 
 
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
 334
-335</pre>
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 318</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 334</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_idents'>idents</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Deleting </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> objects is not currently supported</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_deletable?'>deletable?</span>
@@ -1141,11 +1199,16 @@
     
 <p>Retrieve a member of a CollectionResource from the API</p>
 
-<p>To create new members to be added to the JSS, use <span class='object_link'><a href="#create-class_method" title="Jamf::CollectionResource.create (method)">create</a></span></p>
+<p>To create new members to be added to the JSS, use
+<span class='object_link'><a href="#create-class_method" title="Jamf::CollectionResource.create (method)">create</a></span></p>
 
-<p>If you know the specific identifier attribute you&#39;re looking up, e.g. :id or :name or :udid, (or an aliase thereof) then you can specify it like `.fetch name: &#39;somename&#39;`, or `.fetch udid: &#39;someudid&#39;`</p>
+<p>If you know the specific identifier attribute you&#39;re looking up, e.g.
+:id or :name or :udid, (or an aliase thereof) then you can specify it like
+`.fetch name: &#39;somename&#39;`, or `.fetch udid: &#39;someudid&#39;`</p>
 
-<p>If you don&#39;t know if (or don&#39;t want to type it) you can just use `.fetch &#39;somename&#39;`, or `.fetch &#39;someudid&#39;` and all identifiers will be searched for a match.</p>
+<p>If you don&#39;t know if (or don&#39;t want to type it) you can just use
+`.fetch &#39;somename&#39;`, or `.fetch &#39;someudid&#39;` and all
+identifiers will be searched for a match.</p>
 
 
   </div>
@@ -1167,7 +1230,8 @@
       
         &mdash;
         <div class='inline'>
-<p>A value for any identifier for this subclass. All identifier attributes will be searched for a match.</p>
+<p>A value for any identifier for this subclass. All identifier attributes
+will be searched for a match.</p>
 </div>
       
     </li>
@@ -1179,8 +1243,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -1246,41 +1308,43 @@
       <pre class="lines">
 
 
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
 293
 294
 295
-296</pre>
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 293</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_ident_value'>ident_value</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_ident_hash'>ident_hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_not_abstract'>validate_not_abstract</span>
+
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_ident_value'>ident_value</span> <span class='op'>==</span> <span class='symbol'>:random</span>
       <span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_ident_value'>ident_value</span>
-      <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident_value'>ident_value</span>
+      <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident_value'>ident_value</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_ident_hash'>ident_hash</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
       <span class='kw'>nil</span>
     <span class='kw'>else</span>
       <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_lookup_value'>lookup_value</span> <span class='op'>=</span> <span class='id identifier rubyid_ident_hash'>ident_hash</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-      <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident'>ident</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_lookup_value'>lookup_value</span>
+      <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident'>ident</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_lookup_value'>lookup_value</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
     <span class='kw'>end</span>
 
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No matching </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
@@ -1305,7 +1369,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the attribute names that are marked as identifiers.</p>
+<p>Returns the attribute names that are marked as identifiers</p>
 
 
   </div>
@@ -1364,7 +1428,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>A Hash of all members of this collection where the keys are some identifier and values are any other attribute.</p>
+<p>A Hash of all members of this collection where the keys are some identifier
+and values are any other attribute.</p>
 
 
   </div>
@@ -1384,7 +1449,8 @@
       
         &mdash;
         <div class='inline'>
-<p>An identifier of this Class, used as the key for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber</p>
+<p>An identifier of this Class, used as the key for the mapping Hash. Aliases
+are acceptable, e.g. :sn for :serialNumber</p>
 </div>
       
     </li>
@@ -1400,7 +1466,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The attribute to which the ident will be mapped. Aliases are acceptable, e.g. :name for :displayName</p>
+<p>The attribute to which the ident will be mapped. Aliases are acceptable,
+e.g. :name for :displayName</p>
 </div>
       
     </li>
@@ -1412,8 +1479,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -1431,12 +1496,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+connection. See <span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></p>
 </div>
       
     </li>
@@ -1481,14 +1545,6 @@
       <pre class="lines">
 
 
-153
-154
-155
-156
-157
-158
-159
-160
 161
 162
 163
@@ -1500,10 +1556,18 @@
 169
 170
 171
-172</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_map_all'>map_all</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>to:</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_real_ident'>real_ident</span> <span class='op'>=</span> <span class='id identifier rubyid_attr_key_for_alias'>attr_key_for_alias</span> <span class='id identifier rubyid_ident'>ident</span>
@@ -1547,7 +1611,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 
 
   </div>
@@ -1583,16 +1648,19 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given any identfier value for this collection, return the id of the object that has such an identifier.</p>
+<p>Given any identfier value for this collection, return the id of the object
+that has such an identifier.</p>
 
 <p>Return nil if there&#39;s no match for the given value.</p>
 
-<p>If you know the value is a certain identifier, e.g. a serialNumber, then you can specify the identifier for a faster search:</p>
+<p>If you know the value is a certain identifier, e.g. a serialNumber, then
+you can specify the identifier for a faster search:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_valid_id'>valid_id</span> <span class='label'>serialNumber:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AB12DE34</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># =&gt; Int or nil
 </span></code></pre>
 
-<p>If you don&#39;t know wich identifier you have, just pass the value and all identifiers are searched</p>
+<p>If you don&#39;t know wich identifier you have, just pass the value and all
+identifiers are searched</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_valid_id'>valid_id</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AB12DE34</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># =&gt; Int or nil
 </span><span class='id identifier rubyid_valid_id'>valid_id</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SomeComputerName</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># =&gt; Int or nil
@@ -1600,7 +1668,10 @@
 
 <p>When the value is a string, the seach is case-insensitive</p>
 
-<p>TODO: When &#39;Searchability&#39; is more dialed in via the searchable mixin, which implements enpoints like &#39;POST /v1/search-mobile-devices&#39; then use that before using the &#39;all&#39; list.</p>
+<p>TODO: When &#39;Searchability&#39; is more dialed in via the searchable
+mixin, which implements enpoints like &#39;POST
+/v1/search-mobile-devices&#39; then use that before using the &#39;all&#39;
+list.</p>
 
 
   </div>
@@ -1635,8 +1706,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1656,7 +1725,9 @@
       
         &mdash;
         <div class='inline'>
-<p>Restrict the search to this identifier. E.g. if :serialNumber, then the value must be a known serial number, it is not checked against other identifiers</p>
+<p>Restrict the search to this identifier. E.g. if :serialNumber, then the
+value must be a known serial number, it is not checked against other
+identifiers</p>
 </div>
       
     </li>
@@ -1675,7 +1746,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the primary identifier of the matching object, or nil if it doesn&#39;t exist</p>
+<p>the primary identifier of the matching object, or nil if it doesn&#39;t
+exist</p>
 </div>
       
     </li>
@@ -1688,14 +1760,6 @@
       <pre class="lines">
 
 
-210
-211
-212
-213
-214
-215
-216
-217
 218
 219
 220
@@ -1708,10 +1772,18 @@
 227
 228
 229
-230</pre>
+230
+231
+232
+233
+234
+235
+236
+237
+238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid_id'>valid_id</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_ident_hash'>ident_hash</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_ident_hash'>ident_hash</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1726,7 +1798,7 @@
   <span class='id identifier rubyid_val_is_str'>val_is_str</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
 
   <span class='id identifier rubyid_idents'>idents</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ident'>ident</span><span class='op'>|</span>
-    <span class='id identifier rubyid_match'>match</span> <span class='op'>=</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>
+    <span class='id identifier rubyid_match'>match</span> <span class='op'>=</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>
       <span class='id identifier rubyid_val_is_str'>val_is_str</span> <span class='op'>?</span> <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_ident'>ident</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_casecmp?'>casecmp?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_ident'>ident</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_value'>value</span>
     <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_match'>match</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_match'>match</span>
@@ -1771,12 +1843,12 @@
       <pre class="lines">
 
 
-413
-414
-415</pre>
+418
+419
+420</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 413</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 418</span>
 
 <span class='kw'>def</span> <span class='op'>&lt;=&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
@@ -1823,13 +1895,13 @@
       <pre class="lines">
 
 
-407
-408
-409
-410</pre>
+412
+413
+414
+415</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 407</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Deleting </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> objects is not currently supported</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_deletable?'>deletable?</span>
@@ -1879,12 +1951,12 @@
       <pre class="lines">
 
 
-398
-399
-400</pre>
+403
+404
+405</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 398</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 403</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exist?'>exist?</span>
   <span class='op'>!</span><span class='ivar'>@id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1909,13 +1981,13 @@
       <pre class="lines">
 
 
-402
-403
-404
-405</pre>
+407
+408
+409
+410</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 402</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/collection_resource.rb', line 407</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rsrc_path'>rsrc_path</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_exist?'>exist?</span>
@@ -1931,9 +2003,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:05 2020 by
+  Generated on Fri Aug  7 11:26:54 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

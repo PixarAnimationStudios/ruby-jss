@@ -6,15 +6,15 @@
 <title>
   Module: JSS::ManagementHistory::ClassMethods
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::ManagementHistory::ClassMethods";
   relpath = '../../';
 </script>
@@ -86,7 +86,10 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+<p>See <a
+href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a>
+for discussion of this technique for mixing in both Class and Instance
+methods when including a module.</p>
 
 
   </div>
@@ -483,7 +486,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The time of the most recently completed MDM command.</p>
+<p>The time of the most recently completed or failed MDM command.</p>
 </div></span>
   
 </li>
@@ -815,12 +818,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -852,16 +854,16 @@
       <pre class="lines">
 
 
-447
 448
 449
 450
 451
 452
-453</pre>
+453
+454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 448</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
@@ -924,12 +926,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1023,12 +1024,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1073,14 +1073,14 @@
       <pre class="lines">
 
 
-492
 493
 494
 495
-496</pre>
+496
+497</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 492</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 493</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_casper_imaging_logs'>casper_imaging_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper imaging logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -1137,12 +1137,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1187,14 +1186,14 @@
       <pre class="lines">
 
 
-507
 508
 509
 510
-511</pre>
+511
+512</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 507</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 508</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_casper_remote_logs'>casper_remote_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper remote logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -1255,12 +1254,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1340,12 +1338,12 @@
       <pre class="lines">
 
 
-562
 563
-564</pre>
+564
+565</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 562</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 563</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_completed_policies'>completed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:completed</span> <span class='rbrace'>}</span>
@@ -1404,12 +1402,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1454,14 +1451,14 @@
       <pre class="lines">
 
 
-522
 523
 524
 525
-526</pre>
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 522</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 523</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_computer_usage_logs'>computer_usage_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have usage logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -1540,12 +1537,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1590,7 +1586,6 @@
       <pre class="lines">
 
 
-584
 585
 586
 587
@@ -1633,10 +1628,11 @@
 624
 625
 626
-627</pre>
+627
+628</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 584</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 585</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have ebooks</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
@@ -1724,12 +1720,12 @@
       <pre class="lines">
 
 
-478
 479
-480</pre>
+480
+481</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 478</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 479</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failed_app_store_apps'>failed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -1776,12 +1772,12 @@
       <pre class="lines">
 
 
-652
 653
-654</pre>
+654
+655</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 652</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 653</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failed_ebooks'>failed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -1840,12 +1836,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -1877,12 +1872,12 @@
       <pre class="lines">
 
 
-340
-341
-342</pre>
+319
+320
+321</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 340</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 319</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -1925,12 +1920,12 @@
       <pre class="lines">
 
 
-569
 570
-571</pre>
+571
+572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 569</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 570</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_failed_policies'>failed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:failed</span> <span class='rbrace'>}</span>
@@ -1977,12 +1972,12 @@
       <pre class="lines">
 
 
-460
 461
-462</pre>
+462
+463</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 460</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 461</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_installed_app_store_apps'>installed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -2029,12 +2024,12 @@
       <pre class="lines">
 
 
-634
 635
-636</pre>
+636
+637</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 634</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 635</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_installed_ebooks'>installed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -2056,9 +2051,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The time of the most recently completed MDM command.</p>
+<p>The time of the most recently completed or failed MDM command. (knowledge
+of a failure means the device communicated with us)</p>
 
-<p>For Mobile Devices, this seems to be the best indicator of the real last-contact time, since the last_inventory_update is changed when changes are made via the API.</p>
+<p>For Mobile Devices, this seems to be the best indicator of the real
+last-contact time, since the last_inventory_update is changed when changes
+are made via the API.</p>
 
 
   </div>
@@ -2091,12 +2089,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -2128,21 +2125,21 @@
       <pre class="lines">
 
 
-309
-310
-311
-312
-313
-314</pre>
+338
+339
+340
+341
+342
+343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 338</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_mdm_contact'>last_mdm_contact</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_cmds'>cmds</span> <span class='op'>=</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_cmds'>cmds</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-
-  <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'><span class='object_link'><a href="../../JSS.html#epoch_to_time-class_method" title="JSS.epoch_to_time (method)">epoch_to_time</a></span></span> <span class='id identifier rubyid_cmds'>cmds</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_completed_epoch'>completed_epoch</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+  <span class='id identifier rubyid_epochs'>epochs</span> <span class='op'>=</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_completed_epoch'>completed_epoch</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_epochs'>epochs</span> <span class='op'>+=</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_failed_epoch'>failed_epoch</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_epoch'>epoch</span> <span class='op'>=</span> <span class='id identifier rubyid_epochs'>epochs</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+  <span class='id identifier rubyid_epoch'>epoch</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'><span class='object_link'><a href="../../JSS.html#epoch_to_time-class_method" title="JSS.epoch_to_time (method)">epoch_to_time</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_epoch'>epoch</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2212,12 +2209,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -2262,7 +2258,6 @@
       <pre class="lines">
 
 
-356
 357
 358
 359
@@ -2284,10 +2279,11 @@
 375
 376
 377
-378</pre>
+378
+379</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 356</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 357</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have mac app store apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -2337,7 +2333,11 @@
 
 <p>WARNING: It&#39;s huge, better to use a subset.</p>
 
-<p>NOTE: This returns the raw JSON data from the API, parsed into a ruby Hash. Use the subset-specific methods to retrieve more consistent arrays of ruby-jss objects for each kind of history event, e.g. JSS::Computer.audits(id) or JSS::MobileDevice.audits(id) to get an array of JSS::ManagementHistory::AuditEvent objects</p>
+<p>NOTE: This returns the raw JSON data from the API, parsed into a ruby Hash.
+Use the subset-specific methods to retrieve more consistent arrays of
+ruby-jss objects for each kind of history event, e.g.
+JSS::Computer.audits(id) or JSS::MobileDevice.audits(id) to get an array of
+JSS::ManagementHistory::AuditEvent objects</p>
 
 
   </div>
@@ -2357,7 +2357,8 @@
       
         &mdash;
         <div class='inline'>
-<p>An identifier (id, name, serialnumber, macadress or udid) of the computer or device for which to retrieve history</p>
+<p>An identifier (id, name, serialnumber, macadress or udid) of the computer
+or device for which to retrieve history</p>
 </div>
       
     </li>
@@ -2388,12 +2389,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2558,12 +2558,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -2719,12 +2718,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -2769,7 +2767,6 @@
       <pre class="lines">
 
 
-391
 392
 393
 394
@@ -2812,10 +2809,11 @@
 431
 432
 433
-434</pre>
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 391</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 392</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have mobile device apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span>
@@ -2903,12 +2901,12 @@
       <pre class="lines">
 
 
-469
 470
-471</pre>
+471
+472</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 469</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 470</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pending_app_store_apps'>pending_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -2955,12 +2953,12 @@
       <pre class="lines">
 
 
-643
 644
-645</pre>
+645
+646</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 643</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 644</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pending_ebooks'>pending_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -3019,12 +3017,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -3056,12 +3053,12 @@
       <pre class="lines">
 
 
-326
-327
-328</pre>
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 305</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pending_mdm_commands'>pending_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span>
@@ -3116,12 +3113,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -3166,14 +3162,14 @@
       <pre class="lines">
 
 
-553
 554
 555
 556
-557</pre>
+557
+558</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 553</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 554</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have policy logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -3230,12 +3226,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -3280,14 +3275,14 @@
       <pre class="lines">
 
 
-538
 539
 540
 541
-542</pre>
+542
+543</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 538</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/management_history.rb', line 539</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_screen_sharing_logs'>screen_sharing_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have screen sharing logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="JSS::Computer (class)">Computer</a></span></span>
@@ -3344,12 +3339,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>The API connection to use for the query defaults to the currently active connection</p>
+<p>The API connection to use for the query defaults to the currently active
+connection</p>
 </div>
       
     </li>
@@ -3403,9 +3397,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:55 2020 by
+  Generated on Fri Aug  7 11:26:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

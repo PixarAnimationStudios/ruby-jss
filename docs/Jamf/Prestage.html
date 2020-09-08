@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::Prestage
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "Jamf::Prestage";
   relpath = '../';
 </script>
@@ -143,7 +143,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of
+how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -170,7 +171,7 @@
     <span class='label'>identifier:</span> <span class='kw'>true</span><span class='comma'>,</span>
     <span class='label'>validator:</span> <span class='symbol'>:non_empty_string</span><span class='comma'>,</span>
     <span class='label'>required:</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>name</span><span class='words_sep'>]</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute isMandatory
@@ -256,14 +257,14 @@
 </span>  <span class='comment'>#   @return [Jamf::ComputerPrestageSkipSetupItems]
 </span>  <span class='label'>locationInformation:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageLocation.html" title="Jamf::PrestageLocation (class)">PrestageLocation</a></span></span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>location</span><span class='tstring_end'>]</span></span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>location</span><span class='words_sep'>]</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute skipSetupItems
 </span>  <span class='comment'>#   @return [Jamf::ComputerPrestageSkipSetupItems]
 </span>  <span class='label'>purchasingInformation:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestagePurchasingData.html" title="Jamf::PrestagePurchasingData (class)">PrestagePurchasingData</a></span></span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>purchasing</span><span class='tstring_end'>]</span></span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>purchasing</span><span class='words_sep'>]</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute anchorCertificates
@@ -731,7 +732,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is the given serialNumber assigned to any prestage, or to the given prestage if a prestage_ident is specified?.</p>
+<p>Is the given serialNumber assigned to any prestage, or to the given
+prestage if a prestage_ident is specified?.</p>
 </div></span>
   
 </li>
@@ -835,7 +837,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 </div></span>
   
 </li>
@@ -859,7 +862,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return all scoped serial numbers and the id of the prestage they are assigned to.</p>
+<p>Return all scoped serial numbers and the id of the prestage they are
+assigned to.</p>
 </div></span>
   
 </li>
@@ -955,7 +959,10 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED, because of the delay in updating the status for Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
+<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather
+than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED,
+because of the delay in updating the status for
+Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </div></span>
   
 </li>
@@ -1859,7 +1866,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute versionLock.</p>
+<p>Returns the value of attribute versionLock</p>
 
 
   </div>
@@ -2013,9 +2020,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is the given serialNumber assigned to any prestage, or to the given prestage if a prestage_ident is specified?</p>
+<p>Is the given serialNumber assigned to any prestage, or to the given
+prestage if a prestage_ident is specified?</p>
 
-<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really be unassigned or it may not exist in your DEP. To see if a SN exists in one of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
+<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really
+be unassigned or it may not exist in your DEP. To see if a SN exists in one
+of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
 
 
   </div>
@@ -2048,8 +2058,6 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2065,8 +2073,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -2150,9 +2156,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The id of the prestage to which the given serialNumber is assigned. nil if not assigned or not in DEP.</p>
+<p>The id of the prestage to which the given serialNumber is assigned. nil if
+not assigned or not in DEP.</p>
 
-<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really be unassigned or it may not exist in your DEP. To see if a SN exists in one of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
+<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really
+be unassigned or it may not exist in your DEP. To see if a SN exists in one
+of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
 
 
   </div>
@@ -2202,8 +2211,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -2306,7 +2313,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return the Prestage subclass that is marked as default, i.e. the one that new SNs are assigned to when first added. Nil if no default is defined</p>
+<p>Return the Prestage subclass that is marked as default, i.e. the one that
+new SNs are assigned to when first added. Nil if no default is defined</p>
 
 
   </div>
@@ -2371,7 +2379,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>when any extended class or subclass of an extended class is instntiated check that it isn&#39;t in the abstract list.</p>
+<p>when any extended class or subclass of an extended class is instntiated
+check that it isn&#39;t in the abstract list.</p>
 
 
   </div>
@@ -2407,7 +2416,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return all scoped serial numbers and the id of the prestage they are assigned to. Data is cached, use a truthy first param to refresh.</p>
+<p>Return all scoped serial numbers and the id of the prestage they are
+assigned to. Data is cached, use a truthy first param to refresh.</p>
 
 
   </div>
@@ -2441,8 +2451,6 @@
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -2545,8 +2553,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -2607,7 +2613,7 @@
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_serials_for_prestage'>serials_for_prestage</span><span class='lparen'>(</span><span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> matching &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> matching &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
 
   <span class='id identifier rubyid_serials_by_prestage_id'>serials_by_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__sn'>_sn</span><span class='comma'>,</span> <span class='id identifier rubyid_psid'>psid</span><span class='op'>|</span> <span class='id identifier rubyid_id'>id</span> <span class='op'>==</span> <span class='id identifier rubyid_psid'>psid</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
 <span class='kw'>end</span></pre>
@@ -2628,7 +2634,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The serial numbers of known hardware not in DEP at all.</p>
+<p>Returns The serial numbers of known hardware not in DEP at all</p>
 
 
   </div>
@@ -2793,7 +2799,10 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED, because of the delay in updating the status for Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
+<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather
+than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED,
+because of the delay in updating the status for
+Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 
 
   </div>
@@ -2812,7 +2821,8 @@
       
         &mdash;
         <div class='inline'>
-<p>The serial numbers of devices that are in DEP but not assigned to any prestage</p>
+<p>The serial numbers of devices that are in DEP but not assigned to any
+prestage</p>
 </div>
       
     </li>
@@ -2997,7 +3007,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the serialnumbers assigned to this prestage.</p>
+<p>Returns the serialnumbers assigned to this prestage</p>
 
 
   </div>
@@ -3255,9 +3265,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:38:04 2020 by
+  Generated on Fri Aug  7 11:26:51 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

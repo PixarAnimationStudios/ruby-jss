@@ -6,15 +6,15 @@
 <title>
   Class: JSS::APIObject
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::APIObject";
   relpath = '../';
 </script>
@@ -104,21 +104,32 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This class is the parent to all JSS API objects. It provides standard methods and constants that apply to all API resouces.</p>
+<p>This class is the parent to all JSS API objects. It provides standard
+methods and constants that apply to all API resouces.</p>
 
-<p>See the README.md file for general info about using subclasses of JSS::APIObject</p>
+<p>See the README.md file for general info about using subclasses of
+JSS::APIObject</p>
 
 <h2 id="label-Subclassing">Subclassing</h2>
 
 <h3 id="label-Initilize+-2F+Constructor">Initilize / Constructor</h3>
 
-<p>All subclasses must call `super` in their initialize method, which will call the method defined here in APIObject. Not only does this retrieve the data from the API, it parses the raw JSON data into a Hash, &amp; stores it in In general, subclasses should do any class-specific argument checking before calling super, and then afterwards use the contents of @init_data to populate any class-specific attributes. Populating @id, @name, @rest_rsrc, and @in_jss are handled here.</p>
+<p>All subclasses must call `super` in their initialize method, which will
+call the method defined here in APIObject. Not only does this retrieve the
+data from the API, it parses the raw JSON data into a Hash, &amp; stores it
+in In general, subclasses should do any class-specific argument checking
+before calling super, and then afterwards use the contents of @init_data to
+populate any class-specific attributes. Populating @id, @name, @rest_rsrc,
+and @in_jss are handled here.</p>
 
-<p>This class also handles parsing @init_data for any mixed-in modules, e.g. Scopable, Categorizable or Extendable. See those modules for any requirements they have when including them.</p>
+<p>This class also handles parsing @init_data for any mixed-in modules, e.g.
+Scopable, Categorizable or Extendable. See those modules for any
+requirements they have when including them.</p>
 
 <h3 id="label-Object+Creation">Object Creation</h3>
 
-<p>If a subclass should be able to be created in the JSS be sure to include <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
+<p>If a subclass should be able to be created in the JSS be sure to include
+<span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
 
 <p>The constructor should verify any extra required data in the args</p>
 
@@ -126,7 +137,8 @@
 
 <h3 id="label-Object+Modification">Object Modification</h3>
 
-<p>If a subclass should be modifiable in the JSS, include <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>, q.v. for details.</p>
+<p>If a subclass should be modifiable in the JSS, include <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>,
+q.v. for details.</p>
 
 <h3 id="label-Object+Deletion">Object Deletion</h3>
 
@@ -134,7 +146,8 @@
 
 <h3 id="label-Required+Constants">Required Constants</h3>
 
-<p>Subclasses <strong>must</strong> provide certain constants in order to correctly interpret API data and communicate with the API:</p>
+<p>Subclasses <strong>must</strong> provide certain constants in order to
+correctly interpret API data and communicate with the API:</p>
 
 <h4 id="label-RSRC_BASE+-5BString-5D">RSRC_BASE [String]</h4>
 
@@ -142,34 +155,46 @@
 
 <p>e.g. &#39;computergroups&#39; in</p>
 
-<pre class="code ruby"><code class="ruby">https://casper.mycompany.com:8443/JSSResource/computergroups/id/12
-</code></pre>
+<pre class="code ruby"><code class="ruby">https://casper.mycompany.com:8443/JSSResource/computergroups/id/12</code></pre>
 
 <h4 id="label-RSRC_LIST_KEY+-5BSymbol-5D">RSRC_LIST_KEY [Symbol]</h4>
 
-<p>When GETting the RSRC_BASE for a subclass, an Array of Hashes is returned with one Hash of basic info for each object of that type in the JSS. All objects have their JSS id and name in that Hash, some have other data as well. This Array is used for a variety of purposes when using ruby-jss, since it gives you basic info about all objects, without having to fetch each one individually.</p>
+<p>When GETting the RSRC_BASE for a subclass, an Array of Hashes is returned
+with one Hash of basic info for each object of that type in the JSS. All
+objects have their JSS id and name in that Hash, some have other data as
+well. This Array is used for a variety of purposes when using ruby-jss,
+since it gives you basic info about all objects, without having to fetch
+each one individually.</p>
 
-<p>Here&#39;s the top of the output from the &#39;computergroups&#39; RSRC_BASE:</p>
+<p>Here&#39;s the top of the output from the &#39;computergroups&#39;
+RSRC_BASE:</p>
 
 <pre class="code ruby"><code class="ruby">{:computer_groups=&gt;
   [{:id=&gt;1020, :name=&gt;&quot;config-no-turnstile&quot;, :is_smart=&gt;true},
    {:id=&gt;1357, :name=&gt;&quot;10.8 Laptops&quot;, :is_smart=&gt;true},
    {:id=&gt;1094, :name=&gt;&quot;wifi_cert-expired&quot;, :is_smart=&gt;true},
    {:id=&gt;1144, :name=&gt;&quot;mytestgroup&quot;, :is_smart=&gt;false},
-   ...
-</code></pre>
+   ...</code></pre>
 
-<p>Notice that the Array we want is embedded in a one-item Hash, and the key in that Hash for the desired Array is the Symbol :computer_groups.</p>
+<p>Notice that the Array we want is embedded in a one-item Hash, and the key
+in that Hash for the desired Array is the Symbol :computer_groups.</p>
 
 <p>That symbol is the value needed in the RSRC_LIST_KEY constant.</p>
 
-<p>The &#39;.all_ids&#39;, &#39;.all_names&#39; and other &#39;.all_*&#39; class methods use the list-resource Array to extract other Arrays of the desired values - which can be used to check for existance without retrieving an entire object, among other uses.</p>
+<p>The &#39;.all_ids&#39;, &#39;.all_names&#39; and other &#39;.all_*&#39;
+class methods use the list-resource Array to extract other Arrays of the
+desired values - which can be used to check for existance without
+retrieving an entire object, among other uses.</p>
 
 <h4 id="label-RSRC_OBJECT_KEY+-5BSymbol-5D">RSRC_OBJECT_KEY [Symbol]</h4>
 
-<p>The one-item Hash key used for individual JSON object output.  It&#39;s also used in various error messages</p>
+<p>The one-item Hash key used for individual JSON object output.  It&#39;s
+also used in various error messages</p>
 
-<p>As with the list-resource output mentioned above, when GETting a specific object resource, there&#39;s an extra layer of encapsulation in a one-item Hash. Here&#39;s the top of the JSON for a single computer group fetched from &#39;…computergroups/id/1043&#39;</p>
+<p>As with the list-resource output mentioned above, when GETting a specific
+object resource, there&#39;s an extra layer of encapsulation in a one-item
+Hash. Here&#39;s the top of the JSON for a single computer group fetched
+from &#39;…computergroups/id/1043&#39;</p>
 
 <pre class="code ruby"><code class="ruby">{:computer_group=&gt;
   {:id=&gt;1043,
@@ -178,27 +203,36 @@
    :site=&gt;{:id=&gt;-1, :name=&gt;&quot;None&quot;},
    :criteria=&gt;[],
    :computers=&gt;[
-   ...
-</code></pre>
+   ...</code></pre>
 
 <p>The data for the group itself is the inner Hash.</p>
 
-<p>The RSRC_OBJECT_KEY in this case is set to :computer_group - the key in the top-level, one-item Hash that we need to get the real Hash about the object.</p>
+<p>The RSRC_OBJECT_KEY in this case is set to :computer_group - the key in the
+top-level, one-item Hash that we need to get the real Hash about the
+object.</p>
 
 <h3 id="label-Optional+Constants">Optional Constants</h3>
 
 <h3 id="label-OTHER_LOOKUP_KEYS">OTHER_LOOKUP_KEYS</h3>
 
-<p>Fetching individual objects from the API is usuallly done via the object&#39;s unique JSS id, via a resrouce URL like so:</p>
+<p>Fetching individual objects from the API is usuallly done via the
+object&#39;s unique JSS id, via a resrouce URL like so:</p>
 
-<pre class="code ruby"><code class="ruby">...JSSResource/&lt;RSRC_BASE&gt;/id/&lt;idnumber&gt;
-</code></pre>
+<pre class="code ruby"><code class="ruby">...JSSResource/&lt;RSRC_BASE&gt;/id/&lt;idnumber&gt;</code></pre>
 
-<p>Most objects can also be looked-up by name, because the API also has and endpoint ..JSSResource/&lt;RSRC_BASE&gt;/name/&lt;name&gt; (See NON_UNIQUE_NAMES below)</p>
+<p>Most objects can also be looked-up by name, because the API also has and
+endpoint ..JSSResource/&lt;RSRC_BASE&gt;/name/&lt;name&gt; (See
+NON_UNIQUE_NAMES below)</p>
 
-<p>Some objects, like Computers and MobileDevices, have other values that serve as unique identifiers and can also be used as &#39;lookup keys&#39; for fetching individual objects.  When this is the case, those values always appear in the objects list-resource data (See RSRC_LIST_KEY above).</p>
+<p>Some objects, like Computers and MobileDevices, have other values that
+serve as unique identifiers and can also be used as &#39;lookup keys&#39;
+for fetching individual objects.  When this is the case, those values
+always appear in the objects list-resource data (See RSRC_LIST_KEY
+above).</p>
 
-<p>For example, here&#39;s a summary-hash for a single MobileDevice from the list-resource  &#39;…JSSResource/mobiledevices&#39;, which you might get in the Array returned by JSS::MobileDevice.all:</p>
+<p>For example, here&#39;s a summary-hash for a single MobileDevice from the
+list-resource  &#39;…JSSResource/mobiledevices&#39;, which you might get in
+the Array returned by JSS::MobileDevice.all:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span>
   <span class='symbol'>:id</span><span class='op'>=&gt;</span><span class='int'>3964</span><span class='comma'>,</span>
@@ -218,9 +252,11 @@
 <span class='rbrace'>}</span>
 </code></pre>
 
-<p>For MobileDevices, serial_number, udid, and wifi_mac_address are also all unique identifiers for an individual device, and can be used to fetch them.</p>
+<p>For MobileDevices, serial_number, udid, and wifi_mac_address are also all
+unique identifiers for an individual device, and can be used to fetch them.</p>
 
-<p>To specify other identifiers for an APIObject subclass, create the constant OTHER_LOOKUP_KEYS containing a Hash of Hashes, like so:</p>
+<p>To specify other identifiers for an APIObject subclass, create the constant
+OTHER_LOOKUP_KEYS containing a Hash of Hashes, like so:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'>OTHER_LOOKUP_KEYS</span> <span class='op'>=</span> <span class='lbrace'>{</span>
    <span class='label'>serial_number:</span> <span class='lbrace'>{</span>
@@ -237,7 +273,8 @@
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
 </code></pre>
 
-<p>The keys in OTHER_LOOKUP_KEYS are the keys in a summary-hash data from .all that hold a unique identifier. Each value is a Hash with one or two keys:</p>
+<p>The keys in OTHER_LOOKUP_KEYS are the keys in a summary-hash data from .all
+that hold a unique identifier. Each value is a Hash with one or two keys:</p>
 
 <pre class="code ruby"><code class="ruby">- aliases: [Array&lt;Symbol&gt;]
    Aliases for that identifier, i.e. abbreviations or spelling variants.
@@ -265,29 +302,48 @@
   method must first refresh the list of all available objects to find the
   id to use for building the resource URL.
   This is also true when fetching without specifying which lookup key to
-  use, e.g. `.fetch &#39;foo&#39;` vs. `.fetch sn: &#39;foo&#39;`
-</code></pre>
+  use, e.g. `.fetch &#39;foo&#39;` vs. `.fetch sn: &#39;foo&#39;`</code></pre>
 
-<p>The OTHER_LOOKUP_KEYS, if defined, are merged with the DEFAULT_LOOKUP_KEYS defined below via the <span class='object_link'><a href="#lookup_keys-class_method" title="JSS::APIObject.lookup_keys (method)">APIObject.lookup_keys</a></span> class method, They are used for:</p>
+<p>The OTHER_LOOKUP_KEYS, if defined, are merged with the DEFAULT_LOOKUP_KEYS
+defined below via the <span class='object_link'><a href="#lookup_keys-class_method" title="JSS::APIObject.lookup_keys (method)">APIObject.lookup_keys</a></span> class method, They are used
+for:</p>
 <ul><li>
-<p>creating list-methods: For each lookup key, a class method  `.all_&lt;key&gt;s` is created automatically, e.g. `.all_serial_numbers`. The aliases are used to make alises of those methods, e.g. `.all_sns`</p>
+<p>creating list-methods: For each lookup key, a class method 
+`.all_&lt;key&gt;s` is created automatically, e.g. `.all_serial_numbers`.
+The aliases are used to make alises of those methods, e.g. `.all_sns`</p>
 </li><li>
-<p>finding valid ids: The <span class='object_link'><a href="#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span> class method looks at the known lookup keys to find an object&#39;s id.</p>
+<p>finding valid ids: The <span class='object_link'><a href="#valid_id-class_method" title="JSS::APIObject.valid_id (method)">APIObject.valid_id</a></span> class method looks at the known
+lookup keys to find an object&#39;s id.</p>
 </li><li>
-<p>fetching: When an indentifier is given to `.fetch`, the fetch_rsrc_key is used to build the resource URL for fetching the object. If there is no fetch_rsrc_key, the lookup_keys and aliases are used to find the matching id, which is used to build the URL.</p>
+<p>fetching: When an indentifier is given to `.fetch`, the fetch_rsrc_key is
+used to build the resource URL for fetching the object. If there is no
+fetch_rsrc_key, the lookup_keys and aliases are used to find the matching
+id, which is used to build the URL.</p>
 
 <p>When no identifier is specified, .fetch uses .valid_id, described above.</p>
 </li></ul>
 
 <h4 id="label-NON_UNIQUE_NAMES">NON_UNIQUE_NAMES</h4>
 
-<p>Some JSS objects, like Computers and MobileDevices, do not treat names as unique in the JSS, but they can still be used for fetching objects. The API itself will return data for a non-unique name lookup, but there&#39;s no way to guarantee which object you get back.</p>
+<p>Some JSS objects, like Computers and MobileDevices, do not treat names as
+unique in the JSS, but they can still be used for fetching objects. The API
+itself will return data for a non-unique name lookup, but there&#39;s no
+way to guarantee which object you get back.</p>
 
-<p>In those subclasses, set NON_UNIQUE_NAMES to any value, and a JSS::AmbiguousError exception will be raised when trying to fetch by name and the name isn&#39;t unique.</p>
+<p>In those subclasses, set NON_UNIQUE_NAMES to any value, and a
+JSS::AmbiguousError exception will be raised when trying to fetch by name
+and the name isn&#39;t unique.</p>
 
-<p>Because of the extra processing, the check for this state will only happen when NON_UNIQUE_NAMES is set. If not set at all, the check  doesn&#39;t happen and if multiple objects have the same name, which one is returned is undefined.</p>
+<p>Because of the extra processing, the check for this state will only happen
+when NON_UNIQUE_NAMES is set. If not set at all, the check  doesn&#39;t
+happen and if multiple objects have the same name, which one is returned is
+undefined.</p>
 
-<p>When that&#39;s the case, fetching explicitly by name, or when fetching with a plain search term that matches a non-unique name, will raise a JSS::AmbiguousError exception,when the name isn&#39;t unique. If that happens, you&#39;ll have to use some other identifier to fetch the desired object.</p>
+<p>When that&#39;s the case, fetching explicitly by name, or when fetching
+with a plain search term that matches a non-unique name, will raise a
+JSS::AmbiguousError exception,when the name isn&#39;t unique. If that
+happens, you&#39;ll have to use some other identifier to fetch the desired
+object.</p>
 
 <p>Note: Fetching, finding valid id, and name collisions are case-insensitive.</p>
 
@@ -299,7 +355,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Account.html" title="JSS::Account (class)">Account</a></span>, <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerInvitation.html" title="JSS::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="EBook.html" title="JSS::EBook (class)">EBook</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span>, <span class='object_link'><a href="LDAPServer.html" title="JSS::LDAPServer (class)">LDAPServer</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="PatchSource.html" title="JSS::PatchSource (class)">PatchSource</a></span>, <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span>, <span class='object_link'><a href="WebHook.html" title="JSS::WebHook (class)">WebHook</a></span></p>
+  <p class="children"><span class='object_link'><a href="Account.html" title="JSS::Account (class)">Account</a></span>, <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="JSS::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerInvitation.html" title="JSS::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="Department.html" title="JSS::Department (class)">Department</a></span>, <span class='object_link'><a href="DirectoryBinding.html" title="JSS::DirectoryBinding (class)">DirectoryBinding</a></span>, <span class='object_link'><a href="DiskEncryptionConfiguration.html" title="JSS::DiskEncryptionConfiguration (class)">DiskEncryptionConfiguration</a></span>, <span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="DockItem.html" title="JSS::DockItem (class)">DockItem</a></span>, <span class='object_link'><a href="EBook.html" title="JSS::EBook (class)">EBook</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span>, <span class='object_link'><a href="LDAPServer.html" title="JSS::LDAPServer (class)">LDAPServer</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="NetBootServer.html" title="JSS::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="JSS::Package (class)">Package</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="PatchSource.html" title="JSS::PatchSource (class)">PatchSource</a></span>, <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="JSS::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="Printer.html" title="JSS::Printer (class)">Printer</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="JSS::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span>, <span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="JSS::Site (class)">Site</a></span>, <span class='object_link'><a href="SoftwareUpdateServer.html" title="JSS::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span>, <span class='object_link'><a href="WebHook.html" title="JSS::WebHook (class)">WebHook</a></span></p>
 </div>
 
   
@@ -330,7 +386,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>See the discussion of &#39;Lookup Keys&#39; in the comments/docs for <span class='object_link'><a href="" title="JSS::APIObject (class)">JSS::APIObject</a></span></p>
+<p>See the discussion of &#39;Lookup Keys&#39; in the comments/docs for
+<span class='object_link'><a href="" title="JSS::APIObject (class)">JSS::APIObject</a></span></p>
 
 
   </div>
@@ -349,7 +406,8 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>This table holds the object history for JSS objects. Object history is not available via the API, only MySQL.</p>
+<p>This table holds the object history for JSS objects. Object history is not
+available via the API, only MySQL.</p>
 
 
   </div>
@@ -601,7 +659,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an Array of JSS::APIObject subclass instances e.g when called on JSS::Package, return a hash of JSS::Package instancesa for every package in the JSS.</p>
+<p>Return an Array of JSS::APIObject subclass instances e.g when called on
+JSS::Package, return a hash of JSS::Package instancesa for every package in
+the JSS.</p>
 </div></span>
   
 </li>
@@ -673,7 +733,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return true or false if an object of this subclass with the given Identifier exists on the server.</p>
+<p>Return true or false if an object of this subclass with the given
+Identifier exists on the server.</p>
 </div></span>
   
 </li>
@@ -697,7 +758,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Retrieve an object from the API and return an instance of this APIObject subclass.</p>
+<p>Retrieve an object from the API and return an instance of this APIObject
+subclass.</p>
 </div></span>
   
 </li>
@@ -721,7 +783,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a lookup key, or an alias of one, return the matching fetch_rsrc_key for building a fetch/GET resource URL, or nil if no fetch_rsrc_key is defined.</p>
+<p>Given a lookup key, or an alias of one, return the matching fetch_rsrc_key
+for building a fetch/GET resource URL, or nil if no fetch_rsrc_key is
+defined.</p>
 </div></span>
   
 </li>
@@ -769,7 +833,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Fetch the mostly- or fully-raw JSON or XML data for an object of this subclass.</p>
+<p>Fetch the mostly- or fully-raw JSON or XML data for an object of this
+subclass.</p>
 </div></span>
   
 </li>
@@ -793,7 +858,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return the id of the object of this subclass with the given lookup key == a given identifier.</p>
+<p>Return the id of the object of this subclass with the given lookup key == a
+given identifier.</p>
 </div></span>
   
 </li>
@@ -841,7 +907,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>What are all the lookup keys available for this class, with all their aliases (or optionally not) or with their fetch_rsrc_keys.</p>
+<p>What are all the lookup keys available for this class, with all their
+aliases (or optionally not) or with their fetch_rsrc_keys.</p>
 </div></span>
   
 </li>
@@ -889,7 +956,9 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a hash of all objects of this subclass in the JSS where the key is the id, and the value is some other key in the data items returned by the JSS::APIObject.all.</p>
+<p>Return a hash of all objects of this subclass in the JSS where the key is
+the id, and the value is some other key in the data items returned by the
+JSS::APIObject.all.</p>
 </div></span>
   
 </li>
@@ -1308,7 +1377,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>the object history for this object, an array of hashes one per history entry, in order of creation.</p>
+<p>the object history for this object, an array of hashes one per history
+entry, in order of creation.</p>
 </div></span>
   
 </li>
@@ -1356,7 +1426,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the init_data and api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the init_data and api object from the instance_variables used to
+create pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -1600,13 +1671,16 @@
 <ul><li>
 <p>:id or :name will be looked up via the API</p>
 </li><li><ul><li>
-<p>if the subclass includes JSS::Creatable, :id can be :new, to create a new object in the JSS. and :name is required</p>
+<p>if the subclass includes JSS::Creatable, :id can be :new, to create a new
+object in the JSS. and :name is required</p>
 </li></ul>
 </li><li>
-<p>:data must be the JSON output of a separate <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> query (a Hash of valid object data)</p>
+<p>:data must be the JSON output of a separate <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> query (a
+Hash of valid object data)</p>
 </li></ul>
 
-<p>Some subclasses can accept other options, by pasing their keys in a final Array</p>
+<p>Some subclasses can accept other options, by pasing their keys in a final
+Array</p>
 
 
   </div>
@@ -1673,7 +1747,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>a non-standard resource for fetching API data e.g. to limit the data returned</p>
+<p>a non-standard resource for fetching API data e.g. to limit the data
+returned</p>
 </div>
           
         </li>
@@ -1813,7 +1888,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the JSS id number.</p>
+<p>Returns the JSS id number</p>
 
 
   </div>
@@ -1878,7 +1953,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is it in the JSS?.</p>
+<p>Returns is it in the JSS?</p>
 
 
   </div>
@@ -1939,7 +2014,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the parsed JSON data retrieved from the API when this object was fetched.</p>
+<p>Returns the parsed JSON data retrieved from the API when this object was
+fetched</p>
 
 
   </div>
@@ -2000,7 +2076,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name.</p>
+<p>Returns the name</p>
 
 
   </div>
@@ -2061,7 +2137,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the Rest resource for API access (the part after “JSSResource/” ).</p>
+<p>Returns the Rest resource for API access (the part after “JSSResource/” )</p>
 
 
   </div>
@@ -2129,29 +2205,48 @@
     
 <p>Return an Array of Hashes for all objects of this subclass in the JSS.</p>
 
-<p>This method is only valid in subclasses of JSS::APIObject, and is the parsed JSON output of an API query for the resource defined in the subclass&#39;s RSRC_BASE</p>
+<p>This method is only valid in subclasses of JSS::APIObject, and is the
+parsed JSON output of an API query for the resource defined in the
+subclass&#39;s RSRC_BASE</p>
 
-<p>e.g. for JSS::Computer, with the RSRC_BASE of :computers, This method retuens the output of the &#39;JSSResource/computers&#39; resource, which is a list of all computers in the JSS.</p>
+<p>e.g. for JSS::Computer, with the RSRC_BASE of :computers, This method
+retuens the output of the &#39;JSSResource/computers&#39; resource, which
+is a list of all computers in the JSS.</p>
 
-<p>Each item in the Array is a Hash with at least two keys, :id and :name. The class methods .all_ids and .all_names provide easier access to those dataas mapped Arrays.</p>
+<p>Each item in the Array is a Hash with at least two keys, :id and :name. The
+class methods .all_ids and .all_names provide easier access to those dataas
+mapped Arrays.</p>
 
-<p>Some API classes provide other keys in each Hash, e.g. :udid (for computers and mobile devices) or :is_smart (for groups).</p>
+<p>Some API classes provide other keys in each Hash, e.g. :udid (for computers
+and mobile devices) or :is_smart (for groups).</p>
 
-<p>For those keys that are listed in a subclass&#39;s lookup_keys method, there are matching methods `.all_(key)s` which return an array just of those values, from the values of this hash. For example, `.all_udids` will use the .all array to return an array of just udids, if the subclass defines :udid in its OTHER_LOOKUP_KEYS (See &#39;Lookup Keys&#39; in the class comments/docs above)</p>
+<p>For those keys that are listed in a subclass&#39;s lookup_keys method,
+there are matching methods `.all_(key)s` which return an array just of
+those values, from the values of this hash. For example, `.all_udids` will
+use the .all array to return an array of just udids, if the subclass
+defines :udid in its OTHER_LOOKUP_KEYS (See &#39;Lookup Keys&#39; in the
+class comments/docs above)</p>
 
-<p>Subclasses should provide appropriate .all_xxx class methods for accessing any other other values as Arrays, e.g. JSS::Computer.all_managed</p>
+<p>Subclasses should provide appropriate .all_xxx class methods for accessing
+any other other values as Arrays, e.g. JSS::Computer.all_managed</p>
 
 <p>– Caching</p>
 
-<p>The results of the first call to .all for each subclass is cached in the .object_list_cache of the given <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> and that cache is used for all future calls, so as to not requery the server every time.</p>
+<p>The results of the first call to .all for each subclass is cached in the
+.object_list_cache of the given <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span> and that cache is used
+for all future calls, so as to not requery the server every time.</p>
 
-<p>To force requerying to get updated data, provided a truthy argument. I usually use :refresh, so that it&#39;s obvious what I&#39;m doing, but true, 1, or anything besides false or nil will work.</p>
+<p>To force requerying to get updated data, provided a truthy argument. I
+usually use :refresh, so that it&#39;s obvious what I&#39;m doing, but
+true, 1, or anything besides false or nil will work.</p>
 
-<p>The various methods that use the output of this method also take the refresh parameter which will be passed here as needed.</p>
+<p>The various methods that use the output of this method also take the
+refresh parameter which will be passed here as needed.</p>
 
 <p>– Alternate API connections</p>
 
-<p>To query an APIConnection other than the currently active one, provide one via the api: named parameter.</p>
+<p>To query an APIConnection other than the currently active one, provide one
+via the api: named parameter.</p>
 
 
   </div>
@@ -2186,12 +2281,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2259,9 +2353,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an Array of JSS::APIObject subclass instances e.g when called on JSS::Package, return a hash of JSS::Package instancesa for every package in the JSS.</p>
+<p>Return an Array of JSS::APIObject subclass instances e.g when called on
+JSS::Package, return a hash of JSS::Package instancesa for every package in
+the JSS.</p>
 
-<p>WARNING: This may be slow as it has to look up each object individually! use it wisely.</p>
+<p>WARNING: This may be slow as it has to look up each object individually!
+use it wisely.</p>
 
 
   </div>
@@ -2296,12 +2393,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2376,9 +2472,11 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Delete one or more API objects by jss_id without instantiating them. Non-existent id&#39;s are skipped and an array of skipped ids is returned.</p>
+<p>Delete one or more API objects by jss_id without instantiating them.
+Non-existent id&#39;s are skipped and an array of skipped ids is returned.</p>
 
-<p>If an Array is provided, it is passed through #uniq! before being processed.</p>
+<p>If an Array is provided, it is passed through #uniq! before being
+processed.</p>
 
 
   </div>
@@ -2411,12 +2509,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the API connection to use. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>the API connection to use. Defaults to the corrently active API. See
+<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2540,7 +2637,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns name =&gt; number of occurances.</p>
+<p>Returns name =&gt; number of occurances</p>
 
 
   </div>
@@ -2621,7 +2718,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return true or false if an object of this subclass with the given Identifier exists on the server</p>
+<p>Return true or false if an object of this subclass with the given
+Identifier exists on the server</p>
 
 <p>one of the available lookup_keys</p>
 
@@ -2674,12 +2772,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -2738,13 +2835,22 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Retrieve an object from the API and return an instance of this APIObject subclass.</p>
+<p>Retrieve an object from the API and return an instance of this APIObject
+subclass.</p>
 
-<p>Fetching is faster when specifying a lookup key, and that key has a fetch_rsrc_key defined in its OTHER_LOOKUP_KEYS constant, as in the second example above.</p>
+<p>Fetching is faster when specifying a lookup key, and that key has a
+fetch_rsrc_key defined in its OTHER_LOOKUP_KEYS constant, as in the second
+example above.</p>
 
-<p>When no lookup key is given, as in the first example above, or when that key doesn&#39;t have a defined fetch_rsrc_key, ruby-jss uses the currently cached list resource data to find the id matching the value given, and that id is used to fetch the object. (see &#39;List Resources and Lookup Keys&#39; in the APIObject comments/docs above)</p>
+<p>When no lookup key is given, as in the first example above, or when that
+key doesn&#39;t have a defined fetch_rsrc_key, ruby-jss uses the currently
+cached list resource data to find the id matching the value given, and that
+id is used to fetch the object. (see &#39;List Resources and Lookup
+Keys&#39; in the APIObject comments/docs above)</p>
 
-<p>Since that cached list data may be out of date, you can provide the param `refrsh: true`, to reload the list from the server. This will cause the fetch to be slower still, so use with caution.</p>
+<p>Since that cached list data may be out of date, you can provide the param
+`refrsh: true`, to reload the list from the server. This will cause the
+fetch to be slower still, so use with caution.</p>
 
 <p>For creating new objects in the JSS, use <span class='object_link'><a href="#make-class_method" title="JSS::APIObject.make (method)">make</a></span></p>
 
@@ -2780,7 +2886,8 @@
       
         &mdash;
         <div class='inline'>
-<p>An single value to search for in all the lookup keys for this clsss. This is slower than specifying a lookup key</p>
+<p>An single value to search for in all the lookup keys for this clsss. This
+is slower than specifying a lookup key</p>
 </div>
       
     </li>
@@ -2796,7 +2903,9 @@
       
         &mdash;
         <div class='inline'>
-<p>the remaining options for fetching an object. If no searchterm is provided, one of the args must be a valid lookup key and value to find in that key, e.g. `serial_number: &#39;1234567&#39;`</p>
+<p>the remaining options for fetching an object. If no searchterm is provided,
+one of the args must be a valid lookup key and value to find in that key,
+e.g. `serial_number: &#39;1234567&#39;`</p>
 </div>
       
     </li>
@@ -2819,7 +2928,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
           
         </li>
@@ -2832,7 +2942,8 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>should the summary list of all objects be reloaded from the API before being used to look for this object.</p>
+<p>should the summary list of all objects be reloaded from the API before
+being used to look for this object.</p>
 </div>
           
         </li>
@@ -3010,9 +3121,12 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a lookup key, or an alias of one, return the matching fetch_rsrc_key for building a fetch/GET resource URL, or nil if no fetch_rsrc_key is defined.</p>
+<p>Given a lookup key, or an alias of one, return the matching fetch_rsrc_key
+for building a fetch/GET resource URL, or nil if no fetch_rsrc_key is
+defined.</p>
 
-<p>See OTHER_LOOKUP_KEYS in the APIObject class comments/docs above for details.</p>
+<p>See OTHER_LOOKUP_KEYS in the APIObject class comments/docs above for
+details.</p>
 
 
   </div>
@@ -3093,17 +3207,27 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Some API objects contain references to other API objects. Usually those references are a Hash containing the :id and :name of the target. Sometimes, however the reference is just the name of the target.</p>
+<p>Some API objects contain references to other API objects. Usually those
+references are a Hash containing the :id and :name of the target.
+Sometimes, however the reference is just the name of the target.</p>
 
-<p>A Script has a property :category, which comes from the API as a String, the name of the category for that script. e.g. “GoodStuff”</p>
+<p>A Script has a property :category, which comes from the API as a String,
+the name of the category for that script. e.g. “GoodStuff”</p>
 
-<p>A Policy also has a property :category, but it comes from the API as a Hash with both the name and id, e.g.  {:id =&gt; 8, :name =&gt; “GoodStuff”}</p>
+<p>A Policy also has a property :category, but it comes from the API as a Hash
+with both the name and id, e.g.  {:id =&gt; 8, :name =&gt; “GoodStuff”}</p>
 
-<p>When that reference is to a single thing (like the category to which something belongs) APIObject subclasses usually store only the name, and use the name when returning data to the API.</p>
+<p>When that reference is to a single thing (like the category to which
+something belongs) APIObject subclasses usually store only the name, and
+use the name when returning data to the API.</p>
 
-<p>When an object references a list of related objects (like the computers assigned to a user) that list will be and Array of Hashes as above, with both the :id and :name</p>
+<p>When an object references a list of related objects (like the computers
+assigned to a user) that list will be and Array of Hashes as above, with
+both the :id and :name</p>
 
-<p>This method is just a handy way to extract the name regardless of how it comes from the API. Most APIObject subclasses use it in their #initialize method</p>
+<p>This method is just a handy way to extract the name regardless of how it
+comes from the API. Most APIObject subclasses use it in their #initialize
+method</p>
 
 
   </div>
@@ -3196,19 +3320,25 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Fetch the mostly- or fully-raw JSON or XML data for an object of this subclass.</p>
+<p>Fetch the mostly- or fully-raw JSON or XML data for an object of this
+subclass.</p>
 
 <p>By default, returns the JSON data parsed into a Hash.</p>
 
-<p>When format: is anything but :json, returns the XML data parsed into a REXML::Document</p>
+<p>When format: is anything but :json, returns the XML data parsed into a
+REXML::Document</p>
 
-<p>When as_string: is truthy, returns an unparsed JSON String (or XML String if format: is not :json) as it comes directly from the API.</p>
+<p>When as_string: is truthy, returns an unparsed JSON String (or XML String
+if format: is not :json) as it comes directly from the API.</p>
 
 <p>When fetching raw JSON, the returned Hash will have its keys symbolized.</p>
 
-<p>This can be substantialy faster than instantiating, especially when you don&#39;t need all the ruby goodness of a full instance, but just want a few values for an object that aren&#39;t available in the `all` data</p>
+<p>This can be substantialy faster than instantiating, especially when you
+don&#39;t need all the ruby goodness of a full instance, but just want a
+few values for an object that aren&#39;t available in the `all` data</p>
 
-<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">JSS::APIConnection#get_rsrc</a></span> that automatically fills in the RSRC::BASE value for you.</p>
+<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">JSS::APIConnection#get_rsrc</a></span> that
+automatically fills in the RSRC::BASE value for you.</p>
 
 
   </div>
@@ -3241,8 +3371,6 @@
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>:json</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -3259,12 +3387,11 @@
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>return the raw JSON or XML string as it comes from the API, do not parse into a Hash or REXML::Document</p>
+<p>return the raw JSON or XML string as it comes from the API, do not parse
+into a Hash or REXML::Document</p>
 </div>
       
     </li>
@@ -3277,12 +3404,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the connection thru which to fetch this object. Defaults to the deault API connection in JSS.api</p>
+<p>the connection thru which to fetch this object. Defaults to the deault API
+connection in JSS.api</p>
 </div>
       
     </li>
@@ -3355,11 +3481,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return the id of the object of this subclass with the given lookup key == a given identifier.</p>
+<p>Return the id of the object of this subclass with the given lookup key == a
+given identifier.</p>
 
 <p>Return nil if no object has that value in that key</p>
 
-<p>Raises a JSS::Ambiguous error if there&#39;s more than one matching value for any key, which might be true of names for Computers and Devices</p>
+<p>Raises a JSS::Ambiguous error if there&#39;s more than one matching value
+for any key, which might be true of names for Computers and Devices</p>
 
 <p>This is similar to .valid_id, except only one key is searched</p>
 
@@ -3392,7 +3520,8 @@
       
         &mdash;
         <div class='inline'>
-<p>they key in which to look for the identifier. Must be a valid lookup key for this subclass.</p>
+<p>they key in which to look for the identifier. Must be a valid lookup key
+for this subclass.</p>
 </div>
       
     </li>
@@ -3439,12 +3568,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3548,7 +3676,8 @@
     
 <p>Builtin ruby callback, whenver a subclass is created.</p>
 
-<p>Just store the subclass name, at the end of all the requires, we&#39;ll call define_identifier_list_methods on everything we stored here.</p>
+<p>Just store the subclass name, at the end of all the requires, we&#39;ll
+call define_identifier_list_methods on everything we stored here.</p>
 
 
   </div>
@@ -3591,11 +3720,16 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>What are all the lookup keys available for this class, with all their aliases (or optionally not) or with their fetch_rsrc_keys</p>
+<p>What are all the lookup keys available for this class, with all their
+aliases (or optionally not) or with their fetch_rsrc_keys</p>
 
-<p>This method combines the DEFAULT_LOOOKUP_KEYS defined above, with the optional OTHER_LOOKUP_KEYS from a subclass (See &#39;Lookup Keys&#39; in the class comments/docs above)</p>
+<p>This method combines the DEFAULT_LOOOKUP_KEYS defined above, with the
+optional OTHER_LOOKUP_KEYS from a subclass (See &#39;Lookup Keys&#39; in
+the class comments/docs above)</p>
 
-<p>The hash returned flattens and inverts the two source hashes, so that all possible lookup keys (the keys and their aliases) are hash keys and the non-aliased lookup key is the value.</p>
+<p>The hash returned flattens and inverts the two source hashes, so that all
+possible lookup keys (the keys and their aliases) are hash keys and the
+non-aliased lookup key is the value.</p>
 
 <p>For example, when</p>
 
@@ -3621,7 +3755,8 @@
 <span class='rbrace'>}</span>
 </code></pre>
 
-<p>If the optional parameter no_aliases: is truthy, only the real keynames are returned in an array, so the above would become</p>
+<p>If the optional parameter no_aliases: is truthy, only the real keynames are
+returned in an array, so the above would become</p>
 
 <pre class="code ruby"><code class="ruby"><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:serial_number</span><span class='comma'>,</span> <span class='symbol'>:udid</span><span class='comma'>,</span> <span class='symbol'>:wifi_mac_address</span><span class='rbracket'>]</span>
 </code></pre>
@@ -3640,8 +3775,6 @@
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -3723,11 +3856,13 @@
     
 <p>Make a ruby instance of a not-yet-existing APIObject.</p>
 
-<p>This is how to create new objects in the JSS. A name: must be provided, and different subclasses can take other named parameters.</p>
+<p>This is how to create new objects in the JSS. A name: must be provided, and
+different subclasses can take other named parameters.</p>
 
 <p>For retrieving existing objects in the JSS, use <span class='object_link'><a href="#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></p>
 
-<p>After calling this you&#39;ll have a local instance, which will be created in the JSS when you call #create on it. see APIObject#create</p>
+<p>After calling this you&#39;ll have a local instance, which will be created
+in the JSS when you call #create on it. see APIObject#create</p>
 
 
   </div>
@@ -3763,7 +3898,8 @@
       
         &mdash;
         <div class='inline'>
-<p>the connection thru which to make this object. Defaults to the deault API connection in JSS.api</p>
+<p>the connection thru which to make this object. Defaults to the deault API
+connection in JSS.api</p>
 </div>
       
     </li>
@@ -3867,15 +4003,27 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a hash of all objects of this subclass in the JSS where the key is the id, and the value is some other key in the data items returned by the JSS::APIObject.all.</p>
+<p>Return a hash of all objects of this subclass in the JSS where the key is
+the id, and the value is some other key in the data items returned by the
+JSS::APIObject.all.</p>
 
-<p>If the other key doesn&#39;t exist in the API summary data from .all (eg :udid for JSS::Department) the values will be nil.</p>
+<p>If the other key doesn&#39;t exist in the API summary data from .all (eg
+:udid for JSS::Department) the values will be nil.</p>
 
-<p>Use this method to map ID numbers to other identifiers returned by the API list resources. Invert its result to map the other identfier to ids.</p>
+<p>Use this method to map ID numbers to other identifiers returned by the API
+list resources. Invert its result to map the other identfier to ids.</p>
 
-<p>These hashes are cached separately from the .all data, and when the refresh parameter is truthy, both will be refreshed.</p>
+<p>These hashes are cached separately from the .all data, and when the refresh
+parameter is truthy, both will be refreshed.</p>
 
-<p>WARNING: Some values in the output of .all are not guaranteed to be unique in Jamf Pro. This is fine in the direct output of this method, each id will be the key for some value and many ids might have the same value. However if you invert that hash, the values become keys, and the ids become the values, and there can be only one id per each new key. Which id becomes associated with a value is undefined, and data about the others is lost. This is especially important if you `.map_all_ids_to :name`, since, for some objects, names are not unique.</p>
+<p>WARNING: Some values in the output of .all are not guaranteed to be unique
+in Jamf Pro. This is fine in the direct output of this method, each id will
+be the key for some value and many ids might have the same value. However
+if you invert that hash, the values become keys, and the ids become the
+values, and there can be only one id per each new key. Which id becomes
+associated with a value is undefined, and data about the others is lost.
+This is especially important if you `.map_all_ids_to :name`, since, for
+some objects, names are not unique.</p>
 
 
   </div>
@@ -3940,12 +4088,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -4028,7 +4175,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Disallow direct use of ruby&#39;s .new class method for creating instances. Require use of .fetch or .make</p>
+<p>Disallow direct use of ruby&#39;s .new class method for creating instances.
+Require use of .fetch or .make</p>
 
 
   </div>
@@ -4085,11 +4233,15 @@
     
 <p>POST some raw XML to the API for a given id in this subclass.</p>
 
-<p>WARNING: You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String, or something that returns an XML string with #to_s, such as a REXML::Document, or a REXML::Element.</p>
+<p>WARNING: You must create or acquire the XML to be sent, and no validation
+will be performed on it. It must be a String, or something that returns an
+XML string with #to_s, such as a REXML::Document, or a REXML::Element.</p>
 
-<p>This probably isn&#39;t as much of a speed gain as get_raw or put_raw, as opposed to instantiating a ruby object, but might still be useful.</p>
+<p>This probably isn&#39;t as much of a speed gain as get_raw or put_raw, as
+opposed to instantiating a ruby object, but might still be useful.</p>
 
-<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">JSS::APIConnection#post_rsrc</a></span> that automatically fills in the RSRC::BASE value for you.</p>
+<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">JSS::APIConnection#post_rsrc</a></span> that
+automatically fills in the RSRC::BASE value for you.</p>
 
 
   </div>
@@ -4122,12 +4274,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the connection thru which to fetch this object. Defaults to the deault API connection in JSS.api</p>
+<p>the connection thru which to fetch this object. Defaults to the deault API
+connection in JSS.api</p>
 </div>
       
     </li>
@@ -4192,11 +4343,15 @@
     
 <p>PUT some raw XML to the API for a given id in this subclass.</p>
 
-<p>WARNING: You must create or acquire the XML to be sent, and no validation will be performed on it. It must be a String, or something that returns an XML string with #to_s, such as a REXML::Document, or a REXML::Element.</p>
+<p>WARNING: You must create or acquire the XML to be sent, and no validation
+will be performed on it. It must be a String, or something that returns an
+XML string with #to_s, such as a REXML::Document, or a REXML::Element.</p>
 
-<p>In some cases, where you&#39;re making simple changes to simple XML, this can be faster than fetching a full instance and the re-saving it.</p>
+<p>In some cases, where you&#39;re making simple changes to simple XML, this
+can be faster than fetching a full instance and the re-saving it.</p>
 
-<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">JSS::APIConnection#put_rsrc</a></span> that automatically fills in the RSRC::BASE value for you.</p>
+<p>This is really just a wrapper around <span class='object_link'><a href="APIConnection.html#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">JSS::APIConnection#put_rsrc</a></span> that
+automatically fills in the RSRC::BASE value for you.</p>
 
 
   </div>
@@ -4245,12 +4400,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>the connection thru which to fetch this object. Defaults to the deault API connection in JSS.api</p>
+<p>the connection thru which to fetch this object. Defaults to the deault API
+connection in JSS.api</p>
 </div>
       
     </li>
@@ -4419,9 +4573,14 @@
 
 <p>Return nil if no object has an identifier that matches.</p>
 
-<p>For all objects the &#39;name&#39; is an identifier. Some objects have more, e.g. udid, mac_address &amp; serial_number. Matches are case-insensitive.</p>
+<p>For all objects the &#39;name&#39; is an identifier. Some objects have
+more, e.g. udid, mac_address &amp; serial_number. Matches are
+case-insensitive.</p>
 
-<p>NOTE: while name is an identifier, for Computers and MobileDevices, it need not be unique in Jamf. If name is matched, which one gets returned is undefined. In short - dont&#39; use names here unless you know they are unique.</p>
+<p>NOTE: while name is an identifier, for Computers and MobileDevices, it need
+not be unique in Jamf. If name is matched, which one gets returned is
+undefined. In short - dont&#39; use names here unless you know they are
+unique.</p>
 
 <p>one of the available lookup_keys</p>
 
@@ -4474,12 +4633,11 @@
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active
+API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></p>
 </div>
       
     </li>
@@ -4628,7 +4786,10 @@
     
 <p>Convert an Array of Hashes of API object data to a REXML element.</p>
 
-<p>Given an Array of Hashes of items in the subclass where each Hash has at least an :id  or a :name key, (as what comes from the .all class method) return a REXML &lt;classes&gt; element with one &lt;class&gt; element per Hash member.</p>
+<p>Given an Array of Hashes of items in the subclass where each Hash has at
+least an :id  or a :name key, (as what comes from the .all class method)
+return a REXML &lt;classes&gt; element with one &lt;class&gt; element per
+Hash member.</p>
 
 
   </div>
@@ -4763,7 +4924,10 @@ puts xml_names  # output manually formatted for clarity, xml.to_s has no newline
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Make an entry in this object&#39;s Object History. For this to work, the APIObject subclass must define OBJECT_HISTORY_OBJECT_TYPE, an integer indicating the object type in the OBJECT_HISTORY_TABLE in the database (e.g. for computers, the object type is 1)</p>
+<p>Make an entry in this object&#39;s Object History. For this to work, the
+APIObject subclass must define OBJECT_HISTORY_OBJECT_TYPE, an integer
+indicating the object type in the OBJECT_HISTORY_TABLE in the database
+(e.g. for computers, the object type is 1)</p>
 
 <p>NOTE: Object history is not available via the API,</p>
 
@@ -4777,8 +4941,7 @@ puts xml_names  # output manually formatted for clarity, xml.to_s has no newline
 column of the table shows up in the &#39;details&#39; column of
 the UI, under the &#39;details&#39; button.
 
-The params below reflect the UI, not the table.
-</code></pre>
+The params below reflect the UI, not the table.</code></pre>
 
 
   </div>
@@ -4794,8 +4957,6 @@ The params below reflect the UI, not the table.
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -4813,8 +4974,6 @@ The params below reflect the UI, not the table.
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -4830,8 +4989,6 @@ The params below reflect the UI, not the table.
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -4863,14 +5020,6 @@ The params below reflect the UI, not the table.
       <pre class="lines">
 
 
-1287
-1288
-1289
-1290
-1291
-1292
-1293
-1294
 1295
 1296
 1297
@@ -4888,10 +5037,18 @@ The params below reflect the UI, not the table.
 1309
 1310
 1311
-1312</pre>
+1312
+1313
+1314
+1315
+1316
+1317
+1318
+1319
+1320</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1287</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1295</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_object_history_entry'>add_object_history_entry</span><span class='lparen'>(</span><span class='label'>user:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>notes:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>details:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_object_history_available'>validate_object_history_available</span>
@@ -4936,7 +5093,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Categorizable.html" title="JSS::Categorizable (module)">Categorizable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Categorizable.html" title="JSS::Categorizable (module)">Categorizable</a></span></p>
 
 
   </div>
@@ -4995,7 +5152,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
 
 
   </div>
@@ -5054,7 +5211,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Criteriable.html" title="JSS::Criteriable (module)">Criteriable</a></span></p>
 
 
   </div>
@@ -5117,7 +5274,8 @@ The params below reflect the UI, not the table.
 
 <p>one or more objects by id without needing to instantiate</p>
 
-<p>Subclasses may want to redefine this method, first calling super, then setting other attributes to nil, false, empty, etc..</p>
+<p>Subclasses may want to redefine this method, first calling super, then
+setting other attributes to nil, false, empty, etc..</p>
 
 
   </div>
@@ -5145,14 +5303,30 @@ The params below reflect the UI, not the table.
 1235
 1236
 1237
-1238</pre>
+1238
+1239
+1240
+1241
+1242
+1243
+1244
+1245
+1246</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1224</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
-  <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_delete_rsrc'>delete_rsrc</span> <span class='ivar'>@rest_rsrc</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
+  <span class='kw'>begin</span>
+    <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_delete_rsrc'>delete_rsrc</span> <span class='ivar'>@rest_rsrc</span>
+  <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>NotFound</span><span class='comma'>,</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>ResourceNotFound</span>
+    <span class='comment'># over slow connections (?) or more likely
+</span>    <span class='comment'># split-tunnel VPN connections, sometimes the thing gets deleted
+</span>    <span class='comment'># the call gets a 404 anyway
+</span>    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
   <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_BASE</span><span class='embexpr_end'>}</span><span class='tstring_content'>/name/</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@in_jss</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -5182,7 +5356,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See extendable.</p>
+<p>Returns See extendable</p>
 
 
   </div>
@@ -5241,7 +5415,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Locatable.html" title="JSS::Locatable (module)">Locatable</a></span></p>
 
 
   </div>
@@ -5300,7 +5474,7 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span></p>
 
 
   </div>
@@ -5359,13 +5533,13 @@ The params below reflect the UI, not the table.
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>the object history for this object, an array of hashes one per history entry, in order of creation. Each hash contains:</p>
+<p>the object history for this object, an array of hashes one per history
+entry, in order of creation. Each hash contains:</p>
 
 <pre class="code ruby"><code class="ruby">user: String, the username that created the entry
 notes:  String, the notes for the entry
 date: Time, the timestamp for the entry
-details: String or nil, any details provided for the entry
-</code></pre>
+details: String or nil, any details provided for the entry</code></pre>
 
 
   </div>
@@ -5397,14 +5571,6 @@ details: String or nil, any details provided for the entry
       <pre class="lines">
 
 
-1324
-1325
-1326
-1327
-1328
-1329
-1330
-1331
 1332
 1333
 1334
@@ -5417,10 +5583,18 @@ details: String or nil, any details provided for the entry
 1341
 1342
 1343
-1344</pre>
+1344
+1345
+1346
+1347
+1348
+1349
+1350
+1351
+1352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1324</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1332</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_object_history'>object_history</span>
   <span class='id identifier rubyid_validate_object_history_available'>validate_object_history_available</span>
@@ -5460,7 +5634,8 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Print the rest_xml value of the object to stdout, with indentation. Useful for debugging.</p>
+<p>Print the rest_xml value of the object to stdout, with indentation. Useful
+for debugging.</p>
 
 
   </div>
@@ -5474,14 +5649,14 @@ details: String or nil, any details provided for the entry
       <pre class="lines">
 
 
-1351
-1352
-1353
-1354
-1355</pre>
+1359
+1360
+1361
+1362
+1363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1351</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1359</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ppx'>ppx</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_creatable?'>creatable?</span> <span class='op'>||</span> <span class='id identifier rubyid_updatable?'>updatable?</span>
@@ -5505,7 +5680,8 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the init_data and api object from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the init_data and api object from the instance_variables used to
+create pretty-print (pp) output.</p>
 
 
   </div>
@@ -5537,16 +5713,16 @@ details: String or nil, any details provided for the entry
       <pre class="lines">
 
 
-1254
-1255
-1256
-1257
-1258
-1259
-1260</pre>
+1262
+1263
+1264
+1265
+1266
+1267
+1268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1254</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1262</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -5572,7 +5748,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Purchasable.html" title="JSS::Purchasable (module)">Purchasable</a></span></p>
 
 
   </div>
@@ -5633,7 +5809,8 @@ details: String or nil, any details provided for the entry
     
 <p>Either Create or Update this object in the JSS</p>
 
-<p>If this item is creatable or updatable, then create it if needed, or update it if it already exists.</p>
+<p>If this item is creatable or updatable, then create it if needed, or update
+it if it already exists.</p>
 
 
   </div>
@@ -5708,7 +5885,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span></p>
 
 
   </div>
@@ -5767,7 +5944,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="SelfServable.html" title="JSS::SelfServable (module)">SelfServable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="SelfServable.html" title="JSS::SelfServable (module)">SelfServable</a></span></p>
 
 
   </div>
@@ -5826,7 +6003,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Sitable.html" title="JSS::Sitable (module)">Sitable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Sitable.html" title="JSS::Sitable (module)">Sitable</a></span></p>
 
 
   </div>
@@ -5912,12 +6089,12 @@ details: String or nil, any details provided for the entry
       <pre class="lines">
 
 
-1244
-1245
-1246</pre>
+1252
+1253
+1254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1244</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object.rb', line 1252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'>, name: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, id: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -5939,7 +6116,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span></p>
 
 
   </div>
@@ -5998,7 +6175,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span></p>
 
 
   </div>
@@ -6057,7 +6234,7 @@ details: String or nil, any details provided for the entry
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns See <span class='object_link'><a href="VPPable.html" title="JSS::VPPable (module)">VPPable</a></span>.</p>
+<p>Returns See <span class='object_link'><a href="VPPable.html" title="JSS::VPPable (module)">VPPable</a></span></p>
 
 
   </div>
@@ -6109,9 +6286,9 @@ details: String or nil, any details provided for the entry
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:56 2020 by
+  Generated on Fri Aug  7 11:26:30 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>

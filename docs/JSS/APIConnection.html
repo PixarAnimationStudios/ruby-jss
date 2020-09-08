@@ -6,15 +6,15 @@
 <title>
   Class: JSS::APIConnection
   
-    &mdash; ruby-jss-1.2.4a4
+    &mdash; ruby-jss-1.3.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   pathId = "JSS::APIConnection";
   relpath = '../';
 </script>
@@ -106,15 +106,23 @@
     
 <p>Instances of this class represent a REST connection to a JSS API.</p>
 
-<p>For most cases, a single connection to a single JSS is all you need, and this is ruby-jss&#39;s default behavior.</p>
+<p>For most cases, a single connection to a single JSS is all you need, and
+this is ruby-jss&#39;s default behavior.</p>
 
-<p>If needed, multiple connections can be made and used sequentially or simultaneously.</p>
+<p>If needed, multiple connections can be made and used sequentially or
+simultaneously.</p>
 
 <h2 id="label-Using+the+default+connection">Using the default connection</h2>
 
-<p>When ruby-jss is loaded, a not-yet-connected default instance of JSS::APIConnection is created and stored in the constant JSS::API. This connection is used as the initial &#39;active connection&#39; (see below) so all methods that make API calls will use it by default. For most uses, where you&#39;re only going to be working with one connection to one JSS, the default connection is all you need.</p>
+<p>When ruby-jss is loaded, a not-yet-connected default instance of
+JSS::APIConnection is created and stored in the constant JSS::API. This
+connection is used as the initial &#39;active connection&#39; (see below)
+so all methods that make API calls will use it by default. For most uses,
+where you&#39;re only going to be working with one connection to one JSS,
+the default connection is all you need.</p>
 
-<p>Before using it you must call its <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method, passing in appropriate connection details and credentials.</p>
+<p>Before using it you must call its <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method, passing in appropriate
+connection details and credentials.</p>
 
 <p>Example:</p>
 
@@ -129,9 +137,12 @@
 
 <h2 id="label-Using+Multiple+Simultaneous+Connections">Using Multiple Simultaneous Connections</h2>
 
-<p>Sometimes you need to connect simultaneously to more than one JSS. or to the same JSS with different credentials. ruby-jss allows you to create as many connections as needed, and gives you three ways to use them:</p>
+<p>Sometimes you need to connect simultaneously to more than one JSS. or to
+the same JSS with different credentials. ruby-jss allows you to create as
+many connections as needed, and gives you three ways to use them:</p>
 <ol><li>
-<p>Making a connection &#39;active&#39;, after which API calls go thru it automatically</p>
+<p>Making a connection &#39;active&#39;, after which API calls go thru it
+automatically</p>
 
 <p>Example:</p>
 
@@ -141,7 +152,8 @@
 </span><span class='comment'># and stored in the variable &#39;a_computer&#39;
 </span></code></pre>
 
-<p>NOTE: When ruby-jss is first loaded, the default connection (see above) is the active connection.</p>
+<p>NOTE: When ruby-jss is first loaded, the default connection (see above) is
+the active connection.</p>
 </li><li>
 <p>Passing an APIConnection instance to methods that use the API</p>
 
@@ -168,15 +180,23 @@
 
 <p>See below for more details about the ways to use multiple connections.</p>
 
-<p>NOTE: Objects retrieved or created through an APIConnection store an internal reference to that APIConnection and use that when they make other API calls, thus ensuring data consistency when using multiple connections.</p>
+<p>NOTE: Objects retrieved or created through an APIConnection store an
+internal reference to that APIConnection and use that when they make other
+API calls, thus ensuring data consistency when using multiple connections.</p>
 
-<p>Similiarly, the data caches used by APIObject list methods (e.g. JSS::Computer.all, .all_names, and so on) are stored in the APIConnection instance through which they were read, so they won&#39;t be incorrect when you use multiple connections.</p>
+<p>Similiarly, the data caches used by APIObject list methods (e.g.
+JSS::Computer.all, .all_names, and so on) are stored in the APIConnection
+instance through which they were read, so they won&#39;t be incorrect when
+you use multiple connections.</p>
 
 <h2 id="label-Making+new+APIConnection+instances">Making new APIConnection instances</h2>
 
-<p>New connections can be created using the standard ruby &#39;new&#39; method.</p>
+<p>New connections can be created using the standard ruby &#39;new&#39;
+method.</p>
 
-<p>If you provide connection details when calling &#39;new&#39;, they will be passed to the <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method immediately. Otherwise you can call <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> later.</p>
+<p>If you provide connection details when calling &#39;new&#39;, they will be
+passed to the <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> method immediately. Otherwise you can call
+<span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> later.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_production_api'>production_api</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'>APIConnection</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="JSS::APIConnection#initialize (method)">new</a></span></span><span class='lparen'>(</span>
   <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prod</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
@@ -190,9 +210,13 @@
 
 <h2 id="label-Using+the+-27Active-27+Connection">Using the &#39;Active&#39; Connection</h2>
 
-<p>While multiple connection instances can be created, only one at a time is &#39;the active connection&#39; and all APIObject-based access methods in ruby-jss will use it automatically. When ruby-jss is loaded, the  default connection (see above) is the active connection.</p>
+<p>While multiple connection instances can be created, only one at a time is
+&#39;the active connection&#39; and all APIObject-based access methods in
+ruby-jss will use it automatically. When ruby-jss is loaded, the  default
+connection (see above) is the active connection.</p>
 
-<p>To use the active connection, just call a method on an APIObject subclass that uses the API.</p>
+<p>To use the active connection, just call a method on an APIObject subclass
+that uses the API.</p>
 
 <p>For example, the various list methods:</p>
 
@@ -210,13 +234,17 @@
 </span><span class='comment'># through the active connection.
 </span></code></pre>
 
-<p>The currently-active connection instance is available from the `JSS.api` method.</p>
+<p>The currently-active connection instance is available from the `JSS.api`
+method.</p>
 
 <h3 id="label-Making+a+Connection+Active">Making a Connection Active</h3>
 
-<p>Only one connection is &#39;active&#39; at a time and the currently active one is returned when you call `JSS.api` or its alias `JSS.active_connection`</p>
+<p>Only one connection is &#39;active&#39; at a time and the currently active
+one is returned when you call `JSS.api` or its alias
+`JSS.active_connection`</p>
 
-<p>To activate another connection just pass it to the JSS.use_api method like so:</p>
+<p>To activate another connection just pass it to the JSS.use_api method like
+so:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_api'>use_api</span> <span class='id identifier rubyid_production_api'>production_api</span>
 <span class='comment'># the connection we stored in &#39;production_api&#39; is now active
@@ -229,9 +257,12 @@
 
 <h2 id="label-Connection+Names-3A">Connection Names:</h2>
 
-<p>As seen in the example above, you can provide a &#39;name:&#39; parameter (a String or a Symbol) when creating a new connection. The name can be used later to identify connection objects.</p>
+<p>As seen in the example above, you can provide a &#39;name:&#39; parameter
+(a String or a Symbol) when creating a new connection. The name can be used
+later to identify connection objects.</p>
 
-<p>If you don&#39;t provide one, the name is &#39;:disconnected&#39; until you connect, and then &#39;user@server:port&#39; after connecting.</p>
+<p>If you don&#39;t provide one, the name is &#39;:disconnected&#39; until you
+connect, and then &#39;user@server:port&#39; after connecting.</p>
 
 <p>The name of the default connection is always :default</p>
 
@@ -246,7 +277,10 @@
 
 <h2 id="label-Creating-2C+Storing+and+Activating+a+connection+in+one+step">Creating, Storing and Activating a connection in one step</h2>
 
-<p>Both of the above steps (creating/storing a connection, and making it active) can be performed in one step using the `JSS.new_api_connection` method, which creates a new APIConnection, makes it the active connection, and returns it.</p>
+<p>Both of the above steps (creating/storing a connection, and making it
+active) can be performed in one step using the `JSS.new_api_connection`
+method, which creates a new APIConnection, makes it the active connection,
+and returns it.</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='id identifier rubyid_production_api2'>production_api2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_api_connection'><span class='object_link'><a href="../JSS.html#new_api_connection-class_method" title="JSS.new_api_connection (method)">new_api_connection</a></span></span><span class='lparen'>(</span>
    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prod2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
@@ -260,7 +294,9 @@
 
 <h2 id="label-Passing+an+APIConnection+object+to+API-related+methods">Passing an APIConnection object to API-related methods</h2>
 
-<p>All methods that use the API can take an &#39;api:&#39; parameter which contains an APIConnection object. When provided, that APIconnection is used rather than the active connection.</p>
+<p>All methods that use the API can take an &#39;api:&#39; parameter which
+contains an APIConnection object. When provided, that APIconnection is used
+rather than the active connection.</p>
 
 <p>For example:</p>
 
@@ -272,28 +308,37 @@
 prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
 # the variable &#39;prod2_victim_md&#39; now contains a JSS::MobileDevice queried
-# through the connection &#39;production_api2&#39;.
-</code></pre>
+# through the connection &#39;production_api2&#39;.</code></pre>
 
 <h2 id="label-Using+the+APIConnection+itself+to+make+API+calls.">Using the APIConnection itself to make API calls.</h2>
 
-<p>Rather than passing an APIConnection into another method, you can call similar methods on the connection itself. For example, these two calls have the same result as the two examples above:</p>
+<p>Rather than passing an APIConnection into another method, you can call
+similar methods on the connection itself. For example, these two calls have
+the same result as the two examples above:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_prod2_computer_sns'>prod2_computer_sns</span> <span class='op'>=</span> <span class='id identifier rubyid_production_api2'>production_api2</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span> <span class='symbol'>:Computer</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='symbol'>:serial_numbers</span>
 <span class='id identifier rubyid_prod2_victim_md'>prod2_victim_md</span> <span class='op'>=</span> <span class='id identifier rubyid_production_api2'>production_api2</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='symbol'>:MobileDevice</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>832</span>
 </code></pre>
 
-<p>Here are the API calls you can make directly from an APIConnection object. They behave practically identically to the same methods in the APIObject subclasses, since they just call those methods, passing themselves in as the APIConnection to use.</p>
+<p>Here are the API calls you can make directly from an APIConnection object.
+They behave practically identically to the same methods in the APIObject
+subclasses, since they just call those methods, passing themselves in as
+the APIConnection to use.</p>
 <ul><li>
-<p><span class='object_link'><a href="#all-instance_method" title="JSS::APIConnection#all (method)">#all</a></span>  The &#39;list&#39; methods of the various APIObject classes. Use the &#39;only:&#39; parameter to specify one of the sub-list-methods, like #all_ids or #all_laptops, e.g. `my_connection.all :computers, only: :id`</p>
+<p><span class='object_link'><a href="#all-instance_method" title="JSS::APIConnection#all (method)">#all</a></span>  The &#39;list&#39; methods of the various APIObject classes. Use
+the &#39;only:&#39; parameter to specify one of the sub-list-methods, like
+#all_ids or #all_laptops, e.g. `my_connection.all :computers, only: :id`</p>
 </li><li>
 <p><span class='object_link'><a href="#map_all_ids-instance_method" title="JSS::APIConnection#map_all_ids (method)">#map_all_ids</a></span> the equivalent of #map_all_ids_to in the APIObject classes</p>
 </li><li>
-<p><span class='object_link'><a href="#valid_id-instance_method" title="JSS::APIConnection#valid_id (method)">#valid_id</a></span> given a class and an identifier (like macaddress or udid) return a valid id or nil</p>
+<p><span class='object_link'><a href="#valid_id-instance_method" title="JSS::APIConnection#valid_id (method)">#valid_id</a></span> given a class and an identifier (like macaddress or udid)
+return a valid id or nil</p>
 </li><li>
-<p><span class='object_link'><a href="#exist%3F-instance_method" title="JSS::APIConnection#exist? (method)">#exist?</a></span> given a class and an identifier (like macaddress or udid) does the identifier exist for the class in the JSS</p>
+<p><span class='object_link'><a href="#exist%3F-instance_method" title="JSS::APIConnection#exist? (method)">#exist?</a></span> given a class and an identifier (like macaddress or udid) does
+the identifier exist for the class in the JSS</p>
 </li><li>
-<p><span class='object_link'><a href="#match-instance_method" title="JSS::APIConnection#match (method)">#match</a></span> list items in the JSS matching a query (if the object is <span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>)</p>
+<p><span class='object_link'><a href="#match-instance_method" title="JSS::APIConnection#match (method)">#match</a></span> list items in the JSS matching a query (if the object is
+<span class='object_link'><a href="Matchable.html" title="JSS::Matchable (module)">Matchable</a></span>)</p>
 </li><li>
 <p><span class='object_link'><a href="#fetch-instance_method" title="JSS::APIConnection#fetch (method)">#fetch</a></span> retrieve an object from the JSS</p>
 </li><li>
@@ -301,13 +346,15 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </li><li>
 <p><span class='object_link'><a href="#computer_checkin_settings-instance_method" title="JSS::APIConnection#computer_checkin_settings (method)">#computer_checkin_settings</a></span> same as <span class='object_link'><a href="Computer.html#checkin_settings-class_method" title="JSS::Computer.checkin_settings (method)">Computer.checkin_settings</a></span></p>
 </li><li>
-<p><span class='object_link'><a href="#computer_inventory_collection_settings-instance_method" title="JSS::APIConnection#computer_inventory_collection_settings (method)">#computer_inventory_collection_settings</a></span> same as <span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span></p>
+<p><span class='object_link'><a href="#computer_inventory_collection_settings-instance_method" title="JSS::APIConnection#computer_inventory_collection_settings (method)">#computer_inventory_collection_settings</a></span> same as
+<span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="#computer_application_usage-instance_method" title="JSS::APIConnection#computer_application_usage (method)">#computer_application_usage</a></span> same as <span class='object_link'><a href="Computer.html#application_usage-class_method" title="JSS::Computer.application_usage (method)">Computer.application_usage</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="#computer_management_data-instance_method" title="JSS::APIConnection#computer_management_data (method)">#computer_management_data</a></span> same as <span class='object_link'><a href="Computer.html#management_data-class_method" title="JSS::Computer.management_data (method)">Computer.management_data</a></span></p>
 </li><li>
-<p><span class='object_link'><a href="#master_distribution_point-instance_method" title="JSS::APIConnection#master_distribution_point (method)">#master_distribution_point</a></span> same as <span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span></p>
+<p><span class='object_link'><a href="#master_distribution_point-instance_method" title="JSS::APIConnection#master_distribution_point (method)">#master_distribution_point</a></span> same as
+<span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="#my_distribution_point-instance_method" title="JSS::APIConnection#my_distribution_point (method)">#my_distribution_point</a></span> same as <span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
 </li><li>
@@ -320,11 +367,19 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
 <h2 id="label-Low-level+use+of+APIConnection+instances.">Low-level use of APIConnection instances.</h2>
 
-<p>For most cases, using APIConnection instances as mentioned above is all you&#39;ll need. However to access API resources that aren&#39;t yet implemented in other parts of ruby-jss, you can use the methods <span class='object_link'><a href="#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">#get_rsrc</a></span>, <span class='object_link'><a href="#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">#put_rsrc</a></span>, <span class='object_link'><a href="#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">#post_rsrc</a></span>, &amp; <span class='object_link'><a href="#delete_rsrc-instance_method" title="JSS::APIConnection#delete_rsrc (method)">#delete_rsrc</a></span> documented below.</p>
+<p>For most cases, using APIConnection instances as mentioned above is all
+you&#39;ll need. However to access API resources that aren&#39;t yet
+implemented in other parts of ruby-jss, you can use the methods
+<span class='object_link'><a href="#get_rsrc-instance_method" title="JSS::APIConnection#get_rsrc (method)">#get_rsrc</a></span>, <span class='object_link'><a href="#put_rsrc-instance_method" title="JSS::APIConnection#put_rsrc (method)">#put_rsrc</a></span>, <span class='object_link'><a href="#post_rsrc-instance_method" title="JSS::APIConnection#post_rsrc (method)">#post_rsrc</a></span>, &amp; <span class='object_link'><a href="#delete_rsrc-instance_method" title="JSS::APIConnection#delete_rsrc (method)">#delete_rsrc</a></span> documented
+below.</p>
 
-<p>For even lower-level work, you can access the underlying RestClient::Resource inside the APIConnection via the connection&#39;s <span class='object_link'><a href="#cnx-instance_method" title="JSS::APIConnection#cnx (method)">#cnx</a></span> attribute.</p>
+<p>For even lower-level work, you can access the underlying
+RestClient::Resource inside the APIConnection via the connection&#39;s
+<span class='object_link'><a href="#cnx-instance_method" title="JSS::APIConnection#cnx (method)">#cnx</a></span> attribute.</p>
 
-<p>APIConnection instances also have a <span class='object_link'><a href="#server-instance_method" title="JSS::APIConnection#server (method)">#server</a></span> attribute which contains an instance of <span class='object_link'><a href="Server.html" title="JSS::Server (class)">Server</a></span> q.v., representing the JSS to which it&#39;s connected.</p>
+<p>APIConnection instances also have a <span class='object_link'><a href="#server-instance_method" title="JSS::APIConnection#server (method)">#server</a></span> attribute which contains an
+instance of <span class='object_link'><a href="Server.html" title="JSS::Server (class)">Server</a></span> q.v., representing the JSS to which it&#39;s
+connected.</p>
 
 
   </div>
@@ -361,7 +416,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
           <div class="docstring">
   <div class="discussion">
     
-<p>A url path to load to see if there&#39;s an API available at a host. This just loads the API resource docs page</p>
+<p>A url path to load to see if there&#39;s an API available at a host. This
+just loads the API resource docs page</p>
 
 
   </div>
@@ -377,7 +433,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
           <div class="docstring">
   <div class="discussion">
     
-<p>If the test path loads correctly from a casper server, it&#39;ll contain this text (this is what we get when we make an unauthenticated API call.)</p>
+<p>If the test path loads correctly from a casper server, it&#39;ll contain
+this text (this is what we get when we make an unauthenticated API call.)</p>
 
 
   </div>
@@ -547,7 +604,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
           <div class="docstring">
   <div class="discussion">
     
-<p>These classes are extendable, and may need cache flushing for EA definitions</p>
+<p>These classes are extendable, and may need cache flushing for EA
+definitions</p>
 
 
   </div>
@@ -573,7 +631,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>json</span><span class='words_sep'> </span><span class='tstring_content'>xml</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>json</span><span class='words_sep'> </span><span class='tstring_content'>xml</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -667,7 +725,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This Hash caches the Extension Attribute definition objects for the three types of ext.</p>
+<p>This Hash caches the Extension Attribute definition objects for the three
+types of ext.</p>
 </div></span>
   
 </li>
@@ -754,7 +813,9 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>This Hash caches the result of the the first API query for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY.</p>
+<p>This Hash caches the result of the the first API query for an APIObject
+subclass&#39;s .all summary list, keyed by the subclass&#39;s
+RSRC_LIST_KEY.</p>
 </div></span>
   
 </li>
@@ -1068,7 +1129,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::Computer.management_history or its convenience methods. @see JSS::ManagementHistory</p>
+<p>Please use JSS::Computer.management_history or its convenience methods.
+@see JSS::ManagementHistory</p>
 </div></span>
   
 </li>
@@ -1188,7 +1250,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect
+from So to disconnect, we just unset all our credentials.</p>
 </div></span>
   
 </li>
@@ -1260,7 +1323,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Empty all cached lists from this connection then run garbage collection to clear any available memory.</p>
+<p>Empty all cached lists from this connection then run garbage collection to
+clear any available memory.</p>
 </div></span>
   
 </li>
@@ -1310,7 +1374,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect.</p>
+<p>The server to which we are connected, or will try connecting to if none is
+specified with the call to #connect.</p>
 </div></span>
   
 </li>
@@ -1336,7 +1401,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>If name: is provided (as a String or Symbol) that will be stored as the APIConnection&#39;s name attribute.</p>
+<p>If name: is provided (as a String or Symbol) that will be stored as the
+APIConnection&#39;s name attribute.</p>
 </div></span>
   
 </li>
@@ -1408,7 +1474,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get the DistributionPoint instance for the master distribution point in the JSS.</p>
+<p>Get the DistributionPoint instance for the master distribution point in the
+JSS.</p>
 </div></span>
   
 </li>
@@ -1456,7 +1523,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get the DistributionPoint instance for the machine running this code, based on its IP address.</p>
+<p>Get the DistributionPoint instance for the machine running this code, based
+on its IP address.</p>
 </div></span>
   
 </li>
@@ -1594,7 +1662,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -1642,7 +1711,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see
+JSS::MDM</p>
 </div></span>
   
 </li>
@@ -1666,7 +1736,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
   
     <span class="summary_desc"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods.
+@see JSS::MDM</p>
 </div></span>
   
 </li>
@@ -1786,11 +1857,13 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>If name: is provided (as a String or Symbol) that will be stored as the APIConnection&#39;s name attribute.</p>
+<p>If name: is provided (as a String or Symbol) that will be stored as the
+APIConnection&#39;s name attribute.</p>
 
 <p>For other available parameters, see <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span>.</p>
 
-<p>If they are provided, they will be used to establish the connection immediately.</p>
+<p>If they are provided, they will be used to establish the connection
+immediately.</p>
 
 <p>If not, you must call <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span> before accessing the API.</p>
 
@@ -1846,7 +1919,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the underlying connection resource.</p>
+<p>Returns the underlying connection resource</p>
 
 
   </div>
@@ -1911,7 +1984,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns are we connected right now?.</p>
+<p>Returns are we connected right now?</p>
 
 
   </div>
@@ -1972,7 +2045,10 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This Hash caches the Extension Attribute definition objects for the three types of ext. attribs: ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and UserExtensionAttribute, whenever they are fetched for parsing or validating extention attribute data.</p>
+<p>This Hash caches the Extension Attribute definition objects for the three
+types of ext. attribs: ComputerExtensionAttribute,
+MobileDeviceExtensionAttribute, and UserExtensionAttribute, whenever they
+are fetched for parsing or validating extention attribute data.</p>
 
 <p>The top-level keys are the EA classes themselves:</p>
 <ul><li>
@@ -1989,8 +2065,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
  &quot;A Computer EA&quot; =&gt; &lt;JSS::ComputerExtensionAttribute...&gt;,
  &quot;A different Computer EA&quot; =&gt; &lt;JSS::ComputerExtensionAttribute...&gt;,
  ...
-}
-</code></pre>
+}</code></pre>
 
 
   </div>
@@ -2046,7 +2121,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The response from the most recent API call.</p>
+<p>Returns The response from the most recent API call</p>
 
 
   </div>
@@ -2107,7 +2182,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>connection during initialization, using the name: parameter. defaults to user@hostname:port</p>
+<p>connection during initialization, using the name: parameter. defaults to
+user@hostname:port</p>
 
 
   </div>
@@ -2168,16 +2244,23 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>This Hash caches the result of the the first API query for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY. See the APIObject.all class method.</p>
+<p>This Hash caches the result of the the first API query for an APIObject
+subclass&#39;s .all summary list, keyed by the subclass&#39;s
+RSRC_LIST_KEY. See the APIObject.all class method.</p>
 
 <p>It also holds related data items for speedier processing:</p>
 <ul><li>
-<p>The Hashes created by APIObject.map_all_ids_to(foo), keyed by “#RSRC_LIST_KEY<em>map</em>#other_key”.to_sym</p>
+<p>The Hashes created by APIObject.map_all_ids_to(foo), keyed by
+“#RSRC_LIST_KEY<em>map</em>#other_key”.to_sym</p>
 </li><li>
-<p>This hash also holds a cache of the rarely-used APIObject.all_objects hash, keyed by “#RSRC_LIST_KEY_objects”.to_sym</p>
+<p>This hash also holds a cache of the rarely-used APIObject.all_objects hash,
+keyed by “#RSRC_LIST_KEY_objects”.to_sym</p>
 </li></ul>
 
-<p>When APIObject.all, and related methods are called without an argument, and this hash has a matching value, the value is returned, rather than requerying the API. The first time a class calls .all, or whnever refresh is not false, the API is queried and the value in this hash is updated.</p>
+<p>When APIObject.all, and related methods are called without an argument, and
+this hash has a matching value, the value is returned, rather than
+requerying the API. The first time a class calls .all, or whnever refresh
+is not false, the API is queried and the value in this hash is updated.</p>
 
 
   </div>
@@ -2233,7 +2316,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the port used for the connection.</p>
+<p>Returns the port used for the connection</p>
 
 
   </div>
@@ -2294,7 +2377,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the protocol being used: http or https.</p>
+<p>Returns the protocol being used: http or https</p>
 
 
   </div>
@@ -2355,7 +2438,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The base URL to to the current REST API.</p>
+<p>Returns The base URL to to the current REST API</p>
 
 
   </div>
@@ -2538,7 +2621,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns any path in the URL below the hostname. See <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span>.</p>
+<p>Returns any path in the URL below the hostname. See <span class='object_link'><a href="#connect-instance_method" title="JSS::APIConnection#connect (method)">#connect</a></span></p>
 
 
   </div>
@@ -2603,7 +2686,7 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the username who&#39;s connected to the JSS API.</p>
+<p>Returns the username who&#39;s connected to the JSS API</p>
 
 
   </div>
@@ -2672,7 +2755,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>please use the .all class method of the desired class</p>
 </div></div>
 
-<p>Call one of the &#39;all*&#39; methods on a JSS::APIObject subclass using this APIConnection.</p>
+<p>Call one of the &#39;all*&#39; methods on a JSS::APIObject subclass using
+this APIConnection.</p>
 
 
   </div>
@@ -2723,12 +2807,12 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>Limit the output to subset or data. All APIObject subclasses can take :ids or :names, which calls the .all_ids and .all_names methods. Some subclasses can take other options, e.g. MobileDevice can take :udids</p>
+<p>Limit the output to subset or data. All APIObject subclasses can take :ids
+or :names, which calls the .all_ids and .all_names methods. Some subclasses
+can take other options, e.g. MobileDevice can take :udids</p>
 </div>
       
     </li>
@@ -2900,7 +2984,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::Computer.management_history or its convenience methods. @see JSS::ManagementHistory</p>
+<p>Please use JSS::Computer.management_history or its convenience methods.
+@see JSS::ManagementHistory</p>
 </div></div>
 
 <p>Call Computer.history q.v., passing this API connection</p>
@@ -2947,7 +3032,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>Please use JSS::Computer.inventory_collection_settings</p>
 </div></div>
 
-<p>Call <span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span> q.v., passing this API connection</p>
+<p>Call <span class='object_link'><a href="Computer.html#inventory_collection_settings-class_method" title="JSS::Computer.inventory_collection_settings (method)">Computer.inventory_collection_settings</a></span> q.v., passing this API
+connection</p>
 
 
   </div>
@@ -3090,18 +3176,15 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
             &mdash; <div class='inline'>
 <p>If your JSS is not at the root of the server, e.g. if it&#39;s at</p>
 
-<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/dev_mgmt/jssweb
-</code></pre>
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/dev_mgmt/jssweb</code></pre>
 
 <p>rather than</p>
 
-<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/
-</code></pre>
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/</code></pre>
 
 <p>then use this parameter to specify the path below the root e.g:</p>
 
-<pre class="code ruby"><code class="ruby">server_path: &#39;dev_mgmt/jssweb&#39;
-</code></pre>
+<pre class="code ruby"><code class="ruby">server_path: &#39;dev_mgmt/jssweb&#39;</code></pre>
 </div>
           
         </li>
@@ -3140,7 +3223,9 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
           </span>
           
             &mdash; <div class='inline'>
-<p>should HTTPS SSL certificates be verified. Defaults to true. If your connection raises RestClient::SSLCertificateNotVerified, and you don&#39;t care about the validity of the SSL cert. just set this explicitly to false.</p>
+<p>should HTTPS SSL certificates be verified. Defaults to true. If your
+connection raises RestClient::SSLCertificateNotVerified, and you don&#39;t
+care about the validity of the SSL cert. just set this explicitly to false.</p>
 </div>
           
         </li>
@@ -3166,7 +3251,11 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
           </span>
           
             &mdash; <div class='inline'>
-<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the user is promted on the commandline to enter the password for the :user. If :stdin#, the password is read from a line of std in represented by the digit at #, so :stdin3 reads the passwd from the third line of standard input. defaults to line 1, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
+<p>Required, the password for that user, or :prompt, or :stdin If :prompt, the
+user is promted on the commandline to enter the password for the :user. If
+:stdin#, the password is read from a line of std in represented by the
+digit at #, so :stdin3 reads the passwd from the third line of standard
+input. defaults to line 1, if no digit is supplied. see <span class='object_link'><a href="../JSS.html#stdin-class_method" title="JSS.stdin (method)">JSS.stdin</a></span></p>
 </div>
           
         </li>
@@ -3402,7 +3491,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect
+from So to disconnect, we just unset all our credentials.</p>
 
 
   </div>
@@ -3454,7 +3544,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>please use the .exist class method of the desired class</p>
 </div></div>
 
-<p>Call the &#39;exist?&#39; method on a JSS::APIObject subclass using this APIConnection. See <span class='object_link'><a href="APIObject.html#exist%3F-class_method" title="JSS::APIObject.exist? (method)">JSS::APIObject.exist?</a></span></p>
+<p>Call the &#39;exist?&#39; method on a JSS::APIObject subclass using this
+APIConnection. See <span class='object_link'><a href="APIObject.html#exist%3F-class_method" title="JSS::APIObject.exist? (method)">JSS::APIObject.exist?</a></span></p>
 
 
   </div>
@@ -3651,11 +3742,15 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Empty all cached lists from this connection then run garbage collection to clear any available memory</p>
+<p>Empty all cached lists from this connection then run garbage collection to
+clear any available memory</p>
 
-<p>If an APIObject Subclass&#39;s RSRC_LIST_KEY is specified, only the caches for that class are flushed (e.g. :computers, :comptuer_groups)</p>
+<p>If an APIObject Subclass&#39;s RSRC_LIST_KEY is specified, only the caches
+for that class are flushed (e.g. :computers, :comptuer_groups)</p>
 
-<p>NOTE if you&#39;ve referenced objects in these caches, those objects won&#39;t be removed from memory, but all cached data will be recached as needed.</p>
+<p>NOTE if you&#39;ve referenced objects in these caches, those objects
+won&#39;t be removed from memory, but all cached data will be recached as
+needed.</p>
 
 
   </div>
@@ -3677,7 +3772,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       
         &mdash;
         <div class='inline'>
-<p>Flush only the caches for the given RSRC_LIST_KEY. or the EAdef cache for the given extendable class. If nil (the default) flushes all caches</p>
+<p>Flush only the caches for the given RSRC_LIST_KEY. or the EAdef cache for
+the given extendable class. If nil (the default) flushes all caches</p>
 </div>
       
     </li>
@@ -3691,25 +3787,25 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-993
-994
-995
-996
-997
-998
-999
-1000
-1001
-1002
-1003
-1004
-1005
-1006
-1007
-1008</pre>
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 993</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 966</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flushcache'>flushcache</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="#EXTENDABLE_CLASSES-constant" title="JSS::APIConnection::EXTENDABLE_CLASSES (constant)">EXTENDABLE_CLASSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_key'>key</span>
@@ -3746,11 +3842,15 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
     
 <p>Get an arbitrary JSS resource</p>
 
-<p>The first argument is the resource to get (the part of the API url after the &#39;JSSResource/&#39; ) The resource must be properly URL escaped beforehand. Note: URL.encode is deprecated, use CGI.escape</p>
+<p>The first argument is the resource to get (the part of the API url after
+the &#39;JSSResource/&#39; ) The resource must be properly URL escaped
+beforehand. Note: URL.encode is deprecated, use CGI.escape</p>
 
-<p>By default we get the data in JSON, and parse it into a ruby Hash with symbolized Hash keys.</p>
+<p>By default we get the data in JSON, and parse it into a ruby Hash with
+symbolized Hash keys.</p>
 
-<p>If the second parameter is :xml then the XML version is retrieved and returned as a String.</p>
+<p>If the second parameter is :xml then the XML version is retrieved and
+returned as a String.</p>
 
 <p>To get the raw JSON string as it comes from the API, pass raw_json: true</p>
 
@@ -3772,7 +3872,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       
         &mdash;
         <div class='inline'>
-<p>the resource to get (the part of the API url after the &#39;JSSResource/&#39; )</p>
+<p>the resource to get (the part of the API url after the
+&#39;JSSResource/&#39; )</p>
 </div>
       
     </li>
@@ -3790,7 +3891,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       
         &mdash;
         <div class='inline'>
-<p>either ;json or :xml If the second argument is :xml, the XML data is returned as a String.</p>
+<p>either ;json or :xml If the second argument is :xml, the XML data is
+returned as a String.</p>
 </div>
       
     </li>
@@ -3803,12 +3905,11 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
-<p>When GETting JSON, return the raw unparsed string (the XML is always returned as a raw string)</p>
+<p>When GETting JSON, return the raw unparsed string (the XML is always
+returned as a raw string)</p>
 </div>
       
     </li>
@@ -3904,7 +4005,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The server to which we are connected, or will try connecting to if none is specified with the call to #connect</p>
+<p>The server to which we are connected, or will try connecting to if none is
+specified with the call to #connect</p>
 
 
   </div>
@@ -3972,7 +4074,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>Please use the .make class method of the desired class</p>
 </div></div>
 
-<p>Make a ruby instance of a not-yet-existing APIObject of the given class See <span class='object_link'><a href="APIObject.html#make-class_method" title="JSS::APIObject.make (method)">JSS::APIObject.make</a></span></p>
+<p>Make a ruby instance of a not-yet-existing APIObject of the given class See
+<span class='object_link'><a href="APIObject.html#make-class_method" title="JSS::APIObject.make (method)">JSS::APIObject.make</a></span></p>
 
 
   </div>
@@ -4058,7 +4161,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>please use the .map_all_ids_to  class method of the desired class</p>
 </div></div>
 
-<p>Call the &#39;map_all_ids_to&#39; method on a JSS::APIObject subclass using this APIConnection.</p>
+<p>Call the &#39;map_all_ids_to&#39; method on a JSS::APIObject subclass using
+this APIConnection.</p>
 
 
   </div>
@@ -4108,8 +4212,6 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -4177,7 +4279,9 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get the DistributionPoint instance for the master distribution point in the JSS. If there&#39;s only one in the JSS, return it even if not marked as master.</p>
+<p>Get the DistributionPoint instance for the master distribution point in the
+JSS. If there&#39;s only one in the JSS, return it even if not marked as
+master.</p>
 
 
   </div>
@@ -4219,19 +4323,6 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
     </li>
   
 </ul>
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -4241,43 +4332,13 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 
 898
 899
-900
-901
-902
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915</pre>
+900</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 898</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
-  <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
-  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
-
-  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dp_id'>dp_id</span><span class='op'>|</span>
-    <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='id identifier rubyid_dp_id'>dp_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_master?'>master?</span>
-      <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span>
-      <span class='kw'>break</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
-
-  <span class='comment'># If we&#39;re here, the Cloud DP might be master, but there&#39;s no
-</span>  <span class='comment'># access to it in the API :/
-</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No Master Distribtion Point defined. It could be the Cloud Dist Point, which is not available in the classic API</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4397,7 +4458,9 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get the DistributionPoint instance for the machine running this code, based on its IP address. If none is defined for this IP address, use the result of master_distribution_point</p>
+<p>Get the DistributionPoint instance for the machine running this code, based
+on its IP address. If none is defined for this IP address, use the result
+of master_distribution_point</p>
 
 
   </div>
@@ -4446,39 +4509,15 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-925
-926
-927
-928
-929
-930
-931
-932
-933
-934
-935
-936
-937
-938
-939</pre>
+910
+911
+912</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 925</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 910</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
-  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
-  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
-
-  <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span> <span class='op'>=</span> <span class='id identifier rubyid_my_network_segments'>my_network_segments</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span>
-    <span class='id identifier rubyid_my_net_seg'>my_net_seg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_my_dp_name'>my_dp_name</span> <span class='op'>=</span> <span class='id identifier rubyid_my_net_seg'>my_net_seg</span><span class='period'>.</span><span class='id identifier rubyid_distribution_point'>distribution_point</span>
-    <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="JSS::APIObject.fetch (method)">fetch</a></span></span><span class='lparen'>(</span><span class='label'>name:</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span>
-  <span class='kw'>end</span> <span class='comment'># if my_net_seg_id
-</span>
-  <span class='ivar'>@my_distribution_point</span> <span class='op'>||=</span> <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span>
-  <span class='ivar'>@my_distribution_point</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'><span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">my_distribution_point</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4517,12 +4556,12 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-961
-962
-963</pre>
+934
+935
+936</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 961</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 934</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_my_network_segments'>my_network_segments</span>
   <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_ip_address'><span class='object_link'><a href="Client.html#my_ip_address-class_method" title="JSS::Client.my_ip_address (method)">my_ip_address</a></span></span>
@@ -4564,12 +4603,12 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-945
-946
-947</pre>
+918
+919
+920</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 945</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 918</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_network_ranges'>network_ranges</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_network_ranges'><span class='object_link'><a href="NetworkSegment.html#network_ranges-class_method" title="JSS::NetworkSegment.network_ranges (method)">network_ranges</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
@@ -4611,12 +4650,12 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-953
-954
-955</pre>
+926
+927
+928</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 953</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 926</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_network_segments_for_ip'>network_segments_for_ip</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="JSS::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_network_segments_for_ip'><span class='object_link'><a href="NetworkSegment.html#network_segments_for_ip-class_method" title="JSS::NetworkSegment.network_segments_for_ip (method)">network_segments_for_ip</a></span></span> <span class='id identifier rubyid_ip'>ip</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span>
@@ -4814,7 +4853,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create
+pretty-print (pp) output.</p>
 
 
   </div>
@@ -4846,19 +4886,19 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-1016
-1017
-1018
-1019
-1020
-1021
-1022
-1023
-1024
-1025</pre>
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 1016</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 989</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -5000,7 +5040,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+<p>Please use JSS::Computer.send_mdm_command or its convenience methods. @see
+JSS::MDM</p>
 </div></div>
 
 <p>Call Computer.send_mdm_command q.v.,  passing this API connection</p>
@@ -5046,7 +5087,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </h3><div class="docstring">
   <div class="discussion">
     <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
-<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods. @see JSS::MDM</p>
+<p>Please use JSS::MobileDevice.send_mdm_command or its convenience methods.
+@see JSS::MDM</p>
 </div></div>
 
 <p>Send an MDM command to one or more mobile devices managed by this JSS</p>
@@ -5065,12 +5107,12 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
       <pre class="lines">
 
 
-973
-974
-975</pre>
+946
+947
+948</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 973</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_connection.rb', line 946</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_mobiledevice_mdm_command'>send_mobiledevice_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span></span><span class='period'>.</span><span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>self</span><span class='rparen'>)</span>
@@ -5210,7 +5252,8 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 <p>please use the .valid_id class method of the desired class</p>
 </div></div>
 
-<p>Call the &#39;valid_id&#39; method on a JSS::APIObject subclass using this APIConnection. See <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">JSS::APIObject.valid_id</a></span></p>
+<p>Call the &#39;valid_id&#39; method on a JSS::APIObject subclass using this
+APIConnection. See <span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">JSS::APIObject.valid_id</a></span></p>
 
 
   </div>
@@ -5459,9 +5502,9 @@ prod2_victim_md = JSS::MobileDevice.fetch id: 832, api: production_api2
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 16 10:37:56 2020 by
+  Generated on Fri Aug  7 11:26:29 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.24 (ruby-2.6.3).
+  0.9.20 (ruby-2.3.7).
 </div>
 
     </div>
