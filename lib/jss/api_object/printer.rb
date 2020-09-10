@@ -386,7 +386,7 @@ module JSS
         # @return [void]
         def os_requirements=(newvalue)
 
-            raise JSS::InvalidDataError, "os_requirements must be a string." unless newvalue.is_a? String
+            raise JSS::InvalidDataError, "os_requirements must be a string." unless newvalue.is_a?(String) && !newvalue.nil?
 
             @os_requirements = newvalue
 
