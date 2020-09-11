@@ -376,9 +376,9 @@ module JSS
         #
         # @author Tyler Morgan
         #
-        # @param newvalue [String]
+        # @param newvalue [String, Float, Array[String], Array[Float]]
         #
-        # @raise [JSS::InvalidDataError] If newvalue is not a String
+        # @raise [JSS::InvalidDataError] If newvalue is not a String, Float, Array containing Strings, or Array containing Floats.
         #
         # @example Limit Printer object to only High Sierra devices and Mojave 10.14.5 OS versions
         #   printer.os_requirements = "10.13.x, 10.14.5"
@@ -386,8 +386,14 @@ module JSS
         # @return [void]
         def os_requirements=(newvalue)
 
-            raise JSS::InvalidDataError, "os_requirements must be a string." unless newvalue.is_a?(String) && !newvalue.nil?
-
+            if newvalue.is_a? Array
+                # Parse Array
+                raise JSS::InvalidDataError, "If setting os_requirements with an array, it must contain strings or floats." unless newvalue[0].is_a?(String) || newvalue[0].is_a?(Float)
+                newvalue = newvalue.map { |x| x.to_s }.join(',')
+            else
+                raise JSS::InvalidDataError, "os_requirements must either be a string, float, or an array containing strings or floats." unless (newvalue.is_a?(String) || newvalue.is_a?(Float)) && !newvalue.nil?
+            end
+                
             @os_requirements = newvalue
 
             @need_to_update = true
