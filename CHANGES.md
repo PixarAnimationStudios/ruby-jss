@@ -4,6 +4,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.4.0] - 2020-09-14
+
+### Added
+
+  - Class JSS::VPPAccount, implementing the 'vppacconts' endpoint.
+
+  - Constant JSS::APP_STORE_COUNTRY_CODES, a Hash with keys being the official country names used by the App Store, and values being the two-letter codes for those names. This static Hash is derived from a Jamf Pro API end point, and will be updated as needed. These codes are used by JSS::VPPAccount
+
+  - Module Method JSS.country_code_match(str) whic allows you to filter the JSS::APP_STORE_COUNTRY_CODES Hash to only those key-value pairs that include the given string.
+
+  - Mixin Class Method VPPable.all_vpp_device_assignable, returns a Hash of Hashes showing the total, used, and remaining licenses for all members of the target class that are VPP-assignable by device.
+
+  - Scopable::Scope#in_scope?(machine) Given a JSS::Computer or MobileDevice, or an identifier for one, it is in the scope? WARNING: For scopes that include Jamf Users or User Groups as targets or exclusions, this method may return an incorrect value. See the discussion in the comments/documentation for the Scopable::Scope class under `IMPORTANT - Users & User Groups in Targets and Exclusions`
+
+  - Scopable::Scope#scoped_machines returns a Hash of ids=>names for all machines in this scope. WARNING:  This must instantiate all machines in the target class. It will still be slow, at least the first time for each target class. On the upside, the instantiated machines will be cached, so generating this list for other scopes with the same target class will be much much faster. In tests, with 1600 Computers in the JSS, it took about 7 minutes the first time, but less than 1 second after caching.
+  See also the warning for #in_scope? above, which applies here as well.
+
+  - JSS::Policy objects support 'Policy Retry' via the getter/setter methods #retry_event, #retry_attempts, and #notify_failed_retries. You can only set these values if the #frequency is :once_per_computer. To turn off policy-retry, either set the retry_event to :none, or set the retry_attempts to 0
+
+### Changed
+
+  - Prettier XML for JSS::APIObject#ppx
+
+  - Improved JSS::Validate.boolean. Accepts: true, false, 'true', 'false', 'yes', 'no', 't','f', 'y', or 'n' as Strings or Symbols, case insensitive
+
+  - The JSS::MacApplication class is more fully implemented
+
+  - JSS::Scopable::Scope now uses the word 'targets' consistently to match the UI's 'Targets' tab.  The previous word 'inclusions' still works as before.
+
+  - When using the Jamf module to access the Jamf Pro API, the minumum JamfPro version is now 10.23.0. WARNING: Like the Jamf Pro API itself, the Jamf module that accesses it is in beta and may have breaking changes at any time.
+
+### Fixed
+
+  - JSS::ExtensionAttribute: when used as a display field in an AdvancedSearch, the name of the EA in the search result Hash comes from the API as a String (turned into a Symbol) that is the EA name with colons removed and spaces & dashes turned to underscores. Previously ruby-jss didn't remove the colons
+
+  - Used an XML workaround for the common classic API bug where an XML array comes as a single-item JSON hash. This time in the JSS::User class's user_groups method.
+
+  - The Jamf Pro API endpoints for /v1/device-enrollment changed to /v1/device-enrollments and /v1/device-enrollment/sync/<id> changed to /v1/device-enrollments/<id>/syncs.  /v1/devive-enrollments/syncs.
+
+  - The Jamf Pro API endpoint for bulk-deleting Departments changed from 'delete-departments' to 'delete-multiple'
+
 ## \[1.3.3] - 2020-08-07
 
 ### Fixed
