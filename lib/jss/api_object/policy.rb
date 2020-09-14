@@ -784,6 +784,12 @@ module JSS
       evt = evt.is_a?(Symbol) ? RETRY_EVENTS[evt] : evt
       return if evt == @retry_event
 
+      # if the event is not 'none' and attempts is <= 0,
+      # set events to 1, or the API won't accept it
+      unless evt == RETRY_EVENTS[:none]
+        @retry_attempts = 1 unless @retry_attempts.positive?
+      end
+
       @retry_event = evt
       @need_to_update = true
     end
