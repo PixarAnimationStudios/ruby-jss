@@ -2,3 +2,4 @@
 *.DS_Store
 *.gem
 /_misc_notes_etc
+/_generate_object_models
