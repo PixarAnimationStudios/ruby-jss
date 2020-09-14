@@ -688,7 +688,8 @@ module JSS
         scope = REXML::Element.new 'scope'
         scope.add_element(@all_key.to_s).text = @all_targets
 
-        @targets.each do |klass, list|
+        @target_keys.each do |klass|
+          list = @targets[klass]
           list.compact!
           list.delete 0
           list_as_hashes = list.map { |i| { id: i } }
@@ -718,7 +719,8 @@ module JSS
         end
 
         exclusions = scope.add_element('exclusions')
-        @exclusions.each do |klass, list|
+        @exclusion_keys.each do |klass|
+          list = @exclusions[klass]
           list.compact!
           list.delete 0
           if klass == :jamf_ldap_users
