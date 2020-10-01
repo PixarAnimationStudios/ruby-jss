@@ -24,9 +24,6 @@
 require 'faraday' # >= 0.17.0
 require 'faraday_middleware' # >= 0.13.0
 
-require 'jamf/api/connection/token'
-require 'jamf/api/connection/api_error'
-
 # The module
 module Jamf
 
@@ -861,3 +858,6 @@ module Jamf
   end
 
 end # module Jamf
+
+require 'jamf/api/connection/token'
+require 'jamf/api/connection/api_error'
