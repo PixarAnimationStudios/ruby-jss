@@ -44,6 +44,15 @@ module Jamf
       # transaction authorization.
       AUTH_TOKEN_PFX = 'jamf-token '.freeze
 
+      # Recognize the tryitout server, cuz its /auth endpoint
+      # is disabled, and it needs no tokens
+      JAMF_TRYITOUT_HOST = "tryitout#{Jamf::Connection::JAMFCLOUD_DOMAIN}".freeze
+
+      JAMF_TRYITOUT_TOKEN_BODY = {
+        token: 'This is a fake token, tryitout.jamfcloud.com uses internal tokens',
+        expires: 2000000000000
+      }.freeze
+
       # @return [String] The user who generated this token
       attr_reader :user
 
@@ -81,7 +90,9 @@ module Jamf
         @timeout = params[:timeout] || Jamf::Connection::DFT_TIMEOUT
         @ssl_options = params[:ssl_options] || {}
 
-        if params[:pw]
+        if @base_url.host == JAMF_TRYITOUT_HOST
+          init_jamf_tryitout
+        elsif params[:pw]
           init_from_pw params[:pw]
         elsif params[:token_string]
           init_from_token_string params[:token_string]
@@ -89,6 +100,15 @@ module Jamf
           raise ArgumentError, 'Must provide either pw: or token_string:'
         end
       end # init
+
+      # Initialize from password
+      def init_jamf_tryitout
+        @token_response_body = JAMF_TRYITOUT_TOKEN_BODY
+        @auth_token = AUTH_TOKEN_PFX + @token_response_body[:token]
+        @expires = Jamf::Timestamp.new @token_response_body[:expires]
+        @login_time = Jamf::Timestamp.new Time.now
+        @valid = true
+      end # init_from_pw
 
       # Initialize from password
       def init_from_pw(pw)
