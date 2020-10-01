@@ -157,6 +157,7 @@ module Jamf
   autoload :AdvancedMobileDeviceSearch, 'jamf/api/resources/collection_resources/advanced_mobile_device_search'
   autoload :AdvancedUserSearch, 'jamf/api/resources/collection_resources/advanced_user_search'
   autoload :Attachment, 'jamf/api/resources/collection_resources/attachment'
+  autoload :Category, 'jamf/api/resources/collection_resources/category'
   autoload :Building, 'jamf/api/resources/collection_resources/building'
   autoload :Computer, 'jamf/api/resources/collection_resources/computer'
   autoload :ComputerPrestage, 'jamf/api/resources/collection_resources/computer_prestage'
