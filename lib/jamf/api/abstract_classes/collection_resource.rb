@@ -253,15 +253,19 @@ module Jamf
       validate_not_abstract
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
 
+      # Which connection to use
       cnx = params.delete :cnx
       cnx ||= Jamf.cnx
 
       params.delete :id # no such animal when .creating
-
       params.keys.each do |param|
         raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
 
-        params[param] = validate_attr param, params[param], cnx: cnx
+        if params[param].is_a Array?
+          params[param].map! { |val| validate_attr param, val, cnx: cnx }
+        else
+          params[param] = validate_attr param, params[param], cnx: cnx
+        end
       end
 
       params[:creating_from_create] = true
