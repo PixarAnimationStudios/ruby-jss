@@ -45,7 +45,7 @@ module Jamf
     RSRC_BASE = 'uapi'.freeze
 
     # The API version must be this or higher
-    MIN_JAMF_VERSION = Gem::Version.new('10.23.0')
+    MIN_JAMF_VERSION = Gem::Version.new('10.25.0')
 
     HTTPS_SCHEME = 'https'.freeze
 
