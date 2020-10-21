@@ -139,6 +139,28 @@ module Jamf
       raise Jamf::InvalidDataError, msg
     end
 
+    # Confirm that a value provided is an integer or a string version
+    # of an integer, and return the string version
+    #
+    # The JPAPI specs say that all IDs are integers in strings
+    # tho, the endpoints are still implementing that in different versions.
+    #
+    # @param val[Object] the value to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the valid integer-in-a-string
+    #
+    def self.j_id(val, msg = 'Value must be an Integer or an Integer in a String, e.g. "42"')
+      case val
+      when Integer
+        return val.to_s
+      when String
+        return val if val.j_integer?
+      end
+      raise Jamf::InvalidDataError, msg
+    end
+
     # Confirm that a value is an Integer or a String representation of an
     # Integer. Return the integer, or raise an error
     #
