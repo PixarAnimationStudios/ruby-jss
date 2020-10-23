@@ -126,6 +126,7 @@ module Jamf
   autoload :Country, 'jamf/api/json_objects/country'
   autoload :Criterion, 'jamf/api/json_objects/criterion'
   autoload :DeviceEnrollmentDevice, 'jamf/api/json_objects/device_enrollment_device'
+  autoload :DeviceEnrollmentDeviceSyncState, 'jamf/api/json_objects/device_enrollment_device_sync_state'
   autoload :DeviceEnrollmentSyncStatus, 'jamf/api/json_objects/device_enrollment_sync_status'
   autoload :ExtensionAttributeValue, 'jamf/api/json_objects/extension_attribute_value'
   autoload :InstalledApplication, 'jamf/api/json_objects/installed_application'

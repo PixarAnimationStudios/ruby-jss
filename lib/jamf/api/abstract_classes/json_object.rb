@@ -505,12 +505,6 @@ module Jamf
     # These classes are used from JSON in the raw
     JSON_TYPE_CLASSES = %i[string integer float boolean].freeze
 
-    # Predicate (boolean) attibutes that start with this RE will
-    # have an alias without the 'is' so :isManaged will have
-    # getters isManaged? and managed?
-    #
-    PREDICATE_RE = /^is([A-Z]\w+)$/.freeze
-
     # Public Class Methods
     #####################################
 
@@ -618,9 +612,6 @@ module Jamf
     ##############################
     def self.define_predicates(attr_name)
       alias_method("#{attr_name}?", attr_name)
-      return unless attr_name.to_s =~ PREDICATE_RE
-
-      alias_method("#{Regexp.last_match(1).downcase}?", attr_name)
     end
 
     # create setter(s) for an attribute, and any aliases needed

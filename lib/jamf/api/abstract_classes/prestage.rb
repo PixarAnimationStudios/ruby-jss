@@ -49,9 +49,9 @@ module Jamf
     OBJECT_MODEL = {
 
       # @!attribute [r] id
-      #   @return [Integer]
+      #   @return [String]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
@@ -66,15 +66,15 @@ module Jamf
         aliases: %i[name]
       },
 
-      # @!attribute isMandatory
+      # @!attribute mandatory
       #   @return [Boolean]
-      isMandatory: {
+      mandatory: {
         class: :boolean
       },
 
-      # @!attribute isMdmRemovable
+      # @!attribute mdmRemovable
       #   @return [Boolean]
-      isMdmRemovable: {
+      mdmRemovable: {
         class: :boolean
       },
 
@@ -96,9 +96,9 @@ module Jamf
         class: :string
       },
 
-      # @!attribute isDefaultPrestage
+      # @!attribute defaultPrestage
       #   @return [Boolean]
-      isDefaultPrestage: {
+      defaultPrestage: {
         class: :boolean,
         aliases: [:default?]
       },
@@ -106,24 +106,24 @@ module Jamf
       # @!attribute enrollmentSiteId
       #   @return [Integer]
       enrollmentSiteId: {
-        class: :integer
+        class: :j_id
       },
 
-      # @!attribute isKeepExistingSiteMembership
+      # @!attribute keepExistingSiteMembership
       #   @return [Boolean]
-      isKeepExistingSiteMembership: {
+      keepExistingSiteMembership: {
         class: :boolean
       },
 
-      # @!attribute isKeepExistingLocationInformation
+      # @!attribute keepExistingLocationInformation
       #   @return [Boolean]
-      isKeepExistingLocationInformation: {
+      keepExistingLocationInformation: {
         class: :boolean
       },
 
-      # @!attribute isRequireAuthentication
+      # @!attribute requireAuthentication
       #   @return [Boolean]
-      isRequireAuthentication: {
+      requireAuthentication: {
         class: :boolean
       },
 
@@ -133,16 +133,22 @@ module Jamf
         class: :string
       },
 
-      # @!attribute isEnableDeviceBasedActivationLock
+      # @!attribute preventActivationLock
       #   @return [Boolean]
-      isEnableDeviceBasedActivationLock: {
+      preventActivationLock: {
+        class: :boolean
+      },
+
+      # @!attribute enableDeviceBasedActivationLock
+      #   @return [Boolean]
+      enableDeviceBasedActivationLock: {
         class: :boolean
       },
 
       # @!attribute deviceEnrollmentProgramInstanceId
       #   @return [Integer]
       deviceEnrollmentProgramInstanceId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute locationInformation
@@ -169,19 +175,37 @@ module Jamf
       # @!attribute enrollmentCustomizationId
       #   @return [Integer]
       enrollmentCustomizationId: {
-        class: :integer
+        class: :j_id
+      },
+
+      # @!attribute language
+      #   @return [String]
+      language: {
+        class: :string
+      },
+
+      # @!attribute region
+      #   @return [String]
+      region: {
+        class: :string
+      },
+
+      # @!attribute autoAdvanceSetup
+      #   @return [Boolean]
+      autoAdvanceSetup: {
+        class: :boolean
       },
 
       # @!attribute profileUUID
       #   @return [String]
-      profileUUID: {
+      profileUuid: {
         class: :string
       },
 
       # @!attribute siteId
       #   @return [Integer]
       siteId: {
-        class: :integer
+        class: :j_id
       }
 
     }.freeze

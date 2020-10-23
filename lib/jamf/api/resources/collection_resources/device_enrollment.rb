@@ -61,9 +61,9 @@ module Jamf
     OBJECT_MODEL = {
 
       # @!attribute id
-      #   @return [Integer]
+      #   @return [String]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
@@ -76,15 +76,15 @@ module Jamf
       },
 
       # @!attribute supervisionIdentityId
-      #   @return [Integer]
+      #   @return [String]
       supervisionIdentityId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute siteId
-      #   @return [Integer]
+      #   @return [String]
       siteId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute serverName

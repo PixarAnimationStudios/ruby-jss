@@ -85,7 +85,7 @@ module Jamf
         @httpStatus = http_response.status
 
         @errors =
-          if @http_response.body.dig :errors
+          if @http_response.body[:errors]
             @http_response.body[:errors].map { |e| ErrorInfo.new e }
           else
             []

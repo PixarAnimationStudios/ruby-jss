@@ -42,9 +42,9 @@ module Jamf
     #####################################
 
     # The start of the path for API resources
-    RSRC_BASE = 'uapi'.freeze
+    RSRC_BASE = 'api'.freeze
 
-    # The API version must be this or higher
+    # The JamfPro version must be this or higher
     MIN_JAMF_VERSION = Gem::Version.new('10.25.0')
 
     HTTPS_SCHEME = 'https'.freeze
@@ -158,7 +158,6 @@ module Jamf
     #
     # SingletonResource.fetch will return the instance from here, if it exists,
     # unless the first parameter is truthy.
-
     attr_reader :singleton_cache
 
     # @return [Hash]

@@ -26,79 +26,56 @@
 # The module
 module Jamf
 
-  # A 'location' for a computer prestage in Jamf Pro
-  class PrestageLocation < Jamf::JSONObject
+  # The status of a device from Apple's POV, regarding its
+  # assignment or removal from ADE. Such assignment is done via
+  # a profile from apple, this data is the state of that profile.
+  class DeviceEnrollmentDeviceSyncState < Jamf::JSONObject
 
-    include Jamf::Lockable
+    extend Jamf::Immutable
 
     OBJECT_MODEL = {
 
       # @!attribute id
+      #   NOTE: this is not a jamf object id, it comes from Apple, therefore
+      #   it is an Integer, not a :j_id
       #   @return [Integer]
       id: {
-        class: :j_id,
-        identifier: :primary
+        class: :integer
       },
 
-      # @!attribute username
-      #   @param [String]
+      # @!attribute serialNumber
       #   @return [String]
-      username: {
+      serialNumber: {
         class: :string
       },
 
-      # @!attribute realName
-      #   @param [String]
+      # @!attribute profileUUID
       #   @return [String]
-      realname: {
+      profileUUID: {
         class: :string
       },
 
-      # @!attribute emailAddress
-      #   @param [String]
+      # @!attribute syncStatus
       #   @return [String]
-      email: {
+      syncStatus: {
         class: :string
       },
 
-      # @!attribute position
-      #   @param [String]
-      #   @return [String]
-      position: {
-        class: :string
+      # @!attribute failureCount
+      #   @return [Integer]
+      failureCount: {
+        class: :integer
       },
 
-      # @!attribute phoneNumber
-      #   @param [String]
-      #   @return [String]
-      phone: {
-        class: :string
-      },
-
-      # @!attribute department
-      #   @param [integer]
-      #   @return [integer]
-      departmentId: {
-        class: :j_id
-      },
-
-      # @!attribute building
-      #   @param [integer]
-      #   @return [integer]
-      buildingId: {
-        class: :j_id
-      },
-
-      # @!attribute room
-      #   @param [String]
-      #   @return [String]
-      room: {
-        class: :string
+      # @!attribute timestamp
+      #   @return [Jamf::Timestamp]
+      timestamp: {
+        class: Jamf::Timestamp
       }
     }.freeze
 
     parse_object_model
 
-  end # class location
+  end # class Country
 
 end # module

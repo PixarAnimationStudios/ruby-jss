@@ -32,13 +32,15 @@ module Jamf
 
       JAMF_VERSION_RSRC = 'v1/jamf-pro-version'.freeze
 
+      AUTH_RSRC_VERSION = 'v1'.freeze
+
       AUTH_RSRC = 'auth'.freeze
 
-      NEW_TOKEN_RSRC = "#{AUTH_RSRC}/tokens".freeze
+      NEW_TOKEN_RSRC = "#{AUTH_RSRC_VERSION}/#{AUTH_RSRC}/token".freeze
 
-      KEEP_ALIVE_RSRC = "#{AUTH_RSRC}/keepAlive".freeze
+      KEEP_ALIVE_RSRC = "#{AUTH_RSRC_VERSION}/#{AUTH_RSRC}/keep-alive".freeze
 
-      INVALIDATE_RSRC = "#{AUTH_RSRC}/invalidateToken".freeze
+      INVALIDATE_RSRC = "#{AUTH_RSRC_VERSION}/#{AUTH_RSRC}/invalidate-token".freeze
 
       # this string is prepended to the token data when used for
       # transaction authorization.
@@ -50,7 +52,7 @@ module Jamf
 
       JAMF_TRYITOUT_TOKEN_BODY = {
         token: 'This is a fake token, tryitout.jamfcloud.com uses internal tokens',
-        expires: 2000000000000
+        expires: 2_000_000_000_000
       }.freeze
 
       # @return [String] The user who generated this token
@@ -265,12 +267,6 @@ module Jamf
 
       # @return [String]
       def raw_jamf_version
-        # TODO: Remove this once we require Jamf Pro 10.19 and up
-        # the rsrc for getting the version used to be nothing (the
-        # base url itself returnedit) but now its JAMF_VERSION_RSRC
-        resp = token_connection(Jamf::BLANK, token: @auth_token).get # .body # [:version]
-        return resp.body[:version] if resp.success?
-
         resp = token_connection(JAMF_VERSION_RSRC, token: @auth_token).get
         return resp.body[:version] if resp.success?
 

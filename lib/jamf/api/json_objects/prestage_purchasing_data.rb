@@ -36,28 +36,28 @@ module Jamf
       # @!attribute id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary
       },
 
-      # @!attribute isPurchased
+      # @!attribute purchased
       #   @param [Boolean]
       #   @return [Boolean]
-      isPurchased: {
+      purchased: {
         class: :boolean
       },
 
-      # @!attribute isLeased
+      # @!attribute leased
       #   @param [Boolean]
       #   @return [Boolean]
-      isLeased: {
+      leased: {
         class: :boolean
       },
 
-      # @!attribute appleCareID
+      # @!attribute appleCareId
       #   @param [String]
       #   @return [String]
-      appleCareID: {
+      appleCareId: {
         class: :string
       },
 

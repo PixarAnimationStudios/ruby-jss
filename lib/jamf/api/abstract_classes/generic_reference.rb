@@ -53,7 +53,7 @@ module Jamf
     OBJECT_MODEL = {
 
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
