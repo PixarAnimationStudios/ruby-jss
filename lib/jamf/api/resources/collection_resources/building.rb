@@ -36,6 +36,7 @@ module Jamf
     #####################################
 
     include Jamf::ChangeLog
+
     include Jamf::Referable
 
     # Constants
@@ -54,7 +55,7 @@ module Jamf
       # @!attribute [r] id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },

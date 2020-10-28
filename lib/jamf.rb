@@ -113,6 +113,9 @@ module Jamf
   autoload :Immutable, 'jamf/api/mixins/immutable'
   autoload :UnDeletable, 'jamf/api/mixins/undeletable'
   autoload :Abstract, 'jamf/api/mixins/abstract'
+  autoload :Pageable, 'jamf/api/mixins/pageable'
+  autoload :Filterable, 'jamf/api/mixins/filterable'
+  autoload :Sortable, 'jamf/api/mixins/sortable'
 
   # Utility modules
   autoload :Validate, 'jamf/validate'
