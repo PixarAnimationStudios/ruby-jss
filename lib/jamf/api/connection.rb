@@ -82,6 +82,7 @@ module Jamf
     TOKEN_REUSE_MIN_LIFE = 60
 
     HTTP_ACCEPT_HEADER = 'Accept'.freeze
+
     HTTP_CONTENT_TYPE_HEADER = 'Content-Type'.freeze
 
     MIME_JSON = 'application/json'.freeze
@@ -700,7 +701,11 @@ module Jamf
 
       @timeout = params[:timeout]
       @open_timeout = params[:open_timeout]
-      @base_url = URI.parse "https://#{@host}:#{@port}/#{RSRC_BASE}"
+
+      # TEMPORARY ? the tryitout host still uses `uapi` rather than the
+      # new `api` for regular servers
+      rsrc_base = @host == Token::JAMF_TRYITOUT_HOST ? 'uapi' : RSRC_BASE
+      @base_url = URI.parse "https://#{@host}:#{@port}/#{rsrc_base}"
 
       # ssl opts for faraday
       # TODO: implement all of faraday's options
