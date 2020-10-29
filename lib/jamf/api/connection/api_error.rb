@@ -83,18 +83,18 @@ module Jamf
       def initialize(http_response)
         @http_response = http_response
         @httpStatus = http_response.status
-
         @errors =
-          if @http_response.body[:errors]
-            @http_response.body[:errors].map { |e| ErrorInfo.new e }
-          else
-            []
+          if @http_response.body.is_a? String
+            JSON.parse(@http_response.body)[:errors]
+          elsif @http_response.body.is_a?(Hash)
+            @http_response.body[:errors]
           end
+        @errors &&= @errors.map { |e| ErrorInfo.new e }
 
-        if @errors.empty?
+        unless @errors
           code = @httpStatus
-          desc = @httpStatus == 404 ? RSRC_NOT_FOUND : @http_response.reason_phrase
-          @errors << ErrorInfo.new(code: code, field: nil, description: desc, id: nil)
+          desc = code == 404 ? RSRC_NOT_FOUND : @http_response.reason_phrase
+          @errors = [ErrorInfo.new(code: code, field: nil, description: desc, id: nil)]
         end
 
         super
