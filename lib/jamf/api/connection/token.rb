@@ -156,12 +156,14 @@ module Jamf
 
       # @return [String]
       def jamf_version
-        raw_jamf_version.split('-').first
+        fetch_jamf_version unless @jamf_version
+        @jamf_version
       end
 
       # @return [String]
       def jamf_build
-        raw_jamf_version.split('-').last
+        fetch_jamf_version unless @jamf_build
+        @jamf_build
       end
 
       # @return [Boolean]
@@ -266,9 +268,12 @@ module Jamf
       end
 
       # @return [String]
-      def raw_jamf_version
+      def fetch_jamf_version
         resp = token_connection(JAMF_VERSION_RSRC, token: @auth_token).get
-        return resp.body[:version] if resp.success?
+        if resp.success?
+          @jamf_version, @jamf_build = resp.body[:version].split('-')
+          return
+        end
 
         raise Jamf::InvalidConnectionError, 'Unable to read Jamf version from the API'
       end
