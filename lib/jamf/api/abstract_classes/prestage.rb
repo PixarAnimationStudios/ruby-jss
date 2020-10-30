@@ -29,14 +29,11 @@ module Jamf
   # Classes
   #####################################
 
-  # A building defined in the JSS
+  # The parent class of ComputerPrestage, and MobileDevicePrestage
+  # holding common code.
   class Prestage < Jamf::CollectionResource
 
     extend Jamf::Abstract
-
-    # for now, subclasses are not creatable
-    extend Jamf::UnCreatable
-
     include Jamf::Lockable
 
     # Constants
@@ -225,10 +222,14 @@ module Jamf
     # @return [Jamf::Prestage, nil]
     #
     def self.default
-      id = all.select { |ps| ps[:isDefaultPrestage] }.first.dig :id
-      return nil unless id
+      # only one can be true at a time, so sort desc by that field,
+      # and the true one will be at the top
+      default_prestage_data = all(sort: 'defaultPrestage:desc', paged: true, page_size: 1).first
 
-      fetch id: id
+      # Just in case there was no true one, make sure defaultPrestage is true
+      return unless default_prestage_data&.dig(:defaultPrestage)
+
+      fetch id: default_prestage_data[:id]
     end
 
     # Return all scoped serial numbers and the id of the prestage
