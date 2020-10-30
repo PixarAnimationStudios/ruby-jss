@@ -116,6 +116,7 @@ module Jamf
   autoload :Pageable, 'jamf/api/mixins/pageable'
   autoload :Filterable, 'jamf/api/mixins/filterable'
   autoload :Sortable, 'jamf/api/mixins/sortable'
+  autoload :BulkDeletable, 'jamf/api/mixins/bulk_deletable'
 
   # Utility modules
   autoload :Validate, 'jamf/validate'

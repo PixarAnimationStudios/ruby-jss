@@ -24,14 +24,35 @@
 
 module Jamf
 
-  # This mixin overrides JSONObject.mutable? to return false,
-  # meaning that no setters are ever defined, and if the
-  # object is a Jamf::Resource, #save will raise an error
+  # This mixin implements the .../delete-multiple endpoints that
+  # some collection resources have (and eventually all will??)
+  # It should be extended into classes representing those resources
   #
-  module Immutable
+  module BulkDeletable
 
-    def mutable?
-      false
+    DELETE_MULTIPLE_ENDPOINT = 'delete-multiple'.freeze
+
+    # Delete multiple objects by providing an array of their
+    #
+    # @param ids [Array<String,Integer>] The ids to delete
+    #
+    # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
+    #
+    # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
+    #   that failed to be deleted.
+    #
+    def bulk_delete(ids, cnx: Jamf.cnx)
+      ids = [ids] unless ids.is_a? Array
+      request_body = { ids: ids.map(&:to_s) }
+
+      begin
+        cnx.post "#{rsrc_path}/#{DELETE_MULTIPLE_ENDPOINT}", request_body
+        []
+      rescue Jamf::Connection::APIError => e
+        raise e unless e.httpStatus == 400
+
+        e.errors
+      end
     end
 
   end # Lockable
