@@ -83,7 +83,7 @@ module Jamf
     #
     # Note that ISO8601 accepts the formats: +/-hh:mm, +/-hhmm, or +/-hh
     #
-    # @return [Integer] The offset from UTC, as a string
+    # @return [String] The offset from UTC, as a string
     #
     def utc_offset_str
       return @utc_offset_str if @utc_offset_str
