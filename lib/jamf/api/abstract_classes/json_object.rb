@@ -179,6 +179,7 @@ module Jamf
   # - enum:
   # - validator:
   # - aliases:
+  # - filter_key:
   #
   # For an example of an OBJECT_MODEL hash, see {Jamf::MobileDeviceDetails::OBJECT_MODEL}
   #
@@ -369,6 +370,14 @@ module Jamf
   # be made for all aliases. Should be used very sparingly.
   #
   # Attributes of class :boolean automatically have a getter alias ending with a '?'.
+  #
+  # filter_key: \[Boolean]
+  # -----------------
+  # For subclasses of CollectionResource, GETting the main endpoint will return
+  # the entire collection. Some of these endpoints support RSQL filters to return
+  # only those objects that match the filter. If this attribute can be used as
+  # a field for filtering, set filter_key: to true, and filters will be used
+  # where possible to optimize GET requests.
   #
   # Documenting your code
   # ---------------------
