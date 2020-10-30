@@ -563,7 +563,9 @@ module Jamf
       need_list_methods = ancestors.include?(Jamf::CollectionResource)
 
       self::OBJECT_MODEL.each do |attr_name, attr_def|
-        create_list_methods(attr_name, attr_def) if need_list_methods && attr_def[:identifier]
+
+        # don't make one for :id, that one's hard-coded into CollectionResource
+        create_list_methods(attr_name, attr_def) if need_list_methods && attr_def[:identifier] && attr_name != :id
 
         # there can be only one (primary ident)
         if attr_def[:identifier] == :primary
