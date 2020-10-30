@@ -318,13 +318,24 @@ module Jamf
     # Hash (the JSON object) for the matching API object or nil if there's no
     # match for the given value.
     #
-    # By default, the value is expected to be the object's JSS id.
-    # which is an Integer (preferably in a String)
+    # In general you should use this if the form:
     #
-    # If you are using some other identifier, e.g. a serialNumber,
-    # then you must specify which one in the key: param, e.g.
+    #    raw_data identifier: value
     #
-    #   key: :serialNumber
+    # where identifier is one of the available identifiers for this class
+    # like id:, name:, serialNumber: etc.
+    #
+    # In the unlikely event that you dont know which identifier a value is for
+    # or want to be able to take any of them without specifying, then
+    # you can use
+    #
+    #   raw_data some_value
+    #
+    # If some_value is an integer or a string containing an integer, it
+    # is assumed to be an :id otherwise all the available identifers
+    # are searched, in the order you see them when you call <class>.identifiers
+    #
+    # If no matching object is found, nil is returned.
     #
     # Everything except :id is treated as a case-insensitive String
     #
@@ -343,17 +354,7 @@ module Jamf
       validate_not_abstract
 
       # given a value with no ident key
-      if value
-        return raw_data_by_id(value, cnx: cnx) if value.to_s.j_integer?
-
-        identifiers.each do |ident|
-          next if ident == :id
-
-          id = raw_data_by_other_identifier(ident, value, cnx: cnx)
-          return id if id
-        end # identifiers.each
-        return
-      end # if value
+      return raw_data_by_value_only(value, cnx: Jamf.cnx) if value
 
       # if we're here, we should know our ident key and value
       ident, value = ident_and_val.first
@@ -364,6 +365,45 @@ module Jamf
 
       raw_data_by_other_identifier(ident, value, cnx: cnx)
     end
+
+    # Match the given value in all possibly identifiers
+    def self.raw_data_by_value_only(value, cnx: Jamf.cnx)
+      return raw_data_by_id(value, cnx: cnx) if value.to_s.j_integer?
+
+      identifiers.each do |ident|
+        next if ident == :id
+
+        id = raw_data_by_other_identifier(ident, value, cnx: cnx)
+        return id if id
+      end # identifiers.each
+      return
+    end
+    private_class_method :raw_data_by_value_only
+
+    # get the basic dataset by id, with optional
+    # request params to get more than basic data
+    def self.raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
+      cnx.get "#{rsrc_path}/#{id}#{request_params}"
+    rescue => e
+      return if e.httpStatus == 404
+
+      raise e
+    end
+    private_class_method :raw_data_by_id
+
+    # Given an indentier attr. key, and a value,
+    # return the id where that ident has that value, or nil
+    #
+    def self.raw_data_by_other_identifier(identifier, value, refresh: false, cnx: Jamf.cnx)
+      # if the API supports filtering by this identifier, just use that
+      return all(filter: "#{identifier}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if self::OBJECT_MODEL[identifier][:filter_key]
+
+      # otherwise we have to loop thru all the objects looking for the value
+      all(refresh: refresh, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
+
+      nil
+    end
+    private_class_method :raw_data_by_other_identifier
 
     # Look up the valid ID for any arbitrary identifier.
     # In general you should use this if the form:
@@ -406,39 +446,6 @@ module Jamf
     def self.valid_id(value = nil, cnx: Jamf.cnx, **ident_and_val)
       raw_data(value, cnx: cnx, **ident_and_val)&.dig(:id)
     end
-
-    # get the basic dataset by id, with optional
-    # request params to get more than basic data
-    def self.raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
-      cnx.get "#{rsrc_path}/#{id}#{request_params}"
-    rescue => e
-      return if e.httpStatus == 404
-
-      raise e
-    end
-    private_class_method :raw_data_by_id
-
-    # Given an indentier attr. key, and a value,
-    # return the id where that ident has that value, or nil
-    #
-    def self.raw_data_by_other_identifier(identifier, value, refresh: false, cnx: Jamf.cnx)
-      # if the API supports filtering by this identifier, just use that
-      filter_key = self::OBJECT_MODEL[identifier][:filter_key]
-      return all(filter: "#{filter_key}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if filter_key
-
-      # otherwise we have to loop thru all the objects looking for the value
-      all(refresh: refresh, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
-
-      nil
-    end
-    private_class_method :raw_data_by_other_identifier
-
-
-
-
-
-
-
 
     # Bu default, subclasses are creatable, i.e. new instances can be created
     # with .create, and added to the JSS with .save
