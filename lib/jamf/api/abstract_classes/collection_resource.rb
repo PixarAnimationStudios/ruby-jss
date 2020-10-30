@@ -32,8 +32,9 @@ module Jamf
   #
   # Collection resources have more than one resource within them, and those
   # can (usually) be created and deleted as well as fetched and updated.
-  # The entire collection (or a part of it) can also be fetched as an Array.
-  # When the whole collection is fetched, the result is cached for future use.
+  # The entire collection (or a part of it) can also be retrieved as an Array.
+  # When the whole collection is retrieved, the result may be cached for future
+  # use.
   #
   # # Subclassing
   #
@@ -265,6 +266,8 @@ module Jamf
     # specs ALL collection resources must have an ID, which is used in the
     # resource path.
     #
+    # NOTE: This method uses the cached version of .all
+    #
     # @param refresh (see .all)
     #
     # @param cnx (see .all)
@@ -272,11 +275,13 @@ module Jamf
     # @return [Array<Integer>]
     #
     def self.all_ids(refresh = false, cnx: Jamf.cnx)
-      all(refresh, cnx: cnx).map { |m| m[:id] }
+      all(refresh: refresh, cnx: cnx).map { |m| m[:id] }
     end
 
     # A Hash of all members of this collection where the keys are some
     # identifier and values are any other attribute.
+    #
+    # NOTE: This method uses the cached version of .all
     #
     # @param ident [Symbol] An identifier of this Class, used as the key
     #   for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber
@@ -298,14 +303,12 @@ module Jamf
       real_to = attr_key_for_alias to
       raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OBJECT_MODEL.key? real_to
 
-      ident = real_ident
-      to = real_to
-      list = all refresh, cnx: cnx
-      to_class = self::OBJECT_MODEL[to][:class]
+      list = all refresh: refresh, cnx: cnx
+      to_class = self::OBJECT_MODEL[real_to][:class]
       mapped = list.map do |i|
         [
-          i[ident],
-          to_class.is_a?(Symbol) ? i[to] : to_class.new(i[to])
+          i[real_ident],
+          to_class.is_a?(Symbol) ? i[real_to] : to_class.new(i[real_to])
         ]
       end # do i
       mapped.to_h
@@ -336,20 +339,72 @@ module Jamf
     # @return [Hash, nil] the basic dataset of the matching object,
     #   or nil if it doesn't exist
     #
-    def self.raw_data(value, key: :id, cnx: Jamf.cnx)
-      return raw_data_by_id(value, cnx: cnx) if key == :id
-      return unless identifiers.include? key
+    def self.raw_data(value = nil, cnx: Jamf.cnx, **ident_and_val)
+      validate_not_abstract
 
-      raw_data_by_other_identifier(key, value, cnx: cnx)
+      # given a value with no ident key
+      if value
+        return raw_data_by_id(value, cnx: cnx) if value.to_s.j_integer?
+
+        identifiers.each do |ident|
+          next if ident == :id
+
+          id = raw_data_by_other_identifier(ident, value, cnx: cnx)
+          return id if id
+        end # identifiers.each
+        return
+      end # if value
+
+      # if we're here, we should know our ident key and value
+      ident, value = ident_and_val.first
+      raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
+
+      return raw_data_by_id(value, cnx: cnx) if ident == :id
+      return unless identifiers.include? ident
+
+      raw_data_by_other_identifier(ident, value, cnx: cnx)
     end
 
-    # DEPRECATED, esp when looking up ids to use for
-    # getting raw data.
-    # Use .raw_data(val)&.fetch(:id)
+    # Look up the valid ID for any arbitrary identifier.
+    # In general you should use this if the form:
     #
-    def self.valid_id(cnx: Jamf.cnx, **params)
-      ident, val = params.first
-      raw_data(val, identifier: ident, cnx: cnx)&.fetch :id
+    #    valid_id identifier: value
+    #
+    # where identifier is one of the available identifiers for this class
+    # like id:, name:, serialNumber: etc.
+    #
+    # In the unlikely event that you dont know which identifier a value is for
+    # or want to be able to take any of them without specifying, then
+    # you can use
+    #
+    #   valid_id some_value
+    #
+    # If some_value is an integer or a string containing an integer, it
+    # is assumed to be an id: otherwise all the available identifers
+    # are searched, in the order you see them when you call <class>.identifiers
+    #
+    # If no matching object is found, nil is returned.
+    #
+    # WARNING: Do not use this to look up ids for getting the
+    # raw API data for an object. Since this calls .raw_data
+    # itself, it is redundant to use .valid_id to get an id
+    # to then pass on to .raw_data
+    # Use raw_data directly like this:
+    #    data = raw_data(ident: val)
+    #
+    #
+    # @param value [String,Integer] A value for an arbitrary identifier
+    #
+    # @param cnx [Jamf::Connection] The connection to use. default: Jamf.cnx
+    #
+    # @param ident_and_val [Hash{Symbol: String}] The identifier key and the value
+    #   to look for in that key, e.g. name: 'foo' or serialNumber: 'ASDFGH'
+    #
+    # @return [String, nil] The id (integer-in-string) of the object, or nil
+    #    if no match found
+    #
+    def self.valid_id(value = nil, cnx: Jamf.cnx, **ident_and_val)
+      raw_data(value, cnx: cnx, **ident_and_val)&.dig(:id)
     end
 
     # get the basic dataset by id, with optional
@@ -369,7 +424,7 @@ module Jamf
     def self.raw_data_by_other_identifier(identifier, value, refresh: false, cnx: Jamf.cnx)
       # if the API supports filtering by this identifier, just use that
       filter_key = self::OBJECT_MODEL[identifier][:filter_key]
-      return all(filter: "#{filter_key}==#{value}", paged: true, page_size: 1, cnx: cnx).first if filter_key
+      return all(filter: "#{filter_key}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if filter_key
 
       # otherwise we have to loop thru all the objects looking for the value
       all(refresh: refresh, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
@@ -409,7 +464,7 @@ module Jamf
       params.keys.each do |param|
         raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
 
-        if params[param].is_a Array?
+        if params[param].is_a? Array
           params[param].map! { |val| validate_attr param, val, cnx: cnx }
         else
           params[param] = validate_attr param, params[param], cnx: cnx
@@ -425,41 +480,27 @@ module Jamf
     # To create new members to be added to the JSS, use
     # {Jamf::CollectionResource.create}
     #
-    # If you know the specific identifier attribute you're looking up, e.g.
+    # You must know the specific identifier attribute you're looking up, e.g.
     # :id or :name or :udid, (or an aliase thereof) then you can specify it like
     # `.fetch name: 'somename'`, or `.fetch udid: 'someudid'`
     #
-    # If you don't know if (or don't want to type it) you can just use
-    # `.fetch 'somename'`, or `.fetch 'someudid'` and all identifiers will be
-    # searched for a match.
-    #
-    # @param ident_value[Object] A value for any identifier for this subclass.
-    #  All identifier attributes will be searched for a match.
-    #
     # @param cnx[Jamf::Connection] the connection to use to fetch the object
     #
-    # @param ident_hash[Hash] an identifier attribute key and a search value
+    # @param ident_and_val[Hash] an identifier attribute key and a search value
     #
     # @return [CollectionResource] The ruby-instance of a Jamf object
     #
-    def self.fetch(ident_value = nil, cnx: Jamf.cnx, **ident_hash)
+    def self.fetch(random = nil, cnx: Jamf.cnx, **ident_and_val)
       validate_not_abstract
-
-      id =
-        if ident_value == :random
-          all_ids.sample
-        elsif ident_value
-          valid_id ident_value, cnx: cnx
-        elsif ident_hash.empty?
-          nil
-        else
-          ident, lookup_value = ident_hash.first
-          valid_id ident => lookup_value, cnx: cnx
+      ident, value = ident_and_val.first
+      data =
+        if random
+          all.sample
+        elsif ident && value
+          raw_data(cnx: cnx, **ident_and_val)
         end
+      raise Jamf::NoSuchItemError, "No matching #{self}" unless data
 
-      raise Jamf::NoSuchItemError, "No matching #{self}" unless id
-
-      data = cnx.get "#{rsrc_path}/#{id}"
       new data, cnx: cnx
     end # fetch
 
@@ -470,36 +511,31 @@ module Jamf
       true
     end
 
-    # Delete one or more objects by identifier
-    # Any valid identifier for the class can be used (id, name, udid, etc)
-    # Identifiers can be provided as an array or as separate parameters
+    # Delete one or more objects by id
     #
-    # e.g. .delete [1,3, 34, 4]
-    # or .delete 'myComputer', 'that-computer', 'OtherComputer'
+    # @param ids [Array<String,Integer>] The ids to delete
     #
-    # @param idents[Array<integer>, Integer]
+    # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
     #
-    # @param cnx[Jamf::Connection]
+    # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
+    #   that failed to be deleted.
     #
-    # @return [Array] the identifiers that were not found, so couldn't be deleted
-    #
-    def self.delete(*idents, cnx: Jamf.cnx)
+    def self.delete(*ids, cnx: Jamf.cnx)
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
 
-      idents.flatten!
-      no_valid_ids = []
+      return bulk_delete(ids, cnx: Jamf.cnx) if ancestors.include? Jamf::BulkDeletable
 
-      idents.map do |ident|
-        id = valid_id ident
-        no_valid_ids << ident unless id
-        id
-      end
-      idents.compact!
+      errs = []
+      ids.each do |id_to_delete|
+        begin
+          cnx.delete "#{rsrc_path}/#{id_to_delete}"
+        rescue Jamf::Connection::APIError => e
+          raise e unless e.httpStatus == 404
 
-      # TODO: some rsrcs have a 'bulk delete' version...
-      idents.each { |id| cnx.delete "#{rsrc_path}/#{id}" }
-
-      no_valid_ids
+          errs += e.errors
+        end # begin
+      end # ids.each
+      errs
     end
 
     # Private Class Methods
@@ -511,7 +547,7 @@ module Jamf
       list_method_name = "all_#{attr_name}s"
 
       define_singleton_method(list_method_name) do |refresh = false, cnx: Jamf.cnx|
-        all_list = all(refresh, cnx: cnx)
+        all_list = all(refresh: refresh, cnx: cnx)
         if attr_def[:class].is_a? Symbol
           all_list.map { |i| i[attr_name] }.uniq
         else
