@@ -27,15 +27,15 @@ module Jamf
   # process filter strings for resources with filter request parameters
   module Filterable
 
-    # When this is included
-    def self.included(klass)
-      puts "Filterable was included by #{klass}"
-    end
-
-    # When this is exdended
-    def self.extended(klass)
-      puts "Filterable was extended by #{klass}"
-    end
+    # # When this is included
+    # def self.included(klass)
+    #   puts "Filterable was included by #{klass}"
+    # end
+    #
+    # # When this is exdended
+    # def self.extended(klass)
+    #   puts "Filterable was extended by #{klass}"
+    # end
 
     private
 

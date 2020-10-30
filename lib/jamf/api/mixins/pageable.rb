@@ -28,15 +28,15 @@ module Jamf
   #
   module Pageable
 
-    # When This is included
-    def self.included(klass)
-      puts "Pageable was included by #{klass}"
-    end
-
-    # When this is exdended
-    def self.extended(klass)
-      puts "Pageable was extended by #{klass}"
-    end
+    # # When This is included
+    # def self.included(klass)
+    #   puts "Pageable was included by #{klass}"
+    # end
+    #
+    # # When this is exdended
+    # def self.extended(klass)
+    #   puts "Pageable was extended by #{klass}"
+    # end
 
     DFT_PAGE_SIZE = 100
 

@@ -27,15 +27,15 @@ module Jamf
   # parse the sort params for collection GET requests
   module Sortable
 
-    # When this is included
-    def self.included(klass)
-      puts "Sortable was included by #{klass}"
-    end
-
-    # When this is exdended
-    def self.extended(klass)
-      puts "Sortable was extended by #{klass}"
-    end
+    # # When this is included
+    # def self.included(klass)
+    #   puts "Sortable was included by #{klass}"
+    # end
+    #
+    # # When this is exdended
+    # def self.extended(klass)
+    #   puts "Sortable was extended by #{klass}"
+    # end
 
     private
 
