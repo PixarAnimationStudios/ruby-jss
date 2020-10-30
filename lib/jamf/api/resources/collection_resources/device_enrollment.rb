@@ -293,14 +293,14 @@ module Jamf
 
     # disown one or more serial numbers from a given DeviceEnrollment instance
     #
-    # @param sns[Array<String>] One or more serial numbers to disown
+    # @param sns[String, Array<String>] One or more serial numbers to disown
     #
     # @param from_instance [Integer, String] the id or name of the instance
     #  from which to disown the serial numbers
     #
     # @param cnx[Jamf::Connection] The API connection to use
     #
-    # @return [void]
+    # @return [Hash] The SNs as keys and 'SUCESS' or 'FAILED' as values
     #
     def self.disown(*sns, from_instance:, cnx: Jamf.cnx)
       instance_id = valid_id from_instance, cnx: cnx
@@ -311,14 +311,14 @@ module Jamf
       data = { devices: sns }
       disown_rsrc = "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{instance_id}/#{DISOWN_RSRC}"
 
-      cnx.post(disown_rsrc, data)
+      cnx.post(disown_rsrc, data)[:devices]
     end
 
     # Private Class Methods
     ###############################################
 
     # Private, used by the .devices class method
-    def self.fetch_devices(instance_ident, refresh, cnx)
+    def self.fetch_devices(instance_ident = nil, refresh, cnx)
       if instance_ident
         instance_id = valid_id instance_ident, cnx: cnx
         raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id

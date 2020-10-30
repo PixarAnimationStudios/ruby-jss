@@ -39,7 +39,7 @@ module Jamf
       # @!attribute prestageId
       #   @return [Integer]
       prestageId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute assignments
