@@ -41,9 +41,7 @@ require 'shellwords'
 require 'digest'
 require 'open3'
 
-
 ### Gems
-require 'rest-client'
 require 'plist'
 
 # Used, among other places, in the Connection::APIError class
