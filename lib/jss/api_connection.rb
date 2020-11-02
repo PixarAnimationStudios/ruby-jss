@@ -306,6 +306,9 @@ module JSS
     # if either of these is specified, we'll default to SSL
     SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
 
+    # The Default SSL Version
+    DFT_SSL_VERSION = 'TLSv1_2'.freeze
+
     # Recognize Jamf Cloud servers
     JAMFCLOUD_DOMAIN = 'jamfcloud.com'.freeze
 
@@ -329,6 +332,12 @@ module JSS
 
     # values for the format param of get_rsrc
     GET_FORMATS = %i[json xml].freeze
+
+    HTTP_ACCEPT_HEADER = 'Accept'.freeze
+    HTTP_CONTENT_TYPE_HEADER = 'Content-Type'.freeze
+
+    MIME_JSON = 'application/json'.freeze
+    MIME_XML = 'application/xml'.freeze
 
     # Attributes
     #####################################
@@ -494,7 +503,8 @@ module JSS
       args[:password] = acquire_password args
 
       # heres our connection
-      @cnx = RestClient::Resource.new(@rest_url.to_s, args)
+      # @cnx = RestClient::Resource.new(@rest_url.to_s, args)
+      @cnx = create_connection args[:password]
 
       verify_server_version
 
@@ -658,24 +668,6 @@ module JSS
       return true if `/usr/bin/curl -s 'https://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
       return true if `/usr/bin/curl -s 'http://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
       false
-
-      # # try ssl first
-      # # NOTE:  doesn't work if we can't disallow SSLv3 or force TLSv1
-      # # See cheat above.
-      # begin
-      #   return true if open("https://#{server}:#{port}/#{TEST_PATH}", ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE).read.include? TEST_CONTENT
-      #
-      # rescue
-      #   # then regular http
-      #   begin
-      #     return true if open("http://#{server}:#{port}/#{TEST_PATH}").read.include? TEST_CONTENT
-      #   rescue
-      #     # any errors = no API
-      #     return false
-      #   end # begin
-      # end # begin
-      # # if we're here, no API
-      # false
     end
 
     # The server to which we are connected, or will
@@ -1178,8 +1170,18 @@ module JSS
       if SSL_PORTS.include? args[:port]
         args[:use_ssl] = true unless args[:use_ssl] == false
       end
+      return unless args[:use_ssl]
+
       # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] = args[:verify_cert] == false ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+      args[:verify_ssl] = args[:verify_cert] == false ? false : true
+
+      # ssl version if not specified
+      args[:ssl_version] ||= DFT_SSL_VERSION
+
+      @ssl_options = {
+        verify: args[:verify_ssl] ,
+        version: args[:ssl_version]
+      }
     end
 
     # Parses the HTTP body of a RestClient::ExceptionWithResponse
@@ -1247,7 +1249,24 @@ module JSS
       handle_http_error e
     end # delete_with_payload
 
+    # create the faraday connection object
+    def create_connection(pw)
+      Faraday.new(@rest_url, ssl: @ssl_options) do |cnx|
+        cnx.headers[HTTP_ACCEPT_HEADER] = MIME_JSON
+        cnx.basic_auth @user, pw
+        cnx.request :xml
+        cnx.response :json, parser_options: { symbolize_names: true }
+        cnx.options[:timeout] = @timeout
+        cnx.options[:open_timeout] = @open_timeout
+        cnx.use Faraday::Adapter::NetHttp
+      end
+    end
+
   end # class APIConnection
+
+  # JSS MODULE METHODS
+
+
 
   # Create a new APIConnection object and use it for all
   # future API calls. If connection options are provided,
