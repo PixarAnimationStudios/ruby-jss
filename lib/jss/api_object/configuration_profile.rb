@@ -125,10 +125,40 @@ module JSS
       parsed_payloads['PayloadContent']
     end
 
+    # @param new_content [Array<Hash>] replace the payload content entirely.
+    #
+    #   The 'payload' of a config profile is an XML Plist. The top-level key
+    #   of that plist 'PayloadContent' contains an Array of Dicts, each one being
+    #   a part of the payload for the profile.
+    #
+    #   When replacing the PayloadContent Array, using this method, provide a
+    #   *ruby* Array full of *ruby* hashes, and they will be converted to a
+    #   Plist and embedded into the API XML appropriately.
+    #
+    #   WARNING: This is experimental! Editing the Plist Payload of a Config
+    #   profile may break the profile. Make sure you test on a fake profile
+    #   before using this method in production.
+    #
+    # @return [void]
+    #
+    def payload_content=(new_content)
+      payload_plist_data = parsed_payloads
+      payload_plist_data['PayloadContent'] = new_content
+      @payloads = payload_plist_data.to_plist
+      @need_to_update = true
+      @update_payloads = true
+    end
+
     # @return [Array<String>] the PayloadType of each payload (e.g. com.apple.caldav.account)
     #
     def payload_types
       payload_content.map { |p| p['PayloadType'] }
+    end
+
+    # clear flag after updating
+    def update
+      super
+      @update_payloads = nil
     end
 
     # Private Instance Methods
@@ -142,7 +172,10 @@ module JSS
       gen = obj.add_element('general')
       gen.add_element('description').text = @description
       gen.add_element('redeploy_on_update').text = @redeploy_on_update
-
+      if @update_payloads
+        payloads_plist_xml = JSS.escape_xml(@payloads.gsub(/^\t*/, '').gsub(">\n", '>'))
+        gen.add_element('payloads').text = payloads_plist_xml
+      end
       obj << @scope.scope_xml
       add_self_service_xml doc
       add_category_to_xml doc
