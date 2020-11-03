@@ -553,8 +553,7 @@ module JSS
       @connected = false
     end # disconnect
 
-    # Get an arbitrary JSS resource
-    #
+    # Get a JSS resource
     # The first argument is the resource to get (the part of the API url
     # after the 'JSSResource/' ) The resource must be properly URL escaped
     # beforehand. Note: URL.encode is deprecated, use CGI.escape
@@ -582,14 +581,18 @@ module JSS
       validate_connected
       raise JSS::InvalidDataError, 'format must be :json or :xml' unless GET_FORMATS.include? format
 
-      begin
-        @last_http_response = @cnx[rsrc].get(accept: format)
-        return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
+      @last_http_response =
+        @cnx.get(rsrc) do |req|
+          req.headers[HTTP_ACCEPT_HEADER] = format == :json ? MIME_JSON : MIME_XML
+        end
 
-        @last_http_response.body
-      rescue RestClient::ExceptionWithResponse => e
-        handle_http_error e
+      unless @last_http_response.success?
+        handle_http_error
+        return
       end
+      return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
+
+      @last_http_response.body
     end
 
     # Update an existing JSS resource
@@ -623,9 +626,8 @@ module JSS
     #
     def post_rsrc(rsrc, xml = '')
       validate_connected
-
       # convert CRs & to &#13;
-      xml.gsub!(/\r/, '&#13;') if xml
+      xml&.gsub!(/\r/, '&#13;')
 
       # send the data
       @last_http_response = @cnx[rsrc].post(xml, content_type: 'text/xml', accept: :json)
@@ -640,12 +642,9 @@ module JSS
     #
     # @return [String] the xml response from the server.
     #
-    def delete_rsrc(rsrc, xml = nil)
+    def delete_rsrc(rsrc)
       validate_connected
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
-
-      # payload?
-      return delete_with_payload rsrc, xml if xml
 
       # delete the resource
       @last_http_response = @cnx[rsrc].delete
@@ -667,6 +666,7 @@ module JSS
       # ssl_options like :OP_NO_SSLv2 and :OP_NO_SSLv3 will take time to figure out..
       return true if `/usr/bin/curl -s 'https://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
       return true if `/usr/bin/curl -s 'http://#{server}:#{port}/#{TEST_PATH}'`.include? TEST_CONTENT
+
       false
     end
 
@@ -678,12 +678,12 @@ module JSS
     #
     def hostname
       return @server_host if @server_host
+
       srvr = JSS::CONFIG.api_server_name
       srvr ||= JSS::Client.jss_server
       srvr
     end
     alias host hostname
-
 
     # Empty all cached lists from this connection
     # then run garbage collection to clear any available memory
@@ -790,6 +790,7 @@ module JSS
     #
     def apply_defaults_from_client(args)
       return unless JSS::Client.installed?
+
       # these settings can come from the jamf binary config, if this machine is a JSS client.
       args[:server] ||= JSS::Client.jss_server
       args[:port] ||= JSS::Client.jss_port.to_i
@@ -919,13 +920,13 @@ module JSS
       return unless args[:use_ssl]
 
       # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] = args[:verify_cert] == false ? false : true
+      args[:verify_ssl] = args[:verify_cert] != false
 
       # ssl version if not specified
       args[:ssl_version] ||= DFT_SSL_VERSION
 
       @ssl_options = {
-        verify: args[:verify_ssl] ,
+        verify: args[:verify_ssl],
         version: args[:ssl_version]
       }
     end
@@ -939,80 +940,46 @@ module JSS
     #
     # @return [void]
     #
-    def handle_http_error(exception)
-      @last_http_response = exception.response
-      case exception
-      when RestClient::ResourceNotFound
-        # other methods catch this and report more details
-        raise exception
-      when RestClient::Conflict
+    def handle_http_error
+      case @last_http_response.status
+      when 404
+        err = JSS::NoSuchItemError
+        msg = 'The server did not find anything matching the request URI'
+      when 409
         err = JSS::ConflictError
-        msg_matcher = /<p>Error:(.*?)(<|$)/m
-      when RestClient::BadRequest
+        msg = /<p>(The server has not .*?)(<|$)/m
+      when 400
         err = JSS::BadRequestError
-        msg_matcher = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
-      when RestClient::Unauthorized
-        raise
+        msg = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+      when 401
+        err = JSS::AuthorizationError
+        msg = 'You are not authorized to do that.'
       else
         err = JSS::APIRequestError
-        msg_matcher = %r{<body.*?>(.*?)</body>}m
+        msg = "There was a error processing your request, status: #{@last_http_response.status}"
       end
-      exception.http_body =~ msg_matcher
-      msg = Regexp.last_match(1)
-      msg ||= exception.http_body
+      if msg.is_a? Regex
+        @last_http_response.body =~ msg_matcher
+        msg = Regexp.last_match(1)
+      end
+      msg ||= @last_http_response.body
       raise err, msg
     end
-
-    # RestClient::Resource#delete doesn't take an HTTP payload,
-    # but some JSS API resources require it (notably, logflush).
-    #
-    # This method uses RestClient::Request#execute
-    # to do the same thing that RestClient::Resource#delete does, but
-    # adding the payload.
-    #
-    # @param rsrc[String] the sub-resource we're DELETEing
-    #
-    # @param payload[String] The XML to be passed with the DELETE
-    #
-    # @param additional_headers[Type] See RestClient::Request#execute
-    #
-    # @param &block[Type] See RestClient::Request#execute
-    #
-    # @return [String] the XML response from the server.
-    #
-    def delete_with_payload(rsrc, payload, additional_headers = {}, &block)
-      headers = (@cnx.options[:headers] || {}).merge(additional_headers)
-      @last_http_response = RestClient::Request.execute(
-        @cnx.options.merge(
-          method: :delete,
-          url: @cnx[rsrc].url,
-          payload: payload,
-          headers: headers
-        ),
-        &(block || @block)
-      )
-    rescue RestClient::ExceptionWithResponse => e
-      handle_http_error e
-    end # delete_with_payload
 
     # create the faraday connection object
     def create_connection(pw)
       Faraday.new(@rest_url, ssl: @ssl_options) do |cnx|
-        cnx.headers[HTTP_ACCEPT_HEADER] = MIME_JSON
         cnx.basic_auth @user, pw
-        cnx.request :xml
-        cnx.response :json, parser_options: { symbolize_names: true }
         cnx.options[:timeout] = @timeout
         cnx.options[:open_timeout] = @open_timeout
-        cnx.use Faraday::Adapter::NetHttp
+        cnx.adapter Faraday::Adapter::NetHttp
       end
     end
 
   end # class APIConnection
 
   # JSS MODULE METHODS
-
-
+  ######################
 
   # Create a new APIConnection object and use it for all
   # future API calls. If connection options are provided,
@@ -1041,6 +1008,7 @@ module JSS
   #
   def self.use_api_connection(connection)
     raise 'API connections must be instances of JSS::APIConnection' unless connection.is_a? JSS::APIConnection
+
     @api = connection
   end
 
