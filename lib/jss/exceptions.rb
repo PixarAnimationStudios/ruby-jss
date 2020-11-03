@@ -87,6 +87,9 @@ module JSS
   ###
   class AuthenticationError < RuntimeError; end
 
+  ###
+  class AuthorizationError < RuntimeError ; end
+
   ### ConflictError - raise this when
   ### attempts to PUT or PUSH to the API
   ### result in a 409 Conflict http error.
