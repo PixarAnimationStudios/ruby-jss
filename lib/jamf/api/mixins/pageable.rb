@@ -116,7 +116,7 @@ module Jamf
       next_collection_page
     end
 
-    # Fetch the next page of a paged colleqction request.
+    # Fetch the next page of a paged collection request.
     #
     # Returns an empty array if there's been no paged request
     # or if the last one has no more pages.
