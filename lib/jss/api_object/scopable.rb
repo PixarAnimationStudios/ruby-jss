@@ -100,22 +100,17 @@ module JSS
       @need_to_update = true if @in_jss
     end
 
-
-    ### A wrapper around the update method, to try catching RestClient::Conflict
-    ### 409 errors when we couldn't verify all ldap users/groups due to lack of ldap connections
-    ###
+    # A wrapper around the update method, to try catching 409 conflict errors
+    # when we couldn't verify all ldap users/groups due to lack of ldap connections
+    #
     def update
-      begin
-        super
-
-      rescue RestClient::Conflict => conflict
-        if  self.scope.unable_to_verify_ldap_entries == true
-          raise JSS::InvalidDataError, "Potentially non-existant LDAP user or group in new scope values."
-        else
-          raise conflict
-        end
-
-      end # begin
+      super
+    rescue JSS::ConflictError => conflict
+      if scope.unable_to_verify_ldap_entries == true
+        raise JSS::InvalidDataError, "Potentially non-existant LDAP user or group in new scope values."
+      else
+        raise conflict
+      end
     end # update
 
   end # module Scopable

@@ -849,11 +849,7 @@ module JSS
         raise ArgumentError, 'Missing searchterm or fetch key'
       end
 
-      begin
-        return new fetch_rsrc: fetch_rsrc, api: api
-      rescue RestClient::NotFound
-        raise JSS::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless fetch_rsrc
-      end
+      new fetch_rsrc: fetch_rsrc, api: api
     end # fetch
 
     # Fetch the mostly- or fully-raw JSON or XML data for an object of this
@@ -895,8 +891,6 @@ module JSS
       return data if format == :json || as_string
 
       REXML::Document.new(data)
-    rescue RestClient::NotFound
-      raise JSS::NoSuchItemError, "No #{self} with id #{id}"
     end
 
     # PUT some raw XML to the API for a given id in this subclass.
@@ -925,8 +919,6 @@ module JSS
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
       REXML::Document.new(api.put_rsrc rsrc, xml.to_s)
-    rescue RestClient::NotFound
-      raise JSS::NoSuchItemError, "No #{self} with id #{id}"
     end
 
     # POST some raw XML to the API for a given id in this subclass.
@@ -1223,14 +1215,8 @@ module JSS
     #
     def delete
       return unless @in_jss
-      begin
-        @api.delete_rsrc @rest_rsrc
-      rescue RestClient::NotFound, RestClient::ResourceNotFound
-        # over slow connections (?) or more likely
-        # split-tunnel VPN connections, sometimes the thing gets deleted
-        # the call gets a 404 anyway
-        nil
-      end
+
+      @api.delete_rsrc @rest_rsrc
 
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}"
       @id = nil
@@ -1433,8 +1419,6 @@ module JSS
         end
 
       raw_json[args[:rsrc_object_key]]
-    rescue RestClient::ResourceNotFound
-      raise NoSuchItemError, "No #{self.class::RSRC_OBJECT_KEY} found matching resource #{rsrc}"
     end
 
     # Start examining the @init_data recieved from the API

@@ -259,7 +259,7 @@ module JSS
   # {#get_rsrc}, {#put_rsrc}, {#post_rsrc}, & {#delete_rsrc}
   # documented below.
   #
-  # For even lower-level work, you can access the underlying RestClient::Resource
+  # For even lower-level work, you can access the underlying Faraday::Connection
   # inside the APIConnection via the connection's {#cnx} attribute.
   #
   # APIConnection instances also have a {#server} attribute which contains an
@@ -331,7 +331,7 @@ module JSS
     attr_reader :user
     alias jss_user user
 
-    # @return [RestClient::Resource] the underlying connection resource
+    # @return [Faraday::Connection] the underlying connection resource
     attr_reader :cnx
 
     # @return [Boolean] are we connected right now?
@@ -353,7 +353,7 @@ module JSS
     # @return [String] the protocol being used: http or https
     attr_reader :protocol
 
-    # @return [RestClient::Response] The response from the most recent API call
+    # @return [Faraday::Response] The response from the most recent API call
     attr_reader :last_http_response
 
     # @return [String] The base URL to to the current REST API
@@ -447,8 +447,6 @@ module JSS
     # @option args :use_ssl[Boolean] should the connection be made over SSL? Defaults to true.
     #
     # @option args :verify_cert[Boolean] should HTTPS SSL certificates be verified. Defaults to true.
-    #   If your connection raises RestClient::SSLCertificateNotVerified, and you don't care about the
-    #   validity of the SSL cert. just set this explicitly to false.
     #
     # @option args :user[String] a JSS user who has API privs, required if not defined in JSS::CONFIG
     #
@@ -488,7 +486,6 @@ module JSS
       args[:password] = acquire_password args
 
       # heres our connection
-      # @cnx = RestClient::Resource.new(@rest_url.to_s, args)
       @cnx = create_connection args[:password]
 
       verify_server_version
@@ -575,6 +572,7 @@ module JSS
         handle_http_error
         return
       end
+
       return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
 
       @last_http_response.body
@@ -595,10 +593,18 @@ module JSS
       xml.gsub!(/\r/, '&#13;')
 
       # send the data
-      @last_http_response = @cnx[rsrc].put(xml, content_type: 'text/xml')
+      @last_http_response =
+        @cnx.put(rsrc) do |req|
+          req.headers[HTTP_CONTENT_TYPE_HEADER] = MIME_XML
+          req.headers[HTTP_ACCEPT_HEADER] = MIME_XML
+          req.body = xml
+        end
+      unless @last_http_response.success?
+        handle_http_error
+        return
+      end
+
       @last_http_response.body
-    rescue RestClient::ExceptionWithResponse => e
-      handle_http_error e
     end
 
     # Create a new JSS resource
@@ -609,16 +615,24 @@ module JSS
     #
     # @return [String] the xml response from the server.
     #
-    def post_rsrc(rsrc, xml = '')
+    def post_rsrc(rsrc, xml)
       validate_connected
+
       # convert CRs & to &#13;
       xml&.gsub!(/\r/, '&#13;')
 
       # send the data
-      @last_http_response = @cnx[rsrc].post(xml, content_type: 'text/xml', accept: :json)
+      @last_http_response =
+        @cnx.post(rsrc) do |req|
+          req.headers[HTTP_CONTENT_TYPE_HEADER] = MIME_XML
+          req.headers[HTTP_ACCEPT_HEADER] = MIME_XML
+          req.body = xml
+        end
+      unless @last_http_response.success?
+        handle_http_error
+        return
+      end
       @last_http_response.body
-    rescue RestClient::ExceptionWithResponse => e
-      handle_http_error e
     end # post_rsrc
 
     # Delete a resource from the JSS
@@ -632,10 +646,19 @@ module JSS
       raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
       # delete the resource
-      @last_http_response = @cnx[rsrc].delete
+      @last_http_response =
+        @cnx.delete(rsrc) do |req|
+          req.headers[HTTP_CONTENT_TYPE_HEADER] = MIME_XML
+          req.headers[HTTP_ACCEPT_HEADER] = MIME_XML
+          req.body = xml
+        end
+
+      unless @last_http_response.success?
+        handle_http_error
+        return
+      end
+
       @last_http_response.body
-    rescue RestClient::ExceptionWithResponse => e
-      handle_http_error e
     end # delete_rsrc
 
     # Test that a given hostname & port is a JSS API server
@@ -829,10 +852,12 @@ module JSS
       # keep this basic level of info available for basic authentication
       # and JSS version checking.
       begin
-        @server = JSS::Server.new get_rsrc('jssuser')[:user], self
-      rescue RestClient::Unauthorized
+        data = get_rsrc('jssuser')
+      rescue JSS::AuthorizationError
         raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@user}@#{@server_host}:#{@port}'."
       end
+
+      @server = JSS::Server.new data[:user], self
 
       min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
       return if @server.version >= min_vers # we're good...
@@ -916,12 +941,8 @@ module JSS
       }
     end
 
-    # Parses the HTTP body of a RestClient::ExceptionWithResponse
-    # (the parent of all HTTP error responses) and its subclasses
-    # and re-raises a JSS::APIError with a more
-    # useful error message.
-    #
-    # @param exception[RestClient::ExceptionWithResponse] the exception to parse
+    # Parses the @last_http_response
+    # and raises a JSS::APIError with a useful error message.
     #
     # @return [void]
     #
@@ -943,7 +964,7 @@ module JSS
         err = JSS::APIRequestError
         msg = "There was a error processing your request, status: #{@last_http_response.status}"
       end
-      if msg.is_a? Regex
+      if msg.is_a? Regexp
         @last_http_response.body =~ msg_matcher
         msg = Regexp.last_match(1)
       end

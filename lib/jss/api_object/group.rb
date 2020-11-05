@@ -241,7 +241,7 @@ module JSS
     #
     # @param retries [Integer] If calculate_members is true, refetching the
     #   group to re-read the membership can happen too fast, the JSS won't know
-    #   it exists yet and will throw a RestClient::NotFound error.  If that
+    #   it exists yet and will throw a NoSuchItem error.  If that
     #   happens, try again this many times with a 1 second pause between attempts.
     #
     def create(calculate_members: true, retries: 10)
@@ -256,7 +256,7 @@ module JSS
           begin
             refresh_members
             break
-          rescue RestClient::NotFound
+          rescue
             sleep 1
             tries += 1
           end # begin
