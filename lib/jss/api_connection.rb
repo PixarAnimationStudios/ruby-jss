@@ -947,16 +947,20 @@ module JSS
     # @return [void]
     #
     def handle_http_error
+      return if @last_http_response.success?
+
       case @last_http_response.status
       when 404
         err = JSS::NoSuchItemError
         msg = 'The server did not find anything matching the request URI'
       when 409
         err = JSS::ConflictError
-        msg = /<p>(The server has not .*?)(<|$)/m
+        @last_http_response.body =~ /<p>(The server has not .*?)(<|$)/m
+        msg = Regexp.last_match(1)
       when 400
         err = JSS::BadRequestError
-        msg = %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+        @last_http_response.body =~ %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+        msg = Regexp.last_match(1)
       when 401
         err = JSS::AuthorizationError
         msg = 'You are not authorized to do that.'
@@ -964,11 +968,6 @@ module JSS
         err = JSS::APIRequestError
         msg = "There was a error processing your request, status: #{@last_http_response.status}"
       end
-      if msg.is_a? Regexp
-        @last_http_response.body =~ msg_matcher
-        msg = Regexp.last_match(1)
-      end
-      msg ||= @last_http_response.body
       raise err, msg
     end
 
