@@ -25,18 +25,6 @@
 ###
 module JSS
 
-  # Constants
-  #####################################
-
-  # Module Variables
-  #####################################
-
-  # Module Methods
-  #####################################
-
-  # Classes
-  #####################################
-
   # Instances of this class represent a REST connection to a JSS API.
   #
   # For most cases, a single connection to a single JSS is all you need, and
@@ -305,9 +293,6 @@ module JSS
 
     # if either of these is specified, we'll default to SSL
     SSL_PORTS = [SSL_PORT, HTTPS_SSL_PORT].freeze
-
-    # The Default SSL Version
-    DFT_SSL_VERSION = 'TLSv1_2'.freeze
 
     # Recognize Jamf Cloud servers
     JAMFCLOUD_DOMAIN = 'jamfcloud.com'.freeze
