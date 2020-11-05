@@ -125,16 +125,16 @@ module JSS
     #
     # @see APIObject.fetch
     #
-    def self.fetch(arg, api: JSS.api)
+    def self.fetch(searchterm = nil, **args)
       if self == JSS::PatchSource
         begin
-          fetched = JSS::PatchInternalSource.fetch arg, api: api
+          fetched = JSS::PatchInternalSource.fetch searchterm, **args
         rescue
           fetched = nil
         end
         unless fetched
           begin
-            fetched = JSS::PatchExternalSource.fetch arg, api: api
+            fetched = JSS::PatchExternalSource.fetch searchterm, **args
           rescue
             raise JSS::NoSuchItemError, 'No matching PatchSource found'
           end
@@ -143,7 +143,7 @@ module JSS
       end # if self == JSS::PatchSource
 
       begin
-        super
+        super searchterm, **args
       rescue JSS::NoSuchItemError
         raise JSS::NoSuchItemError, "No matching #{self::RSRC_OBJECT_KEY} found"
       end
