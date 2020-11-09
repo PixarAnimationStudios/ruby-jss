@@ -407,9 +407,9 @@ module JSS
 
       begin
         mount pw, :rw
-        return :mountable
+        :mountable
       rescue
-        return false
+        false
       ensure
         unmount
       end

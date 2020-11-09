@@ -24,8 +24,9 @@
 ###
 
 module JSS
-        
-    # Module Variables
+
+
+  # Module Variables
   #####################################
 
   # Module Methods
@@ -40,98 +41,103 @@ module JSS
   # @see JSS::APIObject
   #
   class DockItem < JSS::APIObject
-    
-        # Mix-Ins
-        #####################################
-        include JSS::Creatable
-        include JSS::Updatable
 
-        # Class Methods
-        #####################################
 
-        # Class Constants
-        #####################################
+    # Mix-Ins
+    #####################################
+    include JSS::Creatable
+    include JSS::Updatable
 
-        # The Dock Item type
-        DOCK_ITEM_TYPE = [
-            "App",
-            "File",
-            "Folder"
-        ].freeze
+    # Class Methods
+    #####################################
 
-        # The base for REST resources of this class
-        RSRC_BASE = 'dockitems'.freeze
+    # Class Constants
+    #####################################
 
-        # the hash key used for the JSON list output of all objects in the JSS
-        RSRC_LIST_KEY = :dock_items
+    # The Dock Item type
+    DOCK_ITEM_TYPE = %w[
+      App
+      File
+      Folder
+    ].freeze
 
-        # The hash key used for the JSON object output.
-        # It's also used in various error messages
-        RSRC_OBJECT_KEY = :dock_item
+    # The base for REST resources of this class
+    RSRC_BASE = 'dockitems'.freeze
 
-        # the object type for this object in
-        # the object history table.
-        # See {APIObject#add_object_history_entry}
-        #OBJECT_HISTORY_OBJECT_TYPE = 41
+    # the hash key used for the JSON list output of all objects in the JSS
+    RSRC_LIST_KEY = :dock_items
 
-        # Attributes
-        #####################################
-        attr_reader :id
-        attr_reader :name
-        attr_reader :type
-        attr_reader :path
+    # The hash key used for the JSON object output.
+    # It's also used in various error messages
+    RSRC_OBJECT_KEY = :dock_item
 
-        # Constructor
-        # @see JSS::APIObject.initialize
-        #####################################
-        def initialize(args = {})
-            super args
+    # the object type for this object in
+    # the object history table.
+    # See {APIObject#add_object_history_entry}
+    # OBJECT_HISTORY_OBJECT_TYPE = 41
 
-            @type = "App" unless !@init_data[:type].nil?
-            @type = @init_data[:type]
-            @path = @init_data[:path]
-        end
+    # Attributes
+    #####################################
+    attr_reader :id
+    attr_reader :name
+    attr_reader :type
+    attr_reader :path
 
-        # Public Instance Methods
-        #####################################
+    # Constructor
+    # @see JSS::APIObject.initialize
+    #####################################
+    def initialize(args = {})
+      super args
 
-        # set the type
-        #
-        # @param newval[String] the new app type
-        #
-        # @return [void]
-        #
-        def type=(newval)
-            raise JSS::InvalidDataError, 'Type must be a string' unless newval.is_a? String
-            raise JSS::InvalidDataError, "Type must be one of the following: #{DOCK_ITEM_TYPE.to_s}; not #{newval.to_s}" unless DOCK_ITEM_TYPE.include? newval.to_s
-            @type = newval
-            @need_to_update = true
-        end
-
-        # set the path
-        #
-        # @param newval[String] the new app path
-        def path=(newval)
-            raise JSS::InvalidDataError, 'Path must be a String' unless newval.is_a? String
-            @path = newval
-            @need_to_update = true
-        end
-
-        # private instance methods
-        ######################
-        private
-
-        # the xml formated data for adding or updating this in the JSS
-        #
-        def rest_xml
-            doc = REXML::Document.new APIConnection::XML_HEADER
-            ns = doc.add_element RSRC_OBJECT_KEY.to_s
-            ns.add_element('name').text = @name
-            ns.add_element('type').text = @type.to_s
-            ns.add_element('path').text = @path.to_s
-            doc.to_s
-        end # rest_xml
+      @type = 'App' if @init_data[:type].nil?
+      @type = @init_data[:type]
+      @path = @init_data[:path]
     end
-        
-    
+
+    # Public Instance Methods
+    #####################################
+
+    # set the type
+    #
+    # @param newval[String] the new app type
+    #
+    # @return [void]
+    #
+    def type=(newval)
+      raise JSS::InvalidDataError, 'Type must be a string' unless newval.is_a? String
+      raise JSS::InvalidDataError, "Type must be one of the following: #{DOCK_ITEM_TYPE}; not #{newval}" unless DOCK_ITEM_TYPE.include? newval.to_s
+
+      @type = newval
+      @need_to_update = true
+    end
+
+    # set the path
+    #
+    # @param newval[String] the new app path
+    def path=(newval)
+      raise JSS::InvalidDataError, 'Path must be a String' unless newval.is_a? String
+
+      @path = newval
+      @need_to_update = true
+    end
+
+      # private instance methods
+      ######################
+      private
+
+    # the xml formated data for adding or updating this in the JSS
+    #
+    def rest_xml
+      doc = REXML::Document.new APIConnection::XML_HEADER
+      ns = doc.add_element RSRC_OBJECT_KEY.to_s
+      ns.add_element('name').text = @name
+      ns.add_element('type').text = @type.to_s
+      ns.add_element('path').text = @path.to_s
+      doc.to_s
+    end # rest_xml
+
+    end
+
+
+
 end

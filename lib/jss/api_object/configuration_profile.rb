@@ -23,7 +23,6 @@
 #
 #
 
-#
 module JSS
 
   # Classes
@@ -67,7 +66,6 @@ module JSS
 
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = Hash
-
 
     # Attributes
     ###################################
