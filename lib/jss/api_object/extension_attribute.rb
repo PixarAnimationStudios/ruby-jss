@@ -179,9 +179,10 @@ module JSS
       # deprecated - no longer in the UI
       @recon_display = @init_data[:recon_display] || @web_display
 
-      # the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
-      # as underscores, like this.
-      @symbolized_name = @name.gsub(/-| /, '_').to_sym
+      # When used in Advanced Search results, the EA name
+      # has colons removed, spaces & dashes turned to underscores.
+      # and then ruby-jss symbolizes the name.
+      @symbolized_name = @name.gsub(':', '').gsub(/-| /, '_').to_sym
     end # init
 
     # Public Instance Methods

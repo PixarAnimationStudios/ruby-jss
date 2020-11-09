@@ -1358,7 +1358,10 @@ module JSS
     #
     def ppx
       return nil unless creatable? || updatable?
-      REXML::Document.new(rest_xml).write $stdout, 2
+
+      formatter = REXML::Formatters::Pretty.new(2)
+      formatter.compact = true
+      formatter.write(REXML::Document.new(rest_xml), $stdout)
       puts
     end
 
@@ -1690,5 +1693,8 @@ require 'jss/api_object/software_update_server'
 require 'jss/api_object/user'
 require 'jss/api_object/webhook'
 require 'jss/api_object/printer'
+
+### Other
+require 'jss/api_object/app_store_country_codes'
 
 JSS::APIObject.define_identifier_list_methods

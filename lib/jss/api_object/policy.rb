@@ -148,6 +148,12 @@ module JSS
       monthly: 'Once every month'
     }.freeze
 
+    RETRY_EVENTS = {
+      none: 'none',
+      checkin: 'check-in',
+      trigger: 'trigger'
+    }.freeze
+
     RESTART_WHEN = {
       if_pkg_requires: 'Restart if a package or update requires it',
       now: 'Restart immediately',
@@ -613,7 +619,6 @@ module JSS
 
       if @in_jss
         gen = @init_data[:general]
-        @frequency = gen[:frequency]
         @target_drive = gen[:target_drive]
         @offline = gen[:offline]
         @enabled = gen[:enabled]
@@ -629,6 +634,10 @@ module JSS
           trigger_enrollment_complete: gen[:trigger_enrollment_complete],
           trigger_other: gen[:trigger_other]
         }
+        @frequency = gen[:frequency]
+        @retry_event = gen[:retry_event]
+        @retry_attempts = gen[:retry_attempts]
+        @notify_failed_retries = gen[:notify_on_each_failed_retry]
 
         dtl = gen[:date_time_limitations]
 
@@ -745,8 +754,93 @@ module JSS
     # @return [void]
     #
     def frequency=(freq)
-      raise JSS::InvalidDataError, "New frequency must be one of :#{FREQUENCIES.keys.join ', :'}" unless FREQUENCIES.key?(freq)
-      @frequency = FREQUENCIES[freq]
+      raise JSS::InvalidDataError, "New frequency must be one of :#{FREQUENCIES.keys.join ', :'}" unless FREQUENCIES.key?(freq) || FREQUENCIES.value?(freq)
+
+      freq = freq.is_a?(Symbol) ? FREQUENCIES[freq] : freq
+      return if freq == @frequency
+
+      @frequency = freq
+      @need_to_update = true
+    end
+
+    # @return [String] The event that causes a policy retry
+    def retry_event
+      return RETRY_EVENTS[:none] unless FREQUENCIES[:once_per_computer] == @frequency
+
+      @retry_event
+    end
+
+    # Set the event that causes a retry if the policy fails.
+    # One of the ways to turn off policy retry is to set this to :none
+    # The other is to set the retry_attempts to 0
+    #
+    # @param [Symbol, String] A key or value from RETRY_EVENTS
+    # @return [void]
+    #
+    def retry_event=(evt)
+      validate_retry_opt
+      raise JSS::InvalidDataError, "Retry event must be one of :#{RETRY_EVENTS.keys.join ', :'}" unless RETRY_EVENTS.key?(evt) || RETRY_EVENTS.value?(evt)
+
+      evt = evt.is_a?(Symbol) ? RETRY_EVENTS[evt] : evt
+      return if evt == @retry_event
+
+      # if the event is not 'none' and attempts is <= 0,
+      # set events to 1, or the API won't accept it
+      unless evt == RETRY_EVENTS[:none]
+        @retry_attempts = 1 unless @retry_attempts.positive?
+      end
+
+      @retry_event = evt
+      @need_to_update = true
+    end
+
+    # @return [Integer] How many times wil the policy be retried if it fails.
+    #   -1 means no retries,  otherwise, an integer from 1 to 10
+    def retry_attempts
+      return 0 unless FREQUENCIES[:once_per_computer] == @frequency
+
+      @retry_attempts
+    end
+
+    # Set the number of times to retry if the policy fails.
+    # One of the ways to turn off policy retry is to set this to 0 or -1
+    # The other is to set retry_event to :none
+    #
+    # @param [Integer] From -1 to 10
+    # @return [void]
+    #
+    def retry_attempts=(int)
+      validate_retry_opt
+      raise JSS::InvalidDataError, 'Retry attempts must be an integer from 0-10' unless int.is_a?(Integer) && (-1..10).include?(int)
+
+      # if zero or -1, turn off retries
+      if int <= 0
+        @retry_event = RETRY_EVENTS[:none]
+        int = -1
+      end
+      return if @retry_attempts == int
+
+      @retry_attempts = int
+      @need_to_update = true
+    end
+
+    # @return [Boolean] Should admins be notified of failed retry attempts
+    def notify_failed_retries?
+      return false unless FREQUENCIES[:once_per_computer] == @frequency
+
+      @notify_failed_retries
+    end
+    alias notify_failed_retries notify_failed_retries?
+    alias notify_on_each_failed_retry notify_failed_retries?
+
+    # @param bool[Boolean] Should admins be notified of failed retry attempts
+    # @return [void]
+    def notify_failed_retries=(bool)
+      validate_retry_opt
+      bool = JSS::Validate.boolean bool
+      return if @notify_failed_retries == bool
+
+      @notify_failed_retries = bool
       @need_to_update = true
     end
 
@@ -1656,6 +1750,17 @@ module JSS
 
     private
 
+    # raise an error if a trying to set retry options when
+    # frequency is not 'once per comptuer'
+    #
+    # @return [void]
+    #
+    def validate_retry_opt
+      return if FREQUENCIES[:once_per_computer] == @frequency
+
+      raise JSS::UnsupportedError, 'Policy retry is only available when frequency is set to :once_per_computer'
+    end
+
     # raise an error if a package being added isn't valid
     #
     # @see #add_package
@@ -1786,6 +1891,10 @@ module JSS
       general.add_element('name').text = @name
       general.add_element('enabled').text = @enabled
       general.add_element('frequency').text = @frequency
+      general.add_element('retry_event').text = @retry_event
+      general.add_element('retry_attempts').text = @retry_attempts.to_s
+      general.add_element('notify_on_each_failed_retry').text = @notify_failed_retries.to_s
+
       general.add_element('target_drive').text = @target_drive
       general.add_element('offline').text = @offline
 

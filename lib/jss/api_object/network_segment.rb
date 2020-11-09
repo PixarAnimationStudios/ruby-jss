@@ -550,7 +550,7 @@ module JSS
         if newval.to_s.empty?
           JSS::BLANK
         else
-          id = JSS::NetbootServer.valid_id newval
+          id = JSS::NetBootServer.valid_id newval
           raise JSS::MissingDataError, "No netboot_server matching '#{newval}' in the JSS" unless id
 
           JSS::NetbootServer.map_all_ids_to(:name)[id]

@@ -102,7 +102,7 @@ module JSS
         # @return [void]
         #
         def type=(newval)
-            raise JSS::InvalidDataError, 'Type must be a string' unless message.is_a? String
+            raise JSS::InvalidDataError, 'Type must be a string' unless newval.is_a? String
             raise JSS::InvalidDataError, "Type must be one of the following: #{DOCK_ITEM_TYPE.to_s}; not #{newval.to_s}" unless DOCK_ITEM_TYPE.include? newval.to_s
             @type = newval
             @need_to_update = true

@@ -41,17 +41,21 @@ module JSS
     # This class provides methods for adding, removing, or fully replacing the
     # various items in scope's realms: targets, limitations, and exclusions.
     #
-    # IMPORTANT:
+    # This class also provides a way to see if a machine will be included in
+    # this scope.
+    #
+    # IMPORTANT - Users & User Groups in Targets and Exclusions:
+    #
     # The classic API has bugs regarding the use of Users, UserGroups,
     # LDAP/Local Users, & LDAP User Groups in scopes. Here's a discussion
     # of those bugs and how ruby-jss handles them.
     #
     # Targets/Inclusions
-    #  - 'Users' can only be JSS::Users - No LDAP
+    #  - 'Users' in the Scope UI can only be JSS::Users - No LDAP
     #    - BUG: They do not appear in API data (XML or JSON) and are
     #      NOT SUPPORTED in ruby-jss.
     #    - You must use the Web UI to work with them in a Scope.
-    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #  - 'User Groups' in the Scope UI can only be JSS::UserGroups - No LDAP
     #    - BUG: They do not appear in API data (XML or JSON) and are
     #      NOT SUPPORTED in ruby-jss.
     #    - You must use the Web UI to work with them in a Scope.
@@ -70,11 +74,11 @@ module JSS
     #      scope=>limitations=>user_groups
     #
     # Exclusions, combines the behavior of Inclusions & Limitations
-    #  - 'Users' can only be JSS::Users - No LDAP
+    #  - 'Users' in the Scope UI can only be JSS::Users - No LDAP
     #    - BUG: They do not appear in API data (XML or JSON) and are
     #      NOT SUPPORTED in ruby-jss.
     #    - You must use the Web UI to work with them in a Scope.
-    #  - 'User Groups' can only be JSS::UserGroups - No LDAP
+    #  - 'User Groups' in the Scope UI can only be JSS::UserGroups - No LDAP
     #    - BUG: They do not appear in API data (XML or JSON) and are
     #      NOT SUPPORTED in ruby-jss.
     #    - You must use the Web UI to work with them in a Scope.
@@ -226,56 +230,64 @@ module JSS
       #   if we can't connect to LDAP servers for verification?
       attr_accessor :unable_to_verify_ldap_entries
 
-      # what type of target is this scope for? Computers or Mobiledevices?
+      # what type of target is this scope for? Computers or MobileDevices?
       attr_reader :target_class
 
-      # @return [Hash<Array>]
-      #
-      # The items which form the base scope of included targets
-      #
-      # This is the group of targets to which the limitations and exclusions apply.
-      # they keys are:
-      # - :targets
-      # - :target_groups
-      # - :departments
-      # - :buildings
-      # and the values are Arrays of names of those things.
-      #
-      attr_reader :inclusions
+      # what type of target group is this scope for? ComputerGroups or MobileDeviceGroups?
+      attr_reader :group_class
 
       # @return [Boolean]
       #
       # Does this scope cover all targets?
       #
-      # If this is true, the @inclusions Hash is ignored, and all
+      # If this is true, the @targets Hash is ignored, and all
       # targets in the JSS form the base scope.
       #
       attr_reader :all_targets
+      alias all_targets? all_targets
 
-      # @return [Hash<Array>]
+
+      # The items which form the base scope of included targets
       #
-      # The items in these arrays are the limitations applied to targets in the @inclusions .
+      # This is the group of targets to which the limitations and exclusions apply.
+      # they keys are:
+      # - :computers or :mobile_devices  (which are directly targeted)
+      # - :direct_targets - a synonym for :mobile_devices or :computers
+      # - :computer_groups or :mobile_device_groups  (which target all of their memebers)
+      # - :group_targets - a synonym for :computer_groups or :mobile_device_groups
+      # - :departments
+      # - :buildings
+      # and the values are Arrays of names of those things.
       #
-      # The arrays of names are:
+      # @return [Hash{Symbol: Array<Integer>}]
+      attr_reader :targets
+      # backward compatibility
+      alias inclusions targets
+
+      # The items in these arrays are the limitations applied to targets in the @targets .
+      #
+      # The arrays of ids are:
       # - :network_segments
-      # - :users
+      # - :jamf_ldap_users
       # - :user_groups
       #
+      # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :limitations
 
-      # @return [Hash<Array>]
+      # The items in these arrays are the exclusions applied to targets in the @targets .
       #
-      # The items in these arrays are the exclusions applied to targets in the @inclusions .
-      #
-      # The arrays of names are:
-      # - :targets
-      # - :target_groups
+      # The arrays of ids are:
+      # - :computers or :mobile_devices  (which are directly excluded)
+      # - :direct_exclusions - a synonym for :mobile_devices or :computers
+      # - :computer_groups or :mobile_device_groups  (which exclude all of their memebers)
+      # - :group_exclusions - a synonym for :computer_groups or :mobile_device_groups
       # - :departments
       # - :buildings
       # - :network_segments
       # - :users
       # - :user_groups
       #
+      # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :exclusions
 
       # Public Instance Methods
@@ -299,7 +311,7 @@ module JSS
         @group_key = TARGETS_AND_GROUPS[@target_key]
         @group_class = SCOPING_CLASSES[@group_key]
 
-        @inclusion_keys = [@target_key, @group_key] + INCLUSIONS
+        @target_keys = [@target_key, @group_key] + INCLUSIONS
         @exclusion_keys = [@target_key, @group_key] + EXCLUSIONS
 
         @all_key = "all_#{target_key}".to_sym
@@ -307,11 +319,13 @@ module JSS
 
         # Everything gets mapped from an Array of Hashes to
         # an Array of ids
-        @inclusions = {}
-        @inclusion_keys.each do |k|
+        @targets = {}
+        @target_keys.each do |k|
           raw_scope[k] ||= []
-          @inclusions[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
-        end # @inclusion_keys.each do |k|
+          @targets[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
+          @targets[:direct_targets] = @targets[k] if k == @target_key
+          @targets[:group_targets] = @targets[k] if k == @group_key
+        end # @target_keys.each do |k|
 
         # the  :users key from the API is what we call :jamf_ldap_users
         # and the :user_groups key from the API we call :ldap_user_groups
@@ -365,6 +379,8 @@ module JSS
               api_data = raw_scope[:exclusions][k]
               api_data ||= []
               @exclusions[k] = api_data.compact.map { |n| n[:id].to_i }
+              @exclusions[:direct_exclusions] = @exclusions[k] if k == @target_key
+              @exclusions[:group_exclusions] = @exclusions[k] if k == @group_key
             end # if ...elsif... else
           end # @exclusion_keys.each
         end # if raw_scope[:exclusions]
@@ -382,8 +398,8 @@ module JSS
       # @return [void]
       #
       def include_all(clear = false)
-        @inclusions = {}
-        @inclusion_keys.each { |k| @inclusions[k] = [] }
+        @targets = {}
+        @target_keys.each { |k| @targets[k] = [] }
         @all_targets = true
         if clear
           @limitations = {}
@@ -428,9 +444,9 @@ module JSS
           item_id
         end # each
 
-        return nil if list.sort == @inclusions[key].sort
+        return nil if list.sort == @targets[key].sort
 
-        @inclusions[key] = list
+        @targets[key] = list
         @all_targets = false
         @container.should_update if @container
       end # sinclude_in_scope
@@ -458,11 +474,11 @@ module JSS
       def add_target(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
-        return if @inclusions[key] && @exclusions[key].include?(item_id)
+        return if @targets[key] && @exclusions[key].include?(item_id)
 
         raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        @inclusions[key] << item_id
+        @targets[key] << item_id
         @all_targets = false
         @container.should_update if @container
       end
@@ -483,9 +499,9 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :target, key, item, error_if_not_found: false
         return unless item_id
-        return unless @inclusions[key] && @exclusions[key].include?(item_id)
+        return unless @targets[key] && @exclusions[key].include?(item_id)
 
-        @inclusions[key].delete item_id
+        @targets[key].delete item_id
         @container.should_update if @container
       end
       alias remove_inclusion remove_target
@@ -600,8 +616,8 @@ module JSS
         list.map! do |ident|
           item_id = validate_item(:exclusion, key, ident)
           case key
-          when *@inclusion_keys
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @inclusions[key] && @exclusions[key].include?(item_id)
+          when *@target_keys
+            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @targets[key] && @exclusions[key].include?(item_id)
           when *LIMITATIONS
             if @limitations[key] && @exclusions[key].include?(item_id)
               raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
@@ -634,7 +650,7 @@ module JSS
         item_id = validate_item(:exclusion, key, item)
         return if @exclusions[key] && @exclusions[key].include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @inclusions[key] && @inclusions[key].include?(item)
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @targets[key] && @targets[key].include?(item)
 
         raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
 
@@ -672,7 +688,8 @@ module JSS
         scope = REXML::Element.new 'scope'
         scope.add_element(@all_key.to_s).text = @all_targets
 
-        @inclusions.each do |klass, list|
+        @target_keys.each do |klass|
+          list = @targets[klass]
           list.compact!
           list.delete 0
           list_as_hashes = list.map { |i| { id: i } }
@@ -702,7 +719,8 @@ module JSS
         end
 
         exclusions = scope.add_element('exclusions')
-        @exclusions.each do |klass, list|
+        @exclusion_keys.each do |klass|
+          list = @exclusions[klass]
           list.compact!
           list.delete 0
           if klass == :jamf_ldap_users
@@ -737,9 +755,60 @@ module JSS
         vars
       end
 
-      # Aliases
+      # Return a hash of id => name for all machines in the target class
+      # that are within this scope.
+      #
+      # WARNING: This must instantiate all machines in the target class.
+      # It will still be slow, at least the first time for each target class.
+      # On the upside, the instantiated machines will be cached, so generating
+      # this list for other scopes with the same target class will be much
+      # much faster.
+      # In tests, 1600 Computers took about 7 minutes the first time,
+      # but less than 1 second after caching.
+      #
+      # See also the warning for #in_scope?
+      #
+      # @return [Hash{Integer => String}]
+      #
+      ################
+      def scoped_machines
+        scoped_machines = {}
+        @target_class.all_objects.each do |machine|
+          scoped_machines[machine.id] = machine.name if in_scope? machine
+        end
+        scoped_machines
+      end
 
-      alias all_targets? all_targets
+      # is a given machine is in this scope?
+      #
+      # For a parameter you may pass either an instantiated
+      # JSS::MobileDevice or JSS::Computer, or an identifier for one.
+      # If an identifier is passed, it is not instantiated, but an API
+      # request is made for just the required subsets of data, thus
+      # speeding things up a bit when calling this method many times.
+      #
+      # WARNING: For scopes that include Jamf Users and Jamf User Groups
+      # as targets or exclusions, this method may return an incorrect value.
+      # See the discussion in the documentation for the Scopable::Scope class
+      # under 'IMPORTANT - Users & User Groups in Targets and Exclusions'
+      #
+      # NOTE: currently in-range iBeacons are transient, and are not reported
+      # to the JSS as inventory data. As such they are ignored in this result.
+      # If a scope contains iBeacon limitations or exclusions, it is up to
+      # the user to be aware of that when evaluating the meaning of this result.
+      #
+      # @param machine[Integer, String, JSS::MobileDevice, JSS::Computer]
+      #   Either an identifier for the machine, or an instantiated object
+      #
+      # @return [Boolean]
+      #
+      ##############
+      def in_scope?(machine)
+        machine_data = fetch_machine_data machine
+
+        a_target?(machine_data) && within_limitations?(machine_data) && !excluded?(machine_data)
+      end
+
 
       # Private Instance Methods
       #####################################
@@ -765,7 +834,7 @@ module JSS
         # which keys allowed depends on how the item is used...
         possible_keys =
           case realm
-          when :target then @inclusion_keys
+          when :target then @target_keys
           when :limitation then LIMITATIONS
           when :exclusion then @exclusion_keys
           else
@@ -807,6 +876,252 @@ module JSS
         else
           key.to_s.end_with?(ESS) ? key : "#{key}s".to_sym
         end
+      end
+
+      # The data used by the methods that figure out if a machine is
+      # in this scope, a Hash of Hashes. the sub hashes are:
+      #
+      #     general: the 'general' subset
+      #     location: the 'location' subset
+      #     group_ids: an Array of the group ids to which the machine belongs.
+      #
+      # @param machine[Integer, String, JSS::MobileDevice, JSS::Computer]
+      #   Either an identifier for the machine, or an instantiated object
+      #
+      # @return
+      #
+      def fetch_machine_data(machine)
+        case machine
+        when JSS::Computer
+          raise JSS::InvalidDataError, "Targets of this scope must be #{@target_class}" unless @target_class == JSS::Computer
+
+          general = machine.init_data[:general]
+          location = machine.init_data[:location]
+          group_ids = group_ids machine.computer_groups
+
+          # put in standardize place for easier use
+          # MDevs already have this at general[:managed]
+          general[:managed] = general[:remote_management][:managed]
+
+        when JSS::MobileDevice
+          raise JSS::InvalidDataError, "Targets of this scope must be #{@target_class}" unless @target_class == JSS::MobileDevice
+
+          general = machine.init_data[:general]
+          location = machine.init_data[:location]
+          group_ids = group_ids machine.mobile_device_groups
+
+        else
+          general, location, group_ids = fetch_subsets(machine)
+        end # case
+
+        {
+          general: general,
+          location: location,
+          group_ids: group_ids
+        }
+      end
+
+      # When we are given an indentifier for a machine,
+      # fetch just the subsets of API data we need to
+      # determine if the machine is in this scope
+      #
+      # @param ident[String, Integer]
+      #
+      # @return [Array] the general, locacation, and parsed group IDs
+      #
+      def fetch_subsets(ident)
+        id = @target_class.valid_id ident
+        raise JSS::NoSuchItemError, "No #{@target_class} matching #{machine}" unless id
+
+        if @target_class == JSS::MobileDevice
+          grp_subset = 'MobileDeviceGroups'
+          top_key = :mobile_device
+        else
+          grp_subset = 'GroupsAccounts'
+          top_key = :computer
+        end
+        subset_rsrc = "#{@target_class::RSRC_BASE}/id/#{id}/subset/General&Location&#{grp_subset}"
+        data = container.api.get_rsrc(subset_rsrc)[top_key]
+        grp_data =
+          if @target_class == JSS::MobileDevice
+            data[:mobile_device_groups]
+          else
+            data[:groups_accounts][:computer_group_memberships]
+          end
+
+        [data[:general], data[:location], group_ids(grp_data)]
+      end
+
+      # Given the raw API data for a machines group membership,
+      # return an array of the IDs of the groups.
+      #
+      # @param raw[Array] The API array of the machine's group memberships
+      #
+      # @return [Array] The ID's of the groups to which the machine belongs.
+      #
+      def group_ids(raw)
+        if @target_class == JSS::MobileDevice
+          raw.map { |mdg| mdg[:id] }
+        else
+          names_to_ids = @group_class.map_all_ids_to(:name).invert
+          raw.map { |gn| names_to_ids[gn] }
+        end
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @return [Boolean]
+      ################
+      def a_target?(machine_data)
+        return false unless machine_data[:general][:managed]
+        return true if \
+          all_targets? || \
+          machine_directly_scoped?(machine_data, :target) || \
+          machine_in_scope_group?(machine_data, :target) || \
+          machine_in_scope_buildings?(machine_data, :target) || \
+          machine_in_scope_depts?(machine_data, :target)
+
+        false
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @return [Boolean]
+      ################
+      def within_limitations?(machine_data)
+        return false if \
+          machine_in_scope_netsegs?(machine_data, :limitation) == false || \
+          machine_in_scope_jamf_ldap_users_list?(machine_data, :limitation) == false || \
+          machine_in_scope_ldap_usergroup_list?(machine_data, :limitation) == false
+
+        true
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @return [Boolean]
+      ################
+      def excluded?(machine_data)
+        return true if
+          machine_directly_scoped?(machine_data, :exclusion) || \
+          machine_in_scope_group?(machine_data, :exclusion) || \
+          machine_in_scope_buildings?(machine_data, :exclusion) || \
+          machine_in_scope_depts?(machine_data, :exclusion) || \
+          machine_in_scope_netsegs?(machine_data, :exclusion) || \
+          machine_in_scope_jamf_ldap_users_list?(machine_data, :exclusion) || \
+          machine_in_scope_ldap_usergroup_list?(machine_data, :exclusion)
+
+        false
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :target or :exclusion
+      # @return [Boolean] Is the machine directly spcified in this part of the scope?
+      ################
+      def machine_directly_scoped?(machine_data, part)
+        scope_list = part == :target ? @targets[:direct_targets] : @exclusions[:direct_exclusions]
+        scope_list.include? machine_data[:general][:id]
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :target or :exclusion
+      # @return [Boolean] Is the machine a member of any group listed in this part of the scope?
+      ################
+      def machine_in_scope_group?(machine_data, part)
+        scope_list = part == :target ? @targets[:group_targets] : @exclusions[:group_exclusions]
+        # if the list is empty, return nil
+        return if scope_list.empty?
+
+        # if the intersection of the machine's group ids, and those of the scope part
+        # is not empty, then the machine is in at least one of the groups
+        !(machine_data[:group_ids] & scope_list).empty?
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :target or :exclusion
+      # @return [Boolean] Is the machine in any building listed in this part of the scope?
+      #################
+      def machine_in_scope_buildings?(machine_data, part)
+        scope_list = part == :target ? @targets[:buildings] : @exclusions[:buildings]
+
+        # nil if empty
+        return if scope_list.empty?
+        # false if no building for the machine - it isn't in any dept
+        return false if machine_data[:location][:building].to_s.empty?
+
+        building_id = JSS::Building.map_all_ids_to(:name).invert[machine_data[:location][:building]]
+        scope_list.include? building_id
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :target or :exclusion
+      # @return [Boolean] Is the machine in any department listed in this part of the scope?
+      #################
+      def machine_in_scope_depts?(machine_data, part)
+        scope_list = part == :target ? @targets[:departments] : @exclusions[:departments]
+
+        # nil if empty
+        return if scope_list.empty?
+        # false if no dept for the machine - it isn't in any dept
+        return false if machine_data[:location][:department].to_s.empty?
+
+        dept_id = JSS::Department.map_all_ids_to(:name).invert[machine_data[:location][:department]]
+
+        scope_list.include? dept_id
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :limitation or :exclusion
+      # @return [Boolean] Is the machine in any NetworkSegment listed in this part of the scope?
+      ##################
+      def machine_in_scope_netsegs?(machine_data, part)
+        scope_list = part == :limitation ? @limitations[:network_segments] : @exclusions[:network_segments]
+
+        # nil if no netsegs in scope part
+        return if scope_list.empty?
+
+        ip = @target_class == JSS::Computer ? machine_data[:general][:last_reported_ip] : machine_data[:general][:ip_address]
+        # false if no ip for machine - it isn't in a any of the segs
+        return false if ip.to_s.empty?
+
+        mach_segs = JSS::NetworkSegment.network_segments_for_ip ip
+
+        # if the intersection is not empty, then the machine is in at least one of the net segs
+        !(mach_segs & scope_list).empty?
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :limitation or :exclusion
+      # @return [Boolean] Is the user of this machine in the list of jamf/ldap users in this part of the scope?
+      ##################
+      def machine_in_scope_jamf_ldap_users_list?(machine_data, part)
+        scope_list = part == :limitation ? @limitations[:jamf_ldap_users] : @exclusions[:jamf_ldap_users]
+
+        # nil if the list is empty
+        return if scope_list.empty?
+
+        scope_list.include? machine_data[:location][:username]
+      end
+
+      # @param machine_data[Hash] See #fetch_machine_data
+      # @param part[Symbol] either :limitation or :exclusion
+      # @return [Boolean] Is the user of this machine a member of any of the LDAP groups in in this part of the scope?
+      ##################
+      def machine_in_scope_ldap_usergroup_list?(machine_data, part)
+        scope_list = part == :limitation ? @limitations[:ldap_user_groups] : @exclusions[:ldap_user_groups]
+
+        # nil if the list is empty
+        return if scope_list.empty?
+
+        # loop thru them checking to see if the user is a member
+        scope_list.each do |ldapgroup|
+          server = JSS::LDAPServer.server_for_group ldapgroup
+          # if the group doesn't exist in any LDAP the user isn't a part of it
+          next unless server
+
+          # if the user name is in any group, return true
+          return true if JSS::LDAPServer.check_membership server, machine_data[:location][:username], ldapgroup
+        end
+
+        # if we're here, not in any group
+        false
       end
 
     end # class Scope
