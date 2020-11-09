@@ -766,7 +766,7 @@ module Jamf
         cnx.response :json, parser_options: { symbolize_names: true } if parse_json
         cnx.options[:timeout] = @timeout
         cnx.options[:open_timeout] = @open_timeout
-        cnx.use Faraday::Adapter::NetHttp
+        cnx.adapter Faraday::Adapter::NetHttp
       end
     end
 
