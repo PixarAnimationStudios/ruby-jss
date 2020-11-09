@@ -459,9 +459,17 @@ module JSS
     ### @return [void]
     ###
     def building=(newval)
-      new = JSS::Building.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No building matching '#{newval}'" unless new
-      @building = new[:name]
+      new = 
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::Building.valid_id newval
+          raise JSS::MissingDataError, "No building matching '#{newval}'" unless id
+
+          JSS::Building.map_all_ids_to(:name)[id]
+        end
+
+      @building = new
       @need_to_update = true
     end
 
@@ -484,9 +492,16 @@ module JSS
     ### @return [void]
     ###
     def department=(newval)
-      new = JSS::Department.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No department matching '#{newval}' in the JSS" unless new
-      @department = new[:name]
+      new =
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::Department.valid_id newval
+          raise JSS::MissingDataError , "No department matching '#{newval}' in the JSS" unless id
+
+          JSS::Department.map_all_ids_to(:name)[id]
+        end
+      @department = new
       @need_to_update = true
     end
 
@@ -531,9 +546,17 @@ module JSS
     ### @return [void]
     ###
     def netboot_server=(newval)
-      new = JSS::NetBootServer.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No netboot_server matching '#{newval}' in the JSS" unless new
-      @netboot_server = new[:name]
+      new = 
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::NetBootServer.valid_id newval
+          raise JSS::MissingDataError, "No netboot_server matching '#{newval}' in the JSS" unless id
+
+          JSS::NetbootServer.map_all_ids_to(:name)[id]
+        end
+      
+      @netboot_server = new
       @need_to_update = true
     end
 
@@ -544,9 +567,17 @@ module JSS
     ### @return [void]
     ###
     def swu_server=(newval)
-      new = JSS::SoftwareUpdateServer.all.select { |b| (b[:id] == newval) || (b[:name] == newval) }[0]
-      raise JSS::MissingDataError, "No swu_server matching '#{newval}' in the JSS" unless new
-      @swu_server = new[:name]
+      new = 
+        if newval.to_s.empty?
+          JSS::BLANK
+        else
+          id = JSS::SoftwareUpdateServer.valid_id newval
+          raise JSS::MissingDataError, "No swu_server matching '#{newval}' in the JSS" unless id
+
+          JSS::SoftwareUpdateServer.map_all_ids_to(:name)[id]
+        end
+
+      @swu_server = new
       @need_to_update = true
     end
 
