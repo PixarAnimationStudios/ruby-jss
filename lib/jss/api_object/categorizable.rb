@@ -198,7 +198,7 @@ module JSS
 
       if cat.is_a? String
         @category_name = cat
-        @category_id = JSS::Category.category_id_from_name @category_name
+        @category_id = JSS::Category.category_id_from_name @category_name, api: @api
       else
         @category_name = cat[:name]
         @category_id = cat[:id]

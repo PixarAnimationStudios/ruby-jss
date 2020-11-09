@@ -311,6 +311,37 @@ module JSS
       super
     end
 
+    # Change static group to smart group
+    #
+    # @param args[Hash] the options and settings use for switching the computer group from static group to smart group
+    #
+    # @option args criteria[Array] The criterias to be user for the smart group
+    def set_smart(*params)
+      return if @is_smart
+
+      params[:criteria] = [] if params[:criteria].nil?
+
+      criteria = params[:criteria]
+
+      @is_smart = true
+      @need_to_update = true
+    end
+
+    # Change smart group to static group
+    #
+    # @param args[Hash] the options and settings use for switching the computer group from smart group to static group
+    #
+    # @option args preserve_members[Boolean] Should the smart group preserve it's current members?
+    def set_static(*params)
+      return unless @is_smart
+
+      preserve_members = params.include? :preserve_members
+
+      @is_smart = false
+
+      clear() unless preserve_members
+    end
+
     # How many members of the group?
     #
     # @return [Integer] the number of members of the group
