@@ -106,7 +106,7 @@ module JSS
             # @return [void]
             def workstation_mode=(newvalue)
 
-                raise JSS::InvalidDataError, "workstation_mode must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "workstation_mode must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @workstation_mode = newvalue
 
@@ -125,7 +125,7 @@ module JSS
             # @return [void]
             def overwrite_existing=(newvalue)
 
-                raise JSS::InvalidDataError, "overwrite_existing must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "overwrite_existing must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @overwrite_existing = newvalue
 
@@ -144,7 +144,7 @@ module JSS
             # @return [void]
             def update_PAM=(newvalue)
 
-                raise JSS::InvalidDataError, "update_PAM must be true or false." unless newvalue.is_a? Bool
+                raise JSS::InvalidDataError, "update_PAM must be true or false." unless newvalue.is_a?(TrueClass) || newvalue.is_a(FalseClass)
 
                 @update_PAM = newvalue
 
@@ -163,9 +163,16 @@ module JSS
             # @return [void]
             def zone=(newvalue)
 
-                raise JSS::InvalidDataError, "zone must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "zone must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
-                @zone = newvalue
+                @zone = new
 
                 self.container&.should_update
             end
@@ -182,9 +189,16 @@ module JSS
             # @return [void]
             def preferred_domain_server=(newvalue)
 
-                raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "preferred_domain_server must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
-                @preferred_domain_server = newvalue
+                @preferred_domain_server = new
 
                 self.container&.should_update
             end
