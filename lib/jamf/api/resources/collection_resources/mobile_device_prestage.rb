@@ -79,7 +79,7 @@ module Jamf
 
       # @!attribute isAutoAdvanceSetup
       #   @return [Boolean]
-      isAutoAdvanceSetup: {
+      autoAdvanceSetup: {
         class: :boolean
       },
 
