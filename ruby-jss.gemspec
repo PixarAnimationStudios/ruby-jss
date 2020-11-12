@@ -61,6 +61,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'plist', '~> 3.1'
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
+  # https://github.com/lostisland/faraday: MIT License
+  s.add_runtime_dependency 'faraday', '>= 1.0.0', '<= 1.0.1'
   # https://github.com/lostisland/faraday_middleware & dependencies: MIT License
   s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
   # https://github.com/ruby-ldap/ruby-net-ldap MIT License (no dependencies)
