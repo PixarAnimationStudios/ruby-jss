@@ -650,7 +650,6 @@ module JSS
         @cnx.delete(rsrc) do |req|
           req.headers[HTTP_CONTENT_TYPE_HEADER] = MIME_XML
           req.headers[HTTP_ACCEPT_HEADER] = MIME_XML
-          req.body = xml
         end
 
       unless @last_http_response.success?
