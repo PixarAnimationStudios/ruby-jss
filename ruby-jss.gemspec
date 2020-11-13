@@ -30,17 +30,19 @@ require "./lib/#{lib_dir}/version"
 Gem::Specification.new do |s|
   # General
   s.description = <<-EOD
-    The ruby-jss gem provides the JSS module, a framework for interacting with the REST API
-    of the Jamf Software Server (JSS), the core of Jamf Pro, an enterprise/education
-    tool for managing Apple devices, from Jamf Software LLC.
-    JSS API objects are implemented as Ruby classes, and interact with each oher to
-    allow simpler automation of Jamf-related tasks. For details see the README file."
+    The ruby-jss gem provides native ruby access to the REST APIs of Jamf Pro,
+    an enterprise/education tool for managing Apple devices, from jamf.com.
+    The JSS module provides access to the 'Classic' API, while the Jamf module
+    provides access to the more modern 'Jamf Pro' API. Jamf Pro objects are
+    implemented as classes and, within each module, can interact with each other.
+    The underlying data transfer using JSON or XML is handled automatically
+    under the hood, to allow simpler, intuitive automation of Jamf-related Tasks.
   EOD
   s.name        = proj_name
   s.version     = JSS::VERSION
   s.license     = 'Nonstandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
-  s.summary     = 'A Ruby interface to the Jamf Pro REST API'
+  s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'
   s.authors     = ['Chris Lasell', 'Aurica Hayes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
