@@ -35,7 +35,7 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_VERSION = 'v1'.freeze
+    RSRC_VERSION = 'v2'.freeze
 
     RSRC_PATH = 'computer-prestages'.freeze
 
@@ -53,23 +53,30 @@ module Jamf
 
       # @!attribute isInstallProfilesDuringSetup
       #   @return [Boolean]
-      isInstallProfilesDuringSetup: {
+      installProfilesDuringSetup: {
         class: :boolean
       },
 
       # @!attribute prestageInstalledProfileIds
       #   @return [Array<Integer>]
       prestageInstalledProfileIds: {
-        class: :integer,
+        class: :j_id,
         multi: true
       },
 
       # @!attribute customPackageIds
       #   @return [Array<Integer>]
       customPackageIds: {
-        class: :integer,
+        class: :j_id,
         multi: true
+      },
+
+      # @!attribute customPackageDistributionPointId
+      #   @return [String]
+      customPackageDistributionPointId: {
+        class: :j_id
       }
+
     ).freeze
 
     parse_object_model

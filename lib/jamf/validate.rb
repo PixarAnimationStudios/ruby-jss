@@ -37,7 +37,7 @@ module Jamf
   module Validate
 
     # The regular expression that matches a valid MAC address.
-    MAC_ADDR_RE = /^[a-f0-9]{2}(:[a-f0-9]{2}){5}$/i
+    MAC_ADDR_RE = /^[a-f0-9]{2}(:[a-f0-9]{2}){5}$/i.freeze
 
     # Validate the format and content of a MAC address
     #
@@ -50,6 +50,7 @@ module Jamf
     def self.mac_address(val, msg = nil)
       msg ||= "Not a valid MAC address: '#{val}'"
       raise Jamf::InvalidDataError, msg unless val =~ MAC_ADDR_RE
+
       val
     end
 
@@ -68,10 +69,11 @@ module Jamf
       ok = false unless parts.size == 4
       parts.each { |p| ok = false unless p.j_integer? && p.to_i < 256 && p.to_i >= 0 }
       raise Jamf::InvalidDataError, msg unless ok
+
       val
     end
 
-    # Does a give JSONObject class have a given JSON attribute?
+    # Does a given JSONObject class have a given JSON attribute?
     #
     # @param klass [<JSONObject] A class descended from JSONObject
     #
@@ -83,7 +85,22 @@ module Jamf
       raise "#{klass} is not a descendent of JSONObject" unless klass < Jamf::JSONObject
 
       raise Jamf::NoSuchItemError, "No attribute #{attr_name} for class #{klass}" unless klass::OBJECT_MODEL.key? attrib
+
       attr_name
+    end
+
+    # Does a value exist in a given enum array?
+    #
+    # @param klass [<JSONObject] A class descended from JSONObject
+    #
+    # @param attr_name [Symbol] The attribute to validate
+    #
+    # @return [Symbol] The valid attribute
+    #
+    def self.in_enum(val, enum)
+      raise Jamf::InvalidDataError, "Value must be one of: #{enum.join ', '}" unless enum.include? val
+
+      val
     end
 
     # Validate that a value doesn't already exist for a given identifier of
@@ -116,14 +133,12 @@ module Jamf
       raise Jamf::AlreadyExistsError, msg
     end
 
+    TRUE_FALSE = [true, false].freeze
+
     # Confirm that the given value is a boolean value, accepting
-    # Strings and Symbols,  returning real booleans as needed
-    #
-    # Accepted True values: true, 'true', :true, 'yes', :yes
-    #
-    # Accepted False values: false, 'false', :false, 'no', :no
-    #
-    # all Strings and Symbols are case insensitive
+    # strings and symbols and returning real booleans as needed
+    # Accepts: true, false, 'true', 'false', 'yes', 'no', 't','f', 'y', or 'n'
+    # as strings or symbols, case insensitive
     #
     # @param val [Boolean,String,Symbol] The value to validate
     #
@@ -131,11 +146,33 @@ module Jamf
     #
     # @return [Boolean] the valid boolean
     #
-    def self.boolean(val, msg = nil)
-      msg ||= 'Value must be boolean true or false'
-      return true if val.to_s =~ /^(true|yes)$/i
-      return false if val.to_s =~ /^(false|no)$/i
+    def self.boolean(val, msg = 'Value must be true or false, or equivalent string or symbol')
+      return val if TRUE_FALSE.include? val
+      return true if val.to_s =~ /^(t(rue)?|y(es)?)$/i
+      return false if val.to_s =~ /^(f(alse)?|no?)$/i
 
+      raise Jamf::InvalidDataError, msg
+    end
+
+    # Confirm that a value provided is an integer or a string version
+    # of an integer, and return the string version
+    #
+    # The JPAPI specs say that all IDs are integers in strings
+    # tho, the endpoints are still implementing that in different versions.
+    #
+    # @param val[Object] the value to validate
+    #
+    # @param msg[String] A custom error message when the value is invalid
+    #
+    # @return [String] the valid integer-in-a-string
+    #
+    def self.j_id(val, msg = 'Value must be an Integer or an Integer in a String, e.g. "42"')
+      case val
+      when Integer
+        return val.to_s
+      when String
+        return val if val.j_integer?
+      end
       raise Jamf::InvalidDataError, msg
     end
 
@@ -148,10 +185,10 @@ module Jamf
     #
     # @return [Integer] the valid integer
     #
-    def self.integer(val, msg = nil)
-      msg ||= 'Value must be an Integer'
+    def self.integer(val, msg = 'Value must be an Integer')
       val = val.to_i if val.is_a?(String) && val.j_integer?
       raise Jamf::InvalidDataError, msg unless val.is_a? Integer
+
       val
     end
 
@@ -164,10 +201,10 @@ module Jamf
     #
     # @return [Float] the valid float
     #
-    def self.float(val, msg = nil)
-      msg ||= 'Value must be a Floating Point number'
+    def self.float(val, msg = 'Value must be a Floating Point number')
       val = val.to_f if val.is_a?(String) && val.j_float?
-      raise Jamf::InvalidDataError, msg unless val.is_a? Flot
+      raise Jamf::InvalidDataError, msg unless val.is_a? Float
+
       val
     end
 
@@ -180,11 +217,12 @@ module Jamf
     #
     # @return [String] the valid String
     #
-    def self.string(val, msg = nil)
-      msg ||= 'Value must be a String'
+    def self.string(val, msg = 'Value must be a String')
       return Jamf::BLANK if val.nil?
+
       val = val.to_s if val.is_a? Symbol
       raise Jamf::InvalidDataError, msg unless val.is_a? String
+
       val
     end
 
@@ -197,10 +235,10 @@ module Jamf
     #
     # @return [String] the valid non-empty string
     #
-    def self.non_empty_string(val, msg = nil)
-      msg ||= 'value must be a non-empty String'
+    def self.non_empty_string(val, msg = 'value must be a non-empty String')
       val = val.to_s if val.is_a? Symbol
       raise Jamf::InvalidDataError, msg unless val.is_a?(String) && !val.empty?
+
       val
     end
 
@@ -214,11 +252,12 @@ module Jamf
     #
     # @return [String] the validated string
     #
-    def self.script_contents(val, msg = nil)
-      msg ||= "value must be a String starting with '#!'"
+    def self.script_contents(val, msg = "value must be a String starting with '#!'")
       raise Jamf::InvalidDataError, msg unless val.is_a?(String) && val.start_with?(SCRIPT_SHEBANG)
+
       val
     end
+
   end # module validate
 
 end # module JSS

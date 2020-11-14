@@ -30,6 +30,27 @@ module Jamf
   # various Setup options in a DEP prestage
   # The object model here includes the attributes common
   # to both Computer and MobileDevice prestages
+  #
+  # To see the current list of settings that are common
+  # to both Computers and MobileDevices, run this in irb:
+  #
+  # Jamf::ComputerPrestage.all.sample[:skipSetupItems].keys & Jamf::MobileDevicePrestage.all.sample[:skipSetupItems].keys
+  #
+  #   => [
+  # :Appearance,
+  # :AppleID,
+  # :Biometric,
+  # :Diagnostics,
+  # :DisplayTone,
+  # :Location,
+  # :Payment,
+  # :Privacy,
+  # :Restore,
+  # :ScreenTime,
+  # :Siri,
+  # :TOS
+  #     ]
+  #
   class PrestageSkipSetupItems < Jamf::JSONObject
 
     extend Jamf::Abstract

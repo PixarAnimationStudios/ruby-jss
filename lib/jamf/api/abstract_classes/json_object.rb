@@ -179,6 +179,7 @@ module Jamf
   # - enum:
   # - validator:
   # - aliases:
+  # - filter_key:
   #
   # For an example of an OBJECT_MODEL hash, see {Jamf::MobileDeviceDetails::OBJECT_MODEL}
   #
@@ -189,15 +190,27 @@ module Jamf
   # -----------------
   # This is the only required key for all attributes.
   #
-  # Symbol is one of :string, :integer, :float, or :boolean
-  # These are the JSON data types that don't need parsing into ruby
+  # ---
+  # Symbol is one of :string, :integer, :float, :boolean, or :j_id
+  #
+  # The first four are the JSON data types that don't need parsing into ruby
   # beyond that done by `JSON.parse`. When processing an attribute with one of
   # these symbols as the `class:`, the JSON value is used as-is.
   #
-  # When this is not a Symbol, it must be an actual class, such as
+  # The ':j_id' symbol means this value is an id used to reference an object in
+  # a collection resource of the API - all such objects have an 'id' attribute
+  # which is a String containing an Integer.
+  #
+  # These ids are used not only as the id attribute of the object itself, but
+  # if an object contains references to one or more other objects, those
+  # references are also ':j_id' values.
+  # In setters and .create, :j_id values can take either an integer or an
+  # integer-in-a-string, and are stored as integer-in-a-string/
+  #
+  # When 'class:' is not a Symbol, it must be an actual class, such as
   # Jamf::Timestamp or Jamf::PurchasingData.
   #
-  # Classes used this way _must_:
+  # Actual classes used this way _must_:
   #
   # - Have an #initialize method that takes two parameters and performs
   #   validation on them:
@@ -280,10 +293,11 @@ module Jamf
   # 2. so that validation can be performed on values added to the array.
   #
   #
-  # enum: \[Constant -> Array<Constants> ]
+  # enum: \[Constant -> Array ]
   # -----------------
   # This is a constant defined somewhere in the Jamf module. The constant
-  # must contain an Array of other Constant values, usually Strings.
+  # must contain an Array of values, usually Strings. You may or may not choose
+  # to define the array members as constants themselves.
   #
   # Example:
   # > Attribute `:type` has enum: Jamf::ExtentionAttribute::DATA_TYPES
@@ -305,9 +319,10 @@ module Jamf
   # >
   #
   # Setters for attributes with an enum require that the new value is
-  # a member of the array as seen above. When using such setters, its wise to
-  # use the array members themselves rather than a different but identical string,
-  # however either will work.  In other words, this:
+  # a member of the array as seen above. When using such setters, If you defined
+  # the array members as constants themselves, it is wise to use those rather
+  # than a different but identical string, however either will work.
+  # In other words, this:
   #
   #   my_ea.dataType = Jamf::ExtentionAttribute::DATA_TYPE_INTEGER
   #
@@ -356,6 +371,14 @@ module Jamf
   #
   # Attributes of class :boolean automatically have a getter alias ending with a '?'.
   #
+  # filter_key: \[Boolean]
+  # -----------------
+  # For subclasses of CollectionResource, GETting the main endpoint will return
+  # the entire collection. Some of these endpoints support RSQL filters to return
+  # only those objects that match the filter. If this attribute can be used as
+  # a field for filtering, set filter_key: to true, and filters will be used
+  # where possible to optimize GET requests.
+  #
   # Documenting your code
   # ---------------------
   # For documenting attributes with YARD, put this above each
@@ -401,22 +424,35 @@ module Jamf
   # attribute as described above. Validation failure will raise an exception,
   # usually Jamf::InvalidDataError.
   #
-  # If the attribute is defined with an enum, the value must be
-  # a key or value of the enum.
+  # Only one value-validation is applied, depending on the attribute definition:
   #
-  # If the attribute's class: is defined as a Class, (e.g. Jamf::Timestamp)
-  # its .new  method is called with the value and the current API connection.
-  # The class itself performs valuation when the value is used to
-  # instantiate it.
+  # - If the attribute is defined with a specific validator, the value is passed
+  #   to that validator, and other validators are ignored
   #
-  # If the attribute is defined with a validator, the value is passed
-  # to that validator.
+  # - If the attribute is defined with an enum, the value must be
+  #   a value of the enum.
   #
-  # If the attribute is defined as a :string, :integer, :float or :bool
-  # without an enum or validator, it is checked to be the correct type
+  # - If the attribute is defined as a :string, :integer, :float or :bool
+  #   without an enum or validator, it is confirmed to be the correct type
   #
-  # If an attribute is an identifier, it must be unique in its class and
-  # API connection.
+  # - If the attribute is defined to hold a :j_id, the Validate.j_id method
+  #   is used, it must be an integer or integer-in-string
+  #
+  # - If the attribute is defined to hold a JAMF class, (e.g. Jamf::Timestamp)
+  #   the class itself performs validation on the value when instantiated
+  #   with the value.
+  #
+  # - Otherwise, the value is used unchanged with no validation
+  #
+  # Additionally:
+  #
+  # - If an attribute is an identifier, it must be unique in its class and
+  #   API connection.
+  #
+  # - If an attribute is required, it may not be nil or empty
+  #
+  # - If an attribute is :multi, the value must be an array and each member
+  #   value is validated individually
   #
   # ### Constructor / Instantiation {#constructor}
   #
@@ -478,12 +514,6 @@ module Jamf
     # These classes are used from JSON in the raw
     JSON_TYPE_CLASSES = %i[string integer float boolean].freeze
 
-    # Predicate (boolean) attibutes that start with this RE will
-    # have an alias without the 'is' so :isManaged will have
-    # getters isManaged? and managed?
-    #
-    PREDICATE_RE = /^is([A-Z]\w+)$/.freeze
-
     # Public Class Methods
     #####################################
 
@@ -542,7 +572,9 @@ module Jamf
       need_list_methods = ancestors.include?(Jamf::CollectionResource)
 
       self::OBJECT_MODEL.each do |attr_name, attr_def|
-        create_list_methods(attr_name, attr_def) if need_list_methods && attr_def[:identifier]
+
+        # don't make one for :id, that one's hard-coded into CollectionResource
+        create_list_methods(attr_name, attr_def) if need_list_methods && attr_def[:identifier] && attr_name != :id
 
         # there can be only one (primary ident)
         if attr_def[:identifier] == :primary
@@ -591,9 +623,6 @@ module Jamf
     ##############################
     def self.define_predicates(attr_name)
       alias_method("#{attr_name}?", attr_name)
-      return unless attr_name.to_s =~ PREDICATE_RE
-
-      alias_method("#{Regexp.last_match(1).downcase}?", attr_name)
     end
 
     # create setter(s) for an attribute, and any aliases needed
@@ -610,6 +639,7 @@ module Jamf
         new_value = validate_attr attr_name, new_value
         old_value = instance_variable_get("@#{attr_name}")
         return if new_value == old_value
+
         instance_variable_set("@#{attr_name}", new_value)
         note_unsaved_change attr_name, old_value
       end # define method
@@ -638,9 +668,11 @@ module Jamf
       define_method("#{attr_name}=") do |new_value|
         instance_variable_set("@#{attr_name}", []) unless instance_variable_get("@#{attr_name}").is_a?(Array)
         raise Jamf::InvalidDataError, 'Value must be an Array' unless new_value.is_a? Array
+
         new_value.map! { |item| validate_attr attr_name, item }
         old_value = instance_variable_get("@#{attr_name}")
         return if new_value == old_value
+
         instance_variable_set("@#{attr_name}", new_value)
         note_unsaved_change attr_name, old_value
       end # define method
@@ -752,26 +784,6 @@ module Jamf
     #
     # returns a valid value or raises an exception
     #
-    # If the attribute is defined to hold a JAMF class, (e.g. Jamf::Timestamp)
-    # the class itself performs validation on the value when instantiated
-    # with the value.
-    #
-    # If the attribute is defined with an enum, the value must be
-    # a key of the enum.
-    #
-    # If the attribute is defined with a validator, the value is passed
-    # to that validator.
-    #
-    # If the attribute is defined as a :string, :integer, :float or :bool
-    # without an enum or validator, it is confirmed to be the correct type
-    #
-    # If the attribute is required, it can't be nil or empty
-    #
-    # If the attribute is an identifier, and the class is a subclass of
-    # CollectionResource, it must be unique among the collection
-    #
-    # Otherwise, the value is returned unchanged.
-    #
     # This method only validates single values. When called from multi-value
     # setters, it is used for each value individually.
     #
@@ -783,36 +795,11 @@ module Jamf
     #
     def self.validate_attr(attr_name, value, cnx: Jamf.cnx)
       attr_def = self::OBJECT_MODEL[attr_name]
-
       raise ArgumentError, "Unknown attribute: #{attr_name} for #{self} objects" unless attr_def
 
       # validate our value, which will raise an error or
       # convert the value to the required type.
-      value =
-
-        # by enum, must be a value of the enum
-        if attr_def[:enum]
-          return value if attr_def[:enum].include? value
-          raise Jamf::InvalidDataError, "Value must be one of: :#{attr_def[:enum].join ', :'}"
-
-        # by class, the class validates the value passed with .new
-        elsif attr_def[:class].is_a? Class
-          klass = attr_def[:class]
-          # validation happens in klass.new
-          value.is_a?(klass) ? value : klass.new(value, cnx: cnx)
-
-        # by specified Validate method - pass to the method
-        elsif attr_def[:validator]
-          Jamf::Validate.send(attr_def[:validator], value)
-
-        # By json primative type - pass to the matching validate method
-        elsif JSON_TYPE_CLASSES.include? attr_def[:class]
-          Jamf::Validate.send(attr_def[:class], value)
-
-        # raw, no validation, should be rare
-        else
-          value
-        end # if
+      value = validate_attr_value(attr_def, value, cnx: Jamf.cnx)
 
       # if this is required, it can't be nil or empty
       if attr_def[:required]
@@ -825,6 +812,41 @@ module Jamf
       value
     end # validate_attr(attr_name, value)
     private_class_method :validate_attr
+
+    # Validate an attribute value itself, as part of validating the attribute
+    # as a whole. Only one validation is applied, which one is
+    # determined in the order described in the #### Data Validation section
+    # of the JSONObject class comments
+    #
+    # See .validate_attr, which calls this
+    def self.validate_attr_value(attr_def, value, cnx: Jamf.cnx)
+      # by specified Validate method
+      if attr_def[:validator]
+        Jamf::Validate.send attr_def[:validator], value
+
+      # by enum, must be a value of the enum
+      elsif attr_def[:enum]
+        Jamf::Validate.in_enum(value, attr_def[:enum])
+
+      # By json primative type - pass to the matching validate method
+      elsif JSON_TYPE_CLASSES.include? attr_def[:class]
+        Jamf::Validate.send attr_def[:class], value
+
+      # a JPAPI id?
+      elsif attr_def[:class] == :j_id
+        Jamf::Validate.j_id value
+
+      # by Class, the class validates the value passed with .new
+      elsif attr_def[:class].is_a? Class
+        klass = attr_def[:class]
+        value.is_a?(klass) ? value : klass.new(value, cnx: cnx)
+
+      # raw, no validation, should be rare
+      else
+        value
+      end # if
+    end
+    private_class_method :validate_attr_value
 
     # Attributes
     #####################################
@@ -1046,6 +1068,10 @@ module Jamf
       elsif attr_def[:class].class == Class
         attr_def[:class].new api_value, cnx: @cnx
 
+      # a :j_id value. See the docs for OBJECT_MODEL in Jamf::JSONObject
+      elsif attr_def[:class] == :j_id
+        api_value.to_s
+
       # a JSON value
       else
         api_value
@@ -1058,11 +1084,9 @@ module Jamf
     # @return (see parse_single_init_value)
     #
     def parse_enum_value(api_value, attr_name, attr_def)
-      if attr_def[:enum].include? api_value
-        api_value
-      else
-        raise Jamf::InvalidDataError, "#{api_value} is not in the enum for attribute #{attr_name}"
-      end
+      raise Jamf::InvalidDataError, "#{api_value} is not in the enum for attribute #{attr_name}" unless attr_def[:enum].include? api_value
+
+      api_value
     end
 
     # call to_jamf on a single value

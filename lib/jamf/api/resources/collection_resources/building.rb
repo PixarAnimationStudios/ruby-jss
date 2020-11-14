@@ -35,7 +35,11 @@ module Jamf
     # Mix-Ins
     #####################################
 
+    extend Jamf::BulkDeletable
     include Jamf::ChangeLog
+    # TODO: this prob isn't needed anymore
+    # or should be updated - according to the specs, all
+    # references are just ids - integers-in-strings.
     include Jamf::Referable
 
     # Constants
@@ -54,7 +58,7 @@ module Jamf
       # @!attribute [r] id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
@@ -65,45 +69,52 @@ module Jamf
         class: :string,
         identifier: true,
         validator: :non_empty_string,
-        required: true
+        required: true,
+        filter_key: true
       },
 
       # @!attribute street1
       #   @return [String]
       streetAddress1: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute street2
       #   @return [String]
       streetAddress2: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute city
       #   @return [String]
       city: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute state_province
       #   @return [String]
       stateProvince: {
         class: :string,
-        aliases: %i[state province]
+        aliases: %i[state province],
+        filter_key: true
       },
 
       # @!attribute zip_postal_code
       #   @return [String]
       zipPostalCode: {
         class: :string,
-        aliases: %i[zip zipcode zip_code postal_code postalcode]
+        aliases: %i[zip zipcode zip_code postal_code postalcode],
+        filter_key: true
       },
 
       # @!attribute country
       #   @return [String]
       country: {
-        class: :string
+        class: :string,
+        filter_key: true
       }
     }.freeze
 

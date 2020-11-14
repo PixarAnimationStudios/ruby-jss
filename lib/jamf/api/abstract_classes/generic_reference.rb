@@ -25,6 +25,14 @@
 
 module Jamf
 
+  # TODO:  This class and the referable mixin should be removed -
+  # According to the Jamf Pro API Styleguide/Specs:
+  #
+  #   - Objects which reference other objects MUST only reference by its Jamf Pro-assigned numerical ID.
+  #
+  # and in newer endpoints that is what we're seeing, e.g. fields like
+  # 'siteId' and 'categoryId'
+
   # This class is a reference to an individual API object from some other
   # API object.
   #
@@ -53,7 +61,7 @@ module Jamf
     OBJECT_MODEL = {
 
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },

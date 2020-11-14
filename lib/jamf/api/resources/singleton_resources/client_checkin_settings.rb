@@ -40,7 +40,7 @@ module Jamf
 
     UPDATABLE = true
 
-    RSRC_VERSION = 'v1'.freeze
+    RSRC_VERSION = 'v2'.freeze
 
     RSRC_PATH = 'check-in'.freeze
 
@@ -54,79 +54,79 @@ module Jamf
 
       # @!attribute isCreateHooks
       #   @return [Boolean]
-      isCreateHooks: {
+      createHooks: {
         class: :boolean
       },
 
       # @!attribute isHookLog
       #   @return [Boolean]
-      isHookLog: {
+      hookLog: {
         class: :boolean
       },
 
       # @!attribute isHookPolicies
       #   @return [Boolean]
-      isHookPolicies: {
+      hookPolicies: {
         class: :boolean
       },
 
       # @!attribute isHookHideRestore
       #   @return [Boolean]
-      isHookHideRestore: {
+      hookHideRestore: {
         class: :boolean
       },
 
       # @!attribute isHookMCX
       #   @return [Boolean]
-      isHookMCX: {
+      hookMcx: {
         class: :boolean
       },
 
       # @!attribute isBackgroundHooks
       #   @return [Boolean]
-      isBackgroundHooks: {
+      backgroundHooks: {
         class: :boolean
       },
 
       # @!attribute isHookDisplayStatus
       #   @return [Boolean]
-      isHookDisplayStatus: {
+      hookDisplayStatus: {
         class: :boolean
       },
 
       # @!attribute isCreateStartupScript
       #   @return [Boolean]
-      isCreateStartupScript: {
+      createStartupScript: {
         class: :boolean
       },
 
       # @!attribute isStartupLog
       #   @return [Boolean]
-      isStartupLog: {
+      startupLog: {
         class: :boolean
       },
 
       # @!attribute isStartupPolicies
       #   @return [Boolean]
-      isStartupPolicies: {
+      startupPolicies: {
         class: :boolean
       },
 
       # @!attribute isStartupSSH
       #   @return [Boolean]
-      isStartupSSH: {
+      startupSsh: {
         class: :boolean
       },
 
       # @!attribute isStartupMCX
       #   @return [Boolean]
-      isStartupMCX: {
+      startupMcx: {
         class: :boolean
       },
 
       # @!attribute isEnableLocalConfigurationProfiles
       #   @return [Boolean]
-      isEnableLocalConfigurationProfiles: {
+      enableLocalConfigurationProfiles: {
         class: :boolean
       }
 

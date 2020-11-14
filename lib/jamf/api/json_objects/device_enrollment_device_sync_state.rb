@@ -26,32 +26,56 @@
 # The module
 module Jamf
 
-  # A container for an array of Jamf::PrestageAssignment
-  # objects, each of which represents a serial number assigned to the
-  # prestage that contains this scope.
-  class PrestageScope < Jamf::JSONObject
+  # The status of a device from Apple's POV, regarding its
+  # assignment or removal from ADE. Such assignment is done via
+  # a profile from apple, this data is the state of that profile.
+  class DeviceEnrollmentDeviceSyncState < Jamf::JSONObject
 
     extend Jamf::Immutable
-    include Jamf::Lockable
 
     OBJECT_MODEL = {
 
-      # @!attribute prestageId
+      # @!attribute id
+      #   NOTE: this is not a jamf object id, it comes from Apple, therefore
+      #   it is an Integer, not a :j_id
       #   @return [Integer]
-      prestageId: {
-        class: :j_id
+      id: {
+        class: :integer
       },
 
-      # @!attribute assignments
-      #   @return [String] the country name
-      assignments: {
-        class: Jamf::PrestageAssignment,
-        multi: true
+      # @!attribute serialNumber
+      #   @return [String]
+      serialNumber: {
+        class: :string
+      },
+
+      # @!attribute profileUUID
+      #   @return [String]
+      profileUUID: {
+        class: :string
+      },
+
+      # @!attribute syncStatus
+      #   @return [String]
+      syncStatus: {
+        class: :string
+      },
+
+      # @!attribute failureCount
+      #   @return [Integer]
+      failureCount: {
+        class: :integer
+      },
+
+      # @!attribute timestamp
+      #   @return [Jamf::Timestamp]
+      timestamp: {
+        class: Jamf::Timestamp
       }
     }.freeze
 
     parse_object_model
 
-  end # class PrestageScope
+  end # class Country
 
 end # module

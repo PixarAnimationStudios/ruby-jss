@@ -26,7 +26,13 @@
 # The module
 module Jamf
 
-  # A 'location' for a computer prestage in Jamf Pro
+  # The 'skip Setup Items' for a computer prestage in Jamf Pro
+  # The ones in common with Mobile Devices are in the superclass
+  # To see the ones that should be here, remove anything that's in
+  # mobile device's list from the computer ones, thus:
+  #
+  # > Jamf::ComputerPrestage.all.sample[:skipSetupItems].keys - Jamf::MobileDevicePrestage.all.sample[:skipSetupItems].keys
+  #  => [:FileVault, :iCloudDiagnostics, :Accessibility, :Registration, :iCloudStorage]
   class ComputerPrestageSkipSetupItems < Jamf::PrestageSkipSetupItems
 
     OBJECT_MODEL = superclass::OBJECT_MODEL.merge(
@@ -57,6 +63,13 @@ module Jamf
       Registration: {
         class: :boolean,
         aliases: %i[registration]
+      },
+
+      # @!attribute Registration
+      #   @return [Boolean]
+      Accessibility: {
+        class: :boolean,
+        aliases: %i[accessibility]
       }
     ).freeze
 

@@ -29,14 +29,11 @@ module Jamf
   # Classes
   #####################################
 
-  # A building defined in the JSS
+  # The parent class of ComputerPrestage, and MobileDevicePrestage
+  # holding common code.
   class Prestage < Jamf::CollectionResource
 
     extend Jamf::Abstract
-
-    # for now, subclasses are not creatable
-    extend Jamf::UnCreatable
-
     include Jamf::Lockable
 
     # Constants
@@ -49,9 +46,9 @@ module Jamf
     OBJECT_MODEL = {
 
       # @!attribute [r] id
-      #   @return [Integer]
+      #   @return [String]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
@@ -66,15 +63,15 @@ module Jamf
         aliases: %i[name]
       },
 
-      # @!attribute isMandatory
+      # @!attribute mandatory
       #   @return [Boolean]
-      isMandatory: {
+      mandatory: {
         class: :boolean
       },
 
-      # @!attribute isMdmRemovable
+      # @!attribute mdmRemovable
       #   @return [Boolean]
-      isMdmRemovable: {
+      mdmRemovable: {
         class: :boolean
       },
 
@@ -96,9 +93,9 @@ module Jamf
         class: :string
       },
 
-      # @!attribute isDefaultPrestage
+      # @!attribute defaultPrestage
       #   @return [Boolean]
-      isDefaultPrestage: {
+      defaultPrestage: {
         class: :boolean,
         aliases: [:default?]
       },
@@ -106,24 +103,24 @@ module Jamf
       # @!attribute enrollmentSiteId
       #   @return [Integer]
       enrollmentSiteId: {
-        class: :integer
+        class: :j_id
       },
 
-      # @!attribute isKeepExistingSiteMembership
+      # @!attribute keepExistingSiteMembership
       #   @return [Boolean]
-      isKeepExistingSiteMembership: {
+      keepExistingSiteMembership: {
         class: :boolean
       },
 
-      # @!attribute isKeepExistingLocationInformation
+      # @!attribute keepExistingLocationInformation
       #   @return [Boolean]
-      isKeepExistingLocationInformation: {
+      keepExistingLocationInformation: {
         class: :boolean
       },
 
-      # @!attribute isRequireAuthentication
+      # @!attribute requireAuthentication
       #   @return [Boolean]
-      isRequireAuthentication: {
+      requireAuthentication: {
         class: :boolean
       },
 
@@ -133,16 +130,22 @@ module Jamf
         class: :string
       },
 
-      # @!attribute isEnableDeviceBasedActivationLock
+      # @!attribute preventActivationLock
       #   @return [Boolean]
-      isEnableDeviceBasedActivationLock: {
+      preventActivationLock: {
+        class: :boolean
+      },
+
+      # @!attribute enableDeviceBasedActivationLock
+      #   @return [Boolean]
+      enableDeviceBasedActivationLock: {
         class: :boolean
       },
 
       # @!attribute deviceEnrollmentProgramInstanceId
       #   @return [Integer]
       deviceEnrollmentProgramInstanceId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute locationInformation
@@ -169,19 +172,37 @@ module Jamf
       # @!attribute enrollmentCustomizationId
       #   @return [Integer]
       enrollmentCustomizationId: {
-        class: :integer
+        class: :j_id
+      },
+
+      # @!attribute language
+      #   @return [String]
+      language: {
+        class: :string
+      },
+
+      # @!attribute region
+      #   @return [String]
+      region: {
+        class: :string
+      },
+
+      # @!attribute autoAdvanceSetup
+      #   @return [Boolean]
+      autoAdvanceSetup: {
+        class: :boolean
       },
 
       # @!attribute profileUUID
       #   @return [String]
-      profileUUID: {
+      profileUuid: {
         class: :string
       },
 
       # @!attribute siteId
       #   @return [Integer]
       siteId: {
-        class: :integer
+        class: :j_id
       }
 
     }.freeze
@@ -201,10 +222,14 @@ module Jamf
     # @return [Jamf::Prestage, nil]
     #
     def self.default
-      id = all.select { |ps| ps[:isDefaultPrestage] }.first.dig :id
-      return nil unless id
+      # only one can be true at a time, so sort desc by that field,
+      # and the true one will be at the top
+      default_prestage_data = all(sort: 'defaultPrestage:desc', paged: true, page_size: 1).first
 
-      fetch id: id
+      # Just in case there was no true one, make sure defaultPrestage is true
+      return unless default_prestage_data&.dig(:defaultPrestage)
+
+      fetch id: default_prestage_data[:id]
     end
 
     # Return all scoped serial numbers and the id of the prestage

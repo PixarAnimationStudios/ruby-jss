@@ -60,7 +60,7 @@ module Jamf
       cached = cnx.singleton_cache[self]
       return cached if cached
 
-      data = cnx.get "#{self::RSRC_VERSION}/#{self::RSRC_PATH}"
+      data = cnx.get rsrc_path
       cnx.singleton_cache[self] = new data, cnx: cnx
     end # fetch
 

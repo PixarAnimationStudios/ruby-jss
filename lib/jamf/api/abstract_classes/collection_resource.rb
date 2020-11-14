@@ -32,8 +32,9 @@ module Jamf
   #
   # Collection resources have more than one resource within them, and those
   # can (usually) be created and deleted as well as fetched and updated.
-  # The entire collection (or a part of it) can also be fetched as an Array.
-  # When the whole collection is fetched, the result is cached for future use.
+  # The entire collection (or a part of it) can also be retrieved as an Array.
+  # When the whole collection is retrieved, the result may be cached for future
+  # use.
   #
   # # Subclassing
   #
@@ -63,6 +64,10 @@ module Jamf
   class CollectionResource < Jamf::Resource
 
     extend Jamf::Abstract
+    extend Jamf::Pageable
+    extend Jamf::Sortable
+    extend Jamf::Filterable
+
     include Comparable
 
     # Public Class Methods
@@ -74,62 +79,194 @@ module Jamf
       self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] }.keys
     end
 
-    # The Collection members Array for this class, retrieved from
-    # the RSRC_PATH as Parsed JSON, but not instantiated into instances
-    # unless instantiate: is truthy.
+    def self.count(cnx: Jamf.cnx)
+      collection_count(rsrc_path, cnx: Jamf.cnx)
+    end
+
+
+    # Get all instances of a CollectionResource, possibly limited by a filter.
     #
-    # E.g. for {Jamf::Settings::Building}, this would be the Array of Hashes
-    # returned by GETing the resource .../settings/obj/building
+    # When called without specifying paged:, sort:, or filter: (see below)
+    # this method will return a single Array of all items of its
+    # CollectionResouce subclass, in the server's default sort order. This
+    # full list is cached for future use (see Caching, below)
     #
-    # This Array is cached in the {Jamf::Connection} instance used to
-    # retrieve it, and future calls to .all will return the cached Array
-    # unless refresh is truthy.
+    # However, the Array can be sorted by the server, filtered to contain only
+    # matching objects, or 'paged', i.e. retrieved in successive Arrays of a
+    # certain size.
     #
-    # TODO: Investigate https://www.rubydoc.info/github/mloughran/api_cache
+    # Sorting, filtering, and paging can all be used at the same time.
     #
-    # @param refresh[Boolean] re-read the data from the API?
+    # #### Server-side Sorting
     #
-    # @param cnx[Jamf::Connection] an API connection to use for the query.
-    #   Defaults to the corrently active connection. See {Jamf::Connection}
+    # Sorting criteria can be provided in the String format 'property:direction',
+    # where direction is 'asc' or 'desc' E.g.
+    #   "username:asc"
     #
-    # @param instantiate[Boolean] The Array contains instances of this class
-    #   rather than the JSON Hashes from the API.
+    # Multiple properties are supported, either as separate strings in an Array,
+    # or a single string, comma separated. E.g.
     #
-    # @return  [Array<Object>] An Array of all objects of this class in the JSS.
+    #    "username:asc,timestamp:desc"
+    # is the same as
+    #    ["username:asc", "timestamp:desc"]
     #
-    def self.all(refresh = false, cnx: Jamf.cnx, instantiate: false)
+    # which will sort by username alphabetically, and within each username,
+    # sort by timestamp newest first.
+    #
+    # Please see the JamfPro API documentation for the resource for details
+    # about available sorting properties and default sorting criteria
+    #
+    # #### Filtering
+    #
+    # Some CollectionResouces support RSQL filters to limit which objects
+    # are returned. These filters can be applied using the filter: parameter,
+    # in which case this `all` method will return `all that match the filter`.
+    #
+    # If the resource doesn't support filters, the filter parameter is ignored.
+    #
+    # Please see the JamfPro API documentation for the resource to see if
+    # filters are supported, and a list of available fields.
+    #
+    # #### Paging
+    #
+    # To reduce server load and local memory usage, you can request the results
+    # in 'pages', i.e. successivly retrieved Arrays, using the paged: and page_size:
+    # parameters.
+    #
+    # When paged: is truthy, the call to `all` returns the first group of objects
+    # containing however many are specified by page_size: The default page size
+    # is 100,  the minimum is 1, and the maximum is 2000.
+    #
+    # Once you have made a paged call to `all`, you must use the `next_page_of_all`
+    # method to get the next Array of objects. That method merely repeats the last
+    # request made by `all` after incrementing the page number by 1.
+    # When `next_page_of_all` returns an empty array, you have retrieved all
+    # availalble objects.
+    #
+    # `next_page_of_all` always reflects the last _paged_ call to `all`. Any
+    # subsequent paged call to `all` will reset the paging process for that
+    # collection class, and any unfinished previous paged calls to `all` will
+    # be forgotten
+    #
+    # #### Instantiation
+    #
+    # All data from the API comes from the server in JSON format, mostly as
+    # JSON 'objects', which are the equivalent of ruby Hashes.
+    # When fetching an individual instance of an object from the API, ruby-jss
+    # uses the JSON Hash to create the ruby object, i.e. to 'instantiate' it as
+    # an instance of its class. Doing this for many objects can slow things down.
+    #
+    # Because of this, the 'all' method defaults to returning an Array of the
+    # minimally-processed JSON Hashes it gets from the API. If you can get your
+    # desired data from these Hashes, it's far more efficient to do so.
+    #
+    # However sometimes you really need the fully instantiated ruby objects for
+    # all of them - especially if you're using filters and not actually processing
+    # all items of the class.  In such cases you can pass a truthy value to the
+    # instantiate: parameter, and the Array will contain fully instantiated
+    # ruby objects, not Hashes of API data.
+    #
+    # #### Caching
+    #
+    # When called without specifying paged:, sort:, or filter:
+    # this method will return a single Array of all items of its
+    # CollectionResouce subclass, in the server's default sort order.
+    #
+    # This Array is cached in ruby-jss, and future calls to this method without
+    # those parameters will return the cached Array. Use `refresh: true` to
+    # re-request that Array from the server. Note that the cache is of the raw
+    # JSON Hash data. Using 'instantiate:' will still be slower as each item in
+    # the cache is instantiated. See 'Instantiation' below.
+    #
+    # Some other methods, e.g. .all_names, will generate or use this cached Array
+    # to derive their values.
+    #
+    # If any of the parameters paged:, sort:, or filter: are used, an API
+    # request is made every time, and no caches are used or stored.
+    #
+    #######
+    #
+    # @param sort [String, Array<String>] Server-side sorting criteria in the format:
+    #   property:direction, where direction is 'asc' or 'desc'. Multiple
+    #   properties are supported, either as separate strings in an Array, or
+    #   a single string, comma separated.
+    #
+    # @param filter [String] An RSQL filter string. Not all collection resources
+    #   currently support filters, and if they don't, this will be ignored.
+    #
+    # @param paged [Boolean] Defaults to false. Returns only the first page of
+    #   `page_size` objects. Use {.next_page_of_all} to retrieve each successive
+    #   page.
+    #
+    # @param page_size [Integer] How many items are returned per page? Minimum
+    #   is 1, maximum is 2000, default is 100. Ignored unless paged: is truthy.
+    #   Note: the final page may contain fewer items than the page_size
+    #
+    # @param refresh [Boolean] re-fetch and re-cache the full list of all instances.
+    #   Ignored if paged:, page_size:, sort:, filter: or instantiate: are used.
+    #
+    # @param instantiate [Boolean] Defaults to false. Should the items in the
+    #   returned Array(s) be ruby instances of the CollectionObject subclass, or
+    #   plain Hashes of data as returned by the API?
+    #
+    # @param cnx [Jamf::Connection] The API connection to use, default: Jamf.cnx
+    #
+    # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
+    #
+    def self.all(sort: nil, filter: nil, paged: nil, page_size: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
       validate_not_abstract
+
+      # use the cache if not paging, filtering or sorting
+      return cached_all(refresh, instantiate, cnx) if !paged && !sort && !filter
+
+      # we are sorting, filtering or paging
+      sort = parse_collection_sort(sort)
+      filter = parse_collection_filter(filter)
+
+      result =
+        if paged
+          first_collection_page(rsrc_path, page_size, sort, filter, cnx)
+        else
+          fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
+        end
+      instantiate ? result.map { |m| new m } : result
+    end
+
+    # PRIVATE
+    # return the cached/cachable version of .all, possibly instantiated
+    #
+    # @param refresh [Boolean] refetch the cache from the server?
+    #
+    # @param instantiate [Boolean] Return an array of instantiated objects, vs
+    #   JSON hashes?
+    #
+    # @param cnx [Jamf::Connection] The Connection to use
+    #
+    # @return [Array<Hash,Object>] All the objects in the collection
+    #
+    def self.cached_all(refresh, instantiate, cnx)
       cnx.collection_cache[self] = nil if refresh
-      if cnx.collection_cache[self]
-        return cnx.collection_cache[self] unless instantiate
-
-        return cnx.collection_cache[self].map { |m| new m }
+      unless cnx.collection_cache[self]
+        sort = nil
+        filter = nil
+        cnx.collection_cache[self] = fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
       end
-
-      # TODO:  make sure all collection resources use this format
-      # for paging. Also -ask Jamf about a  url that returns
-      # ALL objects in one query, regardless of number.
-      page = 0
-      raw = cnx.get "#{rsrc_path}?page=#{page}&size=1000000&sort=id%3Aasc"
-      results = raw[:results]
-
-      until results.size >= raw[:totalCount]
-        page += 1
-        raw = cnx.get "#{rsrc_path}?page=#{page}&size=1000000&sort=id%3Aasc"
-        results += raw[:results]
-      end
+      instantiate ? cnx.collection_cache[self].map { |m| new m } : cnx.collection_cache[self]
+    end
+    private_class_method :cached_all
 
 
-      cnx.collection_cache[self] = results
-
-      return cnx.collection_cache[self] unless instantiate
-
-      cnx.collection_cache[self].map { |m| new m }
+    # Fetch the next page of a paged .all request. See
+    # {Jamf::Pagable.next_collection_page}
+    def self.next_page_of_all
+      next_collection_page
     end
 
     # An array of the ids for all collection members. According to the
     # specs ALL collection resources must have an ID, which is used in the
     # resource path.
+    #
+    # NOTE: This method uses the cached version of .all
     #
     # @param refresh (see .all)
     #
@@ -138,13 +275,13 @@ module Jamf
     # @return [Array<Integer>]
     #
     def self.all_ids(refresh = false, cnx: Jamf.cnx)
-      all(refresh, cnx: cnx).map { |m|  m[:id] }
+      all(refresh: refresh, cnx: cnx).map { |m| m[:id] }
     end
-
-    # rubocop:disable Naming/UncommunicativeMethodParamName
 
     # A Hash of all members of this collection where the keys are some
     # identifier and values are any other attribute.
+    #
+    # NOTE: This method uses the cached version of .all
     #
     # @param ident [Symbol] An identifier of this Class, used as the key
     #   for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber
@@ -166,75 +303,148 @@ module Jamf
       real_to = attr_key_for_alias to
       raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OBJECT_MODEL.key? real_to
 
-      ident = real_ident
-      to = real_to
-      list = all refresh, cnx: cnx
-      to_class = self::OBJECT_MODEL[to][:class]
+      list = all refresh: refresh, cnx: cnx
+      to_class = self::OBJECT_MODEL[real_to][:class]
       mapped = list.map do |i|
         [
-          i[ident],
-          to_class.is_a?(Symbol) ? i[to] : to_class.new(i[to])
+          i[real_ident],
+          to_class.is_a?(Symbol) ? i[real_to] : to_class.new(i[real_to])
         ]
       end # do i
       mapped.to_h
     end
-    # rubocop:enable Naming/UncommunicativeMethodParamName
 
-    # Given any identfier value for this collection, return the id of the
-    # object that has such an identifier.
+    # Given a key (identifier) and value for this collection, return the raw data
+    # Hash (the JSON object) for the matching API object or nil if there's no
+    # match for the given value.
     #
-    # Return nil if there's no match for the given value.
+    # In general you should use this if the form:
     #
-    # If you know the value is a certain identifier, e.g. a serialNumber,
-    # then you can specify the identifier for a faster search:
+    #    raw_data identifier: value
     #
-    #   valid_id serialNumber: 'AB12DE34' # => Int or nil
+    # where identifier is one of the available identifiers for this class
+    # like id:, name:, serialNumber: etc.
     #
-    # If you don't know wich identifier you have, just pass the value and
-    # all identifiers are searched
+    # In the unlikely event that you dont know which identifier a value is for
+    # or want to be able to take any of them without specifying, then
+    # you can use
     #
-    #   valid_id 'AB12DE34' # => Int or nil
-    #   valid_id 'SomeComputerName' # => Int or nil
+    #   raw_data some_value
     #
-    # When the value is a string, the seach is case-insensitive
+    # If some_value is an integer or a string containing an integer, it
+    # is assumed to be an :id otherwise all the available identifers
+    # are searched, in the order you see them when you call <class>.identifiers
     #
-    # TODO: When 'Searchability' is more dialed in via the searchable
-    # mixin, which implements enpoints like 'POST /v1/search-mobile-devices'
-    # then use that before using the 'all' list.
+    # If no matching object is found, nil is returned.
     #
-    # @param value [Object] A value to search for as an identifier.
+    # Everything except :id is treated as a case-insensitive String
     #
-    # @param refresh[Boolean] Reload the list data from the API
+    # @param value [String, Integer] The identifier value to search fors
     #
-    # @param ident: [Symbol] Restrict the search to this identifier.
-    #  E.g. if :serialNumber, then the value must be
-    #  a known serial number, it is not checked against other identifiers
+    # @param key: [Symbol] The identifier being used for the search.
+    #  E.g. if :serialNumber, then the value must be a known serial number, it
+    #  is not checked against other identifiers. Defaults to :id
     #
     # @param cnx: (see .all)
     #
-    # @return [Object, nil] the primary identifier of the matching object,
+    # @return [Hash, nil] the basic dataset of the matching object,
     #   or nil if it doesn't exist
     #
-    def self.valid_id(value = nil, refresh: true, cnx: Jamf.cnx, **ident_hash)
-      unless ident_hash.empty?
-        ident, value = ident_hash.first
-        return id_from_other_ident ident, value, refresh, cnx: cnx
-      end
+    def self.raw_data(value = nil, cnx: Jamf.cnx, **ident_and_val)
+      validate_not_abstract
 
-      # check the id itself first
-      return value if all_ids(refresh, cnx: cnx).include? value
+      # given a value with no ident key
+      return raw_data_by_value_only(value, cnx: Jamf.cnx) if value
 
-      idents = identifiers - [:id]
-      val_is_str = value.is_a? String
+      # if we're here, we should know our ident key and value
+      ident, value = ident_and_val.first
+      raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
 
-      idents.each do |ident|
-        match = all(refresh, cnx: cnx).select do |m|
-          val_is_str ? m[ident].to_s.casecmp?(value) : m[ident] == value
-        end.first
-        return match[:id] if match
-      end # identifiers.each do |ident|
+      return raw_data_by_id(value, cnx: cnx) if ident == :id
+      return unless identifiers.include? ident
+
+      raw_data_by_other_identifier(ident, value, cnx: cnx)
+    end
+
+    # Match the given value in all possibly identifiers
+    def self.raw_data_by_value_only(value, cnx: Jamf.cnx)
+      return raw_data_by_id(value, cnx: cnx) if value.to_s.j_integer?
+
+      identifiers.each do |ident|
+        next if ident == :id
+
+        id = raw_data_by_other_identifier(ident, value, cnx: cnx)
+        return id if id
+      end # identifiers.each
+      return
+    end
+    private_class_method :raw_data_by_value_only
+
+    # get the basic dataset by id, with optional
+    # request params to get more than basic data
+    def self.raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
+      cnx.get "#{rsrc_path}/#{id}#{request_params}"
+    rescue => e
+      return if e.httpStatus == 404
+
+      raise e
+    end
+    private_class_method :raw_data_by_id
+
+    # Given an indentier attr. key, and a value,
+    # return the id where that ident has that value, or nil
+    #
+    def self.raw_data_by_other_identifier(identifier, value, refresh: false, cnx: Jamf.cnx)
+      # if the API supports filtering by this identifier, just use that
+      return all(filter: "#{identifier}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if self::OBJECT_MODEL[identifier][:filter_key]
+
+      # otherwise we have to loop thru all the objects looking for the value
+      all(refresh: refresh, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
 
       nil
+    end
+    private_class_method :raw_data_by_other_identifier
+
+    # Look up the valid ID for any arbitrary identifier.
+    # In general you should use this if the form:
+    #
+    #    valid_id identifier: value
+    #
+    # where identifier is one of the available identifiers for this class
+    # like id:, name:, serialNumber: etc.
+    #
+    # In the unlikely event that you dont know which identifier a value is for
+    # or want to be able to take any of them without specifying, then
+    # you can use
+    #
+    #   valid_id some_value
+    #
+    # If some_value is an integer or a string containing an integer, it
+    # is assumed to be an id: otherwise all the available identifers
+    # are searched, in the order you see them when you call <class>.identifiers
+    #
+    # If no matching object is found, nil is returned.
+    #
+    # WARNING: Do not use this to look up ids for getting the
+    # raw API data for an object. Since this calls .raw_data
+    # itself, it is redundant to use .valid_id to get an id
+    # to then pass on to .raw_data
+    # Use raw_data directly like this:
+    #    data = raw_data(ident: val)
+    #
+    #
+    # @param value [String,Integer] A value for an arbitrary identifier
+    #
+    # @param cnx [Jamf::Connection] The connection to use. default: Jamf.cnx
+    #
+    # @param ident_and_val [Hash{Symbol: String}] The identifier key and the value
+    #   to look for in that key, e.g. name: 'foo' or serialNumber: 'ASDFGH'
+    #
+    # @return [String, nil] The id (integer-in-string) of the object, or nil
+    #    if no match found
+    #
+    def self.valid_id(value = nil, cnx: Jamf.cnx, **ident_and_val)
+      raw_data(value, cnx: cnx, **ident_and_val)&.dig(:id)
     end
 
     # Bu default, subclasses are creatable, i.e. new instances can be created
@@ -253,15 +463,19 @@ module Jamf
       validate_not_abstract
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
 
+      # Which connection to use
       cnx = params.delete :cnx
       cnx ||= Jamf.cnx
 
       params.delete :id # no such animal when .creating
-
       params.keys.each do |param|
         raise ArgumentError, "Unknown parameter: #{param}" unless self::OBJECT_MODEL.key? param
 
-        params[param] = validate_attr param, params[param], cnx: cnx
+        if params[param].is_a? Array
+          params[param].map! { |val| validate_attr param, val, cnx: cnx }
+        else
+          params[param] = validate_attr param, params[param], cnx: cnx
+        end
       end
 
       params[:creating_from_create] = true
@@ -273,41 +487,27 @@ module Jamf
     # To create new members to be added to the JSS, use
     # {Jamf::CollectionResource.create}
     #
-    # If you know the specific identifier attribute you're looking up, e.g.
+    # You must know the specific identifier attribute you're looking up, e.g.
     # :id or :name or :udid, (or an aliase thereof) then you can specify it like
     # `.fetch name: 'somename'`, or `.fetch udid: 'someudid'`
     #
-    # If you don't know if (or don't want to type it) you can just use
-    # `.fetch 'somename'`, or `.fetch 'someudid'` and all identifiers will be
-    # searched for a match.
-    #
-    # @param ident_value[Object] A value for any identifier for this subclass.
-    #  All identifier attributes will be searched for a match.
-    #
     # @param cnx[Jamf::Connection] the connection to use to fetch the object
     #
-    # @param ident_hash[Hash] an identifier attribute key and a search value
+    # @param ident_and_val[Hash] an identifier attribute key and a search value
     #
     # @return [CollectionResource] The ruby-instance of a Jamf object
     #
-    def self.fetch(ident_value = nil, cnx: Jamf.cnx, **ident_hash)
+    def self.fetch(random = nil, cnx: Jamf.cnx, **ident_and_val)
       validate_not_abstract
-
-      id =
-        if ident_value == :random
-          all_ids.sample
-        elsif ident_value
-          valid_id ident_value, cnx: cnx
-        elsif ident_hash.empty?
-          nil
-        else
-          ident, lookup_value = ident_hash.first
-          valid_id ident => lookup_value, cnx: cnx
+      ident, value = ident_and_val.first
+      data =
+        if random
+          all.sample
+        elsif ident && value
+          raw_data(cnx: cnx, **ident_and_val)
         end
+      raise Jamf::NoSuchItemError, "No matching #{self}" unless data
 
-      raise Jamf::NoSuchItemError, "No matching #{self}" unless id
-
-      data = cnx.get "#{rsrc_path}/#{id}"
       new data, cnx: cnx
     end # fetch
 
@@ -318,36 +518,31 @@ module Jamf
       true
     end
 
-    # Delete one or more objects by identifier
-    # Any valid identifier for the class can be used (id, name, udid, etc)
-    # Identifiers can be provided as an array or as separate parameters
+    # Delete one or more objects by id
     #
-    # e.g. .delete [1,3, 34, 4]
-    # or .delete 'myComputer', 'that-computer', 'OtherComputer'
+    # @param ids [Array<String,Integer>] The ids to delete
     #
-    # @param idents[Array<integer>, Integer]
+    # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
     #
-    # @param cnx[Jamf::Connection]
+    # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
+    #   that failed to be deleted.
     #
-    # @return [Array] the identifiers that were not found, so couldn't be deleted
-    #
-    def self.delete(*idents, cnx: Jamf.cnx)
+    def self.delete(*ids, cnx: Jamf.cnx)
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
 
-      idents.flatten!
-      no_valid_ids = []
+      return bulk_delete(ids, cnx: Jamf.cnx) if ancestors.include? Jamf::BulkDeletable
 
-      idents.map do |ident|
-        id = valid_id ident
-        no_valid_ids << ident unless id
-        id
-      end
-      idents.compact!
+      errs = []
+      ids.each do |id_to_delete|
+        begin
+          cnx.delete "#{rsrc_path}/#{id_to_delete}"
+        rescue Jamf::Connection::APIError => e
+          raise e unless e.httpStatus == 404
 
-      # TODO: some rsrcs have a 'bulk delete' version...
-      idents.each { |id| cnx.delete "#{rsrc_path}/#{id}" }
-
-      no_valid_ids
+          errs += e.errors
+        end # begin
+      end # ids.each
+      errs
     end
 
     # Private Class Methods
@@ -359,7 +554,7 @@ module Jamf
       list_method_name = "all_#{attr_name}s"
 
       define_singleton_method(list_method_name) do |refresh = false, cnx: Jamf.cnx|
-        all_list = all(refresh, cnx: cnx)
+        all_list = all(refresh: refresh, cnx: cnx)
         if attr_def[:class].is_a? Symbol
           all_list.map { |i| i[attr_name] }.uniq
         else
@@ -378,24 +573,6 @@ module Jamf
     end # create_list_methods
     private_class_method :create_list_methods
 
-    # Given an indentier attr. key, and a value,
-    # return the id where that ident has that value, or nil
-    #
-    def self.id_from_other_ident(ident, value, refresh = true, cnx: Jamf.cnx)
-      raise ArgumentError, "Unknown identifier '#{ident}' for #{self}" unless identifiers.include? ident
-
-      # check the id itself first
-      return value if ident == :id && all_ids(refresh, cnx: cnx).include?(value)
-
-      # all ident values => ids
-      ident_map = map_all(ident, to: :id, cnx: cnx, refresh: refresh)
-
-      # case-insensitivity for string values
-      value = ident_map.keys.j_ci_fetch(value) if value.is_a? String
-
-      ident_map[value]
-    end
-    private_class_method :id_from_other_ident
 
     # Instance Methods
     #####################################
@@ -406,11 +583,13 @@ module Jamf
 
     def rsrc_path
       return unless exist?
+
       "#{self.class.rsrc_path}/#{@id}"
     end
 
     def delete
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
+
       @cnx.delete rsrc_path
     end
 

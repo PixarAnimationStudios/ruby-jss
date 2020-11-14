@@ -37,7 +37,7 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_VERSION = 'v1'.freeze
+    RSRC_VERSION = 'v2'.freeze
 
     RSRC_PATH = 'mobile-device-prestages'.freeze
 
@@ -53,21 +53,21 @@ module Jamf
         class: Jamf::MobileDevicePrestageSkipSetupItems
       },
 
-      # @!attribute isAllowPairing
+      # @!attribute allowPairing
       #   @return [Boolean]
-      isAllowPairing: {
+      allowPairing: {
         class: :boolean
       },
 
-      # @!attribute isMultiUser
+      # @!attribute multiUser
       #   @return [Boolean]
-      isMultiUser: {
+      multiUser: {
         class: :boolean
       },
 
-      # @!attribute isSupervised
+      # @!attribute supervised
       #   @return [Boolean]
-      isSupervised: {
+      supervised: {
         class: :boolean
       },
 
@@ -79,33 +79,35 @@ module Jamf
 
       # @!attribute isAutoAdvanceSetup
       #   @return [Boolean]
-      isAutoAdvanceSetup: {
+      autoAdvanceSetup: {
         class: :boolean
       },
 
-      # @!attribute isConfigureDeviceBeforeSetupAssistant
+      # @!attribute configureDeviceBeforeSetupAssistant
       #   @return [Boolean]
-      isConfigureDeviceBeforeSetupAssistant: {
+      configureDeviceBeforeSetupAssistant: {
         class: :boolean
-      },
-
-      # @!attribute language
-      #   @return [String]
-      language: {
-        class: :string
-      },
-
-      # @!attribute region
-      #   @return [String]
-      region: {
-        class: :string
       },
 
       # @!attribute names
       #   @return [Jamf::MobileDevicePrestageNames]
       names: {
         class: Jamf::MobileDevicePrestageNames
+      },
+
+      # @!attribute sendTimezone
+      #   @return [Boolean]
+      sendTimezone: {
+        class: :boolean
+      },
+
+      # @!attribute timezone
+      #   @return [String]
+      timezone: {
+        class: :string
       }
+
+
     ).freeze
 
     parse_object_model
