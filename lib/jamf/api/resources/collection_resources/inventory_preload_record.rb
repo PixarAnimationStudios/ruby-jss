@@ -51,9 +51,11 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_VERSION = 'v1'.freeze
+    RSRC_VERSION = 'v2'.freeze
 
-    RSRC_PATH = 'inventory-preload'.freeze
+    RSRC_PATH = 'inventory-preload/records'.freeze
+
+    CHANGE_LOG_RSRC = "#{RSRC_VERSION}/inventory-preload/history".freeze
 
     DEVICE_TYPE_COMPUTER = 'Computer'.freeze
     DEVICE_TYPE_MOBILE_DEV = 'Mobile Device'.freeze
@@ -77,7 +79,7 @@ module Jamf
       # @!attribute [r] id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
         readonly: true
       },
@@ -216,6 +218,12 @@ module Jamf
       # @!attribute assetTag
       #   @return [String]
       assetTag: {
+        class: :string
+      },
+
+      # @!attribute vendor
+      #   @return [String]
+      vendor: {
         class: :string
       },
 

@@ -68,25 +68,25 @@ module Jamf
     OBJECT_MODEL = {
 
       # @!attribute id
-      #   @return [Integer]
+      #   @return [String]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: true
       },
 
       # @!attribute deviceEnrollmentProgramInstanceId
-      #   @return [Integer]
+      #   @return [String]
       deviceEnrollmentProgramInstanceId: {
-        class: :integer,
+        class: :j_id,
         aliases: %i[instanceId]
       },
 
       # @!attribute prestageId
       #   The most recent prestage this device was assigned to, even if
       #   currently unassigned to any prestage.
-      #   @return [Integer]
+      #   @return [String]
       prestageId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute serialNumber
@@ -122,7 +122,14 @@ module Jamf
       # @!attribute profileStatus
       #   @return [String]
       profileStatus: {
-        class: :string
+        class: :string,
+        enum: PROFILE_STATUSES
+      },
+
+      # @!attribute syncState
+      #   @return [DeviceEnrollmentDeviceSyncState]
+      syncState: {
+        class: Jamf::DeviceEnrollmentDeviceSyncState
       },
 
       # @!attribute profileAssignTime

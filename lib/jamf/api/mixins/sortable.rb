@@ -1,5 +1,4 @@
 # Copyright 2020 Pixar
-
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -23,35 +22,38 @@
 #
 #
 
-# The module
 module Jamf
 
-  # A container for an array of Jamf::PrestageAssignment
-  # objects, each of which represents a serial number assigned to the
-  # prestage that contains this scope.
-  class PrestageScope < Jamf::JSONObject
+  # parse the sort params for collection GET requests
+  module Sortable
 
-    extend Jamf::Immutable
-    include Jamf::Lockable
+    # # When this is included
+    # def self.included(klass)
+    #   puts "Sortable was included by #{klass}"
+    # end
+    #
+    # # When this is exdended
+    # def self.extended(klass)
+    #   puts "Sortable was extended by #{klass}"
+    # end
 
-    OBJECT_MODEL = {
+    private
 
-      # @!attribute prestageId
-      #   @return [Integer]
-      prestageId: {
-        class: :j_id
-      },
+    # generate the sort params for the url
+    #
+    def parse_collection_sort(sort)
+      case sort
+      when nil
+        sort
+      when String
+        "&sort=#{CGI.escape sort}"
+      when Array
+        "&sort=#{CGI.escape sort.join(',')}"
+      else
+        raise ArgumentError, 'sort criteria must be a String or Array of Strings'
+      end
+    end
 
-      # @!attribute assignments
-      #   @return [String] the country name
-      assignments: {
-        class: Jamf::PrestageAssignment,
-        multi: true
-      }
-    }.freeze
+  end # Sortable
 
-    parse_object_model
-
-  end # class PrestageScope
-
-end # module
+end # Jamf

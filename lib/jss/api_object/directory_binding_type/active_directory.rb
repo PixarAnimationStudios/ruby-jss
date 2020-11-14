@@ -259,11 +259,17 @@ module JSS
             # @return [void]
             def default_shell=(newvalue)
 
-                # Data Check
-                raise JSS::InvalidDataError, "default_shell must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "default_shell must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
                 # Update Value
-                @default_shell = newvalue
+                @default_shell = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -280,12 +286,17 @@ module JSS
             #
             # @return [void]
             def uid=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "uid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "uid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
+                        newvalue
+                    end
 
                 # Update Value
-                @uid = newvalue
+                @uid = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -302,12 +313,17 @@ module JSS
             #
             # @return [void]
             def forest=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "forest must be a string." unless newvalue.is_a? String
-
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "forest must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
+                
                 # Update Value
-                @forest = newvalue
+                @forest = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -323,12 +339,17 @@ module JSS
             #
             # @return [void]
             def user_gid=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "user_gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "user_gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
+                        newvalue
+                    end
 
                 # Update Value
-                @user_gid = newvalue
+                @user_gid = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -345,12 +366,17 @@ module JSS
             #
             # @return [void]
             def gid=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
-
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "gid must be either an integer or a string." unless (newvalue.is_a? Integer || newvalue.is_a?(String))
+                        newvalue
+                    end
+                
                 # Update Value
-                @gid = newvalue
+                @gid = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -389,12 +415,17 @@ module JSS
             #
             # @return [void]
             def preferred_domain=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "preferred_domain must be a string." unless newvalue.is_a? String
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "preferred_domain must be a string." unless newvalue.is_a? String
+                        newvalue
+                    end
 
                 # Update Value
-                @preferred_domain = newvalue
+                @preferred_domain = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update
@@ -411,16 +442,22 @@ module JSS
             #
             # @return [void]
             def admin_groups=(newvalue)
-
-                # Data Check
-                raise JSS::InvalidDataError, "admin_groups must be either a string or an array of strings." unless (newvalue.is_a? String || newvalue.is_a?(Array))
-
+                new =
+                    if newvalue.to_s.empty?
+                        JSS::BLANK
+                    else
+                        # Data Check
+                        raise JSS::InvalidDataError, "admin_groups must be either a string or an array of strings." unless (newvalue.is_a? String || newvalue.is_a?(Array))
+                        
+                        if newvalue.is_a? Array
+                            newvalue.join ","
+                        else
+                            newvalue
+                        end
+                    end
+                    
                 # Update Value
-                if newvalue.is_a? Array
-                    @admin_groups = newvalue.join ","
-                else
-                    @admin_groups = newvalue
-                end
+                @admin_groups = new
 
                 # Set the object to needing to be updated.
                 self.container&.should_update

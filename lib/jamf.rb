@@ -41,9 +41,7 @@ require 'shellwords'
 require 'digest'
 require 'open3'
 
-
 ### Gems
-require 'rest-client'
 require 'plist'
 
 # Used, among other places, in the Connection::APIError class
@@ -113,6 +111,10 @@ module Jamf
   autoload :Immutable, 'jamf/api/mixins/immutable'
   autoload :UnDeletable, 'jamf/api/mixins/undeletable'
   autoload :Abstract, 'jamf/api/mixins/abstract'
+  autoload :Pageable, 'jamf/api/mixins/pageable'
+  autoload :Filterable, 'jamf/api/mixins/filterable'
+  autoload :Sortable, 'jamf/api/mixins/sortable'
+  autoload :BulkDeletable, 'jamf/api/mixins/bulk_deletable'
 
   # Utility modules
   autoload :Validate, 'jamf/validate'
@@ -126,6 +128,7 @@ module Jamf
   autoload :Country, 'jamf/api/json_objects/country'
   autoload :Criterion, 'jamf/api/json_objects/criterion'
   autoload :DeviceEnrollmentDevice, 'jamf/api/json_objects/device_enrollment_device'
+  autoload :DeviceEnrollmentDeviceSyncState, 'jamf/api/json_objects/device_enrollment_device_sync_state'
   autoload :DeviceEnrollmentSyncStatus, 'jamf/api/json_objects/device_enrollment_sync_status'
   autoload :ExtensionAttributeValue, 'jamf/api/json_objects/extension_attribute_value'
   autoload :InstalledApplication, 'jamf/api/json_objects/installed_application'

@@ -1,5 +1,4 @@
 # Copyright 2020 Pixar
-
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -23,35 +22,30 @@
 #
 #
 
-# The module
 module Jamf
 
-  # A container for an array of Jamf::PrestageAssignment
-  # objects, each of which represents a serial number assigned to the
-  # prestage that contains this scope.
-  class PrestageScope < Jamf::JSONObject
+  # process filter strings for resources with filter request parameters
+  module Filterable
 
-    extend Jamf::Immutable
-    include Jamf::Lockable
+    # # When this is included
+    # def self.included(klass)
+    #   puts "Filterable was included by #{klass}"
+    # end
+    #
+    # # When this is exdended
+    # def self.extended(klass)
+    #   puts "Filterable was extended by #{klass}"
+    # end
 
-    OBJECT_MODEL = {
+    private
 
-      # @!attribute prestageId
-      #   @return [Integer]
-      prestageId: {
-        class: :j_id
-      },
+    # generate the RSQL filter to put into the url
+    def parse_collection_filter(filter)
+      return if filter.nil?
 
-      # @!attribute assignments
-      #   @return [String] the country name
-      assignments: {
-        class: Jamf::PrestageAssignment,
-        multi: true
-      }
-    }.freeze
+      "&filter=#{CGI.escape filter}"
+    end
 
-    parse_object_model
+  end # Filterable
 
-  end # class PrestageScope
-
-end # module
+end # Jamf

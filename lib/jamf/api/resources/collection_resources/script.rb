@@ -41,9 +41,8 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_PATH = 'scripts'.freeze
-
     RSRC_VERSION = 'v1'.freeze
+    RSRC_PATH = 'scripts'.freeze
 
     PRIORITY_BEFORE = 'BEFORE'.freeze
     PRIORITY_AFTER = 'AFTER'.freeze
@@ -64,35 +63,40 @@ module Jamf
       # @!attribute [r] id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary,
-        readonly: true
+        readonly: true,
+        filter_key: true
       },
 
       # @!attribute name
       #   @return [String]
       name: {
         class: :string,
-        identifier: true
+        identifier: true,
+        filter_key: true
       },
 
       # @!attribute info
       #   @return [String]
       info: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute notes
       #   @return [String]
       notes: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute priority
       #   @return [String]
       priority: {
         class: :string,
-        enum: Jamf::Script::PRIORTIES
+        enum: Jamf::Script::PRIORTIES,
+        filter_key: true
       },
 
       # TODO: Jamf should standardize object references
@@ -101,19 +105,22 @@ module Jamf
       # @!attribute categoryId
       #   @return [Integer]
       categoryId: {
-        class: :integer
+        class: :j_id,
+        filter_key: true
       },
 
       # @!attribute categoryName
       #   @return [String]
       categoryName: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute osRequirements
       #   @return [String]
       osRequirements: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute scriptContents
@@ -121,68 +128,97 @@ module Jamf
       scriptContents: {
         class: :string,
         validate: :script_contents,
-        aliases: %i[code]
+        aliases: %i[code],
+        filter_key: true
       },
 
       # @!attribute parameter4
       #   @return [String]
       parameter4: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter5
       #   @return [String]
       parameter5: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter6
       #   @return [String]
       parameter6: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter7
       #   @return [String]
       parameter7: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter8
       #   @return [String]
       parameter8: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter9
       #   @return [String]
       parameter9: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter10
       #   @return [String]
       parameter10: {
-        class: :string
+        class: :string,
+        filter_key: true
       },
 
       # @!attribute parameter11
       #   @return [String]
       parameter11: {
-        class: :string
+        class: :string,
+        filter_key: true
       }
     }.freeze
 
     parse_object_model
 
-
     # Class Methods
     ##################################
 
-    def self.scriptContents(scr_ident, cnx: Jamf.cnx)
-      id = valid_id scr_ident
-      raise Jamf::NoSuchItemError, "No script matches '#{scr_ident}'" unless id
-      cnx.download "#{RSRC_VERSION}/#{RSRC_PATH}/#{id}/download"
+    # Retrieve a script's code without instantiating
+    #
+    # Specify an ident key, either id: or name: and the
+    # value for that ident
+    # e.g. `download id: 123`  or `download name: 'myscript'`
+    #
+    # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
+    #
+    # @return [String] The code of the desired script
+    #
+    def self.download(cnx: Jamf.cnx, **ident_and_val)
+      ident, value = ident_and_val.first
+      if ident == :id
+        begin
+          return cnx.download "#{rsrc_path}/#{value}/download"
+        rescue => e
+          raise Jamf::NoSuchItemError, "No script with #{ident} = #{value}" if e.httpStatus == 404
+
+          raise e
+        end # begin
+      end # if
+      id = raw_data(cnx: cnx, **ident_and_val)&.dig(:id)
+      raise Jamf::NoSuchItemError, "No script with #{ident} = #{value}" unless id
+
+      cnx.download "#{rsrc_path}/#{id}/download"
     end
 
   end # class

@@ -186,7 +186,7 @@ module Jamf
     #####################################
 
     # These methods are allowed to call .new
-    NEW_CALLERS = ['fetch', 'create', 'all', 'block in all'].freeze
+    NEW_CALLERS = ['fetch', 'create', 'all', 'cached_all', 'block in all', 'block in cached_all'].freeze
 
     # The resource version for previewing new features
     RSRC_PREVIEW_VERSION = 'preview'.freeze
@@ -197,7 +197,7 @@ module Jamf
     # the resource path for this resource
     # @return [String]
     def self.rsrc_path
-      "#{self::RSRC_VERSION}/#{self::RSRC_PATH}"
+      @rsrc_path ||= "#{self::RSRC_VERSION}/#{self::RSRC_PATH}"
     end
 
     def self.preview_path
@@ -205,11 +205,11 @@ module Jamf
     end
 
     # Disallow direct use of ruby's .new class method for creating instances.
-    # Require use of .fetch or .create.
+    # Require use of .fetch or .create, or 'all'
     #
     def self.new(data, cnx: Jamf.cnx)
       calling_method = caller_locations(1..1).first.label
-      raise Jamf::UnsupportedError, "Use .fetch or .create to instantiate Jamf::Resource's" unless NEW_CALLERS.include? calling_method
+      raise Jamf::UnsupportedError, "Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::Resources" unless NEW_CALLERS.include? calling_method
 
       super
     end

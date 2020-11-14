@@ -23,7 +23,6 @@
 #
 #
 
-#
 module JSS
 
   # Sub-Modules
@@ -221,6 +220,7 @@ module JSS
       eaxml = REXML::Element.new('extension_attributes')
       @extension_attributes.each do |ea|
         next unless @changed_eas.include? ea[:name]
+
         ea_el = eaxml.add_element('extension_attribute')
         ea_el.add_element('name').text = ea[:name]
 

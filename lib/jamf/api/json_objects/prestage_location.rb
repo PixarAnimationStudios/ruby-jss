@@ -36,7 +36,7 @@ module Jamf
       # @!attribute id
       #   @return [Integer]
       id: {
-        class: :integer,
+        class: :j_id,
         identifier: :primary
       },
 
@@ -79,14 +79,14 @@ module Jamf
       #   @param [integer]
       #   @return [integer]
       departmentId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute building
       #   @param [integer]
       #   @return [integer]
       buildingId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute room
