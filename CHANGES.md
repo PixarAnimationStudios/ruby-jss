@@ -4,6 +4,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.5.0] - 2020-11-16
+
+IMPORTANT: New minimum require ruby version is 2.3.0
+
+Big thanks to @cybertunnel for many enhancements and fixes.
+
+### Added
+
+  - The .all method for subclasses of Jamf::CollectionResource now fully supports server-side paging, sorting and filtering (for endpoints that support RSQL filters). See the docs/comments for Jamf::CollectionResource.all for details
+
+  - JSS::ConfigurationProfile subclasses now have a #payload_content=(new_content) method, which takes an Array of Hashes to replace the PayloadContent of the Payload of the profile. All converstion to an XML plist (which is then embedded into the API XML) is handled automatically. WARNING: This is experimental and can easily break your profile if you aren't careful.
+
+- JSS::Server#update_activation_code method was added
+
+- Group#set_static and #set_smart can convert smart groups to static and static to smart
+
+### Changed
+
+  - Minimum required ruby version is 2.3.0
+
+  - The JSS Module now uses the faraday gem, rather than rest-client, as the underlying REST/HTTP engine for communicating with the Classic API. This brings it in line with the Jamf module which has always used faraday for connecting to the Jamf Pro API. Faraday has fewer dependencies, none of which need to be compiled. This means that installing ruby-jss on a Mac no longer requires the XCode command-line tools.
+
+  - The Jamf module, for accessing the Jamf Pro API, now requires Jamf Pro 10.25 or higher. While still in 'beta', the Jamf Pro API is becoming more stable and in compliance with standards. The Jamf module continues to be updated to work with the modernized endpoints of the JP API. Some related changes:
+    - The ids of JP API collection objects are Strings containing Integers.
+    - Boolean property names no longer start with 'is', tho aliases ending with '?' are still automatically created.
+
+  - Removed dependency on net-ldap, which hasn't been used in a while
+
+  - Removed the redundant JSS::APIConnection instance methods that were just wrappers for various APIObject subclass Class methods, e.g. `JSS.api.valid_id :computers, 'compName'`. Please use the class method directly, e.g. `JSS::Computer.valid_id 'compName'`
+
+### Fixed
+
+  - PatchSource.fetch was totally broken, now fixed
+
+  - Category object's parse_category not properly referencing API object during execution
+
+  - Many small bugs and typos.
+
 ## \[1.4.1] - 2020-10-01
 
 ### Added
