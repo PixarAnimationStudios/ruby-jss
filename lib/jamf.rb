@@ -138,6 +138,7 @@ module Jamf
   autoload :InstalledProvisioningProfile, 'jamf/api/json_objects/installed_provisioning_profile'
   autoload :InventoryPreloadExtensionAttribute, 'jamf/api/json_objects/inventory_preload_extension_attribute'
   autoload :IosDetails, 'jamf/api/json_objects/ios_details'
+  autoload :Locale, 'jamf/api/json_objects/locale'
   autoload :Location, 'jamf/api/json_objects/location'
   autoload :PrestageLocation, 'jamf/api/json_objects/prestage_location'
   autoload :PrestageSyncStatus, 'jamf/api/json_objects/prestage_sync_status'
@@ -150,11 +151,14 @@ module Jamf
   autoload :PrestagePurchasingData, 'jamf/api/json_objects/prestage_purchasing_data'
   autoload :PrestageScope, 'jamf/api/json_objects/prestage_scope'
   autoload :PrestageAssignment, 'jamf/api/json_objects/prestage_assignment'
+  autoload :TimeZone, 'jamf/api/json_objects/time_zone'
 
   # Subclasses of SingletonResource
   autoload :ClientCheckInSettings, 'jamf/api/resources/singleton_resources/client_checkin_settings'
   autoload :ReEnrollmentSettings, 'jamf/api/resources/singleton_resources/reenrollment_settings'
   autoload :AppStoreCountryCodes, 'jamf/api/resources/singleton_resources/app_store_country_codes'
+  autoload :TimeZones, 'jamf/api/resources/singleton_resources/time_zones'
+  autoload :Locales, 'jamf/api/resources/singleton_resources/locales'
 
   # Subclasses of CollectionResource
   autoload :AdvancedMobileDeviceSearch, 'jamf/api/resources/collection_resources/advanced_mobile_device_search'
@@ -172,7 +176,6 @@ module Jamf
   autoload :MobileDevicePrestage, 'jamf/api/resources/collection_resources/mobile_device_prestage'
   autoload :Site, 'jamf/api/resources/collection_resources/site'
   autoload :Script, 'jamf/api/resources/collection_resources/script'
-  autoload :TimeZone, 'jamf/api/resources/collection_resources/time_zone'
 
   # other classes used as attributes inside the resource classes
   autoload :IPAddress, 'jamf/api/attribute_classes/ip_address'
