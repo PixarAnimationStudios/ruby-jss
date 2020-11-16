@@ -1,4 +1,23 @@
- Implementing the Jamf Pro API in ruby-jss
+## Implementing the Jamf Pro API in ruby-jss
+
+The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
+
+Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP-API itself. Therefore there are some very big changes afoot.
+
+This README is a quick overview of the big changes, for both using the Jamf module, and for contributing to its development.
+
+**IMPORTANT:** As with the JP-API, this is an early work-in-progress, and things might change drastically at any point - For example, we're investigating automated generation of classes, enums, and other items directly from the OpenAPI JSON which defines the API itself.
+
+The original work on the Jamf module was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack channels #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
+
+At the moment, our focus is on these classes:
+- InventoryPreloadRecords
+- ComputerPrestage and MobileDevicePrestage
+- DeviceEnrollment
+
+
+
+CONTENTS:
 
  <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -45,34 +64,13 @@
 
  <!-- /TOC -->
 
-The Jamf Pro API, formerly known as the 'Universal' API, aims to be a far more robust, modern, and standardized way to programmatically access a Jamf Pro server.  While its been in development for a while, it is finally starting to settle in to some standards, to the point that its worth releasing some early ruby-jss code to access it.
 
-Because the JP-API is so fundamentally different from the Classic API, it's being implemented as a totally separate ruby module 'Jamf', and many of the underlying standards of ruby-jss's JSS module are being re-thought and modernized, much like the JP-API itself. Therefore there are some very big changes afoot.
-
-This README is a quick overview of the big changes, for both using the Jamf module, and for contributing to its development.
-
-**IMPORTANT:** As with the JP-API, this is an early work-in-progress, and things might change drastically at any point. The original work on the JP-API code was started long before the current server-side standards were in place, and much of that old-code is still here, but won't work.  Please mention 'ruby-jss' in MacAdmins Slack channels #jamf-api or #ruby, or email ruby-jss@pixar.com, or open an issue on github if you have questions or want to contribute.
 
 # Requirements
 #### Ruby 2.3 or higher
 Some features of ruby 2.3 are used throughout the Jamf module.
 
 macOS 10.12.6 or higher can use the ruby that comes with the OS, at /usr/bin/ruby.
-#### Manully install Faraday and Faraday Middleware
-
-The Jamf module uses the [Faraday Gem](https://github.com/lostisland/faraday) and its companion [faraday_middleware](https://github.com/lostisland/faraday_middleware), as its underlying HTTP connector. Fow now, you will need to install two gems manually:
-
-`gem install faraday`
-
-and
-
-`gem install faraday_middleware`
-
-The plan is eventually to migrate the original classic API connection, JSS::APIConnection, to also use Faraday, moving away from the 'rest-client' gem.
-
-The primary reason being that Faraday has fewer dependencies, none of which require being compiled. This means that installing ruby-jss on a Mac will no longer need the XCode CommandLine tools. When that happens, the ruby-jss gem will be updated to automatically install faraday when ruby-jss is installed.
-
-Until then, please install it manually before using the new JP-API code.
 
 # The Jamf module
 
@@ -224,21 +222,25 @@ Be careful if you use tokens in multiple places, since invalidating a token woul
 
 As the Jamf Pro API evolves, many enpoints are coming and going and changing.
 
-All of the more-recent, stable endpoints have a version number in their path, e.g. 'v1'. Ruby-jss will only implement endpoints that have a version number, since the others are deprecated. The only current exception to this is the /auth endpoint, needed for authentication to the API.  Once it is updated, ruby-jss will use the new endpoint.
+All of the more-recent, stable endpoints have a version number in their path, e.g. 'v1'. However even they have often have internal breaking changes until Jamf officially releases the new API.
+
+Ruby-jss will only implement endpoints that have a version number, since the others are deprecated or in preview.
 
 Even among those that have version numbers, ruby-jss will probably never implement all of them. The developers at Pixar will focus on those useful to them.  If you would like to see others, feel free to contribute your own code, or send us a note asking for what you'd like. If you want to contribute, we'll be happy to help out if you're just learning ruby.
 
-As of this writing, here are the endpoints/resources that are at least partially implemented in the Jamf module:
+As of this writing, here are the resources that are at least partially implemented in the Jamf module:
 
-- /auth
-- /v1/app-store-country-codes
+- /v1/auth
 - /v1/buildings
-- /v2/categories
-- /v1/computer-prestages
+- /v1/categories
+- /v2/computer-prestages
 - /v1/departments
-- /v1/inventory-preload
-- /v1/mobile-device-prestages
+- /v1/device-enrollments
+- /v2/inventory-preload
+- /v2/mobile-device-prestages
 - /v1/time-zones
+- /v1/locales
+- /v1/app-store-country-codes
 
 # Under the Hood
 
@@ -250,13 +252,13 @@ In JSON & Javascript, an 'object' is a data structure equivalent to a hash in ru
 
 The Jamf Pro API uses well-defined JSON 'Object Models' to describe and format the objects sent to and from the server. The model gives the name of each key, and the data-type of its value.  The data-type might be a primative like a string, integer, float or boolean, or it might be an array of things, or it might be another JSON object (Hash) which will have its own model.
 
-To see these Object Model definitions,, have a look at your Jamf Pro server's documentation at https://your.jamf.server.edu/uapi/doc
+To see these Object Model definitions,, have a look at your Jamf Pro server's documentation at https://your.jamf.server/api/doc
 
 Take a look at the GET docs for an endpoint, e.g. Buildings -> GET /v1/buildings, and you can click to view either the the 'Model' and the 'Model Schema' (an example of a JSON object matching the model with sample data)
 
 Ruby-jss's Jamf module is built around these object models, using a hierarchy of abstract classes and a representation of the Object Model in ruby. Every 'hash' of data that is sent to or recieved from the API has a matching ruby class that is a descendant of Jamf::JSONObject.
 
-> To be clear: *every* Hash that you see in the API JSON data has a matching ruby class in ruby-jss. That means there will be LOTS of classes! After all, what is a 'class' in object-oriented programming? It's a model of an object.
+To be clear: *every* Hash that you see in the API JSON data has a matching ruby class in ruby-jss. That means there will be LOTS of classes! After all, what is a 'class' in object-oriented programming? It's a model of an object.
 
 Here's the relationship between these abstract classes:
 
@@ -301,13 +303,13 @@ Direct subclasses of JSONObject are nearly always used internally in other class
 
 ### Jamf::Resource
 
-This abstarct class is a subclass of JSON object, and represents a thing you can access via the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
+This abstract class is a subclass of JSON object, and represents a thing you can access via the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
 
 Jamf::Resource is never subclassed directly. Instead, it has two subclasses that are themselves abstract, representing the two kinds of resources:
 
 ### Jamf::SingletonResource
 
-This abstract class represents API resources that are single, persistent sets of values on the server, usually various preferences, settings or static data.  These resources can only be read and updated, never created or deleted.  There is really only one 'instance' of these classes, and When accessed via ruby-jss, they are cached locally to minimize server access, but can be refreshed as needed. Examples include enrollment and reenrollment settings, app store country codes, and timezone data.
+This abstract class represents API resources that are single, persistent sets of values on the server, usually various preferences, settings or static data.  These resources can only be read and perhaps updated, never created or deleted.  There is really only one 'instance' of these classes, and When accessed via ruby-jss, they are cached locally to minimize server access, but can be refreshed as needed. Examples include enrollment and reenrollment settings, app store country codes, and timezone data.
 
 ### Jamf::CollectionResource
 
@@ -333,316 +335,31 @@ _ATTRIBUTE NAMES_
 
 The attribute names in the Jamf Pro API JSON data are in [lowerCamelCase](https://en.wikipedia.org/wiki/Camel_case), and are used that way throughout the Jamf module in order to maintain consistency with the API itself. This differs from the ruby standard of using [snake_case](https://en.wikipedia.org/wiki/Snake_case) for attributes, methods, & local variables. I believe that maintaining consistency with the API we are mirroring is more important (and simpler) than conforming with ruby's community standards. I also believe that doing so is in-line with the ruby community's larger philosophy:
 
-There's more than one way to do it - because context matters.
+> There's more than one way to do it - because context matters.
+
 (If that weren't true, I'd be writing Python)
 
 Each attribute key in OBJECT_MODEL points to a Hash of details defining how the attribute is used in the class. Getters and setters are created from these details, and they are used to parse incoming, and generate outgoing JSON data
 
 The possible keys of the details Hash for each attribute are:
 
-- class - what kind of thing is this attribute?
+- class - The value of this attribute is this kind of object.
 - identfier - is this attribute a unique identifier for instances of a Collection Resource?
 - required - is this attribute required when creating a new Jamf object?
 - readonly - is this attribute readonly?
 - multi - can this attribute contain more than one value?
-- enum - must the value of this attribute be limited to one of a known list of possiblities?
-- validator - how to validate a value being set for this attribute?
-- aliases - should this attribute have other names?
+- enum - an Array of the allowed values for this attribute.
+- validator - a method used to validate new values for this attribute.
+- aliases - other names this attribute is known by.
+- filter_key - can this attribute be used in a filter query for a CollectionResource?
 
 For an example of an OBJECT_MODEL hash, see Jamf::MobileDeviceDetails::OBJECT_MODEL
 
-The details for each key are as follows. Note that omitting a boolean key is the same as setting it to false.
-
-#### class: \[Symbol or Class]
-What kind of thing is this attribute?
-
-This is the only required key for all attributes.
-
-JSON primative types are represented by the symbols  :string, :integer, :float, or :boolean. These are the JSON data types that don't need parsing into ruby beyond that done by `JSON.parse`. When processing an attribute with one of these symbols as the `class:`, the JSON value is used as-is.
-
-When this is not a Symbol, it must be an actual class, such as Jamf::Timestamp or Jamf::Location.
-
-Classes used this way _MUST_:
-
-- Have an #initialize method that takes two parameters and performs validation on them:
-
- The first parameters is positional, and is the value used to create the instance, which accepts, at the very least, the Parsed JSON data for the attribute. This can be a single value (e.g. a string for Jamf::Timestamp), or a Hash (e.g. for Jamf::Location), or whatever. Other values are allowed if your initialize method handles them properly.
-
- A keyword parameter `cnx:`. This can be ignored if not needed, but #initialize must accept it. If used, it will contain a Jamf::Connection object, either the one from which the first param came, or the one to which we'll be validating or creating a new object.
-
-- Define a #to_jamf method that returns a value that can be used in the data sent back to the API. Subclasses of JSONObject already have this requirement, and the value is a Hash.
-
-
-Classes used in the class: value of an attribute definition are often also subclasses of JSONObject (e.g. Jamf::Location) but do not have to be as long as they conform to the standards above, e.g. Jamf::Timestamp.
-
-See also: Data Validation below.
-
-
-#### identifier: \[Boolean, or Symbol :primary]
-Is this attribute a unique identifier for instances of a Collection Resource?
-
-Only applicable to descendents of Jamf::CollectionResource
-
-If true, this value must be unique among all members of the class in Jamf Pro, and can be used to look up objects.
-
-If the symbol :primary, this is the primary identifier, used in API resource paths for this particular object. This should always be the 'id' attribute, according to the JP-API standards.
-
-
-#### required: \[Boolean]
-Is this attribute required when creating a new Jamf object?
-
-If true, this attribute must be provided when creating a new local instance and cannot be set to nil or empty.
-
-#### readonly: \[Boolean]
-Is this attribute readonly?
-
-If true, no setter method(s) will be created, and the value is not sent to the API with #save
-
-#### multi: \[Boolean]
-Can this attribute contain more than one value?
-
-When true, this value comes as a JSON array and its items are defined by the 'class:' setting described above. The JSON array is used to contstruct an attribute array of the correct kind of item.
-
-Example:
-> The OBJECT_MODEL for a ComputerGroup might define the 'computers' attribute like this:
->
->         computers: {
->           class: Jamf::Computer::Reference,
->           multi: true
->         }
-
-meaning that the `computers` attribute of a Jamf::ComputerGroup instance will be an array of Jamf::Computer::Reference instances.
-
-
-The stored array is not directly accessible, the getter will return a frozen duplicate of it.
-
-If not readonly, several setters are created:
-
-- a direct `=` setter which takes an Array of 'class:', replacing the original
-- an `attrname_append` method, appends a new value to the array, aliased as `<<`
-- an `attrname_prepend` method, prepends a new value to the array
-- an `attrname>_insert` method, inserts a new value to the array at the given index
-- an `attrname>_delete_at` method, deletes a value at the given index
-
-This protection of the underlying array is needed for two reasons:
-
-1. so ruby-jss knows when changes are made and need to be saved
-2. so that validation can be performed on values added to the array.
-
-
-#### enum: \[Constant -> Array<Constants> ]
-Must the value of this attribute be limited to one of a known list of possiblities?
-
-This is a constant defined somewhere in the Jamf module. The constant must contain an Array of other Constant values, usually Strings.
-
-Setters for attributes with an enum require that the new value is a member of the enum array.
-
-Example:
-> The OBJECT_MODEL for Attribute Jamf::ExtentionAttribute has an attribute `dataType` defined like this:
->
->       dataType: {
->         class: :string,
->         enum: Jamf::ExtentionAttribute::DATA_TYPES
->       }
->
-> The constant Jamf::ExtentionAttribute::DATA_TYPES is defined thus:
->
->      DATA_TYPE_STRING = 'STRING'.freeze
->      DATA_TYPE_INTEGER = 'INTEGER'.freeze
->      DATA_TYPE_DATE = 'DATE'.freeze
->
->      DATA_TYPES = [
->        DATA_TYPE_STRING,
->        DATA_TYPE_INTEGER,
->        DATA_TYPE_DATE,
->      ]
->
-> When setting the type attribute via `some_ea.dataType = newval`, a validation method will ensure that
->  `Jamf::ExtentionAttribute::DATA_TYPES.include? newval` is true
-
-When using such setters, its wise to use the array members themselves rather than a different but identical string, however either will work.  In other words, this:
-
-    my_ea.dataType = Jamf::ExtentionAttribute::DATA_TYPE_INTEGER
-
-is preferred over:
-
-    my_ea.dataType = 'INTEGER'
-
-since the second version creates a new string in memory, but the first uses
-the one already stored in a constant.
-
-See also: [Data Validation](#data_validation) below.
-
-#### validator: \[Symbol]
-How to validate a value being set for this attribute?
-
-(ignored if readonly: is true, or if enum: is set)
-
-Data validation can (and should) happen when a setter is used, rather than sending invalid data to the API and getting an error back.
-
-If an enum is defined for an attribute (see above) then that enum is used for validation. If a non-primative class is used for the attribute, e.g. Jamf::Location or Jamf::Timestamp, the initialization method for that class will validate the data used to create it.
-
-But sometimes you'll need other forms of validation to happen, e.g. to ensure that a String is a properly formatted MACaddress.
-
-That's where the Jamf::Validate module, and the `validator` setting come in. The Jamf::Validate module only exists to hold standardized methods for validating values.
-
-The symbol in the `validator` setting is the name of a Jamf::Validators module method used in the setter to validate new values for this attribute. It only is used when class: is :string, :integer, :boolean, and :float
-
-If omitted, and there is no enum defined, the setter will take any value passed to it, which is generally unwise.
-
-Example:
-> The `macAddress` attribute of a  MobileDevice might be defined like this:
->
->      macAddress: {
->        class: :string,
->        identifier: true,
->        validator: :mac_address
->      }
->
->  When the setter method for macAddress is defined (`macAddress=(newval)`), that method will include this line:
->
->      newval = Jamf::Validate.mac_address newval
->
-> and the `Jamf::Validate.mac_address` method will raise an error if the newval isn't a proper macaddress. If it
-> is a valid macaddress, it will be returned.
->
-> Some validator methods can take multiple input types or formats, and if the input is valid, will always return a
-> standardized value.
-
-
-#### aliases: \[Array of Symbols]
-Should this attribute have other names?
-
-If provided, getters, and setters will be made for all aliases.
-
-Example:
-> The `serialNumber` attribute of a  MobileDevice might be defined like this:
->
->      serialNumber: {
->        class: :string,
->        identifier: true,
->        validator: :non_empty_string,
->        aliases: [:serial_number, :sn]
->      }
->
->  When the getter method 'serialNumber' and setter method `serialNumber=(newval)` are defined, they
->  will also have aliases `serial_number`, `serial_number=(newval)`, `sn` and `sn=(newval)`
-
-
-Aliases should be used very sparingly.
-
-Note: Since it is expected in ruby for predicate methods (those which return a boolean value) to be named something like `foobar?`, attributes of class :boolean automatically have two getter aliases:
-
-1) The attribute name ending with a '?'
-   - e.g. the attribute `isManaged` is also available as `isManaged?`
-
-2) If the attribute name starts with 'isXy', where X is any uppercase letter and y is any letter, an alias
-   is created by removing the 'is', lowercasing the remeaining characters, and appending a '?'
-   - e.g. `isManaged` is available as `managed?` and `isFooBar` would be available as `foobar?`
-
-#### Documenting OBJECT_MODEL
-
-For documenting attributes with YARD, put this above each attribute name key:
-
-```
-     # @!attribute <attrname>
-     #   @param [Class] <Describe setter value if needed>
-     #   @return [Class] <Describe value if needed>
-```
-
-If the value is readonly, remove the @param line, and add \[r], like this:
-
-```
-     # @!attribute [r] <attrname>
-```
-
-for more info see https://www.rubydoc.info/gems/yard/file/docs/Tags.md#attribute
-
-
-#### Sub-subclassing and OBJECT_MODEL
-
-If you need to subclass a subclass of JSONObject, and the new subclass needs to expand on the OBJECT_MODEL in its parent, then you must use Hash#merge to combine them in the subclass. Here's an example of ComputerPrestage which inherits from Prestage:
-
-     class ComputerPrestage < Jamf::Prestage
-
-        OBJECT_MODEL = superclass::OBJECT_MODEL.merge(
-
-              newAttr: {
-                [attr details]
-              }
-
-          ).freeze
-
-
-#### Data Validation \{#data_validation}
-
-Attributes that are not readonly are subject to data validation when values are assigned. How that validation happens depends on the definition of the attribute as described above. Validation failure will raise an exception, usually Jamf::InvalidDataError.
-
-If the attribute is defined with an enum, the value must be a key or value of the enum.
-
-If the attribute's class: is defined as a Class, (e.g. Jamf::Timestamp) its .new  method is called with the value and the current API connection. The class itself performs valuation when the value is used to instantiate it.
-
-If the attribute is defined with a validator, the value is passed to that validator.
-
-If the attribute is defined as a :string, :integer, :float or :bool without an enum or validator, it is checked to be the correct type
-
-If an attribute is an identifier, it must be unique in its class and API connection.
-
-#### Constructor / Instantiation
-
-The .new method should rarely (never?) be called directly for any JSONObject
-class.
-
-The Resource classes are instantiated via the .fetch and .create methods.
-
-Other JSONObject classes are embedded inside the Resource classes
-and are instantiated while parsing data from the API or by the setters for
-the attributes holding them, or via setters in the objects containing them.
-
-When subclassing JSONObject, you can often just use the #initialize defined
-there. You may want to override #initialize to accept different kinds of data
-and if you do, you _must_:
-
-- Have an #initialize method that takes two parameters and performs
- validation using them:
-
- 1. A positional first parameter: the value used to create the instance
-    Your method may accept any kind of value, as long as it can use it
-    to create a valid object. At the very least it _must_ accept a Hash
-    that comes from the API for this object. If you call `super` then
-    that Hash must be passed.
-
-    For example, Jamf::GenericReference, which defines references to
-    other resources, such as Buildings, can take a Hash containing the
-    name: and id: of the building (as provided by the API), or can take
-    just a name or id, or can take a Jamf::Building object.
-
-    The initialize method must perform validation as necessary and raise
-    an exception if the data provided is not acceptable.
-
- 2. A keyword parameter `cnx:` containing a Jamf::Connection instance.
-    This is the API connection through which this JSON object interacts
-    with the appropriate Jamf Pro server. Usually this is used to validate
-    the data recieved in the first positional parameter.
-
-### Required Instance Methods
-
-Subclasses of JSONObject must have a #to_jamf method.
-For most simple objects, the one defined in JSONObject will work as is.
-
-If you need to override it, it _must_
-
-- Return a Hash that can be used in the data sent back to the API.
-- Not call #.to_json. All conversion to and from JSON happens in the
- Jamf::Connection class.
-
-
-
+For a full discussion of the OBJECT_MODEL constant, see the documentation for Jamf::JSONObject, located in the file .../lib/jamf/api/abstract_classes/json_object.rb
 
 ## Autoloading
 
 Since the number of classes is so huge, and they aren't always needed in any given project, the Jamf module is using ruby's autoloading feature to load most of the files only as they are used.  See the file .../lib/jamf.rb  to see how that all works
-
 
 
 # More to come.....
