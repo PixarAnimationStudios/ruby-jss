@@ -23,28 +23,11 @@
 #
 #
 
-# The Module
+# The module
 module Jamf
 
-  # Classes
-  #####################################
-
-  # A building defined in the JSS
-  class TimeZone < Jamf::CollectionResource
-
-    # Mix-Ins
-    #####################################
-
-    extend Jamf::Immutable
-    extend Jamf::UnCreatable
-    extend Jamf::UnDeletable
-
-    # Constants
-    #####################################
-
-    RSRC_VERSION = 'v1'.freeze
-
-    RSRC_PATH = 'time-zones'.freeze
+  # A Time Zone known to Jamf Pro
+  class TimeZone < Jamf::JSONObject
 
     # Object Model / Attributes
     # See APIObject class documentation for details
@@ -57,6 +40,7 @@ module Jamf
       zoneId: {
         class: :string,
         identifier: :primary,
+        read_only: true,
         aliases: [:id]
       },
 
@@ -65,13 +49,15 @@ module Jamf
       displayName: {
         class: :string,
         identifier: true,
+        read_only: true,
         aliases: [:name]
       },
 
       # @!attribute [r] region
       #   @return [String]
       region: {
-        class: :string
+        class: :string,
+        read_only: true
       }
     }.freeze
     parse_object_model
@@ -114,6 +100,6 @@ module Jamf
       othertime.getlocal utc_offset
     end
 
-  end # class
+  end # class TimeZone
 
 end # module
