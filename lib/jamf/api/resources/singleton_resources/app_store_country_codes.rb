@@ -32,6 +32,9 @@ module Jamf
   #
   class AppStoreCountryCodes < Jamf::SingletonResource
 
+    # Mix-Ins
+    #####################################
+
     extend Jamf::Immutable
 
     # Constants
@@ -48,7 +51,8 @@ module Jamf
       countryCodes: {
         class: Jamf::Country,
         multi: true,
-        read_only: true
+        read_only: true,
+        aliases: [:list]
       }
 
     }.freeze # end OBJECT_MODEL
@@ -57,6 +61,12 @@ module Jamf
 
     # Class Methods
     #####################################
+
+    # @return [Array<Jamf::Country>] all the Countries available
+    #
+    def self.list(refresh = false, cnx: Jamf.cnx)
+      fetch(refresh, cnx: cnx).countryCodes
+    end
 
     # Class level wrapper for #names
     def self.names(refresh = false, cnx: Jamf.cnx)
@@ -93,22 +103,22 @@ module Jamf
 
     # @return [Array<String>] the available country names
     def names
-      @names ||= countryCodes.map{ |country| country.name }
+      @names ||= countryCodes.map(&:name)
     end
 
     # @return [Array<String>] the available country codes
     def codes
-      @codes ||= countryCodes.map{ |country| country.code }
+      @codes ||= countryCodes.map(&:code)
     end
 
     # @return [Hash] name => code
     def codes_by_name
-      @codes_by_name ||= countryCodes.map{ |country| [country.name, country.code] }.to_h
+      @codes_by_name ||= countryCodes.map { |country| [country.name, country.code] }.to_h
     end
 
     # @return [Hash] code => name
     def names_by_code
-      @names_by_code ||= countryCodes.map{ |country| [country.code, country.name] }.to_h
+      @names_by_code ||= countryCodes.map { |country| [country.code, country.name] }.to_h
     end
 
     # return a country code from its name, case-insensitive
