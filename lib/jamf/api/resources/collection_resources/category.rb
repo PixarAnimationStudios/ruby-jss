@@ -41,7 +41,7 @@ module Jamf
     # Constants
     #####################################
 
-    RSRC_VERSION = 'v2'.freeze
+    RSRC_VERSION = 'v1'.freeze
 
     RSRC_PATH = 'categories'.freeze
 
@@ -65,13 +65,15 @@ module Jamf
         class: :string,
         identifier: true,
         validator: :non_empty_string,
-        required: true
+        required: true,
+        filter_key: true
       },
 
       # @!attribute priority
       #   @return [Integer]
       priority: {
-        class: :integer
+        class: :integer,
+        filter_key: true
       }
     }.freeze
 
