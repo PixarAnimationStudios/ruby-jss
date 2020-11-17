@@ -951,7 +951,7 @@ module JSS
       case @last_http_response.status
       when 404
         err = JSS::NoSuchItemError
-        msg = 'The server did not find anything matching the request URI'
+        msg = 'Not Found'
       when 409
         err = JSS::ConflictError
         @last_http_response.body =~ /<p>(The server has not .*?)(<|$)/m
@@ -963,6 +963,9 @@ module JSS
       when 401
         err = JSS::AuthorizationError
         msg = 'You are not authorized to do that.'
+      when (500..599)
+        err = JSS::APIRequestError
+        msg = 'There was an internal server error'
       else
         err = JSS::APIRequestError
         msg = "There was a error processing your request, status: #{@last_http_response.status}"
