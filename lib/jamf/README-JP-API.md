@@ -23,7 +23,6 @@ CONTENTS:
 
  - [Requirements](#requirements)
  	- [Ruby 2.3 or higher](#ruby-23-or-higher)
- 	- [Manully install Faraday and Faraday Middleware](#manully-install-faraday-and-faraday-middleware)
  - [The Jamf module](#the-jamf-module)
  - [Overview of differences between JSS and Jamf modules](#overview-of-differences-between-jss-and-jamf-modules)
  - [Connecting to the JP-API](#connecting-to-the-jp-api)
