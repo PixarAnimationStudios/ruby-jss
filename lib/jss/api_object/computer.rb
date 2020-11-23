@@ -1046,6 +1046,19 @@ module JSS
       @need_to_update = true
     end
 
+    # flush the logs for this computer in a given policy
+    # @see JSS::Policy.flush_logs
+    #
+    def flush_policy_logs(policy, older_than: 0, period: :days)
+      JSS::Policy.flush_logs(
+        policy,
+        older_than: older_than,
+        period: period,
+        computers: [@id],
+        api: @api
+      )
+    end
+
     def barcode1=(new_val)
       new_val = new_val.strip
       return nil if @barcode1 == new_val
