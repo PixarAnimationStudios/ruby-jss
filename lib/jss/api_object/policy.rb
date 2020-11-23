@@ -263,14 +263,14 @@ module JSS
     }.freeze
 
     LOG_FLUSH_INTERVAL_PERIODS = {
-      day: 'Day',
-      days: 'Day',
-      week: 'Week',
-      weeks: 'Week',
-      month: 'Month',
-      months: 'Month',
-      year: 'Year',
-      years: 'Year'
+      day: 'Days',
+      days: 'Days',
+      week: 'Weeks',
+      weeks: 'Weeks',
+      month: 'Months',
+      months: 'Months',
+      year: 'Years',
+      years: 'Years'
     }.freeze
 
     # the object type for this object in
@@ -286,6 +286,83 @@ module JSS
 
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = Hash
+
+    # Class Methods
+    ######################
+
+    # Flush logs for a given policy older than some number of days, weeks,
+    # months or years, possibly limited to one or more computers.
+    #
+    # With no parameters, flushes all logs for the policy for all computers.
+    #
+    # NOTE: Currently the API doesn't have a way to flush only failed policies.
+    #
+    # WARNING: Log flushing can take a long time, and the API call doesnt return
+    # until its finished. The connection timeout will be temporarily raised to
+    # 30 minutes, unless it's already higher.
+    #
+    # @param policy[Integer,String] The id or name of the policy to flush
+    #
+    # @param older_than[Integer] 0, 1, 2, 3, or 6
+    #
+    # @param period[Symbol] :days, :weeks, :months, or :years
+    #
+    # @param computers[Array<Integer,String>] Identifiers of the target computers
+    #   either ids, names, SNs, macaddrs, or UDIDs. If omitted, flushes logs for
+    #   all computers
+    #
+    # @param api [JSS::APIConnection] the API  connection to use.
+    #
+    # @return [void]
+    #
+    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: JSS.api)
+      orig_timeout = api.cnx.options.timeout
+      pol_id = valid_id policy
+      raise JSS::NoSuchItemError, "No Policy identified by '#{policy}'." unless pol_id
+
+      older_than = LOG_FLUSH_INTERVAL_INTEGERS[older_than]
+      raise JSS::InvalidDataError, "older_than must be one of these integers: #{LOG_FLUSH_INTERVAL_INTEGERS.keys.join ', '}" unless older_than
+
+      period = LOG_FLUSH_INTERVAL_PERIODS[period]
+      raise JSS::InvalidDataError, "period must be one of these symbols: :#{LOG_FLUSH_INTERVAL_PERIODS.keys.join ', :'}" unless period
+
+      computers = [computers] unless computers.is_a? Array
+
+      # log flushes can be really slow
+      api.timeout = 1800 unless orig_timeout > 1800
+
+      return api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
+
+      flush_logs_for_specific_computers pol_id, older_than, period, computers, api
+    ensure
+      api.timeout = orig_timeout
+    end
+
+    # use an XML body in a DELETE request to flush logs for
+    # a list of computers - used by the flush_logs class method
+    def self.flush_logs_for_specific_computers(pol_id, older_than, period, computers, api)
+      # build the xml body for a DELETE request
+      xml_doc = REXML::Document.new JSS::APIConnection::XML_HEADER
+      lf = xml_doc.add_element 'logflush'
+      lf.add_element('log').text = 'policy'
+      lf.add_element('log_id').text = pol_id.to_s
+      lf.add_element('interval').text = "#{older_than} #{period}"
+      comps_elem = lf.add_element 'computers'
+      computers.each do |c|
+        id = JSS::Computer.valid_id c
+        next unless id
+
+        ce = comps_elem.add_element 'computer'
+        ce.add_element('id').text = id.to_s
+      end
+
+      # Do a DELETE request with a body.
+      api.cnx.delete(LOG_FLUSH_RSRC) do |req|
+        req.headers[JSS::APIConnection::HTTP_CONTENT_TYPE_HEADER] = JSS::APIConnection::MIME_XML
+        req.body = xml_doc.to_s
+      end
+    end
+    private_class_method :flush_logs_for_specific_computers
 
     # Attributes
     ######################
@@ -1715,34 +1792,37 @@ module JSS
     end
     alias execute run
 
-    # Flush all policy logs for this policy older than
-    # some number of days, weeks, months or years.
+    # Flush logs for this policy older than
+    # some number of days, weeks, months or years, possibly limited to
+    # one or more computers
     #
-    # With no parameters, flushes all logs
+    # With no parameters, flushes all logs for all computers
     #
-    # NOTE: Currently the API doesn't have a way to
-    # flush only failed policies.
+    # NOTE: Currently the API doesn't have a way to flush only failed policies.
+    #
+    # WARNING: Log flushing can take a long time, and the API call doesnt return
+    # until its finished. The connection timeout will be temporarily raised to
+    # 30 minutes, unless it's already higher.
     #
     # @param older_than[Integer] 0, 1, 2, 3, or 6
     #
     # @param period[Symbol] :days, :weeks, :months, or :years
     #
+    # @param computers[Array<Integer,String>] Identifiers of the target computers
+    #   either ids, names, SNs, macaddrs, or UDIDs
+    #
     # @return [void]
     #
-    def flush_logs(older_than: 0, period: :days)
+    def flush_logs(older_than: 0, period: :days, computers: [])
       raise JSS::NoSuchItemError, "Policy doesn't exist in the JSS. Use #create first." unless @in_jss
 
-      unless LOG_FLUSH_INTERVAL_INTEGERS.key?(older_than)
-        raise JSS::InvalidDataError, "older_than must be one of these integers: #{LOG_FLUSH_INTERVAL_INTEGERS.keys.join ', '}"
-      end
-
-      unless LOG_FLUSH_INTERVAL_PERIODS.key?(period)
-        raise JSS::InvalidDataError, "period must be one of these symbols: :#{LOG_FLUSH_INTERVAL_PERIODS.keys.join ', :'}"
-      end
-
-      interval = "#{LOG_FLUSH_INTERVAL_INTEGERS[older_than]}+#{LOG_FLUSH_INTERVAL_PERIODS[period]}"
-
-      @api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{@id}/interval/#{interval}"
+      JSS::Policy.flush_logs(
+        @id,
+        older_than: older_than,
+        period: period,
+        computers: computers,
+        api: @api
+      )
     end
 
     # Private Instance Methods
