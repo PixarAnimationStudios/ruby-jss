@@ -37,10 +37,6 @@ module Jamf
 
     extend Jamf::BulkDeletable
     include Jamf::ChangeLog
-    # TODO: this prob isn't needed anymore
-    # or should be updated - according to the specs, all
-    # references are just ids - integers-in-strings.
-    include Jamf::Referable
 
     # Constants
     #####################################

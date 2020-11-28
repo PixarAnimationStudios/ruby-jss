@@ -50,7 +50,7 @@ module Jamf
       # @!attribute skipSetupItems
       #   @return [Jamf::ComputerPrestageSkipSetupItems]
       skipSetupItems: {
-        class: Jamf::MobileDevicePrestageSkipSetupItems
+        class: :hash
       },
 
       # @!attribute allowPairing

@@ -48,7 +48,7 @@ module Jamf
       # @!attribute skipSetupItems
       #   @return [Jamf::ComputerPrestageSkipSetupItems]
       skipSetupItems: {
-        class: Jamf::ComputerPrestageSkipSetupItems
+        class: :hash
       },
 
       # @!attribute isInstallProfilesDuringSetup

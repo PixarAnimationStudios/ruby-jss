@@ -36,7 +36,6 @@ module Jamf
     #####################################
 
     include Jamf::ChangeLog
-    include Jamf::Referable
 
     # Constants
     #####################################
@@ -73,7 +72,6 @@ module Jamf
     }.freeze
 
     parse_object_model
-
 
   end # class
 

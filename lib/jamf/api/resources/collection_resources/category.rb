@@ -36,7 +36,6 @@ module Jamf
     #####################################
 
     include Jamf::ChangeLog
-    include Jamf::Referable
 
     # Constants
     #####################################
