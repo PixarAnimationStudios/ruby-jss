@@ -42,7 +42,7 @@ module Jamf
       # @!attribute instanceId
       #   @return [Integer]
       instanceId: {
-        class: :integer
+        class: :j_id
       },
 
       # @!attribute timestamp

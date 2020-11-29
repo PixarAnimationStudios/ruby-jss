@@ -64,13 +64,13 @@ module Jamf
 
       # @!attribute isManageNames
       #   @return [Boolean]
-      isManageNames: {
+      manageNames: {
         class: :boolean
       },
 
       # @!attribute isDeviceNamingConfigured
       #   @return [Boolean]
-      isDeviceNamingConfigured: {
+      deviceNamingConfigured: {
         class: :boolean
       }
     }.freeze

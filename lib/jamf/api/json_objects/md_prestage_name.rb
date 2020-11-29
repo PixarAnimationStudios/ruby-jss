@@ -45,7 +45,7 @@ module Jamf
 
       # @!attribute isUsed [r]
       #   @return [Boolean]
-      isUsed: {
+      used: {
         class: :boolean
       }
     }.freeze

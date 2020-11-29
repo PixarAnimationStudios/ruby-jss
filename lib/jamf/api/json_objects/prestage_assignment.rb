@@ -42,8 +42,8 @@ module Jamf
 
       # @!attribute assignmentEpoch
       #   @return [Integer]
-      assignmentEpoch: {
-        class: :integer
+      assignmentDate: {
+        class: Jamf::Timestamp
       },
 
       # @!attribute userAssigned
