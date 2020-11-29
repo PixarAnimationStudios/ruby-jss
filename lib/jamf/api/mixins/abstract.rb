@@ -41,16 +41,25 @@ module Jamf
       @abstract_classes ||= []
     end
 
-    def self.abstract?
-      abstract_classes.include? self
+    def abstract?
+      Jamf::Abstract.abstract_classes.include? self
     end
 
-    # when any extended class or subclass of an extended class is instntiated
-    # check that it isn't in the abstract list.
-    def new(*args, &block)
-      raise Jamf::UnsupportedError, "Unsupported: #{self} is an abstract class, cannot be instantiated." if Jamf::Abstract.abstract_classes.include? self
-
+    # Can't allocate if abstract
+    def allocate(*args, &block)
+      stop_if_abstract :allocated
       super
+    end
+
+    # Can't instantiate if abstract
+    def new(*args, &block)
+      stop_if_abstract :instantiated
+      super
+    end
+
+    # raise an exception if this class is abstract
+    def stop_if_abstract(action)
+      raise Jamf::UnsupportedError, "#{self} is an abstract class, cannot be #{action}." if abstract?
     end
 
   end # module Abstract
