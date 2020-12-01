@@ -40,7 +40,7 @@ module Jamf
   # objects (Hashes) used anywhere in the Jamf Pro API have a matching Class in
   # ruby-jss which is a subclass of Jamf::JSONObject
   #
-  # The Jamf::JSONObject class is abstract, and cannot be instantiated or used
+  # The Jamf::JSONObject class is a base class, and cannot be instantiated or used
   # directly. It merely provides the common functionality needed for dealing
   # with all JSON objects in the API.
   #
@@ -51,7 +51,7 @@ module Jamf
   # you will make a subclass of either Jamf::JSONObject, Jamf::SingletonResource
   # or Jamf::CollectionResource.
   #
-  # Here's the relationship between these abstract classes:
+  # Here's the relationship between these base classes:
   #
   #                      Jamf::JSONObject
   #                         (abstract)
@@ -506,7 +506,7 @@ module Jamf
   #
   class JSONObject
 
-    extend Jamf::Abstract
+    extend Jamf::BaseClass
 
     # Constants
     #####################################
@@ -553,7 +553,7 @@ module Jamf
     # @return [Symbol, nil] The real object model key for the alias
     #
     def self.attr_key_for_alias(als)
-      validate_not_abstract
+      stop_if_base_class
       self::OBJECT_MODEL.each { |k, deets| return k if k == als || deets[:aliases].to_a.include?(als) }
       nil
     end
@@ -771,15 +771,6 @@ module Jamf
     end # create_insert_setters
     private_class_method :create_delete_if_setters
 
-    # Raise an exception if this is an abstract class
-    # Used in class methods that are defined in abstract classes.
-    # Instantiation is already prevented by the Abstract mixin
-    ##############################
-    def self.validate_not_abstract
-      raise Jamf::UnsupportedError, "Unsupported: #{self} is an abstract class, ." if Jamf::Abstract.abstract_classes.include? self
-    end
-    private_class_method :validate_not_abstract
-
     # Used by auto-generated setters and .create to validate new values.
     #
     # returns a valid value or raises an exception
@@ -847,13 +838,6 @@ module Jamf
       end # if
     end
     private_class_method :validate_attr_value
-
-    # Attributes
-    #####################################
-
-    # @return [Jamf::Connection] the API connection thru which we deal with
-    #   this objcet.
-    attr_reader :cnx
 
     # Constructor
     #####################################

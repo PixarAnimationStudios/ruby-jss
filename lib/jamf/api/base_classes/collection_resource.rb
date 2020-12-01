@@ -63,7 +63,7 @@ module Jamf
   #
   class CollectionResource < Jamf::Resource
 
-    extend Jamf::Abstract
+    extend Jamf::BaseClass
     extend Jamf::Pageable
     extend Jamf::Sortable
     extend Jamf::Filterable
@@ -214,7 +214,7 @@ module Jamf
     # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
     #
     def self.all(sort: nil, filter: nil, paged: nil, page_size: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
-      validate_not_abstract
+      stop_if_base_class
 
       # use the cache if not paging, filtering or sorting
       return cached_all(refresh, instantiate, cnx) if !paged && !sort && !filter
@@ -351,7 +351,7 @@ module Jamf
     #   or nil if it doesn't exist
     #
     def self.raw_data(value = nil, cnx: Jamf.cnx, **ident_and_val)
-      validate_not_abstract
+      stop_if_base_class
 
       # given a value with no ident key
       return raw_data_by_value_only(value, cnx: Jamf.cnx) if value
@@ -460,7 +460,8 @@ module Jamf
 
     # Make a new thing to be added to the API
     def self.create(**params)
-      validate_not_abstract
+      stop_if_base_class
+
       raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
 
       # Which connection to use
@@ -498,7 +499,7 @@ module Jamf
     # @return [CollectionResource] The ruby-instance of a Jamf object
     #
     def self.fetch(random = nil, cnx: Jamf.cnx, **ident_and_val)
-      validate_not_abstract
+      stop_if_base_class
       ident, value = ident_and_val.first
       data =
         if random

@@ -37,7 +37,7 @@ module Jamf
   #
   class SingletonResource < Jamf::Resource
 
-    extend Jamf::Abstract
+    extend Jamf::BaseClass
 
     # Public Class Methods
     #####################################
@@ -56,6 +56,7 @@ module Jamf
     # @return [Jamf::SingletonResource] The ruby-instance of a Jamf resource
     #
     def self.fetch(reload = false, cnx: Jamf.cnx)
+      stop_if_base_class
       cnx.singleton_cache[self] = nil if reload
       cached = cnx.singleton_cache[self]
       return cached if cached
@@ -65,7 +66,7 @@ module Jamf
     end # fetch
 
     def self.flushcache(cnx: Jamf.cnx)
-      validate_not_abstract
+      stop_if_base_class
       cnx.singleton_cache[self] = nil
     end
 

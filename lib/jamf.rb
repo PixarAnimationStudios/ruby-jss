@@ -86,19 +86,14 @@ module Jamf
   # AUTOLOADING
   ##################################
 
-  # Top-level API Abstract Classes
-  autoload :JSONObject, 'jamf/api/abstract_classes/json_object'
-  autoload :Resource, 'jamf/api/abstract_classes/resource'
-  autoload :SingletonResource, 'jamf/api/abstract_classes/singleton_resource'
-  autoload :CollectionResource, 'jamf/api/abstract_classes/collection_resource'
+  # Top-level API Base Classes
+  autoload :JSONObject, 'jamf/api/base_classes/json_object'
+  autoload :Resource, 'jamf/api/base_classes/resource'
+  autoload :SingletonResource, 'jamf/api/base_classes/singleton_resource'
+  autoload :CollectionResource, 'jamf/api/base_classes/collection_resource'
 
-  # Abstract Classes used for JSONObject subclasses
-  autoload :AdvancedSearch, 'jamf/api/abstract_classes/advanced_search'
-  autoload :Prestage, 'jamf/api/abstract_classes/prestage'
-  autoload :PrestageSkipSetupItems, 'jamf/api/abstract_classes/prestage_skip_setup_items'
-
-  # Abstract Classes not used for JSONObject subclasses
-  autoload :GenericReference, 'jamf/api/abstract_classes/generic_reference'
+  # Base Classes used for JSONObject subclasses
+  autoload :Prestage, 'jamf/api/base_classes/prestage'
 
   # MixIn Modules
   autoload :ChangeLog, 'jamf/api/mixins/change_log'
@@ -110,7 +105,7 @@ module Jamf
   autoload :UnCreatable, 'jamf/api/mixins/uncreatable'
   autoload :Immutable, 'jamf/api/mixins/immutable'
   autoload :UnDeletable, 'jamf/api/mixins/undeletable'
-  autoload :Abstract, 'jamf/api/mixins/abstract'
+  autoload :BaseClass, 'jamf/api/mixins/base_class'
   autoload :Pageable, 'jamf/api/mixins/pageable'
   autoload :Filterable, 'jamf/api/mixins/filterable'
   autoload :Sortable, 'jamf/api/mixins/sortable'

@@ -24,44 +24,53 @@
 
 module Jamf
 
-  # This mixin should be extended in abstract class definitions
-  # it will raise an error if those classes are instantiated.
+  # This mixin should be extended in base class definitions
+  # it will raise an error if those classes are instantiated or allocated
   # It also maintains an array of classes that extend themselves this way
-  # and are abstract.
-  module Abstract
+  #
+  module BaseClass
+
+    DEFAULT_ACTION =  'access the API'.freeze
+    ALLOCATION_ACTION = 'be allocated'.freeze
+    INSTANTIATION_ACTION = 'be instantiated'.freeze
 
     # when a class is extended by this module, it
-    # gets added to the array of known abstract classes
+    # gets added to the array of known base classes
     def self.extended(by_class)
-      abstract_classes << by_class
+      base_classes << by_class
     end
 
-    # Classes will be added to this array as they are exteded by Abstract
-    def self.abstract_classes
-      @abstract_classes ||= []
+    # Classes will be added to this array as they are exteded by BaseClass
+    def self.base_classes
+      @base_classes ||= []
     end
 
-    def abstract?
-      Jamf::Abstract.abstract_classes.include? self
+    # raise an exception if a given class is a base class
+    def self.stop_if_base_class(klass, action = DEFAULT_ACTION)
+      raise Jamf::UnsupportedError, "#{klass} is a base class and cannot #{action}." if base_classes.include? klass
     end
 
-    # Can't allocate if abstract
+    def base_class?
+      Jamf::BaseClass.base_classes.include? self
+    end
+
+    # Can't allocate if base class
     def allocate(*args, &block)
-      stop_if_abstract :allocated
+      stop_if_base_class ALLOCATION_ACTION
       super
     end
 
-    # Can't instantiate if abstract
+    # Can't instantiate if base_class
     def new(*args, &block)
-      stop_if_abstract :instantiated
+      stop_if_base_class INSTANTIATION_ACTION
       super
     end
 
-    # raise an exception if this class is abstract
-    def stop_if_abstract(action)
-      raise Jamf::UnsupportedError, "#{self} is an abstract class, cannot be #{action}." if abstract?
+    # raise an exception if this class is a base class
+    def stop_if_base_class(action = DEFAULT_ACTION)
+      Jamf::BaseClass.stop_if_base_class self, action
     end
 
-  end # module Abstract
+  end # module BaseClass
 
 end # Jamf

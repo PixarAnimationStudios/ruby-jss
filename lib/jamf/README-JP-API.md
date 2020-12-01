@@ -255,20 +255,20 @@ To see these Object Model definitions,, have a look at your Jamf Pro server's do
 
 Take a look at the GET docs for an endpoint, e.g. Buildings -> GET /v1/buildings, and you can click to view either the the 'Model' and the 'Model Schema' (an example of a JSON object matching the model with sample data)
 
-Ruby-jss's Jamf module is built around these object models, using a hierarchy of abstract classes and a representation of the Object Model in ruby. Every 'hash' of data that is sent to or recieved from the API has a matching ruby class that is a descendant of Jamf::JSONObject.
+Ruby-jss's Jamf module is built around these object models, using a hierarchy of base classes and a representation of the Object Model in ruby. Every 'hash' of data that is sent to or recieved from the API has a matching ruby class that is a descendant of Jamf::JSONObject.
 
-To be clear: *every* Hash that you see in the API JSON data has a matching ruby class in ruby-jss. That means there will be LOTS of classes! After all, what is a 'class' in object-oriented programming? It's a model of an object.
+To be clear: *almost every* Hash that you see in the API JSON data has a matching ruby class in ruby-jss. That means there will be LOTS of classes! After all, what is a 'class' in object-oriented programming? It's a model of an object.
 
-Here's the relationship between these abstract classes:
+Here's the relationship between these base classes:
 
                     Jamf::JSONObject
-                       (abstract)
+                       (base class)
                            |
                            |
                  -----------------------
                 |                       |
           Jamf::Resource                |
-            (abstract)                  |
+            (base class)                  |
                 |                       |
                 |                       |
                 |                 Jamf::Location
@@ -280,7 +280,7 @@ Here's the relationship between these abstract classes:
                 |                                        |
                 |                                        |
        Jamf::SingletonResource                Jamf::CollectionResource
-            (abstract)                               (abstract)
+            (base class)                               (base class)
                 |                                        |
                 |                                        |
      Jamf::Settings::ReEnrollment                  Jamf::Computer
@@ -289,8 +289,8 @@ Here's the relationship between these abstract classes:
             (etc...)                                  (etc...)
 
 
-> Note: An 'abstract' class, sometimes called a 'meta' class, is not meant to have instances. Instead, it holds common code shared among its subclasses.
-> An example of real-world abstract classes would be 'Animal', and its subclass 'Mammal'. In the real world there is no such thing as an individual 'Animal' or 'Mammal' that you could hold or touch. However 'Dog' is a subclass of Mammal, and it is not abstract, so there are instances of Dogs in the real world, and you can hold them and touch them.
+> Note: An 'base' class, is not meant to have instances. Instead, it holds common code shared among its subclasses.
+> An example of real-world base classes would be 'Animal', and its subclass 'Mammal'. In the real world there is no such thing as an individual 'Animal' or 'Mammal' that you could hold or touch. However 'Dog' is a subclass of Mammal, and it is not base, so there are instances of Dogs in the real world, and you can hold them and touch them.
 
 ### Jamf::JSONObject
 
@@ -302,17 +302,17 @@ Direct subclasses of JSONObject are nearly always used internally in other class
 
 ### Jamf::Resource
 
-This abstract class is a subclass of JSON object, and represents a thing you can access via the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
+This base class is a subclass of JSON object, and represents a thing you can access via the API. The code here handles the actual interaction with the API for all resources. Subclasses of Jamf::Resource must define the constants RSRC_VERSION (e.g. 'v1') and RSRC_PATH (e.g. 'buildings') which are used together to create the URI path to the resource.
 
-Jamf::Resource is never subclassed directly. Instead, it has two subclasses that are themselves abstract, representing the two kinds of resources:
+Jamf::Resource is never subclassed directly. Instead, it has two subclasses that are themselves base classes, representing the two kinds of resources:
 
 ### Jamf::SingletonResource
 
-This abstract class represents API resources that are single, persistent sets of values on the server, usually various preferences, settings or static data.  These resources can only be read and perhaps updated, never created or deleted.  There is really only one 'instance' of these classes, and When accessed via ruby-jss, they are cached locally to minimize server access, but can be refreshed as needed. Examples include enrollment and reenrollment settings, app store country codes, and timezone data.
+This base class represents API resources that are single, persistent sets of values on the server, usually various preferences, settings or static data.  These resources can only be read and perhaps updated, never created or deleted.  There is really only one 'instance' of these classes, and When accessed via ruby-jss, they are cached locally to minimize server access, but can be refreshed as needed. Examples include enrollment and reenrollment settings, app store country codes, and timezone data.
 
 ### Jamf::CollectionResource
 
-This abstract class represents API resources that are 'collections' - groups of individual objects that have id numbers and can be listed in various ways. Instances of the class represent those individual objects. Shared code for dealing with collections as a whole (listing, filtering, searching, fetching, creating, etc) is defined here.
+This base class represents API resources that are 'collections' - groups of individual objects that have id numbers and can be listed in various ways. Instances of the class represent those individual objects. Shared code for dealing with collections as a whole (listing, filtering, searching, fetching, creating, etc) is defined here.
 
 ### MixIns
 

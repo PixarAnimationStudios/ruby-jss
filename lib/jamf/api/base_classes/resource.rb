@@ -180,7 +180,7 @@ module Jamf
   #
   class Resource < Jamf::JSONObject
 
-    extend Jamf::Abstract
+    extend Jamf::BaseClass
 
     # Constants
     #####################################
@@ -208,14 +208,18 @@ module Jamf
     # Require use of .fetch or .create, or 'all'
     #
     def self.new(data, cnx: Jamf.cnx)
+      stop_if_base_class
       calling_method = caller_locations(1..1).first.label
       raise Jamf::UnsupportedError, "Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::Resources" unless NEW_CALLERS.include? calling_method
-
       super
     end
 
     # Attributes
     #####################################
+
+    # @return [Jamf::Connection] the API connection thru which we deal with
+    #   this resource.
+    attr_reader :cnx
 
     # @return [String] the resouce path for this object
     attr_reader :rsrc_path

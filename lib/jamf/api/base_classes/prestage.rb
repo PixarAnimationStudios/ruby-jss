@@ -33,7 +33,7 @@ module Jamf
   # holding common code.
   class Prestage < Jamf::CollectionResource
 
-    extend Jamf::Abstract
+    extend Jamf::BaseClass
     include Jamf::Lockable
 
     # Constants
