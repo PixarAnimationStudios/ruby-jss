@@ -55,6 +55,11 @@ module JSS
     # which DISTRIBUTION_METHODS means we're in self service?
     SELF_SERVICE_DIST_METHOD = 'Make Available in Self Service'.freeze
 
+    # when a change is made, which in-scope machines should get
+    # the changed profile?
+    REDEPLOY_NEWLY_ASSIGNED = 'Newly Assigned'.freeze
+    REDEPLOY_ALL = 'All'.freeze
+
     # Our SelfService deploys profiles
     SELF_SERVICE_PAYLOAD = :profile
 
@@ -76,7 +81,9 @@ module JSS
     # @return [String] the uuid of this profile. NOT Updatable
     attr_reader :uuid
 
-    # @return [Boolean] Should this profile be redeployed when an inventory update happens?
+    # @return [String] When a change is made to the profile, which scoped machines
+    #   should get the changes? This will always contain REDEPLOY_NEWLY_ASSIGNED
+    #   but can be set to REDEPLOY_ALL via the
     attr_reader :redeploy_on_update
 
     # @return [String] the plist containing the payloads for this profile. NOT Updatable
@@ -154,9 +161,25 @@ module JSS
     end
 
     # clear flag after updating
-    def update
-      super
+    def update(redeploy_to_all: false)
+      @redeploy_on_update = redeploy_to_all ? REDEPLOY_ALL : REDEPLOY_NEWLY_ASSIGNED
+      super()
+      # always reset to newly assigned
+      @redeploy_on_update = REDEPLOY_NEWLY_ASSIGNED
       @update_payloads = nil
+    end
+
+    # wrapper with param
+    def save(redeploy_to_all: false)
+      if @in_jss
+        raise JSS::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+
+        update redeploy_to_all: redeploy_to_all
+      else
+        raise JSS::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+
+        create
+      end
     end
 
     # Private Instance Methods
