@@ -474,7 +474,7 @@ module JSS
       def add_target(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
-        return if @targets[key] && @exclusions[key].include?(item_id)
+        return if @targets[key] && @targets[key].include?(item_id)
 
         raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
 
@@ -499,7 +499,7 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :target, key, item, error_if_not_found: false
         return unless item_id
-        return unless @targets[key] && @exclusions[key].include?(item_id)
+        return unless @targets[key] && @targets[key].include?(item_id)
 
         @targets[key].delete item_id
         @container.should_update if @container
@@ -561,7 +561,7 @@ module JSS
       def add_limitation(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:limitation, key, item)
-        return nil if @limitations[key] && @exclusions[key].include?(item_id)
+        return nil if @limitations[key] && @limitations[key].include?(item_id)
 
         if @exclusions[key] && @exclusions[key].include?(item_id)
           raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
@@ -588,7 +588,7 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :limitation, key, item, error_if_not_found: false
         return unless item_id
-        return unless @limitations[key] && @exclusions[key].include?(item_id)
+        return unless @limitations[key] && @limitations[key].include?(item_id)
 
         @limitations[key].delete item_id
         @container.should_update if @container
