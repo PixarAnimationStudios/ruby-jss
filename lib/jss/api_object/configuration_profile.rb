@@ -83,7 +83,9 @@ module JSS
 
     # @return [String] When a change is made to the profile, which scoped machines
     #   should get the changes? This will always contain REDEPLOY_NEWLY_ASSIGNED
-    #   but can be set to REDEPLOY_ALL via the
+    #   when fetched, but can be set to REDEPLOY_ALL via the redeploy_to_all:
+    #   parameter to #update & #save. After the update is complete, it reverts
+    #   to REDEPLOY_NEWLY_ASSIGNED
     attr_reader :redeploy_on_update
 
     # @return [String] the plist containing the payloads for this profile. NOT Updatable
