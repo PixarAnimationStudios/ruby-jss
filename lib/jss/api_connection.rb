@@ -215,42 +215,6 @@ module JSS
   #   # the variable 'prod2_victim_md' now contains a JSS::MobileDevice queried
   #   # through the connection 'production_api2'.
   #
-  # == Using the APIConnection itself to make API calls.
-  #
-  # Rather than passing an APIConnection into another method, you can call
-  # similar methods on the connection itself. For example, these two calls
-  # have the same result as the two examples above:
-  #
-  #   prod2_computer_sns = production_api2.all :Computer, only: :serial_numbers
-  #   prod2_victim_md = production_api2.fetch :MobileDevice, id: 832
-  #
-  # Here are the API calls you can make directly from an APIConnection object.
-  # They behave practically identically to the same methods in the APIObject
-  # subclasses, since they just call those methods, passing themselves in as the
-  # APIConnection to use.
-  #
-  # - {#all}  The 'list' methods of the various APIObject classes. Use the 'only:'
-  #   parameter to specify one of the sub-list-methods, like #all_ids or
-  #   #all_laptops, e.g. `my_connection.all :computers, only: :id`
-  # - {#map_all_ids} the equivalent of #map_all_ids_to in the APIObject classes
-  # - {#valid_id} given a class and an identifier (like macaddress or udid)
-  #   return a valid id or nil
-  # - {#exist?} given a class and an identifier (like macaddress or udid) does
-  #   the identifier exist for the class in the JSS
-  # - {#match} list items in the JSS matching a query
-  #   (if the object is {Matchable})
-  # - {#fetch} retrieve an object from the JSS
-  # - {#make} instantiate an object to be created in the JSS
-  # - {#computer_checkin_settings} same as {Computer.checkin_settings}
-  # - {#computer_inventory_collection_settings} same as {Computer.inventory_collection_settings}
-  # - {#computer_application_usage} same as {Computer.application_usage}
-  # - {#computer_management_data} same as {Computer.management_data}
-  # - {#master_distribution_point} same as {DistributionPoint.master_distribution_point}
-  # - {#my_distribution_point} same as {DistributionPoint.my_distribution_point}
-  # - {#network_ranges} same as {NetworkSegment.network_ranges}
-  # - {#network_segments_for_ip} same as {NetworkSegment.segments_for_ip}
-  # - {#my_network_segments} same as {NetworkSegment.my_network_segments}
-  #
   # == Low-level use of APIConnection instances.
   #
   # For most cases, using APIConnection instances as mentioned above
