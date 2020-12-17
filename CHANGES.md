@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.5.2] - 2020-12-21
+
+### Added
+
+  - JSS::Policy#flush_logs can now be called as a class method JSS::Policy.flush_logs, passing in the policy names or ids, without instantiating the policy
+
+  - Both the class and instance 'flush_logs' methods for JSS::Policy take a named parameter 'computers:' which is an array of the computer identifiers for which the policy should be flushed.
+
+  - JSS::Computer instances now have a 'flush_policy_logs' method which is a wrapper for calling JSS::Policy.flush_logs for just that computer
+
+  - JSS::ConfigurationProfile: #update/#save now takes boolean param redeploy_to_all: which defaults to false. The default means redeploy only to newly assigned machines in scope. Setting this to true will push the profile out to all machines in scope, even if they already have the profile.
+
+### Changed
+
+  - JSS.expand_min_os, used to expand strings like '>=10.14.5' into comma-separated versions to be used in Package and Script os_limitations, has been updated to handle Big Sur being both 10.16 and 11.0, and for future OSes to be 12.x, 13.x etc.
+  NOTE: If you've used this feature in the past, you might want to look at your package and script seetings and update them, since they will refer to OSes 10.17 and higher.
+
+### Fixed
+
+  - JSS::Scopable::Scope#remove_target and #remove_limitation didn't always remove the item.
+
+  - JSS::Scopable::Scope: when calling the API for any reason, we now pass in the .api connection of the container. Not doing so when using a non-default connection object would cause problems.
+
+
 ## \[1.5.1] - 2020-11-16
 
 IMPORTANT: New minimum require ruby version is 2.3.0
