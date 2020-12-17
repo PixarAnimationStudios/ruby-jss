@@ -224,6 +224,7 @@ module JSS
       # A reference to the object that contains this Scope
       #
       # For telling it when a change is made and an update needed
+      # and for accessing its api connection
       attr_accessor :container
 
       # @return [Boolean] should we expect a potential 409 Conflict
@@ -245,7 +246,6 @@ module JSS
       #
       attr_reader :all_targets
       alias all_targets? all_targets
-
 
       # The items which form the base scope of included targets
       #
@@ -773,7 +773,7 @@ module JSS
       ################
       def scoped_machines
         scoped_machines = {}
-        @target_class.all_objects.each do |machine|
+        @target_class.all_objects(api: container.api).each do |machine|
           scoped_machines[machine.id] = machine.name if in_scope? machine
         end
         scoped_machines
@@ -850,15 +850,15 @@ module JSS
 
         # id will be a string
         if key == :jamf_ldap_users
-          id = ident if JSS::User.all_names(:refresh).include?(ident) || JSS::LDAPServer.user_in_ldap?(ident)
+          id = ident if JSS::User.all_names(:refresh, api: container.api).include?(ident) || JSS::LDAPServer.user_in_ldap?(ident)
 
         # id will be a string
         elsif key == :ldap_user_groups
-          id = ident if JSS::LDAPServer.group_in_ldap? ident
+          id = ident if JSS::LDAPServer.group_in_ldap? ident, api: container.api
 
         # id will be an integer
         else
-          id = SCOPING_CLASSES[key].valid_id ident
+          id = SCOPING_CLASSES[key].valid_id ident, api: container.api
         end
 
         raise JSS::NoSuchItemError, "No existing #{key} matching '#{ident}'" if error_if_not_found && id.nil?
@@ -930,7 +930,7 @@ module JSS
       # @return [Array] the general, locacation, and parsed group IDs
       #
       def fetch_subsets(ident)
-        id = @target_class.valid_id ident
+        id = @target_class.valid_id ident, api: container.api
         raise JSS::NoSuchItemError, "No #{@target_class} matching #{machine}" unless id
 
         if @target_class == JSS::MobileDevice
