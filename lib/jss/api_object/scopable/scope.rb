@@ -408,7 +408,7 @@ module JSS
           @exclusions = {}
           @exclusion_keys.each { |k| @exclusions[k] = [] }
         end
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Replace a list of item names for as targets in this scope.
@@ -436,7 +436,7 @@ module JSS
         list.map! do |ident|
           item_id = validate_item(:target, key, ident)
 
-          if @exclusions[key] && @exclusions[key].include?(item_id)
+          if @exclusions[key]&.include?(item_id)
             raise JSS::AlreadyExistsError, \
                   "Can't set #{key} target to '#{ident}' because it's already an explicit exclusion."
           end
@@ -448,7 +448,7 @@ module JSS
 
         @targets[key] = list
         @all_targets = false
-        @container.should_update if @container
+        @container&.should_update
       end # sinclude_in_scope
       alias set_target set_targets
       alias set_inclusion set_targets
@@ -474,13 +474,13 @@ module JSS
       def add_target(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
-        return if @targets[key] && @targets[key].include?(item_id)
+        return if @targets[key]&.include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key] && @exclusions[key].include?(item_id)
+        raise JSS::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key]&.include?(item_id)
 
         @targets[key] << item_id
         @all_targets = false
-        @container.should_update if @container
+        @container&.should_update
       end
       alias add_inclusion add_target
 
@@ -499,10 +499,10 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :target, key, item, error_if_not_found: false
         return unless item_id
-        return unless @targets[key] && @targets[key].include?(item_id)
+        return unless @targets[key]&.include?(item_id)
 
         @targets[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end
       alias remove_inclusion remove_target
 
@@ -529,7 +529,7 @@ module JSS
         # check the idents
         list.map! do |ident|
           item_id = validate_item(:limitation, key, ident)
-          if @exclusions[key] && @exclusions[key].include?(item_id)
+          if @exclusions[key]&.include?(item_id)
             raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
           end
 
@@ -539,7 +539,7 @@ module JSS
         return nil if list.sort == @limitations[key].sort
 
         @limitations[key] = list
-        @container.should_update if @container
+        @container&.should_update
       end # set_limitation
       alias set_limitations set_limitation
 
@@ -561,14 +561,14 @@ module JSS
       def add_limitation(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:limitation, key, item)
-        return nil if @limitations[key] && @limitations[key].include?(item_id)
+        return nil if @limitations[key]&.include?(item_id)
 
-        if @exclusions[key] && @exclusions[key].include?(item_id)
+        if @exclusions[key]&.include?(item_id)
           raise JSS::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
         end
 
         @limitations[key] << item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Remove a single item for limiting this scope.
@@ -588,10 +588,10 @@ module JSS
         key = pluralize_key(key)
         item_id = validate_item :limitation, key, item, error_if_not_found: false
         return unless item_id
-        return unless @limitations[key] && @limitations[key].include?(item_id)
+        return unless @limitations[key]&.include?(item_id)
 
         @limitations[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end ###
 
       # Replace an exclusion list for this scope
@@ -617,7 +617,9 @@ module JSS
           item_id = validate_item(:exclusion, key, ident)
           case key
           when *@target_keys
-            raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included." if @targets[key] && @exclusions[key].include?(item_id)
+            if @targets[key] && @exclusions[key].include?(item_id)
+              raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included."
+            end
           when *LIMITATIONS
             if @limitations[key] && @exclusions[key].include?(item_id)
               raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
@@ -629,7 +631,7 @@ module JSS
         return nil if list.sort == @exclusions[key].sort
 
         @exclusions[key] = list
-        @container.should_update if @container
+        @container&.should_update
       end # limit scope
 
       # Add a single item for exclusions of this scope.
@@ -648,14 +650,14 @@ module JSS
       def add_exclusion(key, item)
         key = pluralize_key(key)
         item_id = validate_item(:exclusion, key, item)
-        return if @exclusions[key] && @exclusions[key].include?(item_id)
+        return if @exclusions[key]&.include?(item_id)
 
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @targets[key] && @targets[key].include?(item)
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} scope to '#{item}' because it's already explicitly included." if @targets[key]&.include?(item)
 
-        raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key] && @limitations[key].include?(item)
+        raise JSS::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key]&.include?(item)
 
         @exclusions[key] << item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # Remove a single item for exclusions of this scope
@@ -672,10 +674,10 @@ module JSS
       def remove_exclusion(key, item)
         key = pluralize_key(key)
         item_id = validate_item :exclusion, key, item, error_if_not_found: false
-        return unless @exclusions[key] && @exclusions[key].include?(item_id)
+        return unless @exclusions[key]&.include?(item_id)
 
         @exclusions[key].delete item_id
-        @container.should_update if @container
+        @container&.should_update
       end
 
       # @api private
@@ -808,7 +810,6 @@ module JSS
 
         a_target?(machine_data) && within_limitations?(machine_data) && !excluded?(machine_data)
       end
-
 
       # Private Instance Methods
       #####################################
