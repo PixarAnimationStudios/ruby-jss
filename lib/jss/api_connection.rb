@@ -386,6 +386,7 @@ module JSS
       @name = args.delete :name
       @name ||= :unknown
       @connected = false
+      @object_list_cache = {}
       connect args unless args.empty?
     end # init
 
