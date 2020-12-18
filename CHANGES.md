@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - JSS.expand_min_os, used to expand strings like '>=10.14.5' into comma-separated versions to be used in Package and Script os_limitations, has been updated to handle Big Sur being both 10.16 and 11.0, and for future OSes to be 12.x, 13.x etc.
   NOTE: If you've used this feature in the past, you might want to look at your package and script seetings and update them, since they will refer to OSes 10.17 and higher.
 
+  - JSS::APIConnection: initialize @object_list_cache as an empty hash. This provides more useful error messages when forgetting to pass non-default connection objects, and the default one is unused.
+
 ### Fixed
 
   - JSS::Scopable::Scope#remove_target and #remove_limitation didn't always remove the item.
