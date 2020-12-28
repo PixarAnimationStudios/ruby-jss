@@ -433,6 +433,8 @@ module JSS
 
       args[:no_port_specified] = args[:port].to_s.empty?
       args = apply_connection_defaults args
+      @timeout = args[:timeout]
+      @open_timeout = args[:open_timeout]
 
       # ensure an integer
       args[:port] &&= args[:port].to_i
