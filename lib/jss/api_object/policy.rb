@@ -329,7 +329,7 @@ module JSS
       computers = [computers] unless computers.is_a? Array
 
       # log flushes can be really slow
-      api.timeout = 1800 unless orig_timeout > 1800
+      api.timeout = 1800 unless orig_timeout && orig_timeout > 1800
 
       return api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
 
