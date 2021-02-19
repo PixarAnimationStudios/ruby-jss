@@ -168,7 +168,7 @@ module JSS
       @phone_number = @init_data[:phone_number]
       @position = @init_data[:position]
       @ldap_server = JSS::APIObject.get_name @init_data[:ldap_server]
-      @ldap_server_id = @init_data[:ldap_server][:id]
+      @ldap_server_id = @init_data[:ldap_server][:id] unless @init_data[:ldap_server].nil?
       @sites = @init_data[:sites] ? @init_data[:sites]  : []
 
       if @init_data[:links]
