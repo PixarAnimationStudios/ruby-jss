@@ -287,6 +287,9 @@ module JSS
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = Hash
 
+    # All valid script parameters
+    SCRIPT_PARAMETERS_AVAILABLE = %i[parameter4 parameter5 parameter6 parameter7 parameter8 parameter9 parameter10 parameter11].freeze
+
     # Class Methods
     ######################
 
@@ -1484,6 +1487,53 @@ module JSS
       @need_to_update = true if removed
       removed
     end
+
+    # Set a script parameter
+    #
+    # @param identifier [Integer,String] identifier the id or name of a script in this policy
+    #
+    # @param opts [Hash] opts the options to alter for this script
+    #
+    # @option [String] parameter4: the value of the 4th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter5: the value of the 5th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter6: the value of the 6th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter7: the value of the 7th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter8: the value of the 8th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter9: the value of the 9th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter10: the value of the 10th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @option [String] parameter11: the value of the 11th parameter passed to the script. this
+    #   overrides the same parameter in the script object itself.
+    #
+    # @return [Array] the scripts array
+    #
+    def set_script_parameters(identifier, **opts)
+      id = JSS::Script.valid_id identifier, api: @api
+      raise JSS::NoSuchItemError, "No script matches '#{identifier}'" unless id
+
+      script_data = @scripts.select { |s| s[:id] == id }[0]
+      raise JSS::InvalidDataError, "Script #{id} is not configured. Use add_script method." unless script_data
+
+      opts.each do |parameter, value|
+        script_data[parameter] = value if SCRIPT_PARAMETERS_AVAILABLE.include? parameter
+      end
+
+      @need_to_update = true
+      @scripts
+    end # end set_script_parameter
 
     ###### Directory Bindings
 
