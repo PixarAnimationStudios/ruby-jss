@@ -922,6 +922,7 @@ module JSS
       when 409
         err = JSS::ConflictError
         @last_http_response.body =~ /<p>(The server has not .*?)(<|$)/m
+        Regexp.last_match(1) ||  @last_http_response.body =~ %r{<p>Error: (.*?)</p>}
         msg = Regexp.last_match(1)
       when 400
         err = JSS::BadRequestError
