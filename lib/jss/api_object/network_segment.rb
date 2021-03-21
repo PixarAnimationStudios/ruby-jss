@@ -435,9 +435,10 @@ module JSS
         @starting_address <= thing.range.begin && @ending_address >= thing.range.end
       else
         thing = IPAddr.new thing.to_s
-        range.include? thing
+        range.cover? thing
       end
     end
+    alias cover? include?
 
     ### Does this network segment equal another?
     ### equality means the ranges are equal
@@ -459,7 +460,7 @@ module JSS
     ### @return [void]
     ###
     def building=(newval)
-      new = 
+      new =
         if newval.to_s.empty?
           JSS::BLANK
         else
@@ -546,7 +547,7 @@ module JSS
     ### @return [void]
     ###
     def netboot_server=(newval)
-      new = 
+      new =
         if newval.to_s.empty?
           JSS::BLANK
         else
@@ -555,7 +556,7 @@ module JSS
 
           JSS::NetbootServer.map_all_ids_to(:name)[id]
         end
-      
+
       @netboot_server = new
       @need_to_update = true
     end
@@ -567,7 +568,7 @@ module JSS
     ### @return [void]
     ###
     def swu_server=(newval)
-      new = 
+      new =
         if newval.to_s.empty?
           JSS::BLANK
         else
