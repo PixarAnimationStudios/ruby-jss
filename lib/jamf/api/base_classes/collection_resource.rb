@@ -176,18 +176,18 @@ module Jamf
     # those parameters will return the cached Array. Use `refresh: true` to
     # re-request that Array from the server. Note that the cache is of the raw
     # JSON Hash data. Using 'instantiate:' will still be slower as each item in
-    # the cache is instantiated. See 'Instantiation' below.
+    # the cache is instantiated. See 'Instantiation' above.
     #
-    # Some other methods, e.g. .all_names, will generate or use this cached Array
-    # to derive their values.
+    # Some other class methods, e.g. .all_names, will generate or use this cached
+    # Array to derive their values.
     #
     # If any of the parameters paged:, sort:, or filter: are used, an API
     # request is made every time, and no caches are used or stored.
     #
     #######
     #
-    # @param sort [String, Array<String>] Server-side sorting criteria in the format:
-    #   property:direction, where direction is 'asc' or 'desc'. Multiple
+    # @param sort [String, Array<String>] Server-side sorting criteria in the
+    #   format: property:direction, where direction is 'asc' or 'desc'. Multiple
     #   properties are supported, either as separate strings in an Array, or
     #   a single string, comma separated.
     #
