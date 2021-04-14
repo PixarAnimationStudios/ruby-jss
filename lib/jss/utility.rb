@@ -50,8 +50,7 @@ module JSS
       12 => 6,
       13 => 6,
       14 => 6,
-      15 => 7,
-      16 => 12
+      15 => 7
     }
 
   # Hash of 'major' => 'minor'
@@ -59,7 +58,7 @@ module JSS
   # e.g. the highest release of 11 is 11.12
   #
   # 12 is the default for the current OS and higher
-  # (and hoping apple doesn't release 11.13)
+  # (and hoping apple doesn't release, e.g.,  11.13)
   MAC_OS_MAXS = {
     11 => 12,
     12 => 12,
@@ -119,63 +118,100 @@ module JSS
 
     # split the version into major, minor and maintenance release numbers
     major, minor, maint = min_os.split('.')
+    minor = 'x' if minor.nil? || minor == '0'
     maint = 'x' if maint.nil? || maint == '0'
 
     ok_oses = []
 
-    # if major == 11 e.g. big sur, e.g. 10.16,
-    # reset major & min so that we get coverage for both
-    # 10.16 and 11, since clients may report it as either
-    if major == '11'
-      major = '10'
-      maint = minor
-      minor = '16'
-    end
-
     # Deal with 10.x.x up to 10.16
     if major == '10'
-      # if the maint release number is an "x" just start the list of OK OS's with it
-      if maint == 'x'
-        ok_oses << min_os
 
-      # otherwise, start with it and explicitly add all maint releases for
-      # that maint version. if unknown because its a current or future OS,
-      # go as h
+      # In big sur with SYSTEM_VERSION_COMPAT
+      # set, it will only ever report as `10.16`
+      # So if major is 10 and minor is 16, ignore maint
+      # and start explicitly at '10.16'
+      if minor == '16'
+        ok_oses << '10.16'
+
+      # But for Catalina and below, we need to
+      # expand things out
       else
-        max_maint_for_minor = OS_TEN_MAXS[minor.to_i]
-        (maint.to_i..max_maint_for_minor).each do |m|
-          ok_oses << "#{major}.#{minor}.#{m}"
-        end # each m
-      end
+        # e.g. 10.14.x
+        # doesn't expand to anything
+        if maint == 'x'
+          ok_oses << min_os
 
-      # now account for all macOS versions starting with 10.
-      # up to 10.16.x
-      ((minor.to_i + 1)..16).each do |v|
-        ok_oses << "#{major}.#{v}.x"
-      end # each v
+        # e.g. 10.15.5
+        # expand to 10.15.5, 10.15.6, 10.15.7
+        else
+          max_maint_for_minor = OS_TEN_MAXS[minor.to_i]
 
-      # now reset major to 11, so we can continue with BigSur and up
+          (maint.to_i..max_maint_for_minor).each do |m|
+            ok_oses << "#{major}.#{minor}.#{m}"
+          end # each m
+        end # if maint == x
+
+        # now if we started below catalina, account for everything
+        # up to 10.15.x
+        if minor.to_i < 15
+          ((minor.to_i + 1)..15).each { |v| ok_oses << "10.#{v}.x" }
+        end
+
+        # and add big sur with SYSTEM_VERSION_COMPAT
+        ok_oses << '10.16'
+      end # if minor == 16
+
+      # now reset these so we can go higher
       major = '11'
-      minor = minor == '16' ? maint : 'x'
+      minor = 'x'
+      maint = 'x'
     end # if major == 10
 
-    # Now deal with Big Sur and higher, macOS 10.16/11
-    if minor == 'x'
-      ok_oses << "#{major}.#{minor}"
-    else
-      max_minor_for_major = MAC_OS_MAXS[major.to_i]
-      (minor.to_i..max_minor_for_major).each do |m|
-        ok_oses << "#{major}.#{m}"
-      end # each m
-    end # if minor == x
+    # if the min os is 11.0.0 or equiv, and we aven't added 10.16
+    # for SYSTEM_VERSION_COMPAT, add it now
+    if ['11', '11.x', '11.x.x', '11.0', '11.0.0'].include?(min_os) && !ok_oses.include?('10.16')
+      ok_oses << '10.16'
+    end
 
-    # now account for all macOS versions 11 and up
-    ((major.to_i + 1)..MAC_OS_MAXS.keys.max).each do |v|
-      ok_oses << "#{v}.x"
-    end # each v
+    # e.g. 11.x, or 11.x.x
+    # expand to 11.x, 12.x, 13.x, ... 20.x
+    if minor == 'x'
+      ((major.to_i)..20).each { |v| ok_oses << "#{v}.x" }
+
+    # e.g. 11.2.x
+    # expand to 11.2.x, 11.3.x, ... 11.12.x,
+    #   12.x, 13.x,  ... 20.x
+    elsif maint == 'x'
+      # first expand the minors out to their max
+      # e.g. 11.2.x, 11.3.x, ... 11.12.x
+      max_minor_for_major = MAC_OS_MAXS[major.to_i]
+      ((minor.to_i)..max_minor_for_major).each do |m|
+        ok_oses << "#{major}.#{m}.x"
+      end # each m
+
+      # then add the majors out to 20
+      ((major.to_i + 1)..20).each { |v| ok_oses << "#{v}.x" }
+
+    # e.g. 11.2.3
+    # expand to 11.2.3, 11.2.4, ... 11.2.10,
+    #   11.3.x, 11.4.x, ... 11.12.x,
+    #   12.x, 13.x, ... 20.x
+    else
+      # first expand the maints out to 10
+      # e.g. 11.2.3, 11.2.4, ... 11.2.10
+      ((maint.to_i)..10).each { |mnt| ok_oses << "#{major}.#{minor}.#{mnt}" }
+
+      # then expand the minors out to their max
+      # e.g. 11.3.x, ... 11.12.x
+      max_minor_for_major = MAC_OS_MAXS[major.to_i]
+      ((minor.to_i + 1)..max_minor_for_major).each { |min| ok_oses << "#{major}.#{min}.x" }
+
+      # then add the majors out to 20
+      ((major.to_i + 1)..20).each { |v| ok_oses << "#{v}.x" }
+    end
 
     ok_oses
-  end
+  end # def self.expand_min_os(min_os)
 
   # Scripts and packages can have processor limitations.
   # This method tests a given processor, against a requirement
