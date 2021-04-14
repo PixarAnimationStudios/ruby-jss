@@ -139,7 +139,7 @@ module JSS
         # e.g. 10.14.x
         # doesn't expand to anything
         if maint == 'x'
-          ok_oses << min_os
+          ok_oses << "10.#{minor}.x"
 
         # e.g. 10.15.5
         # expand to 10.15.5, 10.15.6, 10.15.7
