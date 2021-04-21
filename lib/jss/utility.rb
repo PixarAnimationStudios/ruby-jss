@@ -73,13 +73,13 @@ module JSS
   }
 
   # Converts an OS Version into an Array of equal or higher OS versions, up to
-  # some non-existant max, hopefully far in the future, currently 20.12
+  # some non-existant max, hopefully far in the future, currently 20.12.10
   #
   # This array can then be joined with commas and used as the value of the
   # os_requirements for Packages and Scripts.
   #
   # It's unlikely that this method, as written, will still be in use by
-  # the release of macOS 20.12, but currently thats the upper limit.
+  # the release of macOS 20.12.10, but currently thats the upper limit.
   #
   # Hopefully well before then JAMF will implement a "minimum OS" in Jamf Pro
   # itself, then we could avoid the inherant limitations in using a method like
@@ -92,13 +92,13 @@ module JSS
   # Apple has never released more than 11 updates to a version of macOS
   # (that being 10.4), so hopefully 12 is enough
   #
-  # Since Big Sur might report itself as either '10.16.x' or '11.x', this method
+  # Since Big Sur might report itself as either '10.16' or '11.x.x', this method
   # will allow for both possibilities, and the array will contain whatever
   # iterations needed for both version numbers
   #
   # @param min_os [String] the mimimum OS version to expand, e.g. ">=10.9.4"  or "11.1"
   #
-  # @return [Array] Nearly all potential OS versions from the minimum to 20.12
+  # @return [Array] Nearly all potential OS versions from the minimum to 20.12.10
   #
   # @example
   #   JSS.expand_min_os ">=10.9.4" # => returns this array
