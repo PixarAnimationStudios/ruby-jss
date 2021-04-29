@@ -126,7 +126,7 @@ module JSS
       ###
       comp_plist_out = Pathname.new "/tmp/#{PKG_BUNDLE_ID_PFX}-#{pkg_filename}.plist"
       system "#{PKGBUILD} --analyze --root '#{root}' '#{comp_plist_out}'"
-      comp_plist = Plist.parse_xml comp_plist_out.read
+      comp_plist = JSS.parse_plist comp_plist_out
 
       ### if the plist is empty, there are no bundles in the pkg
       if comp_plist[0].nil?

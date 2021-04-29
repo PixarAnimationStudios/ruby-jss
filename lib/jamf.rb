@@ -42,7 +42,6 @@ require 'digest'
 require 'open3'
 
 ### Gems
-require 'plist'
 
 # Used, among other places, in the Connection::APIError class
 require 'immutable-struct'

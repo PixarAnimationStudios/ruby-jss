@@ -123,7 +123,7 @@ module JSS
     #
     # @return [Hash] the parsed payloads plist.
     def parsed_payloads
-      Plist.parse_xml @payloads
+      JSS.parse_plist @payloads
     end
 
     # @return [Array<Hash>] the individual payloads from the payload Plist

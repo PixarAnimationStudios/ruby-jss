@@ -187,19 +187,23 @@ module Jamf
     { stringform: valstr, arrayform: valarr }
   end # to_s_and_a
 
-  # Parse a plist into a Ruby data structure.
-  # This enhances Plist::parse_xml taking file paths, as well as XML Strings
-  # and reading the files regardless of binary/XML format.
+  # Parse a plist into a Ruby data structure. The plist parameter may be
+  # a String containing an XML plist, or a path to a plist file, or it may be
+  # a Pathname object pointing to a plist file. The plist files may be XML or
+  # binary.
   #
   # @param plist[Pathname, String] the plist XML, or the path to a plist file
   #
   # @return [Object] the parsed plist as a ruby hash,array, etc.
   #
-  def self.parse_plist(plist)
+  def parse_plist(plist)
+    require 'cfpropertylist'
+
     # did we get a string of xml, or a string pathname?
     case plist
     when String
-      return Plist.parse_xml plist if plist.include? '</plist>'
+      return CFPropertyList.native_types(CFPropertyList::List.new(data: plist).value) if plist.include? '</plist>'
+
       plist = Pathname.new plist
     when Pathname
       true
@@ -208,9 +212,9 @@ module Jamf
     end # case plist
 
     # if we're here, its a Pathname
-    raise Jamf::MissingDataError, "No such file: #{plist}" unless plist.file?
+    raise JSS::MissingDataError, "No such file: #{plist}" unless plist.file?
 
-    Plist.parse_xml `/usr/libexec/PlistBuddy -x -c print #{Shellwords.escape(plist.to_s)}`.force_encoding('UTF-8')
+    CFPropertyList.native_types(CFPropertyList::List.new(file: plist).value)
   end # parse_plist
 
   # TODO: Sill needed in Jamf API?

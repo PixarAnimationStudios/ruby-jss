@@ -60,7 +60,6 @@ module JSS
   ### Gems
   require 'faraday'
   require 'faraday_middleware'
-  require 'plist'
   require 'immutable-struct'
   require 'recursive-open-struct'
 
