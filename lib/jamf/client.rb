@@ -179,7 +179,7 @@ module Jamf
     #
     def self.jamf_plist
       return {} unless JAMF_PLIST.file?
-      JSS.parse_plist JAMF_PLIST
+      Jamf.parse_plist JAMF_PLIST
     end
 
     # All the JAMF receipts on this client
@@ -232,7 +232,7 @@ module Jamf
     #
     def self.hardware_data
       raw = `/usr/sbin/system_profiler SPHardwareDataType -xml 2>/dev/null`
-      JSS.parse_plist(raw)[0]['_items'][0]
+      Jamf.parse_plist(raw)[0]['_items'][0]
     end
 
     # Who's currently got an active GUI session? - might be
@@ -284,7 +284,7 @@ module Jamf
       myudid = udid
       nc_prefs_file = Pathname.new "#{home}/#{USER_PREFS_BYHOST_FOLDER}/com.apple.notificationcenterui.#{myudid}.plist"
       return nil unless nc_prefs_file.readable?
-      JSS.parse_plist(nc_prefs_file)['doNotDisturb']
+      Jamf.parse_plist(nc_prefs_file)['doNotDisturb']
     end
 
     # The home dir of the specified user, nil if

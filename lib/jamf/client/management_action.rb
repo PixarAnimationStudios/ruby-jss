@@ -94,7 +94,7 @@ module JSS
     #
     def self.set_mgmt_action_ncprefs_flags(user, flags, hup: true)
       plist = Pathname.new "/Users/#{user}/Library/Preferences/#{NCPREFS_DOMAIN}.plist"
-      prefs = JSS.parse_plist plist
+      prefs = Jamf.parse_plist plist
       mgmt_action_setting = prefs['apps'].select { |a| a['bundle-id'] == MGMT_ACTION_BUNDLE_ID }.first
       if mgmt_action_setting
         orig_flags = mgmt_action_setting['flags']
