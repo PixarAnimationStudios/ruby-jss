@@ -319,7 +319,7 @@ module JSS
   #
   # @return [Object] the parsed plist as a ruby hash,array, etc.
   #
-  def parse_plist(plist)
+  def self.parse_plist(plist)
     require 'cfpropertylist'
 
     # did we get a string of xml, or a string pathname?
