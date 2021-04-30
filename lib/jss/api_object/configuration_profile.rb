@@ -151,7 +151,7 @@ module JSS
     def payload_content=(new_content)
       payload_plist_data = parsed_payloads
       payload_plist_data['PayloadContent'] = new_content
-      @payloads = payload_plist_data.to_plist
+      @payloads = JSS.xml_plist_from new_content
       @need_to_update = true
       @update_payloads = true
     end
