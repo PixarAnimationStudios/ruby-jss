@@ -60,7 +60,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3.0'
 
   # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
-  s.add_runtime_dependency 'cfpropertylist', '~> 3.0'
+  s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
   # https://github.com/lostisland/faraday: MIT License
