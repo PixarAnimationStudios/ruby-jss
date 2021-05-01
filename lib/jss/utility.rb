@@ -355,6 +355,7 @@ module JSS
   # @return [String] the object converted into an XML plist
   #
   def self.xml_plist_from(data)
+    require 'cfpropertylist'
     plist = CFPropertyList::List.new
     plist.value = CFPropertyList.guess(data, convert_unknown_to_string: true)
     plist.to_str(CFPropertyList::List::FORMAT_XML)
