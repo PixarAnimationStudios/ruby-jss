@@ -194,15 +194,18 @@ module Jamf
   #
   # @param plist[Pathname, String] the plist XML, or the path to a plist file
   #
+  # @param symbol_keys[Boolean] should any Hash keys in the result be converted
+  #   into Symbols rather than remain as Strings?
+  #
   # @return [Object] the parsed plist as a ruby hash,array, etc.
   #
-  def self.parse_plist(plist)
+  def self.parse_plist(plist, symbol_keys: false)
     require 'cfpropertylist'
 
     # did we get a string of xml, or a string pathname?
     case plist
     when String
-      return CFPropertyList.native_types(CFPropertyList::List.new(data: plist).value) if plist.include? '</plist>'
+      return CFPropertyList.native_types(CFPropertyList::List.new(data: plist).value, symbol_keys) if plist.include? '</plist>'
 
       plist = Pathname.new plist
     when Pathname
@@ -214,7 +217,7 @@ module Jamf
     # if we're here, its a Pathname
     raise JSS::MissingDataError, "No such file: #{plist}" unless plist.file?
 
-    CFPropertyList.native_types(CFPropertyList::List.new(file: plist).value)
+    CFPropertyList.native_types(CFPropertyList::List.new(file: plist).value, symbol_keys)
   end # parse_plist
 
   # Convert any ruby data to an XML plist.
