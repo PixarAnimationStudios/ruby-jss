@@ -217,6 +217,27 @@ module Jamf
     CFPropertyList.native_types(CFPropertyList::List.new(file: plist).value)
   end # parse_plist
 
+  # Convert any ruby data to an XML plist.
+  #
+  # NOTE: Binary data is tricky. Easiest way is to pass in a
+  # Pathname or IO object (anything that responds to `read` and
+  # returns a bytestring)
+  # and then the CFPropertyList.guess method will read it and
+  # convert it to a Plist <data> element with base64 encoded
+  # data.
+  # For more info, see CFPropertyList.guess
+  #
+  # @param data [Object] the data to be converted, usually a Hash
+  #
+  # @return [String] the object converted into an XML plist
+  #
+  def self.xml_plist_from(data)
+    require 'cfpropertylist'
+    plist = CFPropertyList::List.new
+    plist.value = CFPropertyList.guess(data, convert_unknown_to_string: true)
+    plist.to_str(CFPropertyList::List::FORMAT_XML)
+  end
+
   # TODO: Sill needed in Jamf API?
   #
   # Converts anything that responds to #to_s to a Time, or nil
