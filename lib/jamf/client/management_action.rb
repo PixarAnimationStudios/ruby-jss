@@ -103,8 +103,7 @@ module JSS
         orig_flags = flags
         prefs['apps'] << { 'bundle-id' => MGMT_ACTION_BUNDLE_ID, 'flags' => flags }
       end
-      # system "/usr/bin/defaults write #{NCPREFS_DOMAIN} '#{prefs.to_plist}'"
-      plist.open('w') { |f| f.write prefs.to_plist }
+      plist.open('w') { |f| f.write Jamf.xml_plist_from(prefs) }
       system HUP_NOTIF_CTR_CMD if hup
       orig_flags
     end

@@ -141,7 +141,7 @@ module Jamf
           bndl['BundleHasStrictIdentifier'] = false
         end
         ### write out the edits
-        comp_plist_out.open('w') { |f| f.write comp_plist.to_plist }
+        comp_plist_out.open('w') { |f| f.write Jamf.xml_plist_from(comp_plist) }
         comp_plist_arg = "--component-plist '#{comp_plist_out}'"
       end
 
