@@ -43,14 +43,11 @@ module JSS
   # As of Casper 9.4, the script contents as stored in the database are
   # accessible via the API
   #
-  # This class will save the script contents back to the database with
-  # the {#create} or {#update} methods
+  # According to Jamf as of early 2021, it has been some years now since
+  # its been possible to store script contents on a dist. point - they
+  # are all always in the database.
   #
-  # If your scripts are stored on the master distribution point instead of
-  # the database, you can use {#upload_master_file} to save it to the server,
-  # and {#delete_master_file} to delete it from the server.
-  #
-  # Use the {#run} method to run the script on the local machine via the 'jamf runScript' command
+  # Use the {#run} method to run the script on the local machine.
   #
   # @see JSS::APIObject
   #
