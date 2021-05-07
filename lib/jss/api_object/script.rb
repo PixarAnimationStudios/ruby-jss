@@ -404,8 +404,13 @@ module JSS
       params << opts[:p9]
       params << opts[:p10]
       params << opts[:p11]
+
+      # everything must be a string
+      params.map! &:to_s
+
       # remove nils
       params.compact!
+
       # remove empty strings
       params.delete_if &:empty?
 
