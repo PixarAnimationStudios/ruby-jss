@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.6.0] - 2021-05-??
+
+### Fixed
+
+  - Creating JSS::User's no longer requires a valid LDAP server. Many thanks to @aaron-mmt for filing and fixing this issue!
+
+  - HTTP 409 errors are handled more appropriately, and should report the actual error message from the server, e.g. 'Duplicate Primary MAC Address'
+
+### Changed
+
+  - ruby-jss no longer uses the 'plist' gem due to a remote code execution security issue when using `Plist.parse_xml`. Plists are now handled by the CFPropertyList gem.  The existing wrapper method `JSS.parse_plist` bas been updated to use the new gem, and a new wrapper method has been added to convert ruby data to XML plist: `JSS.xml_plist_from(data)`. All internal references to methods from the insecure 'plist' gem have been replaced with calls to those wrapper methods.
+
+  Many many thanks to actae0n of Blacksun Hackers Club for reporting this security issue and providing examples of how it could be exploited.
+
+  - In preparation for the removal of the 'runScript' command in the jamf binary, JSS::Script no longer uses it within the 'run' instance method. Instead, it just does what the jamf binary did: It creates a private temp folder, writes the script to disk in that temp folder, executes the script with any given params, then deletes the folder, returning the exit status and output from the script.
+
+  - Jamf::Script#run now takes parameters in the named params `p4:` through `p11:` for consistency with other parts of ruby-jss.
+
+  - Since Jamf Scripts can no longer be stored in a distribution point, which according to Jamf has been the case for a while, all code for dealing with them that way has been removed.
+
+  - JSS::NetworkSegment#include? now uses Range#cover? under the hood, rather than Range#include?, which can take a very very long time with large segments.
+
+  - JSS.expand_min_os has been updated to handle Apple's new version numbers for macOS. This method takes a string like '>=10.14.3' and expands it into a large array of greater OS versions and is used by the 'os_limitations' method of Packages and Scripts.  For any range of versions that includes Big Sur, both '11.x.x' and '10.16' as included in the output, to catch machines that may have SYSTEM_VERSION_COMPAT set in their env.
+
+
 ## \[1.5.3] - 2020-12-28
 
 ### Fixed
