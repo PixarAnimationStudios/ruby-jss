@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-  - Creating JSS::User's no longer requires a valid LDAP server. Many thanks to @aaron-mmt for filing and fixing this issue!
+  - Creating a JSS::User no longer requires a valid LDAP server. Many thanks to @aaron-mmt for filing and fixing this issue!
 
   - HTTP 409 errors are handled more appropriately, and should report the actual error message from the server, e.g. 'Duplicate Primary MAC Address'
 
