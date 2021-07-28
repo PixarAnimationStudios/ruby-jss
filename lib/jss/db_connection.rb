@@ -167,8 +167,6 @@ module JSS
       args[:read_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
       args[:write_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
 
-
-
       @port = args[:port]
       @socket = args[:socket]
       @mysql_name = args[:db_name]
@@ -178,7 +176,7 @@ module JSS
       @write_timeout = args[:write_timeout]
 
       # make sure we have a user, pw, server
-      raise JSS::MissingDataError, 'No MySQL user specified, or listed in configuration.' unless args[:user]
+      raise JSS::MissingDataError, 'No MySQL user specified, or defined in configuration.' unless args[:user]
       raise JSS::MissingDataError, "Missing :pw (or :prompt/:stdin) for user '#{@user}'" unless args[:pw]
       raise JSS::MissingDataError, 'No MySQL Server hostname specified, or listed in configuration.' unless @server
 
@@ -204,6 +202,8 @@ module JSS
       @connected = true
 
       @server
+    rescue Mysql::ServerError::NotSupportedAuthMode => e
+      raise Mysql::ServerError::AccessDeniedError, "Probable unknown MySQL user '#{@user}'. Original error was 'Mysql::ServerError::NotSupportedAuthMode: #{e}' which is sometimes raised when the user does not exist on the server."
     end # connect
 
     ###
