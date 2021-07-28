@@ -361,9 +361,9 @@ module JSS
     #
     def self_service_display_name=(new_val)
       new_val = new_val.strip
-      return nil if @self_service_dislay_name == new_val
+      return nil if @self_service_display_name == new_val
       raise JSS::InvalidDataError, 'Only macOS Self Service items have display names' unless self_service_targets.include? :macos
-      @self_service_dislay_name = new_val
+      @self_service_display_name = new_val
       @need_to_update = true
     end
     # alias for backward compatibility with the typo
