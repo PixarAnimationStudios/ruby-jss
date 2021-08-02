@@ -239,7 +239,7 @@ module JSS
     ###
     def valid_server?(server, port = DFT_PORT)
       mysql = Mysql.init
-      mysql.options Mysql::OPT_CONNECT_TIMEOUT, 5
+      mysql.options Mysql::OPT_CONNECT_TIMEOUT, 60
       mysql.charset = DFT_CHARSET
 
       begin
@@ -252,7 +252,7 @@ module JSS
         # successful connection is made. After that, re-connecting will
         # raise AccessDeniedError when credentials are invalid.
 
-        mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port
+        mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port, timeout: 900
 
       rescue Mysql::ServerError::AccessDeniedError, Mysql::ServerError::NotSupportedAuthMode
         return true
