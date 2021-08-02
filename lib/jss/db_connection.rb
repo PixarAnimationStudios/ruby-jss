@@ -252,7 +252,7 @@ module JSS
         # successful connection is made. After that, re-connecting will
         # raise AccessDeniedError when credentials are invalid.
 
-        mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port, timeout: 900
+        mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port
 
       rescue Mysql::ServerError::AccessDeniedError, Mysql::ServerError::NotSupportedAuthMode
         return true
