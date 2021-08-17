@@ -1019,9 +1019,8 @@ module Jamf
       self.class::OBJECT_MODEL.each do |attr_name, attr_def|
         value =
           if attr_def[:multi]
-            raw_array = data[attr_name]&.dup
-            raw_array ||= []
-            raw_array.map! { |v| parse_single_init_value v, attr_name, attr_def }
+            raw_array = data[attr_name] || []
+            raw_array.map { |v| parse_single_init_value v, attr_name, attr_def }
           else
             parse_single_init_value data[attr_name], attr_name, attr_def
           end
