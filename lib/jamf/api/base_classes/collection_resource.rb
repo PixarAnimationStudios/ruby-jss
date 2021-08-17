@@ -391,7 +391,7 @@ module Jamf
     private_class_method :raw_data_by_id
 
     # Given an indentier attr. key, and a value,
-    # return the id where that ident has that value, or nil
+    # return the raw data where that ident has that value, or nil
     #
     def self.raw_data_by_other_identifier(identifier, value, refresh: true, cnx: Jamf.cnx)
       # if the API supports filtering by this identifier, just use that
