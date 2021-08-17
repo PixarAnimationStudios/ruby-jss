@@ -373,10 +373,9 @@ module Jamf
       identifiers.each do |ident|
         next if ident == :id
 
-        id = raw_data_by_other_identifier(ident, value, cnx: cnx)
-        return id if id
+        data = raw_data_by_other_identifier(ident, value, cnx: cnx)
+        return data if data
       end # identifiers.each
-      return
     end
     private_class_method :raw_data_by_value_only
 
@@ -394,7 +393,7 @@ module Jamf
     # Given an indentier attr. key, and a value,
     # return the id where that ident has that value, or nil
     #
-    def self.raw_data_by_other_identifier(identifier, value, refresh: false, cnx: Jamf.cnx)
+    def self.raw_data_by_other_identifier(identifier, value, refresh: true, cnx: Jamf.cnx)
       # if the API supports filtering by this identifier, just use that
       return all(filter: "#{identifier}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if self::OBJECT_MODEL[identifier][:filter_key]
 

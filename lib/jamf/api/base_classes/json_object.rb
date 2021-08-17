@@ -848,7 +848,6 @@ module Jamf
     # @param cnx[Jamf::Connection] the API connection for the object
     #
     def initialize(data, cnx: Jamf.cnx)
-
       raise Jamf::InvalidDataError, 'Invalid JSONObject data - must be a Hash' unless data.is_a? Hash
 
       @cnx = cnx
@@ -1020,8 +1019,8 @@ module Jamf
       self.class::OBJECT_MODEL.each do |attr_name, attr_def|
         value =
           if attr_def[:multi]
-            raw_array = data[attr_name] || []
-
+            raw_array = data[attr_name]&.dup
+            raw_array ||= []
             raw_array.map! { |v| parse_single_init_value v, attr_name, attr_def }
           else
             parse_single_init_value data[attr_name], attr_name, attr_def
