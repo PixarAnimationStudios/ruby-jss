@@ -27,6 +27,6 @@
 module Jamf
 
   ### The version of the Jamf module
-  VERSION = '0.0.7b1'.freeze
+  VERSION = '0.0.8'.freeze
 
 end # module
