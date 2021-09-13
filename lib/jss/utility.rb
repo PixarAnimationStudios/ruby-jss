@@ -263,7 +263,7 @@ module JSS
     #   "10.8.x" /^10\.8\.?\d*$/
     req_regexps = requirement.map do |r|
       if r.end_with?('.x')
-        /^#{r.chomp('.x').gsub('.', '\.')}\.?\d*$/
+        /^#{r.chomp('.x').gsub('.', '\.')}(\.?\d*)*$/
 
       elsif r =~ /^\d+\.\d+$/
         /^#{r.gsub('.', '\.')}(.0)?$/
