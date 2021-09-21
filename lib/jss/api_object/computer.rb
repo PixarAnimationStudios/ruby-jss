@@ -584,6 +584,15 @@ module JSS
     # @return [Hash] the :name and :id of the site for this machine
     attr_reader :site
 
+    # @return [Hash] The security settings for this Computer
+    #   Keys are:
+    #   activation_lock:  Boolean
+    #   recovery_lock_enabled: Boolean
+    #   secure_boot_level: String
+    #   external_boot_level: String
+    #   firewall_enabled: Boolean
+    attr_reader :security
+
     # @return [String] the name of the Software Update Server assigned to this machine.
     attr_reader :sus
 
@@ -797,6 +806,8 @@ module JSS
         @platform = @init_data[:general][:platform]
         @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
         @sus = @init_data[:general][:sus]
+
+        @security = @init_data[:security] || {}
 
         @configuration_profiles = @init_data[:configuration_profiles]
 
