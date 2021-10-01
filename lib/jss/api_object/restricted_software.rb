@@ -187,7 +187,6 @@ module JSS
       site.add_element('name').text = @site
 
       obj << @scope.scope_xml
-      add_self_service_xml doc
       doc.to_s
     end # rest_xml
 
