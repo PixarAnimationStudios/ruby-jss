@@ -1,6 +1,16 @@
 # ruby-jss: Working with the Jamf Pro Classic API in Ruby
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
+## **IMPORTANT: Known Security Issue in v1.5.3 and below**
+
+Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the 'plist' gem.
+
+This has been resolved in 1.6.0, which now uses the CFProperlyList gem.
+
+Please update all installations of ruby-jss to at least v1.6.0.
+
+Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
+
 ### Table of contents
 * [DESCRIPTION](#description)
 * [SYNOPSIS](#synopsis)
