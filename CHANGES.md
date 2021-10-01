@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[1.6.4] - 2021-10-04
+
+### Fixed
+
+  - Removed erroneous call to generate self-service XML from JSS::RestrictedSoftware#rest_xml, restricted software items in Jamf Pro are not 'self servable'. Thanks to @marekluban for catching and reporting this one!
+
+### Added
+
+  - Attribute reader JSS::Computer#security, returning the hash of data from the 'security' subset of API computer data.
+
+## \[1.6.3] - 2021-09-13
+
+### Fixed
+
+  - Fixed a bug where some Jamf Pro API CollectionResource subclasses could not be fetched twice without a '.all' scache refresh
+
+### Changed
+
+  - DBConnection.valid_server? connection timeout raised to 60 seconds
+
+  - Update JSS.expand_min_os to handle the fact that OS versions from Apple now have three meaningful parts (major.minor.patch) and that the patch version might be an 'x', as well as the minor version.
+
+
+## \[1.6.1] - 2021-07-27
+
+### Fixed
+
+  - Resolved some more typo-errors regarding display names in the SelfServable mixin module.
+
+### Changed
+
+  - MySQL connections via the DBConnection class now report some authentication errors more clearly.
+
+
 ## \[1.6.0] - 2021-05-24
 
 ### Fixed
