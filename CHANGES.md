@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## **IMPORTANT: Known Security Issue in v1.5.3 and below**
+
+Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the 'plist' gem.
+
+This has been resolved in 1.6.0, which now uses the CFProperlyList gem.
+
+Please update all installations of ruby-jss to at least v1.6.0.
+
+Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
+
 ## \[1.6.4] - 2021-10-04
 
 ### Fixed
