@@ -602,6 +602,43 @@ module JSS
       @last_http_response.body
     end # post_rsrc
 
+    # Upload a file. This is really only used for the
+    # 'fileuploads' endpoint, as implemented in the
+    # Uploadable mixin module, q.v.
+    #
+    # @param rsrc[String] the API resource being uploadad-to,
+    #   the URL part after 'JSSResource/'
+    #
+    # @param local_file[String, Pathname] the local file to upload
+    #
+    # @return [String] the xml response from the server.
+    #
+    def upload(rsrc, local_file)
+      validate_connected
+
+      # the upload file object for faraday
+      local_file = Pathname.new local_file
+      upfile = Faraday::UploadIO.new(
+        local_file.to_s,
+        'application/octet-stream',
+        local_file.basename.to_s
+      )
+
+      # send it and get the response
+      @last_http_response =
+        @cnx.post rsrc do |req|
+          req.headers['Content-Type'] = 'multipart/form-data'
+          req.body = { name: upfile }
+        end
+
+      unless @last_http_response.success?
+        handle_http_error
+        return false
+      end
+
+      true
+    end # post_rsrc
+
     # Delete a resource from the JSS
     #
     # @param rsrc[String] the resource to create, the URL part after 'JSSResource/'
@@ -921,9 +958,20 @@ module JSS
         msg = 'Not Found'
       when 409
         err = JSS::ConflictError
+
+        # TODO: Clean this up
         @last_http_response.body =~ /<p>(The server has not .*?)(<|$)/m
-        Regexp.last_match(1) ||  @last_http_response.body =~ %r{<p>Error: (.*?)</p>}
         msg = Regexp.last_match(1)
+
+        unless msg
+          @last_http_response.body =~ %r{<p>Error: (.*?)</p>}
+          msg = Regexp.last_match(1)
+        end
+
+        unless msg
+          @last_http_response.body =~ /<p>(Unable to complete file upload.*?)(<|$)/m
+          msg = Regexp.last_match(1)
+        end
       when 400
         err = JSS::BadRequestError
         @last_http_response.body =~ %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
@@ -947,6 +995,8 @@ module JSS
         cnx.basic_auth @user, pw
         cnx.options[:timeout] = @timeout
         cnx.options[:open_timeout] = @open_timeout
+        cnx.request :multipart
+        cnx.request :url_encoded
         cnx.adapter Faraday::Adapter::NetHttp
       end
     end

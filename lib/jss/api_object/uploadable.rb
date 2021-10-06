@@ -126,11 +126,8 @@ module JSS
       # figure out the resource after the UPLOAD_RSRC_PREFIX
       upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self.class::UPLOAD_TYPES[type]}/id/#{@id}"
 
-      # make a File object to hand to REST. 'rb' = read,binary
-      file = File.new local_file.to_s, 'rb'
+      @api.upload upload_rsrc, local_file
 
-      # upload it!
-      @api.cnx[upload_rsrc].post name: file
     end # def upload file
 
   end # module FileUpload
