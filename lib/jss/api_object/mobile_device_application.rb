@@ -375,26 +375,36 @@ module JSS
       @need_to_update = true
     end
 
-    # Sets the version (only necessary if you are hosting the .ipa externally)
+    # Sets the version (only usable if you are hosting the .ipa externally)
     #
     # @param new_val[String] the version
     #
     # @return [void]
     #
     def version=(new_val)
-      return nil if new_val == @version
+      unless @host_externally
+        raise 'Versions are set automatically from the .ipa file when hosted on your own Jamf-defined distribution point (i.e. #host_externally is false)'
+      end
+
+      return if new_val == @version
+
       @version = new_val
       @need_to_update = true
     end
 
-    # Sets the bundle_id (only necessary if you are hosting the .ipa externally)
+    # Sets the bundle_id (only usable if you are hosting the .ipa externally)
     #
     # @param new_val[String] the bundle id
     #
     # @return [void]
     #
     def bundle_id=(new_val)
-      return nil if new_val == @bundle_id
+      unless @host_externally
+        raise 'Bundle IDs are set automatically from the .ipa file when hosted on your own Jamf-defined distribution point (i.e. #host_externally is false)'
+      end
+
+      return if new_val == @bundle_id
+
       @bundle_id = new_val
       @need_to_update = true
     end
@@ -406,8 +416,10 @@ module JSS
     # @return [void]
     #
     def host_externally=(new_val)
-      return nil if new_val == @host_externally
+      return if new_val == @host_externally
+
       raise JSS::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @host_externally = new_val
       @need_to_update = true
     end
@@ -512,8 +524,8 @@ module JSS
       gen.add_element('free').text = @free
       gen.add_element('take_over_management').text = @take_over_management
       gen.add_element('host_externally').text = @host_externally
-      gen.add_element('bundle_id').text = @bundle_id
-      gen.add_element('version').text = @version
+      gen.add_element('bundle_id').text = @bundle_id if @host_externally
+      gen.add_element('version').text = @version if @host_externally
       gen.add_element('external_url').text = @external_url
       config = gen.add_element('configuration')
       config.add_element('preferences').text = @configuration_prefs
