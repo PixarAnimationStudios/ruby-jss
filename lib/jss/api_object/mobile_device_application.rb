@@ -96,6 +96,12 @@ module JSS
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = Hash
 
+    # possible values for os_type
+    OS_TYPES = {
+      ios: 'iOS',
+      tvos: 'tvOS'
+    }
+
     # Attributes
     #####################################
 
@@ -105,7 +111,6 @@ module JSS
     # Also, mobiledeviceapplications are the only objects with such a 'top-level'
     # icon, any other objects with icons keep the icon data in :self_service.
     # As such, all icon handling for this class is done in the SelfServable module
-
 
     # @return [String] The user-facing name (i.e. in self service)
     attr_reader :display_name
@@ -130,6 +135,9 @@ module JSS
 
     # @return [String] The URL for downloading this app
     attr_reader :url
+
+    # @return [String] Is this an iOS or tvOS app?
+    attr_reader :os_type
 
     # @return [String] The URL of this item in the iTunes store, if applicable
     attr_reader :itunes_store_url
@@ -192,6 +200,7 @@ module JSS
       @bundle_id = general[:bundle_id]
       @version = general[:version]
       @ipa = general[:ipa]
+      @os_type = general[:os_type]
       @provisioning_profile = general[:provisioning_profile]
       @url = general[:url]
       @itunes_store_url = general[:itunes_store_url]
@@ -227,7 +236,6 @@ module JSS
       @need_to_update = true
     end
 
-
     # Set the description
     #
     # @param new_val[String] The new value
@@ -236,7 +244,25 @@ module JSS
     #
     def description=(new_val)
       return nil if new_val.to_s == @description
+
       @description = new_val.to_s
+      @need_to_update = true
+    end
+
+    # Set the os type
+    #
+    # @param new_val[Symbol, String] a key or value from OS_TYPES
+    #
+    # @return [void]
+    #
+    def os_type=(new_val)
+      new_val = OS_TYPES[new_val] if new_val.is_a? Symbol
+
+      raise JSS::InvalidDataError, "Unknown os_type, must be one of #{OS_TYPES.keys.join ', '}" unless OS_TYPES.values.include?(new_val)
+
+      return if new_val == @os_type
+
+      @os_type = new_val
       @need_to_update = true
     end
 
@@ -476,6 +502,7 @@ module JSS
       gen = obj.add_element 'general'
       gen.add_element('display_name').text = @display_name
       gen.add_element('description').text = @description
+      gen.add_element('os_type').text = @os_type
       gen.add_element('url').text = @url
       gen.add_element('make_available_after_install').text = @make_available_after_install
       gen.add_element('deploy_as_managed_app').text = @deploy_as_managed_app
@@ -485,8 +512,8 @@ module JSS
       gen.add_element('free').text = @free
       gen.add_element('take_over_management').text = @take_over_management
       gen.add_element('host_externally').text = @host_externally
-      gen.add_element('bundle_id').text = @bundle_id if @host_externally
-      gen.add_element('version').text = @version if @host_externally
+      gen.add_element('bundle_id').text = @bundle_id
+      gen.add_element('version').text = @version
       gen.add_element('external_url').text = @external_url
       config = gen.add_element('configuration')
       config.add_element('preferences').text = @configuration_prefs
