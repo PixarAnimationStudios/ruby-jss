@@ -87,7 +87,6 @@ module JSS
   #
   module Uploadable
 
-    #####################################
     #  Constants
     #####################################
 
@@ -95,17 +94,17 @@ module JSS
 
     UPLOAD_RSRC_PREFIX = 'fileuploads'.freeze
 
-    #####################################
-    #  Variables
-    #####################################
-
-    #####################################
-    #  Methods
+    #  Class/Module Methods
     #####################################
 
-
-    # Upload a file to the JSS via the REST Resource of the
-    # object to which this module is mixed in.
+    # Upload a file to the JSS to be stored with an item of the
+    # class mixing in the Uploadable module.
+    #
+    # This class method does not require fetching a Ruby instance first,
+    # but the matching instance method will work for a specific instance if
+    # it's already been fetched.
+    #
+    # @param ident[Integer, String] A unique identifier for the object taking the upload
     #
     # @param type[Symbol] the type of upload happening.
     #   Must be one of the keys defined in the class's UPLOAD_TYPES Hash.
@@ -113,22 +112,47 @@ module JSS
     # @param local_file[String, Pathname] String or Pathname pointing to the
     #   locally-readable file to be uploaded.
     #
-    # @return [String] The xml response from the server.
+    # @param api[JSS::APIConnection] the connection object for the operation.
+    #   defaults to the default connection for the JSS module.
+    #
+    # @return [Boolean] was the  upload successful?
+    #
+    def self.upload(ident, type, local_file, api: JSS.api)
+      id = valid_id ident, :refresh, api: api
+      raise "No #{self::RSRC_OBJECT_KEY} matching '#{ident}'" unless id
+
+      # the type has to be defined in the class including this module.
+      raise JSS::InvalidDataError, "#{self::RSRC_LIST_KEY} only take uploads of type: :#{self::UPLOAD_TYPES.keys.join(', :')}." \
+        unless self::UPLOAD_TYPES.key? type
+
+      # figure out the resource after the UPLOAD_RSRC_PREFIX
+      upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self::UPLOAD_TYPES[type]}/id/#{id}"
+
+      api.upload upload_rsrc, local_file
+    end # def upload
+
+    #  Instance Methods
+    #####################################
+
+    # instance method wrapper for class method
+    #
+    # Upload a file to the JSS to be stored with this instance of the
+    # class mixing in the Uploadable module
+    #
+    # @param type[Symbol] the type of upload happening.
+    #   Must be one of the keys defined in the class's UPLOAD_TYPES Hash.
+    #
+    # @param local_file[String, Pathname] String or Pathname pointing to the
+    #   locally-readable file to be uploaded.
+    #
+    # @return [Boolean] was the  upload successful?
     #
     def upload(type, local_file)
       # the thing's gotta be in the JSS, and have an @id
-      raise JSS::NoSuchItemError, 'Create this #{self.class::RSRC_OBJECT_KEY} in the JSS before uploading files to it.' unless @id && @in_jss
+      raise JSS::NoSuchItemError, "Create this #{self.class::RSRC_OBJECT_KEY} in the JSS before uploading files to it." unless @id && @in_jss
 
-      # the type has to be defined in the class of self.
-      raise JSS::InvalidDataError, "#{self.class::RSRC_LIST_KEY} only take uploads of type: :#{self.class::UPLOAD_TYPES.keys.join(', :')}." \
-        unless self.class::UPLOAD_TYPES.keys.include? type
-
-      # figure out the resource after the UPLOAD_RSRC_PREFIX
-      upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self.class::UPLOAD_TYPES[type]}/id/#{@id}"
-
-      @api.upload upload_rsrc, local_file
-
-    end # def upload file
+      self.class.upload @id, type, local_file, api: @api
+    end
 
   end # module FileUpload
 
