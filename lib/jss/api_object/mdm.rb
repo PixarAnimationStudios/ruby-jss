@@ -76,6 +76,8 @@ module JSS
 
     DELETE_USER = 'DeleteUser'.freeze
     UNLOCK_USER_ACCOUNT = 'UnlockUserAccount'.freeze
+    ENABLE_REMOTE_DESKTOP = 'EnableRemoteDesktop'.freeze
+    DISABLE_REMOTE_DESKTOP = 'DisableRemoteDesktop'.freeze
 
     # devices
 
@@ -116,7 +118,9 @@ module JSS
       ERASE_DEVICE,
       UNMANGE_DEVICE,
       DELETE_USER,
-      UNLOCK_USER_ACCOUNT
+      UNLOCK_USER_ACCOUNT,
+      ENABLE_REMOTE_DESKTOP,
+      DISABLE_REMOTE_DESKTOP
     ].freeze
 
     # The MDM commands applicable to all mobile devices
@@ -187,6 +191,9 @@ module JSS
       unlock_user_account: UNLOCK_USER_ACCOUNT,
 
       delete_user: DELETE_USER,
+
+      enable_remote_desktop: ENABLE_REMOTE_DESKTOP,
+      disable_remote_desktop: DISABLE_REMOTE_DESKTOP,
 
       # mobile devices only
       settings: SETTINGS, # not yet implemented as its own method
@@ -657,6 +664,30 @@ module JSS
         send_mdm_command targets, :delete_user, opts: { user_name: user }, api: api
       end
 
+      # Send an enable_remote_desktop command to one or more targets
+      #
+      # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
+      #
+      # @param api[JSS::APIConnection] the API thru which to send the command
+      #
+      # @return (see .send_mdm_command)
+      #
+      def enable_remote_desktop(targets, api: JSS.api)
+        send_mdm_command targets, :enable_remote_desktop, api: api
+      end
+
+      # Send a disable_remote_desktop command to one or more targets
+      #
+      # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
+      #
+      # @param api[JSS::APIConnection] the API thru which to send the command
+      #
+      # @return (see .send_mdm_command)
+      #
+      def disable_remote_desktop(targets, api: JSS.api)
+        send_mdm_command targets, :disable_remote_desktop, api: api
+      end
+
       # Commands for mobile devices only
       ################################
 
@@ -1075,6 +1106,22 @@ module JSS
     #
     def delete_user(user)
       self.class.delete_user @id, user, api: @api
+    end
+
+    # Send an enable_remote_desktop command to this computer or group
+    #
+    # @return (see .send_mdm_command)
+    #
+    def enable_remote_desktop
+      self.class.enable_remote_desktop @id, api: @api
+    end
+
+    # Send a disable_remote_desktop command to this computer or group
+    #
+    # @return (see .send_mdm_command)
+    #
+    def enable_remote_desktop
+      self.class.disable_remote_desktop @id, api: @api
     end
 
     # Commands for mobile devices only
