@@ -1120,7 +1120,7 @@ module JSS
     #
     # @return (see .send_mdm_command)
     #
-    def enable_remote_desktop
+    def disable_remote_desktop
       self.class.disable_remote_desktop @id, api: @api
     end
 
