@@ -240,8 +240,7 @@ module JSS
       DEVICE_LOCK => :passcode, # 6 char passcode
       ERASE_DEVICE => String, # 6 char passcode
       DELETE_USER => String, # username
-      UNLOCK_USER_ACCOUNT => String, # username
-
+      UNLOCK_USER_ACCOUNT => String # username
     }.freeze
 
     WALLPAPER_LOCATIONS = {
