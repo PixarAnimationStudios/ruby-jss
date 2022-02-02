@@ -229,7 +229,7 @@ module JSS
   # APIConnection instances also have a {#server} attribute which contains an
   # instance of {JSS::Server} q.v., representing the JSS to which it's connected.
   #
-  class APIConnection
+  class Connection
 
     # Class Constants
     #####################################

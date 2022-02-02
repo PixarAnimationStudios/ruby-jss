@@ -669,4 +669,24 @@ module JSS
     @devmode
   end
 
+  # Very handy!
+  # lifted from
+  # http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails
+  #
+  # Turns the integer 834756398 into the string "26 years 23 weeks 1 day 12 hours 46 minutes 38 seconds"
+  #
+  # @param secs [Integer] a number of seconds
+  #
+  # @return [String] a human-readable (English) version of that number of seconds.
+  #
+  def self.humanize_secs(secs)
+    [[60, :second], [60, :minute], [24, :hour], [7, :day], [52.179, :week], [1_000_000_000, :year]].map do |count, name|
+      next unless secs > 0
+
+      secs, n = secs.divmod(count)
+      n = n.to_i
+      "#{n} #{n == 1 ? name : (name.to_s + 's')}"
+    end.compact.reverse.join(' ')
+  end
+
 end # module
