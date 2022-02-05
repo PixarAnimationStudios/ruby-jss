@@ -474,11 +474,14 @@ module JSS
     #
     # @param path[String, Pathname] The path to the .ipa file to upload
     #
+    # @param force_ipa_upload[Boolean] Should the server upload the .ipa file to
+    #   JCDS or AWS if such are confgured for use?
+    #
     # @return [void]
     #
-    def upload_ipa(path)
+    def upload_ipa(path, force_ipa_upload: false)
       new_ipa = Pathname.new path
-      upload(:app, new_ipa)
+      upload(:app, new_ipa, force_ipa_upload: force_ipa_upload)
       refresh_ipa
     end
 

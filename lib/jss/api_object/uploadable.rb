@@ -46,8 +46,8 @@ module JSS
   #
   #  UPLOAD_TYPES = {
   #     :icon => :mobiledeviceapplicationsicon
-  #     :app => mobiledeviceapplicationsipa
-  #     :attachment => mobiledeviceapplications
+  #     :app => :mobiledeviceapplicationsipa
+  #     :attachment => :mobiledeviceapplications
   #   }
   #
   # with one pair for each type of upload that the class can handle.
@@ -94,42 +94,58 @@ module JSS
 
     UPLOAD_RSRC_PREFIX = 'fileuploads'.freeze
 
+    FORCE_IPA_UPLOAD_PARAM = 'FORCE_IPA_UPLOAD'.freeze
+
     #  Class/Module Methods
     #####################################
+    module ClassMethods
 
-    # Upload a file to the JSS to be stored with an item of the
-    # class mixing in the Uploadable module.
-    #
-    # This class method does not require fetching a Ruby instance first,
-    # but the matching instance method will work for a specific instance if
-    # it's already been fetched.
-    #
-    # @param ident[Integer, String] A unique identifier for the object taking the upload
-    #
-    # @param type[Symbol] the type of upload happening.
-    #   Must be one of the keys defined in the class's UPLOAD_TYPES Hash.
-    #
-    # @param local_file[String, Pathname] String or Pathname pointing to the
-    #   locally-readable file to be uploaded.
-    #
-    # @param api[JSS::APIConnection] the connection object for the operation.
-    #   defaults to the default connection for the JSS module.
-    #
-    # @return [Boolean] was the  upload successful?
-    #
-    def self.upload(ident, type, local_file, api: JSS.api)
-      id = valid_id ident, :refresh, api: api
-      raise "No #{self::RSRC_OBJECT_KEY} matching '#{ident}'" unless id
+      # Upload a file to the JSS to be stored with an item of the
+      # class mixing in the Uploadable module.
+      #
+      # This class method does not require fetching a Ruby instance first,
+      # but the matching instance method will work for a specific instance if
+      # it's already been fetched.
+      #
+      # @param ident[Integer, String] A unique identifier for the object taking the upload
+      #
+      # @param type[Symbol] the type of upload happening.
+      #   Must be one of the keys defined in the class's UPLOAD_TYPES Hash.
+      #
+      # @param local_file[String, Pathname] String or Pathname pointing to the
+      #   locally-readable file to be uploaded.
+      #
+      # @param force_ipa_upload[Boolean] Should the server upload the .ipa file to
+      #   JCDS or AWS if such are confgured for use?
+      #
+      # @param api[JSS::APIConnection] the connection object for the operation.
+      #   defaults to the default connection for the JSS module.
+      #
+      # @return [Boolean] was the  upload successful?
+      #
+      def upload(ident, type, local_file, force_ipa_upload: false, api: JSS.api)
+        id = valid_id ident, :refresh, api: api
+        raise "No #{self::RSRC_OBJECT_KEY} matching '#{ident}'" unless id
 
-      # the type has to be defined in the class including this module.
-      raise JSS::InvalidDataError, "#{self::RSRC_LIST_KEY} only take uploads of type: :#{self::UPLOAD_TYPES.keys.join(', :')}." \
-        unless self::UPLOAD_TYPES.key? type
+        # the type has to be defined in the class including this module.
+        raise JSS::InvalidDataError, "#{self::RSRC_LIST_KEY} only take uploads of type: :#{self::UPLOAD_TYPES.keys.join(', :')}." \
+          unless self::UPLOAD_TYPES.key? type
 
-      # figure out the resource after the UPLOAD_RSRC_PREFIX
-      upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self::UPLOAD_TYPES[type]}/id/#{id}"
+        # figure out the resource after the UPLOAD_RSRC_PREFIX
+        upload_rsrc = "#{UPLOAD_RSRC_PREFIX}/#{self::UPLOAD_TYPES[type]}/id/#{id}"
 
-      api.upload upload_rsrc, local_file
-    end # def upload
+        upload_rsrc << "?#{FORCE_IPA_UPLOAD_PARAM}=true" if self::UPLOAD_TYPES[type] == :mobiledeviceapplicationsipa && force_ipa_upload
+
+        api.upload upload_rsrc, local_file
+      end # def upload
+
+    end # module classmethods
+
+    # this loads the class methods (via 'extend') when the instanace methods
+    # are included
+    def self.included(klass)
+      klass.extend(ClassMethods)
+    end
 
     #  Instance Methods
     #####################################
@@ -145,13 +161,16 @@ module JSS
     # @param local_file[String, Pathname] String or Pathname pointing to the
     #   locally-readable file to be uploaded.
     #
+    # @param force_ipa_upload[Boolean] Should the server upload the .ipa file to
+    #   JCDS or AWS if such are confgured for use?
+    #
     # @return [Boolean] was the  upload successful?
     #
-    def upload(type, local_file)
+    def upload(type, local_file, force_ipa_upload: false)
       # the thing's gotta be in the JSS, and have an @id
       raise JSS::NoSuchItemError, "Create this #{self.class::RSRC_OBJECT_KEY} in the JSS before uploading files to it." unless @id && @in_jss
 
-      self.class.upload @id, type, local_file, api: @api
+      self.class.upload @id, type, local_file, force_ipa_upload: force_ipa_upload, api: @api
     end
 
   end # module FileUpload
