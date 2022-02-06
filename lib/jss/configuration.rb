@@ -314,6 +314,12 @@ module JSS
   end # class Preferences
 
   # The single instance of Configuration
+  # DEPRECATED  Use JSS.config
   CONFIG = JSS::Configuration.instance
+
+  # the single instance of our configuration object
+  def self.config
+    JSS::Configuration.instance
+  end
 
 end # module

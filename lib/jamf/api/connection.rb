@@ -720,7 +720,8 @@ module Jamf
     # given a token string or a password, get a valid token
     # Token.new will raise an exception if the token string or
     # credentials are invalid
-    def token_from(type, data)
+    def token_from(type, params)
+      params[:token]
       token_params = {
         user: @user,
         base_url: @base_url,

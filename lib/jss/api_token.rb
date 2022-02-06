@@ -22,6 +22,8 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+require 'base64'
+
 module JSS
 
   class Connection
@@ -56,7 +58,7 @@ module JSS
       # Minimum seconds before expiration that the token will automatically
       # refresh. Used as the default if :refresh is not provided in the init
       # params
-      MIN_REFRESH = 300
+      MIN_REFRESH_BUFFER = 300
 
       # Used bu the last_refresh_result method
       REFRESH_RESULTS = {
@@ -67,93 +69,113 @@ module JSS
         expired_refreshed: 'Expired, but new token created with cached pw',
         expired_failed: 'Expired, could not create new token with cached pw',
         expired_no_pw_fallback: 'Expired, but pw_fallback was false'
-      }
+      }.freeze
 
       # @return [String] The user who generated this token
       attr_reader :user
 
+      # @return [String] the SSL version being used
+      attr_reader :ssl_version
+
+      # @return [Boolean] are we verifying SSL certs?
+      attr_reader :verify_cert
+      alias verify_cert? verify_cert
+
+      # @return [Hash] the ssl version and verify cert, to pass into faraday connections
+      attr_reader :ssl_options
+
       # @return [String] The token data
       attr_reader :token
+      alias token_string token
 
-      # @return [URI] The base API url, e.g. https://myjamf.jamfcloud.com/uapi
+      # @return [URI] The base API url, e.g. https://myjamf.jamfcloud.com/
       attr_reader :base_url
 
-      # @return [JSS::Timestamp] when was this token originally created?
-      attr_reader :login_time
+      # @return [Time] when was this JSS::Connection::Token originally created?
+      attr_reader :creation_time
 
-      # @return [JSS::Timestamp] when was this token last refreshed?
+      # @return [Time] when was this token last refreshed?
       attr_reader :last_refresh
 
-      # @return [JSS::Timestamp]
+      # @return [Time]
       attr_reader :expires
       alias expiration expires
 
-      # @param [Hash] params The data for creating and maintaining the token
+      # @return [Boolean] does this token automatically refresh itself before
+      #   expiring?
+      attr_reader :keep_alive
+      alias keep_alive? keep_alive
+
+      # @return [Boolean] Should the provided passwd be cached in memory, to be
+      #   used to generate a new token, if a normal refresh fails?
+      attr_reader :pw_fallback
+      alias pw_fallback? pw_fallback
+
+      # @param params [Hash] The data for creating and maintaining the token
       #
       # @option params [String] :token_string An existing valid token string.
-      #   When pw_fallback is true, (the default) you will also need to provide
-      #   the password for the original user in the pw: parameter. If you don't
-      #   have the pw for the token user, be sure to set pw_fallback to false.
+      #   If pw_fallback is true (the default) you will also need to provide
+      #   the password for the original user in the pw: parameter. If you don't,
+      #   pw_fallback will be false even if you set it to true explicitly.
+      #
+      # @option params [String, URI] :base_url The url for the Jamf Pro server
+      #   including host and port, e.g. 'https://myjss.school.edu:8443/'
       #
       # @option params [String] :user (see Connection#initialize)
       #
       # @option params [String] :pw The password for the :user
       #
-      # @option params [String, URI] :base_url The url for the Jamf Pro server
-      #   including host and port, e.g. 'https://myjss.school.edu:8443/'
-      #
       # @option params [Integer] :timeout The timeout for creating or refreshing
       #   the token
       #
-      # @option params [Integer] :refresh Refresh the token this many seconds before
-      #   it expires. Must be >= MIN_REFRESH
+      # @option params [Boolean] :keep_alive (see Connection#connect)
       #
-      # @option params [String] :pw_fallback (see Connection#initialize)
+      # @option params [Integer] :refresh_buffer If keep_alive, refresh the
+      #   token this many seconds before it expires. Must be >= MIN_REFRESH_BUFFER
       #
-      # @option params [String, Symbol] :ssl_version (see Connection#initialize)
+      # @option params [String] :pw_fallback (see Connection#connect)
       #
-      # @option params [Boolean] :verify_cert (see Connection#initialize)
+      # @option params [String, Symbol] :ssl_version (see Connection#connect)
+      #
+      # @option params [Boolean] :verify_cert (see Connection#connect)
+      #
       #
       ###########################################
       def initialize(**params)
         @valid = false
         parse_params(params)
 
-        if @base_url.host == JSS::Connection::JAMF_TRYITOUT_HOST
-          init_jamf_tryitout
-        elsif @user && params[:pw]
-          init_from_pw params[:pw]
-        elsif params[:token_string]
+        if params[:token_string]
+          @pw_fallback = false unless @pw
           init_from_token_string params[:token_string]
+
+        elsif @user && @pw
+          init_from_pw
+
         else
           raise ArgumentError, 'Must provide either user: & pw: or token:'
         end
-        @pw = nil unless @pw_fallback
-      end # init
 
-      # Initialize from tryitout
-      #################################
-      def init_jamf_tryitout
-        @token_response_body = JAMF_TRYITOUT_TOKEN_BODY
-        @token = @token_response_body[:token]
-        @expires = JSS::Timestamp.new @token_response_body[:expires]
-        @login_time = JSS::Timestamp.new Time.now
-        @valid = true
-      end # init_from_pw
+        start_keep_alive if @keep_alive
+        @creation_time = Time.now
+      end # init
 
       # Initialize from password
       #################################
       def init_from_pw
         resp = token_connection(NEW_TOKEN_RSRC).post
 
-        if  resp.success?
+        if resp.success?
           parse_token_from_response resp
+          @last_refresh = Time.now
         elsif resp.status == 401
           raise JSS::AuthenticationError, 'Incorrect name or password'
         else
           # TODO: better error reporting here
           raise JSS::AuthenticationError, "An error occurred while authenticating: #{resp.body}"
         end
+      ensure
+        @pw = nil unless @pw_fallback
       end # init_from_pw
 
       # Initialize from token string
@@ -165,11 +187,18 @@ module JSS
         @token = str
         @user = resp.body.dig :account, :username
 
+        # if we were given a pw for the user, and expect to use it, validate it now
+        if @pw && @pw_fallback
+          resp = token_connection(NEW_TOKEN_RSRC).post
+          raise JSS::AuthenticationError, "Incorrect password provided for token string (user: #{@user})" unless resp.success?
+        end
+
         # use this token to get a fresh one with a known expiration
         refresh
       end # init_from_token_string
 
-      # @return [String]
+      # @return [String]      # @option params [Boolean] :keep_alive (see Connection#connect)
+
       #################################
       def host
         @base_url.host
@@ -216,7 +245,6 @@ module JSS
       def time_remaining
         return unless @expires
 
-        # TODO: Move this method into JSS from Jamf
         JSS.humanize_secs secs_remaining
       end
 
@@ -259,14 +287,14 @@ module JSS
       # @param pw [String] Optional password to use if token refresh fails.
       #   Must be the correct passwd or the token's user (obviously)
       #
-      # @return [JSS::Timestamp] the new expiration time
+      # @return [Time] the new expiration time
       #
       #################################
       def refresh
-        # gotta have a pw if expired
+        # already expired?
         if expired?
-          # try the passwd
-          return refresh_with_passwd(:expired_refreshed, :expired_failed) if @pw
+          # try the passwd if we have it
+          return refresh_with_pw(:expired_refreshed, :expired_failed) if @pw
 
           # no passwd fallback? no chance!
           @last_refresh_result = :expired_no_pw_fallback
@@ -279,11 +307,12 @@ module JSS
         if keep_alive_token_resp.success?
           parse_token_from_response keep_alive_token_resp
           @last_refresh_result = :refreshed
+          @last_refresh = Time.now
           return expires
         end
 
         # if we're here, the normal refresh failed, so try the pw
-        return refresh_with_passwd(:refreshed_pw, :refresh_failed) if @pw
+        return refresh_with_pw(:refreshed_pw, :refresh_failed) if @pw
 
         # if we're here, no pw? no chance!
         @last_refresh_result = :refresh_failed_no_pw_fallback
@@ -295,6 +324,7 @@ module JSS
       #################################
       def invalidate
         @valid = !token_connection(INVALIDATE_RSRC, token: @token).post.success?
+        @pw = nil
       end
       alias destroy invalidate
 
@@ -305,39 +335,53 @@ module JSS
       # set values from params & defaults
       ###########################################
       def parse_params(params)
-        params[:base_url] = params[:base_url].to_s
-        @base_url =
-          if params[:base_url].end_with? JSS::Connection::JPAPI_RSRC_BASE
-            URI.parse params[:base_url]
-          else
-            URI.parse "#{params[:base_url]}/#{JSS::Connection::JPAPI_RSRC_BASE}"
-          end
+        # This process of deleting suffixes will leave in place any
+        # URL paths before the the CAPI_RSRC_BASE or JPAPI_RSRC_BASE
+        # e.g.  https://my.jamf.server:8443/some/path/before/api
+        # as is the case at some on-prem sites.
+        baseurl = params[:base_url].to_s
+        baseurl.delete_suffix! '/'
+        baseurl.delete_suffix! JSS::Connection::CAPI_RSRC_BASE
+        baseurl.delete_suffix! JSS::Connection::JPAPI_RSRC_BASE
+        baseurl.delete_suffix! JSS::Connection::UAPI_RSRC_BASE
+        baseurl.delete_suffix! '/'
+        @base_url = URI.parse baseurl
+
         @timeout = params[:timeout] || JSS::Connection::DFT_TIMEOUT
 
-        # this will be deleted after use if pw_fallback is false
-        @pw = params[:pw]
         @user = params[:user]
+
+        # @pw will be deleted after use if pw_fallback is false
+        # It is stored as base64 merely for visual security in irb sessions
+        # and the like.
+        @pw = params[:pw] ? Base64.encode64(params[:pw]) : nil
         @pw_fallback = params[:pw_fallback].instance_of?(FalseClass) ? false : true
 
-        params[:refresh] = params[:refresh].to_i
-        @refresh = params[:refresh] > MIN_REFRESH ? params[:refresh] : MIN_REFRESH
+        # backwards compatibility
+        params[:refresh_buffer] ||= params[:refresh]
+        params[:refresh_buffer] = params[:refresh_buffer].to_i
+        @refresh_buffer = params[:refresh_buffer] > MIN_REFRESH_BUFFER ? params[:refresh_buffer] : MIN_REFRESH_BUFFER
 
         @ssl_version = params[:ssl_version] || JSS::Connection::DFT_SSL_VERSION
         @verify_cert = params[:verify_cert].instance_of?(FalseClass) ? false : true
         @ssl_options = { version: @ssl_version, verify: @verify_cert }
+
+        @keep_alive = params[:keep_alive].instance_of?(FalseClass) ? false : true
       end
 
-      # refresh a token using a password, return a result
-      # @param pw[String] the password to use
-      # @return [JamfTimestamp] the new expiration
+      # refresh a token using the pw cached when @pw_fallback is true
+      #
+      # @param success [Sumbol] the key from REFRESH_RESULTS to use when successful
+      # @param failure [Sumbol] the key from REFRESH_RESULTS to use when not successful
+      # @return [Time] the new expiration
       #################################
-      def refresh_with_passwd(success, failure)
+      def refresh_with_pw(success, failure)
         init_from_pw
         @last_refresh_result = success
         expires
       rescue => e
         @last_refresh_result = failure
-        raise e, "#{e}. Status: :#{failure}"
+        raise e, "#{e}. Status: :#{REFRESH_RESULTS[failure]}"
       end
 
       # @return [void]
@@ -346,7 +390,7 @@ module JSS
         resp = token_connection(JAMF_VERSION_RSRC, token: @token).get
         if resp.success?
           jamf_version, @jamf_build = resp.body[:version].split('-')
-          @jamf_version = Gem::Version jamf_version
+          @jamf_version = Gem::Version.new jamf_version
           return
         end
 
@@ -357,15 +401,15 @@ module JSS
       # acquision & manipulation
       #################################
       def token_connection(rsrc, token: nil)
-        Faraday.new("#{@base_url}/#{rsrc}", ssl: ssl_opts) do |con|
+        Faraday.new("#{@base_url}/#{JSS::Connection::JPAPI_RSRC_BASE}/#{rsrc}", ssl: @ssl_options) do |con|
           con.headers[:accept] = JSS::Connection::MIME_JSON
           con.response :json, parser_options: { symbolize_names: true }
           con.options[:timeout] = @timeout
           con.options[:open_timeout] = @timeout
           if token
-            con.authorization = :Bearer, token
+            con.authorization :Bearer, token
           else
-            con.basic_auth @user, @pw
+            con.basic_auth @user, Base64.decode64(@pw)
           end
           con.adapter Faraday::Adapter::NetHttp
         end # Faraday.new
@@ -376,14 +420,13 @@ module JSS
       def parse_token_from_response(resp)
         @token_response_body = resp.body
         @token = @token_response_body[:token]
-        @expires = JSS::Timestamp.new @token_response_body[:expires]
-        @login_time = JSS::Timestamp.new Time.now
+        @expires = Time.parse(@token_response_body[:expires]).localtime
         @valid = true
       end
 
       # creates a thread that loops forever, sleeping most of the time, but
       # waking up every 60 seconds to see if the token is expiring in the
-      # next @refresh seconds.
+      # next @refresh_buffer seconds.
       #
       # If so, the token is refreshed, and we keep looping and sleeping.
       #
@@ -400,9 +443,9 @@ module JSS
             loop do
               sleep 60
               begin
-                next if secs_remaining > @refresh
+                next if secs_remaining > @refresh_buffer
 
-                refresh @pw
+                refresh
               rescue
                 # TODO: Some kind of error reporting
                 next

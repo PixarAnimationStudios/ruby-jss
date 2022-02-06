@@ -22,6 +22,9 @@
 ###
 ###
 
+require 'faraday' # >= 0.17.0
+require 'faraday_middleware' # >= 0.13.0
+
 ###
 module JSS
 
@@ -234,22 +237,32 @@ module JSS
     # Class Constants
     #####################################
 
-    # The base API path in the jss URL
-    RSRC_BASE = 'JSSResource'.freeze
+    # This version of ruby-jss only works with this version of the server
+    # and higher
+    MIN_JAMF_VERSION = Gem::Version.new('10.35.0')
 
-    # A url path to load to see if there's an API available at a host.
-    # This just loads the API resource docs page
-    TEST_PATH = "#{RSRC_BASE}/accounts".freeze
+    # The base of the Classic API resources
+    CAPI_RSRC_BASE = 'JSSResource'.freeze
 
-    # If the test path loads correctly from a casper server, it'll contain
-    # this text (this is what we get when we make an unauthenticated
-    # API call.)
-    TEST_CONTENT = '<p>The request requires user authentication</p>'.freeze
+    # The base of the Jamf Pro API resources
+    JPAPI_RSRC_BASE = 'api'.freeze
 
-    # The Default port
-    HTTP_PORT = 9006
+    # in case this is used out there, it is deprecated
+    UAPI_RSRC_BASE = 'uapi'.freeze
 
-    # The Jamf default SSL port, default for locally-hosted servers
+    # pre-existing tokens must have this many seconds before
+    # before they expire
+    TOKEN_REUSE_MIN_LIFE = 60
+
+    NOT_CONNECTED = 'Not Connected'.freeze
+
+    # if @name is any of these when a connection is made, it
+    # is reset to a default based on the connection params
+    NON_NAMES = [NOT_CONNECTED, :unknown, nil, :disconnected].freeze
+
+    HTTPS_SCHEME = 'https'.freeze
+
+    # The Jamf default SSL port, default for on-prem servers
     SSL_PORT = 8443
 
     # The https default SSL port, default for Jamf Cloud servers
@@ -277,7 +290,8 @@ module JSS
     RSRC_NOT_FOUND_MSG = 'The requested resource was not found'.freeze
 
     # These classes are extendable, and may need cache flushing for EA definitions
-    EXTENDABLE_CLASSES = [JSS::Computer, JSS::MobileDevice, JSS::User].freeze
+    # EXTENDABLE_CLASSES = [JSS::Computer, JSS::MobileDevice, JSS::User].freeze
+    EXTENDABLE_CLASSES = []
 
     # values for the format param of get_rsrc
     GET_FORMATS = %i[json xml].freeze
@@ -291,83 +305,100 @@ module JSS
     # Attributes
     #####################################
 
-    # @return [String] the username who's connected to the JSS API
-    attr_reader :user
-    alias jss_user user
+    # These come from the token:
+    # base_url, host, port, user, keep_alive?, ssl_version, verify_cert?, ssl_options,
+    # pw_fallback?, jamf_version, jamf_build
 
-    # @return [Faraday::Connection] the underlying connection resource
-    attr_reader :cnx
+    # These come from the JPAPI faraday connection object
+    # timeout, open_timeout
+
+    # @return [Faraday::Connection] the underlying C-API connection object
+    attr_reader :c_cnx
+
+    # @return [Faraday::Connection] the underlying JPAPI connection object
+    attr_reader :jp_cnx
+
+    # @return [JSS::Connection::Token] the token used for connecting
+    attr_reader :token
 
     # @return [Boolean] are we connected right now?
     attr_reader :connected
     alias connected? connected
 
-    # @return [JSS::Server] the details of the JSS to which we're connected.
-    attr_reader :server
-
-    # @return [String] the hostname of the JSS to which we're connected.
-    attr_reader :server_host
-
     # @return [String] any path in the URL below the hostname. See {#connect}
     attr_reader :server_path
-
-    # @return [Integer] the port used for the connection
-    attr_reader :port
-
-    # @return [String] the protocol being used: http or https
-    attr_reader :protocol
 
     # @return [Faraday::Response] The response from the most recent API call
     attr_reader :last_http_response
 
-    # @return [String] The base URL to to the current REST API
-    attr_reader :rest_url
-
     # @return [String,Symbol] an arbitrary name that can be given to this
-    # connection during initialization, using the name: parameter.
-    # defaults to user@hostname:port
+    #   connection during initialization, using the name: parameter.
+    #   defaults to user@hostname:port
     attr_reader :name
 
-    # @return [Hash]
-    # This Hash caches the result of the the first API query for an APIObject
-    # subclass's .all summary list, keyed by the subclass's RSRC_LIST_KEY.
-    # See the APIObject.all class method.
+    # @return [Time] when this connection was connected
+    attr_reader :login_time
+
+    # @return [Hash] This Hash caches the results of C-API queries for an APIObject
+    #   subclass's .all summary list, keyed by the subclass's RSRC_LIST_KEY.
+    #   See the APIObject.all class method.
     #
-    # It also holds related data items for speedier processing:
+    #   It also caches related data items for speedier processing:
     #
-    # - The Hashes created by APIObject.map_all_ids_to(foo), keyed by
-    #   "#{RSRC_LIST_KEY}_map_#{other_key}".to_sym
+    #   - The Hashes created by APIObject.map_all_ids_to(foo), keyed by
+    #     "#{RSRC_LIST_KEY}_map_#{other_key}".to_sym
     #
-    # - This hash also holds a cache of the rarely-used APIObject.all_objects
-    #   hash, keyed by "#{RSRC_LIST_KEY}_objects".to_sym
+    #   - This hash also holds a cache of the rarely-used APIObject.all_objects
+    #     hash, keyed by "#{RSRC_LIST_KEY}_objects".to_sym
     #
     #
-    # When APIObject.all, and related methods are called without an argument,
-    # and this hash has a matching value, the value is returned, rather than
-    # requerying the API. The first time a class calls .all, or whnever refresh
-    # is not false, the API is queried and the value in this hash is updated.
+    #   When APIObject.all, and related methods are called without an argument,
+    #   and this hash has a matching value, the value is returned, rather than
+    #   requerying the API. The first time a class calls .all, or whnever refresh
+    #   is not false, the API is queried and the value in this hash is updated.
     attr_reader :object_list_cache
 
     # @return [Hash{Class: Hash{String => JSS::ExtensionAttribute}}]
-    # This Hash caches the Extension Attribute
-    # definition objects for the three types of ext. attribs:
-    # ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and
-    # UserExtensionAttribute, whenever they are fetched for parsing or
-    # validating extention attribute data.
+    #   This Hash caches the C-API Extension Attribute
+    #   definition objects for the three types of ext. attribs:
+    #   ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and
+    #   UserExtensionAttribute, whenever they are fetched for parsing or
+    #   validating extention attribute data.
     #
-    # The top-level keys are the EA classes themselves:
-    # - ComputerExtensionAttribute
-    # - MobileDeviceExtensionAttribute
-    # - UserExtensionAttribute
+    #   The top-level keys are the EA classes themselves:
+    #   - ComputerExtensionAttribute
+    #   - MobileDeviceExtensionAttribute
+    #   - UserExtensionAttribute
     #
-    # These each point to a Hash of their instances, keyed by name, e.g.
-    #   {
-    #    "A Computer EA" => <JSS::ComputerExtensionAttribute...>,
-    #    "A different Computer EA" => <JSS::ComputerExtensionAttribute...>,
-    #    ...
-    #   }
+    #   These each point to a Hash of their instances, keyed by name, e.g.
+    #     {
+    #      "A Computer EA" => <JSS::ComputerExtensionAttribute...>,
+    #      "A different Computer EA" => <JSS::ComputerExtensionAttribute...>,
+    #      ...
+    #     }
     #
     attr_reader :ext_attr_definition_cache
+
+    # @return [Hash] This Hash holds the most recently fetched instance of a JPAPI
+    #   SingletonResource subclass, keyed by the subclass itself.
+    #
+    #   SingletonResource.fetch will return the instance from here, if it exists,
+    #   unless the first parameter is truthy.
+    attr_reader :singleton_cache
+
+    # @return [Hash],This Hash holds the most recent API data (an Array of Hashes)
+    #   for the list
+    #   of all items in a JPAPI CollectionResource subclass, keyed by the subclass
+    #   itself.
+    #
+    #   CollectionResource.all return the appropriate data from here, if it exists,
+    #
+    #   See the CollectionResource.all class method.
+    attr_reader :collection_cache
+
+    # @return [Hash] This hash holds JPAPI ExtensionAttribute instances, which are
+    #   used for validating values passed to Extendable.set_ext_attr.
+    attr_reader :ext_attr_cache
 
     # Constructor
     #####################################
@@ -382,22 +413,28 @@ module JSS
     #
     # If not, you must call {#connect} before accessing the API.
     #
-    def initialize(args = {})
-      @name = args.delete :name
-      @name ||= :unknown
+    # See #connect for the parameters
+    #
+    def initialize(url = nil, **params)
+      @name = params.delete :name
       @connected = false
       @object_list_cache = {}
-      connect args unless args.empty?
+      @ext_attr_definition_cache = {}
+      @singleton_cache = {}
+      @collection_cache = {}
+      @ext_attr_cache = {}
+
+      connect url, params
     end # init
 
     # Instance Methods
     #####################################
 
-    # Connect to the JSS Classic API.
+    # Connect to the both the Classic and Jamf Pro APIs
     #
     # @param args[Hash] the keyed arguments for connection.
     #
-    # @option args :server[String] the hostname of the JSS API server, required if not defined in JSS::CONFIG
+    # @option args :host[String] the hostname of the JSS API server, required if not defined in JSS::CONFIG
     #
     # @option args :server_path[String] If your JSS is not at the root of the server, e.g.
     #   if it's at
@@ -427,46 +464,341 @@ module JSS
     #
     # @return [true]
     #
-    def connect(args = {})
-      # new connections always get new caches
-      flushcache
+    def connect(url = nil, **params)
+      # reset all values, flush caches
+      disconnect
 
-      args[:no_port_specified] = args[:port].to_s.empty?
-      args = apply_connection_defaults args
-      @timeout = args[:timeout]
-      @open_timeout = args[:open_timeout]
+      # If there's a Token object in :token, this sets @token,
+      # and adds host, port, user from that token
+      parse_token params
 
-      # ensure an integer
-      args[:port] &&= args[:port].to_i
+      # Get host, port, user and pw from a URL, add to params if needed
+      parse_url url, params
 
-      # confirm we know basics
-      verify_basic_args args
+      # apply defaults from config, client, and then ruby-jss itself.
+      apply_default_params params
 
-      # parse our ssl situation
-      verify_ssl args
+      # Once we're here, all params have been parsed & defaulted into the
+      # params hash, so make sure we have the minimum needed params for a connection
+      verify_basic_params params
 
-      @user = args[:user]
-
-      @rest_url = build_rest_url args
-
-      # figure out :password from :pw
-      args[:password] = acquire_password args
-
-      # heres our connection
-      @cnx = create_connection args[:password]
+      # if no @token already, get one from from
+      # either a token string or a pw
+      unless @token
+        if params[:token].is_a? String
+          # if pw_fallback, the pw must be acquired, since it isn't in the token
+          # Can't do this yet, cuz we need to create the Token instance first in order
+          # to learn who the user is!
+          #  params[:pw] = acquire_password(params[:host], params[:user], params[:pw]) if params[:pw_fallback]
+          token_src = :token_string
+        else
+          params[:pw] = acquire_password(params[:host], params[:user], params[:pw])
+          token_src = :pw
+        end
+        @token = token_from token_src, params
+      end
 
       verify_server_version
 
-      @name = "#{@user}@#{@server_host}:#{@port}" if @name.nil? || @name == :disconnected
-      @connected ? hostname : nil
+      @login_time = Time.now
+      @name ||= "#{user}@#{host}:#{port}"
+
+      @c_base_url = base_url + CAPI_RSRC_BASE
+      @jp_base_url = base_url + JPAPI_RSRC_BASE
+
+      # the faraday connection objects
+      @c_cnx = create_classic_connection params
+      @jp_cnx = create_jp_connection params
+
+      @connected = true
     end # connect
+
+    # With a REST connection, there isn't any real "connection" to disconnect from
+    # So to disconnect, we just unset all our credentials.
+    #
+    # @return [void]
+    #
+    def disconnect
+      flushcache
+
+      @login_time = nil
+      @jp_cnx = nil
+      @c_cnx = nil
+      @c_base_url = nil
+      @jp_base_url = nil
+      @server_path = nil
+
+      @token&.invalidate
+      @token = nil
+      @connected = false
+      :disconnected
+    end # disconnect
+
+
+    #####  Parsing Params & creating connections
+    ######################################################
+
+    # Get host, port, & user from a Token object
+    # or just the user from a token string.
+    def parse_token(params)
+      return unless params[:token].is_a? JSS::Connection::Token
+
+      verify_token params[:token]
+      @token = params[:token]
+    end
+
+    # Raise execeptions if we were given an unusable token object
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [void]
+    #
+    def verify_token(token)
+      raise JSS::InvalidConnectionError, 'Cannot use token: it has expired' if token.expired?
+      raise JSS::InvalidConnectionError, 'Cannot use token: it is invalid' unless token.valid?
+
+      if token.secs_remaining < TOKEN_REUSE_MIN_LIFE
+        raise JSS::InvalidConnectionError,
+              "Cannot use token: it expires in less than #{TOKEN_REUSE_MIN_LIFE} seconds"
+      end
+    end
+
+    # Get host, port, user and pw from a URL, overriding any already in the params
+    #
+    # @return [String, nil] the pw if present
+    #
+    def parse_url(url, params)
+      return unless url
+
+      url = URI.parse url.to_s
+      raise ArgumentError, 'Invalid url, scheme must be https' unless url.scheme == HTTPS_SCHEME
+
+      # this removes any user and pw from the url, so we can give it to the token
+      params[:given_url] = "#{url.scheme}://#{url.host}:#{url.port}#{url.path}/"
+      params[:host] = url.host
+      params[:port] = url.port
+      params[:user] = url.user if url.user
+      params[:pw] = url.password if url.password
+    end
+
+    # Apply defaults to the unset params for the #connect method
+    # First apply them from from the Jamf.config,
+    # then from the Jamf::Client (read from the jamf binary config),
+    # then from the Jamf module defaults
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [Hash] The params with defaults applied
+    #
+    def apply_default_params(params)
+      # must have a host, but accept legacy :server as well as :host
+      params[:host] ||= params[:server]
+
+      # if we have no port set by this point, set to cloud port
+      # if host is a cloud host. But leave port nil for other hosts
+      # (will be set via client defaults or module defaults)
+      params[:port] ||= JAMFCLOUD_PORT if params[:host].to_s.end_with?(JAMFCLOUD_DOMAIN)
+
+      apply_defaults_from_config(params)
+
+      apply_defaults_from_client(params)
+
+      apply_module_defaults(params)
+    end
+
+    # Apply defaults from the Jamf.config
+    # to the params for the #connect method
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [Hash] The params with defaults applied
+    #
+    def apply_defaults_from_config(params)
+      # settings from config if they aren't in the params
+      params[:host] ||= JSS.config.api_server_name
+      params[:port] ||= JSS.config.api_server_port
+      params[:user] ||= JSS.config.api_username
+      params[:timeout] ||= JSS.config.api_timeout
+      params[:open_timeout] ||= JSS.config.api_timeout_open
+      params[:ssl_version] ||= JSS.config.api_ssl_version
+
+      # if verify cert was not in the params, get it from the prefs.
+      # We can't use ||= because the desired value might be 'false'
+      params[:verify_cert] = JSS.config.api_verify_cert if params[:verify_cert].nil?
+    end # apply_defaults_from_config
+
+    # Apply defaults from the Jamf::Client
+    # to the params for the #connect method
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [Hash] The params with defaults applied
+    #
+    def apply_defaults_from_client(params)
+      return unless JSS::Client.installed?
+
+      # these settings can come from the jamf binary config,
+      # if this machine is a Jamf client.
+      params[:host] ||= JSS::Client.jss_server
+      params[:port] ||= JSS::Client.jss_port.to_i
+    rescue
+      nil
+    end
+
+    # Apply the module defaults to the params for the #connect method
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [Hash] The params with defaults applied
+    #
+    def apply_module_defaults(params)
+      # if we have no port set by this point, assume on-prem.
+      params[:port] ||= SSL_PORT
+      params[:timeout] ||= DFT_TIMEOUT
+      params[:open_timeout] ||= DFT_OPEN_TIMEOUT
+      params[:ssl_version] ||= DFT_SSL_VERSION
+      params[:token_refresh_buffer] ||= self.class::Token::MIN_REFRESH_BUFFER
+      # if we have a TTY, pw defaults to :prompt
+      params[:pw] ||= :prompt if $stdin.tty?
+    end
+
+    # Raise execeptions if we don't have essential data for a new connection
+    # namely a host, user, and pw
+    #
+    # @param params[Hash] The params for #connect
+    #
+    # @return [void]
+    #
+    def verify_basic_params(params)
+      # if given a Token object, it has host, port, user, and base_url
+      # and is already parsed
+      return if @token
+
+      # must have a host, it could have come from a url, or a param
+      raise Jamf::MissingDataError, 'No Jamf :host specified, or in configuration.' unless params[:host]
+
+      # no need for user or pass if using a token string
+      # (tho a pw might be given)
+      return if params[:token].is_a? String
+
+      # must have user and pw
+      raise Jamf::MissingDataError, 'No Jamf :user specified, or in configuration.' unless params[:user]
+      raise Jamf::MissingDataError, "No :pw specified for user '#{params[:user]}'" unless params[:pw]
+    end
+
+    # given a token string or a password, get a valid token
+    # Token.new will raise an exception if the token string or
+    # credentials are invalid
+    def token_from(type, params)
+      token_params = {
+        base_url: build_base_url(params),
+        user: params[:user],
+        timeout: params[:timeout],
+        keep_alive: params[:keep_alive],
+        refresh_buffer: params[:token_refresh_buffer],
+        pw_fallback: params[:pw_fallback],
+        ssl_version: params[:ssl_version],
+        verify_cert: params[:verify_cert]
+      }
+      token_params[:token_string] = params[:token] if type == :token_string
+      token_params[:pw] = params[:pw] unless params[:pw].is_a? Symbol
+
+      self.class::Token.new token_params
+    end
+
+    # Build the base URL for the API connection
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [String] The URI encoded URL
+    #
+    def build_base_url(params)
+      return params[:given_url] if params[:given_url]
+
+      # trim any potential  leading slash on server_path, ensure a trailing slash
+      server_path = params[:server_path].to_s.delete_prefix '/'
+      server_path.delete_suffix! '/'
+
+      # and here's the URL
+      "#{HTTPS_SCHEME}://#{params[:host]}:#{params[:port]}/#{server_path}/"
+    end
+
+    # From whatever was given in args[:pw], figure out the real password
+    #
+    # @param args[Hash] The args for #connect
+    #
+    # @return [String] The password for the connection
+    #
+    def acquire_password(host, user, pw)
+      if pw == :prompt
+        JSS.prompt_for_password "Enter the password for JSS user #{user}@#{host}:"
+      elsif pw.is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
+        pw.to_s =~ /^stdin(\d+)$/
+        line = Regexp.last_match(1)
+        line ||= 1
+        JSS.stdin line
+      else
+        pw
+      end
+    end
+
+    # raise error if the server version is too old
+    # @return [void]
+    def verify_server_version
+      return if jamf_version >= MIN_JAMF_VERSION
+
+      raise(
+        JSS::InvalidConnectionError,
+        "This version of ruby-jss requires Jamf server version #{MIN_JAMF_VERSION} or higher. #{host} is running #{jamf_version}"
+      )
+    end
+
+    # create the faraday CAPI connection object
+    def create_classic_connection(params)
+      Faraday.new(@c_base_url, ssl: ssl_options) do |cnx|
+        cnx.authorization :Bearer, @token.token
+
+        cnx.options[:timeout] = params[:timeout]
+        cnx.options[:open_timeout] = params[:open_timeout]
+
+        cnx.request :multipart
+        cnx.request :url_encoded
+
+        cnx.adapter Faraday::Adapter::NetHttp
+      end
+    end
+
+    # create the faraday JPAPI connection object
+    def create_jp_connection(params)
+      Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
+        cnx.authorization :Bearer, @token.token
+        cnx.headers[HTTP_ACCEPT_HEADER] = MIME_JSON
+
+        cnx.options[:timeout] = params[:timeout]
+        cnx.options[:open_timeout] = params[:open_timeout]
+
+        cnx.request :json
+
+        cnx.response :json, parser_options: { symbolize_names: true }
+
+        cnx.adapter Faraday::Adapter::NetHttp
+      end
+    end
+
+    #####  Getters & Setters
+    ######################################################
 
     # A useful string about this connection
     #
     # @return [String]
     #
     def to_s
-      @connected ? "Using #{@rest_url} as user #{@user}" : 'not connected'
+      @connected ? "Using #{base_url} as user #{@user}" : 'not connected'
+    end
+
+    # @return [Integer] the current response timeout for the http connection
+    def timeout
+      @jp_cnx.options[:timeout]
     end
 
     # Reset the response timeout for the rest connection
@@ -476,7 +808,13 @@ module JSS
     # @return [void]
     #
     def timeout=(timeout)
-      @cnx.options[:timeout] = timeout
+      @c_cnx.options[:timeout] = timeout
+      @jp_cnx.options[:timeout] = timeout
+    end
+
+    # @return [Integer] the current open-connection timeout for the http connection
+    def open_timeout
+      @jp_cnx.options[:open_timeout]
     end
 
     # Reset the open-connection timeout for the rest connection
@@ -486,23 +824,78 @@ module JSS
     # @return [void]
     #
     def open_timeout=(timeout)
-      @cnx.options[:open_timeout] = timeout
+      @c_cnx.options[:open_timeout] = timeout
+      @jp_cnx.options[:open_timeout] = timeout
     end
 
-    # With a REST connection, there isn't any real "connection" to disconnect from
-    # So to disconnect, we just unset all our credentials.
-    #
-    # @return [void]
-    #
-    def disconnect
-      @user = nil
-      @rest_url = nil
-      @server_host = nil
-      @cnx = nil
-      @connected = false
-    end # disconnect
+    # @return [URI::HTTPS] the base URL to the server
+    def base_url
+      @token.base_url
+    end
 
-    # Get a JSS resource
+    # @return [String] the hostname of the Jamf Pro server API connection
+    def host
+      @token.host
+    end
+    alias server host
+
+    # @return [Integer] The port of the Jamf Pro server API connection
+    def port
+      @token.port
+    end
+
+    # @return [String] the username who's connected to the JSS API
+    def user
+      @token.user
+    end
+
+    # @return [Boolean] Is the connection token being automatically refreshed?
+    def keep_alive?
+      @token.keep_alive?
+    end
+
+    # @return [Boolean] If keep_alive is true, is the password Cached in memory
+    #   to use if the refresh fails?
+    def pw_fallback?
+      @token.pw_fallback?
+    end
+
+    # @return [String] SSL version used for the connection
+    def ssl_version
+      @token.ssl_version
+    end
+
+    # @return [Boolean] Is the connection token being automatically refreshed?
+    def verify_cert?
+      @token.verify_cert?
+    end
+    alias verify_cert verify_cert?
+
+    # @return [Hash] the ssl version and verify cert, to pass into faraday connections
+    def ssl_options
+      @token.ssl_options
+    end
+
+    # @return [Gem::Version] the version of the Jamf Pro server
+    def jamf_version
+      @token.jamf_version
+    end
+
+    # @return [String] the build of the Jamf Pro server
+    def jamf_build
+      @token.jamf_build
+    end
+
+    #####  API access
+    ######################################################
+
+    # raise exception if not connected
+    def validate_connected
+      raise JSS::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use .connect first." unless connected?
+    end
+
+    # Get a Classic API resource
+    #
     # The first argument is the resource to get (the part of the API url
     # after the 'JSSResource/' ) The resource must be properly URL escaped
     # beforehand. Note: URL.encode is deprecated, use CGI.escape
@@ -526,24 +919,77 @@ module JSS
     #
     # @return [Hash,String] the result of the get
     #
-    def get_rsrc(rsrc, format = :json, raw_json: false)
+    def c_get(rsrc, format = :json, raw_json: false)
       validate_connected
-      raise JSS::InvalidDataError, 'format must be :json or :xml' unless GET_FORMATS.include? format
+      raise JSS::InvalidDataError, 'format must be :json or :xml' unless GET_FORMATS.include?(format)
 
       @last_http_response =
-        @cnx.get(rsrc) do |req|
+        @c_cnx.get(rsrc) do |req|
           req.headers[HTTP_ACCEPT_HEADER] = format == :json ? MIME_JSON : MIME_XML
         end
 
       unless @last_http_response.success?
-        handle_http_error
+        handle_classic_http_error
         return
       end
 
       return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
 
+      # the raw body, either json or xml
       @last_http_response.body
     end
+    # backward compatibility
+    alias get_rsrc c_get
+
+    # Get a JPAPI resource
+    # The JSON data is parsed into a Ruby Hash with symbolized keys.
+    #
+    # @param rsrc[String] the resource to get
+    #   (the part of the API url after the 'api/' )
+    #
+    # @return [Hash] the result of the get
+    def jp_get(rsrc)
+      validate_connected
+      @last_http_response = @jp_cnx.get rsrc
+      return @last_http_response.body if @last_http_response.success?
+
+      raise JSS::Connection::APIError, resp
+    end
+    # backward compatibility
+    alias get jp_get
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ##########################################################
+    ##########################################################
+    ############# C API BELOW HERE ##############################
+
+
+
+
+
+
+
+
 
     # Update an existing JSS resource
     #
@@ -696,34 +1142,48 @@ module JSS
     end
     alias host hostname
 
-    # Empty all cached lists from this connection
+    # Empty cached lists from this connection
     # then run garbage collection to clear any available memory
     #
-    # If an APIObject Subclass's RSRC_LIST_KEY is specified, only the caches
-    # for that class are flushed (e.g. :computers, :comptuer_groups)
+    # See the attr_readers for
+    # - object_list_cache
+    # - ext_attr_definition_cache
+    # - singleton_cache
+    # - collection_cache
+    # - ext_attr_cache
     #
     # NOTE if you've referenced objects in these caches, those objects
-    # won't be removed from memory, but all cached data will be recached
-    # as needed.
+    # won't be removed from memory by garbage collection but all cached data
+    # will be recached as needed.
     #
-    # @param key[Symbol, Class] Flush only the caches for the given RSRC_LIST_KEY. or
-    #   the EAdef cache for the given extendable class. If nil (the default)
-    #   flushes all caches
+    # @param key_or_klass[Symbol, Class] Flush only the caches for the given
+    #   RSRC_LIST_KEY. or the EAdef cache for the given extendable class.
+    #   If nil (the default), flushes all caches
     #
     # @return [void]
     #
-    def flushcache(key = nil)
-      if EXTENDABLE_CLASSES.include? key
-        @ext_attr_definition_cache[key] = {}
-      elsif key
-        map_key_pfx = "#{key}_map_"
+    def flushcache(key_or_klass = nil)
+      # EA defs for just one extendable class?
+      if EXTENDABLE_CLASSES.include? key_or_klass
+        @ext_attr_definition_cache[key_or_klass] = {}
+
+      # one API object class?
+      elsif key_or_klass
+        map_key_pfx = "#{key_or_klass}_map_"
         @object_list_cache.delete_if do |cache_key, _cache|
-          cache_key == key || cache_key.to_s.start_with?(map_key_pfx)
+          cache_key == key_or_klass || cache_key.to_s.start_with?(map_key_pfx)
         end
-        @ext_attr_definition_cache
+        @collection_cache.delete klass
+        @singleton_cache.delete klass
+        @ext_attr_cache.delete klass
+
+      # flush everything
       else
         @object_list_cache = {}
         @ext_attr_definition_cache = {}
+        @collection_cache = {}
+        @singleton_cache = {}
+        @ext_attr_cache = {}
       end
 
       GC.start
@@ -750,206 +1210,13 @@ module JSS
     ####################################
     private
 
-    # raise exception if not connected
-    def validate_connected
-      raise JSS::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use .connect first." unless connected?
-    end
-
-    # Apply defaults from the JSS::CONFIG,
-    # then from the JSS::Client,
-    # then from the module defaults
-    # to the args for the #connect method
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Hash] The args with defaults applied
-    #
-    def apply_connection_defaults(args)
-      apply_defaults_from_config(args)
-      apply_defaults_from_client(args)
-      apply_module_defaults(args)
-    end
-
-    # Apply defaults from the JSS::CONFIG
-    # to the args for the #connect method
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Hash] The args with defaults applied
-    #
-    def apply_defaults_from_config(args)
-      # settings from config if they aren't in the args
-      args[:server] ||= JSS::CONFIG.api_server_name
-      args[:port] ||= JSS::CONFIG.api_server_port
-      args[:user] ||= JSS::CONFIG.api_username
-      args[:timeout] ||= JSS::CONFIG.api_timeout
-      args[:open_timeout] ||= JSS::CONFIG.api_timeout_open
-      args[:ssl_version] ||= JSS::CONFIG.api_ssl_version
-
-      # if verify cert was not in the args, get it from the prefs.
-      # We can't use ||= because the desired value might be 'false'
-      args[:verify_cert] = JSS::CONFIG.api_verify_cert if args[:verify_cert].nil?
-      args
-    end # apply_defaults_from_config
-
-    # Apply defaults from the JSS::Client
-    # to the args for the #connect method
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Hash] The args with defaults applied
-    #
-    def apply_defaults_from_client(args)
-      return unless JSS::Client.installed?
-
-      # these settings can come from the jamf binary config, if this machine is a JSS client.
-      args[:server] ||= JSS::Client.jss_server
-      args[:port] ||= JSS::Client.jss_port.to_i
-      args[:use_ssl] ||= JSS::Client.jss_protocol.to_s.end_with? 's'
-      args
-    end
-
-    # Apply the module defaults to the args for the #connect method
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Hash] The args with defaults applied
-    #
-    def apply_module_defaults(args)
-      args[:port] = args[:server].to_s.end_with?(JAMFCLOUD_DOMAIN) ? JAMFCLOUD_PORT : SSL_PORT if args[:no_port_specified]
-      args[:timeout] ||= DFT_TIMEOUT
-      args[:open_timeout] ||= DFT_OPEN_TIMEOUT
-      args[:ssl_version] ||= DFT_SSL_VERSION
-      args
-    end
-
-    # Raise execeptions if we don't have essential data for the connection
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [void]
-    #
-    def verify_basic_args(args)
-      # must have server, user, and pw
-      raise JSS::MissingDataError, 'No JSS :server specified, or in configuration.' unless args[:server]
-      raise JSS::MissingDataError, 'No JSS :user specified, or in configuration.' unless args[:user]
-      raise JSS::MissingDataError, "Missing :pw for user '#{args[:user]}'" unless args[:pw]
-    end
-
-    # Verify that we can connect with the args provided, and that
-    # the server version is high enough for this version of ruby-jss.
-    #
-    # This makes the first API GET call and will raise an exception if things
-    # are wrong, like failed authentication. Will also raise an exception
-    # if the JSS version is too low
-    # (see also JSS::Server)
-    #
-    # @return [void]
-    #
-    def verify_server_version
-      @connected = true
-
-      # the jssuser resource is readable by anyone with a JSS acct
-      # regardless of their permissions.
-      # However, it's marked as 'deprecated'. Hopefully jamf will
-      # keep this basic level of info available for basic authentication
-      # and JSS version checking.
-      begin
-        data = get_rsrc('jssuser')
-      rescue JSS::AuthorizationError
-        raise JSS::AuthenticationError, "Incorrect JSS username or password for '#{@user}@#{@server_host}:#{@port}'."
-      end
-
-      @server = JSS::Server.new data[:user], self
-
-      min_vers = JSS.parse_jss_version(JSS::MINIMUM_SERVER_VERSION)[:version]
-      return if @server.version >= min_vers # we're good...
-
-      err_msg = "JSS version #{@server.raw_version} to low. Must be >= #{min_vers}"
-      @connected = false
-      raise JSS::UnsupportedError, err_msg
-    end
-
-    # Build the base URL for the API connection
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [String] The URI encoded URL
-    #
-    def build_rest_url(args)
-      @server_host = args[:server]
-      @port = args[:port].to_i
-
-      # trim any potential  leading slash on server_path, ensure a trailing slash
-      if args[:server_path]
-        @server_path = args[:server_path]
-        @server_path = @server_path[1..-1] if @server_path.start_with? '/'
-        @server_path << '/' unless @server_path.end_with? '/'
-      end
-
-      # we're using ssl if:
-      #  1) args[:use_ssl] is anything but false
-      # or
-      #  2) the port is a known ssl port.
-      args[:use_ssl] = args[:use_ssl] != false || SSL_PORTS.include?(@port)
-
-      @protocol = 'http'
-      @protocol << 's' if args[:use_ssl]
-      # and here's the URL
-      "#{@protocol}://#{@server_host}:#{@port}/#{@server_path}#{RSRC_BASE}"
-    end
-
-    # From whatever was given in args[:pw], figure out the real password
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [String] The password for the connection
-    #
-    def acquire_password(args)
-      if args[:pw] == :prompt
-        JSS.prompt_for_password "Enter the password for JSS user #{args[:user]}@#{args[:server]}:"
-      elsif args[:pw].is_a?(Symbol) && args[:pw].to_s.start_with?('stdin')
-        args[:pw].to_s =~ /^stdin(\d+)$/
-        line = Regexp.last_match(1)
-        line ||= 1
-        JSS.stdin line
-      else
-        args[:pw]
-      end
-    end
-
-    # Get the appropriate OpenSSL::SSL constant for
-    # certificate verification.
-    #
-    # @param args[Hash] The args for #connect
-    #
-    # @return [Type] description_of_returned_object
-    #
-    def verify_ssl(args)
-      # use SSL for SSL ports unless specifically told not to
-      if SSL_PORTS.include? args[:port]
-        args[:use_ssl] = true unless args[:use_ssl] == false
-      end
-      return unless args[:use_ssl]
-
-      # if verify_cert is anything but false, we will verify
-      args[:verify_ssl] = args[:verify_cert] != false
-
-      # ssl version if not specified
-      args[:ssl_version] ||= DFT_SSL_VERSION
-
-      @ssl_options = {
-        verify: args[:verify_ssl],
-        version: args[:ssl_version]
-      }
-    end
 
     # Parses the @last_http_response
     # and raises a JSS::APIError with a useful error message.
     #
     # @return [void]
     #
-    def handle_http_error
+    def handle_classic_http_error
       return if @last_http_response.success?
 
       case @last_http_response.status
@@ -989,18 +1256,6 @@ module JSS
       raise err, msg
     end
 
-    # create the faraday connection object
-    def create_connection(pw)
-      Faraday.new(@rest_url, ssl: @ssl_options) do |cnx|
-        cnx.basic_auth @user, pw
-        cnx.options[:timeout] = @timeout
-        cnx.options[:open_timeout] = @open_timeout
-        cnx.request :multipart
-        cnx.request :url_encoded
-        cnx.adapter Faraday::Adapter::NetHttp
-      end
-    end
-
   end # class APIConnection
 
   # JSS MODULE METHODS
@@ -1018,7 +1273,7 @@ module JSS
   #
   def self.new_api_connection(args = {})
     args[:name] ||= :default
-    @api = APIConnection.new args
+    @api = Connection.new args
   end
 
   # Switch the connection used for all API interactions to the
