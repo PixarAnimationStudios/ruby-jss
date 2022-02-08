@@ -454,6 +454,17 @@ module JSS
           end # thread
       end # start_keep_alive
 
+      # Kills the @keep_alive_thread, if it exists, and sets
+      # @keep_alive_thread to nil
+      #
+      # @return [void]
+      #
+      def stop_keep_alive
+        return unless @keep_alive_thread
+
+        @keep_alive_thread.kill if @keep_alive_thread.alive?
+        @keep_alive_thread = nil
+      end
     end # class Token
 
   end # class Connection
