@@ -41,6 +41,7 @@ module JamfRubyExtensions
         when 'false' then false
         end # case
       end # to bool
+      alias jss_to_bool j_to_bool
 
       # Convert a string to a Jamf::Timestamp object
       #
@@ -50,6 +51,18 @@ module JamfRubyExtensions
         Jamf::Timestamp.new self
       end
 
+      # Convert a string to a Time object
+      #
+      # returns nil if not parsable by Jamf::parse_time
+      #
+      # @return [Time] the time represented by the string.
+      #
+      def jss_to_time
+        JSS.parse_time self
+      rescue
+        nil
+      end
+
       # Convert a String to a Pathname object
       #
       # @return [Pathname]
@@ -57,6 +70,7 @@ module JamfRubyExtensions
       def j_to_pathname
         Pathname.new self
       end
+      alias jss_to_pathname j_to_pathname
 
     end # module
 

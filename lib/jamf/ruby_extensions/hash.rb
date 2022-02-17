@@ -23,11 +23,11 @@
 #
 #
 
-require 'jamf/ruby_extensions/hash/backports'
+require 'jamf/ruby_extensions/hash/utils'
 
 # include the modules loaded above
 class Hash
 
-  include JamfRubyExtensions::Hash::BackPorts
+  include JamfRubyExtensions::Hash::Utils
 
 end

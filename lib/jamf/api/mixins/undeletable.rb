@@ -29,7 +29,7 @@ module Jamf
   # It should be extended into subclasses of CollectionResource
   #
   # Note that SingletonResource subclasses are never deletable
-  module UnDeletable
+  module Undeletable
 
     def deletable?
       false

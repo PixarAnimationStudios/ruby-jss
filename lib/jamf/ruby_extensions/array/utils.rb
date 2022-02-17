@@ -44,16 +44,7 @@ module JamfRubyExtensions
         each { |s| return s if s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
         nil
       end
-
-      # case-insensitive version of include?
-      #
-      # @param somestring [String] the String to search for
-      #
-      # @return [Boolean]
-      #
-      def j_ci_include?(somestring)
-        any? { |s| s.respond_to?(:casecmp?) && s.casecmp?(somestring) }
-      end
+      alias jss_ci_fetch_string j_ci_fetch
 
     end # module
 

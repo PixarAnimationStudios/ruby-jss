@@ -23,109 +23,115 @@
 ###
 ###
 
-###
-module JSS
+module Jamf
 
-  #
-  class Client
+  module Client
 
-    # Constants
-    #####################################
+    # Module for working with the Jamf Binary on a managed client mac
+    # This should be extended into Jamf::Client
+    module JamfBinary
 
-    # The Pathname to the jamf binary executable
-    # Before SIP (macOS 10.10 and below)
-    ORIG_JAMF_BINARY = Pathname.new '/usr/sbin/jamf'
+      # The bin folder with the jamf binary and a few other things
+      USR_LOCAL_BIN_FOLDER = Pathname.new '/usr/local/jamf/bin'
 
-    # The Pathname to the jamf binary executable
-    # After SIP (OS X 10.11 and above)
-    SIP_JAMF_BINARY = USR_LOCAL_BIN_FOLDER + 'jamf'
+      # The Pathname to the jamf binary executable
+      # Before SIP (macOS 10.10 and below)
+      ORIG_JAMF_BINARY = Pathname.new '/usr/sbin/jamf'
 
-    # The path to the jamf binary
-    JAMF_BINARY = SIP_JAMF_BINARY.executable? ? SIP_JAMF_BINARY : ORIG_JAMF_BINARY
+      # The Pathname to the jamf binary executable
+      # After SIP (OS X 10.11 and above)
+      SIP_JAMF_BINARY = USR_LOCAL_BIN_FOLDER + 'jamf'
 
-    # These jamf commands don't need root privs (most do)
-    ROOTLESS_JAMF_COMMANDS = %i[
-      about
-      checkJSSConnection
-      getARDFields
-      getComputerName
-      help
-      listUsers
-      version
-    ].freeze
+      # The path to the jamf binary
+      JAMF_BINARY = SIP_JAMF_BINARY.executable? ? SIP_JAMF_BINARY : ORIG_JAMF_BINARY
 
-    # the option that makes the jamf binary verbose
-    JAMF_VERBOSE_OPT = ' -verbose'.freeze
+      # These jamf commands don't need root privs (most do)
+      ROOTLESS_JAMF_COMMANDS = %i[
+        about
+        checkJSSConnection
+        getARDFields
+        getComputerName
+        help
+        listUsers
+        version
+      ].freeze
 
-    # class Methods
-    #####################################
+      # the option that makes the jamf binary verbose
+      JAMF_VERBOSE_OPT = ' -verbose'.freeze
 
-    # Run an arbitrary jamf binary command.
-    #
-    # @note Most jamf commands require superuser/root privileges.
-    #
-    # @param command[String,Symbol] the jamf binary command to run
-    #   The command is the single jamf command that comes after the/usr/bin/jamf.
-    #
-    # @param args[String,Array] the arguments passed to the jamf command.
-    #   This is to be passed to Kernel.` (backtick), after being combined with the
-    #   jamf binary and the jamf command
-    #
-    # @param verbose[Boolean] Should the stdout & stderr of the jamf binary be sent to
-    #  the current stdout in realtime, as well as returned as a string?
-    #
-    # @return [String] the stdout & stderr of the jamf binary.
-    #
-    # @example
-    #   These two are equivalent:
-    #
-    #     JSS::Client.run_jamf "recon", "-assetTag 12345 -department 'IT Support'"
-    #
-    #     JSS::Client.run_jamf :recon, ['-assetTag', '12345', '-department', 'IT Support'"]
-    #
-    #
-    # The details of the Process::Status for the jamf binary process can be
-    # captured from $CHILD_STATUS immediately after calling. (See Process::Status)
-    #
-    def self.run_jamf(command, args = nil, verbose = false)
-      raise JSS::UnmanagedError, 'The jamf binary is not installed on this computer.' unless installed?
-      unless ROOTLESS_JAMF_COMMANDS.include?(command.to_sym) || JSS.superuser?
-        raise JSS::UnsupportedError, 'You must have root privileges to run that jamf binary command'
-      end
-      cmd = build_jamf_command command, args
-      cmd += " #{JAMF_VERBOSE_OPT}" if verbose && !cmd.include?(JAMF_VERBOSE_OPT)
-      execute_jamf cmd, verbose
-    end # run_jamf
+      # class Methods
+      #####################################
 
-    private_class_method
-
-    def self.build_jamf_command(command, args)
-      case args
-      when nil
-        "#{JAMF_BINARY} #{command}"
-      when String
-        "#{JAMF_BINARY} #{command} #{args}"
-      when Array
-        ([JAMF_BINARY.to_s, command] + args).join(' ')
-      else
-        raise JSS::InvalidDataError, 'args must be a String or Array of Strings'
-      end # case
-    end
-
-    def self.execute_jamf(cmd, verbose)
-      puts "Running: #{cmd}" if verbose
-      output = ''
-      IO.popen("#{cmd} 2>&1") do |proc|
-        loop do
-          line = proc.gets
-          break unless line
-          output << line
-          puts line if verbose
+      # Run an arbitrary jamf binary command.
+      #
+      # @note Most jamf commands require superuser/root privileges.
+      #
+      # @param command[String,Symbol] the jamf binary command to run
+      #   The command is the single jamf command that comes after the/usr/bin/jamf.
+      #
+      # @param args[String,Array] the arguments passed to the jamf command.
+      #   This is to be passed to Kernel.` (backtick), after being combined with the
+      #   jamf binary and the jamf command
+      #
+      # @param verbose[Boolean] Should the stdout & stderr of the jamf binary be sent to
+      #  the current stdout in realtime, as well as returned as a string?
+      #
+      # @return [String] the stdout & stderr of the jamf binary.
+      #
+      # @example
+      #   These two are equivalent:
+      #
+      #     Jamf::Client.run_jamf "recon", "-assetTag 12345 -department 'IT Support'"
+      #
+      #     Jamf::Client.run_jamf :recon, ['-assetTag', '12345', '-department', 'IT Support'"]
+      #
+      #
+      # The details of the Process::Status for the jamf binary process can be
+      # captured from $CHILD_STATUS immediately after calling. (See Process::Status)
+      #
+      def run_jamf(command, args = nil, verbose = false)
+        raise Jamf::UnmanagedError, 'The jamf binary is not installed on this computer.' unless installed?
+        unless ROOTLESS_JAMF_COMMANDS.include?(command.to_sym) || JSS.superuser?
+          raise Jamf::UnsupportedError, 'You must have root privileges to run that jamf binary command'
         end
+
+        cmd = build_jamf_command command, args
+        cmd += " #{JAMF_VERBOSE_OPT}" if verbose && !cmd.include?(JAMF_VERBOSE_OPT)
+        execute_jamf cmd, verbose
+      end # run_jamf
+
+      #####
+      def build_jamf_command(command, args)
+        case args
+        when nil
+          "#{JAMF_BINARY} #{command}"
+        when String
+          "#{JAMF_BINARY} #{command} #{args}"
+        when Array
+          ([JAMF_BINARY.to_s, command] + args).join(' ')
+        else
+          raise Jamf::InvalidDataError, 'args must be a String or Array of Strings'
+        end # case
       end
-      output.force_encoding('UTF-8')
-      output
-    end
+
+      ######
+      def execute_jamf(cmd, verbose)
+        puts "Running: #{cmd}" if verbose
+        output = ''
+        IO.popen("#{cmd} 2>&1") do |proc|
+          loop do
+            line = proc.gets
+            break unless line
+
+            output << line
+            puts line if verbose
+          end
+        end
+        output.force_encoding('UTF-8')
+        output
+      end
+
+    end # module
 
   end # class Client
 

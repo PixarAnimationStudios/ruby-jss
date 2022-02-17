@@ -38,6 +38,8 @@ module JamfRubyExtensions
       def j_ci_include_string?(somestring)
         any? { |s| s.to_s.casecmp? somestring }
       end
+      alias jss_ci_include_string? j_ci_include_string?
+      alias j_ci_include? j_ci_include_string?
 
     end # module
 

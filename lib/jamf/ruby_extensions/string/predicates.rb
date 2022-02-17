@@ -40,6 +40,7 @@ module JamfRubyExtensions
       def j_integer?
         self =~ INTEGER_RE ? true : false
       end
+      alias jss_integer? j_integer?
 
       # Is this string also a floar?
       # (i.e. it consists only of numberic digits)
@@ -49,6 +50,7 @@ module JamfRubyExtensions
       def j_float?
         self =~ FLOAT_RE ? true : false
       end
+      alias jss_float? j_float?
 
     end # module
 

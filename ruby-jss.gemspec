@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
   # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
   s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
+  # DEPRECATED: mysql support in ruby-jss will be removed eventually
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
   # https://github.com/lostisland/faraday: MIT License
   s.add_runtime_dependency 'faraday', '>= 1.0.0', '<= 1.0.1'
@@ -71,6 +72,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
   # https://github.com/aetherknight/recursive-open-struct MIT License (no dependencies)
   s.add_runtime_dependency 'recursive-open-struct', '~> 1.1', '>= 1.1.0'
+  # https://github.com/fxn/zeitwerk MIT License (no dependencies)
+  s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.4'
 
   # Rdoc
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']

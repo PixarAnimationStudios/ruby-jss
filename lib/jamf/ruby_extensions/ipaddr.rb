@@ -31,7 +31,7 @@ require 'jamf/ruby_extensions/ipaddr/utils'
 ###
 class IPAddr
 
-  include JamfRubyExtensions::IPAddr::Utils
+  extend JamfRubyExtensions::IPAddr::Utils
 
 
 end # Class IPAddr

@@ -43,6 +43,8 @@ module JamfRubyExtensions
         [true, false].include? self
       end
       alias j_bool? j_boolean?
+      alias jss_boolean? j_boolean?
+      alias jss_bool? j_boolean?
 
     end # module
 

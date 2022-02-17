@@ -23,13 +23,11 @@
 
 require 'jamf/ruby_extensions/string/conversions'
 require 'jamf/ruby_extensions/string/predicates'
-require 'jamf/ruby_extensions/string/backports'
 
 # include the modules loaded above
 class String
 
   include JamfRubyExtensions::String::Predicates
   include JamfRubyExtensions::String::Conversions
-  include JamfRubyExtensions::String::BackPorts
 
 end

@@ -29,7 +29,7 @@ module Jamf
   # It should be extended into appropriate subclasses of CollectionResource
   #
   # Note that SingletonResource subclasses are never creatable
-  module UnCreatable
+  module Uncreatable
 
     def creatable?
       false

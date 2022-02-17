@@ -27,11 +27,11 @@
 ### if they are type coercions, "to_jss_"
 ###
 
+require 'jamf/ruby_extensions/array.rb'
 require 'jamf/ruby_extensions/filetest.rb'
 require 'jamf/ruby_extensions/hash.rb'
 require 'jamf/ruby_extensions/ipaddr.rb'
 require 'jamf/ruby_extensions/object.rb'
 require 'jamf/ruby_extensions/pathname.rb'
 require 'jamf/ruby_extensions/string.rb'
-require 'jamf/ruby_extensions/array.rb'
-require 'jamf/ruby_extensions/dig.rb'
+require 'jamf/ruby_extensions/time.rb'
