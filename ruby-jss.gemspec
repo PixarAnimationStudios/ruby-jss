@@ -29,7 +29,7 @@ require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
   # General
-  s.description = <<-EOD
+  s.description = <<~EOD
     The ruby-jss gem provides native ruby access to the REST APIs of Jamf Pro,
     an enterprise/education tool for managing Apple devices, from jamf.com.
     The JSS module provides access to the 'Classic' API, while the Jamf module
