@@ -57,8 +57,6 @@ module Jamf
 
     }.freeze # end OBJECT_MODEL
 
-    parse_object_model
-
     # Class Methods
     #####################################
 

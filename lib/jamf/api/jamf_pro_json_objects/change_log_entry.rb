@@ -70,7 +70,6 @@ module Jamf
 
     # Must call parse_object_model to turn the OBJECT_MODEL into
     # attributes
-    parse_object_model
 
   end # class
 

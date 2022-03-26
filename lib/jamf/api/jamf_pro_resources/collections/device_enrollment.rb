@@ -136,8 +136,6 @@ module Jamf
       }
     }.freeze
 
-    parse_object_model
-
     DEVICES_RSRC = 'devices'.freeze
 
     SYNC_RSRC = 'syncs'.freeze

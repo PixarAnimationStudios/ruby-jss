@@ -54,8 +54,6 @@ module Jamf
       }
     }.freeze
 
-    parse_object_model
-
     # The assignment epoch as a Jamf::Timestamp object.
     #
     # NOTE: I expct this will go away once Jamf conforms to its own standard

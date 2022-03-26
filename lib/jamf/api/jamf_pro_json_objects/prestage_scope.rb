@@ -50,8 +50,6 @@ module Jamf
       }
     }.freeze
 
-    parse_object_model
-
   end # class PrestageScope
 
 end # module

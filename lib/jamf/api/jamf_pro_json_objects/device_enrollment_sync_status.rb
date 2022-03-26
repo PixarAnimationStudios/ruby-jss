@@ -52,8 +52,6 @@ module Jamf
       }
     }.freeze
 
-    parse_object_model
-
     # TEMPORARY timestamps are in UTC, but
     # the iso8601 string isn't marked as such, so
     # they are interpreted as localtime.

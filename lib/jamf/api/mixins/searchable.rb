@@ -161,7 +161,7 @@ module Jamf
           enum: SORT_DIRECTIONS
         }
       }.freeze
-      parse_object_model
+
     end # class Orderby
 
     class SeachParams < Jamf::JSONObject
@@ -194,7 +194,7 @@ module Jamf
         }
 
       }.freeze
-      parse_object_model
+
     end # class SearchParams
 
   end # module searchable

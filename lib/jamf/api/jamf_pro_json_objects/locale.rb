@@ -52,7 +52,6 @@ module Jamf
         aliases: %i[name desc]
       }
     }.freeze
-    parse_object_model
 
   end # class Locale
 

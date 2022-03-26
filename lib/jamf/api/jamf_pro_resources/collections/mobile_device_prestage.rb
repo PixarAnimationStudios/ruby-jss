@@ -110,8 +110,6 @@ module Jamf
 
     ).freeze
 
-    parse_object_model
-
     # Class Methods
     ###############################################
 

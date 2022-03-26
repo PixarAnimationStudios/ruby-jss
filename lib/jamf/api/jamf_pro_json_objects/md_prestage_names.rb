@@ -75,8 +75,6 @@ module Jamf
       }
     }.freeze
 
-    parse_object_model
-
   end # class location
 
 end # module

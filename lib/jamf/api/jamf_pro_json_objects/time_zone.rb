@@ -60,7 +60,6 @@ module Jamf
         read_only: true
       }
     }.freeze
-    parse_object_model
 
     # The offset from UTC, as a string.
     #

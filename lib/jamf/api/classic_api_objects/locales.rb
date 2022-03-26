@@ -57,8 +57,6 @@ module Jamf
 
     }.freeze # end OBJECT_MODEL
 
-    parse_object_model
-
     # TEMP? until this endpoint is brought up to standards
     # the data from the API is a raw Array, but it should be a
     # Hash containing an array.
