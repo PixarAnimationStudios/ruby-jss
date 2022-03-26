@@ -21,6 +21,7 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
+# This method
 def setup_zeitwerk_loader(loader)
   @loader = loader
 
@@ -83,6 +84,8 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'md_prestage_skip_setup_items' => 'MobileDevicePrestageSkipSetupItems'
 
   # These should be ignored, some will be required directly
+  #####################################
+
   loader.ignore "#{__dir__}/jamf/ruby_extensions.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions"
   loader.ignore "#{__dir__}/jamf/exceptions.rb"
@@ -90,11 +93,11 @@ def setup_zeitwerk_loader(loader)
   loader.ignore "#{__dir__}/jss.rb"
   loader.ignore "#{__dir__}/ruby-jss.rb"
 
-  # callback for when a specific class loads
-  #
-  # loader.on_load("Jamf::SomeClass") do |klass, _abspath|
-  #   klass.endpoint = "https://api.prod"
-  # end
+  # callback for when a specific file/constant loads
+  #####################################
+  loader.on_load("Jamf::SomeClass") do |klass, abspath|
+    puts "I just loaded #{klass} from #{abspath}"
+  end
 
   # callback for when anything loads
   #  - const_path is like "Jamf::SomeClass" or "Jamf::SomeClass::SOME_CONST_ARRY"
@@ -102,7 +105,8 @@ def setup_zeitwerk_loader(loader)
   #    e.g. a the class Jamf::SomeClass for 'Jamf::SomeClass' or
   #    and Array for the constant  "Jamf::SomeClass::SOME_CONST_ARRY"
   #  - abspath is the full path to the file where the constant was loaded from.
-  loader.on_load do |const_path, value, abspath|
+  #####################################
+  loader.on_load do |const_path, value, _abspath|
     puts "Just Loaded #{const_path}, which is a #{value.class}"
     next unless value.respond_to?(:parse_object_model) && defined?(value::OBJECT_MODEL)
 
@@ -111,10 +115,13 @@ def setup_zeitwerk_loader(loader)
   end
 
   loader.setup
-
 end # setup_zeitwerk_loader
 
-# Access to the loader later, for re-loading, or eager loading
-def z_loader
-  @loader
+# for testing the Zeitwrk L... normally we want autoloading on demand,
+# eager loading loads everything
+def eager_load_for_testing
+  @loader.eager_load(force: true)
+  puts :loaded
+rescue Zeitwerk::NameError => e
+  puts e.message
 end

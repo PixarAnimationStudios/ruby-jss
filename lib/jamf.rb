@@ -50,6 +50,10 @@ require 'recursive-open-struct'
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 require 'zeitwerk'
 require 'zeitwerk_config'
+
+# the `Zeitwerk::Loader.for_gem` creates the loader object, and must
+# happen in this file, so we pass it into a method defined in
+# zeitwerk_config
 setup_zeitwerk_loader Zeitwerk::Loader.for_gem
 
 # Jamf, A Ruby module for interacting with the JAMF Pro Server via both of its REST APIs
@@ -71,12 +75,5 @@ JSS = Jamf
 require 'jamf/ruby_extensions'
 require 'jamf/exceptions'
 
-# for testing the Zeitwrk Loader... normally we want autoloading on demand,
-# eager loading loads everything
-begin
-  z_loader.eager_load(force: true)
-rescue Zeitwerk::NameError => e
-  puts e.message
-else
-  puts :loaded
-end
+# testing zeitwerk loading
+eager_load_for_testing
