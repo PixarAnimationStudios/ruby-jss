@@ -65,7 +65,7 @@ Here are some simple examples of using ruby-jss
 require 'ruby-jss'
 
 # Connect to the API
-JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+Jamf.cnx.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 
 # get an array of basic data about all JSS::Package objects in the JSS:
 pkgs = JSS::Package.all
@@ -109,12 +109,12 @@ ns.save
 
 Before you can work with JSS Objects via the API, you have to connect to it.
 
-The method `JSS.api` returns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
+The method `Jamf.cnx` returns the currently active connection to the API (an instance of a {JSS::APIConnection}, q.v.).
 
-When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `JSS.api.connect`, passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
+When the JSS Module is first loaded, that connection object isn't connected to anything. To remedy that, use `Jamf.cnx.connect`, passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
-JSS.api.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+Jamf.cnx.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
 ```
 
 Make sure the user has privileges in the JSS to do things with desired objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.
@@ -302,7 +302,7 @@ All supported API Objects can be deleted
 
 #### Other useful classes & modules:
 
-* {JSS::APIConnection} - An object representing a connection to the Classic API on some server. The 'default' connection object is available via `JSS.api` but you can create others, and pass them into calls like `.fetch` as needed. This is useful when working with multiple servers at a time, such as a production and a test server. Objects retrieved from a connection know which connection they came from, and will only send changes via that connection.
+* {JSS::APIConnection} - An object representing a connection to the Classic API on some server. The 'default' connection object is available via `Jamf.cnx` but you can create others, and pass them into calls like `.fetch` as needed. This is useful when working with multiple servers at a time, such as a production and a test server. Objects retrieved from a connection know which connection they came from, and will only send changes via that connection.
 * {JSS::DBConnection} - An object representing the connection to MySQL database, if used.
 * {JSS::Server} - An object representing the Jamf Pro server being used by a connection. An instance is available in the #server attribute of a {JSS::APIConnection}.
 * {JSS::Client} - An object representing the local machine as a Jamf-managed client, and provifing Jamf-related info and methods
@@ -352,11 +352,11 @@ api_username: readonly-api-user
 api_verify_cert: false
 ```
 
-and then any calls to JSS.api.connect will assume that server and username, and won't complain about the self-signed certificate.
+and then any calls to Jamf.cnx.connect will assume that server and username, and won't complain about the self-signed certificate.
 
 ### Passwords
 
-The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the JSS.api.connect call.
+The config files don't store passwords and the {JSS::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the Jamf.cnx.connect call.
 
 The {JSS::APIConnection.connect} method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.
 
@@ -366,7 +366,7 @@ Here's an example of how to use a password stored in a file:
 
 ```ruby
 password = File.read "/path/to/secure/password/file" # read the password from a file
-JSS.api.connect pw: password   # other arguments used from the config settings
+Jamf.cnx.connect pw: password   # other arguments used from the config settings
 ```
 
 And here's an example of how to read a password from a web server and use it.
@@ -374,7 +374,7 @@ And here's an example of how to read a password from a web server and use it.
 ```ruby
 require 'open-uri'
 password =  URI.parse('https://server.org.org/path/to/password').read
-JSS.api.connect pw: password   # other arguments used from the config settings
+Jamf.cnx.connect pw: password   # other arguments used from the config settings
 ```
 
 ## BEYOND THE API

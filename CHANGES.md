@@ -133,7 +133,7 @@ Big thanks to @cybertunnel for many enhancements and fixes.
 
   - Removed dependency on net-ldap, which hasn't been used in a while
 
-  - Removed the redundant JSS::APIConnection instance methods that were just wrappers for various APIObject subclass Class methods, e.g. `JSS.api.valid_id :computers, 'compName'`. Please use the class method directly, e.g. `JSS::Computer.valid_id 'compName'`
+  - Removed the redundant JSS::APIConnection instance methods that were just wrappers for various APIObject subclass Class methods, e.g. `Jamf.cnx.valid_id :computers, 'compName'`. Please use the class method directly, e.g. `JSS::Computer.valid_id 'compName'`
 
 ### Fixed
 
@@ -506,7 +506,7 @@ To change the number of retries, provide an integer with the `retries:` paramete
   rather than
     `https://myjss.myserver.edu:8443/`
   then use this parameter to specify the path below the root e.g:
-    `JSS.api.connect server: 'myjss.myserver.edu', server_path: 'dev_mgmt/jssweb', port: 8443 [...]`
+    `Jamf.cnx.connect server: 'myjss.myserver.edu', server_path: 'dev_mgmt/jssweb', port: 8443 [...]`
   (Thanks @christopher.kemp!)
 
 - Packages in Jamf Pro 10.10 and higher now include checksum data (`hash_type` and `hash_value` in the raw data) via the classic API. This has been integrated into JSS::Package via the following methods:
@@ -585,7 +585,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
   If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.
 
-  `JSS.api.connect server: 'myjss.myschool.edu', user: 'username', pw: :prompt, ssl_version: :TLSv1`
+  `Jamf.cnx.connect server: 'myjss.myschool.edu', user: 'username', pw: :prompt, ssl_version: :TLSv1`
 
   Machines running macOS 10.12 or lower will not be able to connect to Jamf Pro > v10.4 with the built-in ruby openssl library. If you specify `ssl_version: :TLSv1` you will get an error because the server won't accept it. If you leave the default :TLSv1_2, ruby's openssl library will complain that it doesn't know about that.
 

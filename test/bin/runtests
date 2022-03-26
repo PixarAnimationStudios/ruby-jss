@@ -182,7 +182,7 @@ class App
 
   def run_tests
     JSSTestHelper.say "Starting tests of ruby-jss v #{JSS::VERSION}"
-    JSSTestHelper.say "API Connection: #{@api_user}@#{@api_server}:#{@api_port} running Jamf Pro #{JSS.api.server.version}"
+    JSSTestHelper.say "API Connection: #{@api_user}@#{@api_server}:#{@api_port} running Jamf Pro #{Jamf.cnx.server.version}"
 
     base_runnables = MiniTest::Runnable.runnables.dup
 

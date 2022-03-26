@@ -400,7 +400,7 @@ module Jamf
         serialNumbers: new_scope_sns,
         versionLock: vlock
       }
-      Jamf::PrestageScope.new cnx.put(scope_rsrc, assignment_data)
+      Jamf::PrestageScope.new cnx.jp_put(scope_rsrc, assignment_data)
     rescue Jamf::Connection::APIError => e
       raise Jamf::VersionLockError, "The #{self} '#{prestage_name}' was modified by another process during this operation. Please try again" if e.status == 409
 
@@ -489,7 +489,7 @@ module Jamf
     #     versionLock: @scope.versionLock
     #   }
     #   begin
-    #     @scope = Jamf::PrestageScope.new @cnx.put(scope_rsrc, assignment_data)
+    #     @scope = Jamf::PrestageScope.new @cnx.jp_put(scope_rsrc, assignment_data)
     #   rescue Jamf::Connection::APIError => e
     #     raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again" if e.status == 409
     #

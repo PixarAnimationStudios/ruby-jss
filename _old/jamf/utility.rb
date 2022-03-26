@@ -292,7 +292,7 @@ module Jamf
   # The available names are the RSRC_LIST_KEY
   # and RSRC_OBJECT_KEY values for each APIObject subclass.
   #
-  # @seealso JSS.api_object_names
+  # @seealso Jamf.cnx_object_names
   #
   # @param name[String,Symbol] The name of a Jamf::APIObject subclass, singluar
   #   or plural

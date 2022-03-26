@@ -284,7 +284,7 @@ module Jamf
       else
         rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}"
       end
-      data = cnx.get rsrc
+      data = cnx.jp_get rsrc
 
       return Jamf::DeviceEnrollmentSyncStatus.new data if data.is_a? Hash
 

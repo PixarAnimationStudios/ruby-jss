@@ -93,7 +93,7 @@ the objects in `classicPol` and `jpPol` are very different things in ruby, even 
 
 While the general concepts will be the same (working with lists, fetching objects, updating them,), the start-from-scratch aspect of coding the Jamf module allows for some changes that I wish I could have made before, including the names of some classes, methods and attributes.
 
-- The active connection object is available in `Jamf.cnx` vs. the older `JSS.api`, and when passing a connection object as a named parameter, the name is `cnx:`.  This more accurately reflects what the object is - a 'connection' not an 'api'
+- The active connection object is available in `Jamf.cnx` vs. the older `Jamf.cnx`, and when passing a connection object as a named parameter, the name is `cnx:`.  This more accurately reflects what the object is - a 'connection' not an 'api'
 
 - Creating a connection can take a URL as a first positional parameter, e.g. `Jamf.connect 'https://myjamf.mysch.edu/'`. See 'Connection Parameters' below
 
@@ -117,7 +117,7 @@ Save the new static group to the server  | `new_grp.create` or `new_grp.save` | 
 
 Connections are instances of Jamf::Connection, analagous to the previous JSS::APIConnection.
 
-The way to access the 'active' connection in the Jamf module is via `Jamf.cnx`, which is the equivalent to the previous `JSS.api`.
+The way to access the 'active' connection in the Jamf module is via `Jamf.cnx`, which is the equivalent to the previous `Jamf.cnx`.
 
 Like before, a 'default' one is created when the library is loaded, and it is made the 'active' one. The Jamf module now has a direct `.connect` method so `Jamf.connect <params>` is the same as `Jamf.cnx.connect <params>`
 

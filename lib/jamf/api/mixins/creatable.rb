@@ -76,7 +76,7 @@ module Jamf
 
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
 
-      @api.post_rsrc(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      @api.c_post(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false

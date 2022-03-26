@@ -52,8 +52,8 @@ module JSSTestHelper
       # If we're here, we need to get the pw via prompt
       @api_pw = prompt_for_password prompt: "Enter the API password for #{user}@#{server}:#{port}" do |apw|
         begin
-          JSS.api.disconnect
-          JSS.api.connect user: user, pw: apw, server: server, port: port
+          Jamf.cnx.disconnect
+          Jamf.cnx.connect user: user, pw: apw, server: server, port: port
           true
         rescue JSS::AuthenticationError
           false
@@ -65,17 +65,17 @@ module JSSTestHelper
 
     # return the server, port, and user, which we might have gotten fromthe keychain
     def connect_to_api(server: nil, user: nil, port: nil, pw: nil)
-      return if JSS.api.connected?
+      return if Jamf.cnx.connected?
 
-      JSS.api.connect server: server, port: port, user: user, pw: pw
+      Jamf.cnx.connect server: server, port: port, user: user, pw: pw
       @api_pw = pw
-      { server: JSS.api.hostname, port: JSS.api.port, user: JSS.api.jss_user }
+      { server: Jamf.cnx.hostname, port: Jamf.cnx.port, user: Jamf.cnx.jss_user }
     rescue JSS::AuthenticationError
       # If we're here, we need to prompt for the pw
       pw = api_pw server: server, port: port, user: user
     ensure
       # store the pw
-      save_rw_credentials label: KEYCHAIN_JSS_LABEL, acct: JSS.api.jss_user, server: JSS.api.hostname, port: JSS.api.port, pw: pw if JSS.api.connected?
+      save_rw_credentials label: KEYCHAIN_JSS_LABEL, acct: Jamf.cnx.jss_user, server: Jamf.cnx.hostname, port: Jamf.cnx.port, pw: pw if Jamf.cnx.connected?
     end
 
     # TODO: update this as API above so there's only one per keychain.

@@ -78,7 +78,7 @@ module Jamf
     def fetch_collection_page(rsrc, page, page_size, sort, filter, cnx: Jamf.cnx)
       page_size ||= DFT_PAGE_SIZE
       validate_page_params page_size, page
-      raw = cnx.get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+      raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
 
       raw[:results]
     end
@@ -135,7 +135,7 @@ module Jamf
         return []
       end
 
-      raw = @collection_cnx.get "#{@collection_rsrc_path}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
+      raw = @collection_cnx.jp_get "#{@collection_rsrc_path}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
 
       @collection_paged_fetched_count += raw[:results].size
       @collection_paged_total_count = raw[:totalCount]
@@ -192,12 +192,12 @@ module Jamf
       page = 0
       page_size = MAX_PAGE_SIZE
 
-      raw = cnx.get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+      raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
       results = raw[:results]
 
       until results.size >= raw[:totalCount]
         page += 1
-        raw = cnx.get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+        raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
         results += raw[:results]
       end
       results

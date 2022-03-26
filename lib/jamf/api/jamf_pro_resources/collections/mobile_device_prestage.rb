@@ -48,7 +48,7 @@ module Jamf
     OBJECT_MODEL = superclass::OBJECT_MODEL.merge(
 
       # @!attribute skipSetupItems
-      #   @return [Jamf::ComputerPrestageSkipSetupItems]
+      #   @return [Hash]
       skipSetupItems: {
         class: :hash
       },
@@ -124,7 +124,7 @@ module Jamf
 
         rsrc = "#{@sync_rsrc}/#{id}"
         rsrc << '/latest' if latest
-        results = cnx.get rsrc
+        results = cnx.jp_get rsrc
         latest ? Jamf::PrestageSyncStatus.new(results) : results.map { |ss| Jamf::PrestageSyncStatus.new ss }
       else
         cnx.get(@sync_rsrc).map { |ss| Jamf::PrestageSyncStatus.new ss }

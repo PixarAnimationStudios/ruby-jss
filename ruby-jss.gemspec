@@ -23,7 +23,7 @@
 ###
 
 proj_name = 'ruby-jss'
-lib_dir = 'jss'
+lib_dir = 'jamf'
 
 require "./lib/#{lib_dir}/version"
 
@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
     under the hood to allow simpler, intuitive automation of Jamf-related Tasks.
   EOD
   s.name        = proj_name
-  s.version     = JSS::VERSION
+  s.version     = Jamf::VERSION
   s.license     = 'Nonstandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'

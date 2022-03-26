@@ -350,7 +350,7 @@ module Jamf
       #   always 'Command sent' (an error will be raised if there are problems
       #   sending)
       #
-      def send_mdm_command(targets, command, opts: {}, api: JSS.api)
+      def send_mdm_command(targets, command, opts: {}, api: Jamf.cnx)
         command = validate_command(command)
 
         rsrc = "#{send_command_rsrc}/command/#{command}"
@@ -365,7 +365,7 @@ module Jamf
           puts "\n\nTo rsrc: #{rsrc}"
         end
 
-        result = api.post_rsrc rsrc, cmd_xml
+        result = api.c_post rsrc, cmd_xml
 
         if command == BLANK_PUSH
           hash = {}
@@ -440,7 +440,7 @@ module Jamf
       #
       # @return [Array<Integer>] The ids of the target devices for a command
       #
-      def raw_targets_to_ids(targets, api: JSS.api, expand_groups: true)
+      def raw_targets_to_ids(targets, api: Jamf.cnx, expand_groups: true)
         targets = targets.is_a?(Array) ? targets : [targets]
 
         # flush caches before checking ids and managment
@@ -555,7 +555,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)]
       #
-      def blank_push(targets, api: JSS.api)
+      def blank_push(targets, api: Jamf.cnx)
         send_mdm_command targets, :blank_push, api: api
       end
       alias send_blank_push blank_push
@@ -573,7 +573,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def device_lock(targets, passcode: '', message: nil, api: JSS.api)
+      def device_lock(targets, passcode: '', message: nil, api: Jamf.cnx)
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Locking computers requires a 6-character String passcode' unless passcode.size == 6
@@ -599,7 +599,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def erase_device(targets, passcode: '', preserve_data_plan: false, api: JSS.api)
+      def erase_device(targets, passcode: '', preserve_data_plan: false, api: Jamf.cnx)
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Erasing computers requires a 6-character String passcode' unless passcode.size == 6
@@ -628,7 +628,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def unmanage_device(targets, api: JSS.api)
+      def unmanage_device(targets, api: Jamf.cnx)
         send_mdm_command targets, :unmanage_device, api: api
       end
       alias remove_mdm_profile unmanage_device
@@ -646,7 +646,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def unlock_user_account(targets, user, api: JSS.api)
+      def unlock_user_account(targets, user, api: Jamf.cnx)
         send_mdm_command targets, :unlock_user_account, opts: { user_name: user }, api: api
       end
 
@@ -660,7 +660,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def delete_user(targets, user, api: JSS.api)
+      def delete_user(targets, user, api: Jamf.cnx)
         send_mdm_command targets, :delete_user, opts: { user_name: user }, api: api
       end
 
@@ -672,7 +672,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def enable_remote_desktop(targets, api: JSS.api)
+      def enable_remote_desktop(targets, api: Jamf.cnx)
         send_mdm_command targets, :enable_remote_desktop, api: api
       end
 
@@ -684,7 +684,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_remote_desktop(targets, api: JSS.api)
+      def disable_remote_desktop(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_remote_desktop, api: api
       end
 
@@ -699,7 +699,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def update_inventory(targets, api: JSS.api)
+      def update_inventory(targets, api: Jamf.cnx)
         send_mdm_command targets, :update_inventory, api: api
       end
       alias recon update_inventory
@@ -712,7 +712,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def clear_passcode(targets, api: JSS.api)
+      def clear_passcode(targets, api: Jamf.cnx)
         send_mdm_command targets, :clear_passcode, api: api
       end
 
@@ -724,7 +724,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def clear_restrictions_password(targets, api: JSS.api)
+      def clear_restrictions_password(targets, api: Jamf.cnx)
         send_mdm_command targets, :clear_restrictions_password, api: api
       end
 
@@ -736,7 +736,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def enable_data_roaming(targets, api: JSS.api)
+      def enable_data_roaming(targets, api: Jamf.cnx)
         send_mdm_command targets, :enable_data_roaming, api: api
       end
 
@@ -748,7 +748,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_data_roaming(targets, api: JSS.api)
+      def disable_data_roaming(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_data_roaming, api: api
       end
 
@@ -760,7 +760,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def enable_voice_roaming(targets, api: JSS.api)
+      def enable_voice_roaming(targets, api: Jamf.cnx)
         send_mdm_command targets, :enable_voice_roaming, api: api
       end
 
@@ -772,7 +772,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_voice_roaming(targets, api: JSS.api)
+      def disable_voice_roaming(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_voice_roaming, api: api
       end
 
@@ -789,7 +789,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def device_name(targets, name, api: JSS.api)
+      def device_name(targets, name, api: Jamf.cnx)
         send_mdm_command targets, :device_name, opts: { device_name: name }, api: api
       end
       alias set_name device_name
@@ -811,7 +811,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def wallpaper(targets, wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil, api: JSS.api)
+      def wallpaper(targets, wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil, api: Jamf.cnx)
         raise ArgumentError, "wallpaper_setting must be one of: :#{WALLPAPER_LOCATIONS.keys.join ', :'}" unless WALLPAPER_LOCATIONS.keys.include? wallpaper_setting
 
         opts = { wallpaper_setting: WALLPAPER_LOCATIONS[wallpaper_setting] }
@@ -840,7 +840,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def passcode_lock_grace_period(targets, secs, api: JSS.api)
+      def passcode_lock_grace_period(targets, secs, api: Jamf.cnx)
         send_mdm_command targets, :passcode_lock_grace_period, opts: { passcode_lock_grace_period: secs }, api: api
       end
 
@@ -852,7 +852,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def shut_down_device(targets, api: JSS.api)
+      def shut_down_device(targets, api: Jamf.cnx)
         send_mdm_command targets, :shut_down_device, api: api
       end
       alias shutdown_device shut_down_device
@@ -867,7 +867,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def restart_device(targets, api: JSS.api)
+      def restart_device(targets, api: Jamf.cnx)
         send_mdm_command targets, :restart_device, api: api
       end
       alias restart restart_device
@@ -880,7 +880,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def enable_app_analytics(targets, api: JSS.api)
+      def enable_app_analytics(targets, api: Jamf.cnx)
         send_mdm_command targets, :enable_app_analytics, api: api
       end
 
@@ -892,7 +892,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_app_analytics(targets, api: JSS.api)
+      def disable_app_analytics(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_app_analytics, api: api
       end
 
@@ -904,7 +904,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def enable_diagnostic_submission(targets, api: JSS.api)
+      def enable_diagnostic_submission(targets, api: Jamf.cnx)
         send_mdm_command targets, :enable_diagnostic_submission, api: api
       end
 
@@ -916,7 +916,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_diagnostic_submission(targets, api: JSS.api)
+      def disable_diagnostic_submission(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_diagnostic_submission, api: api
       end
 
@@ -947,7 +947,7 @@ module Jamf
             footnote: nil,
             play_sound: false,
             enforce_lost_mode: true,
-            api: JSS.api
+            api: Jamf.cnx
       )
         raise ArgumentError, 'Either message: or phone_number: must be provided' unless message || phone
         opts = { always_enforce_lost_mode: enforce_lost_mode }
@@ -967,7 +967,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def play_lost_mode_sound(targets, api: JSS.api)
+      def play_lost_mode_sound(targets, api: Jamf.cnx)
         send_mdm_command targets, :play_lost_mode_sound, api: api
       end
 
@@ -979,7 +979,7 @@ module Jamf
       #
       # @return (see .send_mdm_command)
       #
-      def disable_lost_mode(targets, api: JSS.api)
+      def disable_lost_mode(targets, api: Jamf.cnx)
         send_mdm_command targets, :disable_lost_mode, api: api
       end
 
@@ -1001,7 +1001,7 @@ module Jamf
       #
       # @return [void]
       #
-      def flush_mdm_commands(targets, status: nil, api: JSS.api)
+      def flush_mdm_commands(targets, status: nil, api: Jamf.cnx)
         raise Jamf::InvalidDataError, "Status must be one of :#{FLUSHABLE_STATUSES.keys.join ', :'}" unless FLUSHABLE_STATUSES.keys.include? status
 
         status = FLUSHABLE_STATUSES[status]
@@ -1014,7 +1014,7 @@ module Jamf
 
         puts "Sending API DELETE: #{flush_rsrc}" if JSS.devmode?
 
-        api.delete_rsrc flush_rsrc
+        api.c_delete flush_rsrc
       end
 
     end # module ClassMethods

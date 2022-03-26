@@ -76,14 +76,14 @@ module Jamf
     # Returns an Array of all the smart
     # groups.
     #
-    def self.all_smart(refresh = false, api: JSS.api)
+    def self.all_smart(refresh = false, api: Jamf.cnx)
       all(refresh, api: api).select { |g| g[:is_smart] }
     end
 
     # Returns an Array of all the static
     # groups.
     #
-    def self.all_static(refresh = false, api: JSS.api)
+    def self.all_static(refresh = false, api: Jamf.cnx)
       all(refresh, api: api).reject { |g| g[:is_smart] }
     end
 
@@ -104,7 +104,7 @@ module Jamf
     #
     # @return [void]
     #
-    def self.change_membership(group, add_members: [], remove_members: [], api: JSS.api)
+    def self.change_membership(group, add_members: [], remove_members: [], api: Jamf.cnx)
       raise Jamf::NoSuchItemError, "No #{self} matching '#{group}'" unless (group_id = valid_id group, api: api)
       raise Jamf::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, api: api)[group_id]
 
@@ -123,7 +123,7 @@ module Jamf
       xml_doc = change_membership_xml add_members, remove_members, current_member_ids
       return unless xml_doc
 
-      api.put_rsrc "#{self::RSRC_BASE}/id/#{group_id}", xml_doc.to_s
+      api.c_put "#{self::RSRC_BASE}/id/#{group_id}", xml_doc.to_s
     end
 
     # return [REXML::Document, nil]
@@ -450,7 +450,7 @@ module Jamf
     # @return [Array<Hash>] the refresh membership
     #
     def refresh_members
-      @members = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
+      @members = @api.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
 
     # aliases

@@ -295,7 +295,7 @@ module Jamf
           # the all_ method - skip if defined in the class
           next if subclass.instance_methods.include? meth_name
 
-          subclass.define_singleton_method meth_name do |refresh = false, api: JSS.api|
+          subclass.define_singleton_method meth_name do |refresh = false, api: Jamf.cnx|
             all(refresh, api: api).map { |i| i[key] }
           end
 
@@ -304,7 +304,7 @@ module Jamf
           als_name = "all_#{als}s"
           next if subclass.instance_methods.include? als_name
 
-          subclass.define_singleton_method als_name do |refresh = false, api: JSS.api|
+          subclass.define_singleton_method als_name do |refresh = false, api: Jamf.cnx|
             send meth_name, refresh, api: api
           end
         end # if
@@ -487,7 +487,7 @@ module Jamf
     #
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
-    def self.all(refresh = false, api: JSS.api)
+    def self.all(refresh = false, api: Jamf.cnx)
       validate_not_metaclass(self)
 
       cache = api.c_object_list_cache
@@ -495,12 +495,12 @@ module Jamf
       api.flushcache(cache_key) if refresh
       return cache[cache_key] if cache[cache_key]
 
-      cache[cache_key] = api.get_rsrc(self::RSRC_BASE)[cache_key]
+      cache[cache_key] = api.c_get(self::RSRC_BASE)[cache_key]
     end
 
     # @return [Hash {String => Integer}] name => number of occurances
     #
-    def self.duplicate_names(refresh = false, api: JSS.api)
+    def self.duplicate_names(refresh = false, api: Jamf.cnx)
       return {} unless defined? self::NON_UNIQUE_NAMES
 
       dups = {}
@@ -556,7 +556,7 @@ module Jamf
     #
     # @return [Hash{Integer => Oject}] the associated ids and data
     #
-    def self.map_all_ids_to(other_key, refresh = false, api: JSS.api)
+    def self.map_all_ids_to(other_key, refresh = false, api: Jamf.cnx)
       # we will accept any key, it'll just return nil if not in the
       # .all hashes. However if we're given an alias of a lookup key
       # we need to convert it to its real name.
@@ -586,7 +586,7 @@ module Jamf
     #
     # @return [Array<APIObject>] the objects requested
     #
-    def self.all_objects(refresh = false, api: JSS.api)
+    def self.all_objects(refresh = false, api: Jamf.cnx)
       objects_cache_key ||= "#{self::RSRC_LIST_KEY}_objects".to_sym
       api_cache = api.c_object_list_cache
       api_cache[objects_cache_key] = nil if refresh
@@ -621,7 +621,7 @@ module Jamf
     #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identifier, refresh = false, api: JSS.api)
+    def self.valid_id(identifier, refresh = false, api: Jamf.cnx)
 
       # refresh if needed
       all(refresh, api: api) if refresh
@@ -673,7 +673,7 @@ module Jamf
     # @return [Integer, nil] the id of the matching object, or nil if it
     #   doesn't exist
     #
-    def self.id_for_identifier(key, val, refresh = false, api: JSS.api)
+    def self.id_for_identifier(key, val, refresh = false, api: Jamf.cnx)
       # refresh if needed
       all(refresh, api: api) if refresh
 
@@ -705,7 +705,7 @@ module Jamf
     #
     # @return [Boolean] does an object with the given identifier exist?
     #
-    def self.exist?(identifier, refresh = false, api: JSS.api)
+    def self.exist?(identifier, refresh = false, api: Jamf.cnx)
       !valid_id(identifier, refresh, api: api).nil?
     end
 
@@ -838,7 +838,7 @@ module Jamf
 
       # which connection?
       api = args.delete :api
-      api ||= JSS.api
+      api ||= Jamf.cnx
 
       # refresh the .all list if needed
       if args.delete(:refresh) || searchterm == :random
@@ -909,7 +909,7 @@ module Jamf
     # all the ruby goodness of a full instance, but just want a few values for
     # an object that aren't available in the `all` data
     #
-    # This is really just a wrapper around {APIConnection.get_rsrc} that
+    # This is really just a wrapper around {APIConnection.c_get} that
     # automatically fills in the RSRC::BASE value for you.
     #
     # @param id [Integer] the id of the object to fetch
@@ -920,14 +920,14 @@ module Jamf
     #   from the API, do not parse into a Hash or REXML::Document
     #
     # @param api[Jamf::Connection] the connection thru which to fetch this
-    #   object. Defaults to the deault API connection in JSS.api
+    #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [Hash, REXML::Document, String] the raw data for the object
     #
-    def self.get_raw(id, format: :json, as_string: false, api: JSS.api)
+    def self.get_raw(id, format: :json, as_string: false, api: Jamf.cnx)
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      data = api.get_rsrc rsrc, format, raw_json: as_string
+      data = api.c_get rsrc, format, raw_json: as_string
       return data if format == :json || as_string
 
       REXML::Document.new(data)
@@ -943,7 +943,7 @@ module Jamf
     # In some cases, where you're making simple changes to simple XML,
     # this can be faster than fetching a full instance and the re-saving it.
     #
-    # This is really just a wrapper around {APIConnection.put_rsrc} that
+    # This is really just a wrapper around {APIConnection.c_put} that
     # automatically fills in the RSRC::BASE value for you.
     #
     # @param id [Integer] the id of the object to PUT
@@ -951,14 +951,14 @@ module Jamf
     # @param xml [String, #to_s] The XML to send
     #
     # @param api[Jamf::Connection] the connection thru which to fetch this
-    #   object. Defaults to the deault API connection in JSS.api
+    #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [REXML::Document] the XML response from the API
     #
-    def self.put_raw(id, xml, api: JSS.api)
+    def self.put_raw(id, xml, api: Jamf.cnx)
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      REXML::Document.new(api.put_rsrc rsrc, xml.to_s)
+      REXML::Document.new(api.c_put rsrc, xml.to_s)
     end
 
     # POST some raw XML to the API for a given id in this subclass.
@@ -971,20 +971,20 @@ module Jamf
     # This probably isn't as much of a speed gain as get_raw or put_raw, as
     # opposed to instantiating a ruby object, but might still be useful.
     #
-    # This is really just a wrapper around {APIConnection.post_rsrc} that
+    # This is really just a wrapper around {APIConnection.c_post} that
     # automatically fills in the RSRC::BASE value for you.
     #
     # @param xml [String, #to_s] The XML to send
     #
     # @param api[Jamf::Connection] the connection thru which to fetch this
-    #   object. Defaults to the deault API connection in JSS.api
+    #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [REXML::Document] the XML response from the API
     #
-    def self.post_raw( xml, api: JSS.api)
+    def self.post_raw( xml, api: Jamf.cnx)
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/-1"
-      REXML::Document.new(api.post_rsrc rsrc, xml.to_s)
+      REXML::Document.new(api.c_post rsrc, xml.to_s)
     end
 
     # Make a ruby instance of a not-yet-existing APIObject.
@@ -1000,7 +1000,7 @@ module Jamf
     # @param name[String] The name of this object, generally must be uniqie
     #
     # @param api[Jamf::Connection] the connection thru which to make this
-    #   object. Defaults to the deault API connection in JSS.api
+    #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @param args[Hash] The data for creating an object, such as name:
     #  See {APIObject#initialize}
@@ -1014,7 +1014,7 @@ module Jamf
       end
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
 
-      args[:api] ||= JSS.api
+      args[:api] ||= Jamf.cnx
       args[:id] = :new
       new args
     end
@@ -1046,7 +1046,7 @@ module Jamf
     # @return [Array<Integer>] The id's that didn't exist when we tried to
     #   delete them.
     #
-    def self.delete(victims, refresh = true, api: JSS.api)
+    def self.delete(victims, refresh = true, api: Jamf.cnx)
       validate_not_metaclass(self)
 
       raise Jamf::InvalidDataError, 'Parameter must be an Integer ID or an Array of them' unless victims.is_a?(Integer) || victims.is_a?(Array)
@@ -1062,7 +1062,7 @@ module Jamf
       current_ids = all_ids refresh, api: api
       victims.each do |vid|
         if current_ids.include? vid
-          api.delete_rsrc "#{self::RSRC_BASE}/id/#{vid}"
+          api.c_delete "#{self::RSRC_BASE}/id/#{vid}"
         else
           skipped << vid
         end # if current_ids include vid
@@ -1132,7 +1132,7 @@ module Jamf
     #
     def initialize(**args)
       @api = args[:api]
-      @api ||= JSS.api
+      @api ||= Jamf.cnx
 
       # we're making a new one in the JSS
       if args[:id] == :new
@@ -1256,7 +1256,7 @@ module Jamf
     def delete
       return unless @in_jss
 
-      @api.delete_rsrc @rest_rsrc
+      @api.c_delete @rest_rsrc
 
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}"
       @id = nil
@@ -1455,7 +1455,7 @@ module Jamf
           Jamf::XMLWorkaround.data_via_xml rsrc, self.class::USE_XML_WORKAROUND, @api
         else
           # otherwise
-          @api.get_rsrc(rsrc)
+          @api.c_get(rsrc)
         end
 
       raw_json[args[:rsrc_object_key]]

@@ -94,7 +94,7 @@ module Jamf
       raise Jamf::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
       raise Jamf::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
 
-      @api.put_rsrc @rest_rsrc, rest_xml
+      @api.c_put @rest_rsrc, rest_xml
       @need_to_update = false
       refresh_icon if self_servable?
 

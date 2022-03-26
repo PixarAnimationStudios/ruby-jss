@@ -690,7 +690,7 @@ module Jamf
   </self_service>
 </#{self.class::RSRC_OBJECT_KEY}>
       ENDXML
-      @api.put_rsrc rest_rsrc, xml
+      @api.c_put rest_rsrc, xml
       @need_ss_notification_activation_hack = nil
     end
 
@@ -765,7 +765,7 @@ module Jamf
       # oldstyle/broken, we need the XML to know if notifications are turned on
       if @self_service_data_config[:notifications_supported] == :ssvc_only && @in_jss
         ssrsrc = "#{rest_rsrc}/subset/selfservice"
-        raw_xml = api.get_rsrc(ssrsrc, :xml)
+        raw_xml = api.c_get(ssrsrc, :xml)
         @self_service_notifications_enabled = raw_xml.include? '<notification>true</notification>'
         @self_service_notification_type = NOTIFICATION_TYPES.invert[ss_data[:notification]]
         @self_service_notification_subject = ss_data[:notification_subject]
@@ -796,7 +796,7 @@ module Jamf
     #
     def refresh_icon
       return nil unless @in_jss
-      fresh_data = @api.get_rsrc(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = @api.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
 
       ss_data = fresh_data[subset_key]

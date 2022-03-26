@@ -161,7 +161,7 @@ module Jamf
         return []
       end
 
-      raw = @change_log_paged_cnx.get "#{change_log_rsrc}?page=#{@change_log_page}&page-size=#{@change_log_page_size}#{@change_log_sort}#{@change_log_filter}"
+      raw = @change_log_paged_cnx.jp_get "#{change_log_rsrc}?page=#{@change_log_page}&page-size=#{@change_log_page_size}#{@change_log_sort}#{@change_log_filter}"
 
       @change_log_paged_fetched_count += raw[:results].size
       @change_log_paged_total_count = raw[:totalCount]
@@ -271,12 +271,12 @@ module Jamf
       paged_rsrc = "#{change_log_rsrc}?page-size=#{Jamf::Pageable::MAX_PAGE_SIZE}#{sort}#{filter}"
       page = 0
 
-      raw = cnx.get "#{paged_rsrc}&page=#{page}"
+      raw = cnx.jp_get "#{paged_rsrc}&page=#{page}"
       results = raw[:results]
 
       until results.size >= raw[:totalCount]
         page += 1
-        raw = cnx.get "#{paged_rsrc}&page=#{page}"
+        raw = cnx.jp_get "#{paged_rsrc}&page=#{page}"
         results += raw[:results]
       end
       results.map { |le| Jamf::ChangeLogEntry.new le }

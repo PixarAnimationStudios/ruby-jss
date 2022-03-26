@@ -102,6 +102,27 @@ loader.ignore "#{__dir__}/jss-api.rb"
 loader.ignore "#{__dir__}/jss.rb"
 loader.ignore "#{__dir__}/ruby-jss.rb"
 
+
+# callback for when a specific class loads
+#
+# loader.on_load("Jamf::SomeClass") do |klass, _abspath|
+#   klass.endpoint = "https://api.prod"
+# end
+
+# callback for when anything loads
+#  - const_path is like "Jamf::SomeClass" or "Jamf::SomeClass::SOME_CONST_ARRY"
+#  - value is the value that constant contains after loading,
+#    e.g. a the class Jamf::SomeClass for 'Jamf::SomeClass' or
+#    and Array for the constant  "Jamf::SomeClass::SOME_CONST_ARRY"
+#  - abspath is the full path to the file where the constant was loaded from.
+loader.on_load do |const_path, value, abspath|
+  puts "Just Loaded #{const_path}, which is a #{value.class}"
+  next unless value.respond_to?(:parse_object_model) && defined?(value::OBJECT_MODEL)
+
+  puts "..Parsing Object Model for #{value}"
+  value.parse_object_model
+end
+
 loader.setup
 
 # Jamf, A Ruby module for interacting with the JAMF Pro Server via both of its REST APIs
@@ -123,6 +144,8 @@ require 'jamf/exceptions'
 # backward compatibility, JSS module is the same as Jamf module
 JSS = Jamf
 
+# for testing... normally we want autoloading on demand,
+# eager loading loads everything
 begin
   loader.eager_load(force: true)
 rescue Zeitwerk::NameError => e

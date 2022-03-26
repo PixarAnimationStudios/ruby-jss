@@ -33,6 +33,8 @@ module Jamf
   ########################
   module Utility
 
+    include Jamf::Constants
+
     # Hash of 'minor' => 'maint'
     # The maximum maint release for macOS 10.minor.maint
     # e.g the highest release of 10.6 was 10.6.8, the highest release of
@@ -419,7 +421,7 @@ module Jamf
     # The available names are the RSRC_LIST_KEY
     # and RSRC_OBJECT_KEY values for each APIObject subclass.
     #
-    # @seealso JSS.api_object_names
+    # @seealso Jamf.cnx_object_names
     #
     # @param name[String,Symbol] The name of a Jamf::APIObject subclass, singluar
     #   or plural

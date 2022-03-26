@@ -245,13 +245,13 @@ module Jamf
     # @return [Array<Hash,Object>] All the objects in the collection
     #
     def self.cached_all(refresh, instantiate, cnx)
-      cnx.collection_cache[self] = nil if refresh
-      unless cnx.collection_cache[self]
+      cnx.jp_collection_cache[self] = nil if refresh
+      unless cnx.jp_collection_cache[self]
         sort = nil
         filter = nil
-        cnx.collection_cache[self] = fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
+        cnx.jp_collection_cache[self] = fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
       end
-      instantiate ? cnx.collection_cache[self].map { |m| new m } : cnx.collection_cache[self]
+      instantiate ? cnx.jp_collection_cache[self].map { |m| new m } : cnx.jp_collection_cache[self]
     end
     private_class_method :cached_all
 
@@ -382,7 +382,7 @@ module Jamf
     # get the basic dataset by id, with optional
     # request params to get more than basic data
     def self.raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
-      cnx.get "#{rsrc_path}/#{id}#{request_params}"
+      cnx.jp_get "#{rsrc_path}/#{id}#{request_params}"
     rescue => e
       return if e.httpStatus == 404
 

@@ -318,7 +318,7 @@ module Jamf
     #
     # @return [void]
     #
-    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: JSS.api)
+    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: Jamf.cnx)
       orig_timeout = api.cnx.options.timeout
       pol_id = valid_id policy
       raise Jamf::NoSuchItemError, "No Policy identified by '#{policy}'." unless pol_id
@@ -334,7 +334,7 @@ module Jamf
       # log flushes can be really slow
       api.timeout = 1800 unless orig_timeout && orig_timeout > 1800
 
-      return api.delete_rsrc "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
+      return api.c_delete "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
 
       flush_logs_for_specific_computers pol_id, older_than, period, computers, api
     ensure
@@ -2014,7 +2014,7 @@ module Jamf
     end
 
     def rest_xml
-      doc = REXML::Document.new APIConnection::XML_HEADER
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
 
       general = obj.add_element 'general'
