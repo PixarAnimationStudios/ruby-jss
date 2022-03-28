@@ -38,6 +38,7 @@ def setup_zeitwerk_loader(loader)
   ###################################################
 
   loader.collapse("#{__dir__}/jamf/api")
+  loader.collapse("#{__dir__}/jamf/api/oapi")
   loader.collapse("#{__dir__}/jamf/api/base_classes")
   loader.collapse("#{__dir__}/jamf/api/base_classes/classic")
   loader.collapse("#{__dir__}/jamf/api/base_classes/jamf_pro")
@@ -62,6 +63,7 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'db_connection' => 'DBConnection'
 
   # API objects, resources, and mixins
+  loader.inflector.inflect 'oapi_object_models' => 'OAPIObjectModels'
   loader.inflector.inflect 'api_object' => 'APIObject'
   loader.inflector.inflect 'ebook' => 'EBook'
   loader.inflector.inflect 'mdm_command' => 'MDMCommand'
