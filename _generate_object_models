@@ -1,0 +1,500 @@
+#!/usr/local/pixar/bin/ruby
+
+# Swagger schema to Object Model and Enum constants
+#
+# VERY USEFUL: https://swagger.io/docs/specification/data-models/data-types/
+#
+###############################################
+require 'pixenv'
+require 'json'
+
+# Our App
+class App
+
+  COPYRIGHT_NOTICE = <<~END_NOTICE.freeze
+    # Copyright #{Time.now.year} Pixar
+    #
+    #    Licensed under the Apache License, Version 2.0 (the "Apache License")
+    #    with the following modification; you may not use this file except in
+    #    compliance with the Apache License and the following modification to it:
+    #    Section 6. Trademarks. is deleted and replaced with:
+    #
+    #    6. Trademarks. This License does not grant permission to use the trade
+    #       names, trademarks, service marks, or product names of the Licensor
+    #       and its affiliates, except as required to comply with Section 4(c) of
+    #       the License and to reproduce the content of the NOTICE file.
+    #
+    #    You may obtain a copy of the Apache License at
+    #
+    #        http://www.apache.org/licenses/LICENSE-2.0
+    #
+    #    Unless required by applicable law or agreed to in writing, software
+    #    distributed under the Apache License with the above modification is
+    #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    #    KIND, either express or implied. See the Apache License for the specific
+    #    language governing permissions and limitations under the Apache License.
+    #
+    #
+  END_NOTICE
+
+  SWAGGER_SCHEMA_URL = 'https://casper.pixar.com:8443/api/schema'.freeze
+
+  MODELS_PATH_NAME = 'oapi_object_models'
+
+  OAPI_DIR = Pathname.new(__FILE__).parent + 'lib/jamf/api/oapi'
+  MODELS_DIR = OAPI_DIR + MODELS_PATH_NAME
+
+  MODELS_MODULE = 'OAPIObjectModels'
+  OAPI_PROPERTIES_CONST_NAME = 'OAPI_PROPERTIES'.freeze
+
+  JAMF_PRO_VERSION_PLACEHOLDER = 'JAMF_PRO_VERSION_GOES_HERE'.freeze
+  PRIVS_PLACEHOLDER = 'OBJECT_PRIVS_GO_HERE'.freeze
+  CONTAINERS_PLACEHOLDER = 'OBJECT_CONTAINTERS_GO_HERE'.freeze
+  SUB_MODELS_PLACEHOLDER = 'OBJECT_SUB_MODELS_GO_HERE'.freeze
+
+  MODEL_MODULE_NAME_PLACEHOLDER = 'CONSTANT_MODULE_NAME_GOES HERE'.freeze
+  OAPI_PROPERTIES_HASH_PLACEHOLDER = 'OBJECT_MODEL_CONSTANT_GOES_HERE'.freeze
+  ENUM_CONST_SUFFIX = '_OPTIONS'.freeze
+  ENUM_CONSTS_PLACEHOLDER = 'ENUM_CONSTANTS_GO_HERE'.freeze
+
+  OBJECT_MODEL_FILE_TEMPLATE = <<~END_TEMPLATE.freeze
+    #{COPYRIGHT_NOTICE}
+
+    module Jamf
+
+      # This module contains Object Model and Enum Constants for all JSONObjects
+      # defined in the Jamf Pro API.
+      #
+      # Generated automatically from the OAPI schema available from the
+      # 'api/schema' endpoint of any Jamf Pro server.
+      #
+      # This file was generated from Jamf Pro version #{JAMF_PRO_VERSION_PLACEHOLDER}
+      #
+      module #{MODELS_MODULE}
+
+        # API Object Model and Enums for: #{MODEL_MODULE_NAME_PLACEHOLDER}
+        #
+        # This constant defines the attributes of this API object
+        # and should be used as the base of the OBJECT_MODEL for the
+        # matching class in the Jamf module.
+        #
+        # Container Objects:
+        # Other object models that use this model as the value in one
+        # of their attributes.
+        #{CONTAINERS_PLACEHOLDER}
+        #
+        # Sub Objects:
+        # Other object models used by this model's attributes.
+        #{SUB_MODELS_PLACEHOLDER}
+        #
+        # Endpoints and Privileges:
+        # API endpoints and HTTP operations that use this object
+        # model, and the Jamf Pro privileges needed to access them.
+        #{PRIVS_PLACEHOLDER}
+        #
+        # We define this in its own module so that it can be autoloaded
+        # by ZeitWerk, and included in other classes and modules.
+        #
+        # To do so, use:
+        #   include Jamf::#{MODELS_MODULE}::#{MODEL_MODULE_NAME_PLACEHOLDER}
+        #
+        module #{MODEL_MODULE_NAME_PLACEHOLDER}
+
+          # These enums are used in the properties below
+
+          #{ENUM_CONSTS_PLACEHOLDER}
+
+          #{OAPI_PROPERTIES_HASH_PLACEHOLDER}
+
+        end # module #{MODEL_MODULE_NAME_PLACEHOLDER}
+
+      end # module #{MODELS_MODULE}
+
+    end # module Jamf
+  END_TEMPLATE
+
+  # Files that autoload these generated things
+  # AUTOLOAD_PATH_BASE = 'jamf/api/oapi'.freeze
+  # AUTOLOAD_FILE_MODELS = OAPI_DIR + "#{MODELS_PATH_NAME}.rb"
+  # AUTOLOAD_FILE_ENUMS = OAPI_DIR + "#{ENUMS_PATH_NAME}.rb"
+  #
+  # # autoload lines start with this
+  # AUTOLOAD_LINE_PFX = '        autoload :'.freeze
+
+  DOTRB = '.rb'.freeze
+
+#   AUTOLOADS_PLACEHOLDER = 'AUTOLOADS_GO_HERE'.freeze
+#   AUTOLOAD_TEMPLATE = <<~END_TEMPLATE.freeze
+#     #{COPYRIGHT_NOTICE}
+#
+#     module Jamf
+#
+#       # Autoloading for OAPI-generated enums and objects
+# #{AUTOLOADS_PLACEHOLDER}
+#
+#     end # module Jamf
+#   END_TEMPLATE
+
+  # Set up
+  ##############################
+  def initialize
+    # something?
+  end
+
+  # DO it
+  ##############################
+  def run
+    setup
+
+    @api_definition = JSON.parse(`curl -sf '#{SWAGGER_SCHEMA_URL}'`, symbolize_names: true)
+
+
+    # add new ones, but don't overwrite existing ones
+    # which have probably been customized to work properly
+    @api_definition[:components][:schemas].each do |object_name, object_schema|
+      process_object_model(object_name, object_schema)
+    end
+
+  end # run
+
+  # Set up for running
+  def setup
+    print 'Enter the version of Jamf Pro: '
+    @jamf_pro_version = gets.chomp
+    MODELS_DIR.rmtree if MODELS_DIR.exist?
+    MODELS_DIR.mkpath
+  end
+
+  # process for object models
+  ##############################
+  def process_object_model(object_name, object_schema)
+    model_const_file = const_file_from_object_name(object_name)
+
+    @model_const_name = const_name_from_object_name(object_name)
+
+    @privs = privs_for_model object_name
+
+    file_contents = object_model_file_contents(object_name, object_schema)
+    return unless file_contents
+
+    puts "Doing Object Model for #{object_name}, constant: #{@model_const_name}"
+    puts "  file #{model_const_file}"
+
+    model_const_file.pix_save file_contents
+  #  add_model_autoload model_const_file.basename.to_s
+  end
+
+  # e.g. 'app_dynamics_config.rb' from 'AppDynamicsConfig'
+  ##############################
+  def const_file_from_object_name(object_name)
+    fn = object_name.to_s.split('').map { |c| c =~ /[A-Z]/ ? "_#{c}" : c }.join[1..-1].downcase
+    MODELS_DIR + "#{fn}#{DOTRB}"
+  end
+
+  # find all the paths that use this model and note the privs needed
+  # and build a Hash constant with them
+  def privs_for_model(object_name)
+    paths = []
+    @api_definition[:paths].each do |path, pathdef|
+      pathdef.each do |operation, opdef|
+        xpriv = opdef[:'x-required-privileges'].dup
+        xpriv ||= ['Unknown']
+        xpriv = [xpriv] if xpriv.is_a?(String)
+
+        priv_array_str = '' # '['
+        priv_array_str << xpriv.join(', ')
+
+        # operation responses
+        opdef[:responses].each do |code, resp|
+          next unless code.to_s.start_with? '2'
+          next unless schema_contains_obj object_name, resp.dig(:content, :"application/json", :schema)
+
+          paths << "#  - '#{path}:#{operation.to_s.upcase}', needs permissions: #{priv_array_str}"
+        end
+
+        # operation request
+        next unless schema_contains_obj object_name, opdef.dig(:requestBody, :content, :"application/json", :schema)
+
+        paths << "#  - '#{path}:#{operation.to_s.upcase}', needs permissions: #{priv_array_str}"
+
+      end # pathdef.each
+    end; # @api_definition[:paths].each
+
+    paths.compact!
+    paths.uniq!
+
+    return '#' if paths.empty?
+
+    paths.join "\n    "
+  end
+
+  # schemas that use this schema as a propery/attribute
+  def containers_of(schema)
+    schema = schema.to_sym
+    schema_str_sfx = "/#{schema}"
+
+    containers = []
+    @api_definition[:components][:schemas].each do |sch_name, sch_def|
+      next if sch_name == schema
+      next unless sch_def[:properties]
+
+      sch_def[:properties].each do |propname, propdef|
+        if propdef[:$ref]
+          containers << sch_name if propdef[:$ref]&.end_with? schema_str_sfx
+        elsif propdef.dig :items, :$ref
+          containers << sch_name if propdef[:items][:$ref]&.end_with? schema_str_sfx
+        end # if
+      end # each prop
+    end # each schema
+    containers.compact!
+    containers.map! { |c| "- #{MODELS_MODULE}::#{c}" }
+    "#  #{containers.join "\n    #  "}"
+  end
+
+  # schemas used by this schema as a properly/attribute
+  def sub_schemas_of(schema)
+    schema = schema.to_sym
+    return '#' unless @api_definition[:components][:schemas][schema][:properties]
+
+    subschemas = []
+    @api_definition[:components][:schemas][schema][:properties].each do |propname, propdef|
+      if propdef[:$ref]
+        subschemas << propdef[:$ref].split('/').last
+      elsif propdef.dig :items, :$ref
+        subschemas << propdef[:items][:$ref].split('/').last
+      end # if
+    end # each
+
+    subschemas.compact!
+    subschemas.map! { |ss| "- #{MODELS_MODULE}::#{ss}" }
+    "#  #{subschemas.join "\n    #  "}"
+  end
+
+  ############################
+  def schema_contains_obj(object_name, schema_hash)
+    return false unless schema_hash.is_a? Hash
+
+    ref_hash = schema_hash[:items] || schema_hash
+    ref_hash.values.any? { |ref| ref.end_with? "components/schemas/#{object_name}" }
+  end
+
+  # object_name is a symbol like :ComputerInventoryCollectionSettings
+  # object_schema is a hash with at least a :type key
+  ##############################
+  def object_model_file_contents(object_name, object_schema)
+
+    @enum_consts = []
+    oapi_properties_const = ''
+
+    object_model_module_name = object_name.to_s
+
+    # This schema just defines a top-level enum
+    if object_schema[:enum]
+      enum_const = "#{const_name_from_object_name(object_model_module_name)}#{ENUM_CONST_SUFFIX} = [\n        "
+      enum_const << object_schema[:enum].map {|e| "'#{e}'"}.join(",\n        ")
+      enum_const << "\n      ]"
+      @enum_consts << enum_const
+
+    # This schema defines an object
+    elsif object_schema[:type] == 'object'
+      oapi_properties_const = properties_const(object_name, object_schema)
+    end
+
+    return if oapi_properties_const.nil? && @enum_consts.empty?
+
+    contents = OBJECT_MODEL_FILE_TEMPLATE.gsub JAMF_PRO_VERSION_PLACEHOLDER, @jamf_pro_version
+
+    contents.gsub! MODEL_MODULE_NAME_PLACEHOLDER, object_name.to_s
+    contents.gsub! CONTAINERS_PLACEHOLDER, containers_of(object_name)
+    contents.gsub! SUB_MODELS_PLACEHOLDER, sub_schemas_of(object_name)
+    contents.gsub! PRIVS_PLACEHOLDER, @privs
+    contents.gsub! MODEL_MODULE_NAME_PLACEHOLDER, object_model_module_name
+    contents.gsub! OAPI_PROPERTIES_HASH_PLACEHOLDER, oapi_properties_const
+    contents.gsub! ENUM_CONSTS_PLACEHOLDER, @enum_consts.join("\n\n      ")
+
+    contents
+  end # def object_model_constant
+
+  # See https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/
+  # for description of :allOf and friends
+  ##############################
+  def properties_const(object_name, object_schema)
+    merges = []
+    const = "#{OAPI_PROPERTIES_CONST_NAME} = "
+
+    if object_schema[:allOf]
+      object_schema[:allOf].each do |sub_schema|
+        # this is like a 'superclass' - it's object model will be merged
+        # with this one
+        if sub_schema[:$ref]
+          merged_model_name = sub_schema[:$ref].split('/').last
+          merges << "Jamf::#{MODELS_MODULE}::#{merged_model_name}::#{OAPI_PROPERTIES_CONST_NAME}"
+          next
+
+        # This defines the properties of this 'subclass'
+        elsif sub_schema[:properties]
+          const << const_from_properties(sub_schema)
+
+        # this means we've hit something chris doesn't know about yet
+        else
+          puts "WARNING: unknown subschema in #{object_name}"
+          next
+        end # if sub_schema[:$ref]
+      end # each do |sub_schema|
+
+    # no :allOf - just a direct object schema
+    elsif object_schema[:properties]
+      const << const_from_properties(object_schema)
+
+    # if there's no properties, it might be a definition of a single value,
+    # e.g. an enum, as in
+    #    @api_definition[:components][:schemas][:ComputerSection]
+    else
+      puts "WARNING: object schema in #{object_name} has no allOf or properties"
+      return
+    end # f object_schema[:allOf]
+
+    # Add the end of the const definition
+    if merges.empty?
+      const << "\n      } # end #{OAPI_PROPERTIES_CONST_NAME}"
+    else
+      const << "\n      }"
+      merges.each { |m| const << ".merge(#{MODELS_MODULE}::#{m})" }
+      const << " # end #{OAPI_PROPERTIES_CONST_NAME}"
+    end
+    const
+  end
+
+  ########################
+  def const_from_properties(object_schema)
+    const_def = []
+    const_def << "{"
+    const_def << ''
+
+    attr_defs = []
+    required_attrs = object_schema[:required] || []
+
+    object_schema[:properties].each do |attr, deets|
+      attr_defs << object_property_to_attr_def(attr, deets, required_attrs)
+    end # properties.each do |attr, deets|
+
+    const_def << attr_defs.join(",\n\n")
+    const_def << ''
+    const_def.join("\n")
+  end # def object_model_constant
+
+  # e.g. 'APP_DYNAMICS_CONFIG' from 'AppDynamicsConfig'
+  ##############################
+  def const_name_from_object_name(object_name)
+    name = object_name.to_s.split('').map { |c| c =~ /[A-Z]/ ? "_#{c}" : c }.join
+    name = name[1..-1] if name.start_with? '_'
+    name.upcase
+  end
+
+  # e.g. 'AppDynamicsConfig' from 'APP_DYNAMICS_CONFIG'
+  ##############################
+  def module_name_from_const_name(name)
+    name.split('_').map(&:capitalize).join
+  end
+
+  ##############################
+  def object_property_to_attr_def(attr, deets, required_attrs)
+    attr_def = []
+    yard_ro = deets[:readOnly] ? ' [r]' : ''
+    yard_return = yard_return_class_from_type(deets)
+
+    enum_const = nil
+    enum_const_name  = nil
+    if deets[:enum]
+      enum_const_name = "#{const_name_from_object_name(attr)}#{ENUM_CONST_SUFFIX}"
+      enum_const = "#{enum_const_name} = [\n        "
+      enum_const << deets[:enum].map {|e| "'#{e}'"}.join(",\n        ")
+      enum_const << "\n      ]"
+      @enum_consts << enum_const
+    end
+
+    if deets[:description]
+      desc = deets[:description].chomp.split "\n"
+      desc.each { |line| attr_def << "        # #{line}" }
+    end
+
+    attr_def << "        # @!attribute#{yard_ro} #{attr}"
+    attr_def << "        #   @return [#{yard_return}]"
+    attr_def << "        #{attr}: {"
+    attr_def << "          class: #{attr == :id ? ':j_id' : class_from_type(deets)},"
+    attr_def << '          nil_ok: true,' if deets[:nullable]
+    attr_def << '          identifier: :primary,' if attr == :id
+    attr_def << '          readonly: true,' if deets[:readOnly]
+    attr_def << '          required: true,' if required_attrs.include? attr.to_s
+    attr_def << '          multi: true,' if deets[:type] == 'array'
+    attr_def << "          enum: #{enum_const_name}," if enum_const_name
+
+    attr_def.last.chomp! ','
+    attr_def << '        }'
+    attr_def.join("\n")
+  end
+
+  ##############################
+  def class_from_type(deets)
+    return "Jamf::#{deets[:$ref].split('/').last}" if deets[:$ref]
+
+    case deets[:type]
+    when 'string'
+      deets[:format] == 'date-time' ? 'Jamf::Timestamp' : ':string'
+    when 'integer'
+      ':integer'
+    when 'number'
+      ':float'
+    when 'boolean'
+      ':boolean'
+    when 'array'
+      class_from_type(deets[:items])
+    when 'object'
+      ':hash'
+    end # case
+  end
+
+  ##############################
+  def yard_return_class_from_type(deets)
+    return "Jamf::#{deets[:$ref].split('/').last}" if deets[:$ref]
+
+    case deets[:type]
+    when 'string'
+      deets[:format] == 'date-time' ? 'Jamf::Timestamp' : 'String'
+    when 'integer'
+      'Integer'
+    when 'number'
+      'Float'
+    when 'boolean'
+      'Boolean'
+    when 'array'
+      "Array<#{yard_return_class_from_type(deets[:items])}>"
+    when 'object'
+      val_type =
+        if deets.dig :additionalProperties, :type
+          puts '>>>>>'
+          puts deets
+          puts '>>>>>'
+          "{Symbol: #{yard_return_class_from_type(deets[:additionalProperties])} }"
+        else
+          '{Symbol: Object}'
+        end
+      "Hash#{val_type}"
+    end # case
+  end
+
+  # ##############################
+  # def add_model_autoload(filename)
+  #   autoload_line = "#{AUTOLOAD_LINE_PFX}#{@model_const_name}, '#{AUTOLOAD_PATH_BASE}/#{MODELS_PATH_NAME}/#{filename.chomp DOTRB}'"
+  #   puts autoload_line
+  #   @model_autoloads << autoload_line
+  # end
+  #
+  # ##############################
+  # def add_enum_autoload(filename, enum_const_name)
+  #   @enum_autoloads <<  "#{AUTOLOAD_LINE_PFX}#{enum_const_name}, '#{AUTOLOAD_PATH_BASE}/#{ENUMS_PATH_NAME}/#{filename.chomp DOTRB}'"
+  # end
+
+end # class App
+
+App.new.run
