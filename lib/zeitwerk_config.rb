@@ -38,16 +38,18 @@ def setup_zeitwerk_loader(loader)
   ###################################################
 
   loader.collapse("#{__dir__}/jamf/api")
-  loader.collapse("#{__dir__}/jamf/api/oapi")
-  loader.collapse("#{__dir__}/jamf/api/base_classes")
-  loader.collapse("#{__dir__}/jamf/api/base_classes/classic")
-  loader.collapse("#{__dir__}/jamf/api/base_classes/jamf_pro")
-  loader.collapse("#{__dir__}/jamf/api/classic_api_objects")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro_attributes")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro_json_objects")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro_resources")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro_resources/collections")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro_resources/singletons")
+
+  loader.collapse("#{__dir__}/jamf/api/classic")
+  loader.collapse("#{__dir__}/jamf/api/classic/api_objects")
+  loader.collapse("#{__dir__}/jamf/api/classic/base_classes")
+
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/attribute_classes")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/base_classes")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/resources")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/collections")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/singletons")
+
   loader.collapse("#{__dir__}/jamf/api/mixins")
 
   # filenames => Constants, which don't adhere to zeitwerk's parsing standards
@@ -63,7 +65,7 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'db_connection' => 'DBConnection'
 
   # API objects, resources, and mixins
-  loader.inflector.inflect 'oapi_object_models' => 'OAPIObjectModels'
+  loader.inflector.inflect 'oapi_object' => 'OAPIObject'
   loader.inflector.inflect 'api_object' => 'APIObject'
   loader.inflector.inflect 'ebook' => 'EBook'
   loader.inflector.inflect 'mdm_command' => 'MDMCommand'
@@ -110,10 +112,10 @@ def setup_zeitwerk_loader(loader)
   #####################################
   loader.on_load do |const_path, value, _abspath|
     puts "Just Loaded #{const_path}, which is a #{value.class}"
-    next unless value.respond_to?(:parse_object_model) && defined?(value::OBJECT_MODEL)
+    next unless value.respond_to?(:parse_oapi_properties) && defined?(value::OAPI_PROPERTIES)
 
-    puts "..Parsing Object Model for #{value}"
-    value.parse_object_model
+    puts "..Parsing OAPI_PROPERTIES for #{value}"
+    value.parse_oapi_properties
   end
 
   loader.setup
