@@ -163,7 +163,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         createdAt: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         }
 
       } # end OAPI_PROPERTIES

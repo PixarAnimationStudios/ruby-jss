@@ -75,91 +75,91 @@ module Jamf
         #   @return [Integer]
         numConnectionsClosedDefunct: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numConnectionsClosedExpired
         #   @return [Integer]
         numConnectionsClosedExpired: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numConnectionsClosedUnneeded
         #   @return [Integer]
         numConnectionsClosedUnneeded: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numFailedCheckouts
         #   @return [Integer]
         numFailedCheckouts: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numFailedConnectionAttempts
         #   @return [Integer]
         numFailedConnectionAttempts: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numReleasedValid
         #   @return [Integer]
         numReleasedValid: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numSuccessfulCheckouts
         #   @return [Integer]
         numSuccessfulCheckouts: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numSuccessfulCheckoutsNewConnection
         #   @return [Integer]
         numSuccessfulCheckoutsNewConnection: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numSuccessfulConnectionAttempts
         #   @return [Integer]
         numSuccessfulConnectionAttempts: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute maximumAvailableConnections
         #   @return [Integer]
         maximumAvailableConnections: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numSuccessfulCheckoutsWithoutWaiting
         #   @return [Integer]
         numSuccessfulCheckoutsWithoutWaiting: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numSuccessfulCheckoutsAfterWaiting
         #   @return [Integer]
         numSuccessfulCheckoutsAfterWaiting: {
           class: :integer,
-          format: int64
+          format: 'int64'
         },
 
         # @!attribute numAvailableConnections
         #   @return [Integer]
         numAvailableConnections: {
           class: :integer,
-          format: int64
+          format: 'int64'
         }
 
       } # end OAPI_PROPERTIES

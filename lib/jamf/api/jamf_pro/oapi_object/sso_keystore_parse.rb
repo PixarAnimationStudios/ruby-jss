@@ -72,17 +72,18 @@ module Jamf
         #   @return [String]
         keystorePassword: {
           class: :string,
-          format: password,
-          writeonly: true,
-          required: true
+          required: true,
+          format: 'password',
+          writeonly: true
         },
 
         # @!attribute keystoreFile
         #   @return [String]
         keystoreFile: {
           class: :string,
-          format: byte,
-          required: true
+          required: true,
+          format: 'byte',
+          pattern: Regexp.new('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$')
         },
 
         # @!attribute keystoreFileName

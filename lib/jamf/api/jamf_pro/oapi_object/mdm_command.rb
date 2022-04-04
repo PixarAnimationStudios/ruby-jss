@@ -176,7 +176,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         dateSent: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute client

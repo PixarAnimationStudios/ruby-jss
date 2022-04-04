@@ -71,9 +71,9 @@ module Jamf
         #   @return [String]
         recoveryLockPassword: {
           class: :string,
-          format: password,
-          min_length: 1,
-          writeonly: true
+          format: 'password',
+          writeonly: true,
+          min_length: 1
         }
 
       }.merge(Jamf::OAPIObject::ComputerPrestageV2::OAPI_PROPERTIES) # end OAPI_PROPERTIES

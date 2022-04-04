@@ -71,7 +71,7 @@ module Jamf
         #   @return [Integer]
         bootDriveAvailableSpaceMegabytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

@@ -103,7 +103,7 @@ module Jamf
         #   @return [Integer]
         defaultHomeCategoryId: {
           class: :integer,
-          format: int32
+          format: 'int32'
         },
 
         # renamed string for bookmarks if the admin wishes

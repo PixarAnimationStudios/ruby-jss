@@ -109,7 +109,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         lastInventoryUpdateTimestamp: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute osVersion
@@ -176,21 +176,21 @@ module Jamf
         #   @return [Jamf::Timestamp]
         initialEntryTimestamp: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute lastEnrollmentTimestamp
         #   @return [Jamf::Timestamp]
         lastEnrollmentTimestamp: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute mdmProfileExpirationTimestamp
         #   @return [Jamf::Timestamp]
         mdmProfileExpirationTimestamp: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute deviceOwnershipLevel

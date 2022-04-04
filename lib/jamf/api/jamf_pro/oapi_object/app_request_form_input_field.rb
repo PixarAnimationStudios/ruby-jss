@@ -97,9 +97,9 @@ module Jamf
         #   @return [Integer]
         priority: {
           class: :integer,
+          required: true,
           minimum: 1,
-          maximum: 255,
-          required: true
+          maximum: 255
         }
 
       } # end OAPI_PROPERTIES

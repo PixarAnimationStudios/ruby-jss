@@ -112,9 +112,9 @@ module Jamf
         #   @return [Integer]
         port: {
           class: :integer,
+          required: true,
           minimum: 1,
-          maximum: 65535,
-          required: true
+          maximum: 65535
         },
 
         # Request with the Base64-encoded keystore file
@@ -129,18 +129,18 @@ module Jamf
         #   @return [Integer]
         connectionTimeout: {
           class: :integer,
+          required: true,
           minimum: 5,
-          maximum: 600.0,
-          required: true
+          maximum: 600.0
         },
 
         # @!attribute searchTimeout
         #   @return [Integer]
         searchTimeout: {
           class: :integer,
+          required: true,
           minimum: 5,
-          maximum: 600.0,
-          required: true
+          maximum: 600.0
         },
 
         # @!attribute useWildcards

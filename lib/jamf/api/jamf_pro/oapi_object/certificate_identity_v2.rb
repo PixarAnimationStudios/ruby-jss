@@ -86,8 +86,9 @@ module Jamf
         #   @return [String]
         identityKeystore: {
           class: :string,
-          format: byte,
-          writeonly: true
+          format: 'byte',
+          writeonly: true,
+          pattern: Regexp.new('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$')
         },
 
         # The md5 checksum of the certificate file. Intended to be used in verifification the cert being used to sign QuickAdd packages.

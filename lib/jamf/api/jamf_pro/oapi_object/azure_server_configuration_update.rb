@@ -72,8 +72,8 @@ module Jamf
         #   @return [String]
         id: {
           class: :j_id,
-          identifier: :primary,
-          required: true
+          required: true,
+          identifier: :primary
         },
 
         # @!attribute enabled
@@ -95,9 +95,9 @@ module Jamf
         #   @return [Integer]
         searchTimeout: {
           class: :integer,
+          required: true,
           minimum: 5,
-          maximum: 600,
-          required: true
+          maximum: 600
         },
 
         # Use this field to enable transitive membership lookup with Single Sign On

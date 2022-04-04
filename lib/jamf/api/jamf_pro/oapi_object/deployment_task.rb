@@ -109,7 +109,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         updated: {
           class: Jamf::Timestamp,
-          format: date-time,
+          format: 'date-time',
           readonly: true
         },
 

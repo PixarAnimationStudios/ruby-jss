@@ -115,7 +115,7 @@ module Jamf
         #   @return [Integer]
         homeDirectorySizeMb: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

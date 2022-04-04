@@ -72,18 +72,18 @@ module Jamf
         #   @return [Integer]
         ldapServerId: {
           class: :integer,
+          required: true,
           minimum: 1,
-          maximum: 999,
-          required: true
+          maximum: 999
         },
 
         # @!attribute azureServerId
         #   @return [Integer]
         azureServerId: {
           class: :integer,
+          required: true,
           minimum: 1001,
-          maximum: 65535,
-          required: true
+          maximum: 65535
         },
 
         # Azure Cloud Identity Provider mappings

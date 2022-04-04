@@ -75,9 +75,9 @@ module Jamf
         #   @return [String]
         id: {
           class: :j_id,
+          required: true,
           identifier: :primary,
-          minimum: 1001,
-          required: true
+          minimum: 1001
         },
 
         # An old Cloud Identity Provider LDAP server configuration for responses

@@ -101,7 +101,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         statusDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute attempt

@@ -53,9 +53,9 @@ def setup_zeitwerk_loader(loader)
   loader.collapse("#{__dir__}/jamf/api/mixins")
 
   # filenames => Constants, which don't adhere to zeitwerk's parsing standards
-  # Mostly because the a filename like 'json_object' would be
-  # loaded by zeitwerk expecting it to define 'JsonObject', but it really
-  # defines 'JSONObject'
+  # Mostly because the a filename like 'oapi_object' would be
+  # loaded by zeitwerk expecting it to define 'OapiObject', but it really
+  # defines 'OAPIObject'
   ###############################################
 
   # Connections
@@ -66,6 +66,8 @@ def setup_zeitwerk_loader(loader)
 
   # API objects, resources, and mixins
   loader.inflector.inflect 'oapi_object' => 'OAPIObject'
+  loader.inflector.inflect 'oapi_validate' => 'OAPIValidate'
+
   loader.inflector.inflect 'api_object' => 'APIObject'
   loader.inflector.inflect 'ebook' => 'EBook'
   loader.inflector.inflect 'mdm_command' => 'MDMCommand'
@@ -89,6 +91,8 @@ def setup_zeitwerk_loader(loader)
 
   # These should be ignored, some will be required directly
   #####################################
+
+  loader.ignore "#{__dir__}/api/jamf_pro/pre_oapi/"
 
   loader.ignore "#{__dir__}/jamf/ruby_extensions.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions"

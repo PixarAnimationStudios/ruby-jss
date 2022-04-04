@@ -90,7 +90,7 @@ module Jamf
         #   @return [String]
         poDate: {
           class: :string,
-          format: date
+          format: 'date'
         },
 
         # @!attribute vendor
@@ -103,7 +103,7 @@ module Jamf
         #   @return [String]
         warrantyDate: {
           class: :string,
-          format: date
+          format: 'date'
         },
 
         # @!attribute appleCareId
@@ -116,7 +116,7 @@ module Jamf
         #   @return [String]
         leaseDate: {
           class: :string,
-          format: date
+          format: 'date'
         },
 
         # @!attribute purchasePrice

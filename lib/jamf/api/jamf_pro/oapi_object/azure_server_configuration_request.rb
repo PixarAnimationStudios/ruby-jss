@@ -102,9 +102,9 @@ module Jamf
         #   @return [Integer]
         searchTimeout: {
           class: :integer,
+          required: true,
           minimum: 5,
-          maximum: 600,
-          required: true
+          maximum: 600
         },
 
         # Use this field to enable transitive membership lookup with Single Sign On

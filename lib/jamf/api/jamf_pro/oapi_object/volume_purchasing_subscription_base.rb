@@ -73,8 +73,8 @@ module Jamf
         #   @return [String]
         name: {
           class: :string,
-          min_length: 1,
-          required: true
+          required: true,
+          min_length: 1
         },
 
         # @!attribute enabled

@@ -108,7 +108,7 @@ module Jamf
         #   @return [Integer]
         sizeMegabytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

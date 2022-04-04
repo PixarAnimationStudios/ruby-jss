@@ -71,7 +71,7 @@ module Jamf
         #   @return [Integer]
         cacheBytesLimit: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -93,7 +93,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         postDate: {
           class: Jamf::Timestamp,
-          format: date-time,
+          format: 'date-time',
           readonly: true
         },
 
@@ -101,7 +101,7 @@ module Jamf
         #   @return [Integer]
         reservedVolumeBytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

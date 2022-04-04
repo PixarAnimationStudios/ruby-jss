@@ -91,7 +91,7 @@ module Jamf
         #   @return [Integer]
         sizeBytes: {
           class: :integer,
-          format: int64
+          format: 'int64'
         }
 
       } # end OAPI_PROPERTIES

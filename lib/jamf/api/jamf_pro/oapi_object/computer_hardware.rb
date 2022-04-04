@@ -100,7 +100,7 @@ module Jamf
         #   @return [Integer]
         processorSpeedMhz: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -136,7 +136,7 @@ module Jamf
         #   @return [Integer]
         busSpeedMhz: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -145,7 +145,7 @@ module Jamf
         #   @return [Integer]
         cacheSizeKilobytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -178,7 +178,7 @@ module Jamf
         #   @return [Integer]
         totalRamMegabytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -195,9 +195,9 @@ module Jamf
         #   @return [Integer]
         batteryCapacityPercent: {
           class: :integer,
+          readonly: true,
           minimum: 0,
-          maximum: 100,
-          readonly: true
+          maximum: 100
         },
 
         # @!attribute [r] smcVersion

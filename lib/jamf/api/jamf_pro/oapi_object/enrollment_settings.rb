@@ -176,7 +176,7 @@ module Jamf
         #   @return [Integer]
         randomPasswordLength: {
           class: :integer,
-          format: int32
+          format: 'int32'
         },
 
         # @!attribute isCreateManagementAccount

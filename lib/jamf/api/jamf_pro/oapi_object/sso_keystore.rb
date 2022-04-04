@@ -98,9 +98,9 @@ module Jamf
         #   @return [String]
         password: {
           class: :string,
-          format: password,
-          writeonly: true,
-          required: true
+          required: true,
+          format: 'password',
+          writeonly: true
         },
 
         # @!attribute type

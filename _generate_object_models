@@ -419,8 +419,16 @@ class App
       }
       oapi_properties_const = properties_const(class_name, schema_to_parse, enum_consts)
 
+    # TODO: object_schema[:type] == 'array' ( or anything else)
+    # As in SafelistedApps which defines an array of objects, and the defintion
+    # is used as a $ref from several other objects.
+    # I'm not sure why Jamf didn't just define a `SafeListedApp` object, and then
+    # use refs to it in arrays in those other objects - then it would all work
+    # cuz those arrays would be multi-valued attrs with the class SafeListedApp
+
+
     # This schema defines an object
-  elsif object_schema[:allOf] || object_schema[:type] == 'object'
+    elsif object_schema[:allOf] || object_schema[:type] == 'object'
       oapi_properties_const = properties_const(class_name, object_schema, enum_consts)
     end
 
@@ -519,13 +527,14 @@ class App
   def object_property_to_attr_def(attr, deets, required_attrs, enum_consts)
     # if this propery merely refers to some other schema, we that as its deets
     # e.g.
-    #  :$ref: "#/components/schemas/ComputerPartitionFileVault2State"
-    if deets.keys == [:$ref]
-      ref = deets[:$ref]
-      digpath = ref.split('/').map(&:to_sym)
-      digpath.shift
-      deets = @api_definition.dig *digpath
-    end
+    # #  :$ref: "#/components/schemas/ComputerPartitionFileVault2State"
+
+    # if deets.keys == [:$ref]
+    #   ref = deets[:$ref]
+    #   digpath = ref.split('/').map(&:to_sym)
+    #   digpath.shift
+    #   deets = @api_definition.dig *digpath
+    # end
 
     attr_def = []
     yard_ro = deets[:readOnly] ? +' [r]' : +''
@@ -553,7 +562,7 @@ class App
     attr_def << +'          required: true,' if required_attrs.include? attr.to_s
     attr_def << +'          nil_ok: true,' if deets[:nullable]
     attr_def << +'          identifier: :primary,' if attr == :id
-    attr_def << +"          format: #{deets[:format]}," if deets[:format]
+    attr_def << +"          format: '#{deets[:format]}'," if deets[:format]
     attr_def << +'          readonly: true,' if deets[:readOnly]
     attr_def << +'          writeonly: true,' if deets[:writeOnly]
     attr_def << +'          multi: true,' if deets[:type] == 'array'
@@ -565,7 +574,7 @@ class App
     attr_def << +"          exclusive_maximum: true," if deets[:exclusiveMaximum]
     attr_def << +"          multiple_of: #{deets[:multipleOf]}," if deets[:multipleOf]
 
-    attr_def << +"          pattern: Regexp.new(#{deets[:pattern]})," if deets[:pattern]
+    attr_def << +"          pattern: Regexp.new('#{deets[:pattern]}')," if deets[:pattern]
     attr_def << +"          min_length: #{deets[:minLength]}," if deets[:minLength]
     attr_def << +"          max_length: #{deets[:maxLength]}," if deets[:maxLength]
 

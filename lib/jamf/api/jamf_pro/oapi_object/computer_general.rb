@@ -141,42 +141,42 @@ module Jamf
         #   @return [Jamf::Timestamp]
         reportDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute lastContactTime
         #   @return [Jamf::Timestamp]
         lastContactTime: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute lastCloudBackupDate
         #   @return [Jamf::Timestamp]
         lastCloudBackupDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute lastEnrolledDate
         #   @return [Jamf::Timestamp]
         lastEnrolledDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute mdmProfileExpiration
         #   @return [Jamf::Timestamp]
         mdmProfileExpiration: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute initialEntryDate
         #   @return [String]
         initialEntryDate: {
           class: :string,
-          format: date
+          format: 'date'
         },
 
         # @!attribute distributionPoint

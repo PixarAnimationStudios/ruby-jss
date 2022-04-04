@@ -93,22 +93,22 @@ module Jamf
         #   @return [Integer]
         timeToLiveSeconds: {
           class: :integer,
-          format: int32,
-          required: true
+          required: true,
+          format: 'int32'
         },
 
         # @!attribute timeToIdleSeconds
         #   @return [Integer]
         timeToIdleSeconds: {
           class: :integer,
-          format: int32
+          format: 'int32'
         },
 
         # @!attribute directoryTimeToLiveSeconds
         #   @return [Integer]
         directoryTimeToLiveSeconds: {
           class: :integer,
-          format: int32
+          format: 'int32'
         },
 
         # @!attribute ehcacheMaxBytesLocalHeap

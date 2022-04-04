@@ -123,7 +123,7 @@ module Jamf
         #   @return [Integer]
         actualCacheBytesUsed: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -139,7 +139,7 @@ module Jamf
         #   @return [Integer]
         cacheBytesFree: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -147,7 +147,7 @@ module Jamf
         #   @return [Integer]
         cacheBytesLimit: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -162,7 +162,7 @@ module Jamf
         #   @return [Integer]
         cacheBytesUsed: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -197,7 +197,7 @@ module Jamf
         #   @return [Integer]
         personalCacheBytesFree: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -205,7 +205,7 @@ module Jamf
         #   @return [Integer]
         personalCacheBytesLimit: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -213,7 +213,7 @@ module Jamf
         #   @return [Integer]
         personalCacheBytesUsed: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -221,7 +221,7 @@ module Jamf
         #   @return [Integer]
         port: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -243,7 +243,7 @@ module Jamf
         #   @return [Integer]
         registrationResponseCode: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -251,7 +251,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         registrationStarted: {
           class: Jamf::Timestamp,
-          format: date-time,
+          format: 'date-time',
           readonly: true
         },
 
@@ -296,7 +296,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         totalBytesAreSince: {
           class: Jamf::Timestamp,
-          format: date-time,
+          format: 'date-time',
           readonly: true
         },
 
@@ -304,7 +304,7 @@ module Jamf
         #   @return [Integer]
         totalBytesDropped: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -312,7 +312,7 @@ module Jamf
         #   @return [Integer]
         totalBytesImported: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -320,7 +320,7 @@ module Jamf
         #   @return [Integer]
         totalBytesReturnedToChildren: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -328,7 +328,7 @@ module Jamf
         #   @return [Integer]
         totalBytesReturnedToClients: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -336,7 +336,7 @@ module Jamf
         #   @return [Integer]
         totalBytesReturnedToPeers: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -344,7 +344,7 @@ module Jamf
         #   @return [Integer]
         totalBytesStoredFromOrigin: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -352,7 +352,7 @@ module Jamf
         #   @return [Integer]
         totalBytesStoredFromParents: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -360,7 +360,7 @@ module Jamf
         #   @return [Integer]
         totalBytesStoredFromPeers: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         }
 

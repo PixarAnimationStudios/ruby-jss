@@ -73,8 +73,8 @@ module Jamf
         #   @return [Integer]
         managedComputers: {
           class: :integer,
-          minimum: 0,
-          readonly: true
+          readonly: true,
+          minimum: 0
         },
 
         # Number of unmanaged computers in inventory.
@@ -82,8 +82,8 @@ module Jamf
         #   @return [Integer]
         unmanagedComputers: {
           class: :integer,
-          minimum: 0,
-          readonly: true
+          readonly: true,
+          minimum: 0
         },
 
         # Number of managed devices in inventory.
@@ -91,8 +91,8 @@ module Jamf
         #   @return [Integer]
         managedDevices: {
           class: :integer,
-          minimum: 0,
-          readonly: true
+          readonly: true,
+          minimum: 0
         },
 
         # Number of unmanaged devices in inventory.
@@ -100,8 +100,8 @@ module Jamf
         #   @return [Integer]
         unmanagedDevices: {
           class: :integer,
-          minimum: 0,
-          readonly: true
+          readonly: true,
+          minimum: 0
         }
 
       } # end OAPI_PROPERTIES

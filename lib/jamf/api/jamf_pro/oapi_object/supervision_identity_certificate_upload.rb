@@ -86,7 +86,8 @@ module Jamf
         #   @return [String]
         certificateData: {
           class: :string,
-          format: byte
+          format: 'byte',
+          pattern: Regexp.new('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$')
         }
 
       } # end OAPI_PROPERTIES

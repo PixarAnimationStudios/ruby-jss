@@ -75,17 +75,18 @@ module Jamf
         #   @return [String]
         password: {
           class: :string,
-          format: password,
-          writeonly: true,
-          required: true
+          required: true,
+          format: 'password',
+          writeonly: true
         },
 
         # @!attribute fileBytes
         #   @return [String]
         fileBytes: {
           class: :string,
-          format: byte,
-          required: true
+          required: true,
+          format: 'byte',
+          pattern: Regexp.new('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$')
         },
 
         # @!attribute fileName

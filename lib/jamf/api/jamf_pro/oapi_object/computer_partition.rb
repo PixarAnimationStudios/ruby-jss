@@ -99,7 +99,7 @@ module Jamf
         #   @return [Integer]
         sizeMegabytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -108,7 +108,7 @@ module Jamf
         #   @return [Integer]
         availableMegabytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 
@@ -125,9 +125,9 @@ module Jamf
         #   @return [Integer]
         percentUsed: {
           class: :integer,
+          readonly: true,
           minimum: 0,
-          maximum: 100,
-          readonly: true
+          maximum: 100
         },
 
         # @!attribute fileVault2State

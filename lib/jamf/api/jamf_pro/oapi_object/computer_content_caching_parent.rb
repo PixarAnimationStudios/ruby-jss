@@ -112,7 +112,7 @@ module Jamf
         #   @return [Integer]
         port: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

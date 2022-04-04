@@ -88,8 +88,8 @@ module Jamf
         #   @return [Integer]
         priority: {
           class: :integer,
-          format: int32,
-          required: true
+          required: true,
+          format: 'int32'
         }
 
       } # end OAPI_PROPERTIES

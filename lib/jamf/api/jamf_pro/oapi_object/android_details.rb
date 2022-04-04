@@ -133,7 +133,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         lastBackupTimestamp: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute apiVersion

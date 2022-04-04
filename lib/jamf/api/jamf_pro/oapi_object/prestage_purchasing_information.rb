@@ -71,8 +71,8 @@ module Jamf
         #   @return [Integer]
         id: {
           class: :j_id,
-          identifier: :primary,
-          required: true
+          required: true,
+          identifier: :primary
         },
 
         # @!attribute isLeased

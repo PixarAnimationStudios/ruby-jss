@@ -127,8 +127,8 @@ module Jamf
         #   @return [String]
         id: {
           class: :j_id,
-          identifier: :primary,
-          required: true
+          required: true,
+          identifier: :primary
         },
 
         # @!attribute versionLock

@@ -86,7 +86,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         lastInstalled: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute [r] removable

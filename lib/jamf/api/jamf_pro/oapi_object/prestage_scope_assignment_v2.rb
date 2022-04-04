@@ -77,7 +77,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         assignmentDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute userAssigned

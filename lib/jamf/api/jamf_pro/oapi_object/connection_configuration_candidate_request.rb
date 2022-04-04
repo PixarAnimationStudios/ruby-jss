@@ -81,9 +81,9 @@ module Jamf
         #   @return [String]
         displayName: {
           class: :string,
+          required: true,
           min_length: 1,
-          max_length: 255,
-          required: true
+          max_length: 255
         },
 
         # Token which is used for connecting to Team Viewer
@@ -91,9 +91,9 @@ module Jamf
         #   @return [String]
         scriptToken: {
           class: :string,
+          required: true,
           min_length: 1,
-          max_length: 255,
-          required: true
+          max_length: 255
         },
 
         # Defines the intent to enable or disable Team Viewer connection
@@ -109,9 +109,9 @@ module Jamf
         #   @return [Integer]
         sessionTimeout: {
           class: :integer,
+          required: true,
           minimum: 1,
-          maximum: 1440,
-          required: true
+          maximum: 1440
         }
 
       } # end OAPI_PROPERTIES

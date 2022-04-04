@@ -93,7 +93,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         postDate: {
           class: Jamf::Timestamp,
-          format: date-time,
+          format: 'date-time',
           readonly: true
         }
 

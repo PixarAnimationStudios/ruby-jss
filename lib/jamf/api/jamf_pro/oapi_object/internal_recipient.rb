@@ -75,7 +75,8 @@ module Jamf
         #   @return [String]
         accountId: {
           class: :string,
-          required: true
+          required: true,
+          pattern: Regexp.new('^\d+$')
         },
 
         # @!attribute frequency

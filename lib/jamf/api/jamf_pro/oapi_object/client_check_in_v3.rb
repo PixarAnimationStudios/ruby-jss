@@ -73,7 +73,7 @@ module Jamf
         #   @return [Integer]
         checkInFrequency: {
           class: :integer,
-          format: int32
+          format: 'int32'
         },
 
         # @!attribute createHooks

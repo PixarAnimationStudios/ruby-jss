@@ -116,21 +116,21 @@ module Jamf
         #   @return [Jamf::Timestamp]
         poDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute warrantyExpiresDate
         #   @return [Jamf::Timestamp]
         warrantyExpiresDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute leaseExpiresDate
         #   @return [Jamf::Timestamp]
         leaseExpiresDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute lifeExpectancy

@@ -86,7 +86,8 @@ module Jamf
         #   @return [String]
         title: {
           class: :string,
-          required: true
+          required: true,
+          pattern: Regexp.new('\S')
         },
 
         # @!attribute backButtonText

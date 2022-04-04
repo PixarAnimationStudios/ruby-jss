@@ -143,7 +143,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         lastCheckIn: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute installedVersion

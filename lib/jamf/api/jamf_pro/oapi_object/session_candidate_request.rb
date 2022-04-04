@@ -94,9 +94,9 @@ module Jamf
         #   @return [String]
         description: {
           class: :string,
+          required: true,
           min_length: 0,
-          max_length: 255,
-          required: true
+          max_length: 255
         }
 
       } # end OAPI_PROPERTIES

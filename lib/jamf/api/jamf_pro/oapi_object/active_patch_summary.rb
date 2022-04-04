@@ -92,7 +92,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         releaseDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute upToDate

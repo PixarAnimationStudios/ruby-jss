@@ -72,17 +72,17 @@ module Jamf
         #   @return [String]
         activationCode: {
           class: :string,
+          required: true,
           min_length: 39,
-          max_length: 39,
-          required: true
+          max_length: 39
         },
 
         # @!attribute institutionName
         #   @return [String]
         institutionName: {
           class: :string,
-          min_length: 1,
-          required: true
+          required: true,
+          min_length: 1
         },
 
         # @!attribute isEulaAccepted
@@ -96,18 +96,18 @@ module Jamf
         #   @return [String]
         username: {
           class: :string,
-          min_length: 1,
-          required: true
+          required: true,
+          min_length: 1
         },
 
         # @!attribute password
         #   @return [String]
         password: {
           class: :string,
-          format: password,
-          min_length: 1,
+          required: true,
+          format: 'password',
           writeonly: true,
-          required: true
+          min_length: 1
         },
 
         # @!attribute email
@@ -120,8 +120,8 @@ module Jamf
         #   @return [String]
         jssUrl: {
           class: :string,
-          min_length: 1,
-          required: true
+          required: true,
+          min_length: 1
         }
 
       } # end OAPI_PROPERTIES

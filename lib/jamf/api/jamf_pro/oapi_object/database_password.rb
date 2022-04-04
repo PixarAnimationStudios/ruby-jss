@@ -72,10 +72,10 @@ module Jamf
         #   @return [String]
         password: {
           class: :string,
-          format: password,
-          min_length: 1,
+          required: true,
+          format: 'password',
           writeonly: true,
-          required: true
+          min_length: 1
         }
 
       } # end OAPI_PROPERTIES

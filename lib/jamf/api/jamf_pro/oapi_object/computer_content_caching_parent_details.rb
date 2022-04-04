@@ -86,7 +86,7 @@ module Jamf
         #   @return [Integer]
         cacheSizeBytes: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         },
 

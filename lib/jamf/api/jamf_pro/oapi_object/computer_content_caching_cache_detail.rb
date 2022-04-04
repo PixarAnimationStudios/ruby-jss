@@ -85,7 +85,7 @@ module Jamf
         #   @return [Integer]
         diskSpaceBytesUsed: {
           class: :integer,
-          format: int64,
+          format: 'int64',
           readonly: true
         }
 

@@ -96,7 +96,7 @@ module Jamf
         #   @return [Jamf::Timestamp]
         expirationDate: {
           class: Jamf::Timestamp,
-          format: date-time
+          format: 'date-time'
         },
 
         # @!attribute username

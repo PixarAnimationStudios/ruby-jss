@@ -74,8 +74,8 @@ module Jamf
         #   @return [String]
         id: {
           class: :j_id,
-          identifier: :primary,
-          required: true
+          required: true,
+          identifier: :primary
         },
 
         # An identifier of a site which Team Viewer Remote Administration is configured on
@@ -107,9 +107,9 @@ module Jamf
         #   @return [Integer]
         sessionTimeout: {
           class: :integer,
+          required: true,
           minimum: 1,
-          maximum: 1440,
-          required: true
+          maximum: 1440
         }
 
       } # end OAPI_PROPERTIES
