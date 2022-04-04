@@ -494,7 +494,7 @@ To change the number of retries, provide an integer with the `retries:` paramete
   - The class method allows adding and removing members without fetching an instance of the group.
   - The instance method adds and/or removes members immediately, without needing to call #update or #save
 
-- LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
+- LdapServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
 
 - Client.homedir(user) and Client.do_not_disturb?(user)
 

@@ -28,7 +28,7 @@ module Jamf
   #
   module ManagementHistory
 
-    # MDMCommand - an issued MDM command in a Jamf Object's Management History
+    # MdmCommand - an issued MDM command in a Jamf Object's Management History
     #
     # This should only be instantiated by the ManagementHistory.mdm_commands method
     # when mixed in to Computers or Mobile devices.
@@ -38,7 +38,7 @@ module Jamf
     # NOTE: some attributes will be nil for some statuses
     # (e.g. no error message if not failed, no completed time if not completed)
     #
-    class MDMCommand < ImmutableStruct.new(
+    class MdmCommand < ImmutableStruct.new(
 
       :name,
       :username,
@@ -114,7 +114,7 @@ module Jamf
         JSS.epoch_to_time @last_push_epoch if @last_push_epoch
       end
 
-    end # MDMCommand
+    end # MdmCommand
 
   end #   module ManagementHistory
 

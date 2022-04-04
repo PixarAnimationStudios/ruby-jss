@@ -107,21 +107,21 @@ module Jamf
         },
 
         # @!attribute general
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerGeneral]
         general: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerGeneral
         },
 
         # @!attribute diskEncryption
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerDiskEncryption]
         diskEncryption: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerDiskEncryption
         },
 
         # @!attribute purchasing
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerPurchase]
         purchasing: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerPurchase
         },
 
         # @!attribute applications
@@ -132,15 +132,15 @@ module Jamf
         },
 
         # @!attribute storage
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerStorage]
         storage: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerStorage
         },
 
         # @!attribute userAndLocation
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerUserAndLocation]
         userAndLocation: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerUserAndLocation
         },
 
         # @!attribute configurationProfiles
@@ -165,9 +165,9 @@ module Jamf
         },
 
         # @!attribute hardware
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerHardware]
         hardware: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerHardware
         },
 
         # @!attribute localUserAccounts
@@ -198,11 +198,10 @@ module Jamf
           multi: true
         },
 
-        # All package receipts are listed by their package name
         # @!attribute packageReceipts
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerPackageReceipts]
         packageReceipts: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerPackageReceipts
         },
 
         # @!attribute fonts
@@ -213,15 +212,15 @@ module Jamf
         },
 
         # @!attribute security
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerSecurity]
         security: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerSecurity
         },
 
         # @!attribute operatingSystem
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerOperatingSystem]
         operatingSystem: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerOperatingSystem
         },
 
         # @!attribute licensedSoftware
@@ -253,9 +252,9 @@ module Jamf
         },
 
         # @!attribute contentCaching
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerContentCaching]
         contentCaching: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerContentCaching
         },
 
         # @!attribute groupMemberships

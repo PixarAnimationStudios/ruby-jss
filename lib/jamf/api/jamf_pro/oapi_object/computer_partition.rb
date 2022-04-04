@@ -71,20 +71,6 @@ module Jamf
         'OTHER'
       ]
 
-      FILE_VAULT2_STATE_OPTIONS = [
-        'UNKNOWN',
-        'UNENCRYPTED',
-        'INELIGIBLE',
-        'DECRYPTED',
-        'DECRYPTING',
-        'ENCRYPTED',
-        'ENCRYPTING',
-        'RESTART_NEEDED',
-        'OPTIMIZING',
-        'DECRYPTING_PAUSED',
-        'ENCRYPTING_PAUSED'
-      ]
-
       OAPI_PROPERTIES = {
 
         # @!attribute [r] name
@@ -131,10 +117,9 @@ module Jamf
         },
 
         # @!attribute fileVault2State
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::ComputerPartitionFileVault2State]
         fileVault2State: {
-          class: :string,
-          enum: FILE_VAULT2_STATE_OPTIONS
+          class: Jamf::OAPIObject::ComputerPartitionFileVault2State
         },
 
         # Percentage progress of current FileVault 2 operation.

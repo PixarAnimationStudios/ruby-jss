@@ -68,9 +68,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute udidsNotProcessed
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::Udids]
         udidsNotProcessed: {
-          class: :hash
+          class: Jamf::OAPIObject::Udids
         }
 
       } # end OAPI_PROPERTIES

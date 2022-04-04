@@ -86,11 +86,10 @@ module Jamf
           maximum: 65535
         },
 
-        # Azure Cloud Identity Provider mappings
         # @!attribute azureMappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AzureMappings]
         azureMappings: {
-          class: :hash,
+          class: Jamf::OAPIObject::AzureMappings,
           required: true
         }
 

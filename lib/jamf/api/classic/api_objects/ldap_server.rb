@@ -36,16 +36,16 @@ module Jamf
   # However, it does provide methods for querying users and usergroups from
   # LDAP servers, and checking group membership.
   #
-  # The class methods {LDAPServer.user_in_ldap?} and {LDAPServer.group_in_ldap?} can be
+  # The class methods {LdapServer.user_in_ldap?} and {LdapServer.group_in_ldap?} can be
   # used to check all defined LDAP servers for a user or group. They are used by
   # {Jamf::Scopable::Scope} when adding user and groups to scope limitations and exceptions.
   #
-  # Within an LDAPServer instance, the methods {#find_user} and {#find_group} will return
+  # Within an LdapServer instance, the methods {#find_user} and {#find_group} will return
   # all matches in the server for a given search term.
   #
   # @see Jamf::APIObject
   #
-  class LDAPServer < Jamf::APIObject
+  class LdapServer < Jamf::APIObject
 
     # Constants
     #####################################
@@ -144,7 +144,7 @@ module Jamf
     # On a given server, does a given group contain a given user?
     #
     # This class method allows the check to happen without instanting
-    # the LDAPServer.
+    # the LdapServer.
     #
     # @param server[String, Integer] The name or id of the LDAP server to use
     #
@@ -158,7 +158,7 @@ module Jamf
     #
     def self.check_membership(ldap_server, user, group, api: Jamf.cnx)
       ldap_server_id = valid_id ldap_server
-      raise Jamf::NoSuchItemError, "No LDAPServer matching #{ldap_server}" unless ldap_server_id
+      raise Jamf::NoSuchItemError, "No LdapServer matching #{ldap_server}" unless ldap_server_id
       rsrc = "#{RSRC_BASE}/id/#{ldap_server_id}/group/#{CGI.escape group.to_s}/user/#{CGI.escape user.to_s}"
       member_check = api.c_get rsrc
       return false if member_check[:ldap_users].empty?
@@ -301,7 +301,7 @@ module Jamf
     # @return [Array<Hash>] The mapped LDAP data for all usernames matching the query
     #
     def find_user(user, exact = false)
-      raise Jamf::NoSuchItemError, 'LDAPServer not yet saved in the JSS' unless @in_jss
+      raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
       raw = api.c_get("#{RSRC_BASE}/id/#{@id}/user/#{CGI.escape user.to_s}")[:ldap_users]
       exact ? raw.select { |u| u[:username] == user } : raw
     end
@@ -313,7 +313,7 @@ module Jamf
     # @return [Array<Hash>] The groupname and uid for all groups matching the query
     #
     def find_group(group, exact = false)
-      raise Jamf::NoSuchItemError, 'LDAPServer not yet saved in the JSS' unless @in_jss
+      raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
       raw = api.c_get("#{RSRC_BASE}/id/#{@id}/group/#{CGI.escape group.to_s}")[:ldap_groups]
       exact ? raw.select { |u| u[:groupname] == group } : raw
     end
@@ -325,7 +325,7 @@ module Jamf
     # @return [Boolean, nil] is the user a member? Nil if unable to check
     #
     def check_membership(user, group)
-      raise Jamf::NoSuchItemError, 'LDAPServer not yet saved in the JSS' unless @in_jss
+      raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
       self.class.check_membership @id, user, group, api: @api
     end
 

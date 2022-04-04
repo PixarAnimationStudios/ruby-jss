@@ -105,9 +105,9 @@ module Jamf
         },
 
         # @!attribute site
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::Site]
         site: {
-          class: :hash
+          class: Jamf::OAPIObject::Site
         }
 
       } # end OAPI_PROPERTIES

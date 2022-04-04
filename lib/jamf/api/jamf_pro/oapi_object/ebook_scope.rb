@@ -150,15 +150,15 @@ module Jamf
         },
 
         # @!attribute limitations
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::EbookLimitations]
         limitations: {
-          class: :hash
+          class: Jamf::OAPIObject::EbookLimitations
         },
 
         # @!attribute exclusions
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::EbookExclusions]
         exclusions: {
-          class: :hash
+          class: Jamf::OAPIObject::EbookExclusions
         }
 
       } # end OAPI_PROPERTIES

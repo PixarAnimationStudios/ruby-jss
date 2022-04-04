@@ -65,104 +65,7 @@ module Jamf
     #
     class MdmCommand < OAPIObject
 
-      # Enums used by this class or others
-
-      COMMAND_STATE_OPTIONS = [
-        'PENDING',
-        'ACKNOWLEDGED',
-        'NOT_NOW',
-        'ERROR'
-      ]
-
-      COMMAND_TYPE_OPTIONS = [
-        'DEVICE_LOCATION',
-        'ENABLE_LOST_MODE',
-        'ACTIVATION_LOCK_BYPASS_CODE',
-        'CLEAR_ACTIVATION_LOCK_BYPASS_CODE',
-        'ACCOUNT_CONFIGURATION',
-        'REFRESH_CELLULAR_PLANS',
-        'SETTINGS',
-        'CONTENT_CACHING_INFORMATION',
-        'UNMANAGE_DEVICE',
-        'ERASE_DEVICE',
-        'DEVICE_LOCK',
-        'CLEAR_PASSCODE',
-        'DELETE_USER',
-        'DEVICE_INFORMATION',
-        'SHUT_DOWN_DEVICE',
-        'RESTART_DEVICE',
-        'INSTALL_BYO_PROFILE',
-        'REMOVE_PROFILE',
-        'INSTALL_PROFILE',
-        'REINSTALL_PROFILE',
-        'INSTALL_PROVISIONING_PROFILE',
-        'PROFILE_LIST',
-        'REMOVE_PROVISIONING_PROFILE',
-        'CERTIFICATE_LIST',
-        'INSTALLED_APPLICATION_LIST',
-        'MANAGED_APPLICATION_LIST',
-        'INSTALL_APPLICATION',
-        'INSTALL_ENTERPRISE_APPLICATION',
-        'INSTALL_PACKAGE',
-        'REMOVE_APPLICATION',
-        'MANAGED_MEDIA_LIST',
-        'INSTALL_MEDIA',
-        'REMOVE_MEDIA',
-        'APPLY_REDEMPTION_CODE',
-        'SETTINGS_ENABLE_PERSONAL_HOTSPOT',
-        'SETTINGS_DISABLE_PERSONAL_HOTSPOT',
-        'UPDATE_INVENTORY',
-        'WALLPAPER',
-        'DEVICE_CONFIGURED',
-        'RESTRICTIONS',
-        'ENABLE_REMOTE_DESKTOP',
-        'DISABLE_REMOTE_DESKTOP',
-        'SECURITY_INFO',
-        'MARK_AS_UNMANAGED',
-        'QUERY_RESPONSES',
-        'AVAILABLE_OS_UPDATES',
-        'PROVISIONING_PROFILE_LIST',
-        'SCHEDULE_OS_UPDATE',
-        'OS_UPDATE_STATUS',
-        'INVITE_TO_PROGRAM',
-        'PUSH_TRIGGER',
-        'CLEAR_RESTRICTIONS_PASSWORD',
-        'BLANK_PUSH',
-        'CORPORATE_WIPE',
-        'DEVICE_INFO_ACCOUNT_HASH',
-        'DEVICE_INFO_ITUNES_ACTIVE',
-        'DEVICE_INFO_LAST_CLOUD_BACKUP_DATE',
-        'DEVICE_INFO_ACTIVE_MANAGED_USERS',
-        'DEVICE_NAME',
-        'ENABLE_ACTIVATION_LOCK',
-        'DISABLE_ACTIVATION_LOCK',
-        'LAST_CLOUD_BACKUP_DATE',
-        'MARK_AS_CORPORATE_WIPE',
-        'REQUEST_MIRRORING',
-        'SETTINGS_DISABLE_DATA_ROAMING',
-        'SETTINGS_DISABLE_VOICE_ROAMING',
-        'SETTINGS_DISABLE_DIAGNOSTIC_SUBMISSION',
-        'SETTINGS_DISABLE_APP_ANALYTICS',
-        'SETTINGS_ENABLE_DATA_ROAMING',
-        'SETTINGS_ENABLE_VOICE_ROAMING',
-        'SETTINGS_ENABLE_DIAGNOSTIC_SUBMISSION',
-        'SETTINGS_ENABLE_APP_ANALYTICS',
-        'SETTINGS_ENABLE_BLUETOOTH',
-        'SETTINGS_DISABLE_BLUETOOTH',
-        'SETTINGS_MOBILE_DEVICE_PER_APP_VPN',
-        'SETTINGS_MOBILE_DEVICE_APPLICATION_ATTRIBUTES',
-        'STOP_MIRRORING',
-        'PASSCODE_LOCK_GRACE_PERIOD',
-        'SCHEDULE_OS_UPDATE_SCAN',
-        'PLAY_LOST_MODE_SOUND',
-        'DISABLE_LOST_MODE',
-        'LOG_OUT_USER',
-        'USER_LIST',
-        'VALIDATE_APPLICATIONS',
-        'UNLOCK_USER_ACCOUNT',
-        'SET_RECOVERY_LOCK',
-        'UNKNOWN'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
@@ -180,23 +83,21 @@ module Jamf
         },
 
         # @!attribute client
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::MdmCommandClient]
         client: {
-          class: :hash
+          class: Jamf::OAPIObject::MdmCommandClient
         },
 
         # @!attribute commandState
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::MdmCommandState]
         commandState: {
-          class: :string,
-          enum: COMMAND_STATE_OPTIONS
+          class: Jamf::OAPIObject::MdmCommandState
         },
 
         # @!attribute commandType
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::MdmCommandType]
         commandType: {
-          class: :string,
-          enum: COMMAND_TYPE_OPTIONS
+          class: Jamf::OAPIObject::MdmCommandType
         }
 
       } # end OAPI_PROPERTIES

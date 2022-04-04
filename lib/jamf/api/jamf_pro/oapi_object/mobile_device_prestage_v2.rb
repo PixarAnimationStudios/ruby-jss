@@ -103,9 +103,9 @@ module Jamf
         },
 
         # @!attribute names
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::MobileDevicePrestageNamesV2]
         names: {
-          class: :hash
+          class: Jamf::OAPIObject::MobileDevicePrestageNamesV2
         },
 
         # @!attribute sendTimezone

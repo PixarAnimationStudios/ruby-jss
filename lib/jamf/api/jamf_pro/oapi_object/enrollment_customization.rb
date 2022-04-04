@@ -90,9 +90,9 @@ module Jamf
         },
 
         # @!attribute enrollmentCustomizationBrandingSettings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::EnrollmentCustomizationBrandingSettings]
         enrollmentCustomizationBrandingSettings: {
-          class: :hash,
+          class: Jamf::OAPIObject::EnrollmentCustomizationBrandingSettings,
           required: true
         }
 

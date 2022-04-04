@@ -72,25 +72,22 @@ module Jamf
 
       OAPI_PROPERTIES = {
 
-        # object representation of Self Service settings regarding installation
         # @!attribute installSettings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SelfServiceInstallSettings]
         installSettings: {
-          class: :hash
+          class: Jamf::OAPIObject::SelfServiceInstallSettings
         },
 
-        # object representation of Self Service settings regarding login
         # @!attribute loginSettings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SelfServiceLoginSettings]
         loginSettings: {
-          class: :hash
+          class: Jamf::OAPIObject::SelfServiceLoginSettings
         },
 
-        # object representation of Self Service settings regarding user interaction
         # @!attribute configurationSettings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SelfServiceInteractionSettings]
         configurationSettings: {
-          class: :hash
+          class: Jamf::OAPIObject::SelfServiceInteractionSettings
         }
 
       } # end OAPI_PROPERTIES

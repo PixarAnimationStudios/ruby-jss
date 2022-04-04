@@ -101,9 +101,9 @@ module Jamf
         },
 
         # @!attribute mdmSigningCertificate
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CertificateIdentityV2]
         mdmSigningCertificate: {
-          class: :hash
+          class: Jamf::OAPIObject::CertificateIdentityV2
         },
 
         # @!attribute restrictReenrollment
@@ -221,21 +221,21 @@ module Jamf
         },
 
         # @!attribute developerCertificateIdentity
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CertificateIdentityV2]
         developerCertificateIdentity: {
-          class: :hash
+          class: Jamf::OAPIObject::CertificateIdentityV2
         },
 
         # @!attribute developerCertificateIdentityDetails
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CertificateDetails]
         developerCertificateIdentityDetails: {
-          class: :hash
+          class: Jamf::OAPIObject::CertificateDetails
         },
 
         # @!attribute mdmSigningCertificateDetails
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CertificateDetails]
         mdmSigningCertificateDetails: {
-          class: :hash
+          class: Jamf::OAPIObject::CertificateDetails
         },
 
         # @!attribute iosEnterpriseEnrollmentEnabled

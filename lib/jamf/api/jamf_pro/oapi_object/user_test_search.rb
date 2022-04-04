@@ -99,9 +99,9 @@ module Jamf
         },
 
         # @!attribute attributes
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::UserAttributes]
         attributes: {
-          class: :hash
+          class: Jamf::OAPIObject::UserAttributes
         }
 
       } # end OAPI_PROPERTIES

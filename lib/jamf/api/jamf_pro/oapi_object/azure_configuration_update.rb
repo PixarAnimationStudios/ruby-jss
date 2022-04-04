@@ -69,19 +69,17 @@ module Jamf
 
       OAPI_PROPERTIES = {
 
-        # A Cloud Identity Provider information
         # @!attribute cloudIdPCommon
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudIdPCommon]
         cloudIdPCommon: {
-          class: :hash,
+          class: Jamf::OAPIObject::CloudIdPCommon,
           required: true
         },
 
-        # Azure Cloud Identity Provider configuration update
         # @!attribute server
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AzureServerConfigurationUpdate]
         server: {
-          class: :hash,
+          class: Jamf::OAPIObject::AzureServerConfigurationUpdate,
           required: true
         }
 

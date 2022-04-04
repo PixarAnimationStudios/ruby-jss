@@ -75,9 +75,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute bootPartitionEncryptionDetails
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerPartitionEncryption]
         bootPartitionEncryptionDetails: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerPartitionEncryption
         },
 
         # @!attribute individualRecoveryKeyValidityStatus

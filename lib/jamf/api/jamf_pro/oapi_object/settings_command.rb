@@ -71,32 +71,7 @@ module Jamf
     #
     class SettingsCommand < OAPIObject
 
-      # Enums used by this class or others
-
-      APP_ANALYTICS_OPTIONS = [
-        'ENABLE_APP_ANALYTICS',
-        'DISABLE_APP_ANALYTICS'
-      ]
-
-      DIAGNOSTIC_SUBMISSION_OPTIONS = [
-        'ENABLE_DIAGNOSTIC_SUBMISSION',
-        'DISABLE_DIAGNOSTIC_SUBMISSION'
-      ]
-
-      DATA_ROAMING_OPTIONS = [
-        'ENABLE_DATA_ROAMING',
-        'DISABLE_DATA_ROAMING'
-      ]
-
-      VOICE_ROAMING_OPTIONS = [
-        'ENABLE_VOICE_ROAMING',
-        'DISABLE_VOICE_ROAMING'
-      ]
-
-      PERSONAL_HOTSPOT_OPTIONS = [
-        'ENABLE_PERSONAL_HOTSPOT',
-        'DISABLE_PERSONAL_HOTSPOT'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
@@ -113,38 +88,33 @@ module Jamf
         },
 
         # @!attribute appAnalytics
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::AppAnalyticsSetting]
         appAnalytics: {
-          class: :string,
-          enum: APP_ANALYTICS_OPTIONS
+          class: Jamf::OAPIObject::AppAnalyticsSetting
         },
 
         # @!attribute diagnosticSubmission
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::DiagnosticSubmissionSetting]
         diagnosticSubmission: {
-          class: :string,
-          enum: DIAGNOSTIC_SUBMISSION_OPTIONS
+          class: Jamf::OAPIObject::DiagnosticSubmissionSetting
         },
 
         # @!attribute dataRoaming
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::DataRoamingSetting]
         dataRoaming: {
-          class: :string,
-          enum: DATA_ROAMING_OPTIONS
+          class: Jamf::OAPIObject::DataRoamingSetting
         },
 
         # @!attribute voiceRoaming
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::VoiceRoamingSetting]
         voiceRoaming: {
-          class: :string,
-          enum: VOICE_ROAMING_OPTIONS
+          class: Jamf::OAPIObject::VoiceRoamingSetting
         },
 
         # @!attribute personalHotspot
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::PersonalHotspotSetting]
         personalHotspot: {
-          class: :string,
-          enum: PERSONAL_HOTSPOT_OPTIONS
+          class: Jamf::OAPIObject::PersonalHotspotSetting
         },
 
         # @!attribute maximumResidentUsers
@@ -160,21 +130,21 @@ module Jamf
         },
 
         # @!attribute applicationAttributes
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ApplicationAttributes]
         applicationAttributes: {
-          class: :hash
+          class: Jamf::OAPIObject::ApplicationAttributes
         },
 
         # @!attribute sharedDeviceConfiguration
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SharedDeviceConfiguration]
         sharedDeviceConfiguration: {
-          class: :hash
+          class: Jamf::OAPIObject::SharedDeviceConfiguration
         },
 
         # @!attribute applicationConfiguration
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ApplicationConfiguration]
         applicationConfiguration: {
-          class: :hash
+          class: Jamf::OAPIObject::ApplicationConfiguration
         },
 
         # @!attribute timeZone
@@ -184,9 +154,9 @@ module Jamf
         },
 
         # @!attribute softwareUpdateSettings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SoftwareUpdateSettings]
         softwareUpdateSettings: {
-          class: :hash
+          class: Jamf::OAPIObject::SoftwareUpdateSettings
         }
 
       } # end OAPI_PROPERTIES

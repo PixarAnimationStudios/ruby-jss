@@ -122,9 +122,9 @@ module Jamf
         },
 
         # @!attribute names
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::MobileDevicePrestageNames]
         names: {
-          class: :hash
+          class: Jamf::OAPIObject::MobileDevicePrestageNames
         }
 
       }.merge(Jamf::OAPIObject::DeviceEnrollmentPrestage::OAPI_PROPERTIES) # end OAPI_PROPERTIES

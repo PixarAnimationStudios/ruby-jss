@@ -104,9 +104,9 @@ module Jamf
         },
 
         # @!attribute location
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::LocationV2]
         location: {
-          class: :hash
+          class: Jamf::OAPIObject::LocationV2
         },
 
         # @!attribute updatedExtensionAttributes
@@ -117,15 +117,15 @@ module Jamf
         },
 
         # @!attribute ios
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::UpdateIosV2]
         ios: {
-          class: :hash
+          class: Jamf::OAPIObject::UpdateIosV2
         },
 
         # @!attribute tvos
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::UpdateTvOs]
         tvos: {
-          class: :hash
+          class: Jamf::OAPIObject::UpdateTvOs
         }
 
       } # end OAPI_PROPERTIES

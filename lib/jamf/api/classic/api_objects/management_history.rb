@@ -248,7 +248,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Array<Jamf::ManagementHistory::MDMCommand>] An array of MDMCommands
+      # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of MdmCommands
       #
       def mdm_command_history(ident, status = nil, api: Jamf.cnx)
         subset = self == Jamf::Computer ? :commands : :management_commands
@@ -271,7 +271,7 @@ module Jamf
             # but we always set the :status
             cmd[:status] = a_status
 
-            Jamf::ManagementHistory::MDMCommand.new cmd
+            Jamf::ManagementHistory::MdmCommand.new cmd
           end # map do |cmd|
         end # statuses_to_do.each do |a_status|
         result
@@ -286,7 +286,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Array<Jamf::ManagementHistory::MDMCommand>] An array of completed MDMCommands
+      # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of completed MdmCommands
       #
       def completed_mdm_commands(ident, api: Jamf.cnx)
         mdm_command_history(ident, :completed, api: api)
@@ -300,7 +300,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Array<Jamf::ManagementHistory::MDMCommand>] An array of pending MDMCommands
+      # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of pending MdmCommands
       #
       def pending_mdm_commands(ident, api: Jamf.cnx)
         mdm_command_history(ident, :pending, api: api)
@@ -314,7 +314,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Array<Jamf::ManagementHistory::MDMCommand>] An array of failed MDMCommands
+      # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of failed MdmCommands
       #
       def failed_mdm_commands(ident, api: Jamf.cnx)
         mdm_command_history(ident, :failed, api: api)
@@ -333,7 +333,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Time, nil] An array of completed MDMCommands
+      # @return [Time, nil] An array of completed MdmCommands
       #
       def last_mdm_contact(ident, api: Jamf.cnx)
         epochs = completed_mdm_commands(ident, api: api).map { |cmd| cmd.completed_epoch }
@@ -580,7 +580,7 @@ module Jamf
       # @param api [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
-      # @return [Array<Jamf::ManagementHistory::EBook>] An array of EBook
+      # @return [Array<Jamf::ManagementHistory::Ebook>] An array of Ebook
       #
       def ebook_history(ident, status = nil, api: Jamf.cnx)
         raise Jamf::UnsupportedError, 'Only mobile devices have ebooks' unless self == Jamf::MobileDevice
@@ -620,7 +620,7 @@ module Jamf
           result += books.map! do |book|
             # set the :status in the hash
             book[:status] = a_status
-            Jamf::ManagementHistory::EBook.new book
+            Jamf::ManagementHistory::Ebook.new book
           end # map do |books|
         end # statuses_to_do.each do |a_status|
 

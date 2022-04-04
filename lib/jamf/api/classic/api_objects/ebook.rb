@@ -28,7 +28,7 @@
 module Jamf
 
   # This is just a stub for now.
-  class EBook < APIObject
+  class Ebook < APIObject
 
     include Sitable
 

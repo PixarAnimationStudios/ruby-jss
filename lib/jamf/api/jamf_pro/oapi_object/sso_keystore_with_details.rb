@@ -71,15 +71,15 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute keystore
-        #   @return []
+        #   @return [Jamf::OAPIObject::SsoKeystore]
         keystore: {
-          class: 
+          class: Jamf::OAPIObject::SsoKeystore
         },
 
         # @!attribute keystoreDetails
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SsoKeystoreDetails]
         keystoreDetails: {
-          class: :hash
+          class: Jamf::OAPIObject::SsoKeystoreDetails
         }
 
       } # end OAPI_PROPERTIES

@@ -74,27 +74,24 @@ module Jamf
 
       OAPI_PROPERTIES = {
 
-        # Cloud Identity Provider user mappings configuration
         # @!attribute userMappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::UserMappings]
         userMappings: {
-          class: :hash,
+          class: Jamf::OAPIObject::UserMappings,
           required: true
         },
 
-        # Cloud Identity Provider user group mappings configuration
         # @!attribute groupMappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::GroupMappings]
         groupMappings: {
-          class: :hash,
+          class: Jamf::OAPIObject::GroupMappings,
           required: true
         },
 
-        # Cloud Identity Provider user group membership mappings configuration
         # @!attribute membershipMappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::MembershipMappings]
         membershipMappings: {
-          class: :hash,
+          class: Jamf::OAPIObject::MembershipMappings,
           required: true
         }
 

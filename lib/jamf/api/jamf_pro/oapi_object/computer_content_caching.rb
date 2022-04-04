@@ -181,9 +181,9 @@ module Jamf
         },
 
         # @!attribute dataMigrationError
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerContentCachingDataMigrationError]
         dataMigrationError: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerContentCachingDataMigrationError
         },
 
         # @!attribute [r] maxCachePressureLast1HourPercentage

@@ -115,10 +115,9 @@ module Jamf
         },
 
         # @!attribute safelistedApps
-        #   @return [Array<Hash{Symbol: Object}>]
+        #   @return [Jamf::OAPIObject::SafelistedApps]
         safelistedApps: {
-          class: :hash,
-          multi: true
+          class: Jamf::OAPIObject::SafelistedApps
         }
 
       } # end OAPI_PROPERTIES

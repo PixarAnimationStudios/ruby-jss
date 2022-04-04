@@ -70,27 +70,24 @@ module Jamf
 
       OAPI_PROPERTIES = {
 
-        # A Cloud Identity Provider information
         # @!attribute cloudIdPCommon
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudIdPCommon]
         cloudIdPCommon: {
-          class: :hash,
+          class: Jamf::OAPIObject::CloudIdPCommon,
           required: true
         },
 
-        # A Cloud Identity Provider LDAP server configuration for updates
         # @!attribute server
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudLdapServerUpdate]
         server: {
-          class: :hash,
+          class: Jamf::OAPIObject::CloudLdapServerUpdate,
           required: true
         },
 
-        # Mappings configurations request for Ldap Cloud Identity Provider configuration
         # @!attribute mappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudLdapMappingsRequest]
         mappings: {
-          class: :hash
+          class: Jamf::OAPIObject::CloudLdapMappingsRequest
         }
 
       } # end OAPI_PROPERTIES

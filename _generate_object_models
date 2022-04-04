@@ -280,6 +280,7 @@ class App
     puts "  file #{oapi_object_class_file}"
 
     file_contents = class_file_contents(class_name, object_schema)
+    return if file_contents.to_s.empty?
 
     oapi_object_class_file.open('w') { |f| f.write file_contents }
   end
@@ -404,33 +405,25 @@ class App
 
     enum_consts = []
 
-    # This schema just defines a top-level enum
-    # so it only has one property 'value' which uses the enum
-    if object_schema[:enum]
-      # enum_const = +"#{const_name_from_object_name(class_name)}#{ENUM_CONST_SUFFIX} = [\n        "
-      # enum_const << object_schema[:enum].map { |e| "'#{e}'" }.join(",\n        ")
-      # enum_const << "\n      ]"
-      # enum_consts << enum_const
-      schema_to_parse = {
-        type: 'object',
-        properties: {
-          value: object_schema
-        }
-      }
-      oapi_properties_const = properties_const(class_name, schema_to_parse, enum_consts)
+    oapi_properties_const =
+      # This schema just defines a top-level enum
+      # so it only has one property 'value' which uses the enum
+      if object_schema[:enum]
+        oapi_properties_const_for_non_object(class_name, object_schema, enum_consts)
 
-    # TODO: object_schema[:type] == 'array' ( or anything else)
-    # As in SafelistedApps which defines an array of objects, and the defintion
-    # is used as a $ref from several other objects.
-    # I'm not sure why Jamf didn't just define a `SafeListedApp` object, and then
-    # use refs to it in arrays in those other objects - then it would all work
-    # cuz those arrays would be multi-valued attrs with the class SafeListedApp
+      # This schema defines a 'subclass' of another object
+      elsif object_schema[:allOf]
+        oapi_properties_const_for_sub_object(class_name, object_schema, enum_consts)
 
+      elsif object_schema[:type] == 'object'
+        properties_const(class_name, object_schema, enum_consts)
 
-    # This schema defines an object
-    elsif object_schema[:allOf] || object_schema[:type] == 'object'
-      oapi_properties_const = properties_const(class_name, object_schema, enum_consts)
-    end
+      # This schema defines a non-object, like an array or an integer
+      # Like the top level enums, its class will have only one property 'value'
+      # which will contain the non-object value
+      else
+        oapi_properties_const_for_non_object(class_name, object_schema, enum_consts)
+      end
 
     return if oapi_properties_const.nil? && enum_consts.empty?
 
@@ -463,44 +456,65 @@ class App
     contents
   end # def object_model_constant
 
-  # See https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/
-  # for description of :allOf and friends
-  ##############################
-  def properties_const(class_name, object_schema, enum_consts)
+  # This schema defines a non-object at the top level, e.g.
+  # a string, array, integer, or an enum of some kind.
+  # The OAPI_PROPERTIES will difine one property: 'value'
+  # which will contain the value of the non-object.
+  ##################################
+  def oapi_properties_const_for_non_object(class_name, object_schema, enum_consts)
+    schema_to_parse = {
+      type: 'object',
+      properties: {
+        value: object_schema
+      }
+    }
+    properties_const(class_name, schema_to_parse, enum_consts)
+  end
+
+  # This schema defines a 'subclass' of another object
+  ##################################
+  def oapi_properties_const_for_sub_object(class_name, object_schema, enum_consts)
+    unless object_schema[:allOf]
+      puts "WARNING: object schema in #{class_name} has no 'allOf'"
+      return
+    end
+
     merges = []
     const = +"#{OAPI_PROPERTIES_CONST_NAME} = "
 
-    if object_schema[:allOf]
-      object_schema[:allOf].each do |subschema|
-        if subschema[:$ref]
-          merged_model_name = subschema[:$ref].split('/').last
-          merges << "Jamf::#{OAPIOBJECT_NAMESPACE}::#{merged_model_name}::#{OAPI_PROPERTIES_CONST_NAME}"
-          puts "  Merging properties from #{merged_model_name}"
-        else
-          const << const_from_properties(subschema, enum_consts)
-        end
+    object_schema[:allOf].each do |all_of_item|
+      # this item of allOf points to the parent-object
+      # We will merge its OAPI_PROPERTIES constant with the one for
+      # this object
+      if all_of_item[:$ref]
+        merged_model_name = all_of_item[:$ref].split('/').last
+        merges << "Jamf::#{OAPIOBJECT_NAMESPACE}::#{merged_model_name}::#{OAPI_PROPERTIES_CONST_NAME}"
+        puts "  Merging properties from #{merged_model_name}"
+
+      # this item of allOf is the schema for the sub-object
+      else
+        const << const_from_properties(all_of_item, enum_consts)
       end
-
-    # no :allOf - just a direct object schema
-    elsif object_schema[:properties]
-      const << const_from_properties(object_schema, enum_consts)
-
-    # if there's no properties, it might be a definition of a single value,
-    # e.g. an enum, as in
-    #    @api_definition[:components][:schemas][:ComputerSection]
-    else
-      puts "WARNING: object schema in #{class_name} has no allOf or properties"
-      return
-    end # f object_schema[:allOf]
+    end
 
     # Add the end of the const definition
-    if merges.empty?
-      const << "\n      } # end #{OAPI_PROPERTIES_CONST_NAME}"
-    else
-      const << "\n      }"
-      merges.each { |m| const << ".merge(#{m})" }
-      const << " # end #{OAPI_PROPERTIES_CONST_NAME}"
+    const << "\n      }"
+    merges.each { |m| const << ".merge(#{m})" }
+    const << " # end #{OAPI_PROPERTIES_CONST_NAME}"
+    const
+  end
+
+  # This is an 'object'
+  ##############################
+  def properties_const(class_name, object_schema, enum_consts)
+    unless object_schema[:properties]
+      puts "WARNING: object schema in #{class_name} has no properties"
+      return
     end
+
+    const = +"#{OAPI_PROPERTIES_CONST_NAME} = "
+    const << const_from_properties(object_schema, enum_consts)
+    const << "\n      } # end #{OAPI_PROPERTIES_CONST_NAME}"
     const
   end
 

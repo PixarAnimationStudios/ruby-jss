@@ -112,9 +112,9 @@ module Jamf
         },
 
         # @!attribute purchasing
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::PurchasingV2]
         purchasing: {
-          class: :hash
+          class: Jamf::OAPIObject::PurchasingV2
         },
 
         # @!attribute configurationProfiles

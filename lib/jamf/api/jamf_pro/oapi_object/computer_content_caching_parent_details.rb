@@ -91,9 +91,9 @@ module Jamf
         },
 
         # @!attribute capabilities
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerContentCachingParentCapabilities]
         capabilities: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerContentCachingParentCapabilities
         },
 
         # @!attribute [r] portable

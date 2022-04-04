@@ -79,33 +79,33 @@ module Jamf
         },
 
         # @!attribute general
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerGeneralUpdate]
         general: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerGeneralUpdate
         },
 
         # @!attribute purchasing
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerPurchase]
         purchasing: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerPurchase
         },
 
         # @!attribute userAndLocation
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerUserAndLocation]
         userAndLocation: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerUserAndLocation
         },
 
         # @!attribute hardware
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerHardwareUpdate]
         hardware: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerHardwareUpdate
         },
 
         # @!attribute operatingSystem
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerOperatingSystemUpdate]
         operatingSystem: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerOperatingSystemUpdate
         },
 
         # @!attribute extensionAttributes

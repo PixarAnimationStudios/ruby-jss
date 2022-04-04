@@ -206,9 +206,9 @@ module Jamf
         },
 
         # @!attribute site
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::V1Site]
         site: {
-          class: :hash
+          class: Jamf::OAPIObject::V1Site
         },
 
         # @!attribute extensionAttributes
@@ -219,9 +219,9 @@ module Jamf
         },
 
         # @!attribute location
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::LocationV2]
         location: {
-          class: :hash
+          class: Jamf::OAPIObject::LocationV2
         },
 
         # Based on the value of this either ios, appleTv, android objects will be populated.
@@ -232,18 +232,16 @@ module Jamf
           enum: TYPE_OPTIONS
         },
 
-        # will be populated if the type is ios.
         # @!attribute ios
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::IosDetailsV2]
         ios: {
-          class: :hash
+          class: Jamf::OAPIObject::IosDetailsV2
         },
 
-        # will be populated if the type is appleTv.
         # @!attribute tvos
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::TvOsDetails]
         tvos: {
-          class: :hash
+          class: Jamf::OAPIObject::TvOsDetails
         }
 
       } # end OAPI_PROPERTIES

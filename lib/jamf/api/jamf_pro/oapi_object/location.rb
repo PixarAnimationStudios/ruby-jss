@@ -100,15 +100,15 @@ module Jamf
         },
 
         # @!attribute department
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::IdAndName]
         department: {
-          class: :hash
+          class: Jamf::OAPIObject::IdAndName
         },
 
         # @!attribute building
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::IdAndName]
         building: {
-          class: :hash
+          class: Jamf::OAPIObject::IdAndName
         },
 
         # @!attribute room

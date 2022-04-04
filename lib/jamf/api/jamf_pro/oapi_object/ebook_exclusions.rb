@@ -124,9 +124,9 @@ module Jamf
         },
 
         # @!attribute limitations
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::EbookLimitations]
         limitations: {
-          class: :hash
+          class: Jamf::OAPIObject::EbookLimitations
         }
 
       } # end OAPI_PROPERTIES

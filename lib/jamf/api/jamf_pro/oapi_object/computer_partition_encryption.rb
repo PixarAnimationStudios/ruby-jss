@@ -63,21 +63,7 @@ module Jamf
     #
     class ComputerPartitionEncryption < OAPIObject
 
-      # Enums used by this class or others
-
-      PARTITION_FILE_VAULT2_STATE_OPTIONS = [
-        'UNKNOWN',
-        'UNENCRYPTED',
-        'INELIGIBLE',
-        'DECRYPTED',
-        'DECRYPTING',
-        'ENCRYPTED',
-        'ENCRYPTING',
-        'RESTART_NEEDED',
-        'OPTIMIZING',
-        'DECRYPTING_PAUSED',
-        'ENCRYPTING_PAUSED'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
@@ -88,10 +74,9 @@ module Jamf
         },
 
         # @!attribute partitionFileVault2State
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::ComputerPartitionFileVault2State]
         partitionFileVault2State: {
-          class: :string,
-          enum: PARTITION_FILE_VAULT2_STATE_OPTIONS
+          class: Jamf::OAPIObject::ComputerPartitionFileVault2State
         },
 
         # @!attribute partitionFileVault2Percent

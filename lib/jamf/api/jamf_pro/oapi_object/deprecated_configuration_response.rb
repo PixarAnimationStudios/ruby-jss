@@ -80,19 +80,17 @@ module Jamf
           minimum: 1001
         },
 
-        # An old Cloud Identity Provider LDAP server configuration for responses
         # @!attribute server
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::DeprecatedServerResponse]
         server: {
-          class: :hash,
+          class: Jamf::OAPIObject::DeprecatedServerResponse,
           required: true
         },
 
-        # Mappings configuration response for Ldap Cloud Identity Provider configuration
         # @!attribute mappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudLdapMappingsResponse]
         mappings: {
-          class: :hash
+          class: Jamf::OAPIObject::CloudLdapMappingsResponse
         }
 
       } # end OAPI_PROPERTIES

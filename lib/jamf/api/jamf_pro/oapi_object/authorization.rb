@@ -81,9 +81,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute account
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AuthAccount]
         account: {
-          class: :hash
+          class: Jamf::OAPIObject::AuthAccount
         },
 
         # @!attribute accountGroups

@@ -64,15 +64,7 @@ module Jamf
     #
     class MdmCommandClient < OAPIObject
 
-      # Enums used by this class or others
-
-      CLIENT_TYPE_OPTIONS = [
-        'MOBILE_DEVICE',
-        'TV',
-        'COMPUTER',
-        'COMPUTER_USER',
-        'MOBILE_DEVICE_USER'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
@@ -83,10 +75,9 @@ module Jamf
         },
 
         # @!attribute clientType
-        #   @return [String]
+        #   @return [Jamf::OAPIObject::MdmClientType]
         clientType: {
-          class: :string,
-          enum: CLIENT_TYPE_OPTIONS
+          class: Jamf::OAPIObject::MdmClientType
         }
 
       } # end OAPI_PROPERTIES

@@ -69,9 +69,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute manifest
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::PackageManifest]
         manifest: {
-          class: :hash,
+          class: Jamf::OAPIObject::PackageManifest,
           required: true
         },
 

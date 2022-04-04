@@ -128,7 +128,7 @@ module Jamf
   autoload :InstalledApplication, 'jamf/api/json_objects/installed_application'
   autoload :InstalledCertificate, 'jamf/api/json_objects/installed_certificate'
   autoload :InstalledConfigurationProfile, 'jamf/api/json_objects/installed_configuration_profile'
-  autoload :InstalledEBook, 'jamf/api/json_objects/installed_ebook'
+  autoload :InstalledEbook, 'jamf/api/json_objects/installed_ebook'
   autoload :InstalledProvisioningProfile, 'jamf/api/json_objects/installed_provisioning_profile'
   autoload :InventoryPreloadExtensionAttribute, 'jamf/api/json_objects/inventory_preload_extension_attribute'
   autoload :IosDetails, 'jamf/api/json_objects/ios_details'

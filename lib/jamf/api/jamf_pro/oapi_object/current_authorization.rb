@@ -80,9 +80,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute account
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CurrentAccount]
         account: {
-          class: :hash
+          class: Jamf::OAPIObject::CurrentAccount
         },
 
         # @!attribute sites

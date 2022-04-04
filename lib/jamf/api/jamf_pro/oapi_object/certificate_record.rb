@@ -105,9 +105,9 @@ module Jamf
         },
 
         # @!attribute signature
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::Signature]
         signature: {
-          class: :hash
+          class: Jamf::OAPIObject::Signature
         },
 
         # @!attribute keyUsage

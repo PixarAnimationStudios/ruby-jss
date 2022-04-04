@@ -100,16 +100,15 @@ module Jamf
         },
 
         # @!attribute features
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::TeacherFeatures]
         features: {
-          class: :hash
+          class: Jamf::OAPIObject::TeacherFeatures
         },
 
         # @!attribute safelistedApps
-        #   @return [Array<Hash{Symbol: Object}>]
+        #   @return [Jamf::OAPIObject::SafelistedApps]
         safelistedApps: {
-          class: :hash,
-          multi: true
+          class: Jamf::OAPIObject::SafelistedApps
         }
 
       } # end OAPI_PROPERTIES

@@ -180,16 +180,16 @@ module Jamf
         },
 
         # @!attribute locationInformation
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::LocationInformation]
         locationInformation: {
-          class: :hash,
+          class: Jamf::OAPIObject::LocationInformation,
           required: true
         },
 
         # @!attribute purchasingInformation
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::PrestagePurchasingInformation]
         purchasingInformation: {
-          class: :hash,
+          class: Jamf::OAPIObject::PrestagePurchasingInformation,
           required: true
         },
 

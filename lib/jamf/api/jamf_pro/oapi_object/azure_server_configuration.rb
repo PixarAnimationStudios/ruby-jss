@@ -97,11 +97,10 @@ module Jamf
           required: true
         },
 
-        # Azure Cloud Identity Provider mappings
         # @!attribute mappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AzureMappings]
         mappings: {
-          class: :hash,
+          class: Jamf::OAPIObject::AzureMappings,
           required: true
         },
 

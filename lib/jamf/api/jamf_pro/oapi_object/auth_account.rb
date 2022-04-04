@@ -106,9 +106,9 @@ module Jamf
         },
 
         # @!attribute preferences
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AccountPreferences]
         preferences: {
-          class: :hash
+          class: Jamf::OAPIObject::AccountPreferences
         },
 
         # @!attribute isMultiSiteAdmin

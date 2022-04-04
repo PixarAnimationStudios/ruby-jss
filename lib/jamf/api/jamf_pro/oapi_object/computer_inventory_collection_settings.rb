@@ -72,9 +72,9 @@ module Jamf
       OAPI_PROPERTIES = {
 
         # @!attribute computerInventoryCollectionPreferences
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerInventoryCollectionPreferences]
         computerInventoryCollectionPreferences: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerInventoryCollectionPreferences
         },
 
         # @!attribute applicationPaths

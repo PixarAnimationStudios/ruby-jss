@@ -106,11 +106,10 @@ module Jamf
           maximum: 65535
         },
 
-        # Response with keystore information
         # @!attribute keystore
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudLdapKeystore]
         keystore: {
-          class: :hash
+          class: Jamf::OAPIObject::CloudLdapKeystore
         },
 
         # @!attribute connectionTimeout

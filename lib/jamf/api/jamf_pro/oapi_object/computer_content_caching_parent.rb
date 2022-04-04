@@ -83,15 +83,15 @@ module Jamf
         },
 
         # @!attribute alerts
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerContentCachingParentAlert]
         alerts: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerContentCachingParentAlert
         },
 
         # @!attribute details
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerContentCachingParentDetails]
         details: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerContentCachingParentDetails
         },
 
         # @!attribute [r] guid

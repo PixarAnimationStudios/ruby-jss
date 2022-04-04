@@ -69,19 +69,17 @@ module Jamf
 
       OAPI_PROPERTIES = {
 
-        # An old Cloud Identity Provider LDAP server configuration for requests
         # @!attribute server
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::DeprecatedServerRequest]
         server: {
-          class: :hash,
+          class: Jamf::OAPIObject::DeprecatedServerRequest,
           required: true
         },
 
-        # Mappings configurations request for Ldap Cloud Identity Provider configuration
         # @!attribute mappings
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::CloudLdapMappingsRequest]
         mappings: {
-          class: :hash
+          class: Jamf::OAPIObject::CloudLdapMappingsRequest
         }
 
       } # end OAPI_PROPERTIES

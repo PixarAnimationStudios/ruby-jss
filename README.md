@@ -292,7 +292,7 @@ Here's what we've implemented so far. See each Class's [documentation(http://www
 These must be created and edited via the JSS WebApp
 
 * {JSS::DistributionPoint}
-* {JSS::LDAPServer}
+* {JSS::LdapServer}
 * {JSS::NetBootServer}
 * {JSS::SoftwareUpdateServer}
 

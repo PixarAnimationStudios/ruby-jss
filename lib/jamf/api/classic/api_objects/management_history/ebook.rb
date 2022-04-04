@@ -29,7 +29,7 @@ module Jamf
   #
   module ManagementHistory
 
-    # EBook - an app deployed to a MobileDevice
+    # Ebook - an app deployed to a MobileDevice
     #
     # This should only be instantiated by the ManagementHistory.ebooks method
     # when mixed in to Mobile devices.
@@ -39,7 +39,7 @@ module Jamf
     # NOTE: some attributes will be nil for some statuses
     # (e.g. no source data if not installed)
     #
-    class EBook < ImmutableStruct.new(
+    class Ebook < ImmutableStruct.new(
 
       :title,
       :author,
@@ -89,7 +89,7 @@ module Jamf
         @management_status == HIST_RAW_STATUS_MANAGED
       end
 
-    end # EBook
+    end # Ebook
 
   end #   module ManagementHistory
 

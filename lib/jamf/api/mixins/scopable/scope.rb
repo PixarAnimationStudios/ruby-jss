@@ -851,11 +851,11 @@ module Jamf
 
         # id will be a string
         if key == :jamf_ldap_users
-          id = ident if Jamf::User.all_names(:refresh, api: container.api).include?(ident) || Jamf::LDAPServer.user_in_ldap?(ident)
+          id = ident if Jamf::User.all_names(:refresh, api: container.api).include?(ident) || Jamf::LdapServer.user_in_ldap?(ident)
 
         # id will be a string
         elsif key == :ldap_user_groups
-          id = ident if Jamf::LDAPServer.group_in_ldap? ident, api: container.api
+          id = ident if Jamf::LdapServer.group_in_ldap? ident, api: container.api
 
         # id will be an integer
         else
@@ -1113,12 +1113,12 @@ module Jamf
 
         # loop thru them checking to see if the user is a member
         scope_list.each do |ldapgroup|
-          server = Jamf::LDAPServer.server_for_group ldapgroup
+          server = Jamf::LdapServer.server_for_group ldapgroup
           # if the group doesn't exist in any LDAP the user isn't a part of it
           next unless server
 
           # if the user name is in any group, return true
-          return true if Jamf::LDAPServer.check_membership server, machine_data[:location][:username], ldapgroup
+          return true if Jamf::LdapServer.check_membership server, machine_data[:location][:username], ldapgroup
         end
 
         # if we're here, not in any group

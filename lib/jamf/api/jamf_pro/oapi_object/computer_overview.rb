@@ -75,9 +75,9 @@ module Jamf
         },
 
         # @!attribute location
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerLocation]
         location: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerLocation
         },
 
         # @!attribute name

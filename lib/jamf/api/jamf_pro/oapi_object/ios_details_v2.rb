@@ -182,27 +182,27 @@ module Jamf
         },
 
         # @!attribute computer
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::IdAndNameV2]
         computer: {
-          class: :hash
+          class: Jamf::OAPIObject::IdAndNameV2
         },
 
         # @!attribute purchasing
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::PurchasingV2]
         purchasing: {
-          class: :hash
+          class: Jamf::OAPIObject::PurchasingV2
         },
 
         # @!attribute security
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::SecurityV2]
         security: {
-          class: :hash
+          class: Jamf::OAPIObject::SecurityV2
         },
 
         # @!attribute network
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::NetworkV2]
         network: {
-          class: :hash
+          class: Jamf::OAPIObject::NetworkV2
         },
 
         # @!attribute applications

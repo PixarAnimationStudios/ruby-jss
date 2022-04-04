@@ -131,9 +131,9 @@ module Jamf
         },
 
         # @!attribute syncState
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::AssignRemoveProfileResponseSyncState]
         syncState: {
-          class: :hash
+          class: Jamf::OAPIObject::AssignRemoveProfileResponseSyncState
         },
 
         # @!attribute profileAssignTime

@@ -120,9 +120,9 @@ module Jamf
         },
 
         # @!attribute remoteManagement
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerRemoteManagement]
         remoteManagement: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerRemoteManagement
         },
 
         # @!attribute supervised
@@ -132,9 +132,9 @@ module Jamf
         },
 
         # @!attribute mdmCapable
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::ComputerMdmCapability]
         mdmCapable: {
-          class: :hash
+          class: Jamf::OAPIObject::ComputerMdmCapability
         },
 
         # @!attribute reportDate
@@ -186,15 +186,15 @@ module Jamf
         },
 
         # @!attribute enrollmentMethod
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::EnrollmentMethod]
         enrollmentMethod: {
-          class: :hash
+          class: Jamf::OAPIObject::EnrollmentMethod
         },
 
         # @!attribute site
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::V1Site]
         site: {
-          class: :hash
+          class: Jamf::OAPIObject::V1Site
         },
 
         # @!attribute itunesStoreAccountActive

@@ -89,9 +89,9 @@ module Jamf
         },
 
         # @!attribute recipients
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::Recipients]
         recipients: {
-          class: :hash
+          class: Jamf::OAPIObject::Recipients
         },
 
         # @!attribute adminAccounts

@@ -198,7 +198,7 @@ module Jamf
         notifications_supported: :ssvc_only,
         url_entity: 'configprofile'
       },
-      Jamf::EBook => {
+      Jamf::Ebook => {
         in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,

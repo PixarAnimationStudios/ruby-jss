@@ -216,9 +216,9 @@ module Jamf
 
     ###
     def ldap_server= (new_val)
-      raise Jamf::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless Jamf::LDAPServer.all_names(api: @api).include? new_val
+      raise Jamf::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless Jamf::LdapServer.all_names(api: @api).include? new_val
       @ldap_server = new_val
-      @ldap_server_id = Jamf::LDAPServer.valid_id @ldap_server
+      @ldap_server_id = Jamf::LdapServer.valid_id @ldap_server
       @need_to_update = true
     end
 

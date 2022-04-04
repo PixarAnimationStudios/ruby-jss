@@ -21,7 +21,7 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
-# This method
+# Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 def setup_zeitwerk_loader(loader)
   @loader = loader
 
@@ -69,8 +69,6 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'oapi_validate' => 'OAPIValidate'
 
   loader.inflector.inflect 'api_object' => 'APIObject'
-  loader.inflector.inflect 'ebook' => 'EBook'
-  loader.inflector.inflect 'mdm_command' => 'MDMCommand'
   loader.inflector.inflect 'xml_workaround' => 'XMLWorkaround'
   loader.inflector.inflect 'json_object' => 'JSONObject'
   loader.inflector.inflect 'vppable' => 'VPPable'
@@ -82,7 +80,6 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'admitmac' => 'ADmitMac'
   loader.inflector.inflect 'ip_address' => 'IPAddress'
   loader.inflector.inflect 'netboot_server' => 'NetBootServer'
-  loader.inflector.inflect 'ldap_server' => 'LDAPServer'
   loader.inflector.inflect 'vpp_account' => 'VPPAccount'
   loader.inflector.inflect 'removable_macaddr' => 'RemovableMacAddress'
   loader.inflector.inflect 'md_prestage_name' => 'MobileDevicePrestageName'
@@ -92,7 +89,7 @@ def setup_zeitwerk_loader(loader)
   # These should be ignored, some will be required directly
   #####################################
 
-  loader.ignore "#{__dir__}/api/jamf_pro/pre_oapi/"
+  loader.ignore "#{__dir__}/jamf/api/jamf_pro/pre_oapi"
 
   loader.ignore "#{__dir__}/jamf/ruby_extensions.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions"

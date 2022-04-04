@@ -143,15 +143,15 @@ module Jamf
         },
 
         # @!attribute computer
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::IdAndName]
         computer: {
-          class: :hash
+          class: Jamf::OAPIObject::IdAndName
         },
 
         # @!attribute security
-        #   @return [Hash{Symbol: Object}]
+        #   @return [Jamf::OAPIObject::Security]
         security: {
-          class: :hash
+          class: Jamf::OAPIObject::Security
         }
 
       } # end OAPI_PROPERTIES
