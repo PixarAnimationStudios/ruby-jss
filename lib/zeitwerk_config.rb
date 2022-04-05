@@ -44,6 +44,8 @@ def setup_zeitwerk_loader(loader)
   loader.collapse("#{__dir__}/jamf/api/classic/base_classes")
 
   loader.collapse("#{__dir__}/jamf/api/jamf_pro")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/api_objects")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/mixins")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/attribute_classes")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/base_classes")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/resources")
@@ -67,6 +69,8 @@ def setup_zeitwerk_loader(loader)
   # API objects, resources, and mixins
   loader.inflector.inflect 'oapi_object' => 'OAPIObject'
   loader.inflector.inflect 'oapi_validate' => 'OAPIValidate'
+
+  loader.inflector.inflect 'jpapi_resource' => 'JPAPIResource'
 
   loader.inflector.inflect 'api_object' => 'APIObject'
   loader.inflector.inflect 'xml_workaround' => 'XMLWorkaround'

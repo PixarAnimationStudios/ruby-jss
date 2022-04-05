@@ -52,35 +52,40 @@ module Jamf
     # @return [Boolean] the valid boolean
     #
     def oapi_attr(val, attr_def)
+      # check that the new val is not nil unless nil is OK
       val = not_nil(val) unless attr_def[:nil_ok]
 
-      # if its nil here, nil is OK andd we shouldn't
+      # if the new val is nil here, then nil is OK andd we shouldn't
       # check anything else
       return val if val.nil?
 
       val =
         case attr_def[:class]
         when :j_id
-          Jamf::Validate.j_id value
+          val = Jamf::Validate.j_id value
+          val
 
         when Class
-          class_instance val, klass: attr_def[:class]
+          val = class_instance val, klass: attr_def[:class]
+          val
 
         when :boolean
-          boolean val
+          val = boolean val
+          val
 
         when :string
           val = string val
           matches_pattern val, attr_def[:pattern] if attr_def[:pattern]
           min_length val, min: attr_def[:min_length] if attr_def[:min_length]
           max_length val, max: attr_def[:max_length] if attr_def[:max_length]
+          val
 
         when :integer
-          int = integer val
+          val = integer val
           minimum val, min: attr_def[:minimum], exclusive: attr_def[:exclusive_minimum] if attr_def[:minimum]
           maximum val, max: attr_def[:maximum], exclusive: attr_def[:exclusive_maximum] if attr_def[:maximum]
           multiple_of val, multiplier: attr_def[:multiple_of] if attr_def[:multiple_of]
-
+          val
         when :number
           val =
             if %w[float double].include? attr_def[:format]
@@ -91,12 +96,21 @@ module Jamf
           minimum val, min: attr_def[:minimum], exclusive: attr_def[:exclusive_minimum] if attr_def[:minimum]
           maximum val, max: attr_def[:maximum], exclusive: attr_def[:exclusive_maximum] if attr_def[:maximum]
           multiple_of val, multiplier: attr_def[:multiple_of] if attr_def[:multiple_of]
+          val
 
         when :hash
-          hash val
-      end # case
+          val = hash val
+          val
+        end # case
 
-      in_enum val, enum: attr_def[:enum]
+      # Now that hte val is in whatever correct format after the above tests,
+      # we test for enum membership if needed
+      # otherwise, just return the val
+      if attr_def[:enum]
+        in_enum val, enum: attr_def[:enum]
+      else
+        val
+      end
     end
 
     # validate that a value is of a specific class

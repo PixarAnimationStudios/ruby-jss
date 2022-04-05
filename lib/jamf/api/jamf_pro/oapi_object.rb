@@ -128,7 +128,6 @@ module Jamf
 
       # all booleans get predicate ? aliases
       alias_method("#{attr_name}?", attr_name) if attr_def[:class] == :boolean
-
     end # create getters
     private_class_method :create_getters
 
@@ -281,8 +280,6 @@ module Jamf
       # Jamf::Validate.doesnt_exist(value, self, attr_name, cnx: cnx) if attr_def[:identifier] && superclass == Jamf::CollectionResource
 
     end # validate_attr(attr_name, value)
-    private_class_method :validate_attr
-
 
     # Constructor
 
