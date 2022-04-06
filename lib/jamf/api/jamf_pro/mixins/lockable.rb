@@ -24,6 +24,8 @@
 
 module Jamf
 
+  # TODO may not be needed anymore
+
   # Classes mixing this in have a 'versionLock' attribute and implement
   # 'Optimistic Locking'
   #  https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397
@@ -46,22 +48,28 @@ module Jamf
     #  Class Methods
     #####################################
     module ClassMethods
+
       def lockable?
         true
       end
+
     end # module class methods
 
     attr_reader :versionLock
 
     def initialize(**data)
       @versionLock = data[:versionLock]
-      super
+      super(**data)
     end
 
     def to_jamf
       data = super
       data[:versionLock] = @versionLock
       data
+    end
+
+    def lockable?
+      self.class.lockable?
     end
 
   end # Lockable

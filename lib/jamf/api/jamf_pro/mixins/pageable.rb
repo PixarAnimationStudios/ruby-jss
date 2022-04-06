@@ -28,16 +28,6 @@ module Jamf
   #
   module Pageable
 
-    # # When This is included
-    # def self.included(klass)
-    #   puts "Pageable was included by #{klass}"
-    # end
-    #
-    # # When this is exdended
-    # def self.extended(klass)
-    #   puts "Pageable was extended by #{klass}"
-    # end
-
     DFT_PAGE_SIZE = 100
 
     MIN_PAGE_SIZE = 1
@@ -46,22 +36,18 @@ module Jamf
 
     PAGE_SIZE_RANGE = (MIN_PAGE_SIZE..MAX_PAGE_SIZE).freeze
 
-    # @param rsrc [String] The collection resource GET endpoint
-    #
     # @param cnx [Jamf::Connection] The API connection to use
     #
     # @return [Integer] How many items exist in this collection?
     #
-    def collection_count(rsrc, cnx: Jamf.cnx)
+    def collection_count(cnx: Jamf.cnx)
       # this should only be true for instances of CollectionResources
       cnx = @cnx if @cnx
-      cnx.get("#{rsrc}?page=0&page-size=1")[:totalCount]
+      cnx.jp_get("#{self::LIST_PATH}?page=0&page-size=1")[:totalCount]
     end
 
     # Get a specific page of a paged collection request,
     # possibly sorted & filtered.
-    #
-    # @param rsrc [String] The collection resource GET endpoint
     #
     # @param page [Integer] which page to get
     #
@@ -75,12 +61,10 @@ module Jamf
     #
     # @return [Array<Object>] The parsed JSON for the requested page
     #
-    def fetch_collection_page(rsrc, page, page_size, sort, filter, cnx: Jamf.cnx)
+    def fetch_collection_page(page, page_size, sort, filter, cnx: Jamf.cnx)
       page_size ||= DFT_PAGE_SIZE
       validate_page_params page_size, page
-      raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
-
-      raw[:results]
+      cnx.jp_get("#{self::LIST_PATH}?page=#{page}&page-size=#{page_size}#{sort}#{filter}")[:results]
     end
 
     ################### Private methods
@@ -88,8 +72,6 @@ module Jamf
 
     # get the first page of a paged collection, and set up for
     # getting later pages
-    #
-    # @param rsrc [String] The collection resource GET endpoint
     #
     # @param page_size [Integer] how many items per page
     #
@@ -101,11 +83,10 @@ module Jamf
     #
     # @return [Array<Object>] The first page of the collection for this resource
     #
-    def first_collection_page(rsrc, page_size, sort, filter, cnx)
+    def first_collection_page(page_size:, sort: nil, filter: nil, cnx: Jamf.cnx)
       page_size ||= DFT_PAGE_SIZE
       validate_page_params page_size
 
-      @collection_rsrc_path = rsrc
       @collection_cnx = cnx
       @collection_page = :first
       @collection_page_size = page_size
@@ -135,7 +116,7 @@ module Jamf
         return []
       end
 
-      raw = @collection_cnx.jp_get "#{@collection_rsrc_path}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
+      raw = @collection_cnx.jp_get "#{self::LIST_PATH}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
 
       @collection_paged_fetched_count += raw[:results].size
       @collection_paged_total_count = raw[:totalCount]
@@ -149,7 +130,6 @@ module Jamf
     end
 
     def clear_collection_paging_data
-      @collection_rsrc_path = nil
       @collection_cnx = nil
       @collection_sort = nil
       @collection_filter = nil
@@ -178,8 +158,6 @@ module Jamf
 
     # Description of #fetch_all_collection_pages
     #
-    # @param rsrc [String] The collection resource GET endpoint
-    #
     # @param sort [String,Array<String>] server-side sorting parameters
     #
     # @param filter [String] RSQL String limiting the result set
@@ -188,16 +166,16 @@ module Jamf
     #
     # @return [Type] description_of_returned_object
     #
-    def fetch_all_collection_pages(rsrc, sort, filter, cnx)
+    def fetch_all_collection_pages(sort: nil, filter: nil, cnx: Jamf.cnx)
       page = 0
       page_size = MAX_PAGE_SIZE
 
-      raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+      raw = cnx.jp_get "#{self::LIST_PATH}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
       results = raw[:results]
 
       until results.size >= raw[:totalCount]
         page += 1
-        raw = cnx.jp_get "#{rsrc}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+        raw = cnx.jp_get "#{self::LIST_PATH}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
         results += raw[:results]
       end
       results

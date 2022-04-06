@@ -151,6 +151,7 @@ module Jamf
       create_append_setters(attr_name, attr_def)
       create_prepend_setters(attr_name, attr_def)
       create_insert_setters(attr_name, attr_def)
+      create_delete_setters(attr_name, attr_def)
       create_delete_at_setters(attr_name, attr_def)
       create_delete_if_setters(attr_name, attr_def)
     end # def create_multi_setters
@@ -162,10 +163,14 @@ module Jamf
       define_method("#{attr_name}=") do |new_value|
         initialize_multi_value_attr_array attr_name
 
-        raise Jamf::InvalidDataError, 'Value must be an Array' unless new_value.is_a? Array
+        raise Jamf::InvalidDataError, "Value for '#{attr_name}=' must be an Array" unless new_value.is_a? Array
 
         # validate each item of the new array
         new_value.map! { |item| validate_attr attr_name, item }
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_value, attr_def: attr_def, attr_name: attr_name)
+
         old_value = instance_variable_get("@#{attr_name}")
         return if new_value == old_value
 
@@ -184,9 +189,14 @@ module Jamf
         initialize_multi_value_attr_array attr_name
 
         new_value = validate_attr attr_name, new_value
-        old_array = instance_variable_get("@#{attr_name}").dup
 
-        instance_variable_get("@#{attr_name}") << new_value
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        new_array << new_value
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
         note_unsaved_change attr_name, old_array
       end # define method
 
@@ -202,8 +212,14 @@ module Jamf
         initialize_multi_value_attr_array attr_name
 
         new_value = validate_attr attr_name, new_value
-        old_array = instance_variable_get("@#{attr_name}").dup
-        instance_variable_get("@#{attr_name}").unshift new_value
+
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        new_array.unshift new_value
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
         note_unsaved_change attr_name, old_array
       end # define method
     end # create_prepend_setters
@@ -215,12 +231,37 @@ module Jamf
         initialize_multi_value_attr_array attr_name
 
         new_value = validate_attr attr_name, new_value
-        old_array = instance_variable_get("@#{attr_name}").dup
-        instance_variable_get("@#{attr_name}").insert index, new_value
+
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        new_array.insert index, new_value
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
         note_unsaved_change attr_name, old_array
       end # define method
     end # create_insert_setters
     private_class_method :create_insert_setters
+
+    # The  attr_delete(val) setter method for array values
+    ##############################
+    def self.create_delete_setters(attr_name, attr_def)
+      define_method("#{attr_name}_delete") do |val|
+        initialize_multi_value_attr_array attr_name
+
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        new_array.delete val
+        return if old_array == new_array
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
+        note_unsaved_change attr_name, old_array
+      end # define method
+    end # create_insert_setters
+    private_class_method :create_delete_setters
 
     # The  attr_delete_at(index) setter method for array values
     ##############################
@@ -228,22 +269,34 @@ module Jamf
       define_method("#{attr_name}_delete_at") do |index|
         initialize_multi_value_attr_array attr_name
 
-        old_array = instance_variable_get("@#{attr_name}").dup
-        deleted = instance_variable_get("@#{attr_name}").delete_at index
-        note_unsaved_change attr_name, old_array if deleted
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        deleted = new_array.delete_at index
+        return unless deleted
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
+        note_unsaved_change attr_name, old_array
       end # define method
     end # create_insert_setters
     private_class_method :create_delete_at_setters
 
-    # The  attr_delete_if  setter method for array values
+    # The  attr_delete_if(block) setter method for array values
     ##############################
     def self.create_delete_if_setters(attr_name, attr_def)
       define_method("#{attr_name}_delete_if") do |&block|
         initialize_multi_value_attr_array attr_name
 
-        old_array = instance_variable_get("@#{attr_name}").dup
-        instance_variable_get("@#{attr_name}").delete_if &block
-        note_unsaved_change attr_name, old_array if old_array != instance_variable_get("@#{attr_name}")
+        new_array = instance_variable_get("@#{attr_name}")
+        old_array = new_array.dup
+        new_array.delete_if(&block)
+        return if old_array == new_array
+
+        # now validate the array as a whole for oapi constraints
+        Jamf::Validate.validate_array_constraints(new_array, attr_def: attr_def, attr_name: attr_name)
+
+        note_unsaved_change attr_name, old_array
       end # define method
     end # create_insert_setters
     private_class_method :create_delete_if_setters
@@ -266,12 +319,11 @@ module Jamf
       raise ArgumentError, "Unknown attribute: #{attr_name} for #{self} objects" unless attr_def
 
       # validate the value based on the OAPI definition.
-      Jamf::Validate.oapi_attr value, attr_def, attr_name
+      Jamf::Validate.oapi_attr value, attr_def: attr_def, attr_name: attr_name
 
       # if this is an identifier, it must be unique
       # TODO: move this to colloection resouce code
       # Jamf::Validate.doesnt_exist(value, self, attr_name, cnx: cnx) if attr_def[:identifier] && superclass == Jamf::CollectionResource
-
     end # validate_attr(attr_name, value)
 
     # Attributes
@@ -313,10 +365,12 @@ module Jamf
     # Instance Methods
     #####################################
 
-    # a hash of all unsaved changes, including embedded JSONObjects
+    # a hash of all unsaved changes
     #
     def unsaved_changes
       return {} unless self.class.mutable?
+
+      @unsaved_changes ||= {}
 
       changes = @unsaved_changes.dup
 
@@ -524,7 +578,7 @@ module Jamf
     # @return (see parse_single_init_value)
     #
     def parse_enum_value(api_value, attr_name, attr_def)
-      OAPIValidate.in_enum  api_value, enum: attr_def[:enum], msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
+      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum], msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
     end
 
     # call to_jamf on a single value if it knows that method

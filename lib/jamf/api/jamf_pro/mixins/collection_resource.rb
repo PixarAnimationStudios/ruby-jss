@@ -80,17 +80,76 @@ module Jamf
       # is extended.
       # since this module will be extended into a class
 
-      include Jamf::JPAPIResource::ClassMethods
-
+      # It seems that all current collections are pageable and sortable
       include Jamf::Pageable
       include Jamf::Sortable
-      include Jamf::Filterable
+
+      include Jamf::JPAPIResource::ClassMethods
 
       # when this module is included, also extend our 'parent' class methods
       ######################################
       def self.extended(extender)
         # puts "#{extender} is extending Jamf::CollectionResource::ClassMethods"
       end
+
+      # All Classes including CollectionResource MUST define 'LIST_PATH', which
+      # is the URL path for GETting the list of all objects in the collection,
+      # possibly filtered, sorted, and/or paged
+
+      # The path for GETting a single object. The desired object id will be appended
+      # to the end, e.g. if this value is 'v1/buildings' and you want to GET the
+      # record for building id 23, then we will GET from 'v1/buildings/23'
+      #
+      # Classes including CollectionResource really need to define GET_PATH if it
+      # is not the same as the LIST_PATH.
+      ######################################
+      def get_path
+        @get_path ||= defined?(self::GET_PATH) ? self::GET_PATH : self::LIST_PATH
+      end
+
+      # The path for PUTting (replacing) a single object. The desired object id will
+      # be appended to the end, e.g. if this value is 'v1/buildings' and you want
+      # to PUT the record for building id 23, then we will PUT to 'v1/buildings/23'
+      #
+      # Classes including CollectionResource really need to define PUT_PATH if it
+      # is not the same as the LIST_PATH.
+      ######################################
+      def put_path
+        @put_path ||= defined?(self::PUT_PATH) ? self::PUT_PATH : self::LIST_PATH
+      end
+
+      # The path for PATCHing (updating in-place) a single object. The desired
+      # object id will be appended to the end, e.g. if this value is 'v1/buildings'
+      # and you want to PATCH the record for building id 23, then we will PATCH to
+      # 'v1/buildings/23'
+      #
+      # Classes including CollectionResource really need to define PATCH_PATH if it
+      # is not the same as the LIST_PATH.
+      ######################################
+      def patch_path
+        @patch_path ||= defined?(self::PATCH_PATH) ? self::PATCH_PATH : self::LIST_PATH
+      end
+
+      # The path for POSTing to create a single object in the collection.
+      #
+      # Classes including CollectionResource really need to define POST_PATH if it
+      # is not the same as the LIST_PATH.
+      ######################################
+      def post_path
+        @post_path ||= defined?(self::POST_PATH) ? self::POST_PATH : self::LIST_PATH
+      end
+
+      # The path for DELETEing a single object from the collection.
+      #
+      # Classes including CollectionResource really need to define DELETE_PATH if it
+      # is not the same as the LIST_PATH.
+      ######################################
+      def delete_path
+        @delete_path ||= defined?(self::DELETE_PATH) ? self::DELETE_PATH : self::LIST_PATH
+      end
+
+
+
 
       # @return [Array<Symbol>] the attribute names that are marked as identifiers
       #
@@ -106,7 +165,7 @@ module Jamf
       # @return [Integer]
       ######################################
       def count(cnx: Jamf.cnx)
-        collection_count(rsrc_path, cnx: Jamf.cnx)
+        collection_count(self::LIST_PATH, cnx: cnx)
       end
 
       # Get all instances of a CollectionResource, possibly limited by a filter.
@@ -219,12 +278,13 @@ module Jamf
       # @param filter [String] An RSQL filter string. Not all collection resources
       #   currently support filters, and if they don't, this will be ignored.
       #
-      # @param paged [Boolean] Defaults to false. Returns only the first page of
-      #   `page_size` objects. Use {.next_page_of_all} to retrieve each successive
-      #   page.
+      # @param page_size [Integer] Return 'paged' results in groups of this many items.
+      #   Minimum is 1, maximum is 2000
       #
-      # @param page_size [Integer] How many items are returned per page? Minimum
-      #   is 1, maximum is 2000, default is 100. Ignored unless paged: is truthy.
+      #   When this is used, this method only returns the first group items.
+      #   Use {.next_page_of_all} to retrieve each successive page. That method
+      #   will return an empty array once all items have been returned.
+      #
       #   Note: the final page may contain fewer items than the page_size
       #
       # @param refresh [Boolean] re-fetch and re-cache the full list of all instances.
@@ -239,21 +299,21 @@ module Jamf
       # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
       #
       ######################################
-      def all(sort: nil, filter: nil, paged: nil, page_size: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
+      def all(sort: nil, filter: nil, page_size: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
         stop_if_base_class
 
         # use the cache if not paging, filtering or sorting
-        return cached_all(refresh, instantiate, cnx) if !paged && !sort && !filter
+        return cached_all(refresh, instantiate, cnx) if !page_size && !sort && !filter
 
         # we are sorting, filtering or paging
         sort = parse_collection_sort(sort)
         filter = parse_collection_filter(filter)
 
         result =
-          if paged
-            first_collection_page(rsrc_path, page_size, sort, filter, cnx)
+          if page_size
+            first_collection_page(page_size: page_size, sort: sort, filter: filter, cnx: cnx)
           else
-            fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
+            fetch_all_collection_pages(sort: sort, filter: filter, cnx: cnx)
           end
 
         instantiate ? result.map { |m| new(**m) } : result
@@ -276,11 +336,8 @@ module Jamf
       ######################################
       def cached_all(refresh, instantiate, cnx)
         cnx.jp_collection_cache[self] = nil if refresh
-        unless cnx.jp_collection_cache[self]
-          sort = nil
-          filter = nil
-          cnx.jp_collection_cache[self] = fetch_all_collection_pages(rsrc_path, sort, filter, cnx)
-        end
+
+        cnx.jp_collection_cache[self] ||= fetch_all_collection_pages cnx: cnx
 
         instantiate ? cnx.jp_collection_cache[self].map { |m| new(**m) } : cnx.jp_collection_cache[self]
       end
@@ -416,11 +473,7 @@ module Jamf
       # request params to get more than basic data
       ######################################
       def raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
-        cnx.jp_get "#{rsrc_path}/#{id}#{request_params}"
-      rescue => e
-        return if e.httpStatus == 404
-
-        raise e
+        cnx.jp_get "#{get_path}/#{id}#{request_params}"
       end
 
       # Given an indentier attr. key, and a value,
@@ -545,7 +598,7 @@ module Jamf
         raise Jamf::NoSuchItemError, "No matching #{self}" unless data
 
         data[:cnx] = cnx
-        new **data
+        new(**data)
       end # fetch
 
       # By default, CollectionResource subclass instances are deletable.
@@ -557,12 +610,13 @@ module Jamf
       end
 
       # Delete one or more objects by id
+      # TODO: fix this return value, no more ErrorInfo
       #
       # @param ids [Array<String,Integer>] The ids to delete
       #
       # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
       #
-      # TODO: fix this return value, no more ErrorInfo
+      #
       # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
       #   that failed to be deleted.
       #
@@ -570,23 +624,23 @@ module Jamf
       def delete(*ids, cnx: Jamf.cnx)
         raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
 
-        return bulk_delete(ids, cnx: Jamf.cnx) if ancestors.include? Jamf::BulkDeletable
+        # TODO: implement bulk_deletable? in the mixin
+        return bulk_delete(ids, cnx: Jamf.cnx) if self&.bulk_deletable?
 
         errs = []
         ids.each do |id_to_delete|
-          cnx.delete "#{rsrc_path}/#{id_to_delete}"
+          cnx.jp_delete "#{delete_path}/#{id_to_delete}"
         rescue Jamf::Connection::APIError => e
           raise e unless e.httpStatus == 404
 
           errs += e.errors
-          # begin
         end # ids.each
         errs
       end
 
       # TODO:
       # - better pluralizing?
-      # - SHould this stay here now that we're a mixin??
+      # - Should this stay here now that we're a mixin??
       #
       ######################################
       def create_list_methods(attr_name, attr_def)
@@ -613,21 +667,28 @@ module Jamf
 
     end # Module ClassMethods
 
-    # Instance Methods
+    # Attributes
     #####################################
 
-    attr_reader :create_path
+    # @return [String] The path for creating a new item in the collection
+    #   in the JPAPI
+    #
+    attr_reader :post_path
 
+    # @return [String] The path for deleting a this item from the collection
+    #   in the JPAPI
+    #
+    attr_reader :delete_path
+
+    # Constructor
     #####################################
     def initialize(**data)
       super(**data)
-      if exist?
-        @rsrc_path = "#{self.class::RSRC_PATH}/#{id}"
-        @update_path = defined?(self.class::UPDATE_PATH) ? "#{self.class::UPDATE_PATH}/#{id}" : @rsrc_path
-      else
-        @create_path = defined?(self.class::CREATE_PATH) ? self.class::CREATE_PATH : self.class::RSRC_PATH
-      end
+      set_api_paths
     end
+
+    # Instance Methods
+    #####################################
 
     #####################################
     def exist?
@@ -638,13 +699,12 @@ module Jamf
     def delete
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
 
-      @cnx.delete rsrc_path
+      @cnx.jp_delete delete_path
     end
 
     # Two collection resource objects are the same if their id's are the same
     #####################################
     def <=>(other)
-
       id <=> other.id
     end
 
@@ -652,13 +712,57 @@ module Jamf
     ############################################
     private
 
+    ############################################
+    def set_api_paths
+      if exist?
+        @get_path = defined?(self.class::GET_PATH) ? "#{self.class::GET_PATH}/#{id}" : "#{self.class::LIST_PATH}/#{id}"
+
+        @update_path =
+          if defined?(self.class::PUT_PATH)
+            "#{self.class::PUT_PATH}/#{id}"
+          elsif defined?(self.class::PATCH_PATH)
+            "#{self.class::PATCH_PATH}/#{id}"
+          else
+            "#{self.class::LIST_PATH}/#{id}"
+          end
+
+        @delete_path = defined?(self.class::DELETE_PATH) ? "#{self.class::DELETE_PATH}/#{id}" : "#{self.class::LIST_PATH}/#{id}"
+
+        @post_path = nil
+
+      else
+        @post_path = defined?(self.class::POST_PATH) ? self.class::POST_PATH : self.class::LIST_PATH
+      end
+    end
+
+    ############################################
     def create_in_jamf
       raise Jamf::MissingDataError, "Class #{self.class} has not defined a POST_OBJECT" unless defined?(self.class::POST_OBJECT)
 
+      validate_for_create
+
       post_object = self.class::POST_OBJECT.new(to_jamf)
 
-      result = @cnx.post self.class.rsrc_path, post_object.to_jamf
+      result = @cnx.jp_post post_path, post_object.to_jamf
+
       @id = result[:id]
+
+      # reset the API  paths now that we exist
+      set_api_paths
+
+      # return the id
+      @id
+    end
+
+    # make sure that required values are not nil
+    ############################################
+    def validate_for_create
+      self.class::OAPI_PROPERTIES.each do |attr_name, attr_def|
+        next unless attr_def[:required]
+        next unless send(attr_name).nil?
+
+        raise Jamf::MissingDataError, "Attribute '#{attr_name}' cannot be nil, must be a #{attr_def[:class]}"
+      end
     end
 
   end # class CollectionResource

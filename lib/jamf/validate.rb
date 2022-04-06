@@ -33,6 +33,11 @@ module Jamf
   #
   module Validate
 
+    # Raise an invalid data error
+    def self.raise_invalid_data_error(msg)
+      raise Jamf::InvalidDataError, msg.strip
+    end
+
     extend Jamf::OAPIValidate
 
     # The regular expression that matches a valid MAC address.
@@ -55,8 +60,7 @@ module Jamf
     def self.mac_address(val, msg: nil)
       return val if val =~ MAC_ADDR_RE
 
-      msg ||= "Not a valid MAC address: '#{val}'"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "Not a valid MAC address: '#{val}'")
     end
 
     # Validate the format and content of an IPv4 address
@@ -71,8 +75,7 @@ module Jamf
       val = val.strip
       return val if val =~ IPV4_ADDR_RE
 
-      msg ||= "Not a valid IPv4 address: '#{val}'"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "Not a valid IPv4 address: '#{val}'")
     end
 
     # Validate that a value doesn't already exist for a given identifier of a
@@ -96,7 +99,6 @@ module Jamf
     # @return [Object] the validated unique value
     #
     def self.doesnt_already_exist(klass, identifier, val, msg: nil, api: Jamf.cnx)
-      msg ||= "A #{klass} already exists with #{identifier} '#{val}'"
       return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
 
       key = klass.real_lookup_key identifier
@@ -106,7 +108,7 @@ module Jamf
       matches = existing_values.select { |existing_val| existing_val.casecmp? val }
       return val if matches.empty?
 
-      raise Jamf::AlreadyExistsError, msg
+      raise_invalid_data_error(msg || "A #{klass} already exists with #{identifier} '#{val}'")
     end
 
     # validate that the given value is a non-empty string
@@ -117,11 +119,10 @@ module Jamf
     #
     # @return [String] the valid non-empty string
     #
-    def self.non_empty_string(val, msg: nil)
+    def self.non_empty_string(val, attr_name: nil, msg: nil)
       return val if val.is_a?(String) && !val.empty?
 
-      msg ||= 'value must be a non-empty String'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a non-empty String")
     end
 
     # Confirm that a value provided is an integer or a string version
@@ -136,16 +137,14 @@ module Jamf
     #
     # @return [String] the valid integer-in-a-string
     #
-    def self.j_id(val, attr_name, msg: nil)
+    def self.j_id(val, attr_name: nil, msg: nil)
       case val
       when Integer
         return val.to_s
       when String
         return val if val.j_integer?
       end
-      msg ||= "#{attr_name}: Value must be an Integer or an Integer in a String, e.g. \"42\""
-
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be an Integer or an Integer in a String, e.g. \"42\"")
     end
 
     # validate that the given value is a valid uuid string
@@ -159,8 +158,7 @@ module Jamf
     def self.uuid(val, msg: nil)
       return val if val.is_a?(String) && val =~ UUID_RE
 
-      msg ||= 'value must be valid uuid'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || 'value must be valid uuid')
     end
 
     # validate that the given value is an integer in the Jamf::IBeacon::MAJOR_MINOR_RANGE
@@ -177,8 +175,7 @@ module Jamf
       ok = Jamf::IBeacon::MAJOR_MINOR_RANGE.include? val if ok
       return val if ok
 
-      msg ||= "value must be an integer in the range #{Jamf::IBeacon::MAJOR_MINOR_RANGE}"
-      raise Jamf::InvalidDataError, msg unless ok
+      raise_invalid_data_error(msg || "value must be an integer in the range #{Jamf::IBeacon::MAJOR_MINOR_RANGE}")
     end
 
     # validate a country name or code from Jamf::APP_STORE_COUNTRY_CODES
@@ -198,8 +195,7 @@ module Jamf
         return code if name.upcase == country
       end
 
-      msg ||= 'Unknown country name or code. See Jamf::APP_STORE_COUNTRY_CODES or JSS.country_code_match(str)'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "Unknown country name or code '#{country}'. See Jamf::APP_STORE_COUNTRY_CODES or JSS.country_code_match(str)")
     end
 
     # validate an email address - must match the RegEx /^\S+@\S+\.\S+$/
@@ -217,11 +213,10 @@ module Jamf
     # @return [String] the validly formatted email address
     #
     def self.email_address(email, msg: nil)
-      msg ||= "'#{email}' is not formatted as a valid email address"
       email = email.to_s
       return email if email =~ /^\S+@\S+\.\S+$/
 
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "'#{email}' is not formatted as a valid email address")
     end
 
   end # module validate

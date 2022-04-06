@@ -51,24 +51,6 @@ module Jamf
     #####################################
     module ClassMethods
 
-      # resources are not lockable by default. WHen they include the
-      # Jamf Lockable mixin, this will return true
-      def lockable?
-        false
-      end
-
-      # the resource path to GET this resource
-      # @return [String]
-      def rsrc_path
-        @rsrc_path ||= self::RSRC_PATH
-      end
-
-      # the resource path to PUT or PATCH this resource
-      # @return [String]
-      def update_path
-        @update_path ||= defined?(self::UPDATE_PATH) ? self::UPDATE_PATH : self::RSRC_PATH
-      end
-
       # Disallow direct use of ruby's .new class method for creating instances.
       # Require use of .fetch or .create, or 'all'
       #
@@ -91,11 +73,22 @@ module Jamf
     #   this resource.
     attr_reader :cnx
 
-    # this gets set in the CollectionResource or SingletonResource mixins
-    attr_reader :rsrc_path
+    # @return [String] The path for fetching this thing from the JPAPI
+    #
+    #   this gets set in the constructor in the CollectionResource or
+    #   SingletonResource mixins
+    attr_reader :get_path
 
-    # this gets set in the CollectionResource or SingletonResource mixins
+    # @return [String] The path for updating this thing from the JPAPI
+    #
+    #   this gets set in the constructor in the CollectionResource or
+    #   SingletonResource mixins
+    #
+    #   We use 'update_path' because some items are updated via a
+    #   PUT_PATH and others via a PATCH_PATH.
+    #   When this gets set, it will contain the appropriate one.
     attr_reader :update_path
+
 
     # constructor
     #####################################
@@ -121,10 +114,16 @@ module Jamf
 
     # TODO: error handling
     def save
-      return unless unsaved_changes?
       raise Jamf::UnsupportedError, "#{self.class} objects cannot be changed" unless self.class.mutable?
 
-      exist? ? update_in_jamf : create_in_jamf
+      if exist?
+        return unless unsaved_changes?
+
+        update_in_jamf
+      else
+        create_in_jamf
+      end
+
       clear_unsaved_changes
 
       @id || :saved
@@ -147,11 +146,6 @@ module Jamf
       else
         raise Jamf::MissingDataError, "Class #{self.class} has not defined a PUT_OBJECT or PATCH_OBJECT"
       end
-    rescue Jamf::Connection::JamfProAPIError => e
-      if e.http_status == 409 && self.class.lockable?
-        raise Jamf::VersionLockError, "The #{self.class} has been modified by some other process since it was fetched. Please refetch and try again."
-      end
-      raise e
     end # update_in_jamf
 
   end # class APIObject

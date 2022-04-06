@@ -38,6 +38,8 @@ module Jamf
   # if the value isn't valid, or will return a standardized form of the input
   # (e.g. a number, even if given a String)
   #
+  # IMPORTANT - This module MUST be extended into Jamf::Validate.
+  #
   module OAPIValidate
 
     # Validate that a value is valid based on its
@@ -51,7 +53,7 @@ module Jamf
     #
     # @return [Boolean] the valid boolean
     #
-    def oapi_attr(val, attr_def, attr_name: nil)
+    def oapi_attr(val, attr_def:, attr_name: nil)
       # check that the new val is not nil unless nil is OK
       val = not_nil(val, attr_name: attr_name) unless attr_def[:nil_ok]
 
@@ -62,55 +64,88 @@ module Jamf
       val =
         case attr_def[:class]
         when :j_id
-          val = Jamf::Validate.j_id value, attr_name
-          val
+          Jamf::Validate.j_id value, attr_name: attr_name
 
         when Class
-          val = class_instance val, klass: attr_def[:class]
-          val
+          class_instance val, klass: attr_def[:class], attr_name: attr_name
 
         when :boolean
-          val = boolean val
-          val
+          boolean val, attr_name: attr_name
 
         when :string
-          val = string val
-          matches_pattern val, attr_def[:pattern] if attr_def[:pattern]
-          min_length val, min: attr_def[:min_length] if attr_def[:min_length]
-          max_length val, max: attr_def[:max_length] if attr_def[:max_length]
-          val
+          fully_validate_string(val, attr_def: attr_def, attr_name: attr_name)
 
         when :integer
-          val = integer val
-          minimum val, min: attr_def[:minimum], exclusive: attr_def[:exclusive_minimum] if attr_def[:minimum]
-          maximum val, max: attr_def[:maximum], exclusive: attr_def[:exclusive_maximum] if attr_def[:maximum]
-          multiple_of val, multiplier: attr_def[:multiple_of] if attr_def[:multiple_of]
-          val
+          fully_validate_integer(val, attr_def: attr_def, attr_name: attr_name)
+
         when :number
-          val =
-            if %w[float double].include? attr_def[:format]
-              float val
-            else
-              number val
-            end
-          minimum val, min: attr_def[:minimum], exclusive: attr_def[:exclusive_minimum] if attr_def[:minimum]
-          maximum val, max: attr_def[:maximum], exclusive: attr_def[:exclusive_maximum] if attr_def[:maximum]
-          multiple_of val, multiplier: attr_def[:multiple_of] if attr_def[:multiple_of]
-          val
+          fully_validate_number(val, attr_def: attr_def, attr_name: attr_name)
 
         when :hash
-          val = hash val
-          val
+          hash val, attr_name: attr_name
+
         end # case
 
       # Now that hte val is in whatever correct format after the above tests,
       # we test for enum membership if needed
       # otherwise, just return the val
       if attr_def[:enum]
-        in_enum val, enum: attr_def[:enum]
+        in_enum val, enum: attr_def[:enum], attr_name: attr_name
       else
         val
       end
+    end
+
+    # run all the possible validations on a string
+    def fully_validate_string(val, attr_def:, attr_name: nil)
+      val = string val, attr_name: attr_name
+
+      min_length val, min: attr_def[:min_length], attr_name: attr_name if attr_def[:min_length]
+      max_length val, max: attr_def[:max_length], attr_name: attr_name if attr_def[:max_length]
+      matches_pattern val, attr_def[:pattern], attr_name: attr_name if attr_def[:pattern]
+
+      val
+    end
+
+    # run all the possible validations on an integer
+    def fully_validate_integer(val, attr_def:, attr_name: nil)
+      val = integer val, attr_name: attr_name
+      validate_numeric_constraints(val, attr_def: attr_def, attr_name: attr_name)
+    end
+
+    # run all the possible validations on a 'number'
+    def fully_validate_number(val, attr_def:, attr_name: nil)
+      val =
+        if %w[float double].include? attr_def[:format]
+          float val, attr_name: attr_name
+        else
+          number val, attr_name: attr_name
+        end
+      validate_numeric_constraints(val, attr_def: attr_def, attr_name: attr_name)
+    end
+
+    # run the numeric constraint validations for any numeric value
+    # The number itself must already be validated
+    def validate_numeric_constraints(val, attr_def:, attr_name: nil)
+      ex_min = attr_def[:exclusive_minimum]
+      ex_max = attr_def[:exclusive_maximum]
+      mult_of = attr_def[:multiple_of]
+
+      minimum val, min: attr_def[:minimum], exclusive: ex_min, attr_name: attr_name if attr_def[:minimum]
+      maximum val, max: attr_def[:maximum], exclusive: ex_max, attr_name: attr_name if attr_def[:maximum]
+      multiple_of val, multiplier: mult_of, attr_name: attr_name if mult_of
+
+      val
+    end
+
+    # run the array constraint validations for an array value.
+    # The individual array items  must already be validated
+    def validate_array_constraints(val, attr_def:, attr_name: nil)
+      min_items val, min: attr_def[:minItems], attr_name: attr_name if attr_def[:minItems]
+      max_items val, max: attr_def[:maxItems], attr_name: attr_name if attr_def[:maxItems]
+      unique_array val, attr_name: attr_name if attr_def[:uniqueItems]
+
+      val
     end
 
     # validate that a value is of a specific class
@@ -123,11 +158,10 @@ module Jamf
     #
     # @return [Object] the valid value
     #
-    def class_instance(val, klass:, msg: nil)
+    def class_instance(val, klass:, attr_name: nil, msg: nil)
       return val if val.instance_of? klass
 
-      msg ||= "Value must be a #{klass}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a #{klass}")
     end
 
     # Confirm that the given value is a boolean value, accepting
@@ -143,13 +177,12 @@ module Jamf
     #
     # @return [Boolean] the valid boolean
     #
-    def boolean(val, msg: nil)
+    def boolean(val, attr_name: nil, msg: nil)
       return val if Jamf::TRUE_FALSE.include? bool
       return true if val.to_s =~ /^(t(rue)?|y(es)?)$/i
       return false if val.to_s =~ /^(f(alse)?|no?)$/i
 
-      msg ||= 'Value must be boolean true or false, or an equivalent string or symbol'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be boolean true or false, or an equivalent string or symbol")
     end
 
     # Confirm that a value is an number or a string representation of an
@@ -161,7 +194,7 @@ module Jamf
     #
     # @return [Integer]
     #
-    def number(val, msg: nil)
+    def number(val, attr_name: nil, msg: nil)
       if val.ia_a?(Integer) || val.is_a?(Float)
         return val
 
@@ -175,8 +208,7 @@ module Jamf
 
       end
 
-      msg ||= 'Value must be an number'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a number")
     end
 
     # Confirm that a value is an integer or a string representation of an
@@ -188,12 +220,11 @@ module Jamf
     #
     # @return [Integer]
     #
-    def integer(val, msg: nil)
+    def integer(val, attr_name: nil, msg: nil)
       val = val.to_i if val.is_a?(String) && val.j_integer?
       return val if val.is_a? Integer
 
-      msg ||= 'Value must be an integer'
-      raise Jamf::InvalidDataError, msg unless val.is_a? Integer
+      raise_invalid_data_error(msg || "#{attr_name} value must be an integer")
     end
 
     # Confirm that a value is a Float or a string representation of a Float
@@ -205,13 +236,12 @@ module Jamf
     #
     # @return [Float]
     #
-    def float(val, msg: nil)
+    def float(val, attr_name: nil, msg: nil)
       val = val.to_f if val.is_a?(Integer)
       val = val.to_f if val.is_a?(String) && (val.j_float? || val.j_integer?)
       return val if val.is_a? Float
 
-      msg ||= 'Value must be an floating point number'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be an floating point number")
     end
 
     # Confirm that a value is a Hash
@@ -223,11 +253,10 @@ module Jamf
     #
     # @return [Hash]
     #
-    def object(val, msg: nil)
+    def object(val, attr_name: nil, msg: nil)
       return val if val.is_a? Hash
 
-      msg ||= 'Value must be a Hash'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a Hash")
     end
 
     # Confirm that a value is a String
@@ -242,12 +271,11 @@ module Jamf
     #
     # @return [Hash]
     #
-    def string(val, msg: nil, to_s: false)
+    def string(val, attr_name: nil, msg: nil, to_s: false)
       val = val.to_s if to_s
       return val if val.is_a? String
 
-      msg ||= 'Value must be a String'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a String")
     end
 
     # validate that the given value is greater than or equal to some minimum
@@ -268,15 +296,13 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def minimum(val, min:, exclusive: false, msg: nil)
+    def minimum(val, min:, attr_name: nil, exclusive: false, msg: nil)
       if exclusive
         return val if val > min
       elsif val >= min
         return val
       end
-
-      msg ||= "value must be >= #{min}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be >= #{min}")
     end
 
     # validate that the given value is less than or equal to some maximum
@@ -297,15 +323,13 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def maximum(val, max:, exclusive: false, msg: nil)
+    def maximum(val, max:, attr_name: nil, exclusive: false, msg: nil)
       if exclusive
         return val if val < max
       elsif val <= max
         return val
       end
-
-      msg ||= "value must be <= #{max}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be <= #{max}")
     end
 
     # Validate that a given number is multiple of some other given number
@@ -319,14 +343,13 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def multiple_of(val, multiplier:, msg: nil)
+    def multiple_of(val, multiplier:, attr_name: nil, msg: nil)
       raise ArgumentError, 'multiplier must be a positive number' unless multiplier.is_a?(Numeric) && multiplier.positive?
       raise Jamf::InvalidDataError, 'Value must be a number' unless val.is_a?(Numeric)
 
       return val if (val % multiplier).zero?
 
-      msg ||= "value must be a multiple of #{multiplier}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be a multiple of #{multiplier}")
     end
 
     # validate that the given value's length is greater than or equal to some minimum
@@ -342,12 +365,11 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def min_length(val, min:, msg: nil)
+    def min_length(val, min:, attr_name: nil, msg: nil)
       raise ArgumentError, 'min must be a number' unless min.is_a?(Numeric)
       return val if val.length >= min
 
-      msg ||= "length of value must be >= #{min}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "length of #{attr_name} value must be >= #{min}")
     end
 
     # validate that the given value's length is less than or equal to some maximum
@@ -363,12 +385,11 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def max_length(val, max:, msg: nil)
+    def max_length(val, max:, attr_name: nil, msg: nil)
       raise ArgumentError, 'max must be a number' unless max.is_a?(Numeric)
       return val if val.length <= max
 
-      msg ||= "length of value must be <= #{max}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "length of #{attr_name} value must be <= #{max}")
     end
 
     # validate that the given value contains at least some minimum number of items
@@ -384,12 +405,11 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def min_items(val, min:, msg: nil)
+    def min_items(val, min:, attr_name: nil, msg: nil)
       raise ArgumentError, 'min must be a number' unless min.is_a?(Numeric)
       return val if val.size >= min
 
-      msg ||= "value must contain at least #{min} items"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must contain at least #{min} items")
     end
 
     # validate that the given value contains no more than some maximum number of items
@@ -405,12 +425,11 @@ module Jamf
     #
     # @return [String] the valid value
     #
-    def max_items(val, max:, msg: nil)
+    def max_items(val, max:, attr_name: nil, msg: nil)
       raise ArgumentError, 'max must be a number' unless max.is_a?(Numeric)
       return val if val.size <= max
 
-      msg ||= "value must contain no more than #{max} items"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must contain no more than #{max} items")
     end
 
     # validate that an array has only unique items, no duplicate values
@@ -421,12 +440,11 @@ module Jamf
     #
     # @param return [Array] the valid array
     #
-    def unique_array(val, msg: nil)
+    def unique_array(val, attr_name: nil, msg: nil)
       raise ArgumentError, 'Value must be an Array' unless val.is_a?(Array)
       return val if val.uniq.size == val.size
 
-      msg ||= 'value must contain only unique items'
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must contain only unique items")
     end
 
     # validate that a value is not nil
@@ -440,8 +458,7 @@ module Jamf
     def not_nil(val, attr_name: nil, msg: nil)
       return val unless val.nil?
 
-      msg ||= "#{attr_name}: value may not be nil"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value may not be nil")
     end
 
     # Does a value exist in a given enum array?
@@ -454,11 +471,10 @@ module Jamf
     #
     # @return [Object] The valid object
     #
-    def in_enum(val, enum:, msg: nil)
+    def in_enum(val, enum:, attr_name: nil, msg: nil)
       return val if  enum.include? val
 
-      msg ||= "Value must be one of: #{enum.join ', '}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value must be one of: #{enum.join ', '}")
     end
 
     # Does a string match a given regular expression?
@@ -471,11 +487,10 @@ module Jamf
     #
     # @return [Object] The valid object
     #
-    def matches_pattern(val, pattern:, msg: nil)
+    def matches_pattern(val, pattern:, attr_name: nil, msg: nil)
       return val if val =~ pattern
 
-      msg ||= "String does not match RegExp: #{pattern}"
-      raise Jamf::InvalidDataError, msg
+      raise_invalid_data_error(msg || "#{attr_name} value does not match RegExp: #{pattern}")
     end
 
   end # module oapi validate

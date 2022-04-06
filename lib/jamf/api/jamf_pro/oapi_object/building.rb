@@ -30,7 +30,6 @@ module Jamf
   #
   class OAPIObject
 
-
     # OAPI Object Model and Enums for: Building
     #
     #
@@ -53,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -65,7 +64,7 @@ module Jamf
     #
     class Building < OAPIObject
 
-      
+
 
       OAPI_PROPERTIES = {
 
