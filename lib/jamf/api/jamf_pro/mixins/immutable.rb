@@ -24,9 +24,9 @@
 
 module Jamf
 
-  # When extended with this mixin, JSONObject.mutable? returns false,
+  # When extended with this mixin, OAPIObject.mutable? returns false,
   # meaning that no setters are ever defined, and if the
-  # object is a Jamf::Resource, #save will raise an error
+  # object is a Jamf::JPAPIResource, #save will raise an error
   #
   module Immutable
 

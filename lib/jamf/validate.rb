@@ -136,14 +136,14 @@ module Jamf
     #
     # @return [String] the valid integer-in-a-string
     #
-    def self.j_id(val, msg: nil)
+    def self.j_id(val, attr_name, msg: nil)
       case val
       when Integer
         return val.to_s
       when String
         return val if val.j_integer?
       end
-       'Value must be an Integer or an Integer in a String, e.g. "42"'
+      msg ||= "#{attr_name}: Value must be an Integer or an Integer in a String, e.g. \"42\""
 
       raise Jamf::InvalidDataError, msg
     end

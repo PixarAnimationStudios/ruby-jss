@@ -34,16 +34,25 @@ module Jamf
 
     include Jamf::CollectionResource
 
+    # These objects should be OAPIObjects, NOT subclasses of them and
+    # not resour
     SEARCH_RESULT_OBJECT = Jamf::OAPIObject::BuildingSearchResults
     POST_OBJECT = Jamf::OAPIObject::Building
     PUT_OBJECT = Jamf::OAPIObject::Building
 
     RSRC_PATH = 'v1/buildings'
 
+    # Only really need to define this if the PUT/PATCH path is not the same as the RSRC_PATH
+    # this is here for documentation
+    UPDATE_PATH = RSRC_PATH
+
+    # Only really need to define this if the POST path is not the same as the RSRC_PATH
+    # this is here for documentation
+    CREATE_PATH = RSRC_PATH
+
     # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
     # which usually only identifies ':id'
     ALT_IDENTIFIERS = %i[name]
-
 
   end # class
 

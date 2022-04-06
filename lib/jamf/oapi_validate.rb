@@ -40,8 +40,8 @@ module Jamf
   #
   module OAPIValidate
 
-    # Validate that a value is correct for the ':class' it has
-    # defined in its definition in an objects OAPI_PROPERTIES constant.
+    # Validate that a value is valid based on its
+    # definition in an objects OAPI_PROPERTIES constant.
     #
     # @param val [Object] The value to validate
     #
@@ -51,9 +51,9 @@ module Jamf
     #
     # @return [Boolean] the valid boolean
     #
-    def oapi_attr(val, attr_def)
+    def oapi_attr(val, attr_def, attr_name: nil)
       # check that the new val is not nil unless nil is OK
-      val = not_nil(val) unless attr_def[:nil_ok]
+      val = not_nil(val, attr_name: attr_name) unless attr_def[:nil_ok]
 
       # if the new val is nil here, then nil is OK andd we shouldn't
       # check anything else
@@ -62,7 +62,7 @@ module Jamf
       val =
         case attr_def[:class]
         when :j_id
-          val = Jamf::Validate.j_id value
+          val = Jamf::Validate.j_id value, attr_name
           val
 
         when Class
@@ -417,7 +417,7 @@ module Jamf
     #
     # @param val [Array] The array to validate
     #
-    # @param msg [String] A custom error message when the valus is in valid
+    # @param msg [String] A custom error message when the value is invalid
     #
     # @param return [Array] the valid array
     #
@@ -437,10 +437,10 @@ module Jamf
     #
     # @return [Object] the valid value
     #
-    def not_nil(val, msg: nil)
+    def not_nil(val, attr_name: nil, msg: nil)
       return val unless val.nil?
 
-      msg ||= 'value may not be nil'
+      msg ||= "#{attr_name}: value may not be nil"
       raise Jamf::InvalidDataError, msg
     end
 

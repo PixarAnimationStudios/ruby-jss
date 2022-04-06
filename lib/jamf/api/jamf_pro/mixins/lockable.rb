@@ -38,9 +38,22 @@ module Jamf
   #
   module Lockable
 
+    # when this module is included, also extend our Class Methods
+    def self.included(includer)
+      includer.extend(ClassMethods)
+    end
+
+    #  Class Methods
+    #####################################
+    module ClassMethods
+      def lockable?
+        true
+      end
+    end # module class methods
+
     attr_reader :versionLock
 
-    def initialize(data, cnx: Jamf.cnx)
+    def initialize(**data)
       @versionLock = data[:versionLock]
       super
     end

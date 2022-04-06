@@ -51,14 +51,22 @@ module Jamf
     #####################################
     module ClassMethods
 
-      # the resource path for this resource
+      # resources are not lockable by default. WHen they include the
+      # Jamf Lockable mixin, this will return true
+      def lockable?
+        false
+      end
+
+      # the resource path to GET this resource
       # @return [String]
       def rsrc_path
         @rsrc_path ||= self::RSRC_PATH
       end
 
-      def preview_path
-        "#{RSRC_PREVIEW_VERSION}/#{self::RSRC_PATH}"
+      # the resource path to PUT or PATCH this resource
+      # @return [String]
+      def update_path
+        @update_path ||= defined?(self::UPDATE_PATH) ? self::UPDATE_PATH : self::RSRC_PATH
       end
 
       # Disallow direct use of ruby's .new class method for creating instances.
@@ -67,30 +75,54 @@ module Jamf
       def new(**data)
         stop_if_base_class
         calling_method = caller_locations(1..1).first.label
-        raise Jamf::UnsupportedError, 'Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::Resources' unless NEW_CALLERS.include? calling_method
+        unless NEW_CALLERS.include? calling_method
+          raise Jamf::UnsupportedError, 'Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::JPAPIResource objects'
+        end
 
-        super **data
+        super(**data)
       end
 
     end # module class methods
 
+    # attributes
     #####################################
 
     # @return [Jamf::Connection] the API connection thru which we deal with
     #   this resource.
     attr_reader :cnx
 
-    # @return [String] the resouce path for this object
+    # this gets set in the CollectionResource or SingletonResource mixins
     attr_reader :rsrc_path
+
+    # this gets set in the CollectionResource or SingletonResource mixins
+    attr_reader :update_path
+
+    # constructor
+    #####################################
+    def initialize(**data)
+      @cnx = data.delete :cnx
+      super(**data)
+    end
 
     # Instance Methods
     #####################################
 
+    # Remove large cached items from
+    # the instance_variables used to create
+    # pretty-print (pp) output.
+    #
+    # @return [Array] the desired instance_variables
+    #
+    def pretty_print_instance_variables
+      vars = super.sort
+      vars.delete :@cnx
+      vars
+    end
+
     # TODO: error handling
     def save
-      raise Jamf::UnsupportedError, "#{self.class} objects cannot be changed" unless self.class.mutable?
-
       return unless unsaved_changes?
+      raise Jamf::UnsupportedError, "#{self.class} objects cannot be changed" unless self.class.mutable?
 
       exist? ? update_in_jamf : create_in_jamf
       clear_unsaved_changes
@@ -102,16 +134,25 @@ module Jamf
     #####################################
     private
 
-    # TODO: handle PATCH when it becomes a thing
+    ##############################
     def update_in_jamf
-      @cnx.jp_put(rsrc_path, to_jamf)
-    rescue Jamf::Connection::APIError => e
-      if e.status == 409 && self.class.included_modules.include?(Jamf::Lockable)
-        raise Jamf::VersionLockError, "The #{self.class} has been modified since it was fetched. Please refetch and try again."
-      end
+      if defined? self.class::PUT_OBJECT
+        put_object = self.class::PUT_OBJECT.new(to_jamf)
+        cnx.jp_put(update_path, put_object.to_jamf)
 
+      elsif defined? self.class::PATCH_OBJECT
+        patch_object = self.class::PATCH_OBJECT.new(to_jamf)
+        cnx.jp_patch(update_path, patch_object.to_jamf)
+
+      else
+        raise Jamf::MissingDataError, "Class #{self.class} has not defined a PUT_OBJECT or PATCH_OBJECT"
+      end
+    rescue Jamf::Connection::JamfProAPIError => e
+      if e.http_status == 409 && self.class.lockable?
+        raise Jamf::VersionLockError, "The #{self.class} has been modified by some other process since it was fetched. Please refetch and try again."
+      end
       raise e
-    end
+    end # update_in_jamf
 
   end # class APIObject
 

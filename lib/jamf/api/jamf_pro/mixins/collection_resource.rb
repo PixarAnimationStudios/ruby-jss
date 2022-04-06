@@ -498,25 +498,17 @@ module Jamf
       def create(**params)
         stop_if_base_class
 
-        raise Jamf::UnsupportedError, "#{self}'s are not currently creatable via the API" unless creatable?
+        # no such animal when .creating
+        params.delete :id
 
         # Which connection to use
-        cnx = params.delete :cnx
-        cnx ||= Jamf.cnx
+        params[:cnx] ||= Jamf.cnx
 
-        params.delete :id # no such animal when .creating
-        params.keys.each do |param|
-          raise ArgumentError, "Unknown parameter: #{param}" unless self::OAPI_PROPERTIES.key? param
-
-          if params[param].is_a? Array
-            params[param].map! { |val| validate_attr param, val, cnx: cnx }
-          else
-            params[param] = validate_attr param, params[param], cnx: cnx
-          end
-        end
-
+        # So the super constructor knows we are instantiating an object that
+        # isn't from the API, and will do validation on all params.
         params[:creating_from_create] = true
-        new params, cnx: cnx
+
+        new(**params)
       end
 
       # Retrieve a member of a CollectionResource from the API
@@ -543,11 +535,11 @@ module Jamf
           else
             ident, value = ident_and_val.first
 
-              if random
-                all.sample
-              elsif ident && value
-                raw_data cnx: cnx, **ident_and_val
-              end
+            if random
+              all.sample
+            elsif ident && value
+              raw_data cnx: cnx, **ident_and_val
+            end
           end
 
         raise Jamf::NoSuchItemError, "No matching #{self}" unless data
@@ -570,6 +562,7 @@ module Jamf
       #
       # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
       #
+      # TODO: fix this return value, no more ErrorInfo
       # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
       #   that failed to be deleted.
       #
@@ -623,16 +616,25 @@ module Jamf
     # Instance Methods
     #####################################
 
+    attr_reader :create_path
+
+    #####################################
+    def initialize(**data)
+      super(**data)
+      if exist?
+        @rsrc_path = "#{self.class::RSRC_PATH}/#{id}"
+        @update_path = defined?(self.class::UPDATE_PATH) ? "#{self.class::UPDATE_PATH}/#{id}" : @rsrc_path
+      else
+        @create_path = defined?(self.class::CREATE_PATH) ? self.class::CREATE_PATH : self.class::RSRC_PATH
+      end
+    end
+
+    #####################################
     def exist?
       !@id.nil?
     end
 
-    def rsrc_path
-      return unless exist?
-
-      "#{self.class.rsrc_path}/#{@id}"
-    end
-
+    #####################################
     def delete
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
 
@@ -640,7 +642,9 @@ module Jamf
     end
 
     # Two collection resource objects are the same if their id's are the same
+    #####################################
     def <=>(other)
+
       id <=> other.id
     end
 
@@ -649,7 +653,11 @@ module Jamf
     private
 
     def create_in_jamf
-      result = @cnx.post self.class.rsrc_path, to_jamf
+      raise Jamf::MissingDataError, "Class #{self.class} has not defined a POST_OBJECT" unless defined?(self.class::POST_OBJECT)
+
+      post_object = self.class::POST_OBJECT.new(to_jamf)
+
+      result = @cnx.post self.class.rsrc_path, post_object.to_jamf
       @id = result[:id]
     end
 

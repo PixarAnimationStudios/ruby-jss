@@ -52,8 +52,9 @@ module Jamf
     end
 
     # An array of attribute names that are required when
-    # making new instances
-    # See the OAPI_PROPERTIES documentation in {Jamf::JSONObject}
+    # making new instances - they cannot be nil, but may be empty.
+    #
+    # See the OAPI_PROPERTIES documentation in {Jamf::OAPIObject}
     def self.required_attributes
       self::OAPI_PROPERTIES.select { |_attr, deets| deets[:required] }.keys
     end
@@ -101,14 +102,6 @@ module Jamf
     # Private Class Methods
     #####################################
 
-    # Initialize a multi-values attribute as an empty array
-    # if it hasn't been created yet
-    def self.initialize_multi_value_attr_array(attr_name)
-      return if instance_variable_get("@#{attr_name}").is_a? Array
-
-      instance_variable_set("@#{attr_name}", [])
-    end
-    private_class_method :initialize_multi_value_attr_array
 
     # create a getter for an attribute, and any aliases needed
     ##############################
@@ -273,7 +266,7 @@ module Jamf
       raise ArgumentError, "Unknown attribute: #{attr_name} for #{self} objects" unless attr_def
 
       # validate the value based on the OAPI definition.
-      Jamf::Validate.oapi_attr value, attr_def
+      Jamf::Validate.oapi_attr value, attr_def, attr_name
 
       # if this is an identifier, it must be unique
       # TODO: move this to colloection resouce code
@@ -281,21 +274,34 @@ module Jamf
 
     end # validate_attr(attr_name, value)
 
+    # Attributes
+    #####################################
+
+    # the raw hash from which this object was constructed
+    # @return [Hash]
+    attr_reader :init_data
+
     # Constructor
+    #####################################
+
 
     # Make an instance. Data comes from the API
     #
     # @param data[Hash] the data for constructing a new object.
     #
     def initialize(**data)
+      @init_data = data
+
       # creating a new one, not fetching from the API
       creating = data.delete :creating_from_create
+
       if creating
-        self.class::OAPI_PROPERTIES.keys.each do |attr_name|
+        self.class::OAPI_PROPERTIES.each_key do |attr_name|
           # we'll enforce required values when we save
           next unless data.key? attr_name
 
-          # use our setters for each value so that they are in the unsaved changes
+          # use our setters for each value so that they are validated, and
+          # in the unsaved changes list
           send "#{attr_name}=", data[attr_name]
         end
         return
@@ -361,57 +367,57 @@ module Jamf
     #  to be converted to JSON by the Jamf::Connection
     #
     def to_jamf
-      data = {}
+      jamf_data = {}
       self.class::OAPI_PROPERTIES.each do |attr_name, attr_def|
 
         raw_value = instance_variable_get "@#{attr_name}"
 
         # If its a multi-value attribute, process it and  go on
         if attr_def[:multi]
-          data[attr_name] = multi_to_jamf(raw_value, attr_def)
+          jamf_data[attr_name] = multi_to_jamf(raw_value, attr_def)
           next
         end
 
         # if its a single-value object, process it and go on.
         cooked_value = single_to_jamf(raw_value, attr_def)
         # next if cooked_value.nil? # ignore nil
-        data[attr_name] = cooked_value
+        jamf_data[attr_name] = cooked_value
       end # unsaved_changes.each
-      data
+      jamf_data
     end
 
-    # Only works for PATCH endpoints.
+    # # Only works for PATCH endpoints.
+    # #
+    # # @return [Hash] The changes that need to be sent to the API, as a Hash
+    # #  to be converted to JSON by the Jamf::Connection
+    # #
+    # def to_jamf_changes_only
+    #   return unless self.class.mutable?
     #
-    # @return [Hash] The changes that need to be sent to the API, as a Hash
-    #  to be converted to JSON by the Jamf::Connection
+    #   data = {}
+    #   unsaved_changes.each do |attr_name, changes|
+    #     attr_def = self.class::OAPI_PROPERTIES[attr_name]
     #
-    def to_jamf_changes_only
-      return unless self.class.mutable?
-
-      data = {}
-      unsaved_changes.each do |attr_name, changes|
-        attr_def = self.class::OAPI_PROPERTIES[attr_name]
-
-        # readonly attributes can't be changed
-        next if attr_def[:readonly]
-
-        # here's the new value for this attribute
-        raw_value = changes[:new]
-
-        # If its a multi-value attribute, process it and  go on
-        if attr_def[:multi]
-          data[attr_name] = multi_to_jamf(raw_value, attr_def)
-          next
-        end
-
-        # if its a single-value object, process it and go on.
-        cooked_value = single_to_jamf(raw_value, attr_def)
-        next if cooked_value.nil? # ignore nil
-
-        data[attr_name] = cooked_value
-      end # unsaved_changes.each
-      data
-    end
+    #     # readonly attributes can't be changed
+    #     next if attr_def[:readonly]
+    #
+    #     # here's the new value for this attribute
+    #     raw_value = changes[:new]
+    #
+    #     # If its a multi-value attribute, process it and  go on
+    #     if attr_def[:multi]
+    #       data[attr_name] = multi_to_jamf(raw_value, attr_def)
+    #       next
+    #     end
+    #
+    #     # if its a single-value object, process it and go on.
+    #     cooked_value = single_to_jamf(raw_value, attr_def)
+    #     next if cooked_value.nil? # ignore nil
+    #
+    #     data[attr_name] = cooked_value
+    #   end # unsaved_changes.each
+    #   data
+    # end
 
     # Print the JSON version of the to_jamf outout
     # mostly for debugging/troubleshooting
@@ -427,12 +433,21 @@ module Jamf
     #
     def pretty_print_instance_variables
       vars = super.sort
+      vars.delete :@init_data
       vars
     end
 
     # Private Instance Methods
     #####################################
     private
+
+    # Initialize a multi-values attribute as an empty array
+    # if it hasn't been created yet
+    def initialize_multi_value_attr_array(attr_name)
+      return if instance_variable_get("@#{attr_name}").is_a? Array
+
+      instance_variable_set("@#{attr_name}", [])
+    end
 
     def note_unsaved_change(attr_name, old_value)
       return unless self.class.mutable?
@@ -512,19 +527,10 @@ module Jamf
       OAPIValidate.in_enum  api_value, enum: attr_def[:enum], msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
     end
 
-    # call to_jamf on a single value
+    # call to_jamf on a single value if it knows that method
     #
     def single_to_jamf(raw_value, attr_def)
-      # if the attrib class is a  Class,
-      # call its changes_to_jamf or to_jamf method
-      if attr_def[:class].is_a? Class
-        data = raw_value.to_jamf
-        data.is_a?(Hash) && data.empty? ? nil : data
-
-      # otherwise, use the value as-is
-      else
-        raw_value
-      end
+      raw_value.respond_to?(:to_jamf) ? raw_value.to_jamf : raw_value
     end
 
     # Call to_jamf on an array value

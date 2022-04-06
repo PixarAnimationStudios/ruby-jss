@@ -38,6 +38,7 @@ module Jamf
     #
     # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
     #
+    # TODO: fix this return value, no more ErrorInfo
     # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
     #   that failed to be deleted.
     #

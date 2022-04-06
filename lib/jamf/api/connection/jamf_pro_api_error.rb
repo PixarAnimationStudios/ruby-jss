@@ -27,9 +27,8 @@ module Jamf
 
   class Connection
 
-    # TODO: figure out what to do with
-    # ConflictError, BadRequestError, APIRequestError
-    # and maybe AuthenticationError
+    # An exception class that's a wrapper around Jamf::OAPIObject::ApiError
+    #
     class JamfProAPIError < RuntimeError
 
       RSRC_NOT_FOUND = 'Resource Not Found'.freeze
@@ -37,43 +36,70 @@ module Jamf
       # @return [Faraday::Response]
       attr_reader :http_response
 
-      # @return [integer]
-      #
-      attr_reader :httpStatus
-      alias status httpStatus
+      # @return [Jamf::OAPIObject::ApiError]
+      attr_reader :api_error
 
-      # @return [Array<ErrorInfo>] see  ErrorInfo above
-      #
-      attr_reader :errors
-
-      # @return [RestClient::ExceptionWithResponse] the original RestClient error
-      attr_reader :rest_error
-
-      # @param rest_error [RestClient::ExceptionWithResponse]
+      # @param http_response [Faraday::Response]
       def initialize(http_response)
         @http_response = http_response
-        @httpStatus = http_response.status
-        @errors =
-          case @http_response.body
-          when String
-            JSON.parse(@http_response.body)[:errors]
-          when Hash
-            @http_response.body[:errors]
-          end
-        @errors &&= @errors.map { |e| ErrorInfo.new e }
+        @api_error = Jamf::OAPIObject::ApiError.new @http_response.body
 
-        unless @errors
-          code = @httpStatus
-          desc = code == 404 ? RSRC_NOT_FOUND : @http_response.reason_phrase
-          @errors = [ErrorInfo.new(code: code, field: nil, description: desc, id: nil)]
-        end
-
+        add_common_basic_error_causes if @api_error.errors.empty?
         super
       end
 
-      # To string
+      # If no actual errors causes came with the APIError, try to add
+      # some common basic ones
+      def add_common_basic_error_causes
+        return unless api_error.errors.empty?
+
+        case http_response.status
+        when 403
+          code = 'INVALID_PRIVILEGE'
+          desc = 'Forbidden'
+          id = nil
+          field = ''
+        when 404
+          code = 'NOT_FOUND'
+          desc = "'#{http_response.env.url.path}' was not found on the server"
+          id = nil
+          field = ''
+        else
+          return
+        end # case
+
+        api_error.errors_append Jamf::OAPIObject::ApiErrorCause.new(field: field, code: code, description: desc, id: id)
+      end
+
+      # http status, from the server http response
+      def http_status
+        http_response.status
+      end
+
+      # http status, from the API error
+      def api_status
+        api_error.httpStatus
+      end
+
+      # @return [Array<Jamf::OAPIObject::ApiErrorCause>] the causes of the error
+      def errors
+        api_error.errors
+      end
+
+      # To string, this shows up as the exception msg when raising the exception
       def to_s
-        @errors.map(&:to_s).join '; '
+        msg = +"HTTP #{http_status}"
+        msg << ':' unless errors.empty?
+        msg << errors.map do |err|
+          err_str = +''
+          err_str << " Field: #{err.field}" unless err.field.to_s.empty?
+          err_str << ' Error:' if err.code || err.description
+          err_str << " #{err.code}" if err.code
+          err_str << " #{err.description}" if err.description
+          err_str << " Object ID: '#{err.id}'" if err.id
+          err_str
+        end.join('; ')
+        msg
       end
 
     end # class APIError

@@ -64,7 +64,7 @@ module Jamf
         @last_http_response = @jp_cnx.get rsrc
         return @last_http_response.body if @last_http_response.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
       # backward compatibility
       alias get jp_get
@@ -86,7 +86,7 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
       # backward compatibility
       alias post jp_post
@@ -108,7 +108,7 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
       # backward compatibility
       alias put jp_put
@@ -130,7 +130,7 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
       # backward compatibility
       alias patch jp_patch
@@ -148,7 +148,7 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
       # backward compatibility
       alias delete jp_delete
@@ -162,10 +162,8 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, resp
+        raise Jamf::Connection::JamfProAPIError, @last_http_response
       end
-      # backward compatibility
-      alias jp_download jp_download
 
     end # module
 
