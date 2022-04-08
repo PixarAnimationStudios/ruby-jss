@@ -58,10 +58,14 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/enrollment/languages/{language}:GET', needs permissions: Read User-Initiated Enrollment
-    #  - '/v1/enrollment/languages/{language}:PUT', needs permissions: Update User-Initiated Enrollment
-    #  - '/v2/enrollment/languages/{languageId}:GET', needs permissions: Read User-Initiated Enrollment
-    #  - '/v2/enrollment/languages/{languageId}:PUT', needs permissions: Update User-Initiated Enrollment
+    #  - '/v1/enrollment/languages/{language}:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v1/enrollment/languages/{language}:PUT' needs permissions:
+    #    - Update User-Initiated Enrollment
+    #  - '/v2/enrollment/languages/{languageId}:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v2/enrollment/languages/{languageId}:PUT' needs permissions:
+    #    - Update User-Initiated Enrollment
     #
     #
     class EnrollmentProcessTextObject < OAPIObject

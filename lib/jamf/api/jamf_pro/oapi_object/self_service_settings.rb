@@ -62,8 +62,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/self-service/settings:GET', needs permissions: Read Self Service
-    #  - '/v1/self-service/settings:PUT', needs permissions: Update Self Service
+    #  - '/v1/self-service/settings:GET' needs permissions:
+    #    - Read Self Service
+    #  - '/v1/self-service/settings:PUT' needs permissions:
+    #    - Update Self Service
     #
     #
     class SelfServiceSettings < OAPIObject

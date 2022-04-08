@@ -51,6 +51,13 @@ require 'recursive-open-struct'
 require 'zeitwerk'
 require 'zeitwerk_config'
 
+# touch this file to make zeitwerk send text to stderr as it does things
+ZEITWERK_VERBOSE_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-verbose')
+
+# touch this file to make zeitwek  eager-load everything when the gem is required.
+ZEITWERK_EAGER_LOAD_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-eager-load')
+
+
 # the `Zeitwerk::Loader.for_gem` creates the loader object, and must
 # happen in this file, so we pass it into a method defined in
 # zeitwerk_config
@@ -61,19 +68,26 @@ module Jamf
 
   include Jamf::Constants
   extend Jamf::Utility
+  extend Jamf::Connection::DefaultConnection
 
   if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY_VERSION)
     raise "Can't use the JSS module, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater."
   end
 
+  # the single instance of our configuration object
+  def self.config
+    Jamf::Configuration.instance
+  end
+
 end # module Jamf
 
-# backward compatibility, JSS module is the same as Jamf module
+# backward compatibility, JSS module is the synonym for Jamf module
 JSS = Jamf
 
 # Load things not loaded by zeitwerk
 require 'jamf/ruby_extensions'
 require 'jamf/exceptions'
 
+
 # testing zeitwerk loading
-eager_load_for_testing
+eager_load_for_testing if ZEITWERK_EAGER_LOAD_FILE.file?

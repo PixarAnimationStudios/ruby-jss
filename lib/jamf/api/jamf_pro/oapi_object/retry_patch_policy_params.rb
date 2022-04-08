@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/retryPolicy:POST', needs permissions: Update Patch Policies
-    #  - '/patch/svc/retryPolicy:POST', needs permissions: Update Patch Policies
+    #  - '/patch/retryPolicy:POST' needs permissions:
+    #    - Update Patch Policies
+    #  - '/patch/svc/retryPolicy:POST' needs permissions:
+    #    - Update Patch Policies
     #
     #
     class RetryPatchPolicyParams < OAPIObject

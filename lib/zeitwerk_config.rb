@@ -21,6 +21,7 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
+
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 def setup_zeitwerk_loader(loader)
   @loader = loader
@@ -105,7 +106,7 @@ def setup_zeitwerk_loader(loader)
   # callback for when a specific file/constant loads
   #####################################
   loader.on_load("Jamf::SomeClass") do |klass, abspath|
-    puts "I just loaded #{klass} from #{abspath}"
+    puts "I just loaded #{klass} from #{abspath}" # if ZEITWERK_TEST_FILE.file?
   end
 
   # callback for when anything loads
@@ -115,19 +116,28 @@ def setup_zeitwerk_loader(loader)
   #    and Array for the constant  "Jamf::SomeClass::SOME_CONST_ARRY"
   #  - abspath is the full path to the file where the constant was loaded from.
   #####################################
-  loader.on_load do |const_path, value, _abspath|
-    puts "Just Loaded #{const_path}, which is a #{value.class}"
-    next unless value.respond_to?(:parse_oapi_properties) && defined?(value::OAPI_PROPERTIES)
+  loader.on_load do |const_path, value, abspath|
+    puts "Just Loaded #{const_path}, which is a #{value.class}" if ZEITWERK_VERBOSE_FILE.file?
 
-    puts "..Parsing OAPI_PROPERTIES for #{value}"
-    value.parse_oapi_properties
+    # The class we just loaded must have this method and constant
+    # and the constant must be defined directly in the file we just loaded.
+    # This prevents running parse_oapi_properties again in subclasses that
+    # don't need to do that
+    if value.respond_to?(:parse_oapi_properties) && \
+       defined?(value::OAPI_PROPERTIES) && \
+       abspath == value.const_source_location(:OAPI_PROPERTIES).first
+
+       parsed = value.parse_oapi_properties
+       puts "..Parsed OAPI_PROPERTIES for #{value}" if parsed && ZEITWERK_VERBOSE_FILE.file?
+    end
   end
 
   loader.setup
 end # setup_zeitwerk_loader
 
-# for testing the Zeitwrk L... normally we want autoloading on demand,
-# eager loading loads everything
+# for testing the Zeitwrk Loader
+# normally we want autoloading on demand,
+# eager loading loads everything so we can see it
 def eager_load_for_testing
   @loader.eager_load(force: true)
   puts :loaded

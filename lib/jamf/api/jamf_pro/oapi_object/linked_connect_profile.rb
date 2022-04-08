@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-connect/config-profiles/{id}:PUT', needs permissions: Update Jamf Connect Deployments
+    #  - '/v1/jamf-connect/config-profiles/{id}:PUT' needs permissions:
+    #    - Update Jamf Connect Deployments
     #
     #
     class LinkedConnectProfile < OAPIObject

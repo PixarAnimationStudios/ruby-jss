@@ -67,7 +67,7 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-      # puts "#{includer} is including Jamf::CollectionResource"
+       puts "--> #{includer} is including Jamf::CollectionResource"
       includer.extend(ClassMethods)
     end
 
@@ -89,7 +89,7 @@ module Jamf
       # when this module is included, also extend our 'parent' class methods
       ######################################
       def self.extended(extender)
-        # puts "#{extender} is extending Jamf::CollectionResource::ClassMethods"
+        puts "--> #{extender} is extending Jamf::CollectionResource::ClassMethods"
       end
 
       # All Classes including CollectionResource MUST define 'LIST_PATH', which
@@ -148,24 +148,15 @@ module Jamf
         @delete_path ||= defined?(self::DELETE_PATH) ? self::DELETE_PATH : self::LIST_PATH
       end
 
-
-
-
       # @return [Array<Symbol>] the attribute names that are marked as identifiers
       #
       ######################################
       def identifiers
-        return @idents if @idents
-
-        @idents = self::OAPI_PROPERTIES.select { |_attr, deets| deets[:identifier] }.keys
-        @idents += self::ALT_IDENTIFIERS if defined? self::ALT_IDENTIFIERS
-        @idents
-      end
-
-      # @return [Integer]
-      ######################################
-      def count(cnx: Jamf.cnx)
-        collection_count(self::LIST_PATH, cnx: cnx)
+        idents = self::OAPI_PROPERTIES.select { |_attr, deets| deets[:identifier] }.keys
+        idents += self::ALT_IDENTIFIERS if defined? self::ALT_IDENTIFIERS
+        idents += self::NON_UNIQUE_IDENTIFIERS if defined? self::NON_UNIQUE_IDENTIFIERS
+        idents.delete_if { |i| !self::OAPI_PROPERTIES.key?(i) }
+        idents
       end
 
       # Get all instances of a CollectionResource, possibly limited by a filter.
@@ -306,8 +297,8 @@ module Jamf
         return cached_all(refresh, instantiate, cnx) if !page_size && !sort && !filter
 
         # we are sorting, filtering or paging
-        sort = parse_collection_sort(sort)
-        filter = parse_collection_filter(filter)
+        sort = self.ancestors.include?(Jamf::Sortable) ? parse_collection_sort(sort) : nil
+        filter = self.ancestors.include?(Jamf::Filterable) ? parse_collection_filter(filter) : nil
 
         result =
           if page_size
@@ -362,9 +353,9 @@ module Jamf
       # @return [Array<Integer>]
       #
       ######################################
-      def all_ids(refresh = false, cnx: Jamf.cnx)
-        all(refresh: refresh, cnx: cnx).map { |m| m[:id] }
-      end
+      # def all_ids(refresh = false, cnx: Jamf.cnx)
+      #   all(refresh: refresh, cnx: cnx).map { |m| m[:id] }
+      # end
 
       # A Hash of all members of this collection where the keys are some
       # identifier and values are any other attribute.
@@ -385,19 +376,17 @@ module Jamf
       #
       ######################################
       def map_all(ident, to:, cnx: Jamf.cnx, refresh: false)
-        real_ident = attr_key_for_alias ident
-        raise Jamf::InvalidDataError, "No identifier #{ident} for class #{self}" unless
-        identifiers.include? real_ident
+        raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless
+        identifiers.include? ident
 
-        real_to = attr_key_for_alias to
-        raise Jamf::NoSuchItemError, "No attribute #{to} for class #{self}" unless self::OAPI_PROPERTIES.key? real_to
+        raise Jamf::NoSuchItemError, "No attribute :#{to} for class #{self}" unless self::OAPI_PROPERTIES.key? to
 
         list = all refresh: refresh, cnx: cnx
-        to_class = self::OAPI_PROPERTIES[real_to][:class]
+        to_class = self::OAPI_PROPERTIES[to][:class]
         mapped = list.map do |i|
           [
-            i[real_ident],
-            to_class.is_a?(Symbol) ? i[real_to] : to_class.new(i[real_to])
+            i[ident],
+            to_class.is_a?(Symbol) ? i[to] : to_class.new(i[to])
           ]
         end # do i
         mapped.to_h
@@ -451,6 +440,7 @@ module Jamf
         raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
 
         return raw_data_by_id(value, cnx: cnx) if ident == :id
+
         return unless identifiers.include? ident
 
         raw_data_by_other_identifier(ident, value, cnx: cnx)
@@ -467,25 +457,29 @@ module Jamf
           data = raw_data_by_other_identifier(ident, searchterm, cnx: cnx)
           return data if data
         end # identifiers.each
+
+        nil
       end
 
       # get the basic dataset by id, with optional
       # request params to get more than basic data
       ######################################
-      def raw_data_by_id(id, request_params: nil, cnx: Jamf.cnx)
-        cnx.jp_get "#{get_path}/#{id}#{request_params}"
+      def raw_data_by_id(id, cnx: Jamf.cnx)
+        cnx.jp_get "#{get_path}/#{id}"
       end
 
       # Given an indentier attr. key, and a value,
       # return the raw data where that ident has that value, or nil
       #
       ######################################
-      def raw_data_by_other_identifier(identifier, value, refresh: true, cnx: Jamf.cnx)
+      def raw_data_by_other_identifier(identifier, searchterm, cnx: Jamf.cnx)
         # if the API supports filtering by this identifier, just use that
-        return all(filter: "#{identifier}=='#{value}'", paged: true, page_size: 1, cnx: cnx).first if self::OAPI_PROPERTIES[identifier][:filter_key]
+        if ancestors.include?(Jamf::Filterable) && filter_keys.include?(identifier)
+          return all(filter: "#{identifier}=='#{searchterm}'", page_size: 1, cnx: cnx).first
+        end
 
         # otherwise we have to loop thru all the objects looking for the value
-        all(refresh: refresh, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
+        all(refresh: true, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? searchterm.to_s }
 
         nil
       end
@@ -529,8 +523,8 @@ module Jamf
       #    if no match found
       #
       ######################################
-      def valid_id(value = nil, cnx: Jamf.cnx, **ident_and_val)
-        raw_data(value, cnx: cnx, **ident_and_val)&.dig(:id)
+      def valid_id(searchterm = nil, cnx: Jamf.cnx, **ident_and_val)
+        raw_data(searchterm, cnx: cnx, **ident_and_val)&.dig(:id)
       end
 
       # By default, Collection Resources are creatable,
@@ -638,32 +632,47 @@ module Jamf
         errs
       end
 
-      # TODO:
-      # - better pluralizing?
-      # - Should this stay here now that we're a mixin??
-      #
+      # Dynamically create_identifier_list_methods
+      # when one is called.
+      def method_missing(method, *args, &block)
+        if method.to_s =~ /^all_(\w+?)s?$/
+          attr_name = Regexp.last_match[1]
+          create_identifier_list_method attr_name.to_sym, method
+          send method, *args
+        else
+          super
+        end
+      end
+
+      # this is needed to prevent problems with method_missing!
+      def respond_to_missing?(method, *)
+        method.to_s =~ /^all_(\w+)s?$/ || super
+      end
+
+      # called from method_missing to create
+      # identifier lists on the fly
       ######################################
-      def create_list_methods(attr_name, attr_def)
-        list_method_name = "all_#{attr_name}s"
+      def create_identifier_list_method(attr_name, list_method_name)
+        if defined?(self::OAPI_PROPERTIES) && self::OAPI_PROPERTIES.key?(attr_name) && identifiers.include?(attr_name)
+          attr_def = self::OAPI_PROPERTIES[attr_name]
 
-        define_singleton_method(list_method_name) do |refresh = false, cnx: Jamf.cnx|
-          all_list = all(refresh: refresh, cnx: cnx)
-          if attr_def[:class].is_a? Symbol
-            all_list.map { |i| i[attr_name] }.uniq
-          else
-            all_list.map { |i| attr_def[:class].new i[attr_name] }
-          end
-        end # define_singleton_method
-
-        return unless attr_def[:aliases]
-
-        # aliases - TODO: is there a more elegant way?
-        attr_def[:aliases].each do |a|
-          define_singleton_method("all_#{a}s") do |refresh = false, cnx: Jamf.cnx|
-            send list_method_name, refresh, cnx: cnx
+          define_singleton_method(list_method_name) do |refresh: false, cnx: Jamf.cnx|
+            all_list = all(refresh: refresh, cnx: cnx)
+            if attr_def[:class].is_a? Symbol
+              all_list.map { |i| i[attr_name] }
+            else
+              all_list.map { |i| attr_def[:class].new i[attr_name] }
+            end
           end # define_singleton_method
-        end # each alias
-      end # create_list_methods
+
+        else
+
+          define_singleton_method(list_method_name) do |*|
+            raise NoMethodError, "no method '#{list_method_name}': '#{attr_name}' is not an indentifier for #{self}"
+          end
+        end
+      end # create_identifier_list_method
+      private :create_identifier_list_method
 
     end # Module ClassMethods
 

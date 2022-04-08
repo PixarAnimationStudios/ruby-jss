@@ -64,8 +64,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/cloud-ldaps/{id}/mappings:PUT', needs permissions: Update LDAP Servers
-    #  - '/v2/cloud-ldaps/{id}/mappings:PUT', needs permissions: Update LDAP Servers
+    #  - '/v1/cloud-ldaps/{id}/mappings:PUT' needs permissions:
+    #    - Update LDAP Servers
+    #  - '/v2/cloud-ldaps/{id}/mappings:PUT' needs permissions:
+    #    - Update LDAP Servers
     #
     #
     class CloudLdapMappingsRequest < OAPIObject

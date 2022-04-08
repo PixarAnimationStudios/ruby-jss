@@ -1,0 +1,19 @@
+Naming/VariableName:
+  Enabled: false
+Naming/MethodParameterName:
+  AllowedNames:
+    - at
+    - by
+    - db
+    - id
+    - in
+    - io
+    - ip
+    - of
+    - on
+    - os
+    - pp
+    - to
+    - sn
+Style/CommentedKeyword:
+  Enabled: false

@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/reenrollment:GET', needs permissions: Read Re-enrollment
-    #  - '/v1/reenrollment:PUT', needs permissions: Update Re-enrollment
+    #  - '/v1/reenrollment:GET' needs permissions:
+    #    - Read Re-enrollment
+    #  - '/v1/reenrollment:PUT' needs permissions:
+    #    - Update Re-enrollment
     #
     #
     class Reenrollment < OAPIObject

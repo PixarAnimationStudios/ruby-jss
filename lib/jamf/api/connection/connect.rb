@@ -146,6 +146,8 @@ module Jamf
       #
       #######################################################
       def connect(url = nil, **params)
+        raise ArgumentError, 'No url or connection parameters provided' if url.nil? || params.empty?
+
         # reset all values, flush caches
         disconnect
 
@@ -191,7 +193,8 @@ module Jamf
 
       # raise exception if not connected
       def validate_connected
-        raise Jamf::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use .connect first." unless connected?
+        using_dft = 'Jamf.cnx' if self == Jamf.cnx
+        raise Jamf::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use #{using_dft}.connect first." unless connected?
       end
 
       # With a REST connection, there isn't any real "connection" to disconnect from

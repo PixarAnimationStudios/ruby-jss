@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-pro-server-url:GET', needs permissions: Read JSS URL
-    #  - '/v1/jamf-pro-server-url:PUT', needs permissions: Update JSS URL
+    #  - '/v1/jamf-pro-server-url:GET' needs permissions:
+    #    - Read JSS URL
+    #  - '/v1/jamf-pro-server-url:PUT' needs permissions:
+    #    - Update JSS URL
     #
     #
     class JamfProServerUrl < OAPIObject

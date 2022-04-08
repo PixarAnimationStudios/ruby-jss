@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/enrollment-customizations:POST', needs permissions: Create Enrollment Customizations
-    #  - '/v2/enrollment-customizations/{id}:GET', needs permissions: Read Enrollment Customizations
-    #  - '/v2/enrollment-customizations/{id}:PUT', needs permissions: Update Enrollment Customizations
+    #  - '/v2/enrollment-customizations:POST' needs permissions:
+    #    - Create Enrollment Customizations
+    #  - '/v2/enrollment-customizations/{id}:GET' needs permissions:
+    #    - Read Enrollment Customizations
+    #  - '/v2/enrollment-customizations/{id}:PUT' needs permissions:
+    #    - Update Enrollment Customizations
     #
     #
     class EnrollmentCustomizationV2 < OAPIObject

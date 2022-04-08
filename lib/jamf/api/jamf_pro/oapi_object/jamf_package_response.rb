@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-package:GET', needs permissions: Jamf Packages Action
+    #  - '/v1/jamf-package:GET' needs permissions:
+    #    - Jamf Packages Action
     #
     #
     class JamfPackageResponse < OAPIObject

@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-protect/register:POST', needs permissions: Update Jamf Protect Settings
+    #  - '/v1/jamf-protect/register:POST' needs permissions:
+    #    - Update Jamf Protect Settings
     #
     #
     class ProtectRegistrationRequest < OAPIObject

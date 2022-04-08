@@ -25,17 +25,15 @@
 module Jamf
 
   # process filter strings for resources with filter request parameters
+  # This should be extended into CollectionResources as needed
+  #
+  # Classes doing so must define the FILTER_KEYS constant, an Array of
+  # Symbols of keys from OAPI_PROPERTIES which can be used in filters.
   module Filterable
 
-    # # When this is included
-    # def self.included(klass)
-    #   puts "Filterable was included by #{klass}"
-    # end
-    #
-    # # When this is exdended
-    # def self.extended(klass)
-    #   puts "Filterable was extended by #{klass}"
-    # end
+    def filter_keys
+      defined?(self::FILTER_KEYS) ? self::FILTER_KEYS : []
+    end
 
     private
 

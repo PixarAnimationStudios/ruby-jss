@@ -59,8 +59,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/conditional-access/device-compliance-information/computer/{deviceId}:GET', needs permissions: Read Device Compliance Information
-    #  - '/v1/conditional-access/device-compliance-information/mobile/{deviceId}:GET', needs permissions: Read Device Compliance Information
+    #  - '/v1/conditional-access/device-compliance-information/computer/{deviceId}:GET' needs permissions:
+    #    - Read Device Compliance Information
+    #  - '/v1/conditional-access/device-compliance-information/mobile/{deviceId}:GET' needs permissions:
+    #    - Read Device Compliance Information
     #
     #
     class DeviceComplianceInformation < OAPIObject

@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/inventory-preload:GET', needs permissions: Read Inventory Preload Records
-    #  - '/v1/inventory-preload:GET', needs permissions: Read Inventory Preload Records
+    #  - '/inventory-preload:GET' needs permissions:
+    #    - Read Inventory Preload Records
+    #  - '/v1/inventory-preload:GET' needs permissions:
+    #    - Read Inventory Preload Records
     #
     #
     class InventoryPreloadRecordSearchResults < OAPIObject

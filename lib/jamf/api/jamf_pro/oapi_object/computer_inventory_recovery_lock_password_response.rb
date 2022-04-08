@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computers-inventory/{id}/view-recovery-lock-password:GET', needs permissions: View Recovery Lock
+    #  - '/v1/computers-inventory/{id}/view-recovery-lock-password:GET' needs permissions:
+    #    - View Recovery Lock
     #
     #
     class ComputerInventoryRecoveryLockPasswordResponse < OAPIObject

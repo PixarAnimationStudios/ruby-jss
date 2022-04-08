@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/advanced-mobile-device-searches:POST', needs permissions: Create Advanced Mobile Device Searches
-    #  - '/v1/advanced-mobile-device-searches/{id}:GET', needs permissions: Read Advanced Mobile Device Searches
-    #  - '/v1/advanced-mobile-device-searches/{id}:PUT', needs permissions: Update Advanced Mobile Device Searches
+    #  - '/v1/advanced-mobile-device-searches:POST' needs permissions:
+    #    - Create Advanced Mobile Device Searches
+    #  - '/v1/advanced-mobile-device-searches/{id}:GET' needs permissions:
+    #    - Read Advanced Mobile Device Searches
+    #  - '/v1/advanced-mobile-device-searches/{id}:PUT' needs permissions:
+    #    - Update Advanced Mobile Device Searches
     #
     #
     class AdvancedSearch < OAPIObject

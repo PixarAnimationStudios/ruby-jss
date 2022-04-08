@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/scripts:POST', needs permissions: Create Scripts
-    #  - '/v1/scripts/{id}:GET', needs permissions: Read Scripts
-    #  - '/v1/scripts/{id}:PUT', needs permissions: Update Scripts
+    #  - '/v1/scripts:POST' needs permissions:
+    #    - Create Scripts
+    #  - '/v1/scripts/{id}:GET' needs permissions:
+    #    - Read Scripts
+    #  - '/v1/scripts/{id}:PUT' needs permissions:
+    #    - Update Scripts
     #
     #
     class Script < OAPIObject

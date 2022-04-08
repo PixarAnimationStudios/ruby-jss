@@ -58,33 +58,60 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/inventory-preload/history:GET', needs permissions: Read Inventory Preload Records
-    #  - '/v1/buildings/{id}/history:GET', needs permissions: Read Buildings
-    #  - '/v1/categories/{id}/history:GET', needs permissions: Read Categories
-    #  - '/v1/cloud-idp/{id}/history:GET', needs permissions: Read LDAP Servers
-    #  - '/v1/cloud-ldaps/{id}/history:GET', needs permissions: Read LDAP Servers
-    #  - '/v1/departments/{id}/history:GET', needs permissions: Read Departments
-    #  - '/v1/device-communication-settings/history:GET', needs permissions: Read Automatically Renew MDM Profile Settings
-    #  - '/v1/device-enrollments/{id}/history:GET', needs permissions: Read Device Enrollment Program Instances
-    #  - '/v1/engage/history:GET', needs permissions: Read Engage Settings
-    #  - '/v1/enrollment-customization/{id}/history:GET', needs permissions: Read Enrollment Customizations
-    #  - '/v1/enrollment/history:GET', needs permissions: Read User-Initiated Enrollment
-    #  - '/v1/inventory-preload/history:GET', needs permissions: Read Inventory Preload Records
-    #  - '/v1/jamf-connect/history:GET', needs permissions: Read Jamf Connect Settings
-    #  - '/v1/jamf-pro-server-url/history:GET', needs permissions: Read JSS URL
-    #  - '/v1/jamf-protect/history:GET', needs permissions: Read Jamf Protect Settings
-    #  - '/v1/mobile-device-prestages/{id}/history:GET', needs permissions: Read Mobile Device PreStage Enrollments
-    #  - '/v1/parent-app/history:GET', needs permissions: Read Parent App Settings
-    #  - '/v1/pki/venafi/{id}/history:GET', needs permissions: Read PKI
-    #  - '/v1/reenrollment/history:GET', needs permissions: Read Re-enrollment
-    #  - '/v1/scripts/{id}/history:GET', needs permissions: Read Scripts
-    #  - '/v1/sso/history:GET', needs permissions: Read SSO Settings
-    #  - '/v1/teacher-app/history:GET', needs permissions: Read Teacher App Settings
-    #  - '/v1/volume-purchasing-locations/{id}/history:GET', needs permissions: Read Volume Purchasing Administrator Accounts
-    #  - '/v2/enrollment-customizations/{id}/history:GET', needs permissions: Read Enrollment Customizations
-    #  - '/v2/enrollment/history:GET', needs permissions: Read User-Initiated Enrollment
-    #  - '/v2/inventory-preload/history:GET', needs permissions: Read Inventory Preload Records
-    #  - '/v2/mobile-device-prestages/{id}/history:GET', needs permissions: Read Mobile Device PreStage Enrollments
+    #  - '/inventory-preload/history:GET' needs permissions:
+    #    - Read Inventory Preload Records
+    #  - '/v1/buildings/{id}/history:GET' needs permissions:
+    #    - Read Buildings
+    #  - '/v1/categories/{id}/history:GET' needs permissions:
+    #    - Read Categories
+    #  - '/v1/cloud-idp/{id}/history:GET' needs permissions:
+    #    - Read LDAP Servers
+    #  - '/v1/cloud-ldaps/{id}/history:GET' needs permissions:
+    #    - Read LDAP Servers
+    #  - '/v1/departments/{id}/history:GET' needs permissions:
+    #    - Read Departments
+    #  - '/v1/device-communication-settings/history:GET' needs permissions:
+    #    - Read Automatically Renew MDM Profile Settings
+    #  - '/v1/device-enrollments/{id}/history:GET' needs permissions:
+    #    - Read Device Enrollment Program Instances
+    #  - '/v1/engage/history:GET' needs permissions:
+    #    - Read Engage Settings
+    #  - '/v1/enrollment-customization/{id}/history:GET' needs permissions:
+    #    - Read Enrollment Customizations
+    #  - '/v1/enrollment/history:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v1/inventory-preload/history:GET' needs permissions:
+    #    - Read Inventory Preload Records
+    #  - '/v1/jamf-connect/history:GET' needs permissions:
+    #    - Read Jamf Connect Settings
+    #  - '/v1/jamf-pro-server-url/history:GET' needs permissions:
+    #    - Read JSS URL
+    #  - '/v1/jamf-protect/history:GET' needs permissions:
+    #    - Read Jamf Protect Settings
+    #  - '/v1/mobile-device-prestages/{id}/history:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
+    #  - '/v1/parent-app/history:GET' needs permissions:
+    #    - Read Parent App Settings
+    #  - '/v1/pki/venafi/{id}/history:GET' needs permissions:
+    #    - Read PKI
+    #  - '/v1/reenrollment/history:GET' needs permissions:
+    #    - Read Re-enrollment
+    #  - '/v1/scripts/{id}/history:GET' needs permissions:
+    #    - Read Scripts
+    #  - '/v1/sso/history:GET' needs permissions:
+    #    - Read SSO Settings
+    #  - '/v1/teacher-app/history:GET' needs permissions:
+    #    - Read Teacher App Settings
+    #  - '/v1/volume-purchasing-locations/{id}/history:GET' needs permissions:
+    #    - Read Volume Purchasing Administrator Accounts
+    #  - '/v2/enrollment-customizations/{id}/history:GET' needs permissions:
+    #    - Read Enrollment Customizations
+    #  - '/v2/enrollment/history:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v2/inventory-preload/history:GET' needs permissions:
+    #    - Read Inventory Preload Records
+    #  - '/v2/mobile-device-prestages/{id}/history:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
     #
     #
     class HistorySearchResults < OAPIObject

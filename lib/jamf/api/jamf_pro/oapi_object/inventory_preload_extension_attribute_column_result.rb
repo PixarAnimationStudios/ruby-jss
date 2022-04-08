@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/inventory-preload/ea-columns:GET', needs permissions: Read Inventory Preload Records
+    #  - '/v2/inventory-preload/ea-columns:GET' needs permissions:
+    #    - Read Inventory Preload Records
     #
     #
     class InventoryPreloadExtensionAttributeColumnResult < OAPIObject

@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/self-service/branding/images:POST', needs permissions: Update Self Service Branding Configuration
-    #  - '/v1/enrollment-customization/images:POST', needs permissions: Update Enrollment Customizations
-    #  - '/v2/enrollment-customizations/images:POST', needs permissions: Update Enrollment Customizations
+    #  - '/self-service/branding/images:POST' needs permissions:
+    #    - Update Self Service Branding Configuration
+    #  - '/v1/enrollment-customization/images:POST' needs permissions:
+    #    - Update Enrollment Customizations
+    #  - '/v2/enrollment-customizations/images:POST' needs permissions:
+    #    - Update Enrollment Customizations
     #
     #
     class BrandingImageUrl < OAPIObject

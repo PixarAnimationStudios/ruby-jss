@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/departments:GET', needs permissions: Read Departments
+    #  - '/v1/departments:GET' needs permissions:
+    #    - Read Departments
     #
     #
     class DepartmentsSearchResults < OAPIObject

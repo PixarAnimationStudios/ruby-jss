@@ -59,8 +59,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/azure-ad-migration/reports/pending:GET', needs permissions: Read LDAP Servers
-    #  - '/v1/azure-ad-migration/reports/{id}:GET', needs permissions: Read LDAP Servers
+    #  - '/v1/azure-ad-migration/reports/pending:GET' needs permissions:
+    #    - Read LDAP Servers
+    #  - '/v1/azure-ad-migration/reports/{id}:GET' needs permissions:
+    #    - Read LDAP Servers
     #
     #
     class AzureAdMigrationReportProcessStatus < OAPIObject

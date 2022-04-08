@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/deploy-package:POST', needs permissions: Send Computer Remote Command to Install Package
+    #  - '/v1/deploy-package:POST' needs permissions:
+    #    - Send Computer Remote Command to Install Package
     #
     #
     class VerbosePackageDeploymentResponse < OAPIObject

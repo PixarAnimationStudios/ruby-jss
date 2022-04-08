@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/advanced-user-content-searches:GET', needs permissions: Read Advanced User Content Searches
+    #  - '/v1/advanced-user-content-searches:GET' needs permissions:
+    #    - Read Advanced User Content Searches
     #
     #
     class AdvancedUserContentSearchSearchResults < OAPIObject

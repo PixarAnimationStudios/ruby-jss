@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computer-prestages:POST', needs permissions: Create Computer PreStage Enrollments
+    #  - '/v1/computer-prestages:POST' needs permissions:
+    #    - Create Computer PreStage Enrollments
     #
     #
     class ComputerPrestage < OAPIObject

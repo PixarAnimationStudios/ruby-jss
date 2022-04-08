@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/system/initialize-database-connection:POST', needs permissions: Unknown
-    #  - '/v1/system/initialize-database-connection:POST', needs permissions: Unknown
+    #  - '/system/initialize-database-connection:POST' needs permissions:
+    #    - Unknown
+    #  - '/v1/system/initialize-database-connection:POST' needs permissions:
+    #    - Unknown
     #
     #
     class DatabasePassword < OAPIObject

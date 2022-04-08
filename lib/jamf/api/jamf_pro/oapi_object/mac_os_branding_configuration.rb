@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/self-service/branding/macos:POST', needs permissions: Create Self Service Branding Configuration
-    #  - '/v1/self-service/branding/macos/{id}:GET', needs permissions: Read Self Service Branding Configuration
-    #  - '/v1/self-service/branding/macos/{id}:PUT', needs permissions: Update Self Service Branding Configuration
+    #  - '/v1/self-service/branding/macos:POST' needs permissions:
+    #    - Create Self Service Branding Configuration
+    #  - '/v1/self-service/branding/macos/{id}:GET' needs permissions:
+    #    - Read Self Service Branding Configuration
+    #  - '/v1/self-service/branding/macos/{id}:PUT' needs permissions:
+    #    - Update Self Service Branding Configuration
     #
     #
     class MacOsBrandingConfiguration < OAPIObject

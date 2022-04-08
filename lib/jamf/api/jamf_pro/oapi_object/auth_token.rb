@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/auth/keepAlive:POST', needs permissions: Unknown
-    #  - '/auth/tokens:POST', needs permissions: Unknown
+    #  - '/auth/keepAlive:POST' needs permissions:
+    #    - Unknown
+    #  - '/auth/tokens:POST' needs permissions:
+    #    - Unknown
     #
     #
     class AuthToken < OAPIObject

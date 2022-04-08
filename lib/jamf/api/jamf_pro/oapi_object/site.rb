@@ -60,7 +60,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/settings/sites:GET', needs permissions: Read Sites
+    #  - '/settings/sites:GET' needs permissions:
+    #    - Read Sites
     #
     #
     class Site < OAPIObject

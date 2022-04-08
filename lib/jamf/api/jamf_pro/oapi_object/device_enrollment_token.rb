@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/device-enrollments/upload-token:POST', needs permissions: Create Device Enrollment Program Instances
-    #  - '/v1/device-enrollments/{id}/upload-token:PUT', needs permissions: Update Device Enrollment Program Instances
+    #  - '/v1/device-enrollments/upload-token:POST' needs permissions:
+    #    - Create Device Enrollment Program Instances
+    #  - '/v1/device-enrollments/{id}/upload-token:PUT' needs permissions:
+    #    - Update Device Enrollment Program Instances
     #
     #
     class DeviceEnrollmentToken < OAPIObject

@@ -58,10 +58,14 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/app-request/form-input-fields:PUT', needs permissions: Update App Request Settings
-    #  - '/v1/app-request/form-input-fields:POST', needs permissions: Update App Request Settings
-    #  - '/v1/app-request/form-input-fields/{id}:GET', needs permissions: Read App Request Settings
-    #  - '/v1/app-request/form-input-fields/{id}:PUT', needs permissions: Update App Request Settings
+    #  - '/v1/app-request/form-input-fields:PUT' needs permissions:
+    #    - Update App Request Settings
+    #  - '/v1/app-request/form-input-fields:POST' needs permissions:
+    #    - Update App Request Settings
+    #  - '/v1/app-request/form-input-fields/{id}:GET' needs permissions:
+    #    - Read App Request Settings
+    #  - '/v1/app-request/form-input-fields/{id}:PUT' needs permissions:
+    #    - Update App Request Settings
     #
     #
     class AppRequestFormInputField < OAPIObject

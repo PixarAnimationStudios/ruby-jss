@@ -61,7 +61,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/cloud-ldaps:POST', needs permissions: Create LDAP Servers
+    #  - '/v2/cloud-ldaps:POST' needs permissions:
+    #    - Create LDAP Servers
     #
     #
     class LdapConfigurationRequest < OAPIObject

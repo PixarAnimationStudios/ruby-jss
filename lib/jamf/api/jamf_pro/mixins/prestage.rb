@@ -25,47 +25,52 @@
 
 module Jamf
 
-  # The Shared Code for ComputerPrestage, and MobileDevicePrestage
+  # The Shared Code for ComputerPrestage and MobileDevicePrestage
   module Prestage
 
     # when this module is included, also extend our Class Methods
-    def included(includer)
-      # puts "#{includer} is including Jamf::CollectionResource"
+    def self.included(includer)
+      # puts "#{includer} is including Jamf::Prestage"
       includer.extend(ClassMethods)
     end
 
     # Constants
     #####################################
 
+    # The scope of a prestage is all the SN's that have been assigned to it
     SCOPE_PATH = 'scope'.freeze
 
-    SERIALS_KEY = :serialsByPrestageId
+    # The class-level scopes method returns one of these objects
+    ALL_SCOPES_OBJECT = Jamf::OAPIObject::PrestageScopeV2
 
-    SYNC_RSRC = 'sync'.freeze
+    # the instance level scope method or the class level
+    # serials_for_prestage method returns one of these.
+    INSTANCE_SCOPE_OBJECT = Jamf::OAPIObject::PrestageScopeResponseV2
+
 
     # Class Methods
     #####################################
     module ClassMethods
 
+      # when this module is included, also extend our Class Methods
+      def self.extended(extender)
+        # puts "#{extender} is extending Jamf::Prestage"
+      end
+
       # Return the Prestage that is marked as default,
       # i.e. the one that new SNs are assigned to when first added.
       # Nil if no default is defined
       # @return [Jamf::Prestage, nil]
-      #
+      ######################
       def default
         # only one can be true at a time, so sort desc by that field,
         # and the true one will be at the top
-        default_prestage_data = all(sort: 'defaultPrestage:desc', page_size: 1).first
+        default_prestage_data = all.select { |d| d[:defaultPrestage] }.first
 
         # Just in case there was no true one, make sure defaultPrestage is true
         return unless default_prestage_data&.dig(:defaultPrestage)
 
         fetch id: default_prestage_data[:id]
-      end
-
-      # the path to the 'scope' endpoint for this class
-      def scope_path
-        @scope_path ||= "#{self::LIST_PATH}/#{SCOPE_RSRC}"
       end
 
       # Return all scoped serial numbers and the id of the prestage
@@ -76,13 +81,15 @@ module Jamf
       # @param cnx[Jamf::Connection] the API connection to use
       #
       # @return [Hash {String => Integer}] The Serials and prestage IDs
-      #
-      def serials_by_prestage_id(refresh: false, cnx: Jamf.cnx)
-        @serials_by_prestage_id = nil if refresh
-        @serials_by_prestage_id ||= cnx.jp_get(scope_path)[SERIALS_KEY].transform_keys!(&:to_s)
+      ######################
+      def serials_by_prestage_id(cnx: Jamf.cnx)
+        scope_path ||= "#{self::LIST_PATH}/#{SCOPE_PATH}"
+        api_reponse = ALL_SCOPES_OBJECT.new cnx.jp_get(scope_path)
+        api_reponse.serialsByPrestageId.transform_keys!(&:to_s)
       end
 
-      # Get the assigned serialnumbers for a given prestage
+      # Get the assigned serialnumbers for a given prestage, without
+      # having to instantiate it
       #
       # @paream prestage_ident [Integer, String] the id or name of
       #   an existing prestage.
@@ -92,38 +99,37 @@ module Jamf
       # @param cnx[Jamf::Connection] the API connection to use
       #
       # @return [Array<String>] the SN's assigned to the prestage
-      #
-      def serials_for_prestage(prestage_ident, refresh: false, cnx: Jamf.cnx)
+      ######################
+      def serials_for_prestage(prestage_ident, cnx: Jamf.cnx)
         id = valid_id prestage_ident, cnx: cnx
+
         raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
 
-        serials_by_prestage_id(refresh: refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
+        serials_by_prestage_id(cnx: cnx).select { |_sn, psid| id == psid }.keys
       end
 
       # The id of the prestage to which the given serialNumber is assigned.
-      # nil if not assigned or not in DEP.
+      # nil if not assigned or not in ADE.
       #
       # NOTE: If a serial number isn't assigned to any prestage, it may really be
-      # unassigned or it may not exist in your DEP. To see if a SN exists in one
+      # unassigned or it may not exist in your ADE. To see if a SN exists in one
       # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
       #
       # @param sn [String] the serial number to look for
-      #
-      # @param refresh[Boolean] re-read the list from the API?
-      #
+      #      #
       # @param cnx[Jamf::Connection] the API connection to use
       #
       # @return [Integer, nil] The id of prestage to which the SN is assigned
       #
-      def assigned_prestage_id(sn, refresh: false, cnx: Jamf.cnx)
-        serials_by_prestage_id(refresh: refresh, cnx: cnx)[sn]
+      def assigned_prestage_id(sn, cnx: Jamf.cnx)
+        serials_by_prestage_id(cnx: cnx)[sn]
       end
 
       # Is the given serialNumber assigned to any prestage, or to the
-      # given prestage if a prestage_ident is specified?
+      # given prestage if a prestage is specified?
       #
       # NOTE: If a serial number isn't assigned to any prestage, it may really be
-      # unassigned or it may not exist in your DEP. To see if a SN exists in one
+      # unassigned or it may not exist in your ADE. To see if a SN exists in one
       # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
       #
       # @param sn [String] the serial number to look for
@@ -138,26 +144,27 @@ module Jamf
       #
       # @return [Boolean] Is the sn assigned, at all or to the given prestage?
       #
-      def assigned?(sn, prestage: nil, refresh: false, cnx: Jamf.cnx)
-        assigned_id = assigned_prestage_id(sn, refresh: refresh, cnx: cnx)
+      def assigned?(sn, prestage: nil, cnx: Jamf.cnx)
+        assigned_id = assigned_prestage_id(sn, cnx: cnx)
+        # it isn't assigned at all
         return false unless assigned_id
 
-        if prestage
-          psid = valid_id prestage, cnx: cnx
-          raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless psid
+        # we are looking to see if its assigned at all, which it is
+        return true unless prestage
 
-          return psid == assigned_id
-        end
+        # we are looking to see if its in a specific prestage
+        psid = valid_id prestage, cnx: cnx
+        raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage}'" unless psid
 
-        true
+        psid == assigned_id
       end
 
-      # We subtract the serials_by_prestage_id.keys from all known DEP SNs
+      # We subtract the serials_by_prestage_id.keys from all known ADE SNs
       # rather than just looking for Jamf::DeviceEnrollment.devices  with status
       # REMOVED, because of the delay in updating the status for
       # Jamf::DeviceEnrollment::Devices, which must come from apple.
       #
-      # @return [Array<String>] The serial numbers of devices that are in DEP but
+      # @return [Array<String>] The serial numbers of devices that are in ADE but
       #    not assigned to any prestage
       #
       def unassigned_sns(cnx: Jamf.cnx)
@@ -165,20 +172,21 @@ module Jamf
         Jamf::DeviceEnrollment.device_sns(type: type, cnx: cnx) - serials_by_prestage_id(:refresh, cnx: cnx).keys
       end
 
-      # @return [Array<String>] The serial numbers of known hardware not in DEP
+      # @return [Array<String>] The serial numbers of known hardware not in ADE
       #   at all
-      def sns_not_in_device_enrollment
-        # type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
-        nil # TODO: this, once MobileDevice  & Computer classes are implemented
-      end
+      # TODO: move this to Jamf::DeviceEnrollment
+      # def sns_not_in_device_enrollment
+      #   # type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
+      #   nil # TODO: this, once MobileDevice  & Computer classes are implemented
+      # end
 
-      # Assign one or more serialNumber to a prestage
-      # @return [Jamf::PrestageScope] the new scope for the prestage
+      # Assign one or more serialNumbers to a prestage
+      # @return [Jamf::OAPIObject::PrestageScopeResponseV2] the new scope for the prestage
       def assign(*sns_to_assign, to_prestage:, cnx: Jamf.cnx)
         prestage_id = valid_id to_prestage
         raise Jamf::NoSuchItemError, "No #{self} matching '#{to_prestage}'" unless prestage_id
 
-        # all sns_to_assign must be in DEP
+        # all sns_to_assign must be in ADE
         not_in_dep = sns_to_assign - Jamf::DeviceEnrollment.device_sns
         raise Jamf::UnsupportedError, "These SNs are not in any Device Enrollment instance: #{not_in_dep.join ', '}" unless not_in_dep.empty?
 
@@ -236,10 +244,6 @@ module Jamf
           versionLock: vlock
         }
         Jamf::PrestageScope.new cnx.jp_put(scope_rsrc, assignment_data)
-      rescue Jamf::Connection::APIError => e
-        raise Jamf::VersionLockError, "The #{self} '#{prestage_name}' was modified by another process during this operation. Please try again" if e.status == 409
-
-        raise e
       end
       private :update_scope
 
@@ -254,7 +258,7 @@ module Jamf
     #
     # @return [PrestageScope]
     #
-    def scope(refresh = false)
+    def scope(refresh: false)
       @scope = nil if refresh
       return @scope if @scope
 
@@ -312,12 +316,13 @@ module Jamf
       @scope = nil
     end
 
-    # Private Instance Methods
-    ############################
-    private
+    # The scope endpoint for this instance
+    def scope_path
+      @scope_path ||= "#{get_path}/#{SCOPE_PATH}"
+    end
 
-    def scope_rsrc
-      @scope_rsrc ||= "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{@id}/#{SCOPE_RSRC}"
+    def scope
+      INSTANCE_SCOPE_OBJECT.new @cnx.jp_get(scope_path)
     end
 
     # def update_scope(new_scope_sns)

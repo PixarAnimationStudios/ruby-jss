@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/azure-ad-migration/reports:POST', needs permissions: Create LDAP Servers
+    #  - '/v1/azure-ad-migration/reports:POST' needs permissions:
+    #    - Create LDAP Servers
     #
     #
     class AzureAdMigrationReportRequest < OAPIObject

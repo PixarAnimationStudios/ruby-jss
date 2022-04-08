@@ -60,7 +60,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/auth:GET', needs permissions: Unknown
+    #  - '/auth:GET' needs permissions:
+    #    - Unknown
     #
     #
     class Authorization < OAPIObject

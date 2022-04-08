@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/policy/{id}/logs/eligibleRetryCount:GET', needs permissions: Read Patch Policies
-    #  - '/patch/obj/policy/{id}/softwareTitleConfigurationId:GET', needs permissions: Read Patch Policies
+    #  - '/patch/obj/policy/{id}/logs/eligibleRetryCount:GET' needs permissions:
+    #    - Read Patch Policies
+    #  - '/patch/obj/policy/{id}/softwareTitleConfigurationId:GET' needs permissions:
+    #    - Read Patch Policies
     #
     #
     class IntegerWrapper < OAPIObject

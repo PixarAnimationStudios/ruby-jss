@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/search-mobile-devices:POST', needs permissions: Read Mobile Devices
+    #  - '/v1/search-mobile-devices:POST' needs permissions:
+    #    - Read Mobile Devices
     #
     #
     class MobileDeviceSearchResults < OAPIObject

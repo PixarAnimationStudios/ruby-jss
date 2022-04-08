@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/enrollment-customization/{id}/prestages:GET', needs permissions: Read Enrollment Customizations
-    #  - '/v2/enrollment-customizations/{id}/prestages:GET', needs permissions: Read Enrollment Customizations
+    #  - '/v1/enrollment-customization/{id}/prestages:GET' needs permissions:
+    #    - Read Enrollment Customizations
+    #  - '/v2/enrollment-customizations/{id}/prestages:GET' needs permissions:
+    #    - Read Enrollment Customizations
     #
     #
     class PrestageDependencies < OAPIObject

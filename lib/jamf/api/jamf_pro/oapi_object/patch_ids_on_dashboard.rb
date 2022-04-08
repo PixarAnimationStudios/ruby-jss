@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/onDashboard:GET', needs permissions: Read Patch Management Software Titles
+    #  - '/patch/onDashboard:GET' needs permissions:
+    #    - Read Patch Management Software Titles
     #
     #
     class PatchIdsOnDashboard < OAPIObject

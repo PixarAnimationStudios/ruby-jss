@@ -59,9 +59,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/sso/cert:GET', needs permissions: Read SSO Settings
-    #  - '/v2/sso/cert:PUT', needs permissions: Update SSO Settings
-    #  - '/v2/sso/cert:POST', needs permissions: Update SSO Settings
+    #  - '/v2/sso/cert:GET' needs permissions:
+    #    - Read SSO Settings
+    #  - '/v2/sso/cert:PUT' needs permissions:
+    #    - Update SSO Settings
+    #  - '/v2/sso/cert:POST' needs permissions:
+    #    - Update SSO Settings
     #
     #
     class SsoKeystoreResponseWithDetails < OAPIObject

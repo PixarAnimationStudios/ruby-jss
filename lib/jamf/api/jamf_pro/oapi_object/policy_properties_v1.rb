@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/policy-properties:GET', needs permissions: Read Policies
-    #  - '/v1/policy-properties:PUT', needs permissions: Update Policies
+    #  - '/v1/policy-properties:GET' needs permissions:
+    #    - Read Policies
+    #  - '/v1/policy-properties:PUT' needs permissions:
+    #    - Update Policies
     #
     #
     class PolicyPropertiesV1 < OAPIObject

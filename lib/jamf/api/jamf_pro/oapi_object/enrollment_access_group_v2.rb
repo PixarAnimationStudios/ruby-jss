@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/enrollment/access-groups:POST', needs permissions: Update User-Initiated Enrollment
-    #  - '/v2/enrollment/access-groups/{serverId}/{groupId}:GET', needs permissions: Read User-Initiated Enrollment
-    #  - '/v2/enrollment/access-groups/{serverId}/{groupId}:PUT', needs permissions: Update User-Initiated Enrollment
+    #  - '/v2/enrollment/access-groups:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
+    #  - '/v2/enrollment/access-groups/{serverId}/{groupId}:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v2/enrollment/access-groups/{serverId}/{groupId}:PUT' needs permissions:
+    #    - Update User-Initiated Enrollment
     #
     #
     class EnrollmentAccessGroupV2 < OAPIObject

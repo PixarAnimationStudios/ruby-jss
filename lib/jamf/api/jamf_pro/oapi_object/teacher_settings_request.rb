@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/teacher-app:PUT', needs permissions: Update Teacher App Settings
+    #  - '/v1/teacher-app:PUT' needs permissions:
+    #    - Update Teacher App Settings
     #
     #
     class TeacherSettingsRequest < OAPIObject

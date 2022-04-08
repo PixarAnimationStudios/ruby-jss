@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/startup-status:GET', needs permissions: Unknown
+    #  - '/startup-status:GET' needs permissions:
+    #    - Unknown
     #
     #
     class StartupStatus < OAPIObject

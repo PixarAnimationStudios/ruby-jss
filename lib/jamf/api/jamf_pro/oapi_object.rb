@@ -66,8 +66,13 @@ module Jamf
     # Zeitwerk callback when subclasses are loaded.
     ##############################
     def self.parse_oapi_properties
+      # only do this once
       return if @oapi_properties_parsed
 
+      # only if this constant is defined
+      return unless defined? self::OAPI_PROPERTIES
+
+      # TODO: is the concept of 'primary' needed anymore?
       got_primary = false
 
       # move this to Jamf::CollectionResource, define them as needed

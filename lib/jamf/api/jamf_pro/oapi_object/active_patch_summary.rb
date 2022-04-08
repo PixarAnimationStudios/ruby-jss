@@ -58,10 +58,14 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/{id}:GET', needs permissions: Read Patch Management Software Titles
-    #  - '/patch/obj/{id}:PUT', needs permissions: Read Patch Management Software Titles
-    #  - '/patch/{id}:GET', needs permissions: Read Patch Management Software Titles
-    #  - '/patch/{id}:PUT', needs permissions: Read Patch Management Software Titles
+    #  - '/patch/obj/{id}:GET' needs permissions:
+    #    - Read Patch Management Software Titles
+    #  - '/patch/obj/{id}:PUT' needs permissions:
+    #    - Read Patch Management Software Titles
+    #  - '/patch/{id}:GET' needs permissions:
+    #    - Read Patch Management Software Titles
+    #  - '/patch/{id}:PUT' needs permissions:
+    #    - Read Patch Management Software Titles
     #
     #
     class ActivePatchSummary < OAPIObject

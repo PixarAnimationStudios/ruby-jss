@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/csa/token:GET', needs permissions: Read Cloud Services Settings
-    #  - '/v1/csa/token:PUT', needs permissions: Update Cloud Services Settings
-    #  - '/v1/csa/token:POST', needs permissions: Update Cloud Services Settings
+    #  - '/v1/csa/token:GET' needs permissions:
+    #    - Read Cloud Services Settings
+    #  - '/v1/csa/token:PUT' needs permissions:
+    #    - Update Cloud Services Settings
+    #  - '/v1/csa/token:POST' needs permissions:
+    #    - Update Cloud Services Settings
     #
     #
     class CsaToken < OAPIObject

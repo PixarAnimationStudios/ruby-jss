@@ -81,9 +81,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computers-inventory-detail/{id}:GET', needs permissions: Read Computers
-    #  - '/v1/computers-inventory-detail/{id}:PATCH', needs permissions: Update Computers
-    #  - '/v1/computers-inventory/{id}:GET', needs permissions: Read Computers
+    #  - '/v1/computers-inventory-detail/{id}:GET' needs permissions:
+    #    - Read Computers
+    #  - '/v1/computers-inventory-detail/{id}:PATCH' needs permissions:
+    #    - Update Computers
+    #  - '/v1/computers-inventory/{id}:GET' needs permissions:
+    #    - Read Computers
     #
     #
     class ComputerInventoryResponse < OAPIObject

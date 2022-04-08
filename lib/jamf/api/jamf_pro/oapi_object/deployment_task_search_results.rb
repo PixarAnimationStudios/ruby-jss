@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-connect/deployments/{id}/tasks:GET', needs permissions: Read Jamf Connect Deployments
-    #  - '/v1/jamf-protect/deployments/{id}/tasks:GET', needs permissions: Read Jamf Protect Deployments
+    #  - '/v1/jamf-connect/deployments/{id}/tasks:GET' needs permissions:
+    #    - Read Jamf Connect Deployments
+    #  - '/v1/jamf-protect/deployments/{id}/tasks:GET' needs permissions:
+    #    - Read Jamf Protect Deployments
     #
     #
     class DeploymentTaskSearchResults < OAPIObject

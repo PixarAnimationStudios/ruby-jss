@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/policy/{id}:GET', needs permissions: Read Patch Policies
-    #  - '/patch/objs/policy/{id}:GET', needs permissions: Read Patch Policies
-    #  - '/patch/patch-policies:GET', needs permissions: Read Patch Policies
+    #  - '/patch/obj/policy/{id}:GET' needs permissions:
+    #    - Read Patch Policies
+    #  - '/patch/objs/policy/{id}:GET' needs permissions:
+    #    - Read Patch Policies
+    #  - '/patch/patch-policies:GET' needs permissions:
+    #    - Read Patch Policies
     #
     #
     class PatchPolicySummary < OAPIObject

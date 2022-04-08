@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/auth/current:POST', needs permissions: Unknown
+    #  - '/auth/current:POST' needs permissions:
+    #    - Unknown
     #
     #
     class CurrentAuthorization < OAPIObject

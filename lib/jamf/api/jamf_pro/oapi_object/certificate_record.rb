@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/pki/certificate-authority/active:GET', needs permissions: Unknown
-    #  - '/v1/pki/certificate-authority/{id}:GET', needs permissions: Read PKI
+    #  - '/v1/pki/certificate-authority/active:GET' needs permissions:
+    #    - Unknown
+    #  - '/v1/pki/certificate-authority/{id}:GET' needs permissions:
+    #    - Read PKI
     #
     #
     class CertificateRecord < OAPIObject

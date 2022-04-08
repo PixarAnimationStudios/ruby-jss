@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/mobile-device-prestages/{id}/attachments:POST', needs permissions: Create Mobile Device PreStage Enrollments
+    #  - '/v2/mobile-device-prestages/{id}/attachments:POST' needs permissions:
+    #    - Create Mobile Device PreStage Enrollments
     #
     #
     class PrestageFileAttachmentV2 < OAPIObject

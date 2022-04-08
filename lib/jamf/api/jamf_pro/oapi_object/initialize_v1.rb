@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/system/initialize:POST', needs permissions: Unknown
+    #  - '/v1/system/initialize:POST' needs permissions:
+    #    - Unknown
     #
     #
     class InitializeV1 < OAPIObject

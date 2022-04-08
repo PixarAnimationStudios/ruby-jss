@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/cloud-idp/export:POST', needs permissions: Read LDAP Servers
-    #  - '/v2/inventory-preload/export:POST', needs permissions: Read Inventory Preload Records
+    #  - '/v1/cloud-idp/export:POST' needs permissions:
+    #    - Read LDAP Servers
+    #  - '/v2/inventory-preload/export:POST' needs permissions:
+    #    - Read Inventory Preload Records
     #
     #
     class ExportParameters < OAPIObject

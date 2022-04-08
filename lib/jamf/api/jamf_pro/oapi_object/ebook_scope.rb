@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/ebooks/{id}/scope:GET', needs permissions: Read eBooks
+    #  - '/v1/ebooks/{id}/scope:GET' needs permissions:
+    #    - Read eBooks
     #
     #
     class EbookScope < OAPIObject

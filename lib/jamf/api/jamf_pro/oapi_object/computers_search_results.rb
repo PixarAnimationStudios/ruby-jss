@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/preview/computers:GET', needs permissions: Read Computers
+    #  - '/preview/computers:GET' needs permissions:
+    #    - Read Computers
     #
     #
     class ComputersSearchResults < OAPIObject

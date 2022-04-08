@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/departments:POST', needs permissions: Create Departments
-    #  - '/v1/departments/{id}:GET', needs permissions: Read Departments
-    #  - '/v1/departments/{id}:PUT', needs permissions: Update Departments
+    #  - '/v1/departments:POST' needs permissions:
+    #    - Create Departments
+    #  - '/v1/departments/{id}:GET' needs permissions:
+    #    - Read Departments
+    #  - '/v1/departments/{id}:PUT' needs permissions:
+    #    - Update Departments
     #
     #
     class Department < OAPIObject

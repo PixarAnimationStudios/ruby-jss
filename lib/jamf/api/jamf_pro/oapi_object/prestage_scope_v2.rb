@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/computer-prestages/scope:GET', needs permissions: Read Computer PreStage Enrollments
-    #  - '/v2/mobile-device-prestages/scope:GET', needs permissions: Read Mobile Device PreStage Enrollments
+    #  - '/v2/computer-prestages/scope:GET' needs permissions:
+    #    - Read Computer PreStage Enrollments
+    #  - '/v2/mobile-device-prestages/scope:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
     #
     #
     class PrestageScopeV2 < OAPIObject

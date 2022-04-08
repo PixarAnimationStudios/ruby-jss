@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/searchActivePatchHistory:POST', needs permissions: Read Patch Management Software Titles
+    #  - '/patch/searchActivePatchHistory:POST' needs permissions:
+    #    - Read Patch Management Software Titles
     #
     #
     class SearchActivePatchHistoryParams < OAPIObject

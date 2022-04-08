@@ -35,7 +35,7 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class JpComputerPrestage < Jamf::OAPIObject::GetComputerPrestageV2
+  class ComputerPrestage < Jamf::OAPIObject::GetComputerPrestageV2
 
     include Jamf::CollectionResource
     include Jamf::Prestage
@@ -67,13 +67,25 @@ module Jamf
 
     # The path for GETting the list of all objects in the collection, possibly
     # filtered, sorted, and/or paged
+    #
     # REQUIRED for all collection resources
+    #
+    # GET_, PUT_, PATCH_, POST_, and DELETE_ paths don't need to be
+    # defined if they are the same as LIST_PATH (followed by an id if needed)
+    #
     LIST_PATH = 'v2/computer-prestages'.freeze
 
     # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
-    # which usually only identifies ':id'
-    # TODO: any other idents??
-    # ALT_IDENTIFIERS = %i[name].freeze
+    # which usually only marks ':id'. These values are unique in the collection
+    ALT_IDENTIFIERS = %i[profileUuid].freeze
+
+    # Values which are useful as identifiers, but are not necessarily unique
+    # in the collection - e.g. more than one computer can have the same name
+    # WARNING
+    # When more than one item in the collection has the same value for
+    # one of these fields, which one is used, returned, selected, is undefined
+    # You Have Been Warned!
+    NON_UNIQUE_IDENTIFIERS = %i[displayName].freeze
 
   end # class
 

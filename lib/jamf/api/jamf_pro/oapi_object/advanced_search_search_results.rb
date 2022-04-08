@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/advanced-mobile-device-searches:GET', needs permissions: Read Advanced Mobile Device Searches
+    #  - '/v1/advanced-mobile-device-searches:GET' needs permissions:
+    #    - Read Advanced Mobile Device Searches
     #
     #
     class AdvancedSearchSearchResults < OAPIObject

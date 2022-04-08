@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/inventory-preload/validate-csv:POST', needs permissions: Create Inventory Preload Records
-    #  - '/v1/inventory-preload/validate-csv:POST', needs permissions: Create Inventory Preload Records
-    #  - '/v2/inventory-preload/csv-validate:POST', needs permissions: Create Inventory Preload Records
+    #  - '/inventory-preload/validate-csv:POST' needs permissions:
+    #    - Create Inventory Preload Records
+    #  - '/v1/inventory-preload/validate-csv:POST' needs permissions:
+    #    - Create Inventory Preload Records
+    #  - '/v2/inventory-preload/csv-validate:POST' needs permissions:
+    #    - Create Inventory Preload Records
     #
     #
     class InventoryPreloadCsvValidationSuccess < OAPIObject

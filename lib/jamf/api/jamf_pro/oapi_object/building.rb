@@ -30,6 +30,7 @@ module Jamf
   #
   class OAPIObject
 
+
     # OAPI Object Model and Enums for: Building
     #
     #
@@ -52,19 +53,22 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/buildings:POST', needs permissions: Create Buildings
-    #  - '/v1/buildings/{id}:GET', needs permissions: Read Buildings
-    #  - '/v1/buildings/{id}:PUT', needs permissions: Update Buildings
+    #  - '/v1/buildings:POST' needs permissions:
+    #    - Create Buildings
+    #  - '/v1/buildings/{id}:GET' needs permissions:
+    #    - Read Buildings
+    #  - '/v1/buildings/{id}:PUT' needs permissions:
+    #    - Update Buildings
     #
     #
     class Building < OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 

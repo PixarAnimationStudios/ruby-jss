@@ -60,7 +60,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/mdm/commands:GET', needs permissions: View MDM command information in Jamf Pro API
+    #  - '/v1/mdm/commands:GET' needs permissions:
+    #    - View MDM command information in Jamf Pro API
     #
     #
     class MdmCommand < OAPIObject

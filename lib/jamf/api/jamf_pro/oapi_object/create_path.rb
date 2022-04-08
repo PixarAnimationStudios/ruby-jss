@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computer-inventory-collection-settings/custom-path:POST', needs permissions: Create Custom Paths
+    #  - '/v1/computer-inventory-collection-settings/custom-path:POST' needs permissions:
+    #    - Create Custom Paths
     #
     #
     class CreatePath < OAPIObject

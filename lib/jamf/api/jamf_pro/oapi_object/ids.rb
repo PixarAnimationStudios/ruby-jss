@@ -58,13 +58,20 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/advanced-mobile-device-searches/delete-multiple:POST', needs permissions: Delete Advanced Mobile Device Searches
-    #  - '/v1/buildings/delete-multiple:POST', needs permissions: Delete Buildings
-    #  - '/v1/categories/delete-multiple:POST', needs permissions: Delete Categories
-    #  - '/v1/departments/delete-multiple:POST', needs permissions: Delete Departments
-    #  - '/v1/jamf-connect/deployments/{id}/tasks/retry:POST', needs permissions: Jamf Connect Deployment Retry
-    #  - '/v1/jamf-protect/deployments/{id}/tasks/retry:POST', needs permissions: Jamf Protect Deployment Retry
-    #  - '/v2/mobile-device-prestages/{id}/attachments/delete-multiple:POST', needs permissions: Delete Mobile Device PreStage Enrollments
+    #  - '/v1/advanced-mobile-device-searches/delete-multiple:POST' needs permissions:
+    #    - Delete Advanced Mobile Device Searches
+    #  - '/v1/buildings/delete-multiple:POST' needs permissions:
+    #    - Delete Buildings
+    #  - '/v1/categories/delete-multiple:POST' needs permissions:
+    #    - Delete Categories
+    #  - '/v1/departments/delete-multiple:POST' needs permissions:
+    #    - Delete Departments
+    #  - '/v1/jamf-connect/deployments/{id}/tasks/retry:POST' needs permissions:
+    #    - Jamf Connect Deployment Retry
+    #  - '/v1/jamf-protect/deployments/{id}/tasks/retry:POST' needs permissions:
+    #    - Jamf Protect Deployment Retry
+    #  - '/v2/mobile-device-prestages/{id}/attachments/delete-multiple:POST' needs permissions:
+    #    - Delete Mobile Device PreStage Enrollments
     #
     #
     class Ids < OAPIObject

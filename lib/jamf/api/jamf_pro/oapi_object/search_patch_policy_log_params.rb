@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/searchPatchPolicyLogs:POST', needs permissions: Read Patch Policies
+    #  - '/patch/searchPatchPolicyLogs:POST' needs permissions:
+    #    - Read Patch Policies
     #
     #
     class SearchPatchPolicyLogParams < OAPIObject

@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-protect/plans:GET', needs permissions: Read Jamf Protect Deployments
+    #  - '/v1/jamf-protect/plans:GET' needs permissions:
+    #    - Read Jamf Protect Deployments
     #
     #
     class PlanSearchResults < OAPIObject

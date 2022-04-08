@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/send-updates:POST', needs permissions: Send Computer Remote Command to Download and Install OS X Update
+    #  - '/v1/macos-managed-software-updates/send-updates:POST' needs permissions:
+    #    - Send Computer Remote Command to Download and Install OS X Update
     #
     #
     class MacOsManagedSoftwareUpdate < OAPIObject

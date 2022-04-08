@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/supervision-identities/upload:POST', needs permissions: Update Apple Configurator Enrollment
+    #  - '/v1/supervision-identities/upload:POST' needs permissions:
+    #    - Update Apple Configurator Enrollment
     #
     #
     class SupervisionIdentityCertificateUpload < OAPIObject

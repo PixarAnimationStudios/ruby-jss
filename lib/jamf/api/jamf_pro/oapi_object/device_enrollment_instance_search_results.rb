@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/device-enrollments:GET', needs permissions: Read Device Enrollment Program Instances
+    #  - '/v1/device-enrollments:GET' needs permissions:
+    #    - Read Device Enrollment Program Instances
     #
     #
     class DeviceEnrollmentInstanceSearchResults < OAPIObject

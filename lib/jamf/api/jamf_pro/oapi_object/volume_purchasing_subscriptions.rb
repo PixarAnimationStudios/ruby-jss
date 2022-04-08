@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/volume-purchasing-subscriptions:GET', needs permissions: Read Volume Purchasing Administrator Accounts
+    #  - '/v1/volume-purchasing-subscriptions:GET' needs permissions:
+    #    - Read Volume Purchasing Administrator Accounts
     #
     #
     class VolumePurchasingSubscriptions < OAPIObject

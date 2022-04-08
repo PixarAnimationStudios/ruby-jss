@@ -59,8 +59,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/volume-purchasing-subscriptions:POST', needs permissions: Create Volume Purchasing Administrator Accounts
-    #  - '/v1/volume-purchasing-subscriptions/{id}:PUT', needs permissions: Update Volume Purchasing Administrator Accounts
+    #  - '/v1/volume-purchasing-subscriptions:POST' needs permissions:
+    #    - Create Volume Purchasing Administrator Accounts
+    #  - '/v1/volume-purchasing-subscriptions/{id}:PUT' needs permissions:
+    #    - Update Volume Purchasing Administrator Accounts
     #
     #
     class VolumePurchasingSubscriptionBase < OAPIObject

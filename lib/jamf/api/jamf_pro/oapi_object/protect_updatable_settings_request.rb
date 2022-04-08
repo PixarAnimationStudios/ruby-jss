@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/jamf-protect:PUT', needs permissions: Update Jamf Protect Settings
+    #  - '/v1/jamf-protect:PUT' needs permissions:
+    #    - Update Jamf Protect Settings
     #
     #
     class ProtectUpdatableSettingsRequest < OAPIObject

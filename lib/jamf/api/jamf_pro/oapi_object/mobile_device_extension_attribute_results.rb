@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/devices/extensionAttributes:GET', needs permissions: Read Mobile Device Extension Attributes
+    #  - '/devices/extensionAttributes:GET' needs permissions:
+    #    - Read Mobile Device Extension Attributes
     #
     #
     class MobileDeviceExtensionAttributeResults < OAPIObject

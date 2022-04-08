@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/engage:GET', needs permissions: Unknown
-    #  - '/v1/engage:PUT', needs permissions: Update Engage Settings
+    #  - '/v1/engage:GET' needs permissions:
+    #    - Unknown
+    #  - '/v1/engage:PUT' needs permissions:
+    #    - Update Engage Settings
     #
     #
     class Engage < OAPIObject

@@ -25,7 +25,7 @@
 module Jamf
 
   # methods for dealing with paged collection GET requests
-  #
+  # This module is extended into CollectionResource
   module Pageable
 
     DFT_PAGE_SIZE = 100
@@ -36,14 +36,14 @@ module Jamf
 
     PAGE_SIZE_RANGE = (MIN_PAGE_SIZE..MAX_PAGE_SIZE).freeze
 
+    # Get the count of the collection without fetching all of it.
+    #
     # @param cnx [Jamf::Connection] The API connection to use
     #
     # @return [Integer] How many items exist in this collection?
     #
-    def collection_count(cnx: Jamf.cnx)
-      # this should only be true for instances of CollectionResources
-      cnx = @cnx if @cnx
-      cnx.jp_get("#{self::LIST_PATH}?page=0&page-size=1")[:totalCount]
+    def collection_size(cnx: Jamf.cnx)
+      self::SEARCH_RESULT_OBJECT.new(cnx.jp_get("#{self::LIST_PATH}?page=0&page-size=1")).totalCount
     end
 
     # Get a specific page of a paged collection request,

@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/classic-ldap/{id}:GET', needs permissions: Read LDAP Servers
+    #  - '/v1/classic-ldap/{id}:GET' needs permissions:
+    #    - Read LDAP Servers
     #
     #
     class ClassicLdapMappings < OAPIObject

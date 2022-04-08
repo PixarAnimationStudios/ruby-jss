@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/cache-settings:GET', needs permissions: Read Cache
-    #  - '/v1/cache-settings:PUT', needs permissions: Update Cache
+    #  - '/v1/cache-settings:GET' needs permissions:
+    #    - Read Cache
+    #  - '/v1/cache-settings:PUT' needs permissions:
+    #    - Update Cache
     #
     #
     class CacheSettings < OAPIObject

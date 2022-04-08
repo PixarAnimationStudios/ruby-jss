@@ -79,11 +79,6 @@ module Jamf
       self::OBJECT_MODEL.select { |_attr, deets| deets[:identifier] }.keys
     end
 
-    def self.count(cnx: Jamf.cnx)
-      collection_count(rsrc_path, cnx: Jamf.cnx)
-    end
-
-
     # Get all instances of a CollectionResource, possibly limited by a filter.
     #
     # When called without specifying paged:, sort:, or filter: (see below)

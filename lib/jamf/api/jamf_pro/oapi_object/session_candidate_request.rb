@@ -59,7 +59,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/preview/remote-administration-configurations/team-viewer/{configurationId}/sessions:POST', needs permissions: Create Remote Administration
+    #  - '/preview/remote-administration-configurations/team-viewer/{configurationId}/sessions:POST' needs permissions:
+    #    - Create Remote Administration
     #
     #
     class SessionCandidateRequest < OAPIObject

@@ -35,11 +35,12 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class JpBuilding < Jamf::OAPIObject::Building
+  class MobileDevicePrestage < Jamf::OAPIObject::GetMobileDevicePrestageV2
 
     include Jamf::CollectionResource
-    extend Jamf::Filterable
+    include Jamf::Prestage
 
+    SYNC_PATH = 'syncs'.freeze
 
     ########### RELATED OAPI OBJECTS
     # These objects should be OAPIObjects, NOT subclasses of them and
@@ -51,22 +52,16 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPIObject::BuildingSearchResults
+    SEARCH_RESULT_OBJECT = Jamf::OAPIObject::MobileDevicePrestageSearchResultsV2
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
-    POST_OBJECT = Jamf::OAPIObject::Building
+    POST_OBJECT = Jamf::OAPIObject::MobileDevicePrestageV2
 
     # The OAPI object class we send with a PUT request to change an object in
     # Jamf by specifying all its values. Most updates happen this way,
     # and this is usually the same as the parent class
-    PUT_OBJECT = Jamf::OAPIObject::Building
-
-    # The OAPI object we send with a PATCH request to change an object in
-    # Jamf by replacing only some of its values. This is never the same as the
-    # parent class, and is usually used when many or most of the data about an
-    # object cannot be changed via the API.
-    PATCH_OBJECT = Jamf::OAPIObject::Building
+    PUT_OBJECT = Jamf::OAPIObject::PutMobileDevicePrestageV2
 
     ############# API PATHS
     # TODO: See if these paths can be auto-generated from the
@@ -74,40 +69,27 @@ module Jamf
 
     # The path for GETting the list of all objects in the collection, possibly
     # filtered, sorted, and/or paged
+    #
     # REQUIRED for all collection resources
-    LIST_PATH = 'v1/buildings'.freeze
-
-    # See Jamf::CollectionResource::ClassMethods#get_path
-    GET_PATH = LIST_PATH
-
-    # The path for PUTting (replacing) a single object. The desired object id will
-    # be appended to the end, e.g. if this value is 'v1/buildings' and you want
-    # to PUT the record for building id 23, then we will PUT 'v1/buildings/23'
     #
-    # You only really need to define this if it is not the same as the LIST_PATH
-    # this is here for documentation
-    PUT_PATH = LIST_PATH
-
-    # The path for PATCHing (updating in-place) a single object. The desired
-    # object id will be appended to the end, e.g. if this value is 'v1/buildings'
-    # and you want to PATCH the record for building id 23, then we will PATCH
-    # 'v1/buildings/23'
+    # GET_, PUT_, PATCH_, POST_, and DELETE_ paths don't need to be
+    # defined if they are the same as LIST_PATH (followed by an id if needed)
     #
-    # You only really need to define this if it is not the same as the LIST_PATH
-    # This is here for documentation
-    PATCH_PATH = LIST_PATH
-
-    # You only really need to define this if it is not the same as the LIST_PATH
-    # This is here for documentation
-    POST_PATH = LIST_PATH
-
-    # You only really need to define this if it is not the same as the LIST_PATH
-    # This is here for documentation
-    DELETE_PATH = LIST_PATH
+    LIST_PATH = 'v2/mobile-device-prestages'.freeze
 
     # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
-    # which usually only identifies ':id'
-    ALT_IDENTIFIERS = %i[name].freeze
+    # which usually only marks ':id'. These values are unique in the collection
+    ALT_IDENTIFIERS = %i[profileUuid].freeze
+
+    # Values which are useful as identifiers, but are not necessarily unique
+    # in the collection - e.g. more than one computer can have the same name
+    # WARNING
+    # When more than one item in the collection has the same value for
+    # one of these fields, which one is used, returned, selected, is undefined
+    # You Have Been Warned!
+    NON_UNIQUE_IDENTIFIERS = %i[displayName].freeze
+
+    # TODO:  Implement the 'syncs' stuff
 
   end # class
 

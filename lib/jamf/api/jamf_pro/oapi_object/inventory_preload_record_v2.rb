@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/inventory-preload/records:POST', needs permissions: Create Inventory Preload Records
-    #  - '/v2/inventory-preload/records/{id}:GET', needs permissions: Read Inventory Preload Records
-    #  - '/v2/inventory-preload/records/{id}:PUT', needs permissions: Update Inventory Preload Records
+    #  - '/v2/inventory-preload/records:POST' needs permissions:
+    #    - Create Inventory Preload Records
+    #  - '/v2/inventory-preload/records/{id}:GET' needs permissions:
+    #    - Read Inventory Preload Records
+    #  - '/v2/inventory-preload/records/{id}:PUT' needs permissions:
+    #    - Update Inventory Preload Records
     #
     #
     class InventoryPreloadRecordV2 < OAPIObject

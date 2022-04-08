@@ -58,7 +58,9 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/mobile-device-groups:GET', needs permissions: Read Smart Mobile Device Groups, Read Static Mobile Device Groups
+    #  - '/v1/mobile-device-groups:GET' needs permissions:
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
     #
     #
     class MobileDeviceGroup < OAPIObject

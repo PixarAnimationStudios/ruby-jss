@@ -59,8 +59,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/preview/remote-administration-configurations/team-viewer/{id}:GET', needs permissions: Read Remote Administration
-    #  - '/preview/remote-administration-configurations/team-viewer/{id}:PATCH', needs permissions: Update Remote Administration
+    #  - '/preview/remote-administration-configurations/team-viewer/{id}:GET' needs permissions:
+    #    - Read Remote Administration
+    #  - '/preview/remote-administration-configurations/team-viewer/{id}:PATCH' needs permissions:
+    #    - Update Remote Administration
     #
     #
     class ConnectionConfigurationResponse < OAPIObject

@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/categories:POST', needs permissions: Create Categories
-    #  - '/v1/categories/{id}:GET', needs permissions: Read Categories
-    #  - '/v1/categories/{id}:PUT', needs permissions: Update Categories
+    #  - '/v1/categories:POST' needs permissions:
+    #    - Create Categories
+    #  - '/v1/categories/{id}:GET' needs permissions:
+    #    - Read Categories
+    #  - '/v1/categories/{id}:PUT' needs permissions:
+    #    - Update Categories
     #
     #
     class Category < OAPIObject

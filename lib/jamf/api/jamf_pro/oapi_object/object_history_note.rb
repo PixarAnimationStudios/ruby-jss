@@ -58,34 +58,62 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/inventory-preload/history/notes:POST', needs permissions: Update Inventory Preload Records
-    #  - '/v1/buildings/{id}/history:POST', needs permissions: Update Buildings
-    #  - '/v1/categories/{id}/history:POST', needs permissions: Update Categories
-    #  - '/v1/cloud-idp/{id}/history:POST', needs permissions: Update LDAP Servers
-    #  - '/v1/cloud-ldaps/{id}/history:POST', needs permissions: Update LDAP Servers
-    #  - '/v1/departments/{id}/history:POST', needs permissions: Update Departments
-    #  - '/v1/device-communication-settings/history:POST', needs permissions: Update Automatically Renew MDM Profile Settings
-    #  - '/v1/device-enrollments/{id}/history:POST', needs permissions: Update Device Enrollment Program Instances
-    #  - '/v1/engage/history:POST', needs permissions: Update Engage Settings
-    #  - '/v1/enrollment-customization/{id}/history:POST', needs permissions: Update Enrollment Customizations
-    #  - '/v1/enrollment/history:POST', needs permissions: Update User-Initiated Enrollment
-    #  - '/v1/inventory-preload/history:POST', needs permissions: Update Inventory Preload Records
-    #  - '/v1/jamf-connect/history:POST', needs permissions: Update Jamf Connect Settings
-    #  - '/v1/jamf-pro-server-url/history:POST', needs permissions: Update JSS URL
-    #  - '/v1/jamf-protect/history:POST', needs permissions: Update Jamf Protect Settings
-    #  - '/v1/mobile-device-prestages/{id}/history:POST', needs permissions: Update Mobile Device PreStage Enrollments
-    #  - '/v1/parent-app/history:POST', needs permissions: Update Parent App Settings
-    #  - '/v1/pki/venafi/{id}/history:POST', needs permissions: Update PKI
-    #  - '/v1/reenrollment/history:POST', needs permissions: Update Re-enrollment
-    #  - '/v1/scripts/{id}/history:POST', needs permissions: Update Scripts
-    #  - '/v1/sso/history:POST', needs permissions: Update SSO Settings
-    #  - '/v1/teacher-app/history:POST', needs permissions: Update Teacher App Settings
-    #  - '/v2/check-in/history:POST', needs permissions: Update Computer Check-In
-    #  - '/v2/enrollment-customizations/{id}/history:POST', needs permissions: Update Enrollment Customizations
-    #  - '/v2/enrollment/history:POST', needs permissions: Update User-Initiated Enrollment
-    #  - '/v2/inventory-preload/history:POST', needs permissions: Update Inventory Preload Records
-    #  - '/v2/mobile-device-prestages/{id}/history:POST', needs permissions: Update Mobile Device PreStage Enrollments
-    #  - '/v3/check-in/history:POST', needs permissions: Update Computer Check-In
+    #  - '/inventory-preload/history/notes:POST' needs permissions:
+    #    - Update Inventory Preload Records
+    #  - '/v1/buildings/{id}/history:POST' needs permissions:
+    #    - Update Buildings
+    #  - '/v1/categories/{id}/history:POST' needs permissions:
+    #    - Update Categories
+    #  - '/v1/cloud-idp/{id}/history:POST' needs permissions:
+    #    - Update LDAP Servers
+    #  - '/v1/cloud-ldaps/{id}/history:POST' needs permissions:
+    #    - Update LDAP Servers
+    #  - '/v1/departments/{id}/history:POST' needs permissions:
+    #    - Update Departments
+    #  - '/v1/device-communication-settings/history:POST' needs permissions:
+    #    - Update Automatically Renew MDM Profile Settings
+    #  - '/v1/device-enrollments/{id}/history:POST' needs permissions:
+    #    - Update Device Enrollment Program Instances
+    #  - '/v1/engage/history:POST' needs permissions:
+    #    - Update Engage Settings
+    #  - '/v1/enrollment-customization/{id}/history:POST' needs permissions:
+    #    - Update Enrollment Customizations
+    #  - '/v1/enrollment/history:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
+    #  - '/v1/inventory-preload/history:POST' needs permissions:
+    #    - Update Inventory Preload Records
+    #  - '/v1/jamf-connect/history:POST' needs permissions:
+    #    - Update Jamf Connect Settings
+    #  - '/v1/jamf-pro-server-url/history:POST' needs permissions:
+    #    - Update JSS URL
+    #  - '/v1/jamf-protect/history:POST' needs permissions:
+    #    - Update Jamf Protect Settings
+    #  - '/v1/mobile-device-prestages/{id}/history:POST' needs permissions:
+    #    - Update Mobile Device PreStage Enrollments
+    #  - '/v1/parent-app/history:POST' needs permissions:
+    #    - Update Parent App Settings
+    #  - '/v1/pki/venafi/{id}/history:POST' needs permissions:
+    #    - Update PKI
+    #  - '/v1/reenrollment/history:POST' needs permissions:
+    #    - Update Re-enrollment
+    #  - '/v1/scripts/{id}/history:POST' needs permissions:
+    #    - Update Scripts
+    #  - '/v1/sso/history:POST' needs permissions:
+    #    - Update SSO Settings
+    #  - '/v1/teacher-app/history:POST' needs permissions:
+    #    - Update Teacher App Settings
+    #  - '/v2/check-in/history:POST' needs permissions:
+    #    - Update Computer Check-In
+    #  - '/v2/enrollment-customizations/{id}/history:POST' needs permissions:
+    #    - Update Enrollment Customizations
+    #  - '/v2/enrollment/history:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
+    #  - '/v2/inventory-preload/history:POST' needs permissions:
+    #    - Update Inventory Preload Records
+    #  - '/v2/mobile-device-prestages/{id}/history:POST' needs permissions:
+    #    - Update Mobile Device PreStage Enrollments
+    #  - '/v3/check-in/history:POST' needs permissions:
+    #    - Update Computer Check-In
     #
     #
     class ObjectHistoryNote < OAPIObject

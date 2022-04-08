@@ -58,12 +58,18 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computers/{id}/recalculate-smart-groups:POST', needs permissions: Update Smart Computer Groups
-    #  - '/v1/mobile-devices/{id}/recalculate-smart-groups:POST', needs permissions: Update Smart Mobile Device Groups
-    #  - '/v1/smart-computer-groups/{id}/recalculate:POST', needs permissions: Update Smart Computer Groups
-    #  - '/v1/smart-mobile-device-groups/{id}/recalculate:POST', needs permissions: Update Smart Mobile Device Groups
-    #  - '/v1/smart-user-groups/{id}/recalculate:POST', needs permissions: Update Smart User Groups
-    #  - '/v1/users/{id}/recalculate-smart-groups:POST', needs permissions: Update Smart User Groups
+    #  - '/v1/computers/{id}/recalculate-smart-groups:POST' needs permissions:
+    #    - Update Smart Computer Groups
+    #  - '/v1/mobile-devices/{id}/recalculate-smart-groups:POST' needs permissions:
+    #    - Update Smart Mobile Device Groups
+    #  - '/v1/smart-computer-groups/{id}/recalculate:POST' needs permissions:
+    #    - Update Smart Computer Groups
+    #  - '/v1/smart-mobile-device-groups/{id}/recalculate:POST' needs permissions:
+    #    - Update Smart Mobile Device Groups
+    #  - '/v1/smart-user-groups/{id}/recalculate:POST' needs permissions:
+    #    - Update Smart User Groups
+    #  - '/v1/users/{id}/recalculate-smart-groups:POST' needs permissions:
+    #    - Update Smart User Groups
     #
     #
     class RecalculationResults < OAPIObject

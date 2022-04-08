@@ -58,9 +58,12 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/mobile-device-prestages/syncs:GET', needs permissions: Read Mobile Device PreStage Enrollments
-    #  - '/v2/mobile-device-prestages/{id}/syncs:GET', needs permissions: Read Mobile Device PreStage Enrollments
-    #  - '/v2/mobile-device-prestages/{id}/syncs/latest:GET', needs permissions: Read Mobile Device PreStage Enrollments
+    #  - '/v2/mobile-device-prestages/syncs:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
+    #  - '/v2/mobile-device-prestages/{id}/syncs:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
+    #  - '/v2/mobile-device-prestages/{id}/syncs/latest:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
     #
     #
     class PrestageSyncStatusV2 < OAPIObject

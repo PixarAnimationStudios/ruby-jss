@@ -299,13 +299,4 @@ module Jamf
 
   end # class Preferences
 
-  # The single instance of Configuration
-  # DEPRECATED  Use JSS.config
-  CONFIG = Jamf::Configuration.instance
-
-  # the single instance of our configuration object
-  def self.config
-    Jamf::Configuration.instance
-  end
-
 end # module

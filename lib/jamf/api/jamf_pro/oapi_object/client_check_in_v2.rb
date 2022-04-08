@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v2/check-in:GET', needs permissions: Read Computer Check-In
-    #  - '/v2/check-in:PUT', needs permissions: Update Computer Check-In
+    #  - '/v2/check-in:GET' needs permissions:
+    #    - Read Computer Check-In
+    #  - '/v2/check-in:PUT' needs permissions:
+    #    - Update Computer Check-In
     #
     #
     class ClientCheckInV2 < OAPIObject

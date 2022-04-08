@@ -58,7 +58,8 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/mdm/renew-profile:POST', needs permissions: Send Command to Renew MDM Profile
+    #  - '/v1/mdm/renew-profile:POST' needs permissions:
+    #    - Send Command to Renew MDM Profile
     #
     #
     class Udids < OAPIObject

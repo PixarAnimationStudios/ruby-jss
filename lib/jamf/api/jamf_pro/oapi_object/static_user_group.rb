@@ -58,8 +58,10 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/static-user-groups:GET', needs permissions: Read Static User Groups
-    #  - '/v1/static-user-groups/{id}:GET', needs permissions: Read Static User Groups
+    #  - '/v1/static-user-groups:GET' needs permissions:
+    #    - Read Static User Groups
+    #  - '/v1/static-user-groups/{id}:GET' needs permissions:
+    #    - Read Static User Groups
     #
     #
     class StaticUserGroup < OAPIObject

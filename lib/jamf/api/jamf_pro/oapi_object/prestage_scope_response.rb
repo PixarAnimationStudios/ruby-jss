@@ -58,14 +58,22 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/computer-prestages/{id}/scope:GET', needs permissions: Read Computer PreStage Enrollments
-    #  - '/v1/computer-prestages/{id}/scope:PUT', needs permissions: Update Computer PreStage Enrollments
-    #  - '/v1/computer-prestages/{id}/scope:POST', needs permissions: Update Computer PreStage Enrollments
-    #  - '/v1/computer-prestages/{id}/scope:DELETE', needs permissions: Update Computer PreStage Enrollments
-    #  - '/v1/mobile-device-prestages/{id}/scope:GET', needs permissions: Read Mobile Device PreStage Enrollments
-    #  - '/v1/mobile-device-prestages/{id}/scope:PUT', needs permissions: Update Mobile Device PreStage Enrollments
-    #  - '/v1/mobile-device-prestages/{id}/scope:POST', needs permissions: Update Mobile Device PreStage Enrollments
-    #  - '/v1/mobile-device-prestages/{id}/scope:DELETE', needs permissions: Update Mobile Device PreStage Enrollments
+    #  - '/v1/computer-prestages/{id}/scope:GET' needs permissions:
+    #    - Read Computer PreStage Enrollments
+    #  - '/v1/computer-prestages/{id}/scope:PUT' needs permissions:
+    #    - Update Computer PreStage Enrollments
+    #  - '/v1/computer-prestages/{id}/scope:POST' needs permissions:
+    #    - Update Computer PreStage Enrollments
+    #  - '/v1/computer-prestages/{id}/scope:DELETE' needs permissions:
+    #    - Update Computer PreStage Enrollments
+    #  - '/v1/mobile-device-prestages/{id}/scope:GET' needs permissions:
+    #    - Read Mobile Device PreStage Enrollments
+    #  - '/v1/mobile-device-prestages/{id}/scope:PUT' needs permissions:
+    #    - Update Mobile Device PreStage Enrollments
+    #  - '/v1/mobile-device-prestages/{id}/scope:POST' needs permissions:
+    #    - Update Mobile Device PreStage Enrollments
+    #  - '/v1/mobile-device-prestages/{id}/scope:DELETE' needs permissions:
+    #    - Update Mobile Device PreStage Enrollments
     #
     #
     class PrestageScopeResponse < OAPIObject
