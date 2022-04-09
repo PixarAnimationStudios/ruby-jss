@@ -35,7 +35,7 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class MobileDevicePrestage < Jamf::OAPIObject::GetMobileDevicePrestageV2
+  class MobileDevicePrestage < Jamf::OAPISchemas::GetMobileDevicePrestageV2
 
     include Jamf::CollectionResource
     include Jamf::Prestage
@@ -52,16 +52,16 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPIObject::MobileDevicePrestageSearchResultsV2
+    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::MobileDevicePrestageSearchResultsV2
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
-    POST_OBJECT = Jamf::OAPIObject::MobileDevicePrestageV2
+    POST_OBJECT = Jamf::OAPISchemas::MobileDevicePrestageV2
 
     # The OAPI object class we send with a PUT request to change an object in
     # Jamf by specifying all its values. Most updates happen this way,
     # and this is usually the same as the parent class
-    PUT_OBJECT = Jamf::OAPIObject::PutMobileDevicePrestageV2
+    PUT_OBJECT = Jamf::OAPISchemas::PutMobileDevicePrestageV2
 
     ############# API PATHS
     # TODO: See if these paths can be auto-generated from the
@@ -77,17 +77,8 @@ module Jamf
     #
     LIST_PATH = 'v2/mobile-device-prestages'.freeze
 
-    # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
-    # which usually only marks ':id'. These values are unique in the collection
-    ALT_IDENTIFIERS = %i[profileUuid].freeze
+    # alt and non-unique idents are defined in the prestage module
 
-    # Values which are useful as identifiers, but are not necessarily unique
-    # in the collection - e.g. more than one computer can have the same name
-    # WARNING
-    # When more than one item in the collection has the same value for
-    # one of these fields, which one is used, returned, selected, is undefined
-    # You Have Been Warned!
-    NON_UNIQUE_IDENTIFIERS = %i[displayName].freeze
 
     # TODO:  Implement the 'syncs' stuff
 

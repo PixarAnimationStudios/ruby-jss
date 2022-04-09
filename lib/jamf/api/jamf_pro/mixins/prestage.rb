@@ -41,12 +41,23 @@ module Jamf
     SCOPE_PATH = 'scope'.freeze
 
     # The class-level scopes method returns one of these objects
-    ALL_SCOPES_OBJECT = Jamf::OAPIObject::PrestageScopeV2
+    ALL_SCOPES_OBJECT = Jamf::OAPISchemas::PrestageScopeV2
 
     # the instance level scope method or the class level
     # serials_for_prestage method returns one of these.
-    INSTANCE_SCOPE_OBJECT = Jamf::OAPIObject::PrestageScopeResponseV2
+    INSTANCE_SCOPE_OBJECT = Jamf::OAPISchemas::PrestageScopeResponseV2
 
+    # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
+    # which usually only marks ':id'. These values are unique in the collection
+    ALT_IDENTIFIERS = %i[profileUuid].freeze
+
+    # Values which are useful as identifiers, but are not necessarily unique
+    # in the collection - e.g. more than one computer can have the same name
+    # WARNING
+    # When more than one item in the collection has the same value for
+    # one of these fields, which one is used, returned, selected, is undefined
+    # You Have Been Warned!
+    NON_UNIQUE_IDENTIFIERS = %i[displayName].freeze
 
     # Class Methods
     #####################################
@@ -181,7 +192,7 @@ module Jamf
       # end
 
       # Assign one or more serialNumbers to a prestage
-      # @return [Jamf::OAPIObject::PrestageScopeResponseV2] the new scope for the prestage
+      # @return [Jamf::OAPISchemas::PrestageScopeResponseV2] the new scope for the prestage
       def assign(*sns_to_assign, to_prestage:, cnx: Jamf.cnx)
         prestage_id = valid_id to_prestage
         raise Jamf::NoSuchItemError, "No #{self} matching '#{to_prestage}'" unless prestage_id

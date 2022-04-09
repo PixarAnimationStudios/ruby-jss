@@ -28,12 +28,13 @@ module Jamf
   # Classes
   #####################################
 
+  # The parent class for all objects auto-generated in the Jamf::OAPISchemas
+  # module
+  # more docs to come
   class OAPIObject
 
     extend Jamf::BaseClass
 
-    # Constants
-    #####################################
 
     # Public Class Methods
     #####################################

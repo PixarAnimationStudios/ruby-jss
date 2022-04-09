@@ -24,7 +24,6 @@
 #
 
 module Jamf
-
   # A Collection Resource in Jamf Pro
   #
   # See {Jamf::Resource} for general info about API resources.
@@ -61,20 +60,18 @@ module Jamf
   # @abstract
   ######################################
   module CollectionResource
-
     include Comparable
     include Jamf::JPAPIResource
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-       puts "--> #{includer} is including Jamf::CollectionResource"
+      # puts "--> #{includer} is including Jamf::CollectionResource"
       includer.extend(ClassMethods)
     end
 
     # Class Methods
     #####################################
     module ClassMethods
-
       # 'include' all of these, so their methods become defined in this
       # module, and will become Class Methods when this module
       # is extended.
@@ -297,9 +294,8 @@ module Jamf
         return cached_all(refresh, instantiate, cnx) if !page_size && !sort && !filter
 
         # we are sorting, filtering or paging
-        sort = self.ancestors.include?(Jamf::Sortable) ? parse_collection_sort(sort) : nil
-        filter = self.ancestors.include?(Jamf::Filterable) ? parse_collection_filter(filter) : nil
-
+        sort = sortable? ? parse_collection_sort(sort) : nil
+        filter = filterable? ? parse_collection_filter(filter) : nil
         result =
           if page_size
             first_collection_page(page_size: page_size, sort: sort, filter: filter, cnx: cnx)
@@ -429,18 +425,18 @@ module Jamf
       #   or nil if it doesn't exist
       #
       ######################################
-      def raw_data(searchterm = nil, cnx: Jamf.cnx, **ident_and_val)
+      def raw_data(searchterm = nil, ident: nil, value: nil, cnx: Jamf.cnx)
         stop_if_base_class
 
         # given a value with no ident key
         return raw_data_by_searchterm_only(searchterm, cnx: cnx) if searchterm
 
         # if we're here, we should know our ident key and value
-        ident, value = ident_and_val.first
-        raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
+        unless ident && value
+          raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.'
+        end
 
         return raw_data_by_id(value, cnx: cnx) if ident == :id
-
         return unless identifiers.include? ident
 
         raw_data_by_other_identifier(ident, value, cnx: cnx)
@@ -472,14 +468,14 @@ module Jamf
       # return the raw data where that ident has that value, or nil
       #
       ######################################
-      def raw_data_by_other_identifier(identifier, searchterm, cnx: Jamf.cnx)
+      def raw_data_by_other_identifier(identifier, value, cnx: Jamf.cnx)
         # if the API supports filtering by this identifier, just use that
-        if ancestors.include?(Jamf::Filterable) && filter_keys.include?(identifier)
-          return all(filter: "#{identifier}=='#{searchterm}'", page_size: 1, cnx: cnx).first
+        if filterable? && filter_keys.include?(identifier)
+          return all(filter: "#{identifier}=='#{value}'", page_size: 1, cnx: cnx).first
         end
 
         # otherwise we have to loop thru all the objects looking for the value
-        all(refresh: true, cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? searchterm.to_s }
+        all(cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
 
         nil
       end
@@ -579,14 +575,11 @@ module Jamf
         data =
           if searchterm
             raw_data searchterm, cnx: cnx
+          elsif random
+            all.sample
           else
             ident, value = ident_and_val.first
-
-            if random
-              all.sample
-            elsif ident && value
-              raw_data cnx: cnx, **ident_and_val
-            end
+            ident && value ? raw_data(ident: ident, value: value, cnx: cnx) : nil
           end
 
         raise Jamf::NoSuchItemError, "No matching #{self}" unless data
@@ -601,6 +594,18 @@ module Jamf
       ######################################
       def deletable?
         true
+      end
+
+      def pageable?
+        singleton_class.ancestors.include? Jamf::Pageable
+      end
+
+      def sortable?
+        singleton_class.ancestors.include? Jamf::Sortable
+      end
+
+      def filterable?
+        singleton_class.ancestors.include? Jamf::Filterable
       end
 
       # Delete one or more objects by id
@@ -673,7 +678,6 @@ module Jamf
         end
       end # create_identifier_list_method
       private :create_identifier_list_method
-
     end # Module ClassMethods
 
     # Attributes
@@ -746,7 +750,10 @@ module Jamf
 
     ############################################
     def create_in_jamf
-      raise Jamf::MissingDataError, "Class #{self.class} has not defined a POST_OBJECT" unless defined?(self.class::POST_OBJECT)
+      unless defined?(self.class::POST_OBJECT)
+        raise Jamf::MissingDataError,
+              "Class #{self.class} has not defined a POST_OBJECT"
+      end
 
       validate_for_create
 
@@ -773,7 +780,5 @@ module Jamf
         raise Jamf::MissingDataError, "Attribute '#{attr_name}' cannot be nil, must be a #{attr_def[:class]}"
       end
     end
-
   end # class CollectionResource
-
 end # module JAMF

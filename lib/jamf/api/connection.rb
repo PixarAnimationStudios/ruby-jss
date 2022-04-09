@@ -172,8 +172,6 @@ module Jamf
     # See {#connect} for the parameters
     #
     def initialize(url = nil, **params)
-      raise ArgumentError, 'No url or connection parameters provided' if url.nil? || params.empty?
-
       @name = params.delete :name
       @connected = false
 

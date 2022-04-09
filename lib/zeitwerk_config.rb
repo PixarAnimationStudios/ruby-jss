@@ -68,6 +68,7 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'db_connection' => 'DBConnection'
 
   # API objects, resources, and mixins
+  loader.inflector.inflect 'oapi_schemas' => 'OAPISchemas'
   loader.inflector.inflect 'oapi_object' => 'OAPIObject'
   loader.inflector.inflect 'oapi_validate' => 'OAPIValidate'
 

@@ -47,7 +47,7 @@ module Jamf
     end
 
     # Get a specific page of a paged collection request,
-    # possibly sorted & filtered.
+    # possibly sorted & filtered. = THIS IS NVER CALLED...
     #
     # @param page [Integer] which page to get
     #
@@ -64,11 +64,19 @@ module Jamf
     def fetch_collection_page(page, page_size, sort, filter, cnx: Jamf.cnx)
       page_size ||= DFT_PAGE_SIZE
       validate_page_params page_size, page
-      cnx.jp_get("#{self::LIST_PATH}?page=#{page}&page-size=#{page_size}#{sort}#{filter}")[:results]
+      path_to_get = "#{self::LIST_PATH}?page=#{page}&page-size=#{page_size}#{sort}#{filter}"
+
+      # TODO = use the LIST_OBJECT and return its results??
+      # prob not, that will instantiate the results, which we dont always want.
+      # usually we want just the parsed JSON data.
+      cnx.jp_get(path_to_get)[:results]
     end
 
     ################### Private methods
     private
+
+    # TODO: Using these (class)instance vars is NOT threadsafe.
+    # use some other way to keep track of page requests.
 
     # get the first page of a paged collection, and set up for
     # getting later pages
@@ -84,7 +92,6 @@ module Jamf
     # @return [Array<Object>] The first page of the collection for this resource
     #
     def first_collection_page(page_size:, sort: nil, filter: nil, cnx: Jamf.cnx)
-      page_size ||= DFT_PAGE_SIZE
       validate_page_params page_size
 
       @collection_cnx = cnx
@@ -115,8 +122,9 @@ module Jamf
         # all pages have already been delivered
         return []
       end
+      path_to_get = "#{self::LIST_PATH}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
 
-      raw = @collection_cnx.jp_get "#{self::LIST_PATH}?page=#{@collection_page}&page-size=#{@collection_page_size}#{@collection_sort}#{@collection_filter}"
+      raw = @collection_cnx.jp_get path_to_get
 
       @collection_paged_fetched_count += raw[:results].size
       @collection_paged_total_count = raw[:totalCount]

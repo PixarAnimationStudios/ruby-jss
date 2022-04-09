@@ -74,11 +74,14 @@ class App
   OAPI_SCHEMA_URL_PATH = 'api/schema'
 
   # The rb files for the subclasses of OAPIObject are written here.
-  OAPI_DIR = Pathname.new(__FILE__).parent.parent + 'lib/jamf/api/jamf_pro/oapi_object'
+  OAPI_DIR = Pathname.new(__FILE__).parent.parent + 'lib/jamf/api/jamf_pro/oapi_schemas'
 
-  # This is actually a class, the superclass, and namespace, of all the
-  # OAPI classes we're creating.
-  OAPIOBJECT_NAMESPACE = 'OAPIObject'
+  # This module is the namespace, of all the OAPI classes we're creating.
+  OAPIOBJECT_NAMESPACE = 'OAPISchemas'
+
+  # This is the superclass of all the OAPI classes we're creating.
+  OAPIOBJECT_SUPERCLASS = 'OAPIObject'
+
 
   # The placeholder for the class names we're automatically generating.
   # e.g. class OAPIObject::XyzAbc < OAPIObject, this is 'XyzAbc'
@@ -115,10 +118,10 @@ class App
 
     module Jamf
 
-      # This class is the superclass AND the namespace for all objects defined
+      # This module is the namespace for all objects defined
       # in the OAPI JSON schema under the components => schemas key
       #
-      class #{OAPIOBJECT_NAMESPACE}
+      module #{OAPIOBJECT_NAMESPACE}
 
 
         # OAPI Object Model and Enums for: #{OAPIOBJECT_SUBCLASS_NAME_PLACEHOLDER}
@@ -151,7 +154,7 @@ class App
         #{PRIVS_PLACEHOLDER}
         #
         #
-        class #{OAPIOBJECT_SUBCLASS_NAME_PLACEHOLDER} < #{OAPIOBJECT_NAMESPACE}
+        class #{OAPIOBJECT_SUBCLASS_NAME_PLACEHOLDER} < Jamf::#{OAPIOBJECT_SUPERCLASS}
 
           #{ENUM_CONSTS_PLACEHOLDER}
 
@@ -159,7 +162,7 @@ class App
 
         end # class #{OAPIOBJECT_SUBCLASS_NAME_PLACEHOLDER}
 
-      end # class #{OAPIOBJECT_NAMESPACE}
+      end # module #{OAPIOBJECT_NAMESPACE}
 
     end # module Jamf
   END_TEMPLATE
@@ -301,7 +304,7 @@ class App
   ##############################
   def process_oapi_object(class_name, object_schema)
     oapi_object_class_file = class_file_from_class_name(class_name)
-    puts "Doing #{OAPIOBJECT_NAMESPACE} subclass #{class_name}"
+    puts "Doing #{OAPIOBJECT_SUPERCLASS} subclass #{class_name}"
     puts "  file #{oapi_object_class_file}"
 
     file_contents = class_file_contents(class_name, object_schema)

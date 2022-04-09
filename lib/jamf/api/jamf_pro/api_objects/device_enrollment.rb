@@ -40,7 +40,9 @@ module Jamf
   # To see how or if those devices are assigned to prestages, see
   # Jamf::Prestage and its subclasses ComputerPrestage and MobileDevicePrestage
   #
-  class DeviceEnrollment < Jamf::OAPIObject::DeviceEnrollmentInstance
+  class DeviceEnrollment < Jamf::OAPISchemas::DeviceEnrollmentInstance
+
+    include Jamf::CollectionResource
 
     # Mix-Ins
     #####################################
@@ -60,120 +62,69 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPIObject::DeviceEnrollmentInstanceSearchResults
+    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::DeviceEnrollmentInstanceSearchResults
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
-    POST_OBJECT = Jamf::OAPIObject::Building
+    POST_OBJECT = Jamf::OAPISchemas::DeviceEnrollmentToken
 
     # The OAPI object class we send with a PUT request to change an object in
     # Jamf by specifying all its values. Most updates happen this way,
     # and this is usually the same as the parent class
-    PUT_OBJECT = Jamf::OAPIObject::Building
+    PUT_OBJECT = Jamf::OAPISchemas::DeviceEnrollmentInstance
 
-    # The OAPI object we send with a PATCH request to change an object in
-    # Jamf by replacing only some of its values. This is never the same as the
-    # parent class, and is usually used when many or most of the data about an
-    # object cannot be changed via the API.
-    PATCH_OBJECT = Jamf::OAPIObject::Building
+    # The path for GETting the list of all objects in the collection, possibly
+    # filtered, sorted, and/or paged
+    # REQUIRED for all collection resources
+    #
+    # GET_PATH, POST_PATH, PUT_PATH, PATCH_PATH, and DELETE_PATH are automatically
+    # assumed from the LIST_PATH if they follow the standards:
+    # - GET_PATH = "#{LIST_PATH}/id"
+    #   - fetch an object from the collection
+    # - POST_PATH = LIST_PATH
+    #   - create a new object in the collection
+    # - PUT_PATH = "#{LIST_PATH}/id"
+    #   - update an object passing all its values back.
+    #     Most objects use this or PATCH but not both
+    # - PATCH_PATH = "#{LIST_PATH}/id"
+    #   - update an object passing some of its values back
+    #     Most objects use this or PUT but not both
+    # - DELETE_PATH = "#{LIST_PATH}/id"
+    #   - delete an object from the collection
+    #
+    # If those paths differ from the standards, the constants must be defined
+    # here
+    #
+    LIST_PATH = 'v1/device-enrollments'.freeze
 
-    RSRC_VERSION = 'v1'.freeze
+    POST_PATH = "#{LIST_PATH}/upload-token".freeze
 
-    RSRC_PATH = 'device-enrollments'.freeze
+    PUB_KEY_PATH_SUFFIX = 'public-key'.freeze
 
-    # Object Model / Attributes
-    # See APIObject class documentation for details
-    # of how the OBJECT_MODEL hash works.
-    #####################################
-    OBJECT_MODEL = {
+    DEVICES_PATH_SUFFIX = 'devices'.freeze
 
-      # @!attribute id
-      #   @return [String]
-      id: {
-        class: :j_id,
-        identifier: :primary,
-        readonly: true
-      },
+    SYNCS_PATH_SUFFIX = 'syncs'.freeze
 
-      # @!attribute name
-      #   @return [String]
-      name: {
-        class: :string,
-        identifier: true
-      },
+    LATEST_PATH_SUFFIX = 'latest'.freeze
 
-      # @!attribute supervisionIdentityId
-      #   @return [String]
-      supervisionIdentityId: {
-        class: :j_id
-      },
-
-      # @!attribute siteId
-      #   @return [String]
-      siteId: {
-        class: :j_id
-      },
-
-      # @!attribute serverName
-      #   @return [String]
-      serverName: {
-        class: :string
-      },
-
-      # @!attribute serverUuid
-      #   @return [String]
-      serverUuid: {
-        class: :string
-      },
-
-      # @!attribute adminId
-      #   @return [String]
-      adminId: {
-        class: :string
-      },
-
-      # @!attribute orgName
-      #   @return [String]
-      orgName: {
-        class: :string
-      },
-
-      # @!attribute orgEmail
-      #   @return [String]
-      orgEmail: {
-        class: :string
-      },
-
-      # @!attribute orgPhone
-      #   @return [String]
-      orgPhone: {
-        class: :string
-      },
-
-      # @!attribute orgAddress
-      #   @return [String]
-      orgAddress: {
-        class: :string
-      },
-
-      # @!attribute tokenExpirationDate
-      #   @return [Jamf::Timestamp]
-      tokenExpirationDate: {
-        class: Jamf::Timestamp
-      }
-    }.freeze
-
-    DEVICES_RSRC = 'devices'.freeze
-
-    SYNC_RSRC = 'syncs'.freeze
-
-    LATEST_RSRC = 'latest'.freeze
-
-    DISOWN_RSRC = 'disown'.freeze
+    DISOWN_PATH_SUFFIX = 'disown'.freeze
 
     TYPES = %i[computers mobiledevices].freeze
 
     COMPUTERS_RE = /mac/i.freeze
+
+    # TODO: Find out if 'name' is enforced to be unique
+    # Identifiers not marked in the superclass's OAPI_PROPERTIES constant
+    # which usually only marks ':id'. These values are unique in the collection
+    # ALT_IDENTIFIERS = %i[name].freeze
+
+    # Values which are useful as identifiers, but are not necessarily unique
+    # in the collection - e.g. more than one computer can have the same name
+    # WARNING
+    # When more than one item in the collection has the same value for
+    # one of these fields, which one is used, returned, selected, is undefined
+    # You Have Been Warned!
+    NON_UNIQUE_IDENTIFIERS = %i[name].freeze
 
     # Class Methods
     #########################################
@@ -186,26 +137,24 @@ module Jamf
     # a truthy value to the refresh: parameter, or use the Connection's
     # .flushcache method
     #
-    # @param instance_ident[Integer, String] the id or name of the
+    # @param instance[Integer, String] the id or name of the
     #   DeviceEnrollment instance for which to list the devices. If omitted,
     #   the devices for all instances will be returned.
     #
-    # @param type[Symbol] Either :computers or :mobiledevices, returns both if
+    # @param type [Symbol] Either :computers or :mobiledevices, returns both if
     #  not specified.
     #
     # @param refresh [Boolean] re-read the data from the API?
     #
-    # @param cnx[Jamf::Connection] The API connection to use
+    # @param cnx [Jamf::Connection] The API connection to use
     #
-    # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices associated with
+    # @return [Array<Jamf::OAPISchemas::DeviceEnrollmentDevice>] The devices associated with
     #   the given DeviceEnrollment instance, or all instances
     #
-    def self.devices(instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
-      if type
-        raise ArgumentError, "Type must be one of: :#{TYPES.join ', :'}" unless TYPES.include? type
-      end
+    def self.devices(instance = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      raise ArgumentError, "Type must be one of: :#{TYPES.join ', :'}" if type && !TYPES.include?(type)
 
-      devs = fetch_devices(instance_ident, refresh, cnx)
+      devs = fetch_devices(instance, refresh, cnx)
       return devs unless type
 
       if type == :computers
@@ -222,8 +171,8 @@ module Jamf
     #
     # @return [Array<String>] just the serial numbers for the devices
     #
-    def self.device_sns(instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
-      devices(instance_ident, type: type, refresh: refresh, cnx: cnx).map(&:serialNumber)
+    def self.device_sns(instance = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      devices(instance, type: type, refresh: refresh, cnx: cnx).map(&:serialNumber)
     end
 
     # Is the given serial number in one, or any, or your Device Enrollment
@@ -236,26 +185,25 @@ module Jamf
     # @return [Boolean] is the given SN in a given DeviceEnrollment instance
     # or in DEP at all?
     #
-    def self.include?(sn, instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
-      device_sns(instance_ident, type: type, refresh: refresh, cnx: cnx).j_ci_include? sn
+    def self.include?(sn, instance = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      device_sns(instance, type: type, refresh: refresh, cnx: cnx).j_ci_include? sn
     end
 
     # See .devices
     #
     # Returns just those devices with the desired profileStatus, which must be
-    # an item in DeviceEnrollmentDevice::PROFILE_STATUSES
+    # an item in Jamf::OAPISchemas::DeviceEnrollmentDevice::PROFILE_STATUS_OPTIONS
     #
-    # @param status[String] A member of DeviceEnrollmentDevice::PROFILE_STATUSES
+    # @param status[String] A member of Jamf::OAPISchemas::DeviceEnrollmentDevice::PROFILE_STATUS_OPTIONS
     #
     # @return [Array<Jamf::DeviceEnrollmentDevice>] The devices with the desired
     #   status, associated with the given, or all,  instances
     #
-    def self.devices_with_status(status, instance_ident = nil, type: nil, refresh: false, cnx: Jamf.cnx)
-      unless Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.include? status
-        raise ArgumentError, "profileStatus must be one of: '#{Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES.join "', '"}'"
-      end
+    def self.devices_with_status(status, instance = nil, type: nil, refresh: false, cnx: Jamf.cnx)
+      statuses = Jamf::OAPISchemas::DeviceEnrollmentDevice::PROFILE_STATUS_OPTIONS
+      raise ArgumentError, "profileStatus must be one of: '#{statuses.join "', '"}'" unless statuses.include? status
 
-      devices(instance_ident, type: type, refresh: refresh, cnx: cnx).select { |d| d.profileStatus == status }
+      devices(instance, type: type, refresh: refresh, cnx: cnx).select { |d| d.profileStatus == status }
     end
 
     # Fetch a single device from any defined DeviceEnrollment instance.
@@ -271,49 +219,47 @@ module Jamf
     #
     # @param cnx[Jamf::Connection] The API connection to use
     #
-    # @return [Jamf::DeviceEnrollmentDevice] the device as known to DEP
+    # @return [Jamf::DeviceEnrollmentDevice, nil] the device as known to DEP
     #
-    def self.device(sn, instance_ident = nil, refresh: false, cnx: Jamf.cnx)
+    def self.device(sn, instance = nil, refresh: false, cnx: Jamf.cnx)
       sn.upcase! # SNs from apple are always uppercase
-      devs = devices(instance_ident, refresh: refresh, cnx: cnx)
-      dev = devs.select { |d| d.serialNumber == sn }.first
-      return dev if dev
-
-      searched = instance_ident ? "DeviceEnrollment instance #{instance_ident}" : 'any DeviceEnrollment instance'
-      raise Jamf::NoSuchItemError, "No device with serialNumber '#{sn}' in #{searched}"
+      devs = devices(instance, refresh: refresh, cnx: cnx)
+      devs.select { |d| d.serialNumber == sn }.first
     end
 
     # The history of sync operations between Apple and a given DeviceEnrollment
     # instanace, or all instances.
     #
-    # @param instance_ident[Integer, String] the id or name of the
+    # @param instance [Integer, String] the id or name of the
     #   DeviceEnrollment instance for which to get the history. If omitted,
     #   the history for all instances will be returned.
     #
     # @param latest [Boolean] show only the latest sync? Only valid when an
-    #   instance_ident is provided.
+    #   instance is provided.
     #
     # @param cnx[Jamf::Connection] The API connection to use
     #
-    # @return [Jamf::DeviceEnrollmentSyncStatus] When latest = true, the latest
+    # @return [Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus] When latest = true, the latest
     #   sync status.
-    # @return [Array<Jamf::DeviceEnrollmentSyncStatus>] The known sync statuses.
+    # @return [Array<JJamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus>] The known sync statuses.
     #
-    def self.sync_history(instance_ident = nil, latest = false, cnx: Jamf.cnx)
-      if instance_ident
-        instance_id = valid_id instance_ident, cnx: cnx
-        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
+    def self.sync_history(instance = nil, latest: false, cnx: Jamf.cnx)
+      if instance
+        instance_id = valid_id instance, cnx: cnx
+        raise Jamf::NoSuchItemError "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance
 
-        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{instance_id}/#{SYNC_RSRC}"
-        rsrc += "/#{LATEST_RSRC}" if latest
+        path = "#{get_path}/#{instance_id}/#{SYNCS_PATH_SUFFIX}"
+        path += "/#{LATEST_PATH_SUFFIX}" if latest
       else
-        rsrc = "#{RSRC_VERSION}/#{RSRC_PATH}/#{SYNC_RSRC}"
+        path = "#{get_path}/#{SYNCS_PATH_SUFFIX}"
+        latest = false
       end
-      data = cnx.jp_get rsrc
 
-      return Jamf::DeviceEnrollmentSyncStatus.new data if data.is_a? Hash
+      data = cnx.jp_get path
 
-      data.map! { |s| Jamf::DeviceEnrollmentSyncStatus.new s }
+      return Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus.new data if latest
+
+      data.map! { |s| Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus.new s }
     end
 
     # disown one or more serial numbers from a given DeviceEnrollment instance
@@ -334,19 +280,21 @@ module Jamf
       sns.flatten!
       sns.map!(&:to_s)
       data = { devices: sns }
-      disown_rsrc = "#{self.class::RSRC_VERSION}/#{self.class::RSRC_PATH}/#{instance_id}/#{DISOWN_RSRC}"
 
-      cnx.post(disown_rsrc, data)[:devices]
+      disown_path = "#{get_path}/#{instance_id}/#{DISOWN_PATH_SUFFIX}"
+      resp = Jamf::OAPISchemas::DeviceEnrollmentDisownResponse.new cnx.jp_post(disown_path, data)
+
+      resp.devices
     end
 
     # Private Class Methods
     ###############################################
 
-    # Private, used by the .devices class method
-    def self.fetch_devices(instance_ident = nil, refresh, cnx)
-      if instance_ident
-        instance_id = valid_id instance_ident, cnx: cnx
-        raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance_ident}'" unless instance_id
+    # Private, used by the .devices instance method
+    def self.fetch_devices(instance = nil, refresh, cnx)
+      if instance
+        instance_id = valid_id instance, cnx: cnx
+        raise Jamf::NoSuchItemError, "No DeviceEnrollment instance matches '#{instance}'" unless instance_id
 
         devs = devices_for_instance_id instance_id, refresh, cnx
       else
@@ -366,9 +314,10 @@ module Jamf
       @device_cache[cnx][instance_id] = nil if refresh
       return @device_cache[cnx][instance_id] if @device_cache[cnx][instance_id]
 
-      data = cnx.get("#{RSRC_VERSION}/#{RSRC_PATH}/#{instance_id}/#{DEVICES_RSRC}")[:results]
-
-      data.map! { |dev| Jamf::DeviceEnrollmentDevice.new dev }
+      data =
+        Jamf::OAPISchemas::DeviceEnrollmentDeviceSearchResults.new(
+          cnx.jp_get("#{LIST_PATH}/#{instance_id}/#{DEVICES_PATH_SUFFIX}")
+        ).results
       @device_cache[cnx][instance_id] = data
     end
     private_class_method :devices_for_instance_id
@@ -376,28 +325,28 @@ module Jamf
     # Instance Methods
     #########################################
 
-    def devices(type: nil)
-      self.class.devices @id, type: type, cnx: @cnx
+    def devices(type: nil, refresh: false)
+      self.class.devices @id, type: type, cnx: @cnx, refresh: refresh
     end
 
-    def device_sns(type: nil)
-      devices(type: type).map(&:serialNumber)
+    def device_sns(type: nil, refresh: false)
+      devices(type: type, refresh: refresh).map(&:serialNumber)
     end
 
-    def include?(sn, type: nil)
-      device_sns(type: type).j_ci_include? sn
+    def include?(sn, type: nil, refresh: false)
+      device_sns(type: type, refresh: refresh).j_ci_include? sn
     end
 
-    def devices_with_status(status, type: nil)
-      self.class.devices_with_status(status, @id, type: type, cnx: @cnx)
+    def devices_with_status(status, type: nil, refresh: false)
+      self.class.devices_with_status(status, @id, type: type, refresh: refresh, cnx: @cnx)
     end
 
-    def sync_history(latest = false)
-      self.class.sync_history(@id, latest, cnx: @cnx)
+    def sync_history(latest: false)
+      self.class.sync_history(@id, latest: latest, cnx: @cnx)
     end
 
     def latest_sync
-      sync_history :latest
+      sync_history latest: true
     end
 
     def disown(*sns)

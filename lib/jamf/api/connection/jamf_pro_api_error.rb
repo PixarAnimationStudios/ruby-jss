@@ -42,7 +42,7 @@ module Jamf
       # @param http_response [Faraday::Response]
       def initialize(http_response)
         @http_response = http_response
-        @api_error = Jamf::OAPIObject::ApiError.new @http_response.body
+        @api_error = Jamf::OAPISchemas::ApiError.new @http_response.body
 
         add_common_basic_error_causes if @api_error.errors.empty?
         super
@@ -68,7 +68,7 @@ module Jamf
           return
         end # case
 
-        api_error.errors_append Jamf::OAPIObject::ApiErrorCause.new(field: field, code: code, description: desc, id: id)
+        api_error.errors_append Jamf::OAPISchemas::ApiErrorCause.new(field: field, code: code, description: desc, id: id)
       end
 
       # http status, from the server http response
