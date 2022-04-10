@@ -32,8 +32,11 @@ module Jamf
 
     extend Jamf::Immutable
 
-    # Alas, the OAPI schema doesn't mark the date property as
-    # a timestamp.
+    # Alas, the OAPI schema doesn't mark the 'date' string property is formatted
+    # as a timestamp, so the auto-generation of Jamf::OAPISchemas::ObjectHistoryV1
+    # doesn't make it a Jamf::Timestamp.
+    #
+    # So we will convert it here.
     def initialize(*)
       super
       @date = Jamf::Timestamp.new @date

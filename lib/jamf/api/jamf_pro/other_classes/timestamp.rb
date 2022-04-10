@@ -25,16 +25,22 @@
 
 module Jamf
 
-  # A timestamp as used in the JAMF API JSON data
+  # A timestamp as used in the Jamf Pro API JSON data
   #
-  # Instantiate with a String in iso6801 format (used in the API JSON for
-  # all(?) time/date values), or with a Time or Jamf::Timestamp instance, or with
-  # an Integer unix epoch, which is treated Jamf-style if 1_000_000_000_000 or
-  # higher
+  # Instantiate with any of:
+  #   - A string parsable by Time.parse. Timestamps from the API are always
+  #     strings in iso6801 format
+  #   - a Time or Jamf::Timestamp instance
+  #   - an Integer, or Stringified Integer, a unix epoch value. If it is
+  #     1_000_000_000_000 or higher, it is treated as a Jamf-stype epoch,
+  #     meaning the last 3 digits are milliseconds.
+  #   - nil or an empty string, which will 'unset' a time value with an empty
+  #     string when sent back to the API
   #
-  # To unset a timestamp value, instantiate with nil or an empty string. The
-  # Time value will be '1970-01-01 00:00:00 -0000', the unix epoch,
-  # and the to_jamf method will return an empty string.
+  # To unset a timestamp value in the API, instantiate one of these with
+  # nil or an empty string. The Time value will be '1970-01-01 00:00:00 -0000',
+  # the unix epoch, and the to_jamf method will return an empty string, which
+  # is what will be sent to the API
   #
   # NOTE: Passing '1970-01-01 00:00:00 -0000' or the equivalent explicitly
   # will NOT be treated as an empty timestamp, but as that actual value.
@@ -48,7 +54,7 @@ module Jamf
   # - use .to_f for a unix epoch with fractions
   #
   # Use #to_jamf to get the formated string to use in JSON for sending to the
-  # API - it *should* always be in ISO8601 format
+  # API - it *should* always be in ISO8601 format, or an empty string.
   #
   class Timestamp < ::Time
 
@@ -70,9 +76,7 @@ module Jamf
 
     # @param tstamp[String,Integer,Time] A representation of a timestampe
     #
-    # @param _args [void] unused, but required for JSONObject init.
-    #
-    def initialize(tstamp, **_args)
+    def initialize(tstamp)
       # use a Time object to parse the input and generate our own
       # object
       time = parse_init_tstamp(tstamp)
@@ -83,7 +87,7 @@ module Jamf
         time.day,
         time.hour,
         time.min,
-        (time.sec + (time.usec/1_000_000.0)).round(3),
+        (time.sec + (time.usec / 1_000_000.0)).round(3),
         time.utc_offset
       )
     end

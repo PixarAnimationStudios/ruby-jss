@@ -77,11 +77,8 @@ module Jamf
       # TODO: is the concept of 'primary' needed anymore?
       got_primary = false
 
-      # move this to Jamf::CollectionResource, define them as needed
-      # probably with method_missing?
-      # need_list_methods = ancestors.include?(Jamf::CollectionResource)
-
       self::OAPI_PROPERTIES.each do |attr_name, attr_def|
+        Jamf.load_msg "Creating getters and setters for attribute '#{attr_name}' of #{self}"
 
         # see above comment
         # don't make one for :id, that one's hard-coded into CollectionResource
@@ -436,55 +433,11 @@ module Jamf
     def to_jamf
       jamf_data = {}
       self.class::OAPI_PROPERTIES.each do |attr_name, attr_def|
-
         raw_value = instance_variable_get "@#{attr_name}"
-
-        # If its a multi-value attribute, process it and  go on
-        if attr_def[:multi]
-          jamf_data[attr_name] = multi_to_jamf(raw_value, attr_def)
-          next
-        end
-
-        # if its a single-value object, process it and go on.
-        cooked_value = single_to_jamf(raw_value, attr_def)
-        # next if cooked_value.nil? # ignore nil
-        jamf_data[attr_name] = cooked_value
-      end # unsaved_changes.each
+        jamf_data[attr_name] = attr_def[:multi] ? multi_to_jamf(raw_value, attr_def) : single_to_jamf(raw_value, attr_def)
+      end
       jamf_data
     end
-
-    # # Only works for PATCH endpoints.
-    # #
-    # # @return [Hash] The changes that need to be sent to the API, as a Hash
-    # #  to be converted to JSON by the Jamf::Connection
-    # #
-    # def to_jamf_changes_only
-    #   return unless self.class.mutable?
-    #
-    #   data = {}
-    #   unsaved_changes.each do |attr_name, changes|
-    #     attr_def = self.class::OAPI_PROPERTIES[attr_name]
-    #
-    #     # readonly attributes can't be changed
-    #     next if attr_def[:readonly]
-    #
-    #     # here's the new value for this attribute
-    #     raw_value = changes[:new]
-    #
-    #     # If its a multi-value attribute, process it and  go on
-    #     if attr_def[:multi]
-    #       data[attr_name] = multi_to_jamf(raw_value, attr_def)
-    #       next
-    #     end
-    #
-    #     # if its a single-value object, process it and go on.
-    #     cooked_value = single_to_jamf(raw_value, attr_def)
-    #     next if cooked_value.nil? # ignore nil
-    #
-    #     data[attr_name] = cooked_value
-    #   end # unsaved_changes.each
-    #   data
-    # end
 
     # Print the JSON version of the to_jamf outout
     # mostly for debugging/troubleshooting
@@ -514,11 +467,8 @@ module Jamf
     # The SHA1 hash of all the values of our properties as defined in the
     # OAPI schema
     def sha1_hash
-      properties = self.class::OAPI_PROPERTIES.keys.map {|prop| send prop }.join(';;')
-      Digest::SHA1.hexdigest(properties)
+      Digest::SHA1.hexdigest(to_jamf.to_s)
     end
-
-
 
     # Private Instance Methods
     #####################################

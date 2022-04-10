@@ -408,7 +408,7 @@ module Jamf
         acs.search_results.each do |i|
           value =
             case @data_type
-            when 'Date' then JSS.parse_datetime i[@symbolized_name]
+            when 'Date' then Time.parse i[@symbolized_name]
             when 'Integer' then i[@symbolized_name].to_i
             else i[@symbolized_name]
             end # case
@@ -466,7 +466,7 @@ module Jamf
         acs.search_results.each do |i|
           value =
             case @data_type
-            when 'Date' then JSS.parse_datetime i[@symbolized_name]
+            when 'Date' then Time.parse i[@symbolized_name]
             when 'Integer' then i[@symbolized_name].to_i
             else i[@symbolized_name]
             end # case

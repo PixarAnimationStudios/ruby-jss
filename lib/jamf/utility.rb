@@ -366,43 +366,6 @@ module Jamf
       plist.to_str(CFPropertyList::List::FORMAT_XML)
     end
 
-    # Converts anything that responds to #to_s to a Time, or nil
-    #
-    # Return nil if the item is nil, 0 or an empty String.
-    #
-    # Otherwise the item converted to a string, and parsed with DateTime.parse.
-    # It is then examined to see if it has a UTC offset. If not, the local offset
-    # is applied, then the DateTime is converted to a Time.
-    #
-    # @param a_datetime [#to_s] The thing to convert to a time.
-    #
-    # @return [Time, nil] nil is returned if a_datetime is nil, 0 or an empty String.
-    #
-    def parse_time(a_datetime)
-      return nil if NIL_DATES.include? a_datetime
-
-      the_dt = DateTime.parse(a_datetime.to_s)
-
-      # The microseconds in DateTimes are stored as a fraction of a day.
-      # Convert them to an integer of microseconds
-      usec = (the_dt.sec_fraction * 60 * 60 * 24 * (10**6)).to_i
-
-      # if the UTC offset of the datetime is zero, make a new one with the correct local offset
-      # (which might also be zero if we happen to be in GMT)
-      the_dt = DateTime.new(the_dt.year, the_dt.month, the_dt.day, the_dt.hour, the_dt.min, the_dt.sec, Jamf::TIME_ZONE_OFFSET) if the_dt.offset.zero?
-      # now convert it to a Time and return it
-      Time.at the_dt.strftime('%s').to_i, usec
-    end # parse_time
-
-    # Deprecated - to be eventually removed in favor of
-    # the more-appropriately named Jamf::parse_time
-    #
-    # @see Jamf::parse_time
-    #
-    def parse_datetime(a_datetime)
-      parse_time(a_datetime)
-    end
-
     # Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object
     #
     # @param epoch[String, Integer, nil]

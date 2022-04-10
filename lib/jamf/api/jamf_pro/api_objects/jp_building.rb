@@ -31,16 +31,18 @@ module Jamf
 
   # A building in the Jamf Pro API
   #
+  # Alas we can't migrate Jamf::Building to use this - it must stay in the
+  # classic API because of how it interacts Scopes in scopable objects over there.
+  #
   # The parent class is the OAPI object representing a single member of the
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class Building < Jamf::OAPISchemas::Building
+  class JpBuilding < Jamf::OAPISchemas::Building
 
     include Jamf::CollectionResource
     extend Jamf::Filterable
     include Jamf::ChangeLog
-
 
     ########### RELATED OAPI OBJECTS
     # These objects should be OAPIObjects, NOT subclasses of them and

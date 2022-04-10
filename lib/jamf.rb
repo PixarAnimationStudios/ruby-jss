@@ -25,6 +25,7 @@
 #####################################
 
 # Standard Libraries
+#
 # TODO: Move some of these to where they are first needed so they aren't
 # loaded unnecessarily
 require 'English'
@@ -45,18 +46,17 @@ require 'open3'
 
 # Gems
 require 'immutable-struct'
-require 'recursive-open-struct'
 
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 require 'zeitwerk'
 require 'zeitwerk_config'
 
-# touch this file to make zeitwerk send text to stderr as it does things
-ZEITWERK_VERBOSE_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-verbose')
+# touch this file to make zeitwerk and mixins send text to stderr as things load
+# or get mixed in
+JAMF_VERBOSE_LOADING_FILE = Pathname.new('/tmp/ruby-jss-verbose-loading')
 
 # touch this file to make zeitwek  eager-load everything when the gem is required.
-ZEITWERK_EAGER_LOAD_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-eager-load')
-
+JAMF_ZEITWERK_EAGER_LOAD_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-eager-load')
 
 # the `Zeitwerk::Loader.for_gem` creates the loader object, and must
 # happen in this file, so we pass it into a method defined in
@@ -66,12 +66,10 @@ setup_zeitwerk_loader Zeitwerk::Loader.for_gem
 # Jamf, A Ruby module for interacting with the JAMF Pro Server via both of its REST APIs
 module Jamf
 
-  include Jamf::Constants
-  extend Jamf::Utility
-  extend Jamf::Connection::DefaultConnection
+  def self.validate_ruby_version
+    return if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new(MINIMUM_RUBY_VERSION)
 
-  if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY_VERSION)
-    raise "Can't use the JSS module, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater."
+    raise "Can't use ruby-jss #{Jamf::VERSION}, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater, this is ruby #{RUBY_VERSION}."
   end
 
   # the single instance of our configuration object
@@ -79,15 +77,37 @@ module Jamf
     Jamf::Configuration.instance
   end
 
+  # Only look at the filesystem once.
+  def self.verbose_loading?
+    return @verbose_loading unless @verbose_loading.nil?
+
+    @verbose_loading = JAMF_VERBOSE_LOADING_FILE.file?
+  end
+
+  # rubocop: disable Style/StderrPuts
+  def self.load_msg(msg)
+    return unless verbose_loading?
+
+    $stderr.puts msg
+  end
+  # rubocop: enable Style/StderrPuts
+
+  # These need to come after the definition of verboase_loading?
+  include Jamf::Constants
+  extend Jamf::Utility
+  extend Jamf::Connection::DefaultConnection
+
 end # module Jamf
 
-# backward compatibility, JSS module is the synonym for Jamf module
+# make sure we can run
+Jamf.validate_ruby_version
+
+# backward compatibility, JSS module is now a synonym for Jamf module
 JSS = Jamf
 
 # Load things not loaded by zeitwerk
 require 'jamf/ruby_extensions'
 require 'jamf/exceptions'
 
-
 # testing zeitwerk loading
-eager_load_for_testing if ZEITWERK_EAGER_LOAD_FILE.file?
+eager_load_for_testing if JAMF_ZEITWERK_EAGER_LOAD_FILE.file?

@@ -24,21 +24,13 @@
 # Jamf, A Ruby module for interacting with the JAMF Pro Server via both of its REST APIs
 module Jamf
 
-  # Constants used at the top-level of the Jamf module.
+  # Constants useful throughout ruby-jss
   # This should be included into the Jamf module
   #####################################
   module Constants
 
-    # The minimum Ruby version that works with this gem
+    # The minimum Ruby version needed for ruby-jss
     MINIMUM_RUBY_VERSION = '2.7.0'.freeze
-
-    # The minimum JSS version that works with this module, as returned by the API
-    # in the deprecated 'jssuser' resource
-    MINIMUM_SERVER_VERSION = '10.4.0'.freeze
-
-    # The current local UTC offset as a fraction of a day  (Time.now.utc_offset is the offset in seconds,
-    # 60*60*24 is the seconds in a day)
-    TIME_ZONE_OFFSET =  Rational(Time.now.utc_offset, 60 * 60 * 24)
 
     # These are handy for testing values without making new arrays, strings, etc every time.
     TRUE_FALSE = [true, false].freeze

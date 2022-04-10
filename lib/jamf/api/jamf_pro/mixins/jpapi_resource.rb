@@ -34,13 +34,19 @@ module Jamf
     def self.included(includer)
       # TODO: only allow being directly mixed in to CollectionResource and
       # SingletonResource modules.
-      # puts "JPAPIResource is being included by #{includer}, now extending JPAPIResource::ClassMethods"
+
+      Jamf.load_msg "JPAPIResource is being included by #{includer}, now extending JPAPIResource::ClassMethods"
 
       includer.extend(ClassMethods)
     end
 
     # Constants
     #####################################
+
+    # which API do APIObjects come from?
+    # The classic equivalent is in Jamf::APIObject
+    API_SOURCE = :jamf_pro_api
+
     # These methods are allowed to call .new
     NEW_CALLERS = ['fetch', 'create', 'all', 'cached_all', 'block in all', 'block in cached_all'].freeze
 
@@ -50,6 +56,12 @@ module Jamf
     #  Class Methods
     #####################################
     module ClassMethods
+
+      # Indicate that this class comes from the Jamf Pro API.
+      # The same method exists in APIObject to indicate coming from Classic
+      def which_api
+        :jamf_pro
+      end
 
       # Disallow direct use of ruby's .new class method for creating instances.
       # Require use of .fetch or .create, or 'all'

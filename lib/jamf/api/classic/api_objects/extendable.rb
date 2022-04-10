@@ -120,7 +120,7 @@ module Jamf
 
           when 'Date'
             begin # if there's random non-date data, the parse will fail
-              JSS.parse_datetime ea[:value]
+              Time.parse ea[:value]
             rescue
               INVALID_DATE
             end
@@ -265,7 +265,7 @@ module Jamf
       value =
         case ea_types[ea_name]
         when Jamf::ExtensionAttribute::DATA_TYPE_DATE
-          JSS.parse_datetime(value).to_s
+          Time.parse(value).to_s
         when *Jamf::ExtensionAttribute::NUMERIC_TYPES
           validate_integer_ea_value ea_name, value
         else

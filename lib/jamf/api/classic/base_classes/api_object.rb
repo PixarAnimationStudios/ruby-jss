@@ -275,45 +275,48 @@ module Jamf
     # Meta Programming
     ####################################################
 
-    # Builtin ruby callback, whenver a subclass is created.
-    #
-    def self.inherited(subclass)
-      define_identifier_list_methods(subclass)
-      super
-    end
-
-    # When this class is subclassed, loop through the defined lookup keys and make
+    # Loop through the defined lookup keys and make
     # .all_<key>s methods for each one, with alises as needed.
     #
-    # This is called automatically when subclasses are loaded
+    # This is called automatically when subclasses are loaded by zeitwerk
     #
-    def self.define_identifier_list_methods(subclass)
-      subclass.lookup_keys.each do |als, key|
-        meth_name = "all_#{key}s"
+    def self.define_identifier_list_methods
+      Jamf.load_msg "defining list-methods for APIObject subclass #{self}"
+
+      lookup_keys.each do |als, key|
+        meth_name = key.to_s.end_with?('s') ? "all_#{key}es" : "all_#{key}s"
 
         if als == key
           # the all_ method - skip if defined in the class
-          next if subclass.instance_methods.include? meth_name
+          next if singleton_methods.include? meth_name
 
-          subclass.define_singleton_method meth_name do |refresh = false, api: Jamf.cnx|
+          Jamf.load_msg "..defining #{meth_name}"
+          define_singleton_method meth_name do |refresh = false, api: Jamf.cnx|
             all(refresh, api: api).map { |i| i[key] }
           end
 
         else
           # an alias - skip if defined in the class
-          als_name = "all_#{als}s"
-          next if subclass.instance_methods.include? als_name
+          als_name = als.to_s.end_with?('s') ? "all_#{als}es" : "all_#{als}s"
+          next if singleton_methods.include? als_name
 
-          subclass.define_singleton_method als_name do |refresh = false, api: Jamf.cnx|
+          Jamf.load_msg "..defining alias '#{als_name}' of method #{meth_name}"
+
+          define_singleton_method als_name do |refresh = false, api: Jamf.cnx|
             send meth_name, refresh, api: api
           end
         end # if
       end # lookup_keys.eachs
+      true
     end # self.define_identifier_list_methods
 
 
     # Constants
     ####################################
+
+    # which API do APIObjects come from?
+    # The JPAPI equivalent is in Jamf::JPAPIResource
+    API_SOURCE = :classic_api
 
     # '.new' can only be called from these methods:
     OK_INSTANTIATORS = ['make', 'fetch', 'block in fetch'].freeze

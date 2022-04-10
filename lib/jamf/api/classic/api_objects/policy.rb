@@ -755,7 +755,7 @@ module Jamf
 
         uint = @init_data[:user_interaction]
         @user_may_defer = uint[:allow_users_to_defer]
-        @user_may_defer_until = JSS.parse_datetime uint[:allow_deferral_until_utc]
+        @user_may_defer_until = Time.parse uint[:allow_deferral_until_utc]
         @user_message_start =  uint[:message_start]
         @user_message_finish = uint[:message_finish]
 

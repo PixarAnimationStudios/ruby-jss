@@ -21,7 +21,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 
-
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 def setup_zeitwerk_loader(loader)
   @loader = loader
@@ -101,8 +100,8 @@ def setup_zeitwerk_loader(loader)
 
   # callback for when a specific file/constant loads
   #####################################
-  loader.on_load("Jamf::SomeClass") do |klass, abspath|
-    puts "I just loaded #{klass} from #{abspath}" # if ZEITWERK_TEST_FILE.file?
+  loader.on_load('Jamf::SomeClass') do |klass, abspath|
+    Jamf.load_msg "I just loaded #{klass} from #{abspath}"
   end
 
   # callback for when anything loads
@@ -113,8 +112,10 @@ def setup_zeitwerk_loader(loader)
   #  - abspath is the full path to the file where the constant was loaded from.
   #####################################
   loader.on_load do |const_path, value, abspath|
-    puts "Just Loaded #{const_path}, which is a #{value.class}" if ZEITWERK_VERBOSE_FILE.file?
+    Jamf.load_msg "Just Loaded #{const_path}, which is a #{value.class}"
 
+    # Parse OAPI_PROPERTIES into getters and setters for subclasses of
+    # OAPIObject in the JPAPI.
     # The class we just loaded must have this method and constant
     # and the constant must be defined directly in the file we just loaded.
     # This prevents running parse_oapi_properties again in subclasses that
@@ -123,8 +124,16 @@ def setup_zeitwerk_loader(loader)
        defined?(value::OAPI_PROPERTIES) && \
        abspath == value.const_source_location(:OAPI_PROPERTIES).first
 
-       parsed = value.parse_oapi_properties
-       puts "..Parsed OAPI_PROPERTIES for #{value}" if parsed && ZEITWERK_VERBOSE_FILE.file?
+      parsed = value.parse_oapi_properties
+      Jamf.load_msg "..Parsed OAPI_PROPERTIES for #{value}" if parsed
+    end
+
+    # Generate the identifier list methods (.all_*) for subclasses of APIObject
+    # in the Classic API
+    if value.is_a?(Class) && value.superclass == Jamf::APIObject
+
+      done = value.define_identifier_list_methods
+      Jamf.load_msg "..Defined identifier list methods for #{value}" if done
     end
   end
 

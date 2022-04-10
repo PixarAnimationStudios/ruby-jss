@@ -242,7 +242,7 @@ module Jamf
           case @data_type
           when 'String' then entry['value']
           when 'Integer' then entry['value'].to_i
-          when 'Date' then JSS.parse_datetime(entry['value'])
+          when 'Date' then Time.parse(entry['value'])
           end # case
         newhash = { value: value, timestamp: JSS.epoch_to_time(entry['timestamp_epoch']) }
         history << newhash

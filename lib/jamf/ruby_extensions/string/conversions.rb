@@ -57,11 +57,12 @@ module JamfRubyExtensions
       #
       # @return [Time] the time represented by the string.
       #
-      def jss_to_time
-        JSS.parse_time self
+      def j_to_time
+        Time.parse self
       rescue
         nil
       end
+      alias jss_to_time j_to_time
 
       # Convert a String to a Pathname object
       #

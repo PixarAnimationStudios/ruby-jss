@@ -178,7 +178,7 @@ module Jamf
     # @return [Boolean] the valid boolean
     #
     def boolean(val, attr_name: nil, msg: nil)
-      return val if Jamf::TRUE_FALSE.include? bool
+      return val if Jamf::TRUE_FALSE.include? val
       return true if val.to_s =~ /^(t(rue)?|y(es)?)$/i
       return false if val.to_s =~ /^(f(alse)?|no?)$/i
 

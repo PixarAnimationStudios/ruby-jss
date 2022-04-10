@@ -64,7 +64,7 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-      # puts "--> #{includer} is including Jamf::CollectionResource"
+      Jamf.load_msg "--> #{includer} is including Jamf::CollectionResource"
       includer.extend(ClassMethods)
     end
 
@@ -85,7 +85,7 @@ module Jamf
       # when this module is included, also extend our 'parent' class methods
       ######################################
       def self.extended(extender)
-        puts "--> #{extender} is extending Jamf::CollectionResource::ClassMethods"
+        Jamf.load_msg "--> #{extender} is extending Jamf::CollectionResource::ClassMethods"
       end
 
       # All Classes including CollectionResource MUST define 'LIST_PATH', which
