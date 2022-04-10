@@ -560,7 +560,7 @@ module Jamf
       #
       # @return [Boolean]
       ######################################
-      def creatable?
+       def creatable?
         true
       end
 
