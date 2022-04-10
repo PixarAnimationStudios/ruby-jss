@@ -98,10 +98,12 @@ module Jamf
       #
       # Classes including CollectionResource really need to define GET_PATH if it
       # is not the same as the LIST_PATH.
+      # rubocop:disable Naming/AccessorMethodName
       ######################################
       def get_path
         @get_path ||= defined?(self::GET_PATH) ? self::GET_PATH : self::LIST_PATH
       end
+      # rubocop:enable Naming/AccessorMethodName
 
       # The path for PUTting (replacing) a single object. The desired object id will
       # be appended to the end, e.g. if this value is 'v1/buildings' and you want
@@ -125,6 +127,7 @@ module Jamf
       def patch_path
         @patch_path ||= defined?(self::PATCH_PATH) ? self::PATCH_PATH : self::LIST_PATH
       end
+
 
       # The path for POSTing to create a single object in the collection.
       #
@@ -155,22 +158,22 @@ module Jamf
         idents
       end
 
-      # Get all instances of a CollectionResource, possibly limited by a filter.
+      # Get all instances of a CollectionResource, possibly sorted or limited by
+      # a filter.
       #
-      # When called without specifying paged:, sort:, or filter: (see below)
-      # this method will return a single Array of all items of its
-      # CollectionResouce subclass, in the server's default sort order. This
-      # full list is cached for future use (see Caching, below)
+      # By default, this method will return a single Array data about all items
+      # in the CollectionResouce, in the server's default sort order, or a sort
+      # order you specify.
+      # As long as you don't request a filtered result, this full list is cached
+      # for future use (see Caching, below)
       #
-      # However, the Array can be sorted by the server, filtered to contain only
-      # matching objects, or 'paged', i.e. retrieved in successive Arrays of a
-      # certain size.
-      #
-      # Sorting, filtering, and paging can all be used at the same time.
+      # If you specify a filter, the Array returned by the server will contain
+      # only matching objects, and it will not be cached.
       #
       # #### Server-side Sorting
       #
-      # Sorting criteria can be provided in the String format 'property:direction',
+      # Sorting criteria can be provided using the 'sort:' parameter, which is
+      # a String of the format 'property:direction',
       # where direction is 'asc' or 'desc' E.g.
       #   "username:asc"
       #
@@ -187,37 +190,25 @@ module Jamf
       # Please see the JamfPro API documentation for the resource for details
       # about available sorting properties and default sorting criteria
       #
+      # When the sort: param is provided, the server is always queried, and
+      # the results will be cached, as long as the results were not filtered.
+      # See Caching, below.
+      #
       # #### Filtering
       #
       # Some CollectionResouces support RSQL filters to limit which objects
-      # are returned. These filters can be applied using the filter: parameter,
-      # in which case this `all` method will return `all that match the filter`.
+      # are returned by the server. These filters can be applied using the filter:
+      # parameter, in which case this `all` method will return "all that match
+      # the filter".
+      #
+      # The filter parameter is a string, as it would be provided in the API URL
+      # manually, e.g. 'categoryName=="Category"' (be careful about inner quoting)
       #
       # If the resource doesn't support filters, the filter parameter is ignored.
       #
       # Please see the JamfPro API documentation for the resource to see if
       # filters are supported, and a list of available fields.
-      #
-      # #### Paging
-      #
-      # To reduce server load and local memory usage, you can request the results
-      # in 'pages', i.e. successivly retrieved Arrays, using the paged: and page_size:
-      # parameters.
-      #
-      # When paged: is truthy, the call to `all` returns the first group of objects
-      # containing however many are specified by page_size: The default page size
-      # is 100,  the minimum is 1, and the maximum is 2000.
-      #
-      # Once you have made a paged call to `all`, you must use the `next_page_of_all`
-      # method to get the next Array of objects. That method merely repeats the last
-      # request made by `all` after incrementing the page number by 1.
-      # When `next_page_of_all` returns an empty array, you have retrieved all
-      # availalble objects.
-      #
-      # `next_page_of_all` always reflects the last _paged_ call to `all`. Any
-      # subsequent paged call to `all` will reset the paging process for that
-      # collection class, and any unfinished previous paged calls to `all` will
-      # be forgotten
+      # See also https://developer.jamf.com/jamf-pro/docs/filtering-with-rsql
       #
       # #### Instantiation
       #
@@ -225,35 +216,25 @@ module Jamf
       # JSON 'objects', which are the equivalent of ruby Hashes.
       # When fetching an individual instance of an object from the API, ruby-jss
       # uses the JSON Hash to create the ruby object, i.e. to 'instantiate' it as
-      # an instance of its class. Doing this for many objects can slow things down.
+      # an instance of its ruby class. Doing this for many objects can slow
+      # things down.
       #
       # Because of this, the 'all' method defaults to returning an Array of the
       # minimally-processed JSON Hashes it gets from the API. If you can get your
-      # desired data from these Hashes, it's far more efficient to do so.
+      # desired data from these Hashes, it may be more efficient to do so.
       #
       # However sometimes you really need the fully instantiated ruby objects for
-      # all of them - especially if you're using filters and not actually processing
-      # all items of the class.  In such cases you can pass a truthy value to the
-      # instantiate: parameter, and the Array will contain fully instantiated
-      # ruby objects, not Hashes of API data.
+      # all items returned - especially if you're using filters and not actually
+      #  processing all items of the class.  In such cases you can pass a truthy
+      # value to the instantiate: parameter, and the Array will contain fully
+      # instantiated ruby objects, not Hashes of API data.
       #
-      # #### Caching
+      # #### Caching - none for Jamf Pro API objects.
       #
-      # When called without specifying paged:, sort:, or filter:
-      # this method will return a single Array of all items of its
-      # CollectionResouce subclass, in the server's default sort order.
-      #
-      # This Array is cached in ruby-jss, and future calls to this method without
-      # those parameters will return the cached Array. Use `refresh: true` to
-      # re-request that Array from the server. Note that the cache is of the raw
-      # JSON Hash data. Using 'instantiate:' will still be slower as each item in
-      # the cache is instantiated. See 'Instantiation' above.
-      #
-      # Some other class methods, e.g. .all_names, will generate or use this cached
-      # Array to derive their values.
-      #
-      # If any of the parameters paged:, sort:, or filter: are used, an API
-      # request is made every time, and no caches are used or stored.
+      # Unlike the Classic APIObjects, Objects from the Jamf Pro API
+      # are not cached and any call to 'all' or methods that use it, will
+      # always query the API. If you need to use the resulting array for multiple
+      # tasks, save it into a variable and use that.
       #
       #######
       #
@@ -265,9 +246,6 @@ module Jamf
       # @param filter [String] An RSQL filter string. Not all collection resources
       #   currently support filters, and if they don't, this will be ignored.
       #
-      # @param refresh [Boolean] re-fetch and re-cache the full list of all instances.
-      #   Ignored if paged:, page_size:, sort:, filter: or instantiate: are used.
-      #
       # @param instantiate [Boolean] Defaults to false. Should the items in the
       #   returned Array be ruby instances of the CollectionObject subclass, or
       #   plain Hashes of data as returned by the API?
@@ -277,16 +255,8 @@ module Jamf
       # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
       #
       ######################################
-      def all(sort: nil, filter: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
+      def all(sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
         stop_if_base_class
-
-        # clear the cache if asked to
-        cnx.jp_collection_cache[self] = nil if refresh
-
-        # use the (possibly instantiated) cache if it exists, and not filtering or sorting
-        if cnx.jp_collection_cache[self] && !sort && !filter
-          return instantiate ? cnx.jp_collection_cache[self].map { |m| new(**m) } : cnx.jp_collection_cache[self]
-        end
 
         # if we are here, we need to query for all items, possibly filtered and
         # sorted
@@ -294,24 +264,21 @@ module Jamf
         filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
         instantiate &&= self
 
-        items = Jamf::Pager.all_pages(
+        # always use a pager to get all pages, because even if you don't ask for
+        # paged data, it comes in pages or 2000
+        Jamf::Pager.all_pages(
           list_path: self::LIST_PATH,
           sort: sort,
           filter: filter,
           instantiate: instantiate,
           cnx: cnx
         )
-
-        # cache the data unless it was instantiated or filtered
-        cnx.jp_collection_cache[self] = items unless instantiate || filter
-
-        items
       end
 
       # Return a Jamf::Pager object for retrieving all collection items in smaller
       # groups.
       #
-      # For most parameters, see CollectionResource.all
+      # For other parameters, see CollectionResource.all
       #
       # @param page_size [Integer] The pager object returns results in groups of
       #   this many items. Minimum is 1, maximum is 2000, default is 100
@@ -334,54 +301,6 @@ module Jamf
           cnx: cnx
         )
       end
-
-
-      # TODO: figure out how to make some of these private now that
-      # this is a module being extended.
-
-      # return the cached/cachable version of .all, possibly instantiated
-      #
-      # @param refresh [Boolean] refetch the cache from the server?
-      #
-      # @param instantiate [Boolean] Return an array of instantiated objects, vs
-      #   JSON hashes?
-      #
-      # @param cnx [Jamf::Connection] The Connection to use
-      #
-      # @return [Array<Hash,Object>] All the objects in the collection
-      #
-      ######################################
-      def cached_all(refresh, instantiate, cnx)
-        cnx.jp_collection_cache[self] = nil if refresh
-
-        cnx.jp_collection_cache[self] ||= fetch_all_collection_pages cnx: cnx
-
-        instantiate ? cnx.jp_collection_cache[self].map { |m| new(**m) } : cnx.jp_collection_cache[self]
-      end
-
-      # Fetch the next page of a paged .all request. See
-      # {Jamf::Pagable.next_collection_page}
-      ######################################
-      def next_page_of_all
-        next_collection_page
-      end
-
-      # An array of the ids for all collection members. According to the
-      # specs ALL collection resources must have an ID, which is used in the
-      # resource path.
-      #
-      # NOTE: This method uses the cached version of .all
-      #
-      # @param refresh (see .all)
-      #
-      # @param cnx (see .all)
-      #
-      # @return [Array<Integer>]
-      #
-      ######################################
-      # def all_ids(refresh = false, cnx: Jamf.cnx)
-      #   all(refresh: refresh, cnx: cnx).map { |m| m[:id] }
-      # end
 
       # A Hash of all members of this collection where the keys are some
       # identifier and values are any other attribute.
@@ -462,9 +381,7 @@ module Jamf
         return raw_data_by_searchterm_only(searchterm, cnx: cnx) if searchterm
 
         # if we're here, we should know our ident key and value
-        unless ident && value
-          raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.'
-        end
+        raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
 
         return raw_data_by_id(value, cnx: cnx) if ident == :id
         return unless identifiers.include? ident
@@ -503,7 +420,10 @@ module Jamf
         return pager(filter: "#{identifier}==\"#{value}\"", page_size: 1, cnx: cnx).page(:first).first if filterable? && filter_keys.include?(identifier)
 
         # otherwise we have to loop thru all the objects looking for the value
-        all(cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
+        cmp_val = value.to_s
+        all(cnx: cnx).each do |data|
+          return data if data[identifier].to_s.casecmp? cmp_val
+        end
 
         nil
       end
@@ -675,14 +595,16 @@ module Jamf
       end
 
       # called from method_missing to create
-      # identifier lists on the fly
+      # identifier lists on the fly. No filtering or sorting of these lists.
       ######################################
       def create_identifier_list_method(attr_name, list_method_name)
+        # only if the attr_name exists in the OAPI_PROPERTIES _and_
+        # is listed as an identifier for this class.
         if defined?(self::OAPI_PROPERTIES) && self::OAPI_PROPERTIES.key?(attr_name) && identifiers.include?(attr_name)
           attr_def = self::OAPI_PROPERTIES[attr_name]
 
-          define_singleton_method(list_method_name) do |refresh: false, cnx: Jamf.cnx|
-            all_list = all(refresh: refresh, cnx: cnx)
+          define_singleton_method(list_method_name) do |cnx: Jamf.cnx|
+            all_list = all(cnx: cnx)
             if attr_def[:class].is_a? Symbol
               all_list.map { |i| i[attr_name] }
             else
@@ -698,6 +620,7 @@ module Jamf
         end
       end # create_identifier_list_method
       private :create_identifier_list_method
+
     end # Module ClassMethods
 
     # Attributes
@@ -742,7 +665,7 @@ module Jamf
     ############################################
     def set_api_paths
       if exist?
-        @get_path = defined?(self.class::GET_PATH) ? "#{self.class::GET_PATH}/#{id}" : "#{self.class::LIST_PATH}/#{id}"
+        @get_path = "#{self.class.get_path}/#{id}"
 
         @update_path =
           if defined?(self.class::PUT_PATH)

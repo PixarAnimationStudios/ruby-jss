@@ -30,6 +30,7 @@ module Jamf
 
     # This module defines attributes and methods related to the caching of certain
     # data from the API.
+    # TODO: Remove this when we no longer support caching from either API
     module Cache
 
       # These classes are extendable, their Extension Attributes in the

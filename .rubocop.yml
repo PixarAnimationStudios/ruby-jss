@@ -1,15 +1,18 @@
-# REFERENCE: # http://rubocop.readthedocs.io/en/latest
+# REFERENCE: http://rubocop.readthedocs.io/en/latest
+
+
 
 ##### All Cops
+##############################
 
 AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - '**/*playground*'
     - '**/scratch*'
-    - '**/*.haml'
 
 ##### Metrics
+##############################
 
 Metrics/ClassLength:
   Max: 800 # default 100
@@ -29,6 +32,7 @@ Metrics/ParameterLists:
   CountKeywordArgs: false
 
 ##### Style
+##############################
 
 Style/CommentedKeyword:
   Enabled: false
@@ -47,6 +51,7 @@ Style/StringConcatenation:
 
 
 ##### Naming
+##############################
 
 Naming/VariableName:
   Enabled: false
@@ -82,6 +87,7 @@ Naming/MemoizedInstanceVariableName:
   Enabled: false
 
 ##### Layout
+##############################
 
 Layout/LineLength:
   Max: 160 # default 80
@@ -111,7 +117,5 @@ Layout/EmptyLinesAroundModuleBody:
   EnforcedStyle: empty_lines
 
 
-##### Security
-
-# Security/YAMLLoad:
-#   Enabled: false # Ruby 2.0's YAML doesn't have 'safe_laod'
+# Your own will override these...
+inherit_from: ~/.rubocop.yml
