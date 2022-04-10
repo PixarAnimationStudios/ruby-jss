@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -25,15 +25,9 @@
 module Jamf
 
   # When extended with this mixin, OAPIObject.mutable? returns false,
-  # meaning that no setters are ever defined, and if the
-  # object is a Jamf::JPAPIResource, #save will raise an error
+  # meaning that no setters are ever defined, #save will raise an error
   #
   module Immutable
-
-    def mutable?
-      false
-    end
-
-  end # Lockable
+  end # Immutable
 
 end # Jamf

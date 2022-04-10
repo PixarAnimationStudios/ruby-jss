@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -33,6 +33,7 @@ module Jamf
   # more docs to come
   class OAPIObject
 
+    include Comparable
     extend Jamf::BaseClass
 
 
@@ -49,7 +50,7 @@ module Jamf
     # and will cause Jamf::Resource.save to raise an error
     #
     def self.mutable?
-      true
+        !singleton_class.ancestors.include? Jamf::Immutable
     end
 
     # An array of attribute names that are required when
@@ -371,6 +372,12 @@ module Jamf
     # Instance Methods
     #####################################
 
+    # Are objects of this class mutable?
+    # @see the class method in OAPIObject
+    def mutable?
+        self.class.mutable?
+    end
+
     # a hash of all unsaved changes
     #
     def unsaved_changes
@@ -497,6 +504,22 @@ module Jamf
       vars
     end
 
+    # Comparable by the sha1 hash of our properties.
+    # Subclasses or mixins may override this in ways that make
+    # sense for them
+    def <=>(other)
+      sha1_hash <=> other.sha1_hash
+    end
+
+    # The SHA1 hash of all the values of our properties as defined in the
+    # OAPI schema
+    def sha1_hash
+      properties = self.class::OAPI_PROPERTIES.keys.map {|prop| send prop }.join(';;')
+      Digest::SHA1.hexdigest(properties)
+    end
+
+
+
     # Private Instance Methods
     #####################################
     private
@@ -604,6 +627,7 @@ module Jamf
     def validate_attr(attr_name, value)
       self.class.validate_attr attr_name, value
     end
+
 
   end # class JSONObject
 

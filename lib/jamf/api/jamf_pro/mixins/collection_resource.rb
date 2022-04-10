@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -60,7 +60,6 @@ module Jamf
   # @abstract
   ######################################
   module CollectionResource
-    include Comparable
     include Jamf::JPAPIResource
 
     # when this module is included, also extend our Class Methods
@@ -78,8 +77,8 @@ module Jamf
       # since this module will be extended into a class
 
       # It seems that all current collections are pageable and sortable
-      include Jamf::Pageable
-      include Jamf::Sortable
+      #
+      # Filterable must be extended as needed in Colection Resources
 
       include Jamf::JPAPIResource::ClassMethods
 
@@ -266,20 +265,11 @@ module Jamf
       # @param filter [String] An RSQL filter string. Not all collection resources
       #   currently support filters, and if they don't, this will be ignored.
       #
-      # @param page_size [Integer] Return 'paged' results in groups of this many items.
-      #   Minimum is 1, maximum is 2000
-      #
-      #   When this is used, this method only returns the first group items.
-      #   Use {.next_page_of_all} to retrieve each successive page. That method
-      #   will return an empty array once all items have been returned.
-      #
-      #   Note: the final page may contain fewer items than the page_size
-      #
       # @param refresh [Boolean] re-fetch and re-cache the full list of all instances.
       #   Ignored if paged:, page_size:, sort:, filter: or instantiate: are used.
       #
       # @param instantiate [Boolean] Defaults to false. Should the items in the
-      #   returned Array(s) be ruby instances of the CollectionObject subclass, or
+      #   returned Array be ruby instances of the CollectionObject subclass, or
       #   plain Hashes of data as returned by the API?
       #
       # @param cnx [Jamf::Connection] The API connection to use, default: Jamf.cnx
@@ -287,24 +277,64 @@ module Jamf
       # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
       #
       ######################################
-      def all(sort: nil, filter: nil, page_size: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
+      def all(sort: nil, filter: nil, refresh: false, instantiate: false, cnx: Jamf.cnx)
         stop_if_base_class
 
-        # use the cache if not paging, filtering or sorting
-        return cached_all(refresh, instantiate, cnx) if !page_size && !sort && !filter
+        # clear the cache if asked to
+        cnx.jp_collection_cache[self] = nil if refresh
 
-        # we are sorting, filtering or paging
-        sort = sortable? ? parse_collection_sort(sort) : nil
-        filter = filterable? ? parse_collection_filter(filter) : nil
-        result =
-          if page_size
-            first_collection_page(page_size: page_size, sort: sort, filter: filter, cnx: cnx)
-          else
-            fetch_all_collection_pages(sort: sort, filter: filter, cnx: cnx)
-          end
+        # use the (possibly instantiated) cache if it exists, and not filtering or sorting
+        if cnx.jp_collection_cache[self] && !sort && !filter
+          return instantiate ? cnx.jp_collection_cache[self].map { |m| new(**m) } : cnx.jp_collection_cache[self]
+        end
 
-        instantiate ? result.map { |m| new(**m) } : result
+        # if we are here, we need to query for all items, possibly filtered and
+        # sorted
+        sort = Jamf::Sortable.parse_url_sort_param(sort)
+        filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
+        instantiate &&= self
+
+        items = Jamf::Pager.all_pages(
+          list_path: self::LIST_PATH,
+          sort: sort,
+          filter: filter,
+          instantiate: instantiate,
+          cnx: cnx
+        )
+
+        # cache the data unless it was instantiated or filtered
+        cnx.jp_collection_cache[self] = items unless instantiate || filter
+
+        items
       end
+
+      # Return a Jamf::Pager object for retrieving all collection items in smaller
+      # groups.
+      #
+      # For most parameters, see CollectionResource.all
+      #
+      # @param page_size [Integer] The pager object returns results in groups of
+      #   this many items. Minimum is 1, maximum is 2000, default is 100
+      #   Note: the final page of data may contain fewer items than the page_size
+      #
+      # @return [Jamf::Pager] An object from which you can retrieve sequential or
+      #   arbitrary pages from the collection.
+      #
+      def pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
+        stop_if_base_class
+        sort = sortable? ? Jamf::Sortable.parse_url_sort_param(sort) : nil
+        filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
+
+        Jamf::Pager.new(
+          page_size: page_size,
+          list_path: self::LIST_PATH,
+          sort: sort,
+          filter: filter,
+          instantiate: instantiate,
+          cnx: cnx
+        )
+      end
+
 
       # TODO: figure out how to make some of these private now that
       # this is a module being extended.
@@ -470,9 +500,7 @@ module Jamf
       ######################################
       def raw_data_by_other_identifier(identifier, value, cnx: Jamf.cnx)
         # if the API supports filtering by this identifier, just use that
-        if filterable? && filter_keys.include?(identifier)
-          return all(filter: "#{identifier}=='#{value}'", page_size: 1, cnx: cnx).first
-        end
+        return pager(filter: "#{identifier}==\"#{value}\"", page_size: 1, cnx: cnx).page(:first).first if filterable? && filter_keys.include?(identifier)
 
         # otherwise we have to loop thru all the objects looking for the value
         all(cnx: cnx).each { |data| return data if data[identifier].to_s.casecmp? value.to_s }
@@ -596,14 +624,6 @@ module Jamf
         true
       end
 
-      def pageable?
-        singleton_class.ancestors.include? Jamf::Pageable
-      end
-
-      def sortable?
-        singleton_class.ancestors.include? Jamf::Sortable
-      end
-
       def filterable?
         singleton_class.ancestors.include? Jamf::Filterable
       end
@@ -713,12 +733,6 @@ module Jamf
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
 
       @cnx.jp_delete delete_path
-    end
-
-    # Two collection resource objects are the same if their id's are the same
-    #####################################
-    def <=>(other)
-      id <=> other.id
     end
 
     # Private Instance Methods

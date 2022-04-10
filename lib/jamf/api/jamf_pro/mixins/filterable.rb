@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -25,24 +25,29 @@
 module Jamf
 
   # process filter strings for resources with filter request parameters
-  # This should be extended into CollectionResources as needed
+  #
+  # This should be extended into CollectionResources whose LIST_PATH is
+  # filterable
   #
   # Classes doing so must define the FILTER_KEYS constant, an Array of
   # Symbols of keys from OAPI_PROPERTIES which can be used in filters.
   module Filterable
 
+    FILTER_PARAM_PREFIX = '&filter='.freeze
+
+    # generate the RSQL filter to put into the url
+    # This is callable from anywhere without mixing in.
+    def self.parse_url_filter_param(filter)
+      return filter if filter.nil? || filter.start_with?(FILTER_PARAM_PREFIX)
+
+      "#{FILTER_PARAM_PREFIX}#{CGI.escape filter}"
+    end
+
     def filter_keys
       defined?(self::FILTER_KEYS) ? self::FILTER_KEYS : []
     end
 
-    private
 
-    # generate the RSQL filter to put into the url
-    def parse_collection_filter(filter)
-      return if filter.nil?
-
-      "&filter=#{CGI.escape filter}"
-    end
 
   end # Filterable
 

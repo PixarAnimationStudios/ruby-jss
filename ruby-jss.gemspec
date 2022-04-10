@@ -1,4 +1,4 @@
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -29,7 +29,7 @@ require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
   # General
-  s.description = <<-EOD
+  s.description = <<-EODESC
     The ruby-jss gem provides native ruby access to the REST APIs of Jamf Pro,
     an enterprise/education tool for managing Apple devices, from jamf.com.
     The JSS module provides access to the 'Classic' API, while the Jamf module
@@ -37,7 +37,8 @@ Gem::Specification.new do |s|
     implemented as classes and, within each module, can interact with each other.
     The underlying data transfer using JSON or XML is handled automatically
     under the hood to allow simpler, intuitive automation of Jamf-related Tasks.
-  EOD
+  EODESC
+
   s.name        = proj_name
   s.version     = Jamf::VERSION
   s.license     = 'Nonstandard'
@@ -57,21 +58,28 @@ Gem::Specification.new do |s|
   s.executables << 'jamfHelperBackgrounder'
 
   # Dependencies
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 2.7.0'
 
   # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
   s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
+
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
   # DEPRECATED: mysql support in ruby-jss will be removed eventually
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
+
   # https://github.com/lostisland/faraday: MIT License
   s.add_runtime_dependency 'faraday', '>= 1.0.0', '<= 1.0.1'
+
   # https://github.com/lostisland/faraday_middleware & dependencies: MIT License
   s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
+
+  # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
+  s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
+
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
+  # TODO: replace this with the one from concurrent-ruby
   s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
-  # https://github.com/aetherknight/recursive-open-struct MIT License (no dependencies)
-  s.add_runtime_dependency 'recursive-open-struct', '~> 1.1', '>= 1.1.0'
+
   # https://github.com/fxn/zeitwerk MIT License (no dependencies)
   s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.4'
 

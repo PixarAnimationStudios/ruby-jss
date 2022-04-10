@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -24,17 +24,17 @@
 
 module Jamf
 
-  # parse the sort params for collection GET requests
+  # Currently no need to mix this in anywhere.
   module Sortable
 
-    private
+    SORT_PARAM_PREFIX = '&sort='.freeze
 
     # generate the sort params for the url
-    #
-    def parse_collection_sort(sort)
+    # This is callable from anywhere without mixing in
+    def self.parse_url_sort_param(sort)
+      return sort if sort.nil? || sort.start_with?(SORT_PARAM_PREFIX)
+
       case sort
-      when nil
-        sort
       when String
         "&sort=#{CGI.escape sort}"
       when Array

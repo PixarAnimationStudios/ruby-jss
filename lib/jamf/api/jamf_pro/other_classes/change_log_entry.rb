@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -26,35 +26,19 @@
 # The module
 module Jamf
 
-  # handle nils and IPAddrs
+  # A wrapper around Jamf::OAPISchemas::ObjectHistoryV1 to make it
+  # immutable
+  class ChangeLogEntry < Jamf::OAPISchemas::ObjectHistoryV1
 
-  # A wrapper for IPAddr - allowing initialize to take an unused cnx:
-  # and providing #to_jamf
-  #
-  class IPAddress < IPAddr
+    extend Jamf::Immutable
 
-    # @param an_ip[String,IPAddr]
-    #
-    # @param cnx [void] unused, but required
-    #
-    def initialize(an_ip)
-
-      if an_ip.nil?
-        @empty_ip = true
-        return
-      end
-
-      super an_ip
+    # Alas, the OAPI schema doesn't mark the date property as
+    # a timestamp.
+    def initialize(*)
+      super
+      @date = Jamf::Timestamp.new @date
     end
 
-    # @return [String] the IP formatted for passing to the API as a string.
-    #
-    def to_jamf
-      return Jamf::BLANK if @empty_ip
-      to_s
-    end
-
-
-  end # class  Timestamp
+  end # class ChangeLogEntry
 
 end # module

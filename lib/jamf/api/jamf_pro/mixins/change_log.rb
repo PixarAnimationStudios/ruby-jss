@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -41,33 +41,31 @@ module Jamf
   #
   # The change log can be available in different places:
   #
-  # - CollectionResources (e.g. individual policies)
-  #   - m
+  # - CollectionResource Items (e.g. individual Scripts)
   # - CollectionResources as a whole (e.g. Inventory Preload Records)
-  #   - mix-in this module by extending it, to get class methods
   # - SingletonResources (e.g. Client Checkin Settings )
-  #   - mix-in this module by including AND extending, to get both
+  #
+  # To enable change log access in a class, incldude this module _after_
+  # including Jamf::CollectionResource or Jamf::SingletonResource
   #
   # ##### NON-STANDARD 'history' Paths
   #
   # For most classes, the change log path is the LIST_PATH or the #get_path
   # with '/history' appended. LIST_PATH/history is for when the history is
-  # available for the class as a whole, e.g. with InventoryPreloadRecord, and
-  # #get_path/history is for members of a collection, and has the item's id.
+  # available for the class as a whole, e.g. with SingletonResources, and
+  # #get_path/history is for members of a collection, and will include the
+  # item's id.
+  #
   # This path can be used for GETting history and POSTing new notes to the
   # history.
   #
-  #
   # If some class or instance has a non-standard path, it should override the
-  # history_path class method defined here, to return the correct path.
+  # history_path class & instance methods defined here, to return the correct path.
   #
-
-
-
-  # and in that case it will be determined automatically.
-  # If the object has some other path for the change log, e.g.
-  # InventoryPreloadRecord, the class can define a constant HISTORY_PATH
-  # with the non-standard path. If that constant is defined, it will be used.
+  # As an example, see Jamf::InventoryPreloadRecord, which is a Collection, but
+  # only has history available for the collection as a whole, not for its items,
+  # but also, the path for accessing the history is 'v2/inventory-preload/history'
+  # while the LIST_PATH is 'v2/inventory-preload/records'
   #
   #
   # This module will add these public methods:
@@ -86,8 +84,8 @@ module Jamf
 
     DFT_HISTORY_PATH = 'history'.freeze
 
-    SEARCH_RESULTS_OBJECT = Jamf::OAPISchemas::HistorySearchResults
-    HISTORY_ENTRY_OBJECT = Jamf::OAPISchemas::ObjectHistory
+    SEARCH_RESULTS_OBJECT = Jamf::OAPISchemas::HistorySearchResultsV1
+    HISTORY_ENTRY_OBJECT = Jamf::ChangeLogEntry
     POST_NOTE_OBJECT = Jamf::OAPISchemas::ObjectHistoryNote
 
 
@@ -101,14 +99,14 @@ module Jamf
     #####################################
     module ClassMethods
 
-      # Add a note to this resource's change log.
+      # Add an entry with a note to this object's change log.
       #
       # If the change history has been cached already, the cache is
       # flushed after adding the note.
       #
       # @param note[String] The note to add. It cannot be empty.
       #
-      # @return [void]
+      # @return [Jamf::ChangeLogEntry] the new entry
       #
       def add_change_log_note(note, id: nil, cnx: Jamf.cnx)
         note_to_send = POST_NOTE_OBJECT.new note: Jamf::Validate.non_empty_string(note)
@@ -120,13 +118,11 @@ module Jamf
         HISTORY_ENTRY_OBJECT.new result
       end
 
-      # The change and note history for this resource.
-      # This is a collection of objects as a sub-resource of some
-      # primary resource. As such, retriving the change log returns
-      # an array of objects, and can be paged, sorted and filtered.
+      # The entire change and note history for this resource
       #
-      # This method is very similar to CollectionResource.all, see the
-      # docs for that method for more details
+      # @param id [String, Integer] For Collection Items that have a change log
+      #   This is the id of the  item. Omit this param for singletons, or
+      #   collections which have a single change log.
       #
       # @param sort [String, Array<String>] Server-side sorting criteria in the format:
       #   property:direction, where direction is 'asc' or 'desc'. Multiple
@@ -136,68 +132,49 @@ module Jamf
       # @param filter [String] An RSQL filter string. Not all change_log resources
       #   currently support filters, and if they don't, this will be ignored.
       #
-      # @param page_size [Integer] Return 'paged' results in groups of this many items.
-      #   Minimum is 1, maximum is 2000
-      #
-      #   When this is used, this method only returns the first group items.
-      #   Use {.next_page_of_change_log} to retrieve each successive page. That method
-      #   will return an empty array once all items have been returned.
-      #
-      #   Note: the final page may contain fewer items than the page_size
-      #
-      # @param refresh [Boolean] re-fetch and re-cache the full list of all entries.
-      #   Ignored if paged:, page_size:, sort:, or filter: are used.
-      #
       # @param cnx [Jamf::Connection] The API connection to use, default: Jamf.cnx.
       #   If this is an instance of a Collection Resource, this is always
       #   the connection from which it was fetched.
       #
       # @return [Array<Jamf::ChangeLogEntry>] The change log entries requested
       #
-      def change_log(id: nil, sort: nil, filter: nil, page_size: nil, refresh: false, cnx: Jamf.cnx)
-        # use the cache if not paging, filtering or sorting
-        return cached_change_log(refresh, id, cnx) unless page_size || sort || filter
+      def change_log(id: nil, sort: nil, filter: nil,  cnx: Jamf.cnx)
+        sort &&= Jamf::Sortable.parse_url_sort_param(sort)
+        filter &&= Jamf::Filterable.parse_url_filter_param(filter)
 
-        sort = parse_change_log_sort(sort)
-
-        filter &&= "&filter=#{CGI.escape filter.to_s}"
-
-        return first_change_log_page(id, page_size, sort, filter, cnx) if page_size
-
-        fetch_all_change_log_entries(id, sort, filter, cnx)
+        Jamf::Pager.all_pages(
+          list_path: history_path(id),
+          sort: sort,
+          filter: filter,
+          instantiate: Jamf::ChangeLogEntry,
+          cnx: cnx
+        )
       end
 
-      # Fetch the next page of a paged #change_log request
-      # Returns an empty array if there's been no paged request
-      # or if the last one has no more pages.
+      # Return a Jamf::Pager object for retrieving all change log entries in smaller
+      # groups.
       #
-      # @return [Array<Jamf::ChangeHistoryEntry>] The next page of the change
-      #   and note history for this resource
+      # For most parameters, see .change_log
       #
-      def next_page_of_change_log
-        case @change_log_page
-        when :first
-          @change_log_page = 0
-        when Integer
-          @change_log_page += 1
-        else
-          # if here, we haven't initiated a paged request, or
-          # all pages have already been delivered
-          return []
-        end
+      # @param page_size [Integer] The pager object returns results in groups of
+      #   this many entries. Minimum is 1, maximum is 2000, default is 100
+      #   Note: the final page of data may contain fewer items than the page_size
+      #
+      # @return [Jamf::Pager] An object from which you can retrieve sequential or
+      #   arbitrary pages from the collection.
+      #
+      def change_log_pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)
+        sort &&= Jamf::Sortable.parse_url_sort_param(sort)
+        filter &&= Jamf::Filterable.parse_url_filter_param(filter)
 
-        search_path = "#{@change_log_paged_path}&page=#{@change_log_page}"
-        search_result = SEARCH_RESULTS_OBJECT.new @change_log_paged_cnx.jp_get(search_path)
-
-        @change_log_paged_fetched_count += search_result.results.size
-        @change_log_paged_total_count ||= search_result.totalCount
-
-        # did we get the last of them in the this page?
-        # if so, clear all the paging data
-        clear_change_log_paging_data if @change_log_paged_fetched_count >= @change_log_paged_total_count
-
-        # return the page results
-        search_result.results
+        Jamf::Pager.new(
+          page_size: page_size,
+          list_path: history_path(id),
+          sort: sort,
+          filter: filter,
+          instantiate: Jamf::ChangeLogEntry,
+          cnx: cnx
+        )
       end
 
       # how many change log entries are there?
@@ -209,7 +186,7 @@ module Jamf
       #
       # @return [Integer] How many changelog entries exist?
       #
-      def change_log_count(id: nil, cnx: Jamf.cnx)
+      def change_log_size(id: nil, cnx: Jamf.cnx)
         search_path = "#{history_path(id)}?page=0&page-size=1"
         search_result = SEARCH_RESULTS_OBJECT.new cnx.jp_get(search_path)
         search_result.totalCount
@@ -225,114 +202,31 @@ module Jamf
         end
       end
 
-      #################
-      def parse_change_log_sort(sort)
-        case sort
-        when nil
-          sort
-        when String
-          "&sort=#{CGI.escape sort}"
-        when Array
-          "&sort=#{CGI.escape sort.join(',')}"
-        else
-          raise ArgumentError, 'sort criteria must be a String or Array of Strings'
-        end
-      end
-      private :parse_change_log_sort
-
-      # get the first page of a paged change log request, and set up for
-      # getting later pages
-      #
-      # @param page_size [Integer] how many items per page
-      #
-      # @param sort [String,Array<String>] server-side sorting parameters
-      #
-      # @param filter [String] RSQL String limiting the result set
-      #
-      # @param cnx [Jamf::Connection] The API connection to use
-      #
-      # @return [Array<Object>] The first page of the change logs for this resource
-      #
-      def first_change_log_page(id, page_size, sort, filter, cnx)
-        unless Jamf::Pageable::PAGE_SIZE_RANGE.include? page_size
-          raise ArgumentError, "page_size must be an Integer from #{Jamf::Pageable::MIN_PAGE_SIZE} to #{Jamf::Pageable::MAX_PAGE_SIZE}"
-        end
-
-        # set all these values then call for the next page
-        @change_log_paged_cnx = cnx
-        @change_log_page = :first
-        @change_log_page_size = page_size
-        @change_log_sort = sort
-        @change_log_filter = filter
-        @change_log_paged_fetched_count = 0
-        @change_log_paged_path = "#{history_path(id)}?page-size=#{@change_log_page_size}#{@change_log_sort}#{@change_log_filter}"
-
-        next_page_of_change_log
-      end
-
-      # TODO:  like with Pageable - this is not threadsafe
-      def clear_change_log_paging_data
-        @change_log_paged_cnx = nil
-        @change_log_page = nil
-        @change_log_page_size = nil
-        @change_log_sort = nil
-        @change_log_filter = nil
-        @change_log_paged_total_count = nil
-        @change_log_paged_fetched_count = nil
-      end
-
-      # return the cached/cachable version of .change_log
-      #
-      # @param refresh [Boolean] refetch the cache from the server?
-      #
-      # @param cnx [Jamf::Connection] The Connection to use
-      #
-      # @return [Array<Jamf::ChangeLogEntry>] All the change_log entries
-      #
-      def cached_change_log(refresh, id, cnx)
-        @cached_change_log = nil if refresh
-        return @cached_change_log if @cached_change_log
-
-        sort = nil
-        filter = nil
-        @cached_change_log = fetch_all_change_log_entries(id, sort, filter, cnx)
-      end
-
-      #######
-      def fetch_all_change_log_entries(id, sort, filter, cnx)
-        paged_path = "#{history_path(id)}?page-size=#{Jamf::Pageable::MAX_PAGE_SIZE}#{sort}#{filter}"
-        page = 0
-
-        # get the first page
-        search_result = SEARCH_RESULTS_OBJECT.new cnx.jp_get("#{paged_path}&page=#{page}")
-        results = search_result.results
-
-        # keep getting pages until we have all
-        until results.size >= search_result.totalCount
-          page += 1
-          search_result = SEARCH_RESULTS_OBJECT.new cnx.jp_get("#{paged_path}&page=#{page}")
-          results += search_result.results
-        end
-
-        results
-      end
-
     end # module Class Methods
 
     # Instance Methods
+    #
     # wrappers for the class methods, which pass the id and cnx
+    # should work on Singleton Resources since @id will be nil
+    # but @cnx will be set.
     ########################################
 
     def add_change_log_note(note)
       self.class.add_change_log_note(note, id: @id, cnx: @cnx)
     end
 
-    def change_log(sort: nil, filter: nil, page_size: nil, refresh: false)
-      self.class.change_log(id: @id, sort: sort, filter: filter, page_size: page_size, refresh: refresh, cnx: @cnx)
+    def change_log(sort: nil, filter: nil)
+      self.class.change_log(id: @id, sort: sort, filter: filter, cnx: @cnx)
     end
 
-    def next_page_of_change_log
-      self.class.next_page_of_change_log
+    def change_log_pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, sort: nil, filter: nil)
+      self.class.change_log_pager(
+        page_size: page_size,
+        id: @id,
+        sort: sort,
+        filter: filter,
+        cnx: @cnx
+      )
     end
 
     def change_log_count

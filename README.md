@@ -429,6 +429,6 @@ There's a [wiki on the github page](https://github.com/PixarAnimationStudios/rub
 
 ## LICENSE
 
-Copyright 2020 Pixar
+Copyright 2022 Pixar
 
 Licensed under the Apache License, Version 2.0 (the "Apache License") with modifications. See LICENSE.txt for details
