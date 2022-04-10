@@ -47,11 +47,8 @@ def setup_zeitwerk_loader(loader)
   loader.collapse("#{__dir__}/jamf/api/jamf_pro")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/api_objects")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/mixins")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro/attribute_classes")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/base_classes")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro/resources")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro/collections")
-  loader.collapse("#{__dir__}/jamf/api/jamf_pro/singletons")
+  loader.collapse("#{__dir__}/jamf/api/jamf_pro/other_classes")
 
   # filenames => Constants, which don't adhere to zeitwerk's parsing standards
   # Mostly because the a filename like 'oapi_object' would be

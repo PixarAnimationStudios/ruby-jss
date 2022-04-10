@@ -322,7 +322,7 @@ module Jamf
       #
       def pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
         stop_if_base_class
-        sort = sortable? ? Jamf::Sortable.parse_url_sort_param(sort) : nil
+        sort = Jamf::Sortable.parse_url_sort_param(sort)
         filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
 
         Jamf::Pager.new(
