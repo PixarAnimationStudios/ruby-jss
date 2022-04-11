@@ -312,6 +312,14 @@ module Jamf
       { stringform: valstr, arrayform: valarr }
     end # to_s_and_a
 
+    # a wrapper around Time.parse that returns nil for
+    # nil, zero, and empty values.
+    def self.parse_time(a_datetime)
+      return nil if NIL_DATES.include? a_datetime
+
+      Time.parse a_datetime.to_s
+    end
+
     # Parse a plist into a Ruby data structure. The plist parameter may be
     # a String containing an XML plist, or a path to a plist file, or it may be
     # a Pathname object pointing to a plist file. The plist files may be XML or

@@ -100,7 +100,7 @@ module Jamf
       @contact = @init_data[:contact]
       @service_token = @init_data[:service_token]
       @account_name = @init_data[:account_name]
-      @expiration_date = @init_data[:expiration_date].to_s.empty? ? nil : Time.parse(@init_data[:expiration_date])
+      @expiration_date = @init_data[:expiration_date].to_s.empty? ? nil : Jamf.parse_time(@init_data[:expiration_date])
       @location_name = @init_data[:location_name]
       @country = @init_data[:country]
       @apple_id = @init_data[:apple_id]

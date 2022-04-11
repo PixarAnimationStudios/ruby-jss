@@ -140,7 +140,7 @@ module Jamf
 
     ### @return [void]
     def lease_expires= (date)
-      parsed_date = Time.parse date
+      parsed_date = Jamf.parse_time date
       return nil if @lease_expires == parsed_date
       @lease_expires = parsed_date
       @need_to_update = true
@@ -176,7 +176,7 @@ module Jamf
 
     ### @return [void]
     def po_date= (date)
-      parsed_date = Time.parse date
+      parsed_date = Jamf.parse_time date
       return nil if @po_date == parsed_date
       @po_date = parsed_date
       @need_to_update = true
@@ -205,7 +205,7 @@ module Jamf
 
     ### @return [void]
     def warranty_expires= (date)
-      parsed_date = Time.parse date
+      parsed_date = Jamf.parse_time date
       return nil if @warranty_expires == parsed_date
       @warranty_expires = parsed_date
       @need_to_update = true

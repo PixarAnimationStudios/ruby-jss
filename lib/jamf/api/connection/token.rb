@@ -458,7 +458,7 @@ module Jamf
       def parse_token_from_response(resp)
         @token_response_body = resp.body
         @token = @token_response_body[:token]
-        @expires = Time.parse(@token_response_body[:expires]).localtime
+        @expires = Jamf.parse_time(@token_response_body[:expires]).localtime
         @valid = true
       end
 

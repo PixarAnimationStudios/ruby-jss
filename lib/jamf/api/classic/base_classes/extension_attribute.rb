@@ -408,7 +408,7 @@ module Jamf
         acs.search_results.each do |i|
           value =
             case @data_type
-            when 'Date' then Time.parse i[@symbolized_name]
+            when 'Date' then Jamf.parse_time i[@symbolized_name]
             when 'Integer' then i[@symbolized_name].to_i
             else i[@symbolized_name]
             end # case
@@ -466,12 +466,12 @@ module Jamf
         acs.search_results.each do |i|
           value =
             case @data_type
-            when 'Date' then Time.parse i[@symbolized_name]
+            when 'Date' then Jamf.parse_time i[@symbolized_name]
             when 'Integer' then i[@symbolized_name].to_i
             else i[@symbolized_name]
             end # case
 
-          as_of = Time.parse(i[LAST_RECON_FIELD_SYM]) if i[LAST_RECON_FIELD_SYM] != ''
+          as_of = Jamf.parse_time(i[LAST_RECON_FIELD_SYM])
 
           results << { id: i[:id], name: i[:name], username: i[USERNAME_FIELD_SYM], value: value, as_of: as_of }
         end # acs.search_results.each

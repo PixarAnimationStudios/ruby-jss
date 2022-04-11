@@ -53,12 +53,12 @@ module JamfRubyExtensions
 
       # Convert a string to a Time object
       #
-      # returns nil if not parsable by Jamf::parse_time
+      # @see Jamf.parse_time
       #
-      # @return [Time] the time represented by the string.
+      # @return [Time] the time represented by the string, or nil
       #
       def j_to_time
-        Time.parse self
+        Jamf.parse_time self
       rescue
         nil
       end

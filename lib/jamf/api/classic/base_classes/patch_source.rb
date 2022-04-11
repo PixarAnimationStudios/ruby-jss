@@ -217,7 +217,7 @@ module Jamf
       end
 
       titles = raw[:patch_available_titles][:available_titles]
-      titles.each { |t| t[:last_modified] = Time.parse t[:last_modified] }
+      titles.each { |t| t[:last_modified] = Jamf.parse_time t[:last_modified] }
       titles
     end
 

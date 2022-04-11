@@ -230,9 +230,6 @@ module Jamf
     # The date format for retrieving usage data
     APPLICATION_USAGE_DATE_FMT = '%Y-%m-%d'.freeze
 
-    # The classes that can be used with the date format
-    APPLICATION_USAGE_DATE_CLASSES = [Time, DateTime, Date].freeze
-
     # The top-level hash key of the raw app usage data
     APPLICATION_USAGE_KEY = :computer_application_usage
 
@@ -433,18 +430,23 @@ module Jamf
     def self.application_usage(ident, start_date, end_date = nil, api: Jamf.cnx)
       id = valid_id ident, api: api
       raise "No computer matches identifier: #{ident}" unless id
+
       end_date ||= start_date
-      start_date = Time.parse start_date if start_date.is_a? String
-      end_date = Time.parse end_date if end_date.is_a? String
-      raise Jamf::InvalidDataError, 'Invalid Start or End Date' unless ([start_date.class, end_date.class] - APPLICATION_USAGE_DATE_CLASSES).empty?
+      start_date = Jamf.parse_time start_date
+      end_date = Jamf.parse_time end_date
+
       start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
       end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
+
       data = api.c_get(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
+
       parsed_data = {}
+
       data[APPLICATION_USAGE_KEY].each do |day_hash|
         date = Date.parse day_hash[:date]
         parsed_data[date] = day_hash[:apps]
       end
+
       parsed_data
     end # app usage
 
