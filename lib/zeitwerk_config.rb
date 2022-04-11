@@ -140,12 +140,17 @@ def setup_zeitwerk_loader(loader)
   loader.setup
 end # setup_zeitwerk_loader
 
-# for testing the Zeitwrk Loader
-# normally we want autoloading on demand,
+# For testing the Zeitwrk Loader.
+# Normally we want autoloading on demand,
 # eager loading loads everything so we can see it
+#
+# To make this happen touch the file defined in JAMF_ZEITWERK_EAGER_LOAD_FILE
+# in jamf.rb
 def eager_load_for_testing
+  return unless JAMF_ZEITWERK_EAGER_LOAD_FILE.file?
+
   @loader.eager_load(force: true)
-  puts :loaded
-rescue Zeitwerk::NameError => e
-  puts e.message
+  warn :loaded
+# rescue Zeitwerk::NameError => e
+#   warn e.message
 end
