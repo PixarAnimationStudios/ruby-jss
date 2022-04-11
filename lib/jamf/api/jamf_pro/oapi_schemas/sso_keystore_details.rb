@@ -96,7 +96,7 @@ module Jamf
         # @!attribute expiration
         #   @return [String]
         expiration: {
-          class: :string
+          class: Jamf::Timestamp
         }
 
       } # end OAPI_PROPERTIES

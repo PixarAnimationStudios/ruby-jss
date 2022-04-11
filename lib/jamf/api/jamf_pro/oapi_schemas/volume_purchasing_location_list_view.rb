@@ -112,7 +112,7 @@ module Jamf
         # @!attribute [r] tokenExpiration
         #   @return [String]
         tokenExpiration: {
-          class: :string,
+          class: Jamf::Timestamp,
           readonly: true
         },
 

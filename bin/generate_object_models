@@ -82,6 +82,12 @@ class App
   # This is the superclass of all the OAPI classes we're creating.
   OAPIOBJECT_SUPERCLASS = 'OAPIObject'
 
+  # Strings holding timestamps have this in their 'format:' value
+  DATE_TIME_FORMAT = 'date-time'
+
+  # Not all Timestamp Strings in the schema are properly marked as 'format: date-time'
+  # But we can still catch any that have an example that matches this Regexp
+  DATE_TIME_EXAMPLE_RE = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d\d\d)|Z)?$/.freeze
 
   # The placeholder for the class names we're automatically generating.
   # e.g. class OAPIObject::XyzAbc < OAPIObject, this is 'XyzAbc'
@@ -111,6 +117,7 @@ class App
   PRIVS_PLACEHOLDER = 'OBJECT_PRIVS_GO_HERE'
   CONTAINERS_PLACEHOLDER = 'OBJECT_CONTAINTERS_GO_HERE'
   SUB_MODELS_PLACEHOLDER = 'OBJECT_SUB_MODELS_GO_HERE'
+
 
   # The template for the ruby files we will write
   OAPIOBJECT_FILE_TEMPLATE = <<~END_TEMPLATE
@@ -637,7 +644,10 @@ class App
 
     case deets[:type]
     when 'string'
-      deets[:format] == 'date-time' ? 'Jamf::Timestamp' : ':string'
+      # Not all Timestamp Strings in the schema are properly marked as 'format: date-time'
+      # But we can still catch any that have an example that matches this Regexp
+      is_datetime = deets[:format] == DATE_TIME_FORMAT || deets[:example].to_s =~ DATE_TIME_EXAMPLE_RE
+      is_datetime ? 'Jamf::Timestamp' : ':string'
     when 'integer'
       ':integer'
     when 'number'

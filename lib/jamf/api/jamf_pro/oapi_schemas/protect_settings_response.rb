@@ -116,7 +116,7 @@ module Jamf
         # @!attribute lastSyncTime
         #   @return [String]
         lastSyncTime: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute syncStatus

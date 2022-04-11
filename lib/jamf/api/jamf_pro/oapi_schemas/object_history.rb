@@ -114,7 +114,7 @@ module Jamf
         # @!attribute date
         #   @return [String]
         date: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute note

@@ -90,7 +90,7 @@ module Jamf
         # @!attribute created
         #   @return [String]
         created: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute url

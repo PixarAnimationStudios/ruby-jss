@@ -87,7 +87,7 @@ module Jamf
         # @!attribute timestamp
         #   @return [String]
         timestamp: {
-          class: :string
+          class: Jamf::Timestamp
         }
 
       } # end OAPI_PROPERTIES

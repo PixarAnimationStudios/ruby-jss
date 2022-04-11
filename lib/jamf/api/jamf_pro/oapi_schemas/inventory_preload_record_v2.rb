@@ -167,7 +167,7 @@ module Jamf
         # @!attribute poDate
         #   @return [String]
         poDate: {
-          class: :string,
+          class: Jamf::Timestamp,
           nil_ok: true
         },
 

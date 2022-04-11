@@ -101,19 +101,19 @@ module Jamf
         # @!attribute lastContactDate
         #   @return [String]
         lastContactDate: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute lastReportDate
         #   @return [String]
         lastReportDate: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute lastEnrolledDate
         #   @return [String]
         lastEnrolledDate: {
-          class: :string
+          class: Jamf::Timestamp
         },
 
         # @!attribute operatingSystemVersion
