@@ -65,7 +65,6 @@ class App
     #    KIND, either express or implied. See the Apache License for the specific
     #    language governing permissions and limitations under the Apache License.
     #
-    #
   END_NOTICE
 
   JAMF_PRO_URL_FILE = Pathname.new('/tmp/generate_opi_objects_jamf_pro_url')
@@ -117,7 +116,6 @@ class App
   PRIVS_PLACEHOLDER = 'OBJECT_PRIVS_GO_HERE'
   CONTAINERS_PLACEHOLDER = 'OBJECT_CONTAINTERS_GO_HERE'
   SUB_MODELS_PLACEHOLDER = 'OBJECT_SUB_MODELS_GO_HERE'
-
 
   # The template for the ruby files we will write
   OAPIOBJECT_FILE_TEMPLATE = <<~END_TEMPLATE
@@ -272,6 +270,7 @@ class App
 
     @token = JSON.parse(sout)['token']
     raise 'Could not get Jamf Pro API token - bad user/passwd?' unless @token
+
     @token
   end
 
@@ -330,12 +329,11 @@ class App
     OAPI_DIR + "#{fn}#{DOTRB}"
   end
 
-
   # e.g. 'APP_DYNAMICS_CONFIG' from 'AppDynamicsConfig'
   ##############################
   def const_name_from_object_name(object_name)
     name = object_name.to_s.split('').map { |c| c =~ /[A-Z]/ ? "_#{c}" : c }.join
-    name = name[1..-1] if name.start_with? '_'
+    name = name[1..] if name.start_with? '_'
     name.upcase
   end
 
@@ -435,7 +433,6 @@ class App
   # object_schema is a hash with at least a :type key
   ##############################
   def class_file_contents(class_name, object_schema)
-
     privs = privs_for_object class_name
 
     enum_consts = []
@@ -571,7 +568,6 @@ class App
     const_def.join("\n")
   end # def object_model_constant
 
-
   ##############################
   def object_property_to_attr_def(attr, deets, required_attrs, enum_consts)
     # if this propery merely refers to some other schema, we that as its deets
@@ -589,7 +585,6 @@ class App
     yard_ro = deets[:readOnly] ? +' [r]' : +''
     yard_return = yard_return_class_from_type(deets)
 
-    enum_const = nil
     enum_const_name = nil
     if deets[:enum]
       enum_const_name = +"#{const_name_from_object_name(attr)}#{ENUM_CONST_SUFFIX}"
@@ -618,9 +613,9 @@ class App
     attr_def << +"          enum: #{enum_const_name}," if enum_const_name
 
     attr_def << +"          minimum: #{deets[:minimum]}," if deets[:minimum]
-    attr_def << +"          exclusive_minimum: true," if deets[:exclusiveMinimum]
+    attr_def << +'          exclusive_minimum: true,' if deets[:exclusiveMinimum]
     attr_def << +"          maximum: #{deets[:maximum]}," if deets[:maximum]
-    attr_def << +"          exclusive_maximum: true," if deets[:exclusiveMaximum]
+    attr_def << +'          exclusive_maximum: true,' if deets[:exclusiveMaximum]
     attr_def << +"          multiple_of: #{deets[:multipleOf]}," if deets[:multipleOf]
 
     attr_def << +"          pattern: Regexp.new('#{deets[:pattern]}')," if deets[:pattern]
@@ -629,9 +624,7 @@ class App
 
     attr_def << +"          min_items: #{deets[:minItems]}," if deets[:minItems]
     attr_def << +"          max_items: #{deets[:maxItems]}," if deets[:maxItems]
-    attr_def << +"          unique_items: true," if deets[:uniqueItems]
-
-
+    attr_def << +'          unique_items: true,' if deets[:uniqueItems]
 
     attr_def.last.chomp! ','
     attr_def << +'        }'
