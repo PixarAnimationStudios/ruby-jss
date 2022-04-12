@@ -146,7 +146,7 @@ module Jamf
       #
       #######################################################
       def connect(url = nil, **params)
-        raise ArgumentError, 'No url or connection parameters provided' if url.nil? || params.empty?
+        raise ArgumentError, 'No url or connection parameters provided' if url.nil? && params.empty?
 
         # reset all values, flush caches
         disconnect
