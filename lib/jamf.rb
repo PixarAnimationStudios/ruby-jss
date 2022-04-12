@@ -47,6 +47,11 @@ require 'open3'
 # Gems
 require 'immutable-struct'
 
+# Load things not loaded by zeitwerk
+require 'jamf/ruby_extensions'
+require 'jamf/exceptions'
+require 'jamf/db_connection'
+
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 require 'zeitwerk'
 require 'zeitwerk_config'
@@ -93,6 +98,12 @@ module Jamf
   # rubocop: enable Style/StderrPuts
 
   # These need to come after the definition of verboase_loading?
+  # since they will try to use it when they get loaded
+  ###################
+
+  # DEPRECATED, use Jamf.config
+  CONFIG = Jamf::Configuration.instance
+
   include Jamf::Constants
   extend Jamf::Utility
   extend Jamf::Connection::DefaultConnection
@@ -104,10 +115,6 @@ Jamf.validate_ruby_version
 
 # backward compatibility, JSS module is now a synonym for Jamf module
 JSS = Jamf
-
-# Load things not loaded by zeitwerk
-require 'jamf/ruby_extensions'
-require 'jamf/exceptions'
 
 # testing zeitwerk loading
 eager_load_for_testing if JAMF_ZEITWERK_EAGER_LOAD_FILE.file?
