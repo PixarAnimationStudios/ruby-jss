@@ -59,7 +59,6 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'classic_api' => 'ClassicAPI'
   loader.inflector.inflect 'jamf_pro_api' => 'JamfProAPI'
   loader.inflector.inflect 'jamf_pro_api_error' => 'JamfProAPIError'
-  loader.inflector.inflect 'db_connection' => 'DBConnection'
 
   # API objects, resources, and mixins
   loader.inflector.inflect 'oapi_schemas' => 'OAPISchemas'
@@ -91,6 +90,7 @@ def setup_zeitwerk_loader(loader)
 
   loader.ignore "#{__dir__}/jamf/api/jamf_pro/pre_oapi"
 
+  loader.ignore "#{__dir__}/jamf/db_connection.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions"
   loader.ignore "#{__dir__}/jamf/exceptions.rb"
