@@ -314,7 +314,7 @@ module Jamf
 
     # a wrapper around Time.parse that returns nil for
     # nil, zero, and empty values.
-    def self.parse_time(a_datetime)
+    def parse_time(a_datetime)
       return nil if NIL_DATES.include? a_datetime
 
       Time.parse a_datetime.to_s
