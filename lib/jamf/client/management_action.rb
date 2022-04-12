@@ -27,7 +27,7 @@
 module Jamf
 
   # jamf client computer
-  module Client
+  class Client
 
     #  Module for working with the Management Action.app, which is an interface
     # to the Notification Center

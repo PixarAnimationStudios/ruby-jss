@@ -25,7 +25,7 @@
 
 module Jamf
 
-  module Client
+  class Client
 
     # Module for working with the Jamf Binary on a managed client mac
     # This should be extended into Jamf::Client

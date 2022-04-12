@@ -26,7 +26,7 @@
 ###
 module Jamf
 
-  module Client
+  class Client
 
     # Module for working with jamfHelper.app on a managed client Mac
     # This should be extended into Jamf::Client

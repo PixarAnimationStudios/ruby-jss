@@ -28,7 +28,7 @@ module Jamf
   # This module contains methods for working locally on a managed Jamf client
   # computer, on which this code is running.
   #
-  module Client
+  class Client
 
     # The Pathname to the preferences plist used by the jamf binary
     JAMF_PLIST = Pathname.new '/Library/Preferences/com.jamfsoftware.jamf.plist'
