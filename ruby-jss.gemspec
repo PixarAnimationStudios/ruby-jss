@@ -74,7 +74,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
 
   # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
-  s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
+  # s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
 
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
   # TODO: replace this with the one from concurrent-ruby
