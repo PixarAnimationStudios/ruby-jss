@@ -14,6 +14,42 @@ Please update all installations of ruby-jss to at least v1.6.0.
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
+## \[2.0.0] - Unreleased
+
+Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes and v2.0.0 is not fully backward compatible. **PLEASE TEST YOUR CODE EXTENSIVELY**
+
+Here are the high-level changes and there are many many others. For more details, see [CHANGES-2.0.0](CHANGES-2.0.0.md)
+
+- Combined access to both APIs.
+  - The Classic and Jamf Pro APIs are no longer separated into the JSS and Jamf modules. There is only the `Jamf` module, and `JSS` is merely an alias of it, so all your code refering to the JSS module should still work.
+- Auto-generated classes for the Jamf Pro API
+  - Base classes for JamfPro API objects are automatically generated from the OAPI3 Schema available at https://your.jamf.server/api/schema. This make it much simpler for ruby-jss to implement and update new and changed objects and endpoints in the Jamf Pro API.
+- Code is auto-loaded from disk
+  - Because the auto-generated classes add hundreds of files to the gem, ruby-jss now uses [Zeitwerk](https://github.com/fxn/zeitwerk) to auto-load only the files it needs when they are needed.
+
+
+## \[1.6.7] - 2022-02-22
+
+### Added
+
+  - Support for the FORCE_IPA_UPLOAD parameter when uploading mobiledeviceapplicationsipa data. This makes the server upload the .ipa to cloud distribution points, as it does when uploaded via the WebUI.
+
+## \[1.6.6] - 2022-02-06
+
+### Added
+
+  - Support for EnableRemoteDesktop and DisableRemoteDesktop MDM commands
+
+## \[1.6.5] - 2021-10-14
+
+### Fixed
+
+  - Uplodable#upload now works with Faraday
+
+### Added
+
+  - Attribute 'os_type' added to JSS::MobileDeviceApplication
+
 ## \[1.6.4] - 2021-10-04
 
 ### Fixed

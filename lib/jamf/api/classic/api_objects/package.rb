@@ -115,13 +115,14 @@ module Jamf
     #
     # Slow cuz we have to instantiate every pkg
     #
-    # @param api[Jamf::Connection] an API connection to use
+    # @param cnx [Jamf::Connection] an API connection to use
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<String>] The current file names
     #
-    def self.all_filenames(api: Jamf.cnx)
-      all_filenames_by(:id, api: api).values
+    def self.all_filenames(api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+      all_filenames_by(:id, cnx: cnx).values
     end
 
     # A Hash of all dist-point filenames used by all JSS packages, keyed by
@@ -131,17 +132,19 @@ module Jamf
     #
     # @param key[Symbol] either :id, or :name
     #
-    # @param api[Jamf::Connection] an API connection to use
+    # @param cnx [Jamf::Connection] an API connection to use
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash{Ingeter,String => String}] The current file names by key
     #
-    def self.all_filenames_by(key, api: Jamf.cnx)
+    def self.all_filenames_by(key, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       raise ArgumentError, 'key must be :id or :name' unless %i[id name].include? key
 
       files_in_use = {}
-      all_ids(:refresh).each do |pkg_id|
-        pkg = fetch id: pkg_id, api: api
+      all_ids(:refresh, cnx: cnx).each do |pkg_id|
+        pkg = fetch id: pkg_id, cnx: cnx
         files_in_use[pkg.send(key)] = pkg.filename
       end
 
@@ -159,7 +162,7 @@ module Jamf
     # @param unmount[Boolean] whether or not ot unount the
     #   distribution point when finished.
     #
-    # @param api[Jamf::Connection] an API connection to use
+    # @param cnx [Jamf::Connection] an API connection to use
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @param dist_point [String,Integer] the name or id of the distribution
@@ -167,12 +170,14 @@ module Jamf
     #
     # @return [Array<String>] The orphaned files
     #
-    def self.orphaned_files(ro_pw, unmount = true, api: Jamf.cnx, dist_point: nil)
-      dp = fetch_dist_point(dist_point, api: api)
+    def self.orphaned_files(ro_pw, unmount = true, dist_point: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      dp = fetch_dist_point(dist_point, cnx: cnx)
       pkgs_dir = dp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
       files_on_dp = pkgs_dir.children.map { |f| f.basename.to_s }
       dp.unmount if unmount
-      files_on_dp - all_filenames(api: api)
+      files_on_dp - all_filenames(cnx: cnx)
     end
 
     # An array of String filenames for all filenames in any
@@ -186,7 +191,7 @@ module Jamf
     # @param unmount[Boolean] whether or not ot unount the
     #   distribution point when finished.
     #
-    # @param api[Jamf::Connection] an API connection to use
+    # @param cnx [Jamf::Connection] an API connection to use
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @param dist_point [String,Integer] the name or id of the distribution
@@ -195,12 +200,14 @@ module Jamf
     #
     # @return [Array<String>] The orphaned files
     #
-    def self.missing_files(ro_pw, unmount = true, api: Jamf.cnx, dist_point: nil)
-      dp = fetch_dist_point(dist_point, api: api)
+    def self.missing_files(ro_pw, unmount = true, dist_point: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      dp = fetch_dist_point(dist_point, cnx: cnx)
       pkgs_dir = dp.mount(ro_pw, :ro) + DIST_POINT_PKGS_FOLDER
       files_on_dp = pkgs_dir.children.map { |f| f.basename.to_s }
       dp.unmount if unmount
-      all_filenames(api: api) - files_on_dp
+      all_filenames(cnx: cnx) - files_on_dp
     end
 
     # Given a file path, and hash type, generate the checksum for an arbitrary
@@ -222,11 +229,13 @@ module Jamf
     #   point to use. Defaults to the Master Dist. Point
     #
     # @return [Jamf::DistributionPoint]
-    def self.fetch_dist_point(dist_point, api: Jamf.cnx)
+    def self.fetch_dist_point(dist_point, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       if dist_point
-        Jamf::DistributionPoint.fetch dist_point, api: api
+        Jamf::DistributionPoint.fetch dist_point, cnx: cnx
       else
-        Jamf::DistributionPoint.master_distribution_point api: api
+        Jamf::DistributionPoint.master_distribution_point cnx: cnx
       end
     end
 
@@ -595,7 +604,7 @@ module Jamf
       return nil if new_val == @switch_with_package
       new_val = nil if new_val.to_s.empty?
 
-      raise Jamf::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names(api: @api).include? new_val)
+      raise Jamf::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names(cnx: @cnx).include? new_val)
 
       new_val ||= DO_NOT_INSTALL
       @switch_with_package = new_val
@@ -639,7 +648,7 @@ module Jamf
     def upload_master_file(local_file_path, rw_pw, unmount = true, chksum: DEFAULT_CHECKSUM_HASH_TYPE, dist_point: nil)
       raise Jamf::NoSuchItemError, 'Please create this package in the JSS before uploading it.' unless @in_jss
 
-      dp = self.class.fetch_dist_point(dist_point, api: @api)
+      dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
 
       destination = dp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
 
@@ -747,7 +756,7 @@ module Jamf
     #
     def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
-      dp = self.class.fetch_dist_point(dist_point, api: @api)
+      dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
 
       if local_file
         file_to_calc = local_file
@@ -820,7 +829,7 @@ module Jamf
     #
     def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true, dist_point: nil)
       raise Jamf::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
-      dp = self.class.fetch_dist_point(dist_point, api: @api)
+      dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
 
       pkgs_dir = dp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
       old_file = pkgs_dir + old_file_name
@@ -854,7 +863,7 @@ module Jamf
     # @return [Boolean] was the file deleted?
     #
     def delete_master_file(rw_pw, unmount = true, dist_point: nil)
-      dp = self.class.fetch_dist_point(dist_point, api: @api)
+      dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
       file = dp.mount(rw_pw, :rw) + "#{DIST_POINT_PKGS_FOLDER}/#{@filename}"
       if file.exist?
         file.delete
@@ -941,7 +950,7 @@ module Jamf
       #    in >=9.72:  jamf install  -package foo.pkg -path http://mycasper.myorg.edu/CasperShare/Packages/foo.pkg
       #
       append_at_vers = JSS.parse_jss_version('9.72')[:version]
-      our_vers = JSS.parse_jss_version(@api.server.raw_version)[:version]
+      our_vers = JSS.parse_jss_version(@cnx.server.raw_version)[:version]
       no_filename_in_url = (our_vers < append_at_vers)
 
       # use a provided alternative url for an http download
@@ -952,7 +961,7 @@ module Jamf
         using_http = true
       # use our appropriate dist. point for download
       else
-        mdp = Jamf::DistributionPoint.my_distribution_point api: @api
+        mdp = Jamf::DistributionPoint.my_distribution_point cnx: @cnx
 
         # how do we access our dist. point? with http?
         if mdp.http_downloads_enabled && !(args[:no_http])

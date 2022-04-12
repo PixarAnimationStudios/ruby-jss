@@ -314,13 +314,15 @@ module Jamf
     #   either ids, names, SNs, macaddrs, or UDIDs. If omitted, flushes logs for
     #   all computers
     #
-    # @param api [Jamf::Connection] the API  connection to use.
+    # @param cnx [Jamf::Connection] the API  connection to use.
     #
     # @return [void]
     #
-    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: Jamf.cnx)
-      orig_timeout = api.cnx.options.timeout
-      pol_id = valid_id policy
+    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      orig_timeout = cnx.timeout
+      pol_id = valid_id policy, cnx: cnx
       raise Jamf::NoSuchItemError, "No Policy identified by '#{policy}'." unless pol_id
 
       older_than = LOG_FLUSH_INTERVAL_INTEGERS[older_than]
@@ -332,18 +334,18 @@ module Jamf
       computers = [computers] unless computers.is_a? Array
 
       # log flushes can be really slow
-      api.timeout = 1800 unless orig_timeout && orig_timeout > 1800
+      cnx.timeout = 1800 unless orig_timeout && orig_timeout > 1800
 
-      return api.c_delete "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
+      return cnx.c_delete "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
 
-      flush_logs_for_specific_computers pol_id, older_than, period, computers, api
+      flush_logs_for_specific_computers pol_id, older_than, period, computers, cnx
     ensure
-      api.timeout = orig_timeout
+      cnx.timeout = orig_timeout
     end
 
     # use an XML body in a DELETE request to flush logs for
     # a list of computers - used by the flush_logs class method
-    def self.flush_logs_for_specific_computers(pol_id, older_than, period, computers, api)
+    def self.flush_logs_for_specific_computers(pol_id, older_than, period, computers, cnx)
       # build the xml body for a DELETE request
       xml_doc = REXML::Document.new Jamf::Connection::XML_HEADER
       lf = xml_doc.add_element 'logflush'
@@ -352,7 +354,7 @@ module Jamf
       lf.add_element('interval').text = "#{older_than} #{period}"
       comps_elem = lf.add_element 'computers'
       computers.each do |c|
-        id = Jamf::Computer.valid_id c
+        id = Jamf::Computer.valid_id c, cnx: cnx
         next unless id
 
         ce = comps_elem.add_element 'computer'
@@ -360,7 +362,7 @@ module Jamf
       end
 
       # Do a DELETE request with a body.
-      api.cnx.delete(LOG_FLUSH_RSRC) do |req|
+      cnx.delete(LOG_FLUSH_RSRC) do |req|
         req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
         req.body = xml_doc.to_s
       end
@@ -1369,7 +1371,7 @@ module Jamf
 
       return nil if @packages.map { |p| p[:id] }.include? id
 
-      name = Jamf::Package.map_all_ids_to(:name, api: @api)[id]
+      name = Jamf::Package.map_all_ids_to(:name, cnx: @cnx)[id]
 
       pkg_data = {
         id: id,
@@ -1454,7 +1456,7 @@ module Jamf
 
       return nil if @scripts.map { |s| s[:id] }.include? id
 
-      name = Jamf::Script.map_all_ids_to(:name, api: @api)[id]
+      name = Jamf::Script.map_all_ids_to(:name, cnx: @cnx)[id]
 
       script_data = {
         id: id,
@@ -1521,7 +1523,7 @@ module Jamf
     # @return [Array] the scripts array
     #
     def set_script_parameters(identifier, **opts)
-      id = Jamf::Script.valid_id identifier, api: @api
+      id = Jamf::Script.valid_id identifier, cnx: @cnx
       raise Jamf::NoSuchItemError, "No script matches '#{identifier}'" unless id
 
       script_data = @scripts.select { |s| s[:id] == id }[0]
@@ -1564,7 +1566,7 @@ module Jamf
 
       return nil if @directory_bindings.map { |s| s[:id] }.include? id
 
-      name = Jamf::DirectoryBinding.map_all_ids_to(:name, api: @api)[id]
+      name = Jamf::DirectoryBinding.map_all_ids_to(:name, cnx: @cnx)[id]
 
       directory_binding_data = {
         id: id,
@@ -1626,7 +1628,7 @@ module Jamf
 
       return nil if @printers.map { |p| p[:id] }.include? id
 
-      name = Jamf::Printer.map_all_ids_to(:name, api: @api)[id]
+      name = Jamf::Printer.map_all_ids_to(:name, cnx: @cnx)[id]
 
       printer_data = {
         id: id,
@@ -1658,7 +1660,7 @@ module Jamf
 
     # Add a dock item to the policy
     def add_dock_item(identifier, action)
-      id = Jamf::DockItem.valid_id identifier, api: @api
+      id = Jamf::DockItem.valid_id identifier, cnx: @cnx
 
       raise Jamf::NoSuchItemError, "No Dock Item matches '#{identifier}'" unless id
 
@@ -1666,7 +1668,7 @@ module Jamf
 
       return nil if @dock_items.map { |d| d[:id] }.include? id
 
-      name = Jamf::DockItem.map_all_ids_to(:name, api: @api)[id]
+      name = Jamf::DockItem.map_all_ids_to(:name, cnx: @cnx)[id]
 
       @dock_items << {id: id, name: name, action: DOCK_ITEM_ACTIONS[action]}
 
@@ -1870,8 +1872,7 @@ module Jamf
         @id,
         older_than: older_than,
         period: period,
-        computers: computers,
-        api: @api
+        computers: computers, cnx: @cnx
       )
     end
 
@@ -1914,7 +1915,7 @@ module Jamf
       # if the given position is past the end, set it to -1 (the end)
       opts[:position] = -1 if opts[:position] > @packages.size
 
-      id = Jamf::Package.valid_id identifier, api: @api
+      id = Jamf::Package.valid_id identifier, cnx: @cnx
 
       raise Jamf::NoSuchItemError, "No package matches '#{identifier}'" unless id
 
@@ -1950,7 +1951,7 @@ module Jamf
       # if the given position is past the end, set it to -1 (the end)
       opts[:position] = -1 if opts[:position] > @packages.size
 
-      id = Jamf::Script.valid_id identifier, api: @api
+      id = Jamf::Script.valid_id identifier, cnx: @cnx
       raise Jamf::NoSuchItemError, "No script matches '#{identifier}'" unless id
       id
     end
@@ -1974,7 +1975,7 @@ module Jamf
         # if the given position is past the end, set it to -1 (the end)
         opts[:position] = -1 if opts[:position] > @directory_bindings.size
 
-        id = Jamf::DirectoryBinding.valid_id identifier, api: @api
+        id = Jamf::DirectoryBinding.valid_id identifier, cnx: @cnx
         raise Jamf::NoSuchItemError, "No directory binding matches '#{identifier}'" unless id
         id
     end
@@ -2008,7 +2009,7 @@ module Jamf
 
       opts[:make_default] = false if opts[:make_default].nil?
 
-      id = Jamf::Printer.valid_id identifier, api: @api
+      id = Jamf::Printer.valid_id identifier, cnx: @cnx
       raise Jamf::NoSuchItemError, "No printer matches '#{identifier}'" unless id
       id
     end

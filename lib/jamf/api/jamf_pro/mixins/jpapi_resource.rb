@@ -45,7 +45,7 @@ module Jamf
 
     # which API do APIObjects come from?
     # The classic equivalent is in Jamf::APIObject
-    API_SOURCE = :jamf_pro_api
+    API_SOURCE = :jamf_pro
 
     # These methods are allowed to call .new
     NEW_CALLERS = ['fetch', 'create', 'all', 'cached_all', 'block in all', 'block in cached_all'].freeze

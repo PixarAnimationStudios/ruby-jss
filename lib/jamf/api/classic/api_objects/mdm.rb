@@ -335,7 +335,7 @@ module Jamf
       # @param opts[Hash] Some commands require extra data, e.g. a device name.
       #   Put it here
       #
-      # @param api[Jamf::Connection] the API connection to use. Defaults to the
+      # @param cnx [Jamf::Connection] the API connection to use. Defaults to the
       #   currently active API, see {Jamf::Connection}
       #
       # @return [Hash{Integer=>String}] Keys are the target device ids.
@@ -350,12 +350,14 @@ module Jamf
       #   always 'Command sent' (an error will be raised if there are problems
       #   sending)
       #
-      def send_mdm_command(targets, command, opts: {}, api: Jamf.cnx)
+      def send_mdm_command(targets, command, opts: {}, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         command = validate_command(command)
 
         rsrc = "#{send_command_rsrc}/command/#{command}"
 
-        targets = raw_targets_to_ids targets, api: api
+        targets = raw_targets_to_ids targets, cnx: cnx
 
         cmd_xml = mdm_command_xml(command, opts, targets)
 
@@ -365,7 +367,7 @@ module Jamf
           puts "\n\nTo rsrc: #{rsrc}"
         end
 
-        result = api.c_post rsrc, cmd_xml
+        result = cnx.c_post rsrc, cmd_xml
 
         if command == BLANK_PUSH
           hash = {}
@@ -436,19 +438,21 @@ module Jamf
       #
       # @param expand_groups[Boolean] Should groups be expanded into member ids?
       #
-      # @param api[Jamf::Connection] an API connection to use.
+      # @param cnx [Jamf::Connection] an API connection to use.
       #
       # @return [Array<Integer>] The ids of the target devices for a command
       #
-      def raw_targets_to_ids(targets, api: Jamf.cnx, expand_groups: true)
+      def raw_targets_to_ids(targets, expand_groups: true, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         targets = targets.is_a?(Array) ? targets : [targets]
 
         # flush caches before checking ids and managment
-        api.flushcache self::RSRC_LIST_KEY
+        cnx.flushcache self::RSRC_LIST_KEY
 
         # make sure its an array of ids
         targets.map! do |md|
-          id = valid_id md, api: api
+          id = valid_id md, cnx: cnx
           raise Jamf::NoSuchItemError, "No #{self} matches identifier: #{md}" unless id
           id
         end # map!
@@ -462,7 +466,7 @@ module Jamf
 
         # make sure all of them are managed, or else the API will raise a 400
         # 'Bad Request' when sending the command to an unmanaged target
-        all_mgd = map_all_ids_to(:managed, api: api).select { |_id, mgd| mgd }.keys
+        all_mgd = map_all_ids_to(:managed, cnx: cnx).select { |_id, mgd| mgd }.keys
 
         targets.each do |target_id|
           raise Jamf::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
@@ -551,12 +555,14 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)]
       #
-      def blank_push(targets, api: Jamf.cnx)
-        send_mdm_command targets, :blank_push, api: api
+      def blank_push(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :blank_push, cnx: cnx
       end
       alias send_blank_push blank_push
       alias noop blank_push
@@ -569,11 +575,13 @@ module Jamf
       #
       # @param message[String] An optional message to display on mobiledevices & mobiledevicegroups
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def device_lock(targets, passcode: '', message: nil, api: Jamf.cnx)
+      def device_lock(targets, passcode: '', message: nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Locking computers requires a 6-character String passcode' unless passcode.size == 6
@@ -582,7 +590,7 @@ module Jamf
           opts = {}
           opts[:lock_message] = message if message
         end # case
-        send_mdm_command targets, :device_lock, opts: opts, api: api
+        send_mdm_command targets, :device_lock, opts: opts, cnx: cnx
       end
       alias lock_device device_lock
       alias lock device_lock
@@ -595,11 +603,13 @@ module Jamf
       #
       # @param preserve_data_plan[Boolean] Should the data plan of the mobile device be preserved?
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def erase_device(targets, passcode: '', preserve_data_plan: false, api: Jamf.cnx)
+      def erase_device(targets, passcode: '', preserve_data_plan: false, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Erasing computers requires a 6-character String passcode' unless passcode.size == 6
@@ -608,7 +618,7 @@ module Jamf
           opts = {}
           opts[:preserve_data_plan] = 'true' if preserve_data_plan
         end # case
-        send_mdm_command targets, :erase_device, opts: opts, api: api
+        send_mdm_command targets, :erase_device, opts: opts, cnx: cnx
       end
       alias wipe erase_device
       alias wipe_device erase_device
@@ -624,12 +634,14 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def unmanage_device(targets, api: Jamf.cnx)
-        send_mdm_command targets, :unmanage_device, api: api
+      def unmanage_device(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :unmanage_device, cnx: cnx
       end
       alias remove_mdm_profile unmanage_device
 
@@ -642,12 +654,14 @@ module Jamf
       #
       # @param user[String] the username of the acct to unlock
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def unlock_user_account(targets, user, api: Jamf.cnx)
-        send_mdm_command targets, :unlock_user_account, opts: { user_name: user }, api: api
+      def unlock_user_account(targets, user, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :unlock_user_account, opts: { user_name: user }, cnx: cnx
       end
 
       # Send a delete_user command to one or more targets
@@ -656,36 +670,42 @@ module Jamf
       #
       # @param user[String] the username of the acct to delete
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def delete_user(targets, user, api: Jamf.cnx)
-        send_mdm_command targets, :delete_user, opts: { user_name: user }, api: api
+      def delete_user(targets, user, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :delete_user, opts: { user_name: user }, cnx: cnx
       end
 
       # Send an enable_remote_desktop command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def enable_remote_desktop(targets, api: Jamf.cnx)
-        send_mdm_command targets, :enable_remote_desktop, api: api
+      def enable_remote_desktop(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :enable_remote_desktop, cnx: cnx
       end
 
       # Send a disable_remote_desktop command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_remote_desktop(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_remote_desktop, api: api
+      def disable_remote_desktop(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_remote_desktop, cnx: cnx
       end
 
       # Commands for mobile devices only
@@ -695,12 +715,14 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def update_inventory(targets, api: Jamf.cnx)
-        send_mdm_command targets, :update_inventory, api: api
+      def update_inventory(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :update_inventory, cnx: cnx
       end
       alias recon update_inventory
 
@@ -708,72 +730,84 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def clear_passcode(targets, api: Jamf.cnx)
-        send_mdm_command targets, :clear_passcode, api: api
+      def clear_passcode(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :clear_passcode, cnx: cnx
       end
 
       # Send an clear_restrictions_password command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def clear_restrictions_password(targets, api: Jamf.cnx)
-        send_mdm_command targets, :clear_restrictions_password, api: api
+      def clear_restrictions_password(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :clear_restrictions_password, cnx: cnx
       end
 
       # Send an enable_data_roaming command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def enable_data_roaming(targets, api: Jamf.cnx)
-        send_mdm_command targets, :enable_data_roaming, api: api
+      def enable_data_roaming(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :enable_data_roaming, cnx: cnx
       end
 
       # Send andisable_data_roaming command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_data_roaming(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_data_roaming, api: api
+      def disable_data_roaming(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_data_roaming, cnx: cnx
       end
 
       # Send an enable_voice_roaming command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def enable_voice_roaming(targets, api: Jamf.cnx)
-        send_mdm_command targets, :enable_voice_roaming, api: api
+      def enable_voice_roaming(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :enable_voice_roaming, cnx: cnx
       end
 
       # Send a disable_voice_roaming command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_voice_roaming(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_voice_roaming, api: api
+      def disable_voice_roaming(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_voice_roaming, cnx: cnx
       end
 
       # Commands for supervized mobile devices only
@@ -785,12 +819,14 @@ module Jamf
       #
       # @param name[String] The new name
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def device_name(targets, name, api: Jamf.cnx)
-        send_mdm_command targets, :device_name, opts: { device_name: name }, api: api
+      def device_name(targets, name, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :device_name, opts: { device_name: name }, cnx: cnx
       end
       alias set_name device_name
       alias set_device_name device_name
@@ -807,11 +843,13 @@ module Jamf
       # @param wallpaper_id[Symbol] The id of an Icon in Jamf Pro to use as the wallpaper image,
       #   required if no wallpaper_content
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def wallpaper(targets, wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil, api: Jamf.cnx)
+      def wallpaper(targets, wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise ArgumentError, "wallpaper_setting must be one of: :#{WALLPAPER_LOCATIONS.keys.join ', :'}" unless WALLPAPER_LOCATIONS.keys.include? wallpaper_setting
 
         opts = { wallpaper_setting: WALLPAPER_LOCATIONS[wallpaper_setting] }
@@ -826,7 +864,7 @@ module Jamf
           raise ArgumentError, 'Either wallpaper_id: or wallpaper_content must be provided'
         end
 
-        send_mdm_command targets, :wallpaper, opts: opts, api: api
+        send_mdm_command targets, :wallpaper, opts: opts, cnx: cnx
       end
       alias set_wallpaper wallpaper
 
@@ -836,24 +874,28 @@ module Jamf
       #
       # @param secs[Integer] The numer of seconds for the grace period
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def passcode_lock_grace_period(targets, secs, api: Jamf.cnx)
-        send_mdm_command targets, :passcode_lock_grace_period, opts: { passcode_lock_grace_period: secs }, api: api
+      def passcode_lock_grace_period(targets, secs, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :passcode_lock_grace_period, opts: { passcode_lock_grace_period: secs }, cnx: cnx
       end
 
       # Send a shut_down_device command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def shut_down_device(targets, api: Jamf.cnx)
-        send_mdm_command targets, :shut_down_device, api: api
+      def shut_down_device(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :shut_down_device, cnx: cnx
       end
       alias shutdown_device shut_down_device
       alias shut_down shut_down_device
@@ -863,12 +905,14 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def restart_device(targets, api: Jamf.cnx)
-        send_mdm_command targets, :restart_device, api: api
+      def restart_device(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :restart_device, cnx: cnx
       end
       alias restart restart_device
 
@@ -876,48 +920,56 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def enable_app_analytics(targets, api: Jamf.cnx)
-        send_mdm_command targets, :enable_app_analytics, api: api
+      def enable_app_analytics(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :enable_app_analytics, cnx: cnx
       end
 
       # Send a disable_app_analytics command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_app_analytics(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_app_analytics, api: api
+      def disable_app_analytics(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_app_analytics, cnx: cnx
       end
 
       # Send an enable_diagnostic_submission command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def enable_diagnostic_submission(targets, api: Jamf.cnx)
-        send_mdm_command targets, :enable_diagnostic_submission, api: api
+      def enable_diagnostic_submission(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :enable_diagnostic_submission, cnx: cnx
       end
 
       # Send a disable_diagnostic_submission command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_diagnostic_submission(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_diagnostic_submission, api: api
+      def disable_diagnostic_submission(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_diagnostic_submission, cnx: cnx
       end
 
       # Send a enable_lost_mode command to one or more targets
@@ -936,7 +988,7 @@ module Jamf
       #
       # @param enforce_lost_mode[Boolean] Re-enabled lost mode when re-enrolled after wipe.
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
@@ -947,8 +999,11 @@ module Jamf
             footnote: nil,
             play_sound: false,
             enforce_lost_mode: true,
-            api: Jamf.cnx
-      )
+            api: nil,
+            cnx: Jamf.cnx
+          )
+        cnx = api if api
+
         raise ArgumentError, 'Either message: or phone_number: must be provided' unless message || phone
         opts = { always_enforce_lost_mode: enforce_lost_mode }
         opts[:lost_mode_message] = message if message
@@ -956,31 +1011,35 @@ module Jamf
         opts[:lost_mode_footnote] = footnote if footnote
         opts[:lost_mode_with_sound] = 'true' if play_sound
 
-        send_mdm_command targets, :enable_lost_mode, opts: opts, api: api
+        send_mdm_command targets, :enable_lost_mode, opts: opts, cnx: cnx
       end
 
       # Send a play_lost_mode_sound command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def play_lost_mode_sound(targets, api: Jamf.cnx)
-        send_mdm_command targets, :play_lost_mode_sound, api: api
+      def play_lost_mode_sound(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :play_lost_mode_sound, cnx: cnx
       end
 
       # Send a disable_lost_mode command to one or more targets
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param api[Jamf::Connection] the API thru which to send the command
+      # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def disable_lost_mode(targets, api: Jamf.cnx)
-        send_mdm_command targets, :disable_lost_mode, api: api
+      def disable_lost_mode(targets, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        send_mdm_command targets, :disable_lost_mode, cnx: cnx
       end
 
       # Flushing Commands
@@ -996,17 +1055,19 @@ module Jamf
       #
       # @param status[String] a key from {Jamf::Commandable::FLUSHABLE_STATUSES}
       #
-      # @param api[Jamf::Connection] an API connection to use.
+      # @param cnx [Jamf::Connection] an API connection to use.
       #   Defaults to the corrently active API. See {Jamf::Connection}
       #
       # @return [void]
       #
-      def flush_mdm_commands(targets, status: nil, api: Jamf.cnx)
+      def flush_mdm_commands(targets, status: nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::InvalidDataError, "Status must be one of :#{FLUSHABLE_STATUSES.keys.join ', :'}" unless FLUSHABLE_STATUSES.keys.include? status
 
         status = FLUSHABLE_STATUSES[status]
 
-        target_ids = raw_targets_to_ids targets, api: api, expand_groups: false
+        target_ids = raw_targets_to_ids targets, cnx: cnx, expand_groups: false
 
         command_flush_rsrc = "commandflush/#{self::MDM_COMMAND_TARGET}/id"
 
@@ -1014,7 +1075,7 @@ module Jamf
 
         puts "Sending API DELETE: #{flush_rsrc}" if JSS.devmode?
 
-        api.c_delete flush_rsrc
+        cnx.c_delete flush_rsrc
       end
 
     end # module ClassMethods
@@ -1039,7 +1100,7 @@ module Jamf
     # @return [void]
     #
     def blank_push
-      self.class.send_blank_push @id, api: @api
+      self.class.send_blank_push @id, cnx: @cnx
     end
     alias send_blank_push blank_push
     alias noop blank_push
@@ -1052,7 +1113,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def device_lock(passcode_or_message = '')
-      self.class.device_lock @id, passcode: passcode_or_message, message: passcode_or_message, api: @api
+      self.class.device_lock @id, passcode: passcode_or_message, message: passcode_or_message, cnx: @cnx
     end
     alias lock device_lock
     alias lock_device device_lock
@@ -1064,7 +1125,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def erase_device(passcode = '', preserve_data_plan: false)
-      self.class.erase_device @id, passcode: passcode, preserve_data_plan: preserve_data_plan, api: @api
+      self.class.erase_device @id, passcode: passcode, preserve_data_plan: preserve_data_plan, cnx: @cnx
     end
     alias wipe_device erase_device
     alias wipe_computer erase_device
@@ -1081,7 +1142,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def unmanage_device
-      self.class.unmanage_device @id, api: @api
+      self.class.unmanage_device @id, cnx: @cnx
     end
     alias remove_mdm_profile unmanage_device
 
@@ -1095,7 +1156,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def unlock_user_account(user)
-      self.class.unlock_user_account @id, user, api: @api
+      self.class.unlock_user_account @id, user, cnx: @cnx
     end
 
     # Send a delete_user command to this computer or group
@@ -1105,7 +1166,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def delete_user(user)
-      self.class.delete_user @id, user, api: @api
+      self.class.delete_user @id, user, cnx: @cnx
     end
 
     # Send an enable_remote_desktop command to this computer or group
@@ -1113,7 +1174,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_remote_desktop
-      self.class.enable_remote_desktop @id, api: @api
+      self.class.enable_remote_desktop @id, cnx: @cnx
     end
 
     # Send a disable_remote_desktop command to this computer or group
@@ -1121,7 +1182,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_remote_desktop
-      self.class.disable_remote_desktop @id, api: @api
+      self.class.disable_remote_desktop @id, cnx: @cnx
     end
 
     # Commands for mobile devices only
@@ -1134,7 +1195,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def update_inventory
-      self.class.update_inventory @id, api: @api
+      self.class.update_inventory @id, cnx: @cnx
     end
     alias recon update_inventory
 
@@ -1143,7 +1204,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def clear_passcode
-      self.class.clear_passcode @id, api: @api
+      self.class.clear_passcode @id, cnx: @cnx
     end
 
     # Send an clear_restrictions_password command to this object
@@ -1151,7 +1212,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def clear_restrictions_password
-      self.class.clear_restrictions_password @id, api: @api
+      self.class.clear_restrictions_password @id, cnx: @cnx
     end
 
     # Send an enable_data_roaming command to this object
@@ -1159,7 +1220,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_data_roaming
-      self.class.enable_data_roaming @id, api: @api
+      self.class.enable_data_roaming @id, cnx: @cnx
     end
 
     # Send a disable_data_roaming command to this object
@@ -1167,7 +1228,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_data_roaming
-      self.class.disable_data_roaming @id, api: @api
+      self.class.disable_data_roaming @id, cnx: @cnx
     end
 
     # Send an enable_voice_roaming command to this object
@@ -1175,7 +1236,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_voice_roaming
-      self.class.enable_voice_roaming @id, api: @api
+      self.class.enable_voice_roaming @id, cnx: @cnx
     end
 
     # Send a disable_voice_roaming command to this object
@@ -1183,7 +1244,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_voice_roaming
-      self.class.disable_voice_roaming @id, api: @api
+      self.class.disable_voice_roaming @id, cnx: @cnx
     end
 
     # Commands for supervized mobile devices only
@@ -1200,7 +1261,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def device_name(name)
-      self.class.device_name @id, name, api: @api
+      self.class.device_name @id, name, cnx: @cnx
     end
     alias set_name device_name
     alias set_device_name device_name
@@ -1222,8 +1283,7 @@ module Jamf
         @id,
         wallpaper_setting: wallpaper_setting,
         wallpaper_content: wallpaper_content,
-        wallpaper_id: wallpaper_id,
-        api: @api
+        wallpaper_id: wallpaper_id, cnx: @cnx
       )
     end
     alias set_wallpaper wallpaper
@@ -1235,7 +1295,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def passcode_lock_grace_period(secs)
-      self.class.passcode_lock_grace_period @id, secs, api: @api
+      self.class.passcode_lock_grace_period @id, secs, cnx: @cnx
     end
 
     # Send a shut_down_device command to this object
@@ -1243,7 +1303,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def shut_down_device
-      self.class.shut_down_device @id, api: @api
+      self.class.shut_down_device @id, cnx: @cnx
     end
     alias shutdown_device shut_down_device
     alias shut_down shut_down_device
@@ -1254,7 +1314,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def restart_device
-      self.class.restart_device @id, api: @api
+      self.class.restart_device @id, cnx: @cnx
     end
     alias restart restart_device
 
@@ -1263,7 +1323,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_app_analytics
-      self.class.enable_app_analytics @id, api: @api
+      self.class.enable_app_analytics @id, cnx: @cnx
     end
 
     # Send a disable_app_analytics command to this object
@@ -1271,7 +1331,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_app_analytics
-      self.class.disable_app_analytics @id, api: @api
+      self.class.disable_app_analytics @id, cnx: @cnx
     end
 
     # Send an enable_diagnostic_submission command to this object
@@ -1279,7 +1339,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_diagnostic_submission
-      self.class.enable_diagnostic_submission @id, api: @api
+      self.class.enable_diagnostic_submission @id, cnx: @cnx
     end
 
     # Send a disable_diagnostic_submission command to this object
@@ -1287,7 +1347,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_diagnostic_submission
-      self.class.disable_diagnostic_submission @id, api: @api
+      self.class.disable_diagnostic_submission @id, cnx: @cnx
     end
 
     # Send a enable_lost_mode command to one or more targets
@@ -1319,8 +1379,7 @@ module Jamf
         phone_number: phone_number,
         footnote: footnote,
         play_sound: play_sound,
-        enforce_lost_mode: enforce_lost_mode,
-        api: @api
+        enforce_lost_mode: enforce_lost_mode, cnx: @cnx
       )
     end
 
@@ -1329,7 +1388,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def play_lost_mode_sound
-      self.class.play_lost_mode_sound @id, api: @api
+      self.class.play_lost_mode_sound @id, cnx: @cnx
     end
 
     # Send a disable_lost_mode command to this object
@@ -1337,7 +1396,7 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def disable_lost_mode
-      self.class.disable_lost_mode @id, api: @api
+      self.class.disable_lost_mode @id, cnx: @cnx
     end
 
     # Flushing Commands
@@ -1350,7 +1409,7 @@ module Jamf
     # @return [void]
     #
     def flush_mdm_commands(status)
-      self.class.flush_mdm_commands @id, status: status, api: @api
+      self.class.flush_mdm_commands @id, status: status, cnx: @cnx
     end
 
   end # module MDM

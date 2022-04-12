@@ -313,20 +313,18 @@ module Jamf
       # @param to [Symbol] The attribute to which the ident will be mapped.
       #   Aliases are acceptable, e.g. :name for :displayName
       #
-      # @param refresh (see .all)
-      #
       # @param cnx (see .all)
       #
       # @return [Hash {Symbol: Object}] A Hash of identifier mapped to attribute
       #
       ######################################
-      def map_all(ident, to:, cnx: Jamf.cnx, refresh: false)
+      def map_all(ident, to:, cnx: Jamf.cnx, cached_list: nil)
         raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless
         identifiers.include? ident
 
         raise Jamf::NoSuchItemError, "No attribute :#{to} for class #{self}" unless self::OAPI_PROPERTIES.key? to
 
-        list = all refresh: refresh, cnx: cnx
+        list = cached_list || all(cnx: cnx)
         to_class = self::OAPI_PROPERTIES[to][:class]
         mapped = list.map do |i|
           [
@@ -409,6 +407,10 @@ module Jamf
       ######################################
       def raw_data_by_id(id, cnx: Jamf.cnx)
         cnx.jp_get "#{get_path}/#{id}"
+      rescue Jamf::Connection::JamfProAPIError => e
+        return nil if e.errors.any? { |err| err.code == 'INVALID_ID' }
+
+        raise e
       end
 
       # Given an indentier attr. key, and a value,
@@ -603,8 +605,8 @@ module Jamf
         if defined?(self::OAPI_PROPERTIES) && self::OAPI_PROPERTIES.key?(attr_name) && identifiers.include?(attr_name)
           attr_def = self::OAPI_PROPERTIES[attr_name]
 
-          define_singleton_method(list_method_name) do |cnx: Jamf.cnx|
-            all_list = all(cnx: cnx)
+          define_singleton_method(list_method_name) do |cnx: Jamf.cnx, cached_list: nil|
+            all_list = cached_list || all(cnx: cnx)
             if attr_def[:class].is_a? Symbol
               all_list.map { |i| i[attr_name] }
             else

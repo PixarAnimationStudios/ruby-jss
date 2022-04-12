@@ -66,7 +66,7 @@ module Jamf
 
     # Create a new object in the JSS.
     #
-    # @param api[Jamf::Connection] the API in which to create the object
+    # @param cnx [Jamf::Connection] the API in which to create the object
     #   Defaults to the API used to instantiate this object
     #
     # @return [Integer] the jss ID of the newly created object
@@ -76,7 +76,7 @@ module Jamf
 
       raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
 
-      @api.c_post(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
+      @cnx.c_post(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
       @in_jss = true
       @need_to_update = false
@@ -84,7 +84,7 @@ module Jamf
 
       # clear any caches for this class
       # so they'll re-cache as needed
-      @api.flushcache self.class::RSRC_LIST_KEY
+      @cnx.flushcache self.class::RSRC_LIST_KEY
 
       @id
     end
@@ -93,16 +93,18 @@ module Jamf
     ###
     ### @param name [String] the name for the new object
     ###
-    ### @param api[Jamf::Connection] the API in which to create the object
+    ### @param cnx [Jamf::Connection] the API in which to create the object
     ###  Defaults to the API used to instantiate this object
     ###
     ### @return [APIObject] An uncreated clone of this APIObject with the given name
     ###
-    def clone(new_name, api: nil)
-      api ||= @api
+    def clone(new_name, api: nil, cnx: nil)
+      cnx = api if api
+      cnx ||= @cnx
+
       raise Jamf::UnsupportedError, 'This class is not creatable in via ruby-jss' unless creatable?
       raise Jamf::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with that name" if \
-        self.class.all_names(:refresh, api: api).include? new_name
+        self.class.all_names(:refresh, cnx: cnx).include? new_name
 
       orig_in_jss = @in_jss
       @in_jss = false
@@ -110,15 +112,15 @@ module Jamf
       @id = nil
       orig_rsrc = @rest_rsrc
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape new_name.to_s}"
-      orig_api = @api
-      @api = api
+      orig_cnx = @cnx
+      @cnx = cnx
 
       new_obj = dup
 
       @in_jss = orig_in_jss
       @id = orig_id
       @rest_rsrc = orig_rsrc
-      @api = orig_api
+      @cnx = orig_cnx
       new_obj.name = new_name
 
       new_obj

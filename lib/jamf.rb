@@ -46,6 +46,7 @@ require 'open3'
 
 # Gems
 require 'immutable-struct'
+require 'concurrent'
 
 # Load things not loaded by zeitwerk
 require 'jamf/ruby_extensions'

@@ -73,15 +73,17 @@ module Jamf
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<Hash{:name=>String, :id=> Integer, :type => Symbol}>]
     #
-    def self.all(refresh = false, api: Jamf.cnx)
+    def self.all(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       if self == Jamf::PatchSource
-        int = Jamf::PatchInternalSource.all(refresh, api: api).each { |s| s[:type] = :internal }
-        ext = Jamf::PatchExternalSource.all(refresh, api: api).each { |s| s[:type] = :external }
+        int = Jamf::PatchInternalSource.all(refresh, cnx: cnx).each { |s| s[:type] = :internal }
+        ext = Jamf::PatchExternalSource.all(refresh, cnx: cnx).each { |s| s[:type] = :external }
         return (int + ext).sort! { |s1, s2| s1[:id] <=> s2[:id] }
       end
       super
@@ -89,30 +91,36 @@ module Jamf
 
     # Get names, ids  for all patch internal sources
     #
-    # the same as Jamf::PatchInternalSource.all refresh, api: api
+    # the same as Jamf::PatchInternalSource.all refresh, cnx: cnx
     #
     # @see  Jamf::PatchInternalSource.all
     #
-    def self.all_internal(refresh = false, api: Jamf.cnx)
-      Jamf::PatchInternalSource.all refresh, api: api
+    def self.all_internal(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      Jamf::PatchInternalSource.all refresh, cnx: cnx
     end
 
     # Get names, ids  for all patch internal sources
     #
-    # the same as Jamf::PatchExternalSource.all refresh, api: api
+    # the same as Jamf::PatchExternalSource.all refresh, cnx: cnx
     #
     #  @see  Jamf::PatchExternalSource.all
     #
-    def self.all_external(refresh = false, api: Jamf.cnx)
-      Jamf::PatchExternalSource.all refresh, api: api
+    def self.all_external(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      Jamf::PatchExternalSource.all refresh, cnx: cnx
     end
 
     # @see Jamf::APIObject.all_objects
     #
-    def self.all_objects(refresh = false, api: Jamf.cnx)
+    def self.all_objects(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       if self == Jamf::PatchSource
-        int = Jamf::PatchInternalSource.all_objects refresh, api: api
-        ext = Jamf::PatchExternalSource.all_objects refresh, api: api
+        int = Jamf::PatchInternalSource.all_objects refresh, cnx: cnx
+        ext = Jamf::PatchExternalSource.all_objects refresh, cnx: cnx
         return (int + ext).sort! { |s1, s2| s1.id <=> s2.id }
       end
       super
@@ -153,7 +161,7 @@ module Jamf
     #
     # @see APIObject.make
     #
-    def self.make(**args)
+    def self.create(**args)
       case self.name
       when 'Jamf::PatchSource'
         Jamf::PatchExternalSource.make args
@@ -164,14 +172,21 @@ module Jamf
       end
     end
 
+    # bacward compatibility
+    def self.make(**args)
+      create(**args)
+    end
+
     # Only Jamf::PatchExternalSources can be deleted
     #
     # @see APIObject.delete
     #
-    def self.delete(victims, api: Jamf.cnx)
+    def self.delete(victims, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       case self.name
       when 'Jamf::PatchSource'
-        Jamf::PatchExternalSource victims, api: api
+        Jamf::PatchExternalSource victims, cnx: cnx
       when 'Jamf::PatchExternalSource'
         super
       when 'Jamf::PatchInternalSource'
@@ -185,7 +200,7 @@ module Jamf
     # @param source[String,Integer] name or id of the Patch Source for which to
     # get the available titles
     #
-    # @param api[Jamf::Connection] The api connection to use for the query
+    # @param cnx [Jamf::Connection] The api connection to use for the query
     #   Defaults to the currently active connection
     #
     # @return [Array<Hash{Symbol:String}>] One hash for each available title, with
@@ -196,12 +211,14 @@ module Jamf
     #     :last_modified Time
     #     :app_name  String
     #
-    def self.available_titles(source, api: Jamf.cnx)
-      src_id = valid_patch_source_id source, api: api
+    def self.available_titles(source, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      src_id = valid_patch_source_id source, cnx: cnx
       raise Jamf::NoSuchItemError, "No Patch Source found matching: #{source}" unless src_id
 
       rsrc_base =
-        if valid_patch_source_type(src_id, api: api) == :internal
+        if valid_patch_source_type(src_id, cnx: cnx) == :internal
           Jamf::PatchInternalSource::AVAILABLE_TITLES_RSRC
         else
           Jamf::PatchExternalSource::AVAILABLE_TITLES_RSRC
@@ -211,7 +228,7 @@ module Jamf
 
       begin
         # TODO: remove this and adjust parsing when jamf fixes the JSON
-        raw = Jamf::XMLWorkaround.data_via_xml(rsrc, AVAILABLE_TITLES_DATA_MAP, api)
+        raw = Jamf::XMLWorkaround.data_via_xml(rsrc, AVAILABLE_TITLES_DATA_MAP, cnx)
       rescue Jamf::NoSuchItemError
         return []
       end
@@ -228,8 +245,10 @@ module Jamf
     #
     # @return [Array<String>] the name_ids available on the source
     #
-    def self.available_name_ids(source, api: Jamf.cnx)
-      available_titles(source, api: api).map { |t| t[:name_id] }
+    def self.available_name_ids(source, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      available_titles(source, cnx: cnx).map { |t| t[:name_id] }
     end
 
     # Given a name or id for a Patch Source (internal or external)
@@ -243,14 +262,16 @@ module Jamf
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Integer, nil] the valid id or nil if it doesn't exist.
     #
-    def self.valid_patch_source_id(ident, refresh = false, api: Jamf.cnx)
-      id = Jamf::PatchInternalSource.valid_id ident, refresh, api: api
-      id ||= Jamf::PatchExternalSource.valid_id ident, refresh, api: api
+    def self.valid_patch_source_id(ident, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      id = Jamf::PatchInternalSource.valid_id ident, refresh, cnx: cnx
+      id ||= Jamf::PatchExternalSource.valid_id ident, refresh, cnx: cnx
       id
     end
 
@@ -261,14 +282,16 @@ module Jamf
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Symbol, nil] :internal, :external, or nil if it doesn't exist.
     #
-    def self.valid_patch_source_type(ident, refresh = false, api: Jamf.cnx)
-      return :internel if Jamf::PatchInternalSource.valid_id ident, refresh, api: api
-      return :external if Jamf::PatchExternalSource.valid_id ident, refresh, api: api
+    def self.valid_patch_source_type(ident, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      return :internel if Jamf::PatchInternalSource.valid_id ident, refresh, cnx: cnx
+      return :external if Jamf::PatchExternalSource.valid_id ident, refresh, cnx: cnx
       nil
     end
 
@@ -329,14 +352,14 @@ module Jamf
     # @see Jamf::PatchSource.available_titles
     #
     def available_titles
-      self.class.available_titles id, api: api
+      self.class.available_titles id, cnx: cnx
     end
 
     # Get a list of available name_id's for this patch source
     # @see Jamf::PatchSource.available_name_ids
     #
     def available_name_ids
-      self.class.available_name_ids id, api: api
+      self.class.available_name_ids id, cnx: cnx
     end
 
     # Delete this instance

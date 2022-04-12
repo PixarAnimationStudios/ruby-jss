@@ -279,28 +279,30 @@ module Jamf
     # Currently this is read-only in ruby-jss, even tho the API
     # allows updating.
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash] the Computer Checkin Settings from the
     #   currently connected JSS.
     #
-    def self.checkin_settings(api: Jamf.cnx)
-      api.c_get(CHECKIN_RSRC)[CHECKIN_KEY]
+    def self.checkin_settings(api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+      cnx.c_get(CHECKIN_RSRC)[CHECKIN_KEY]
     end
 
     # Display the current Computer Inventory Collection settings in the JSS.
     # Currently this is read-only in ruby-jss, even tho the API
     # allows updating.
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash] the Computer Inventpry Collection Settings from the
     #   currently connected JSS.
     #
-    def self.inventory_collection_settings(api: Jamf.cnx)
-      api.c_get(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
+    def self.inventory_collection_settings(api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+      cnx.c_get(INV_COLLECTION_RSRC)[INV_COLLECTION_KEY]
     end
 
     # A larger set of info about the computers in the JSS.
@@ -317,88 +319,97 @@ module Jamf
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx[Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
-    def self.all(refresh = false, api: Jamf.cnx)
-      cache = api.c_object_list_cache
+    def self.all(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      cache = cnx.c_object_list_cache
       cache_key = self::RSRC_LIST_KEY
       cache[cache_key] = nil if refresh
       return cache[cache_key] if cache[cache_key]
 
-      cache[cache_key] = api.c_get(self::LIST_RSRC)[cache_key]
+      cache[cache_key] = cnx.c_get(self::LIST_RSRC)[cache_key]
     end
 
-    # # @return [Array<String>] all computer serial numbers in the jss
-    # def self.all_serial_numbers(refresh = false, api: Jamf.cnx)
-    #   all(refresh, api: api).map { |i| i[:serial_number] }
-    # end
-    #
-    # # @return [Array<String>] all computer mac_addresses in the jss
-    # def self.all_mac_addresses(refresh = false, api: Jamf.cnx)
-    #   all(refresh, api: api).map { |i| i[:mac_address] }
-    # end
-    #
-    # # @return [Array<String>] all computer udids in the jss
-    # def self.all_udids(refresh = false, api: Jamf.cnx)
-    #   all(refresh, api: api).map { |i| i[:udid] }
-    # end
-
     # @return [Array<Hash>] all managed computers in the jss
-    def self.all_managed(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:managed] }
+    def self.all_managed(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] all unmanaged computers in the jss
-    def self.all_unmanaged(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).reject { |d| d[:managed] }
+    def self.all_unmanaged(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).reject { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] all laptop computers in the jss
-    def self.all_laptops(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /book/i }
+    def self.all_laptops(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /book/i }
     end
 
     # @return [Array<Hash>] all macbooks in the jss
-    def self.all_macbooks(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^macbook\d/i }
+    def self.all_macbooks(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbook\d/i }
     end
 
     # @return [Array<Hash>] all macbookpros in the jss
-    def self.all_macbookpros(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^macbookpro\d/i  }
+    def self.all_macbookpros(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookpro\d/i  }
     end
 
     # @return [Array<Hash>] all macbookairs in the jss
-    def self.all_macbookairs(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^macbookair\d/i  }
+    def self.all_macbookairs(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookair\d/i  }
     end
 
     # @return [Array<Hash>] all xserves in the jss
-    def self.all_xserves(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /serve/i }
+    def self.all_xserves(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /serve/i }
     end
 
     # @return [Array<Hash>] all desktop macs in the jss
-    def self.all_desktops(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).reject { |d| d[:model] =~ /serve|book/i }
+    def self.all_desktops(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).reject { |d| d[:model] =~ /serve|book/i }
     end
 
     # @return [Array<Hash>] all imacs in the jss
-    def self.all_imacs(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^imac/i }
+    def self.all_imacs(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^imac/i }
     end
 
     # @return [Array<Hash>] all mac minis in the jss
-    def self.all_minis(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^macmini/i }
+    def self.all_minis(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macmini/i }
     end
 
     # @return [Array<Hash>] all macpros in the jss
-    def self.all_macpros(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model] =~ /^macpro/i }
+    def self.all_macpros(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macpro/i }
     end
 
     # Retrieve Application Usage data for a computer by id, without
@@ -411,7 +422,7 @@ module Jamf
     #
     # @param end_date [String,Date,DateTime,Time] Defaults to start_date
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash{Date=>Array<Hash>}] A Hash with keys (Date instances) for
@@ -427,8 +438,10 @@ module Jamf
     #     :foreground => Integer, the minutes it was in the foreground
     #     :open => Integer, the minutes it was running.
     #
-    def self.application_usage(ident, start_date, end_date = nil, api: Jamf.cnx)
-      id = valid_id ident, api: api
+    def self.application_usage(ident, start_date, end_date = nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      id = valid_id ident, cnx: cnx
       raise "No computer matches identifier: #{ident}" unless id
 
       end_date ||= start_date
@@ -438,7 +451,7 @@ module Jamf
       start_date = start_date.strftime APPLICATION_USAGE_DATE_FMT
       end_date = end_date.strftime APPLICATION_USAGE_DATE_FMT
 
-      data = api.c_get(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
+      data = cnx.c_get(APPLICATION_USAGE_RSRC + "/id/#{id}/#{start_date}_#{end_date}")
 
       parsed_data = {}
 
@@ -487,7 +500,7 @@ module Jamf
     # @param ids_only [Boolean] Just return an array of the id's of computers
     #  found with this query. Defaults to false
     #
-    # @param api [Jamf::Connection] The API connection to use for the query.
+    # @param cnx [Jamf::Connection] The API connection to use for the query.
     #   default: Jamf.cnx
     #
     # @return [Array<Integer>] When ids_only == true, the ids of computers with
@@ -502,14 +515,16 @@ module Jamf
     #   identifiers plus any requested fields.
     #
     #
-    def self.application_installs(appname, fields: [], version: nil, ids_only: false, api: Jamf.cnx)
+    def self.application_installs(appname, fields: [], version: nil, ids_only: false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       fields = [fields] unless fields.is_a? Array
 
       rsrc = "#{COMPUTER_APPLICATIONS_RSRC}/#{CGI.escape appname.to_s}"
       rsrc << "/version/#{CGI.escape version.to_s}" if version
       rsrc << "/inventory/#{CGI.escape fields.join(',')}" unless ids_only || fields.empty?
 
-      result = api.c_get(rsrc)[:computer_applications]
+      result = cnx.c_get(rsrc)[:computer_applications]
 
       return result[:unique_computers].map { |c| c[:id] } if ids_only
 
@@ -544,7 +559,7 @@ module Jamf
     # @param only[Symbol] When fetching a subset, only return one value
     #   per item in the array. meaningless without a subset.
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash] Without a subset:, a hash of all subsets, each of which is
@@ -553,33 +568,41 @@ module Jamf
     # @return [Array] With a subset:, an array of items in that subset, possibly
     #   limited to just certain values with only:
     #
-    def self.management_data(ident, subset: nil, only: nil, api: Jamf.cnx)
-      id = valid_id ident, api: api
+    def self.management_data(ident, subset: nil, only: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      id = valid_id ident, cnx: cnx
       raise "No computer matches identifier: #{ident}" unless id
       if subset
-        management_data_subset id, subset: subset, only: only, api: api
+        management_data_subset id, subset: subset, only: only, cnx: cnx
       else
-        full_management_data id, api: api
+        full_management_data id, cnx: cnx
       end
     end
 
     # The full set of management data for a given computer.
     # This private method is called by self.management_data, q.v.
     #
-    def self.full_management_data(id, api: Jamf.cnx)
+    def self.full_management_data(id, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       mgmt_rsrc = MGMT_DATA_RSRC + "/id/#{id}"
-      api.c_get(mgmt_rsrc)[MGMT_DATA_KEY]
+      cnx.c_get(mgmt_rsrc)[MGMT_DATA_KEY]
     end
     private_class_method :full_management_data
 
     # A subset of management data for a given computer.
     # This private method is called by self.management_data, q.v.
     #
-    def self.management_data_subset(id, subset: nil, only: nil, api: Jamf.cnx)
+    def self.management_data_subset(id, subset: nil, only: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       raise "Subset must be one of :#{MGMT_DATA_SUBSETS.join ', :'}" unless MGMT_DATA_SUBSETS.include? subset
+
       subset_rsrc = MGMT_DATA_RSRC + "/id/#{id}/subset/#{subset}"
-      subset_data = api.c_get(subset_rsrc)[MGMT_DATA_KEY]
+      subset_data = cnx.c_get(subset_rsrc)[MGMT_DATA_KEY]
       return subset_data[subset] unless only
+
       subset_data[subset].map { |d| d[only] }
     end
     private_class_method :management_data_subset
@@ -1025,7 +1048,7 @@ module Jamf
     # See {Jamf::Computer.application_usage} for details
     #
     def application_usage(start_date, end_date = nil)
-      Jamf::Computer.application_usage @id, start_date, end_date, api: @api
+      Jamf::Computer.application_usage @id, start_date, end_date, cnx: @cnx
     end # app usage
 
     # The 'computer management' data for this computer
@@ -1036,7 +1059,7 @@ module Jamf
     #
     def management_data(subset: nil, only: nil)
       raise Jamf::NoSuchItemError, 'Computer not yet saved in the JSS' unless @in_jss
-      Jamf::Computer.management_data @id, subset: subset, only: only, api: @api
+      Jamf::Computer.management_data @id, subset: subset, only: only, cnx: @cnx
     end
 
     # A shortcut for 'management_data subset: :smart_groups'
@@ -1141,8 +1164,7 @@ module Jamf
         policy,
         older_than: older_than,
         period: period,
-        computers: [@id],
-        api: @api
+        computers: [@id], cnx: @cnx
       )
     end
 
@@ -1182,13 +1204,13 @@ module Jamf
 
     def serial_number=(new_val)
       return nil if new_val == @serial_number
-      @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :serial_number, new_val, api: api)
+      @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :serial_number, new_val, cnx: cnx)
       @need_to_update = true
     end
 
     def udid=(new_val)
       return nil if new_val == @udid
-      @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :udid, new_val, api: api)
+      @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :udid, new_val, cnx: cnx)
       @need_to_update = true
     end
 

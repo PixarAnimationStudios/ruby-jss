@@ -153,43 +153,59 @@ module Jamf
     #####################################
 
     # @return [Array<String>] all mobiledevice phone numbers
-    def self.all_phone_numbers(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).map { |i| i[:phone_number] }.reject(&:empty?)
+    def self.all_phone_numbers(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).map { |i| i[:phone_number] }.reject(&:empty?)
     end
 
     # @return [Array<Hash>] the list of all managed mobile devices
-    def self.all_managed(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:managed] }
+    def self.all_managed(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] the list of all unmanaged mobile devices
-    def self.all_unmanaged(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).reject { |d| d[:managed] }
+    def self.all_unmanaged(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).reject { |d| d[:managed] }
     end
 
     # @return [Array<Hash>] the list of all supervised mobile devices
-    def self.all_supervised(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:supervised] }
+    def self.all_supervised(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:supervised] }
     end
 
     # @return [Array<Hash>] the list of all unsupervised mobile devices
-    def self.all_unsupervised(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).reject { |d| d[:supervised] }
+    def self.all_unsupervised(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).reject { |d| d[:supervised] }
     end
 
     # @return [Array<Hash>] the list of all iPhones
-    def self.all_iphones(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model].start_with? 'iPhone' }
+    def self.all_iphones(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model].start_with? 'iPhone' }
     end
 
     # @return [Array<Hash>] the list of all iPads
-    def self.all_ipads(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model].start_with? 'iPad' }
+    def self.all_ipads(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model].start_with? 'iPad' }
     end
 
     # @return [Array<Hash>] the list of all iPads
-    def self.all_apple_tvs(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |d| d[:model_identifier].start_with? 'AppleTV' }
+    def self.all_apple_tvs(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |d| d[:model_identifier].start_with? 'AppleTV' }
     end
 
     # Attributes
@@ -517,14 +533,14 @@ module Jamf
     #
     def serial_number=(new_val)
       return nil if new_val == @serial_number
-      @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :serial_number, new_val, api: api)
+      @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :serial_number, new_val, cnx: cnx)
       @need_to_update = true
     end
 
     #
     def udid=(new_val)
       return nil if new_val == @udid
-      @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :udid, new_val, api: api)
+      @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :udid, new_val, cnx: cnx)
       @need_to_update = true
     end
 

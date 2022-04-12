@@ -87,17 +87,19 @@ module Jamf
     #
     # @param refresh[Boolean] should the data be re-queried?
     #
-    # @param api[Jamf::Connection] the API to query
+    # @param cnx [Jamf::Connection] the API to query
     #
     # @return [Hash{Integer => Range}] the network segments as IPv4 address Ranges
     #   keyed by id
     #
-    def self.network_ranges(refresh = false, api: Jamf.cnx)
+    def self.network_ranges(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       @network_ranges = nil if refresh
       return @network_ranges if @network_ranges
 
       @network_ranges = {}
-      all(refresh, api: api).each do |ns|
+      all(refresh, cnx: cnx).each do |ns|
         @network_ranges[ns[:id]] = IPAddr.new(ns[:starting_address])..IPAddr.new(ns[:ending_address])
       end
       @network_ranges
@@ -115,17 +117,19 @@ module Jamf
     #
     # @param refresh[Boolean] should the data be re-queried?
     #
-    # @param api[Jamf::Connection] the APIConnection to query
+    # @param cnx [Jamf::Connection] the APIConnection to query
     #
     # @return [Hash{Integer => Range}] the network segments as Integer Ranges
     #   keyed by id
     #
-    def self.network_ranges_as_integers(refresh = false, api: Jamf.cnx)
+    def self.network_ranges_as_integers(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       @network_ranges_as_integers = nil if refresh
       return @network_ranges_as_integers if @network_ranges_as_integers
 
       @network_ranges_as_integers = {}
-      all(refresh, api: api).each do |ns|
+      all(refresh, cnx: cnx).each do |ns|
         first = IPAddr.new(ns[:starting_address]).to_i
         last = IPAddr.new(ns[:ending_address]).to_i
         @network_ranges_as_integers[ns[:id]] = first..last
@@ -139,8 +143,10 @@ module Jamf
     ###
     ### @see {NetworkSegment::network_ranges}
     ###
-    def self.subnets(refresh = false, api: Jamf.cnx)
-      network_ranges refresh, api: api
+    def self.subnets(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      network_ranges refresh, cnx: cnx
     end
 
     ### Given a starting address & ending address, mask, or cidr,
@@ -240,15 +246,17 @@ module Jamf
     ###
     ### @param refresh[Boolean] should the data be re-queried?
     ###
-    ### @param api[Jamf::Connection] The API connection to query
+    ### @param cnx [Jamf::Connection] The API connection to query
     ###
     ### @return [Array<Integer>] the ids of the NetworkSegments containing the given ip
     ###
-    def self.network_segments_for_ip(ipaddr, refresh = false, api: Jamf.cnx)
+    def self.network_segments_for_ip(ipaddr, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       # get the ip as a 32bit interger
       ip = IPAddr.new(ipaddr.to_s).to_i
       # a hash of NetSeg ids => Range<Integer>
-      network_ranges_as_integers(refresh, api: api).select { |_id, range| range.include? ip }.keys
+      network_ranges_as_integers(refresh, cnx: cnx).select { |_id, range| range.include? ip }.keys
     end
 
     # Which network segment is seen as current for a given IP addr?
@@ -262,11 +270,13 @@ module Jamf
     #
     # @return [Integer, nil] the id of the current net segment, or nil
     #
-    def self.network_segment_for_ip(ipaddr, refresh: false, api: Jamf.cnx)
+    def self.network_segment_for_ip(ipaddr, refresh: false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       # get the ip as a 32bit interger
       ip = IPAddr.new(ipaddr.to_s).to_i
       # a hash of NetSeg ids => Range<Integer>
-      ranges = network_ranges_as_integers(refresh, api: api).select { |_id, range| range.include? ip }
+      ranges = network_ranges_as_integers(refresh, cnx: cnx).select { |_id, range| range.include? ip }
 
       # we got nuttin
       return nil if ranges.empty?
@@ -310,11 +320,13 @@ module Jamf
     #
     # @return [Array<Integer>,Array<String>] the NetworkSegment ids or names for this machine right now.
     #
-    def self.my_network_segments(refresh = false, names: false, api: Jamf.cnx)
-      ids = network_segments_for_ip Jamf::Client.my_ip_address, refresh, api: api
+    def self.my_network_segments(refresh = false, names: false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      ids = network_segments_for_ip Jamf::Client.my_ip_address, refresh, cnx: cnx
       return ids unless names
 
-      ids_to_names = map_all_ids_to :name
+      ids_to_names = map_all_ids_to :name, cnx: cnx
       ids.map { |id| ids_to_names[id] }
     end
 
@@ -326,14 +338,16 @@ module Jamf
     # @param name [Boolean] return the name of the netsegment, not the id
     #
     # @return [Integer, String, nil] the id of the current net segment, or nil
-    def self.my_network_segment(refresh = false, name: false, api: Jamf.cnx)
+    def self.my_network_segment(refresh = false, name: false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       my_ip = Jamf::Client.my_ip_address
       return nil unless my_ip
 
-      id = network_segment_for_ip(my_ip, refresh: refresh, api: api)
+      id = network_segment_for_ip(my_ip, refresh: refresh, cnx: cnx)
       return id unless name
 
-      map_all_ids_to(:name)[id]
+      map_all_ids_to(:name, cnx: cnx)[id]
     end
 
     ### Attributes

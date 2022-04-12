@@ -35,10 +35,10 @@ module Jamf
 
       # These classes are extendable, their Extension Attributes in the
       # classic API are cached locally in the connection object..
-      # EXTENDABLE_CLASSES = [Jamf::Computer, Jamf::MobileDevice, Jamf::User].freeze
-      EXTENDABLE_CLASSES = [].freeze
+      EXTENDABLE_CLASSES = [Jamf::Computer, Jamf::MobileDevice, Jamf::User].freeze
 
-      # @return [Hash] This Hash caches the results of C-API queries for an APIObject
+      # @return [Concurrent::Map.new] This Hash-like object caches the results of
+      #   C-API queries for an APIObject
       #   subclass's .all summary list, keyed by the subclass's RSRC_LIST_KEY.
       #   See the APIObject.all class method.
       #
@@ -55,7 +55,9 @@ module Jamf
       #   and this hash has a matching value, the value is returned, rather than
       #   requerying the API. The first time a class calls .all, or whenever refresh
       #   is not false, the API is queried and the value in this hash is updated.
-      attr_reader :c_object_list_cache
+      def c_object_list_cache
+        @c_object_list_cache ||= Concurrent::Map.new
+      end
 
       # @return [Hash{Class: Hash{String => Jamf::ExtensionAttribute}}]
       #   This Hash caches the C-API Extension Attribute
@@ -76,39 +78,16 @@ module Jamf
       #      ...
       #     }
       #
-      attr_reader :c_ext_attr_definition_cache
-
-      # @return [Hash] This Hash holds the most recently fetched instance of a JPAPI
-      #   SingletonResource subclass, keyed by the subclass itself.
-      #
-      #   SingletonResource.fetch will return the instance from here, if it exists,
-      #   unless the first parameter is truthy.
-      attr_reader :jp_singleton_cache
-
-      # @return [Hash],This Hash holds the most recent API data (an Array of Hashes)
-      #   for the list
-      #   of all items in a JPAPI CollectionResource subclass, keyed by the subclass
-      #   itself.
-      #
-      #   CollectionResource.all return the appropriate data from here, if it exists,
-      #
-      #   See the CollectionResource.all class method.
-      attr_reader :jp_collection_cache
-
-      # @return [Hash] This hash holds JPAPI ExtensionAttribute instances, which are
-      #   used for validating values passed to Extendable.set_ext_attr.
-      #   NOT YET IMPLEMENTED
-      attr_reader :jp_ext_attr_cache
+      def c_ext_attr_definition_cache
+        @c_ext_attr_definition_cache ||= Concurrent::Map.new
+      end
 
       # Empty cached lists from this connection
       # then run garbage collection to clear any available memory
       #
-      # See the attr_readers for
+      # See the getters for
       # - c_object_list_cache
       # - c_ext_attr_definition_cache
-      # - jp_singleton_cache
-      # - jp_collection_cache
-      # - jp_ext_attr_cache
       #
       # NOTE since all ruby variables are references to objects in memory,
       # if you've referenced objects in these caches, those objects
@@ -140,7 +119,7 @@ module Jamf
       def flushcache(key_or_klass = nil)
         # EA defs for just one extendable class?
         if EXTENDABLE_CLASSES.include? key_or_klass
-          @c_ext_attr_definition_cache[key_or_klass] = {}
+          @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Map.new
 
         # one API object class?
         elsif key_or_klass
@@ -148,17 +127,12 @@ module Jamf
           @c_object_list_cache.delete_if do |cache_key, _cache|
             cache_key == key_or_klass || cache_key.to_s.start_with?(map_key_pfx)
           end
-          @jp_collection_cache.delete key_or_klass
-          @jp_singleton_cache.delete key_or_klass
-          @jp_ext_attr_cache.delete key_or_klass
+
 
         # flush everything
         else
-          @c_object_list_cache = {}
-          @c_ext_attr_definition_cache = {}
-          @jp_collection_cache = {}
-          @jp_singleton_cache = {}
-          @jp_ext_attr_cache = {}
+          @c_object_list_cache = Concurrent::Map.new
+          @c_ext_attr_definition_cache = Concurrent::Map.new
         end
 
         GC.start

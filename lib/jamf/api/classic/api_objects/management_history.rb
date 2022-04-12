@@ -181,13 +181,15 @@ module Jamf
       #
       # @param subset[Symbol] the subset to return, rather than full history.
       #
-      # @param api[Jamf::Connection] an API connection to use for the query.
+      # @param cnx [Jamf::Connection] an API connection to use for the query.
       #   Defaults to the corrently active API. See {Jamf::Connection}
       #
       # @return [Hash,Array] The raw full history or subset requested
       #
-      def management_history(ident, subset = nil, api: Jamf.cnx)
-        id = valid_id ident, api: api
+      def management_history(ident, subset = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        id = valid_id ident, cnx: cnx
         raise Jamf::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} matches identifier: #{ident}" unless id
 
         if self == Jamf::Computer
@@ -203,9 +205,9 @@ module Jamf
         if subset
           raise "Subset must be one of :#{@hist_subsets.join ', :'}" unless @hist_subsets.include? subset
           subset_rsrc = @hist_rsrc + "/id/#{id}/subset/#{subset}"
-          api.c_get(subset_rsrc)[@hist_key][subset]
+          cnx.c_get(subset_rsrc)[@hist_key][subset]
         else
-          api.c_get(@hist_rsrc + "/id/#{id}")[@hist_key]
+          cnx.c_get(@hist_rsrc + "/id/#{id}")[@hist_key]
         end
       end
       alias history management_history
@@ -214,13 +216,15 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::AuditEvent>] An array of audit events
       #
-      def audit_history(ident, api: Jamf.cnx)
-        hist = management_history(ident, :audits, api: api)
+      def audit_history(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        hist = management_history(ident, :audits, cnx: cnx)
         hist.map! { |aud| Jamf::ManagementHistory::AuditEvent.new aud }
       end
       alias audits audit_history
@@ -229,13 +233,15 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::UserLocationChange>] An array of UserLocation change events
       #
-      def user_location_history(ident, api: Jamf.cnx)
-        hist = management_history(ident, :user_location, api: api)
+      def user_location_history(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        hist = management_history(ident, :user_location, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::UserLocationChange.new evt }
       end
 
@@ -245,14 +251,16 @@ module Jamf
       #
       # @param status [Symbol] Return only the :completed, :pending, or :failed commands
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of MdmCommands
       #
-      def mdm_command_history(ident, status = nil, api: Jamf.cnx)
+      def mdm_command_history(ident, status = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         subset = self == Jamf::Computer ? :commands : :management_commands
-        hist = management_history(ident, subset, api: api)
+        hist = management_history(ident, subset, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :completed, :pending, or :failed' unless HIST_MDM_STATUSES.include? status
           statuses_to_do = [status]
@@ -283,13 +291,15 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of completed MdmCommands
       #
-      def completed_mdm_commands(ident, api: Jamf.cnx)
-        mdm_command_history(ident, :completed, api: api)
+      def completed_mdm_commands(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        mdm_command_history(ident, :completed, cnx: cnx)
       end # completed_mdm_commands
       alias completed_commands completed_mdm_commands
 
@@ -297,13 +307,15 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of pending MdmCommands
       #
-      def pending_mdm_commands(ident, api: Jamf.cnx)
-        mdm_command_history(ident, :pending, api: api)
+      def pending_mdm_commands(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        mdm_command_history(ident, :pending, cnx: cnx)
       end # completed_mdm_commands
       alias pending_commands pending_mdm_commands
 
@@ -311,13 +323,15 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MdmCommand>] An array of failed MdmCommands
       #
-      def failed_mdm_commands(ident, api: Jamf.cnx)
-        mdm_command_history(ident, :failed, api: api)
+      def failed_mdm_commands(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        mdm_command_history(ident, :failed, cnx: cnx)
       end # completed_mdm_commands
       alias failed_commands failed_mdm_commands
 
@@ -330,14 +344,16 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Time, nil] An array of completed MdmCommands
       #
-      def last_mdm_contact(ident, api: Jamf.cnx)
-        epochs = completed_mdm_commands(ident, api: api).map { |cmd| cmd.completed_epoch }
-        epochs += failed_mdm_commands(ident, api: api).map { |cmd| cmd.failed_epoch }
+      def last_mdm_contact(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        epochs = completed_mdm_commands(ident, cnx: cnx).map { |cmd| cmd.completed_epoch }
+        epochs += failed_mdm_commands(ident, cnx: cnx).map { |cmd| cmd.failed_epoch }
         epoch = epochs.max
         epoch ? JSS.epoch_to_time(epoch) : nil
       end
@@ -349,15 +365,17 @@ module Jamf
       #
       # @param status [Symbol] Return only the :installed, :pending, or :failed apps
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MacAppStoreApp>] An array of MacAppStoreApp
       #
-      def mac_app_store_app_history(ident, status = nil, api: Jamf.cnx)
+      def mac_app_store_app_history(ident, status = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have mac app store apps' unless self == Jamf::Computer
 
-        hist = management_history(ident, :mac_app_store_applications, api: api)
+        hist = management_history(ident, :mac_app_store_applications, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
           statuses_to_do = [status]
@@ -384,15 +402,17 @@ module Jamf
       #
       # @param status [Symbol] Return only the :installed, :pending, or :failed apps
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::MobileDeviceApp>] An array of MobileDeviceApp
       #
-      def mobile_device_app_history(ident, status = nil, api: Jamf.cnx)
+      def mobile_device_app_history(ident, status = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only mobile devices have mobile device apps' unless self == Jamf::MobileDevice
 
-        hist = management_history(ident, :applications, api: api)
+        hist = management_history(ident, :applications, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
           statuses_to_do = [status]
@@ -440,16 +460,18 @@ module Jamf
       #
       # @param status [Symbol] Return only the :installed, :pending, or :failed apps
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array] An array of MacAppStoreApp or MobileDeviceApp
       #
-      def app_store_app_history(ident, status = nil, api: Jamf.cnx)
+      def app_store_app_history(ident, status = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         if self == Jamf::MobileDevice
-          mobile_device_app_history(ident, status, api: api)
+          mobile_device_app_history(ident, status, cnx: cnx)
         else
-          mac_app_store_app_history(ident, status, api: api)
+          mac_app_store_app_history(ident, status, cnx: cnx)
         end
       end
       alias managed_app_history app_store_app_history
@@ -458,8 +480,10 @@ module Jamf
       #
       # @see #app_store_app_history
       #
-      def installed_app_store_apps(ident, api: Jamf.cnx)
-        app_store_app_history(ident, :installed, api: api)
+      def installed_app_store_apps(ident,api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        app_store_app_history(ident, :installed, cnx: cnx)
       end
       alias installed_managed_apps installed_app_store_apps
 
@@ -467,8 +491,10 @@ module Jamf
       #
       # @see #app_store_app_history
       #
-      def pending_app_store_apps(ident, api: Jamf.cnx)
-        app_store_app_history(ident, :pending, api: api)
+      def pending_app_store_apps(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        app_store_app_history(ident, :pending, cnx: cnx)
       end
       alias pending_managed_apps pending_app_store_apps
 
@@ -476,8 +502,10 @@ module Jamf
       #
       # @see #app_store_app_history
       #
-      def failed_app_store_apps(ident, api: Jamf.cnx)
-        app_store_app_history(ident, :failed, api: api)
+      def failed_app_store_apps(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        app_store_app_history(ident, :failed, cnx: cnx)
       end
       alias failed_managed_apps failed_app_store_apps
 
@@ -485,14 +513,16 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::CasperImagingLog>] An array of CasperImagingLog events
       #
-      def casper_imaging_logs(ident, api: Jamf.cnx)
+      def casper_imaging_logs(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have casper imaging logs' unless self == Jamf::Computer
-        hist = management_history(ident, :casper_imaging_logs, api: api)
+        hist = management_history(ident, :casper_imaging_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::CasperImagingLog.new evt }
       end
 
@@ -500,14 +530,16 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::CasperRemoteLog>] An array of CasperRemoteLog events
       #
-      def casper_remote_logs(ident, api: Jamf.cnx)
+      def casper_remote_logs(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have casper remote logs' unless self == Jamf::Computer
-        hist = management_history(ident, :casper_remote_logs, api: api)
+        hist = management_history(ident, :casper_remote_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::CasperRemoteLog.new evt }
       end
 
@@ -515,14 +547,16 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::ComputerUsageLog>] An array of ComputerUsageLog events
       #
-      def computer_usage_logs(ident, api: Jamf.cnx)
+      def computer_usage_logs(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have usage logs' unless self == Jamf::Computer
-        hist = management_history(ident, :computer_usage_logs, api: api)
+        hist = management_history(ident, :computer_usage_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::ComputerUsageLog.new evt }
       end
       alias usage_logs computer_usage_logs
@@ -531,14 +565,16 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::ScreenSharingLog>] An array of ScreenSharingLog events
       #
-      def screen_sharing_logs(ident, api: Jamf.cnx)
+      def screen_sharing_logs(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have screen sharing logs' unless self == Jamf::Computer
-        hist = management_history(ident, :screen_sharing_logs, api: api)
+        hist = management_history(ident, :screen_sharing_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::ScreenSharingLog.new evt }
       end
 
@@ -546,29 +582,35 @@ module Jamf
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::PolicyLog>] An array of PolicyLog events
       #
-      def policy_logs(ident, api: Jamf.cnx)
+      def policy_logs(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only computers have policy logs' unless self == Jamf::Computer
-        hist = management_history(ident, :policy_logs, api: api)
+        hist = management_history(ident, :policy_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::PolicyLog.new evt }
       end
 
       # The array from .policy_logs, limited to status = :completed
       # @see ManagementHistory::ClassMethods.policy_logs
       #
-      def completed_policies(ident, api: Jamf.cnx)
-        policy_logs(ident, api: api).select { |pl| pl.status == :completed }
+      def completed_policies(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        policy_logs(ident, cnx: cnx).select { |pl| pl.status == :completed }
       end
 
       # The array from .policy_logs, limited to status = :failed
       # @see ManagementHistory::ClassMethods.policy_logs
       #
-      def failed_policies(ident, api: Jamf.cnx)
-        policy_logs(ident, api: api).select { |pl| pl.status == :failed }
+      def failed_policies(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        policy_logs(ident, cnx: cnx).select { |pl| pl.status == :failed }
       end
 
       # The history of ebooks for a mobile device
@@ -577,15 +619,17 @@ module Jamf
       #
       # @param status [Symbol] Return only the :installed, :pending, or :failed apps
       #
-      # @param api [Jamf::Connection] The API connection to use for the query
+      # @param cnx [Jamf::Connection] The API connection to use for the query
       #   defaults to the currently active connection
       #
       # @return [Array<Jamf::ManagementHistory::Ebook>] An array of Ebook
       #
-      def ebook_history(ident, status = nil, api: Jamf.cnx)
+      def ebook_history(ident, status = nil, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
         raise Jamf::UnsupportedError, 'Only mobile devices have ebooks' unless self == Jamf::MobileDevice
 
-        hist = management_history(ident, :ebooks, api: api)
+        hist = management_history(ident, :ebooks, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
           statuses_to_do = [status]
@@ -632,8 +676,10 @@ module Jamf
       #
       # @see #ebook_history
       #
-      def installed_ebooks(ident, api: Jamf.cnx)
-        ebook_history(ident, :installed, api: api)
+      def installed_ebooks(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        ebook_history(ident, :installed, cnx: cnx)
       end
       alias installed_managed_ebooks installed_ebooks
 
@@ -641,8 +687,10 @@ module Jamf
       #
       # @see #ebook_history
       #
-      def pending_ebooks(ident, api: Jamf.cnx)
-        ebook_history(ident, :pending, api: api)
+      def pending_ebooks(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        ebook_history(ident, :pending, cnx: cnx)
       end
       alias pending_managed_ebooks pending_ebooks
 
@@ -650,8 +698,10 @@ module Jamf
       #
       # @see #ebook_history
       #
-      def failed_ebooks(ident, api: Jamf.cnx)
-        ebook_history(ident, :failed, api: api)
+      def failed_ebooks(ident, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        ebook_history(ident, :failed, cnx: cnx)
       end
       alias failed_managed_ebooks failed_ebooks
 
@@ -678,7 +728,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def management_history(subset = nil)
-      self.class.management_history(@id, subset, api: @api)
+      self.class.management_history(@id, subset, cnx: @cnx)
     end
     alias history management_history
 
@@ -687,7 +737,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def audit_history
-      self.class.audit_history(@id, api: @api)
+      self.class.audit_history(@id, cnx: @cnx)
     end
     alias audits audit_history
 
@@ -696,7 +746,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def user_location_history
-      self.class.user_location_history(@id, api: @api)
+      self.class.user_location_history(@id, cnx: @cnx)
     end
 
     # The mdm_command_history for this object
@@ -704,7 +754,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def mdm_command_history(status = nil)
-      self.class.mdm_command_history(@id, status, api: @api)
+      self.class.mdm_command_history(@id, status, cnx: @cnx)
     end
     alias commands mdm_command_history
     alias management_command_history mdm_command_history
@@ -714,7 +764,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def completed_mdm_commands
-      self.class.completed_mdm_commands(@id, api: @api)
+      self.class.completed_mdm_commands(@id, cnx: @cnx)
     end # completed_mdm_commands
     alias completed_commands completed_mdm_commands
 
@@ -723,7 +773,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def last_mdm_contact
-      self.class.last_mdm_contact(@id, api: @api)
+      self.class.last_mdm_contact(@id, cnx: @cnx)
     end # completed_mdm_commands
 
     # The pending_mdm_commands for this object
@@ -731,7 +781,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def pending_mdm_commands
-      self.class.pending_mdm_commands(@id, api: @api)
+      self.class.pending_mdm_commands(@id, cnx: @cnx)
     end # completed_mdm_commands
     alias pending_commands pending_mdm_commands
 
@@ -740,7 +790,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def failed_mdm_commands
-      self.class.failed_mdm_commands(@id, api: @api)
+      self.class.failed_mdm_commands(@id, cnx: @cnx)
     end # completed_mdm_commands
     alias failed_commands failed_mdm_commands
 
@@ -749,7 +799,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def mac_app_store_app_history(status = nil)
-      self.class.mac_app_store_app_history(@id, status, api: @api)
+      self.class.mac_app_store_app_history(@id, status, cnx: @cnx)
     end
 
     # The mobile_device_app_history for this mobile device
@@ -757,7 +807,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def mobile_device_app_history(status = nil)
-      self.class.mobile_device_app_history(@id, status, api: @api)
+      self.class.mobile_device_app_history(@id, status, cnx: @cnx)
     end
 
     # Wrapper for app store history for both computers and mobile devices
@@ -765,7 +815,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def app_store_app_history(status = nil)
-      self.class.app_store_app_history(@id, status, api: @api)
+      self.class.app_store_app_history(@id, status, cnx: @cnx)
     end
     alias managed_app_history app_store_app_history
 
@@ -774,7 +824,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def installed_app_store_apps
-      self.class.installed_app_store_apps(@id, api: @api)
+      self.class.installed_app_store_apps(@id, cnx: @cnx)
     end
     alias installed_managed_apps installed_app_store_apps
 
@@ -783,7 +833,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def pending_app_store_apps
-      self.class.pending_app_store_apps(@id, api: @api)
+      self.class.pending_app_store_apps(@id, cnx: @cnx)
     end
     alias pending_managed_apps pending_app_store_apps
 
@@ -792,7 +842,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def failed_app_store_apps
-      self.class.failed_app_store_apps(@id, api: @api)
+      self.class.failed_app_store_apps(@id, cnx: @cnx)
     end
     alias failed_managed_apps failed_app_store_apps
 
@@ -801,7 +851,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def casper_imaging_logs
-      self.class.casper_imaging_logs(@id, api: @api)
+      self.class.casper_imaging_logs(@id, cnx: @cnx)
     end
 
     # The casper_remote_logs for this computer
@@ -809,7 +859,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def casper_remote_logs
-      self.class.casper_remote_logs(@id, api: @api)
+      self.class.casper_remote_logs(@id, cnx: @cnx)
     end
 
     # The computer_usage_logs for this computer
@@ -817,7 +867,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def computer_usage_logs
-      self.class.computer_usage_logs(@id, api: @api)
+      self.class.computer_usage_logs(@id, cnx: @cnx)
     end
     alias usage_logs computer_usage_logs
 
@@ -826,7 +876,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def screen_sharing_logs
-      self.class.screen_sharing_logs(@id, api: @api)
+      self.class.screen_sharing_logs(@id, cnx: @cnx)
     end
 
     # The policy_logs for this computer
@@ -834,7 +884,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def policy_logs
-      self.class.policy_logs(@id, api: @api)
+      self.class.policy_logs(@id, cnx: @cnx)
     end
 
     # The array from .policy_logs, limited to status = :completed
@@ -842,7 +892,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def completed_policies
-      self.class.completed_policies(@id, api: @api)
+      self.class.completed_policies(@id, cnx: @cnx)
     end
 
     # The array from .policy_logs, limited to status = :failed
@@ -850,7 +900,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def failed_policies
-      self.class.failed_policies(@id, api: @api)
+      self.class.failed_policies(@id, cnx: @cnx)
     end
 
     # The ebook_history for this mobile device
@@ -858,7 +908,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def ebook_history(status = nil)
-      self.class.ebook_history(@id, status, api: @api)
+      self.class.ebook_history(@id, status, cnx: @cnx)
     end
     alias managed_ebook_history ebook_history
 
@@ -867,7 +917,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def installed_ebooks
-      self.class.installed_ebooks(@id, api: @api)
+      self.class.installed_ebooks(@id, cnx: @cnx)
     end
     alias installed_managed_ebooks installed_ebooks
 
@@ -876,7 +926,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def pending_ebooks
-      self.class.pending_ebooks(@id, api: @api)
+      self.class.pending_ebooks(@id, cnx: @cnx)
     end
     alias pending_managed_ebooks pending_ebooks
 
@@ -885,7 +935,7 @@ module Jamf
     # @see the matching method in  {Jamf::ManagementHistory::ClassMethods}
     #
     def failed_ebooks
-      self.class.failed_ebooks(@id, api: @api)
+      self.class.failed_ebooks(@id, cnx: @cnx)
     end
     alias failed_managed_ebooks failed_ebooks
 

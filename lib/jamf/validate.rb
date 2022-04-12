@@ -94,17 +94,17 @@ module Jamf
     #
     # @param msg[String] A custom error message when the value is invalid
     #
-    # @param api[Jamf::Connection] The api connection to use for validation
+    # @param cnx [Jamf::Connection] The api connection to use for validation
     #
     # @return [Object] the validated unique value
     #
     def self.doesnt_already_exist(klass, identifier, val, msg: nil, api: Jamf.cnx)
-      return val unless klass.all(:refresh, api: api).map { |i| i[identifier] }.include? val
+      return val unless klass.all(:refresh, cnx: cnx).map { |i| i[identifier] }.include? val
 
       key = klass.real_lookup_key identifier
 
       # use map_all_ids_to cuz it works with any identifer, even non-existing
-      existing_values = klass.map_all_ids_to(key, api: api).values
+      existing_values = klass.map_all_ids_to(key, cnx: cnx).values
       matches = existing_values.select { |existing_val| existing_val.casecmp? val }
       return val if matches.empty?
 

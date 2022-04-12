@@ -216,7 +216,7 @@ module Jamf
 
     ###
     def ldap_server= (new_val)
-      raise Jamf::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless Jamf::LdapServer.all_names(api: @api).include? new_val
+      raise Jamf::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless Jamf::LdapServer.all_names(cnx: @cnx).include? new_val
       @ldap_server = new_val
       @ldap_server_id = Jamf::LdapServer.valid_id @ldap_server
       @need_to_update = true
@@ -231,7 +231,7 @@ module Jamf
     ###
     def add_site (site)
       return nil if @sites.map{|s| s[:name]}.include? site
-      raise Jamf::InvalidDataError, "No site in the JSS named #{site}" unless Jamf::Site.all_names(api: @api).include? site
+      raise Jamf::InvalidDataError, "No site in the JSS named #{site}" unless Jamf::Site.all_names(cnx: @cnx).include? site
       @sites << {:name => site}
       @need_to_update = true
     end
@@ -275,7 +275,7 @@ module Jamf
       return @grp_array if @grp_array
 
       @grp_array = []
-      raw_xml = @api.c_get "/users/id/#{@id}", :xml
+      raw_xml = @cnx.c_get "/users/id/#{@id}", :xml
       xmlroot = REXML::Document.new(raw_xml).root
       xml_grps = xmlroot.elements['user_groups']
 

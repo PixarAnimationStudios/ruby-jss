@@ -431,9 +431,9 @@ module Jamf
     # @return [void]
     #
     def add_self_service_category(new_cat, display_in: true, feature_in: false)
-      new_cat = Jamf::Category.map_all_ids_to(:name, api: @api)[new_cat] if new_cat.is_a? Integer
+      new_cat = Jamf::Category.map_all_ids_to(:name, cnx: @cnx)[new_cat] if new_cat.is_a? Integer
       feature_in = false if display_in == false
-      raise Jamf::NoSuchItemError, "No category '#{new_cat}' in the JSS" unless Jamf::Category.all_names(:refresh, api: @api).include? new_cat
+      raise Jamf::NoSuchItemError, "No category '#{new_cat}' in the JSS" unless Jamf::Category.all_names(:refresh, cnx: @cnx).include? new_cat
 
       raise Jamf::InvalidDataError, 'display_in must be true or false' unless display_in.jss_boolean?
 
@@ -690,7 +690,7 @@ module Jamf
   </self_service>
 </#{self.class::RSRC_OBJECT_KEY}>
       ENDXML
-      @api.c_put rest_rsrc, xml
+      @cnx.c_put rest_rsrc, xml
       @need_ss_notification_activation_hack = nil
     end
 
@@ -765,7 +765,7 @@ module Jamf
       # oldstyle/broken, we need the XML to know if notifications are turned on
       if @self_service_data_config[:notifications_supported] == :ssvc_only && @in_jss
         ssrsrc = "#{rest_rsrc}/subset/selfservice"
-        raw_xml = api.c_get(ssrsrc, :xml)
+        raw_xml = cnx.c_get(ssrsrc, :xml)
         @self_service_notifications_enabled = raw_xml.include? '<notification>true</notification>'
         @self_service_notification_type = NOTIFICATION_TYPES.invert[ss_data[:notification]]
         @self_service_notification_subject = ss_data[:notification_subject]
@@ -796,7 +796,7 @@ module Jamf
     #
     def refresh_icon
       return nil unless @in_jss
-      fresh_data = @api.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
 
       ss_data = fresh_data[subset_key]

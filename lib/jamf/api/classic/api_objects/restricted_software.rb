@@ -139,11 +139,11 @@ module Jamf
 
     def site=(new_val)
       if new_val.is_a? Integer
-        raise Jamf::NoSuchItemError, "No site found with id #{new_val}" unless Jamf::Site.all_ids(api: @api).include? new_val
-        new_val = Jamf::Site.map_all_ids_to(:name, api: @api)[new_val]
+        raise Jamf::NoSuchItemError, "No site found with id #{new_val}" unless Jamf::Site.all_ids(cnx: @cnx).include? new_val
+        new_val = Jamf::Site.map_all_ids_to(:name, cnx: @cnx)[new_val]
       else
         new_val = new_val.to_s
-        raise Jamf::NoSuchItemError, "No site found with name #{new_val}" unless Jamf::Site.all_names(api: @api).include? new_val
+        raise Jamf::NoSuchItemError, "No site found with name #{new_val}" unless Jamf::Site.all_names(cnx: @cnx).include? new_val
       end
       @site = new_val
       @need_to_update = true
@@ -151,7 +151,7 @@ module Jamf
 
     def create
       raise Jamf::MissingDataError, 'process_name must be set before creating' if @process_name.to_s.empty?
-      raise Jamf::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh, api: @api).include? @name
+      raise Jamf::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh, cnx: @cnx).include? @name
       super
     end
 

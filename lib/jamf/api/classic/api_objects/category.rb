@@ -50,10 +50,12 @@ module Jamf
     # Class Methods
     #####################################
 
-    def self.category_id_from_name(name, api: Jamf.cnx)
+    def self.category_id_from_name(name, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
       return nil if name.nil?
       return nil if name.casecmp(Jamf::Category::NO_CATEGORY_NAME).zero?
-      Jamf::Category.map_all_ids_to(:name, api: api).invert[name]
+
+      Jamf::Category.map_all_ids_to(:name, cnx: cnx).invert[name]
     end # self cat id from name
 
     # Class Constants

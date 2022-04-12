@@ -122,8 +122,8 @@ module Jamf
     # to the APIObject#lookup_object_data method, which then
     # treats it normally.
     #
-    def self.data_via_xml(rsrc, map, api)
-      raw_xml = api.c_get(rsrc, :xml)
+    def self.data_via_xml(rsrc, map, cnx)
+      raw_xml = cnx.c_get(rsrc, :xml)
       xmlroot = REXML::Document.new(raw_xml).root
       hash_from_xml = {}
       map.each do |key, model|

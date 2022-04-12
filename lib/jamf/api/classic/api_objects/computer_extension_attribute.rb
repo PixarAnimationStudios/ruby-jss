@@ -223,7 +223,7 @@ module Jamf
       raise Jamf::NoSuchItemError, "EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}." unless @in_jss
       raise Jamf::InvalidConnectionError, "Database connection required for 'history' query." unless Jamf::DB_CNX.connected?
 
-      computer_id = Jamf::Computer.valid_id computer, api: @api
+      computer_id = Jamf::Computer.valid_id computer, cnx: @cnx
       raise Jamf::NoSuchItemError, "No computer found matching '#{computer}'" unless computer_id
 
       the_query = <<-END_Q

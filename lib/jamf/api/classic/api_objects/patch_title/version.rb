@@ -141,7 +141,7 @@ module Jamf
           if new_pkg == :none
             :none
           else
-            Jamf::Package.valid_id new_pkg, :refresh, api: @title.api
+            Jamf::Package.valid_id new_pkg, :refresh, cnx: @title.cnx
           end
         raise Jamf::NoSuchItemError, "No Jamf::Package matches '#{new_pkg}'" unless pkgid
 

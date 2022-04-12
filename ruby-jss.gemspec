@@ -29,14 +29,14 @@ require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
   # General
-  s.description = <<-EODESC
+  s.description = <<~EODESC
     The ruby-jss gem provides native ruby access to the REST APIs of Jamf Pro,
     an enterprise/education tool for managing Apple devices, from jamf.com.
-    The JSS module provides access to the 'Classic' API, while the Jamf module
-    provides access to the more modern 'Jamf Pro' API. Jamf Pro objects are
-    implemented as classes and, within each module, can interact with each other.
-    The underlying data transfer using JSON or XML is handled automatically
-    under the hood to allow simpler, intuitive automation of Jamf-related Tasks.
+    The Jamf module provides access to both the 'Classic' API and the more modern
+    'Jamf Pro' API. Jamf Pro objects are implemented as classes and can interact
+    with each other. Connection tokens, data transfer using JSON or XML and other
+    details are handled automatically under the hood to allow simpler, intuitive
+    automation of Jamf-related Tasks.
   EODESC
 
   s.name        = proj_name
@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.license     = 'Nonstandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'
-  s.authors     = ['Chris Lasell', 'Aurica Hayes']
+  s.authors     = ['Chris Lasell', 'Aurica Hayes', 'Kristoffer Landes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
@@ -74,7 +74,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
 
   # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
-  # s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
+  s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
 
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
   # TODO: replace this with the one from concurrent-ruby

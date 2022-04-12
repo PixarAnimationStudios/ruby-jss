@@ -86,10 +86,13 @@ module Jamf
     ###
     ### @return [Array<Hash>] the item smatched.
     ###
-    def match(term, api: Jamf.cnx )
+    def match(term, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       raise Jamf::InvalidDataError, "Match term may not be empty" if term.to_s.empty?
+
       rsrc = "#{self::RSRC_BASE}/#{Jamf::Matchable::MATCH_RSRC}/#{CGI.escape term.to_s}"
-      api.c_get(rsrc)[self::RSRC_LIST_KEY]
+      cnx.c_get(rsrc)[self::RSRC_LIST_KEY]
     end
 
   end # module Matchable

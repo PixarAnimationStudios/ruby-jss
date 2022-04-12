@@ -170,8 +170,10 @@ module Jamf
     # so here we turn it into an integer manually :-(
     # Ditto for source_id
     #
-    def self.all(refresh = false, source_id: nil, api: Jamf.cnx)
-      data = super refresh, api: api
+    def self.all(refresh = false, source_id: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      data = super refresh, cnx: cnx
       data.each do |info|
         info[:id] = info[:id].to_i
         info[:source_name_id] = "#{info[:source_id]}-#{info[:name_id]}"
@@ -185,16 +187,20 @@ module Jamf
     # source_id: parameter, which limites the results to
     # patch titles with the specified source_id.
     #
-    def self.all_names(refresh = false, source_id: nil, api: Jamf.cnx)
-      all(refresh, source_id: source_id, api: api).map { |i| i[:name] }
+    def self.all_names(refresh = false, source_id: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, source_id: source_id, cnx: cnx).map { |i| i[:name] }
     end
 
     # The same as  @see APIObject.all_ids but also takes an optional
     # source_id: parameter, which limites the results to
     # patch titles with the specified source_id.
     #
-    def self.all_ids(refresh = false, source_id: nil, api: Jamf.cnx)
-      all(refresh, source_id: source_id, api: api).map { |i| i[:id] }
+    def self.all_ids(refresh = false, source_id: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, source_id: source_id, cnx: cnx).map { |i| i[:id] }
     end
 
     # Returns an Array of unique source_ids used by active Patches
@@ -207,19 +213,23 @@ module Jamf
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<Integer>] the ids of the patch sources used in the JSS
     #
-    def self.all_source_ids(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).map { |i| i[:source_id] }.sort.uniq
+    def self.all_source_ids(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).map { |i| i[:source_id] }.sort.uniq
     end
 
     # @return [Array<String>] all 'source_name_id' values for active patches
     #
-    def self.all_source_name_ids(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).map { |i| i[:source_name_id] }
+    def self.all_source_name_ids(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).map { |i| i[:source_name_id] }
     end
 
     # Get a patch report for a softwaretitle, withouth fetching an instance.
@@ -243,19 +253,21 @@ module Jamf
     #   Can be a string version number like '8.13.2' or :latest, :unknown,
     #   or :all. Defaults to :all
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash] the patch report for the version(s) specified.
     #
-    def self.patch_report(title, version: :all, api: Jamf.cnx)
-      title_id = valid_id title, api: api
+    def self.patch_report(title, version: :all, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      title_id = valid_id title, cnx: cnx
       raise Jamf::NoSuchItemError, "No PatchTitle matches '#{title}'" unless title_id
 
       rsrc = patch_report_rsrc title_id, version
 
       # TODO: remove this and adjust parsing when jamf fixes the JSON
-      raw_report = XMLWorkaround.data_via_xml(rsrc, PATCH_REPORT_DATA_MAP, api)[:patch_report]
+      raw_report = XMLWorkaround.data_via_xml(rsrc, PATCH_REPORT_DATA_MAP, cnx)[:patch_report]
       report = {}
       report[:total_computers] = raw_report[:total_computers]
       report[:total_versions] = raw_report[:total_versions]
@@ -326,15 +338,17 @@ module Jamf
 
       raise Jamf::NoSuchItemError, "No matching #{name} found" unless id
 
-      super id: id, api: api
+      super id: id, cnx: cnx
     end
 
     # Override the {APIObject.valid_id}, since patch sources are so non-standard
     # Accept id, source_name_id, or name.
     # Note name may not be unique, and if not, ymmv
     #
-    def self.valid_id(ident, refresh = false, api: Jamf.cnx)
-      id = all_ids(refresh, api: api).include?(ident) ? ident : nil
+    def self.valid_id(ident, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      id = all_ids(refresh, cnx: cnx).include?(ident) ? ident : nil
       id ||= map_all_ids_to(:source_name_id).invert[ident]
       id ||= map_all_ids_to(:name).invert[ident]
       id
@@ -469,7 +483,7 @@ module Jamf
     # See the class method Jamf::PatchTitle.patch_report
     #
     def patch_report(vers = :all)
-      Jamf::PatchTitle.patch_report id, version: vers, api: @api
+      Jamf::PatchTitle.patch_report id, version: vers, cnx: @cnx
     end
     alias version_report patch_report
     alias report patch_report

@@ -291,8 +291,9 @@ module Jamf
           next if singleton_methods.include? meth_name
 
           Jamf.load_msg "..defining #{meth_name}"
-          define_singleton_method meth_name do |refresh = false, api: Jamf.cnx|
-            all(refresh, api: api).map { |i| i[key] }
+          define_singleton_method meth_name do |refresh = false, api: nil, cnx: Jamf.cnx|
+            cnx = api if api
+            all(refresh, cnx: cnx).map { |i| i[key] }
           end
 
         else
@@ -302,8 +303,9 @@ module Jamf
 
           Jamf.load_msg "..defining alias '#{als_name}' of method #{meth_name}"
 
-          define_singleton_method als_name do |refresh = false, api: Jamf.cnx|
-            send meth_name, refresh, api: api
+          define_singleton_method als_name do |refresh = false, api: nil, cnx: Jamf.cnx|
+            cnx = api if api
+            send meth_name, refresh, cnx: cnx
           end
         end # if
       end # lookup_keys.eachs
@@ -316,7 +318,7 @@ module Jamf
 
     # which API do APIObjects come from?
     # The JPAPI equivalent is in Jamf::JPAPIResource
-    API_SOURCE = :classic_api
+    API_SOURCE = :classic
 
     # '.new' can only be called from these methods:
     OK_INSTANTIATORS = ['make', 'fetch', 'block in fetch'].freeze
@@ -481,39 +483,43 @@ module Jamf
     # -- Alternate API connections
     #
     # To query an APIConnection other than the currently active one,
-    # provide one via the api: named parameter.
+    # provide one via the cnx: named parameter.
     #
     # @param refresh[Boolean] should the data be re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<Hash{:name=>String, :id=> Integer}>]
     #
-    def self.all(refresh = false, api: Jamf.cnx)
+    def self.all(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       validate_not_metaclass(self)
 
-      cache = api.c_object_list_cache
+      cache = cnx.c_object_list_cache
       cache_key = self::RSRC_LIST_KEY
-      api.flushcache(cache_key) if refresh
+      cnx.flushcache(cache_key) if refresh
       return cache[cache_key] if cache[cache_key]
 
-      cache[cache_key] = api.c_get(self::RSRC_BASE)[cache_key]
+      cache[cache_key] = cnx.c_get(self::RSRC_BASE)[cache_key]
     end
 
     # @return [Hash {String => Integer}] name => number of occurances
     #
-    def self.duplicate_names(refresh = false, api: Jamf.cnx)
+    def self.duplicate_names(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       return {} unless defined? self::NON_UNIQUE_NAMES
 
       dups = {}
-      all(refresh, api: api).each do |obj|
+      all(refresh, cnx: cnx).each do |obj|
         if dups[obj[:name]]
           dups[obj[:name]] += 1
         else
           dups[obj[:name]] = 1
         end # if
-      end # all(refresh, api: api).each
+      end # all(refresh, cnx: cnx).each
       dups.delete_if { |k,v| v == 1 }
       dups
     end
@@ -554,24 +560,26 @@ module Jamf
     #
     # @param refresh[Boolean] should the data re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Hash{Integer => Oject}] the associated ids and data
     #
-    def self.map_all_ids_to(other_key, refresh = false, api: Jamf.cnx)
+    def self.map_all_ids_to(other_key, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       # we will accept any key, it'll just return nil if not in the
       # .all hashes. However if we're given an alias of a lookup key
       # we need to convert it to its real name.
       other_key = lookup_keys[other_key] if lookup_keys[other_key]
 
       cache_key = "#{self::RSRC_LIST_KEY}_map_#{other_key}".to_sym
-      cache = api.c_object_list_cache
+      cache = cnx.c_object_list_cache
       cache[cache_key] = nil if refresh
       return cache[cache_key] if cache[cache_key]
 
       map = {}
-      all(refresh, api: api).each { |i| map[i[:id]] = i[other_key] }
+      all(refresh, cnx: cnx).each { |i| map[i[:id]] = i[other_key] }
       cache[cache_key] = map
     end
 
@@ -584,20 +592,23 @@ module Jamf
     #
     # @param refresh[Boolean] should the data  re-queried from the API?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<APIObject>] the objects requested
     #
-    def self.all_objects(refresh = false, api: Jamf.cnx)
+    def self.all_objects(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       objects_cache_key ||= "#{self::RSRC_LIST_KEY}_objects".to_sym
-      api_cache = api.c_object_list_cache
+      api_cache = cnx.c_object_list_cache
       api_cache[objects_cache_key] = nil if refresh
 
       return api_cache[objects_cache_key] if api_cache[objects_cache_key]
-      all = all(refresh, api: api)
-      api_cache[objects_cache_key] = all.map do |o|
-        fetch id: o[:id], api: api, refresh: false
+
+      all_result = all(refresh, cnx: cnx)
+      api_cache[objects_cache_key] = all_result.map do |o|
+        fetch id: o[:id], cnx: cnx, refresh: false
       end
     end
 
@@ -619,24 +630,25 @@ module Jamf
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identifier, refresh = false, api: Jamf.cnx)
+    def self.valid_id(identifier, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
 
       # refresh if needed
-      all(refresh, api: api) if refresh
+      all(refresh, cnx: cnx) if refresh
 
       # it its a valid id, return it
-      return identifier if all_ids(api: api).include? identifier
+      return identifier if all_ids(cnx: cnx).include? identifier
 
       keys_to_check = lookup_keys(no_aliases: true)
       keys_to_check.delete :id # we've already checked :id
 
       keys_to_check.each do |key|
-        mapped_ids = map_all_ids_to key, api: api
+        mapped_ids = map_all_ids_to key, cnx: cnx
         matches = mapped_ids.select { |_id, ident| ident.casecmp? identifier }
         # If exactly one match, return the id
         return matches.keys.first if matches.size == 1
@@ -670,23 +682,25 @@ module Jamf
     # @param refresh [Boolean] Should the cached summary data be re-read from
     #   the server first?
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Integer, nil] the id of the matching object, or nil if it
     #   doesn't exist
     #
-    def self.id_for_identifier(key, val, refresh = false, api: Jamf.cnx)
+    def self.id_for_identifier(key, val, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       # refresh if needed
-      all(refresh, api: api) if refresh
+      all(refresh, cnx: cnx) if refresh
 
       # get the real key if an alias was used
       key = real_lookup_key key
 
       # do id's expicitly, they are integers
-      return all_ids.include?(val) ? val : nil if key == :id
+      return all_ids(cnx: cnx).include?(val) ? val : nil if key == :id
 
-      mapped_ids = map_all_ids_to key, api: api
+      mapped_ids = map_all_ids_to key, cnx: cnx
       matches = mapped_ids.select { |_id, map_val| val.casecmp? map_val }
       raise Jamf::AmbiguousError, "Key #{key}: value '#{val}' is not unique for #{self}" if matches.size > 1
 
@@ -703,13 +717,15 @@ module Jamf
     #
     # @param refresh [Boolean] Should the data be re-read from the server
     #
-    # @param api[Jamf::Connection] an API connection to use for the query.
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Boolean] does an object with the given identifier exist?
     #
-    def self.exist?(identifier, refresh = false, api: Jamf.cnx)
-      !valid_id(identifier, refresh, api: api).nil?
+    def self.exist?(identifier, refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      !valid_id(identifier, refresh, cnx: cnx).nil?
     end
 
     # Convert an Array of Hashes of API object data to a
@@ -828,7 +844,7 @@ module Jamf
     #   If no searchterm is provided, one of the args must be a valid
     #   lookup key and value to find in that key, e.g. `serial_number: '1234567'`
     #
-    # @option args api[Jamf::Connection] an API connection to use for the query.
+    # @option args cnx[Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @option args refresh[Boolean] should the summary list of all objects be
@@ -840,12 +856,13 @@ module Jamf
       validate_not_metaclass(self)
 
       # which connection?
-      api = args.delete :api
-      api ||= Jamf.cnx
+      cnx = args.delete :cnx
+      cnx ||= args.delete :api
+      cnx ||= Jamf.cnx
 
       # refresh the .all list if needed
       if args.delete(:refresh) || searchterm == :random
-        all(:refresh, api: api)
+        all(:refresh, cnx: cnx)
         just_refreshed = true
       else
         just_refreshed = false
@@ -853,22 +870,20 @@ module Jamf
 
       # a random object?
       if searchterm == :random
-        rnd_thing = all.sample
+        rnd_thing = all(cnx: cnx).sample
         raise Jamf::NoSuchItemError, "No #{self::RSRC_LIST_KEY} found" unless rnd_thing
 
-        return new id: rnd_thing[:id], api: api
+        return new id: rnd_thing[:id], cnx: cnx
       end
 
       # get the lookup key and value, if given
       fetch_key, fetch_val = args.to_a.first
       fetch_rsrc_key = fetch_rsrc_key(fetch_key)
 
-      err_detail = "where #{fetch_key} = #{fetch_val}"
-
       # names should raise an error if more than one exists,
       # so we always have to do id_for_identifier, which will do so.
       if fetch_rsrc_key == :name
-        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, api: api
+        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, cnx: cnx
         fetch_rsrc = id ? "#{self::RSRC_BASE}/name/#{CGI.escape fetch_val.to_s}" : nil
 
       # if the fetch rsrc key exists, it can be used directly in an endpoint path
@@ -879,20 +894,19 @@ module Jamf
       # it has an OTHER_LOOKUP_KEY but that key doesn't have a fetch_rsrc
       # so we look in the .map_all_ids_to_* hash for it.
       elsif fetch_key
-        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, api: api
+        id = id_for_identifier fetch_key, fetch_val, !just_refreshed, cnx: cnx
         fetch_rsrc = id ? "#{self::RSRC_BASE}/id/#{id}" : nil
 
       # no fetch key was given in the args, so try a search term
       elsif searchterm
-        id = valid_id searchterm, api: api
+        id = valid_id searchterm, cnx: cnx
         fetch_rsrc = id ? "#{self::RSRC_BASE}/id/#{id}" : nil
-        err_detail = "matching #{searchterm}"
 
       else
         raise ArgumentError, 'Missing searchterm or fetch key'
       end
 
-      new fetch_rsrc: fetch_rsrc, api: api
+      new fetch_rsrc: fetch_rsrc, cnx: cnx
     end # fetch
 
     # Fetch the mostly- or fully-raw JSON or XML data for an object of this
@@ -922,15 +936,17 @@ module Jamf
     # @param as_string[Boolean] return the raw JSON or XML string as it comes
     #   from the API, do not parse into a Hash or REXML::Document
     #
-    # @param api[Jamf::Connection] the connection thru which to fetch this
+    # @param cnx [Jamf::Connection] the connection thru which to fetch this
     #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [Hash, REXML::Document, String] the raw data for the object
     #
-    def self.get_raw(id, format: :json, as_string: false, api: Jamf.cnx)
+    def self.get_raw(id, format: :json, as_string: false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      data = api.c_get rsrc, format, raw_json: as_string
+      data = cnx.c_get rsrc, format, raw_json: as_string
       return data if format == :json || as_string
 
       REXML::Document.new(data)
@@ -953,15 +969,17 @@ module Jamf
     #
     # @param xml [String, #to_s] The XML to send
     #
-    # @param api[Jamf::Connection] the connection thru which to fetch this
+    # @param cnx [Jamf::Connection] the connection thru which to fetch this
     #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [REXML::Document] the XML response from the API
     #
-    def self.put_raw(id, xml, api: Jamf.cnx)
+    def self.put_raw(id, xml, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      REXML::Document.new(api.c_put rsrc, xml.to_s)
+      REXML::Document.new(cnx.c_put rsrc, xml.to_s)
     end
 
     # POST some raw XML to the API for a given id in this subclass.
@@ -979,15 +997,17 @@ module Jamf
     #
     # @param xml [String, #to_s] The XML to send
     #
-    # @param api[Jamf::Connection] the connection thru which to fetch this
+    # @param cnx [Jamf::Connection] the connection thru which to fetch this
     #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @return [REXML::Document] the XML response from the API
     #
-    def self.post_raw( xml, api: Jamf.cnx)
+    def self.post_raw(xml, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/-1"
-      REXML::Document.new(api.c_post rsrc, xml.to_s)
+      REXML::Document.new(cnx.c_post rsrc, xml.to_s)
     end
 
     # Make a ruby instance of a not-yet-existing APIObject.
@@ -1002,7 +1022,7 @@ module Jamf
     #
     # @param name[String] The name of this object, generally must be uniqie
     #
-    # @param api[Jamf::Connection] the connection thru which to make this
+    # @param cnx [Jamf::Connection] the connection thru which to make this
     #   object. Defaults to the deault API connection in Jamf.cnx
     #
     # @param args[Hash] The data for creating an object, such as name:
@@ -1010,7 +1030,7 @@ module Jamf
     #
     # @return [APIObject] The un-created ruby-instance of a JSS object
     #
-    def self.make(**args)
+    def self.create(**args)
       validate_not_metaclass(self)
       unless constants.include?(:CREATABLE)
         raise Jamf::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
@@ -1022,6 +1042,11 @@ module Jamf
       new args
     end
 
+    # backward compatability
+    def self.make(**args)
+      create **args
+    end
+
     # Disallow direct use of ruby's .new class method for creating instances.
     # Require use of .fetch or .make
     def self.new(**args)
@@ -1029,7 +1054,7 @@ module Jamf
 
       calling_method = caller_locations(1..1).first.label
       unless OK_INSTANTIATORS.include? calling_method
-        raise Jamf::UnsupportedError, 'Use .fetch or .make to instantiate APIObject classes'
+        raise Jamf::UnsupportedError, 'Use .fetch or .create to instantiate APIObject classes'
       end
 
       super
@@ -1043,13 +1068,15 @@ module Jamf
     # @param victims[Integer,Array<Integer>] An object id or an array of them
     #   to be deleted
     #
-    # @param api[Jamf::Connection] the API connection to use.
+    # @param cnx [Jamf::Connection] the API connection to use.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Array<Integer>] The id's that didn't exist when we tried to
     #   delete them.
     #
-    def self.delete(victims, refresh = true, api: Jamf.cnx)
+    def self.delete(victims, refresh = true, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       validate_not_metaclass(self)
 
       raise Jamf::InvalidDataError, 'Parameter must be an Integer ID or an Array of them' unless victims.is_a?(Integer) || victims.is_a?(Array)
@@ -1062,10 +1089,10 @@ module Jamf
       end
 
       skipped = []
-      current_ids = all_ids refresh, api: api
+      current_ids = all_ids refresh, cnx: cnx
       victims.each do |vid|
         if current_ids.include? vid
-          api.c_delete "#{self::RSRC_BASE}/id/#{vid}"
+          cnx.c_delete "#{self::RSRC_BASE}/id/#{vid}"
         else
           skipped << vid
         end # if current_ids include vid
@@ -1073,8 +1100,8 @@ module Jamf
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      api.flushcache self::RSRC_LIST_KEY
-      # all :refresh, api: api
+      cnx.flushcache self::RSRC_LIST_KEY
+      # all :refresh, cnx: cnx
 
       skipped
     end # self.delete
@@ -1089,7 +1116,9 @@ module Jamf
 
     # @return [Jamf::Connection] the API connection thru which we deal with
     #   this object.
-    attr_reader :api
+    attr_reader :cnx
+    # @deprecated 'api' to refer to connection objects will be removed eventually
+    alias api cnx
 
     # @return the parsed JSON data retrieved from the API when this object was
     #    fetched
@@ -1134,8 +1163,9 @@ module Jamf
     #
     #
     def initialize(**args)
-      @api = args[:api]
-      @api ||= Jamf.cnx
+      @cnx = args[:cnx]
+      @cnx ||= args[:api]
+      @cnx ||= Jamf.cnx
 
       # we're making a new one in the JSS
       if args[:id] == :new
@@ -1259,7 +1289,7 @@ module Jamf
     def delete
       return unless @in_jss
 
-      @api.c_delete @rest_rsrc
+      @cnx.c_delete @rest_rsrc
 
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}"
       @id = nil
@@ -1268,8 +1298,8 @@ module Jamf
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      @api.flushcache self.class::RSRC_LIST_KEY
-      # self.class.all :refresh, api: @api
+      @cnx.flushcache self.class::RSRC_LIST_KEY
+      # self.class.all :refresh, cnx: @cnx
 
       :deleted
     end # delete
@@ -1290,7 +1320,7 @@ module Jamf
     #
     def pretty_print_instance_variables
       vars = instance_variables.sort
-      vars.delete :@api
+      vars.delete :@cnx
       vars.delete :@init_data
       vars.delete :@main_subset
       vars
@@ -1431,7 +1461,7 @@ module Jamf
 
       return if defined? self.class::NON_UNIQUE_NAMES
 
-      matches = self.class.all_names(:refresh, api: @api).select { |n| n.casecmp? args[:name] }
+      matches = self.class.all_names(:refresh, cnx: @cnx).select { |n| n.casecmp? args[:name] }
 
       raise Jamf::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" unless matches.empty?
 
@@ -1455,10 +1485,10 @@ module Jamf
       raw_json =
         if defined? self.class::USE_XML_WORKAROUND
           # if we're here, the API JSON is borked, so use the XML
-          Jamf::XMLWorkaround.data_via_xml rsrc, self.class::USE_XML_WORKAROUND, @api
+          Jamf::XMLWorkaround.data_via_xml rsrc, self.class::USE_XML_WORKAROUND, @cnx
         else
           # otherwise
-          @api.c_get(rsrc)
+          @cnx.c_get(rsrc)
         end
 
       raw_json[args[:rsrc_object_key]]

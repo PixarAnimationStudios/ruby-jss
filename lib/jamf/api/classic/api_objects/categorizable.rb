@@ -143,7 +143,7 @@ module Jamf
       # no change, go home.
       return nil if new_name == @category_name
 
-      raise Jamf::NoSuchItemError, "Category '#{new_cat}' is not known to the JSS" unless Jamf::Category.all_names(:ref, api: @api).include? new_name
+      raise Jamf::NoSuchItemError, "Category '#{new_cat}' is not known to the JSS" unless Jamf::Category.all_names(:ref, cnx: @cnx).include? new_name
 
       @category_name = new_name
       @category_id = new_id
@@ -160,10 +160,10 @@ module Jamf
       # if we were given anything but a string, assume it was an id.
       if new_cat.is_a? String
         new_name = new_cat
-        new_id = Jamf::Category.category_id_from_name new_cat, api: @api
+        new_id = Jamf::Category.category_id_from_name new_cat, cnx: @cnx
       else
         new_id = new_cat
-        new_name = Jamf::Category.map_all_ids_to(:name, api: @api)[new_id]
+        new_name = Jamf::Category.map_all_ids_to(:name, cnx: @cnx)[new_id]
       end
       [new_name, new_id]
     end
@@ -198,7 +198,7 @@ module Jamf
 
       if cat.is_a? String
         @category_name = cat
-        @category_id = Jamf::Category.category_id_from_name @category_name, api: @api
+        @category_id = Jamf::Category.category_id_from_name @category_name, cnx: @cnx
       else
         @category_name = cat[:name]
         @category_id = cat[:id]

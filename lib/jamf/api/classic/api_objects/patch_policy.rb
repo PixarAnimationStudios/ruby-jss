@@ -249,11 +249,13 @@ module Jamf
     #
     # @return [Array<Hash>] the :id and :name of each policy for the title
     #
-    def self.all_for_title(title, api: Jamf.cnx)
+    def self.all_for_title(title, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       title_id = Jamf::PatchTitle.valid_id title
       raise Jamf::NoSuchItemError, "No PatchTitle matching '#{title}'" unless title_id
 
-      api.c_get("#{RSRC_BY_PATCH_TITLE}#{title_id}")[RSRC_BY_PATCH_TITLE_LIST_KEY]
+      cnx.c_get("#{RSRC_BY_PATCH_TITLE}#{title_id}")[RSRC_BY_PATCH_TITLE_LIST_KEY]
     end
 
     # Override APIObject.fetch, since there's no .../patchpolicies/name/... endpoint

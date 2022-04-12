@@ -127,7 +127,7 @@ module Jamf
       if args[:id] == :new
         raise Jamf::InvalidDataError, "New Peripherals must have a :type, which must be one of those defined in the JSS." unless args[:type]
         @type = args[:type]
-        raise Jamf::InvalidDataError, "No peripheral type '#{@type}' in the JSS" unless Jamf::PeripheralType.all_names(:refresh, api: @api).include? @type
+        raise Jamf::InvalidDataError, "No peripheral type '#{@type}' in the JSS" unless Jamf::PeripheralType.all_names(:refresh, cnx: @cnx).include? @type
         @fields = {}
         @rest_rsrc = 'peripherals/id/-1'
         @site = "None"
@@ -229,11 +229,11 @@ module Jamf
     ###
     def associate(computer)
       if computer =~ /^d+$/
-        raise Jamf::NoSuchItemError, "No computer in the JSS with id #{computer}" unless Jamf::Computer.all_ids(api: @api).include? computer
+        raise Jamf::NoSuchItemError, "No computer in the JSS with id #{computer}" unless Jamf::Computer.all_ids(cnx: @cnx).include? computer
         @computer_id = computer
       else
-        raise Jamf::NoSuchItemError, "No computer in the JSS with name #{computer}" unless Jamf::Computer.all_names(api: @api).include? computer
-        @computer_id = Jamf::Computer.map_all_ids_to(:name, api: @api).invert[computer]
+        raise Jamf::NoSuchItemError, "No computer in the JSS with name #{computer}" unless Jamf::Computer.all_names(cnx: @cnx).include? computer
+        @computer_id = Jamf::Computer.map_all_ids_to(:name, cnx: @cnx).invert[computer]
       end
       @need_to_update = true
     end
@@ -266,7 +266,7 @@ module Jamf
     ###
     def check_field(field, value)
       ### get the field defs for this PeriphType, omitting the leading nil
-      @field_defs ||= Jamf::PeripheralType.fetch(:name => @type, api: @api).fields.compact
+      @field_defs ||= Jamf::PeripheralType.fetch(:name => @type, cnx: @cnx).fields.compact
 
       ### we must have the right number of fields, and they must have the same names
       ### as the definition

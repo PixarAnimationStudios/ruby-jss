@@ -1,7 +1,5 @@
 # REFERENCE: http://rubocop.readthedocs.io/en/latest
 
-
-
 ##### All Cops
 ##############################
 
@@ -48,7 +46,6 @@ Style/FrozenStringLiteralComment:
 # but rubocopy things that's  string concateation, and it isn't.
 Style/StringConcatenation:
   Enabled: false
-
 
 ##### Naming
 ##############################

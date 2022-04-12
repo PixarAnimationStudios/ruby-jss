@@ -507,7 +507,7 @@ module Jamf
     #
     def refresh_ipa
       return nil unless @in_jss
-      fresh_data = @api.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
+      fresh_data = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       @ipa = fresh_data[:general][:ipa]
     end
 

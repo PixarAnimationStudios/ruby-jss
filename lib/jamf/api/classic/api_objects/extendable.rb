@@ -293,11 +293,11 @@ module Jamf
     #
     def validate_popup_value(ea_name, value, refresh)
       # get the ea def. instance from the api cache, or the api
-      api.c_ext_attr_definition_cache[self.class] ||= {}
-      api.c_ext_attr_definition_cache[self.class][ea_name] = nil if refresh
-      api.c_ext_attr_definition_cache[self.class][ea_name] ||= self.class::EXT_ATTRIB_CLASS.fetch name: ea_name, api: api
+      cnx.c_ext_attr_definition_cache[self.class] ||= {}
+      cnx.c_ext_attr_definition_cache[self.class][ea_name] = nil if refresh
+      cnx.c_ext_attr_definition_cache[self.class][ea_name] ||= self.class::EXT_ATTRIB_CLASS.fetch name: ea_name, cnx: cnx
 
-      ea_def = api.c_ext_attr_definition_cache[self.class][ea_name]
+      ea_def = cnx.c_ext_attr_definition_cache[self.class][ea_name]
       return unless ea_def.from_popup_menu?
 
       return if ea_def.popup_choices.include? value.to_s

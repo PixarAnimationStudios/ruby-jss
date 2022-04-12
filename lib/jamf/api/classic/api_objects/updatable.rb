@@ -79,7 +79,7 @@ module Jamf
       raise Jamf::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
       raise Jamf::InvalidDataError, "Names can't be empty!" if newname.to_s.empty?
       raise Jamf::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS" \
-        if self.class.all_names(:refresh, api: @api).include? newname
+        if self.class.all_names(:refresh, cnx: @cnx).include? newname
       @name = newname
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}" if @rest_rsrc.include? '/name/'
       @need_to_update = true
@@ -94,13 +94,13 @@ module Jamf
       raise Jamf::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
       raise Jamf::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
 
-      @api.c_put @rest_rsrc, rest_xml
+      @cnx.c_put @rest_rsrc, rest_xml
       @need_to_update = false
       refresh_icon if self_servable?
 
       # clear any cached all-lists or id-maps for this class
       # so they'll re-cache as needed
-      @api.flushcache self.class::RSRC_LIST_KEY
+      @cnx.flushcache self.class::RSRC_LIST_KEY
 
       @id
     end # update

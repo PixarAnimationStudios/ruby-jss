@@ -118,13 +118,15 @@ module Jamf
       # @param force_ipa_upload[Boolean] Should the server upload the .ipa file to
       #   JCDS or AWS if such are confgured for use?
       #
-      # @param api[Jamf::Connection] the connection object for the operation.
+      # @param cnx [Jamf::Connection] the connection object for the operation.
       #   defaults to the default connection for the JSS module.
       #
       # @return [Boolean] was the  upload successful?
       #
-      def upload(ident, type, local_file, force_ipa_upload: false, api: Jamf.cnx)
-        id = valid_id ident, :refresh, api: api
+      def upload(ident, type, local_file, force_ipa_upload: false, api: nil, cnx: Jamf.cnx)
+        cnx = api if api
+
+        id = valid_id ident, :refresh, cnx: cnx
         raise "No #{self::RSRC_OBJECT_KEY} matching '#{ident}'" unless id
 
         # the type has to be defined in the class including this module.
@@ -136,7 +138,7 @@ module Jamf
 
         upload_rsrc << "?#{FORCE_IPA_UPLOAD_PARAM}=true" if self::UPLOAD_TYPES[type] == :mobiledeviceapplicationsipa && force_ipa_upload
 
-        api.upload upload_rsrc, local_file
+        cnx.upload upload_rsrc, local_file
       end # def upload
 
     end # module classmethods
@@ -170,7 +172,7 @@ module Jamf
       # the thing's gotta be in the JSS, and have an @id
       raise Jamf::NoSuchItemError, "Create this #{self.class::RSRC_OBJECT_KEY} in the JSS before uploading files to it." unless @id && @in_jss
 
-      self.class.upload @id, type, local_file, force_ipa_upload: force_ipa_upload, api: @api
+      self.class.upload @id, type, local_file, force_ipa_upload: force_ipa_upload, cnx: @cnx
     end
 
   end # module FileUpload

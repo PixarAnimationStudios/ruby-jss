@@ -130,8 +130,8 @@ module Jamf
         return
       end
 
-      new_id = Jamf::Site.valid_id new_site, api: @api
-      new_name = Jamf::Site.map_all_ids_to(:name, api: @api)[new_id]
+      new_id = Jamf::Site.valid_id new_site, cnx: @cnx
+      new_name = Jamf::Site.map_all_ids_to(:name, cnx: @cnx)[new_id]
       # no change, go home.
       return nil if new_name == @site_name
 

@@ -160,7 +160,7 @@ module Jamf
     def building= (new_val)
       return nil if @building == new_val
       new_val = new_val.to_s.strip
-      raise Jamf::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Building.all_names(api: @api).include? new_val
+      raise Jamf::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Building.all_names(cnx: @cnx).include? new_val
       @building = new_val
       @need_to_update = true
     end
@@ -169,7 +169,7 @@ module Jamf
     def department= (new_val)
       return nil if @department == new_val
       new_val = new_val.to_s.strip
-      raise Jamf::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Department.all_names(api: @api).include? new_val
+      raise Jamf::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Department.all_names(cnx: @cnx).include? new_val
       @department = new_val
       @need_to_update = true
     end

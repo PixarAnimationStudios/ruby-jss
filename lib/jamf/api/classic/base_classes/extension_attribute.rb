@@ -201,22 +201,22 @@ module Jamf
       validate_for_save
       super
       # this flushes the cached EA itself, used for validating ea values.
-      @api.flushcache self.class
+      @cnx.flushcache self.class
     end
 
     # @see Jamf::APIObject#delete
     #
     def delete
-      orig_open_timeout = @api.cnx.options[:open_timeout]
-      orig_timeout = @api.cnx.options[:timeout]
-      @api.timeout = orig_timeout + 1800
-      @api.open_timeout = orig_open_timeout + 1800
+      orig_open_timeout = @cnx.cnx.options[:open_timeout]
+      orig_timeout = @cnx.cnx.options[:timeout]
+      @cnx.timeout = orig_timeout + 1800
+      @cnx.open_timeout = orig_open_timeout + 1800
       begin
         super
-        @api.flushcache self.class
+        @cnx.flushcache self.class
       ensure
-        @api.timeout = orig_timeout
-        @api.open_timeout = orig_open_timeout
+        @cnx.timeout = orig_timeout
+        @cnx.open_timeout = orig_open_timeout
       end
     end
 
@@ -396,7 +396,7 @@ module Jamf
 
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.make api: @api, name: "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
+        acs = search_class.make cnx: @cnx, name: "ruby-jss-EA-result-search-#{Time.now.to_jss_epoch}"
         acs.display_fields = [@name]
         crit_list = [Jamf::Criteriable::Criterion.new(and_or: 'and', name: @name, search_type: search_type.to_s, value: desired_value)]
         acs.criteria = Jamf::Criteriable::Criteria.new crit_list
@@ -452,7 +452,7 @@ module Jamf
 
       begin
         search_class = self.class::TARGET_CLASS::SEARCH_CLASS
-        acs = search_class.make name: tmp_advsrch, api: @api
+        acs = search_class.make name: tmp_advsrch, cnx: @cnx
         acs.display_fields = self.class::TARGET_CLASS == Jamf::User ? [@name, USERNAME_FIELD] : [@name, USERNAME_FIELD, LAST_RECON_FIELD]
 
         # search for 'Username like "" ' because all searchable object classes have a "Username" value
@@ -478,8 +478,8 @@ module Jamf
       ensure
         if defined? acs
           acs.delete if acs
-        elsif search_class.all_names(:refresh, api: @api).include? tmp_advsrch
-          search_class.fetch(name: tmp_advsrch, api: @api).delete
+        elsif search_class.all_names(:refresh, cnx: @cnx).include? tmp_advsrch
+          search_class.fetch(name: tmp_advsrch, cnx: @cnx).delete
         end
       end
 

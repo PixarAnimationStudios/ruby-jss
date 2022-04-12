@@ -87,13 +87,15 @@ module Jamf
     #
     # @param user[String] a username to search for in all LDAP servers
     #
-    # @param api[Jamf::Connection] the API connection to use for the search#
+    # @param cnx [Jamf::Connection] the API connection to use for the search#
 
     # @return [Integer, nil] the id of the first LDAP server with the user,
     #  nil if not found
     #
-    def self.server_for_user(user, api: Jamf.cnx)
-      all_objects(:refresh, api: api).each do |ldap|
+    def self.server_for_user(user, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all_objects(:refresh, cnx: cnx).each do |ldap|
         next if ldap.find_user(user, :exact).empty?
         return ldap.id
       end
@@ -104,25 +106,29 @@ module Jamf
     #
     # @param user[String] a username to search for in all LDAP servers
     #
-    # @param api[Jamf::Connection] the API connection to use for the search
+    # @param cnx [Jamf::Connection] the API connection to use for the search
     #
     # @return [Boolean] Does the user exist in any LDAP server?
     #
-    def self.user_in_ldap?(user, api: Jamf.cnx)
-      server_for_user(user, api: api) ? true : false
+    def self.user_in_ldap?(user, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      server_for_user(user, cnx: cnx) ? true : false
     end
 
     # Does a group exist in any ldap server?
     #
     # @param group[String] a group to search for in all LDAP servers
     #
-    # @param api[Jamf::Connection] the API connection to use for the search
+    # @param cnx [Jamf::Connection] the API connection to use for the search
     #
     # @return [Integer, nil] the id of the first LDAP server with the group,
     #  nil if not found
     #
-    def self.server_for_group(group, api: Jamf.cnx)
-      all_objects(:refresh, api: api).each do |ldap|
+    def self.server_for_group(group, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all_objects(:refresh, cnx: cnx).each do |ldap|
         next if ldap.find_group(group, :exact).empty?
         return ldap.id
       end
@@ -133,12 +139,14 @@ module Jamf
     #
     # @param user[String] a group name to search for in all LDAP servers
     #
-    # @param api[Jamf::Connection] the API connection to use for the search
+    # @param cnx [Jamf::Connection] the API connection to use for the search
     #
     # @return [Boolean] Does the group exist in any LDAP server?
     #
-    def self.group_in_ldap?(group, api: Jamf.cnx)
-      server_for_group(group, api: api) ? true : false
+    def self.group_in_ldap?(group, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      server_for_group(group, cnx: cnx) ? true : false
     end
 
     # On a given server, does a given group contain a given user?
@@ -152,17 +160,20 @@ module Jamf
     #
     # @param group[String] the group name to see if the user is a member
     #
-    # @param api[Jamf::Connection] the API connection to use for the search
+    # @param cnx [Jamf::Connection] the API connection to use for the search
     #
     # @return [Boolean] is the user a member of the group?
     #
-    def self.check_membership(ldap_server, user, group, api: Jamf.cnx)
+    def self.check_membership(ldap_server, user, group, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       ldap_server_id = valid_id ldap_server
       raise Jamf::NoSuchItemError, "No LdapServer matching #{ldap_server}" unless ldap_server_id
+
       rsrc = "#{RSRC_BASE}/id/#{ldap_server_id}/group/#{CGI.escape group.to_s}/user/#{CGI.escape user.to_s}"
-      member_check = api.c_get rsrc
-      return false if member_check[:ldap_users].empty?
-      true
+      member_check = cnx.c_get rsrc
+
+      !member_check[:ldap_users].empty?
     end
 
     # Attributes
@@ -302,7 +313,7 @@ module Jamf
     #
     def find_user(user, exact = false)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
-      raw = api.c_get("#{RSRC_BASE}/id/#{@id}/user/#{CGI.escape user.to_s}")[:ldap_users]
+      raw = cnx.c_get("#{RSRC_BASE}/id/#{@id}/user/#{CGI.escape user.to_s}")[:ldap_users]
       exact ? raw.select { |u| u[:username] == user } : raw
     end
 
@@ -314,7 +325,7 @@ module Jamf
     #
     def find_group(group, exact = false)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
-      raw = api.c_get("#{RSRC_BASE}/id/#{@id}/group/#{CGI.escape group.to_s}")[:ldap_groups]
+      raw = cnx.c_get("#{RSRC_BASE}/id/#{@id}/group/#{CGI.escape group.to_s}")[:ldap_groups]
       exact ? raw.select { |u| u[:groupname] == group } : raw
     end
 
@@ -326,7 +337,7 @@ module Jamf
     #
     def check_membership(user, group)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
-      self.class.check_membership @id, user, group, api: @api
+      self.class.check_membership @id, user, group, cnx: @cnx
     end
 
   end # class ldap server

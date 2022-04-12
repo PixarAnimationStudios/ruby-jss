@@ -31,7 +31,7 @@ module Jamf
 
   # A building in the Jamf Pro API
   #
-  # Alas we can't migrate Jamf::Building to use this - it must stay in the
+  # Alas we can't migrate Jamf::Building to use the JPAPI - it must stay in the
   # classic API because of how it interacts Scopes in scopable objects over there.
   #
   # The parent class is the OAPI object representing a single member of the

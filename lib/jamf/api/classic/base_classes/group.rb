@@ -76,15 +76,19 @@ module Jamf
     # Returns an Array of all the smart
     # groups.
     #
-    def self.all_smart(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).select { |g| g[:is_smart] }
+    def self.all_smart(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).select { |g| g[:is_smart] }
     end
 
     # Returns an Array of all the static
     # groups.
     #
-    def self.all_static(refresh = false, api: Jamf.cnx)
-      all(refresh, api: api).reject { |g| g[:is_smart] }
+    def self.all_static(refresh = false, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      all(refresh, cnx: cnx).reject { |g| g[:is_smart] }
     end
 
     # Immediatly add and/or remove members in a static group without
@@ -99,14 +103,16 @@ module Jamf
     # @param remove_members [String, Integer, Array<String, Integer>] valid
     #   identifier(s) for members to remove
     #
-    # @param api [Jamf::Connection] The API connetion to use, uses the default
+    # @param cnx [Jamf::Connection] The API connetion to use, uses the default
     #   connection if not specified
     #
     # @return [void]
     #
-    def self.change_membership(group, add_members: [], remove_members: [], api: Jamf.cnx)
-      raise Jamf::NoSuchItemError, "No #{self} matching '#{group}'" unless (group_id = valid_id group, api: api)
-      raise Jamf::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, api: api)[group_id]
+    def self.change_membership(group, add_members: [], remove_members: [], api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      raise Jamf::NoSuchItemError, "No #{self} matching '#{group}'" unless (group_id = valid_id group, cnx: cnx)
+      raise Jamf::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, cnx: cnx)[group_id]
 
       add_members = [add_members].flatten
       remove_members = [remove_members].flatten
@@ -117,13 +123,13 @@ module Jamf
       # that isn't in the group (which is kinda lame - it should just
       # ignore this, like it does when we add a member that's already
       # in the group.)
-      current_member_ids = fetch(id: group_id).member_ids
+      current_member_ids = fetch(id: group_id, cnx: cnx).member_ids
 
       # nil if no changes to be made
       xml_doc = change_membership_xml add_members, remove_members, current_member_ids
       return unless xml_doc
 
-      api.c_put "#{self::RSRC_BASE}/id/#{group_id}", xml_doc.to_s
+      cnx.c_put "#{self::RSRC_BASE}/id/#{group_id}", xml_doc.to_s
     end
 
     # return [REXML::Document, nil]
@@ -435,13 +441,13 @@ module Jamf
     # @param remove_members [String, Integer, Array<String, Integer>] valid
     #   identifier(s) for members to remove
     #
-    # @param api [Jamf::Connection] The API connetion to use, uses the default
+    # @param cnx [Jamf::Connection] The API connetion to use, uses the default
     #   connection if not specified
     #
     # @return [void]
     #
     def change_membership(add_members: [], remove_members: [])
-      self.class.change_membership(@id, add_members: add_members, remove_members: remove_members, api: @api)
+      self.class.change_membership(@id, add_members: add_members, remove_members: remove_members, cnx: @cnx)
       refresh_members
     end
 
@@ -450,7 +456,7 @@ module Jamf
     # @return [Array<Hash>] the refresh membership
     #
     def refresh_members
-      @members = @api.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
+      @members = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
 
     # aliases
@@ -471,7 +477,7 @@ module Jamf
     # @return [Hash{:id=>Integer,:name=>String}] the valid id and name
     #
     def check_member(m)
-      potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name, api: @api)
+      potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name, cnx: @cnx)
       if m.to_s =~ /^\d+$/
         return { id: m.to_i, name: potential_members[m] } if potential_members.key?(m.to_i)
       else

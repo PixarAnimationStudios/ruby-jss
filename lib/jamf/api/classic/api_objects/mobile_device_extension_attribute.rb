@@ -95,7 +95,7 @@ module Jamf
       raise Jamf::NoSuchItemError, "EA Not In JSS! Use #create to create this #{RSRC_OBJECT_KEY}." unless @in_jss
       raise Jamf::InvalidConnectionError, "Database connection required for 'history' query." unless Jamf::DB_CNX.connected?
 
-      mobile_device_id = Jamf::MobileDevice.valid_id mobiledevice, api: @api
+      mobile_device_id = Jamf::MobileDevice.valid_id mobiledevice, cnx: @cnx
       raise Jamf::NoSuchItemError, "No MobileDevice found matching '#{mobiledevice}'" unless mobile_device_id
 
       the_query = <<-END_Q

@@ -100,16 +100,18 @@ module Jamf
     # @param default[String, Integer, Symbol] Name or ID of a dist point to use
     #   if no master is found, or :random to randomly choose one.
     #
-    # @param api[Jamf::Connection] which API connection should we query?
+    # @param cnx [Jamf::Connection] which API connection should we query?
     #
     # @return [Jamf::DistributionPoint]
     #
-    def self.master_distribution_point(refresh = false, default: nil, api: Jamf.cnx)
+    def self.master_distribution_point(refresh = false, default: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       @master_distribution_point = nil if refresh
       return @master_distribution_point if @master_distribution_point
 
-      all_ids(refresh, api: api).each do |dp_id|
-        dp = fetch id: dp_id, api: api
+      all_ids(refresh, cnx: cnx).each do |dp_id|
+        dp = fetch id: dp_id, cnx: cnx
         if dp.master?
           @master_distribution_point = dp
           break
@@ -123,9 +125,9 @@ module Jamf
       if @master_distribution_point
         @master_distribution_point
       elsif default == :random
-        @master_distribution_point = fetch(id: all_ids.sample, api: api)
+        @master_distribution_point = fetch(id: all_ids.sample, cnx: cnx)
       else
-        @master_distribution_point = fetch(default, api: api)
+        @master_distribution_point = fetch(default, cnx: cnx)
       end
     end
 
@@ -142,20 +144,22 @@ module Jamf
     #   master DP, or :random to use a randomly chosen one. If :master is
     #   specified and there is no master (master is cloud) then a random one is used.
     #
-    # @param api[Jamf::Connection] which API connection should we query?
+    # @param cnx [Jamf::Connection] which API connection should we query?
     #
     # @return [Jamf::DistributionPoint]
     #
-    def self.my_distribution_point(refresh = false, default: :master, api: Jamf.cnx)
+    def self.my_distribution_point(refresh = false, default: :master, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       @my_distribution_point = nil if refresh
       return @my_distribution_point if @my_distribution_point
 
-      my_net_seg_id = Jamf::NetworkSegment.my_network_segment refresh, api: api
+      my_net_seg_id = Jamf::NetworkSegment.my_network_segment refresh, cnx: cnx
 
       if my_net_seg_id
-        my_net_seg = Jamf::NetworkSegment.fetch id: my_net_seg_id, api: api
+        my_net_seg = Jamf::NetworkSegment.fetch id: my_net_seg_id, cnx: cnx
         my_dp_name = my_net_seg.distribution_point
-        @my_distribution_point = fetch name: my_dp_name, api: api if my_dp_name
+        @my_distribution_point = fetch name: my_dp_name, cnx: cnx if my_dp_name
       end # if my_net_seg_id
 
       return @my_distribution_point if @my_distribution_point
@@ -163,13 +167,13 @@ module Jamf
       @my_distribution_point =
         case default
         when String
-          fetch name: default, api: api
+          fetch name: default, cnx: cnx
         when Integer
-          fetch id: default, api: api
+          fetch id: default, cnx: cnx
         when :master
-          master_distribution_point refresh, default: :random, api: api
+          master_distribution_point refresh, default: :random, cnx: cnx
         when :random
-          fetch id: all_ids(refresh).sample, api: api
+          fetch id: all_ids(refresh).sample, cnx: cnx
         end
     end
 
@@ -270,18 +274,20 @@ module Jamf
     #
     # You can also do this more easily by calling JSS.master_distribution_point
     #
-    def initialize(args = {})
+    def initialize(**args)
       # TODO: this looks redundant with super....
-      args[:api] ||= Jamf.cnx
-      @api = args[:api]
+      args[:cnx] ||= args[:api]
+      args[:cnx] ||= Jamf.cnx
+
+      @cnx = args[:cnx]
 
       @init_data = nil
 
       # looking for master?
       if args[:id] == :master
 
-        self.class.all_ids(api: @api).each do |id|
-          @init_data = @api.c_get("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
+        self.class.all_ids(cnx: @cnx).each do |id|
+          @init_data = @cnx.c_get("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
           if @init_data[:is_master]
             @id = @init_data[:id]
             @name = @init_data[:name]
