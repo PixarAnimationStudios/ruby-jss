@@ -59,23 +59,23 @@ module Jamf
       # @return [Hash,String] the result of the get
       #
       def c_get(rsrc, format = :json, raw_json: false)
-        validate_connected
+        validate_connected @c_cnx
         raise Jamf::InvalidDataError, 'format must be :json or :xml' unless Jamf::Connection::GET_FORMATS.include?(format)
 
-        @last_http_response =
+        resp =
           @c_cnx.get(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = format == :json ? Jamf::Connection::MIME_JSON : Jamf::Connection::MIME_XML
           end
-
-        unless @last_http_response.success?
-          handle_classic_http_error
+        @last_http_response = resp
+        unless resp.success?
+          handle_classic_http_error resp
           return
         end
 
-        return JSON.parse(@last_http_response.body, symbolize_names: true) if format == :json && !raw_json
+        return JSON.parse(resp.body, symbolize_names: true) if format == :json && !raw_json
 
         # the raw body, either json or xml
-        @last_http_response.body
+        resp.body
       end # c_get
       # backward compatibility
       alias get_rsrc c_get
@@ -89,25 +89,26 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_post(rsrc, xml)
-        validate_connected
+        validate_connected @c_cnx
 
         # convert CRs & to &#13;
         xml&.gsub!(/\r/, '&#13;')
 
         # send the data
-        @last_http_response =
+        resp =
           @c_cnx.post(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_XML
             req.body = xml
           end
+        @last_http_response = resp
 
-        unless @last_http_response.success?
-          handle_classic_http_error
+        unless resp.success?
+          handle_classic_http_error resp
           return
         end
 
-        @last_http_response.body
+        resp.body
       end # c_post
       # backward compatibility
       alias post_rsrc c_post
@@ -121,25 +122,26 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_put(rsrc, xml)
-        validate_connected
+        validate_connected @c_cnx
 
         # convert CRs & to &#13;
         xml.gsub!(/\r/, '&#13;')
 
         # send the data
-        @last_http_response =
+        resp =
           @c_cnx.put(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_XML
             req.body = xml
           end
+        @last_http_response = resp
 
-        unless @last_http_response.success?
-          handle_classic_http_error
+        unless resp.success?
+          handle_classic_http_error resp
           return
         end
 
-        @last_http_response.body
+        resp.body
       end
       # backward compatibility
       alias put_rsrc c_put
@@ -151,22 +153,23 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_delete(rsrc)
-        validate_connected
+        validate_connected @c_cnx
         raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
         # delete the resource
-        @last_http_response =
+        resp =
           @cnx.delete(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_XML
           end
+        @last_http_response = resp
 
-        unless @last_http_response.success?
-          handle_classic_http_error
+        unless resp.success?
+          handle_classic_http_error resp
           return
         end
 
-        @last_http_response.body
+        resp.body
       end # delete_rsrc
       # backward compatibility
       alias delete_rsrc c_delete
@@ -183,7 +186,7 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def upload(rsrc, local_file)
-        validate_connected
+        validate_connected @c_cnx
 
         # the upload file object for faraday
         local_file = Pathname.new local_file
@@ -194,14 +197,15 @@ module Jamf
         )
 
         # send it and get the response
-        @last_http_response =
+        resp =
           @c_cnx.post rsrc do |req|
             req.headers['Content-Type'] = 'multipart/form-data'
             req.body = { name: upfile }
           end
+        @last_http_response = resp
 
-        unless @last_http_response.success?
-          handle_classic_http_error
+        unless resp.success?
+          handle_classic_http_error resp
           return false
         end
 
@@ -226,15 +230,15 @@ module Jamf
         end
       end
 
-      # Parses the @last_http_response
+      # Parses the given http response
       # and raises a Jamf::APIError with a useful error message.
       #
       # @return [void]
       #
-      def handle_classic_http_error
-        return if @last_http_response.success?
+      def handle_classic_http_error(resp)
+        return if resp.success?
 
-        case @last_http_response.status
+        case resp.status
         when 404
           err = Jamf::NoSuchItemError
           msg = 'Not Found'
@@ -242,31 +246,36 @@ module Jamf
           err = Jamf::ConflictError
 
           # TODO: Clean this up
-          @last_http_response.body =~ /<p>(The server has not .*?)(<|$)/m
+          resp.body =~ /<p>(The server has not .*?)(<|$)/m
           msg = Regexp.last_match(1)
 
           unless msg
-            @last_http_response.body =~ %r{<p>Error: (.*?)</p>}
+            resp.body =~ %r{<p>Error: (.*?)</p>}
             msg = Regexp.last_match(1)
           end
 
           unless msg
-            @last_http_response.body =~ /<p>(Unable to complete file upload.*?)(<|$)/m
+            resp.body =~ /<p>(Unable to complete file upload.*?)(<|$)/m
             msg = Regexp.last_match(1)
           end
         when 400
           err = Jamf::BadRequestError
-          @last_http_response.body =~ %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
+          resp.body =~ %r{>Bad Request</p>\n<p>(.*?)</p>\n<p>You can get technical detail}m
           msg = Regexp.last_match(1)
         when 401
-          err = Jamf::AuthorizationError
-          msg = 'You are not authorized to do that.'
+          if resp.body.include? 'INVALID_TOKEN'
+            err = Jamf::InvalidConnectionError
+            msg = 'Connection token is not valid'
+          else
+            err = Jamf::AuthorizationError
+            msg = 'You are not authorized to do that.'
+          end
         when (500..599)
           err = Jamf::APIRequestError
           msg = 'There was an internal server error'
         else
           err = Jamf::APIRequestError
-          msg = "There was a error processing your request, status: #{@last_http_response.status}"
+          msg = "There was a error processing your request, status: #{resp.status}"
         end
         raise err, msg
       end

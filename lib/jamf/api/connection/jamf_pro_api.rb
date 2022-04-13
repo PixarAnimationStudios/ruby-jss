@@ -37,6 +37,7 @@ module Jamf
       #######################################################
       def create_jp_connection(parse_json: true)
         Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
+
           cnx.authorization :Bearer, @token.token
 
           cnx.options[:timeout] = @timeout
@@ -51,20 +52,19 @@ module Jamf
         end
       end
 
-      # Get a JPAPI resource
-      # The JSON data is parsed into a Ruby Hash with symbolized keys.
-      #
+
       # @param rsrc[String] the resource to get
       #   (the part of the API url after the '/api/' )
       #
       # @return [Hash] the result of the get
       #######################################################
       def jp_get(rsrc)
-        validate_connected
-        @last_http_response = @jp_cnx.get rsrc
-        return @last_http_response.body if @last_http_response.success?
+        validate_connected @jp_cnx
+        resp = @jp_cnx.get rsrc
+        @last_http_response = resp
+        return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
       # backward compatibility
       alias get jp_get
@@ -79,14 +79,14 @@ module Jamf
       # @return [String] the response body
       #######################################################
       def jp_post(rsrc, data)
-        validate_connected
+        validate_connected @jp_cnx
         resp = @jp_cnx.post(rsrc) do |req|
           req.body = data
         end
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
       # backward compatibility
       alias post jp_post
@@ -101,14 +101,14 @@ module Jamf
       #
       #######################################################
       def jp_put(rsrc, data)
-        validate_connected
+        validate_connected @jp_cnx
         resp = @jp_cnx.put(rsrc) do |req|
           req.body = data
         end
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
       # backward compatibility
       alias put jp_put
@@ -123,14 +123,14 @@ module Jamf
       #
       #######################################################
       def jp_patch(rsrc, data)
-        validate_connected
+        validate_connected @jp_cnx
         resp = @jp_cnx.patch(rsrc) do |req|
           req.body = data
         end
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
       # backward compatibility
       alias patch jp_patch
@@ -143,12 +143,12 @@ module Jamf
       #
       #######################################################
       def jp_delete(rsrc)
-        validate_connected
+        validate_connected @jp_cnx
         resp = @jp_cnx.delete rsrc
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
       # backward compatibility
       alias delete jp_delete
@@ -162,7 +162,7 @@ module Jamf
         @last_http_response = resp
         return resp.body if resp.success?
 
-        raise Jamf::Connection::JamfProAPIError, @last_http_response
+        raise Jamf::Connection::JamfProAPIError, resp
       end
 
     end # module

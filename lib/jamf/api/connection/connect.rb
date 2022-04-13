@@ -191,10 +191,20 @@ module Jamf
       end # connect
       alias login connect
 
-      # raise exception if not connected
-      def validate_connected
+      # raise exception if not connected, and make sure we're using
+      # the current token
+      def validate_connected(subcnx)
         using_dft = 'Jamf.cnx' if self == Jamf.cnx
         raise Jamf::InvalidConnectionError, "Connection '#{@name}' Not Connected. Use #{using_dft}.connect first." unless connected?
+
+        update_refreshed_token(subcnx)
+      end
+
+      # always use the current token, which by default will auto-refresh
+      def update_refreshed_token(subcnx)
+        return if subcnx.headers['Authorization'] == "Bearer #{@token.token}"
+
+        subcnx.authorization :Bearer, @token.token
       end
 
       # With a REST connection, there isn't any real "connection" to disconnect from

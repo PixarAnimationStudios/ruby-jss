@@ -122,7 +122,7 @@ module Jamf
       def flushcache(key_or_klass = nil)
         # EA defs for just one extendable class?
         if EXTENDABLE_CLASSES.include? key_or_klass.to_s
-          @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Map.new
+          @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Hash.new
 
         # one API object class?
         elsif key_or_klass
@@ -134,8 +134,8 @@ module Jamf
 
         # flush everything
         else
-          @c_object_list_cache = Concurrent::Map.new
-          @c_ext_attr_definition_cache = Concurrent::Map.new
+          @c_object_list_cache = Concurrent::Hash.new
+          @c_ext_attr_definition_cache = Concurrent::Hash.new
         end
 
         GC.start
