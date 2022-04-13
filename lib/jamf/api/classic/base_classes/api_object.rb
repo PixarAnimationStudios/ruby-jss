@@ -524,6 +524,38 @@ module Jamf
       dups
     end
 
+    # A Hash of all members of this collection where the keys are some
+    # identifier and values are any other attribute.
+    #
+    # @param ident [Symbol] An identifier of this Class, used as the key
+    #   for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber
+    #
+    # @param to [Symbol] The attribute to which the ident will be mapped.
+    #   Aliases are acceptable, e.g. :name for :displayName
+    #
+    # @param refresh [Boolean] Re-read the 'all' data from the API? otherwise
+    #   use the cached data if available.
+    #
+    # @param cnx (see .all)
+    #
+    # @return [Hash {Symbol: Object}] A Hash of identifier mapped to attribute
+    #
+    ######################################
+    def self.map_all(ident, to:, cnx: Jamf.cnx, refresh: false, cached_list: nil)
+      ident = lookup_keys[ident]
+      raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless ident
+
+      list = cached_list ? cached_list : all(refresh, cnx: cnx)
+      mapped = list.map do |i|
+        [
+          i[ident],
+          i[to]
+        ]
+      end # do i
+
+      mapped.to_h
+    end
+
     # Return a hash of all objects of this subclass
     # in the JSS where the key is the id, and the value
     # is some other key in the data items returned by the Jamf::APIObject.all.
@@ -568,19 +600,21 @@ module Jamf
     def self.map_all_ids_to(other_key, refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      # we will accept any key, it'll just return nil if not in the
-      # .all hashes. However if we're given an alias of a lookup key
-      # we need to convert it to its real name.
-      other_key = lookup_keys[other_key] if lookup_keys[other_key]
+      map_all :id, to: other_key, refresh: refresh, cnx: cnx
 
-      cache_key = "#{self::RSRC_LIST_KEY}_map_#{other_key}".to_sym
-      cache = cnx.c_object_list_cache
-      cache[cache_key] = nil if refresh
-      return cache[cache_key] if cache[cache_key]
-
-      map = {}
-      all(refresh, cnx: cnx).each { |i| map[i[:id]] = i[other_key] }
-      cache[cache_key] = map
+      # # we will accept any key, it'll just return nil if not in the
+      # # .all hashes. However if we're given an alias of a lookup key
+      # # we need to convert it to its real name.
+      # other_key = lookup_keys[other_key] if lookup_keys[other_key]
+      #
+      # cache_key = "#{self::RSRC_LIST_KEY}_map_#{other_key}".to_sym
+      # cache = cnx.c_object_list_cache
+      # cache[cache_key] = nil if refresh
+      # return cache[cache_key] if cache[cache_key]
+      #
+      # map = {}
+      # all(refresh, cnx: cnx).each { |i| map[i[:id]] = i[other_key] }
+      # cache[cache_key] = map
     end
 
     # Return an Array of Jamf::APIObject subclass instances

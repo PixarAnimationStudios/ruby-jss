@@ -56,11 +56,7 @@ module Jamf
         cmd << " -deliverydelay #{Shellwords.escape delay}" if delay > 0
         `#{cmd} 2>&1`
       end
-
-      # an alias of management_action
-      def self.nc_notify(msg, title: nil, subtitle: nil, delay: 0)
-        management_action(msg, title: title, subtitle: subtitle, delay: delay)
-      end
+      alias nc_notify management_action
 
       # Skipping all the force-alerts stuff until we figure out cleaner
       # ways to do it in 10.13+
@@ -69,7 +65,7 @@ module Jamf
       # 'banner' (which vanishes in a few seconds), regardless of the user's
       # setting in the NC prefs.
 
-      def self.force_alerts
+      def force_alerts
         orig_flags = {}
         console_users.each do |user|
           orig_flags[user] = set_mgmt_action_ncprefs_flags user, NC_ALERT_STYLE_FLAGS, hup: false
@@ -79,7 +75,7 @@ module Jamf
         orig_flags
       end
 
-      def self.restore_alerts(orig_flags)
+      def restore_alerts(orig_flags)
         orig_flags.each do |user, flags|
           set_mgmt_action_ncprefs_flags user, flags, hup: false
         end
@@ -93,7 +89,7 @@ module Jamf
       #
       # @return [Integer] the original flags, or given flags if no originals.
       #
-      def self.set_mgmt_action_ncprefs_flags(user, flags, hup: true)
+      def set_mgmt_action_ncprefs_flags(user, flags, hup: true)
         plist = Pathname.new "/Users/#{user}/Library/Preferences/#{NCPREFS_DOMAIN}.plist"
         prefs = JSS.parse_plist plist
         mgmt_action_setting = prefs['apps'].select { |a| a['bundle-id'] == MGMT_ACTION_BUNDLE_ID }.first

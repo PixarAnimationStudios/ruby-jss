@@ -305,13 +305,15 @@ module Jamf
       # A Hash of all members of this collection where the keys are some
       # identifier and values are any other attribute.
       #
-      # NOTE: This method uses the cached version of .all
-      #
       # @param ident [Symbol] An identifier of this Class, used as the key
       #   for the mapping Hash. Aliases are acceptable, e.g. :sn for :serialNumber
       #
       # @param to [Symbol] The attribute to which the ident will be mapped.
       #   Aliases are acceptable, e.g. :name for :displayName
+      #
+      # @param cached_list [Array<Hash>] The result of a previous call to .all
+      #   can be passed in here, to prevent calling .all again to generate a
+      #   fresh list.
       #
       # @param cnx (see .all)
       #
@@ -613,13 +615,14 @@ module Jamf
               all_list.map { |i| attr_def[:class].new i[attr_name] }
             end
           end # define_singleton_method
-
+          Jamf.load_msg "Defined method #{self}.#{list_method_name}"
         else
 
           define_singleton_method(list_method_name) do |*|
             raise NoMethodError, "no method '#{list_method_name}': '#{attr_name}' is not an indentifier for #{self}"
           end
         end
+
       end # create_identifier_list_method
       private :create_identifier_list_method
 

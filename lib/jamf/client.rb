@@ -62,7 +62,7 @@ module Jamf
     PS_USER_COMM = 'ps -A -o user,comm'.freeze
 
     # the path to a users byhost folder from home
-    USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'
+    USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'.freeze
 
     extend Jamf::Client::JamfBinary
     extend Jamf::Client::JamfHelper

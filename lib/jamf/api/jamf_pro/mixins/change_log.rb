@@ -91,13 +91,17 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-      # puts "--> #{includer} is including Jamf::CollectionResource"
+      Jamf.load_msg "--> #{includer} is including Jamf::ChangeLog"
       includer.extend(ClassMethods)
     end
 
     # Class Methods
     #####################################
     module ClassMethods
+
+      def self.extended(extender)
+        Jamf.load_msg "--> #{extender} is extending Jamf::ChangeLog::ClassMethods"
+      end
 
       # Add an entry with a note to this object's change log.
       #

@@ -28,6 +28,10 @@ module Jamf
   # meaning that no setters are ever defined, #save will raise an error
   #
   module Immutable
+
+    def self.extended(extender)
+      Jamf.load_msg "--> #{extender} is extending Jamf::Immutable"
+    end
   end # Immutable
 
 end # Jamf

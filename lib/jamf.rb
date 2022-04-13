@@ -61,6 +61,9 @@ require 'zeitwerk_config'
 # or get mixed in
 JAMF_VERBOSE_LOADING_FILE = Pathname.new('/tmp/ruby-jss-verbose-loading')
 
+# Or, set this ENV var to also make zeitverk and mixins send text to stderr
+JAMF_VERBOSE_LOADING_ENV = 'RUBY_JSS_VERBOSE_LOADING'.freeze
+
 # touch this file to make zeitwek  eager-load everything when the gem is required.
 JAMF_ZEITWERK_EAGER_LOAD_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-eager-load')
 
@@ -83,6 +86,8 @@ module Jamf
     return @verbose_loading unless @verbose_loading.nil?
 
     @verbose_loading = JAMF_VERBOSE_LOADING_FILE.file?
+    @verbose_loading ||= ENV.include? JAMF_VERBOSE_LOADING_ENV
+    @verbose_loading
   end
 
   # rubocop: disable Style/StderrPuts
@@ -111,7 +116,7 @@ end # module Jamf
 # make sure we can run
 Jamf.validate_ruby_version
 
-# backward compatibility, JSS module is now a synonym for Jamf module
+# JSS module is now a synonym for Jamf module
 JSS = Jamf
 
 # testing zeitwerk loading

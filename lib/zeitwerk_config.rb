@@ -49,6 +49,8 @@ def setup_zeitwerk_loader(loader)
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/base_classes")
   loader.collapse("#{__dir__}/jamf/api/jamf_pro/other_classes")
 
+  loader.collapse("#{__dir__}/jamf/deprecations")
+
   # filenames => Constants, which don't adhere to zeitwerk's parsing standards
   # Mostly because the a filename like 'oapi_object' would be
   # loaded by zeitwerk expecting it to define 'OapiObject', but it really
@@ -85,6 +87,9 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'md_prestage_names' => 'MobileDevicePrestageNames'
   loader.inflector.inflect 'md_prestage_skip_setup_items' => 'MobileDevicePrestageSkipSetupItems'
 
+  # deprecations, separated so they load only when used
+  loader.inflector.inflect("deprecated_api_constant" => "API")
+
   # These should be ignored, some will be required directly
   #####################################
 
@@ -112,7 +117,7 @@ def setup_zeitwerk_loader(loader)
   #  - abspath is the full path to the file where the constant was loaded from.
   #####################################
   loader.on_load do |const_path, value, abspath|
-    Jamf.load_msg "Just Loaded #{const_path}, which is a #{value.class}"
+    Jamf.load_msg "Zeitwerk just loaded #{value.class} '#{const_path}' from:\n  #{abspath}"
 
     # Parse OAPI_PROPERTIES into getters and setters for subclasses of
     # OAPIObject in the JPAPI.
@@ -125,7 +130,7 @@ def setup_zeitwerk_loader(loader)
        abspath == value.const_source_location(:OAPI_PROPERTIES).first
 
       parsed = value.parse_oapi_properties
-      Jamf.load_msg "..Parsed OAPI_PROPERTIES for #{value}" if parsed
+      Jamf.load_msg "Parsed OAPI_PROPERTIES for #{value}" if parsed
     end
 
     # Generate the identifier list methods (.all_*) for subclasses of APIObject
@@ -133,7 +138,7 @@ def setup_zeitwerk_loader(loader)
     if value.is_a?(Class) && value.superclass == Jamf::APIObject
 
       done = value.define_identifier_list_methods
-      Jamf.load_msg "..Defined identifier list methods for #{value}" if done
+      Jamf.load_msg "Defined identifier list methods for #{value}" if done
     end
   end
 

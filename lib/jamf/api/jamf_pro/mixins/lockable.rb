@@ -42,12 +42,17 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
+      Jamf.load_msg "--> #{includer} is including Jamf::Lockable"
       includer.extend(ClassMethods)
     end
 
     #  Class Methods
     #####################################
     module ClassMethods
+
+      def self.extended(extender)
+        Jamf.load_msg "--> #{extender} is extending Jamf::Lockable"
+      end
 
       def lockable?
         true

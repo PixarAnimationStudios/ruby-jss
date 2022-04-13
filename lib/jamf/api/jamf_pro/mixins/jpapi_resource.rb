@@ -34,9 +34,7 @@ module Jamf
     def self.included(includer)
       # TODO: only allow being directly mixed in to CollectionResource and
       # SingletonResource modules.
-
-      Jamf.load_msg "JPAPIResource is being included by #{includer}, now extending JPAPIResource::ClassMethods"
-
+      Jamf.load_msg "--> #{includer} is including Jamf::JPAPIResource"
       includer.extend(ClassMethods)
     end
 
@@ -56,6 +54,11 @@ module Jamf
     #  Class Methods
     #####################################
     module ClassMethods
+
+      ######################################
+      def self.extended(extender)
+        Jamf.load_msg "--> #{extender} is extending Jamf::JPAPIResource::ClassMethods"
+      end
 
       # Indicate that this class comes from the Jamf Pro API.
       # The same method exists in APIObject to indicate coming from Classic

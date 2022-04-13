@@ -30,7 +30,7 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-      # puts "#{includer} is including Jamf::Prestage"
+      Jamf.load_msg "--> #{includer} is including Jamf::Prestage"
       includer.extend(ClassMethods)
     end
 
@@ -65,7 +65,7 @@ module Jamf
 
       # when this module is included, also extend our Class Methods
       def self.extended(extender)
-        # puts "#{extender} is extending Jamf::Prestage"
+        Jamf.load_msg "--> #{extender} is extending Jamf::Prestage::ClassMethods"
       end
 
       # Return the Prestage that is marked as default,
