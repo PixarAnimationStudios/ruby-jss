@@ -37,7 +37,6 @@ module Jamf
       #######################################################
       def create_jp_connection(parse_json: true)
         Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
-
           cnx.authorization :Bearer, @token.token
 
           cnx.options[:timeout] = @timeout
@@ -51,7 +50,6 @@ module Jamf
           cnx.adapter Faraday::Adapter::NetHttp
         end
       end
-
 
       # @param rsrc[String] the resource to get
       #   (the part of the API url after the '/api/' )
