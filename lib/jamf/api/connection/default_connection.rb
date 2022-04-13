@@ -29,6 +29,7 @@ module Jamf
   class Connection
 
     # Jamf module methods and aliases for dealing with the default connection
+    # This is extended into the Jamf module itself
     ######################
     module DefaultConnection
 
@@ -37,7 +38,7 @@ module Jamf
       # @return [Jamf::Connection]
       #
       def cnx
-        @default_connection ||= Connection.new name: :default
+        @default_connection ||= Jamf::Connection.new name: :default
       end
       alias api cnx
       alias api_connection cnx
@@ -54,7 +55,7 @@ module Jamf
       #
       def connect(url = nil, **params)
         params[:name] ||= :default
-        @default_connection = Connection.new url, params
+        @default_connection = Jamf::Connection.new url, **params
         @default_connection.to_s
       end
       alias login connect
@@ -83,7 +84,7 @@ module Jamf
 
       # Disconnect the default connection
       #
-      def self.disconnect
+      def disconnect
         @default_connection.disconnect if @default_connection&.connected?
       end
 
@@ -91,7 +92,7 @@ module Jamf
       # This not only disconnects the connection, but tells the server to
       # invalidate the token that was used, meaning that token cannot be used
       # elsewhere before its expiration time.
-      def self.logout
+      def logout
         @default_connection.logout if @default_connection&.connected?
       end
 

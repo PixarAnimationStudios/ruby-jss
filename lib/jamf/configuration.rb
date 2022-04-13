@@ -30,8 +30,8 @@ module Jamf
   ###
   ### This is a singleton class, only one instance can exist at a time.
   ###
-  ### When the JSS module loads, that instance is created and stored in the constant {Jamf::CONFIG},
-  ### which can then be used in applications to avoid always having to pass in server names, API user names
+  ### When the JSS module loads, that instance is created, and can then be used via
+  ### Jamf.config in applications to avoid always having to pass in server names, API user names
   ### and so on.
   ###
   ### When the Jamf::Configuration instance is created, the {GLOBAL_CONF} file (/etc/jss_gem.conf) is examined if it exists, and
@@ -60,8 +60,8 @@ module Jamf
   ###
   ### At any point, the attributes can read or changed using standard Ruby getter/setter methods matching the name of the attribute,
   ### e.g.
-  ###   Jamf::CONFIG.api_server_name  # => 'myjss.mycompany.com'
-  ###   Jamf::CONFIG.api_server_name = 'otherjss.mycompany.com'  # sets the api_server_name to a new value
+  ###   Jamf.config.api_server_name  # => 'myjss.mycompany.com'
+  ###   Jamf.config.api_server_name = 'otherjss.mycompany.com'  # sets the api_server_name to a new value
   ###
   ###
   ### The current settings may be saved to the GLOBAL_CONF file, the USER_CONF file, or an arbitrary file using {#save}.

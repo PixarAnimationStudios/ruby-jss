@@ -78,11 +78,6 @@ module Jamf
     raise "Can't use ruby-jss #{Jamf::VERSION}, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater, this is ruby #{RUBY_VERSION}."
   end
 
-  # the single instance of our configuration object
-  def self.config
-    Jamf::Configuration.instance
-  end
-
   # Only look at the filesystem once.
   def self.verbose_loading?
     return @verbose_loading unless @verbose_loading.nil?
@@ -98,12 +93,14 @@ module Jamf
   end
   # rubocop: enable Style/StderrPuts
 
+  # the single instance of our configuration object
+  def self.config
+    Jamf::Configuration.instance
+  end
+
   # These need to come after the definition of verboase_loading?
   # since they will try to use it when they get loaded
   ###################
-
-  # DEPRECATED, use Jamf.config
-  CONFIG = Jamf::Configuration.instance
 
   include Jamf::Constants
   extend Jamf::Utility

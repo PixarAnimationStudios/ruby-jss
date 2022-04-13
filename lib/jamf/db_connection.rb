@@ -23,6 +23,8 @@
 ###
 ###
 
+require 'mysql'
+
 ###
 module Jamf
 
@@ -95,7 +97,6 @@ module Jamf
     attr_reader :connected
 
     def initialize
-      require 'mysql'
       @mysql = Mysql.init
       @connected = false
     end # init
@@ -144,13 +145,13 @@ module Jamf
       @server = args[:server] ? args[:server] : hostname
 
       # settings from config if they aren't in the args
-      args[:port] ||= Jamf::CONFIG.db_server_port ? Jamf::CONFIG.db_server_port : Mysql::MYSQL_TCP_PORT
-      args[:socket] ||= Jamf::CONFIG.db_server_socket ? Jamf::CONFIG.db_server_socket : DFT_SOCKET
-      args[:db_name] ||= Jamf::CONFIG.db_name ? Jamf::CONFIG.db_name : DEFAULT_DB_NAME
-      args[:user] ||= Jamf::CONFIG.db_username
-      args[:connect_timeout] ||= Jamf::CONFIG.db_connect_timeout
-      args[:read_timeout] ||= Jamf::CONFIG.db_read_timeout
-      args[:write_timeout] ||= Jamf::CONFIG.db_write_timeout
+      args[:port] ||= Jamf.config.db_server_port ? Jamf.config.db_server_port : Mysql::MYSQL_TCP_PORT
+      args[:socket] ||= Jamf.config.db_server_socket ? Jamf.config.db_server_socket : DFT_SOCKET
+      args[:db_name] ||= Jamf.config.db_name ? Jamf.config.db_name : DEFAULT_DB_NAME
+      args[:user] ||= Jamf.config.db_username
+      args[:connect_timeout] ||= Jamf.config.db_connect_timeout
+      args[:read_timeout] ||= Jamf.config.db_read_timeout
+      args[:write_timeout] ||= Jamf.config.db_write_timeout
       args[:charset] ||= DFT_CHARSET
 
       ### if one timeout was given, use it for all three
@@ -263,7 +264,7 @@ module Jamf
       # return it if already set
       return @server if @server
       # otherwise, from the config
-      srvr = Jamf::CONFIG.db_server_name
+      srvr = Jamf.config.db_server_name
       # otherwise, assume its on the JSS server to which this client talks
       srvr ||= Jamf::Client.jss_server
       srvr

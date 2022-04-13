@@ -35,7 +35,10 @@ module Jamf
 
       # These classes are extendable, their Extension Attributes in the
       # classic API are cached locally in the connection object..
-      EXTENDABLE_CLASSES = [Jamf::Computer, Jamf::MobileDevice, Jamf::User].freeze
+      # NOTE: These are strings, not references to the actual classes.
+      # Otherwise, they and all the classes they reference get loaded
+      # when ruby-jss is required
+      EXTENDABLE_CLASSES = %w[Jamf::Computer Jamf::MobileDevice Jamf::User].freeze
 
       # @return [Concurrent::Map.new] This Hash-like object caches the results of
       #   C-API queries for an APIObject
@@ -118,7 +121,7 @@ module Jamf
       #
       def flushcache(key_or_klass = nil)
         # EA defs for just one extendable class?
-        if EXTENDABLE_CLASSES.include? key_or_klass
+        if EXTENDABLE_CLASSES.include? key_or_klass.to_s
           @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Map.new
 
         # one API object class?
