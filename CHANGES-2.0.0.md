@@ -4,10 +4,12 @@ Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as
 
 This document discusses the major changes, attempts to list the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background for the changes.
 
-Contents:
+**CONTENTS**
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Requirements](#requirements)
+- [Ruby 3.x support](#ruby-3x-support)
 - [Combined API access](#combined-api-access)
 	- [A single Connection class](#a-single-connection-class)
 		- [Connecting to the API](#connecting-to-the-api)
@@ -25,6 +27,16 @@ Contents:
 	- [map_all_ids_to method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
 
 <!-- /TOC -->
+
+## Requirements
+
+ruby-jss 2.0.0 requires ruby 2.7, and a Jamf Pro server running version 10.35 or higher.
+
+## Ruby 3.x support
+
+The plan is for ruby-jss 2.0+ to be compatible with ruby 3.x.
+
+As of this writing, no work towards this has been done, but it's next up after getting everything else mentioned here ready for beta-testing in ruby 2.7.
 
 ## Combined API access
 
