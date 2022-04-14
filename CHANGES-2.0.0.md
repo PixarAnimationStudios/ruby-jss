@@ -234,3 +234,11 @@ existing_policy = Jamf::Policy.fetch name: 'older-policy'
 # Update it in Jamf Pro
 existing_policy.save
 ```
+
+### JSS::CONFIG
+
+This also should never have been a constant.  Use Jamf.config.  JSS::CONFIG will go away eventually.
+
+### Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`
+
+These values are actually part of the token used by the connection, not the conection itself. Replace them with `#token.next_refresh`, `#token.secs_to_refresh`, & `#token.time_to_refresh`
