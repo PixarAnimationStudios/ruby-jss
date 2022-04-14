@@ -89,6 +89,7 @@ def setup_zeitwerk_loader(loader)
 
   # deprecations, separated so they load only when used
   loader.inflector.inflect("deprecated_api_constant" => "API")
+  loader.inflector.inflect("deprecated_config_constant" => "CONFIG")
 
   # These should be ignored, some will be required directly
   #####################################
