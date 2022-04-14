@@ -24,7 +24,8 @@ This document discusses the major changes, attempts to list the changes that hav
 	- [API data are no longer cached](#api-data-are-no-longer-cached)
 - [Planned deprecations](#planned-deprecations)
 	- [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
-	- [map_all_ids_to method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
+	- [`#map_all_ids_to` method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
+	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
 
 <!-- /TOC -->
 
@@ -167,8 +168,66 @@ The Original Jamf module, which accessed only the Jamf Pro API, has always used 
 
 Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use `Jamf.cnx`
 
-### map_all_ids_to method for Classic API collection classes
+### `#map_all_ids_to` method for Classic API collection classes
 
 The `map_all_ids_to` method for the Classic API collection classes has been superceded by the more flexible `map_all` method, bringing it in-line with the Jamf Pro API classes.
 
 For now `map_all_ids_to` still works, however it's just a wrapper for `map_all`. Eventually the older method will be removed.
+
+### Using `.make`, `#create`, and `#update` for Classic API objects
+
+Use `.create` and `#save` instead, as with the Jamf Pro API objects
+
+In previous ruby-jss, both APIs avoided the use of the ruby-standard `.new` on Collection Resource classes, because the word 'new' in this context is ambiguous: are you creating a new instance of the class in ruby (which might already exist on the server), or are you creating a new object in Jamf Pro that doesn't yet exist on the server?
+
+In v2.0.0 we are standardizing on the behavior of the previous Jamf module:
+
+  - `Jamf::SomeCollectionClass.create` class method for instantiating a ruby object to be added as a new SomeCollectionClass object to Jamf Pro
+
+  - `Jamf::SomeCollectionClass#save` instance method for sending an object to the server to be created OR updated in Jamf pro.
+    - Note that `#save` has been available for this use since the earliest versions of ruby-jss.
+
+
+
+This means that these deprecated methods will go away for Classic API objects
+
+  - `Jamf::SomeCollectionClass.make` class method for instantiating a ruby object to be added as a new SomeCollectionClass to Jamf Pro
+    - use `Jamf::SomeCollectionClass.create` instead
+
+  - `Jamf::SomeCollectionClass#create` instance method for sending a new object to the API to be created on the server.
+    - Use `Jamf::SomeCollectionClass#save` instead.
+    - Note that `#save` has been a wrapper for both `#create` and `#update` since the earliest versions of ruby-jss.
+
+  - `Jamf::SomeCollectionClass#update` instance method for then sending changes to an existing object to the API to be update on the server.
+    - Use `Jamf::SomeCollectionClass#save` instead.
+    - Note that `#save` has been a wrapper for both `#create` and `#update` since the earliest versions of ruby-jss.
+
+```ruby
+# OLD
+
+# Get a ruby instance of a new policy to be added to Jamf Pro
+new_policy = Jamf::Policy.make name: 'my-policy'
+# ... set other values for the policy, then
+# Create it in Jamf Pro
+new_policy.create # new_policy.save has always been a synonym
+
+# fetch an existing policy from the server
+existing_policy = Jamf::Policy.fetch name: 'older-policy'
+# ... change some values for the policy, then
+# Update it in Jamf Pro
+existing_policy.update # existing_policy.save has always been a synonym
+
+# NEW
+
+# Get a ruby instance of a new policy to be added to Jamf Pro
+new_policy = Jamf::Policy.create name: 'my-policy'
+# ... set other values for the policy, then
+# Create it in Jamf Pro
+new_policy.save
+
+# fetch an existing policy from the server
+existing_policy = Jamf::Policy.fetch name: 'older-policy'
+# ... change some values for the policy, then
+# Update it in Jamf Pro
+existing_policy.save
+```

@@ -312,7 +312,6 @@ module Jamf
       true
     end # self.define_identifier_list_methods
 
-
     # Constants
     ####################################
 
@@ -321,7 +320,7 @@ module Jamf
     API_SOURCE = :classic
 
     # '.new' can only be called from these methods:
-    OK_INSTANTIATORS = ['make', 'fetch', 'block in fetch'].freeze
+    OK_INSTANTIATORS = ['make', 'create', 'fetch', 'block in fetch'].freeze
 
     # See the discussion of 'Lookup Keys' in the comments/docs
     # for {Jamf::APIObject}
@@ -1077,6 +1076,7 @@ module Jamf
     end
 
     # backward compatability
+    # @deprecated use .create instead
     def self.make(**args)
       create **args
     end
@@ -1230,12 +1230,22 @@ module Jamf
       if @in_jss
         raise Jamf::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
 
-        update
+        update_in_jamf
       else
         raise Jamf::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
 
-        create
+        create_in_jamf
       end
+    end
+
+    # @deprecated, use #save
+    def create
+      save
+    end
+
+    # @deprecated, use #save
+    def update
+      save
     end
 
     # Mix-in Modules.

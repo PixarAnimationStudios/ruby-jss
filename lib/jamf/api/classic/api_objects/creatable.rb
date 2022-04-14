@@ -64,17 +64,12 @@ module Jamf
     ###  Mixed-in Instance Methods
     #####################################
 
-    # Create a new object in the JSS.
+    # Create a new object in the JSS
     #
-    # @param cnx [Jamf::Connection] the API in which to create the object
-    #   Defaults to the API used to instantiate this object
+    # @return [Integer] the id of the new object
     #
-    # @return [Integer] the jss ID of the newly created object
-    #
-    def create
+    def create_in_jamf
       raise Jamf::UnsupportedError, "Creating or editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless creatable?
-
-      raise AlreadyExistsError, "This #{self.class::RSRC_OBJECT_KEY} already exists. Use #update to make changes." if @in_jss
 
       @cnx.c_post(rest_rsrc, rest_xml) =~ %r{><id>(\d+)</id><}
       @id = Regexp.last_match(1).to_i
@@ -88,6 +83,7 @@ module Jamf
 
       @id
     end
+    private :create_in_jamf
 
     ### make a clone of this API object, with a new name. The class must be creatable
     ###
@@ -96,7 +92,7 @@ module Jamf
     ### @param cnx [Jamf::Connection] the API in which to create the object
     ###  Defaults to the API used to instantiate this object
     ###
-    ### @return [APIObject] An uncreated clone of this APIObject with the given name
+    ### @return [APIObject] An unsaved clone of this APIObject with the given name
     ###
     def clone(new_name, api: nil, cnx: nil)
       cnx = api if api

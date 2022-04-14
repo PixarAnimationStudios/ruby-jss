@@ -87,12 +87,11 @@ module Jamf
 
     # Save changes to the JSS
     #
-    # @return [Boolean] success
+    # @return [Integer] The object id
     #
-    def update
+    def update_in_jamf
       return nil unless @need_to_update
       raise Jamf::UnsupportedError, "Editing #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows." unless updatable?
-      raise Jamf::NoSuchItemError, "Not In JSS! Use #create to create this #{self.class::RSRC_OBJECT_KEY} in the JSS before updating it." unless @in_jss
 
       @cnx.c_put @rest_rsrc, rest_xml
       @need_to_update = false
@@ -104,6 +103,7 @@ module Jamf
 
       @id
     end # update
+    private :update_in_jamf
 
   end # module Creatable
 
