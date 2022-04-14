@@ -93,7 +93,7 @@ module Jamf
       #
       # @return [Hash {String => Integer}] The Serials and prestage IDs
       ######################
-      def serials_by_prestage_id(cnx: Jamf.cnx)
+      def serials_by_prestage_id(_refresh = nil, cnx: Jamf.cnx)
         scope_path ||= "#{self::LIST_PATH}/#{SCOPE_PATH}"
         api_reponse = ALL_SCOPES_OBJECT.new cnx.jp_get(scope_path)
         api_reponse.serialsByPrestageId.transform_keys!(&:to_s)
@@ -111,7 +111,7 @@ module Jamf
       #
       # @return [Array<String>] the SN's assigned to the prestage
       ######################
-      def serials_for_prestage(prestage_ident, cnx: Jamf.cnx)
+      def serials_for_prestage(prestage_ident, _refresh = nil, cnx: Jamf.cnx)
         id = valid_id prestage_ident, cnx: cnx
 
         raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
@@ -132,7 +132,7 @@ module Jamf
       #
       # @return [Integer, nil] The id of prestage to which the SN is assigned
       #
-      def assigned_prestage_id(sn, cnx: Jamf.cnx)
+      def assigned_prestage_id(sn, _refresh = nil, cnx: Jamf.cnx)
         serials_by_prestage_id(cnx: cnx)[sn]
       end
 
@@ -155,7 +155,7 @@ module Jamf
       #
       # @return [Boolean] Is the sn assigned, at all or to the given prestage?
       #
-      def assigned?(sn, prestage: nil, cnx: Jamf.cnx)
+      def assigned?(sn, prestage: nil, cnx: Jamf.cnx, refresh: nil)
         assigned_id = assigned_prestage_id(sn, cnx: cnx)
         # it isn't assigned at all
         return false unless assigned_id

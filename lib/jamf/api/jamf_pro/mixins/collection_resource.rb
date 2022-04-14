@@ -255,7 +255,7 @@ module Jamf
       # @return [Array<Hash, Jamf::CollectionResource>] The objects in the collection
       #
       ######################################
-      def all(sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
+      def all(sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx, refresh: nil)
         stop_if_base_class
 
         # if we are here, we need to query for all items, possibly filtered and
@@ -320,7 +320,7 @@ module Jamf
       # @return [Hash {Symbol: Object}] A Hash of identifier mapped to attribute
       #
       ######################################
-      def map_all(ident, to:, cnx: Jamf.cnx, cached_list: nil)
+      def map_all(ident, to:, cnx: Jamf.cnx, cached_list: nil, refresh: nil)
         raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless
         identifiers.include? ident
 
@@ -607,7 +607,7 @@ module Jamf
         if defined?(self::OAPI_PROPERTIES) && self::OAPI_PROPERTIES.key?(attr_name) && identifiers.include?(attr_name)
           attr_def = self::OAPI_PROPERTIES[attr_name]
 
-          define_singleton_method(list_method_name) do |cnx: Jamf.cnx, cached_list: nil|
+          define_singleton_method(list_method_name) do |_refresh = nil, cnx: Jamf.cnx, cached_list: nil|
             all_list = cached_list || all(cnx: cnx)
             if attr_def[:class].is_a? Symbol
               all_list.map { |i| i[attr_name] }
