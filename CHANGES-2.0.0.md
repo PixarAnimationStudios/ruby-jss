@@ -2,30 +2,31 @@
 
 Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood and v2.0.0 is not fully backward compatible. **PLEASE TEST YOUR CODE EXTENSIVELY**
 
-This document discusses the major changes
-
-attempts to list the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background for the changes.
+This document discusses the major changes, attempts to list the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background for the changes.
 
 Contents:
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Combined access to both APIs.](#combined-access-to-both-apis)
+- [Combined API access](#combined-api-access)
 	- [A single Connection class](#a-single-connection-class)
 		- [Connecting to the API](#connecting-to-the-api)
+			- [The default connection](#the-default-connection)
 	- [A single namespace `Jamf`](#a-single-namespace-jamf)
 		- [Inherant differences between the APIs](#inherant-differences-between-the-apis)
 			- [Which API does an object come from?](#which-api-does-an-object-come-from)
 - [Automatic code generation](#automatic-code-generation)
 - [Autoloading of files](#autoloading-of-files)
 - [Specific changes from ruby-jss 1.x](#specific-changes-from-ruby-jss-1x)
-	- [JSS::API is gone](#jssapi-is-gone)
 	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
-	- [API data are not cached for the Jamf Pro API](#api-data-are-not-cached-for-the-jamf-pro-api)
+	- [API data are no longer cached](#api-data-are-no-longer-cached)
+- [Planned deprecations](#planned-deprecations)
+	- [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
+	- [map_all_ids_to method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
 
 <!-- /TOC -->
 
-## Combined API acces.
+## Combined API access
 
 ruby-jss has always used the `JSS` module to encapsulate all access to the Classic API. When the Jamf Pro API became a thing, the `Jamf` module was created as the way to interact with that API as it grew and developed.
 
@@ -51,7 +52,7 @@ Other connection parameters can be passed in as normal.
 
 ##### The default connection
 
-The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there.
+The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. The use of `JSS::API` has been deprecated for years now, and still is (see below).
 
 ### A single namespace `Jamf`
 
@@ -67,14 +68,13 @@ However, in reality the two APIs have different functionality, some of which mus
 
 Take, for example, the classes for 'Collection Resources' - API endpoints that let you deal with collections of objects like Computers, or Inventory Preload Records.  These classes implement a `.all` class method, which retrieves a list of some data about all members of the collection.
 
-Not only is the data returned in such lists very different between the APIs, but in the Jamf Pro API, you can ask the server to return the list sorted, or sometimes filtered, or 'paged' in groups of some number of items.
+Not only is the data returned in such lists very different between the APIs, but in the Jamf Pro API, you can ask the server to return the list already sorted, possibly filtered, or 'paged' in groups of some number of items. None of that is possible in the Classic API.
 
-The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist for Collection Resources in both APIs, but the methods take different parameters, e.g. to deal with sorting and filtering.  For paged lists of resources, Jamf Pro API classes have a `.pager` method which returns an object from which you can retrieve the 'pages' of your query.
+The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist for Collection Resources in both APIs, but the methods take different parameters, e.g. to deal with sorting and filtering. Jamf Pro API classes have a `.pager` method which returns an object from which you can retrieve the 'pages' of your query.
 
 ##### Which API does an object come from?
 
 To confirm which API an class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
-
 
 ## Automatic code generation
 
@@ -109,47 +109,54 @@ In the previous Jamf module, to get paged API results from a list of all objects
 
 Now to get paged results, use the `.pager` class method, optionally sorted and filtered, as with `.all`. You'll be given a `Jamf::Pager` object, which you can then use to retrieve sequential or arbitrary pages from the query.
 
-The `.all` method
+The `.all` method will never deliver paged results, however if you give it a `filter` parameter for classes that support filtering, then `.all` returns "all that match the filter", which may be fewer than the entire collection.
 
-### API data are not cached for the Jamf Pro API
+### API data are no longer cached
 
-Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets include:
+Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
 - collection lists, used by `.all` and friends, like `.all_ids` and `.valid_id`
 - EA definitions, used for validating Extension Attribute values
 
-In 2.0+, that has been removed for objects in the Jamf Pro API. If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
+In 2.0+, that caching has been removed. If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
 
 **WARNING**: Be careful that the list you pass in contains the correct data structure for the class, and came from the desired Connection instance.
 
-This type of caching still happens for objects in the Classic API, but _may_ be deprecated in the future.
+
 
 
 ## Planned deprecations
 
-### Use of the term 'api' in method names, parameters, and attributes
+### Use of the term 'api' in method names, parameter names, and attributes
 
 Use `cnx` instead. Example:
 
 ```ruby
 my_connection = Jamf::Connection.new 'https://user@my.jamf.server:8443/', pw: :prompt
 
-### OLD
+# OLD
 JSS::Computer.all_names api: my_connection
 
-### NEW
+# NEW
 JSS::Computer.all_names cnx: my_connection
 
+# OLD
+comp = JSS::Computer.fetch name: 12, api: my_connection
+comp.api # => my_connection
+
+# NEW
+comp = JSS::Computer.fetch id: 12, cnx: my_connection
+comp.cnx # => my_connection
 ```
 
 In ruby-jss < 2.0, `api` is used to pass, access, or hold instances of JSS::APIConnnection, e.g. so a method would use the passed connection rather than the module-wide default one.  But, the thing being passed is a 'connection' not an 'API', and now that there are actuall two APIs at play, that usage is even less appropriate.
 
-The Original Jamf module, which accessed just the Jamf Pro API, has always used the better-suited abbreviation 'cnx' for this, and now that is standard everywhere. For now `api` should continue to work, but it will be removed 'eventually', so please start changing your code now.
+The Original Jamf module, which accessed only the Jamf Pro API, has always used the better-suited abbreviation `cnx` for this, and now that is standard everywhere. For now `api` should continue to work, but it will be removed 'eventually', so please start changing your code now.
 
-Accordingly, `JSS::API` (which should never have been a constant) is also deprecated. To access the default connection, use Jamf.cnx
+Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use Jamf.cnx
 
 ### map_all_ids_to method for Classic API collection classes
 
 The `map_all_ids_to` method for the Classic API collection classes has been superceded by the more flexible `map_all` method, bringing it in-line with the Jamf Pro API classes.
 
-For now `map_all_ids_to` still works, tho its just a wrapper for `map_all`. Eventually the older method will be removed.
+For now `map_all_ids_to` still works, however it's just a wrapper for `map_all`. Eventually the older method will be removed.
