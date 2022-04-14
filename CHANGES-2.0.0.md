@@ -125,6 +125,8 @@ The `.all` method will never deliver paged results, however if you give it a `fi
 
 ### API data are no longer cached
 
+NOTE: As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, pending discussion with users of ruby-jss.
+
 Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
 - collection lists, used by `.all` and friends, like `.all_ids` and `.valid_id`
@@ -132,9 +134,7 @@ Pre-2.0, methods that would fetch large datasets from the server would always ca
 
 In 2.0+, that caching has been removed. If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
 
-**WARNING**: Be careful that the list you pass in contains the correct data structure for the class, and came from the desired Connection instance.
-
-
+**WARNING**: Be careful that the list you pass in via `cached_list` contains the correct data structure for the class, and came from the desired Connection instance.
 
 
 ## Planned deprecations
@@ -161,11 +161,11 @@ comp = JSS::Computer.fetch id: 12, cnx: my_connection
 comp.cnx # => my_connection
 ```
 
-In ruby-jss < 2.0, `api` is used to pass, access, or hold instances of JSS::APIConnnection, e.g. so a method would use the passed connection rather than the module-wide default one.  But, the thing being passed is a 'connection' not an 'API', and now that there are actuall two APIs at play, that usage is even less appropriate.
+In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  But, the thing being passed is a 'connection' not an 'API', and now that there are actually two APIs at play, that usage is even less appropriate.
 
 The Original Jamf module, which accessed only the Jamf Pro API, has always used the better-suited abbreviation `cnx` for this, and now that is standard everywhere. For now `api` should continue to work, but it will be removed 'eventually', so please start changing your code now.
 
-Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use Jamf.cnx
+Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use `Jamf.cnx`
 
 ### map_all_ids_to method for Classic API collection classes
 
