@@ -1,8 +1,10 @@
 # ruby-jss 2.0: Combined access to the Classic and Jamf Pro APIs
 
-Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood and v2.0.0 is not fully backward compatible. **PLEASE TEST YOUR CODE EXTENSIVELY**
+Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood. **_PLEASE TEST YOUR CODE EXTENSIVELY_**
 
 This document discusses the major changes, attempts to list the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background for the changes.
+
+These changes have been in mind for some time, but the ability (soon to be requirement) for the Classic API authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
 
 **CONTENTS**
 
@@ -28,6 +30,7 @@ This document discusses the major changes, attempts to list the changes that hav
 	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
 
 <!-- /TOC -->
+
 
 ## Requirements
 
@@ -126,7 +129,7 @@ The `.all` method will never deliver paged results, however if you give it a `fi
 
 ### API data are no longer cached
 
-NOTE: As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, pending discussion with users of ruby-jss.
+NOTE: As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with users of ruby-jss.
 
 Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
