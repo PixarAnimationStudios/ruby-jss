@@ -47,24 +47,30 @@ module JamfRubyExtensions
     module Utils
 
       ### @return [Integer] the milliseconds of the Time
-      def jss_msec
-        (self.usec/1000.0).round
+      def j_msec
+        strftime('%L').to_i
       end
+      alias jss_msec j_msec
 
       ### @return [Integer] The Time as a unix epoch with milliseconds appended
-      def to_jss_epoch
-        (self.strftime('%s') + self.jss_msec.to_s.ljust(3,'0')).to_i
+      def to_j_epoch
+        msec = strftime('%L').rjust(3, "0")
+        epoch = strftime('%s')
+        "#{epoch}#{msec}".to_i
       end
+      alias to_jss_epoch to_j_epoch
 
       ### @return [String] the Time formatted for a plain JSS XML date element
-      def to_jss_date
-        self.strftime '%Y-%m-%d %H:%M:%S'
+      def to_j_date
+        strftime '%Y-%m-%d %H:%M:%S'
       end
+      alias to_jss_date to_j_date
 
       ### @return [String] the Time formatted for a JSS UTC XML date element
-      def to_jss_utc
-        self.strftime("%Y-%m-%dT%H:%M:%S.#{self.jss_msec}%z")
+      def to_j_utc
+        strftime("%Y-%m-%dT%H:%M:%S.#{j_msec}%z")
       end
+      alias to_jss_utc to_j_utc
 
     end
 

@@ -26,7 +26,7 @@
 require 'jamf/ruby_extensions/time/utils'
 
 # include the modules loaded above
-class String
+class Time
 
   include JamfRubyExtensions::Time::Utils
 
