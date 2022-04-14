@@ -93,6 +93,7 @@ module Jamf
 
       # @return [Time] when was this Jamf::Connection::Token originally created?
       attr_reader :creation_time
+      alias login_time creation_time
 
       # @return [Time] when was this token last refreshed?
       attr_reader :last_refresh
@@ -317,11 +318,41 @@ module Jamf
       end
       alias keep_alive refresh
 
+      # when is the next rerefresh going to happen, if we are set to keep alive?
+      #
+      # @return [Time, nil] the time of the next scheduled refresh, or nil if not keep_alive?
+      def next_refresh
+        return unless keep_alive?
+
+        @expires - @refresh_buffer
+      end
+
+      # how many secs until the next refresh
+      #
+      # @return [Integer, nil] Seconds until the next scheduled refresh, or nil if not keep_alive?
+      #
+      def secs_to_refresh
+        return unless keep_alive?
+
+        next_refresh - Time.now
+      end
+
+      # Returns e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”.
+      #
+      # @return [String, nil]
+      def time_to_refresh
+        return unless keep_alive?
+        return 0 if secs_to_refresh.negative?
+
+        Jamf.humanize_secs secs_to_refresh
+      end
+
       # Make this token invalid
       #################################
       def invalidate
         @valid = !token_connection(INVALIDATE_RSRC, token: @token).post.success?
         @pw = nil
+        stop_keep_alive
       end
       alias destroy invalidate
 

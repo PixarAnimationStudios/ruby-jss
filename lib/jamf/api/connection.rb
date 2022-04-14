@@ -179,9 +179,9 @@ module Jamf
       # see cache.rb
       @c_object_list_cache = {}
       @c_ext_attr_definition_cache = {}
-      @jp_singleton_cache = {}
-      @jp_collection_cache = {}
-      @jp_ext_attr_cache = {}
+      # @jp_singleton_cache = {}
+      # @jp_collection_cache = {}
+      # @jp_ext_attr_cache = {}
 
       return if url.nil? && params.empty?
 
@@ -206,6 +206,21 @@ module Jamf
     #
     def pretty_print_instance_variables
       PP_VARS
+    end
+
+    # @deprecated, use .token.next_refresh
+    def next_refresh
+      @token.next_refresh
+    end
+
+    # @deprecated, use .token.secs_to_refresh
+    def secs_to_refresh
+      @token.secs_to_refresh
+    end
+
+    # @deprecated, use .token.time_to_refresh
+    def time_to_refresh
+      @token.time_to_refresh
     end
 
   end # class Connection
