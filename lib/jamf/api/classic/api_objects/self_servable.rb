@@ -111,6 +111,10 @@ module Jamf
     # Self Service data is dealt with in the API data of the different
     # self-servable classes.
     #
+    # NOTE: The keys are the string versions of the Classes themselves, so that
+    # we don't cause circular dependencies when loading these classes with
+    # zeitwerk
+    #
     #  - in_self_service_data_path: Array, In the API data hash (the @init_data)
     #      where to find the value indicicating that a thing is in self service.
     #      e.g. [:self_service, :use_for_self_service] means
@@ -152,7 +156,7 @@ module Jamf
     # self service ruby code in this one module.
     #
     SELF_SERVICE_CLASSES = {
-      Jamf::Policy => {
+      'Jamf::Policy' => {
         in_self_service_data_path: %i[self_service use_for_self_service],
         in_self_service: true,
         not_in_self_service: false,
@@ -163,7 +167,7 @@ module Jamf
         notifications_supported: :ssvc_only,
         url_entity: 'policy'
       },
-      Jamf::PatchPolicy => {
+      'Jamf::PatchPolicy' => {
         in_self_service_data_path: %i[general distribution_method],
         in_self_service: PATCHPOL_SELF_SERVICE,
         not_in_self_service: PATCHPOL_AUTO,
@@ -175,7 +179,7 @@ module Jamf
         notifications_supported: :ssvc_and_nctr,
         notification_reminders: true
       },
-      Jamf::MacApplication => {
+      'Jamf::MacApplication' => {
         in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
@@ -187,7 +191,7 @@ module Jamf
         url_entity: 'app'
         # OTHER BUG: no notification options seem to be changable via the API
       },
-      Jamf::OSXConfigurationProfile => {
+      'Jamf::OSXConfigurationProfile' => {
         in_self_service_data_path: %i[general distribution_method],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL,
@@ -198,7 +202,7 @@ module Jamf
         notifications_supported: :ssvc_only,
         url_entity: 'configprofile'
       },
-      Jamf::Ebook => {
+      'Jamf::Ebook' => {
         in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
@@ -209,7 +213,7 @@ module Jamf
         notifications_supported: :ssvc_only,
         url_entity: 'ebook'
       },
-      Jamf::MobileDeviceApplication => {
+      'Jamf::MobileDeviceApplication' => {
         in_self_service_data_path: %i[general deployment_type],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL_OR_PROMPT,
@@ -218,7 +222,7 @@ module Jamf
         can_display_in_categories: true,
         can_feature_in_categories: false
       },
-      Jamf::MobileDeviceConfigurationProfile => {
+      'Jamf::MobileDeviceConfigurationProfile' => {
         in_self_service_data_path: %i[general deployment_method],
         in_self_service: MAKE_AVAILABLE,
         not_in_self_service: AUTO_INSTALL,
@@ -702,7 +706,7 @@ module Jamf
     # @return [void]
     #
     def parse_self_service
-      @self_service_data_config = SELF_SERVICE_CLASSES[self.class]
+      @self_service_data_config = SELF_SERVICE_CLASSES[self.class.to_s]
 
       subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
 
