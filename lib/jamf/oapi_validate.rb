@@ -86,7 +86,7 @@ module Jamf
 
         end # case
 
-      # Now that hte val is in whatever correct format after the above tests,
+      # Now that the val is in whatever correct format after the above tests,
       # we test for enum membership if needed
       # otherwise, just return the val
       if attr_def[:enum]
@@ -161,7 +161,11 @@ module Jamf
     def class_instance(val, klass:, attr_name: nil, msg: nil)
       return val if val.instance_of? klass
 
-      raise_invalid_data_error(msg || "#{attr_name} value must be a #{klass}")
+      # try to instantiate the class with the value. It should raise an error
+      # if not good
+      klass.new val
+    rescue => e
+      raise_invalid_data_error(msg || "#{attr_name} value must be a #{klass}, or #{klass}.new must accept it as the only parameter, but #{klass}.new raised: #{e.class}: #{e}")
     end
 
     # Confirm that the given value is a boolean value, accepting
