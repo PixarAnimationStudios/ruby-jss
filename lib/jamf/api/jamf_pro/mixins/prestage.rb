@@ -211,16 +211,15 @@ module Jamf
 
         # get the prestage name
         prestage_name = map_all(:id, to: :displayName)[prestage_id]
-
-        scope_rsrc = "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{prestage_id}/#{SCOPE_RSRC}"
-        scope = Jamf::PrestageScope.new cnx.get(scope_rsrc)
+        spath = scope_path(prestage_id)
+        scope = INSTANCE_SCOPE_OBJECT.new cnx.get(spath)
 
         # add the new sns to the existing ones
         new_scope_sns = scope.assignments.map(&:serialNumber)
         new_scope_sns += sns_to_assign
         new_scope_sns.uniq!
 
-        update_scope(prestage_name, scope_rsrc, new_scope_sns, scope.versionLock, cnx)
+        update_scope(prestage_name, spath, new_scope_sns, scope.versionLock, cnx)
       end # self.assign
 
       # Unassign one or more serialNumber from a prestage
@@ -235,26 +234,31 @@ module Jamf
 
         # get the prestage name
         prestage_name = map_all(:id, to: :displayName)[prestage_id]
-
-        scope_rsrc = "#{self::RSRC_VERSION}/#{self::RSRC_PATH}/#{prestage_id}/#{SCOPE_RSRC}"
-        scope = Jamf::PrestageScope.new cnx.get(scope_rsrc)
+        spath = scope_path(prestage_id)
+        scope = INSTANCE_SCOPE_OBJECT.new cnx.get(spath)
 
         new_scope_sns = scope.assignments.map(&:serialNumber)
         new_scope_sns -= sns_to_unassign
 
-        update_scope(prestage_name, scope_rsrc, new_scope_sns, scope.versionLock, cnx)
+        update_scope(prestage_name, spath, new_scope_sns, scope.versionLock, cnx)
       end # self.unassign
 
       # Private Class Methods
       #####################################
 
+      # the class level scope path for a given prestage id
+      def scope_path(prestage_id)
+        "#{self::LIST_PATH}/#{prestage_id}/#{SCOPE_PATH}"
+      end
+      private :scope_path
+
       # used by assign and unassign
-      def update_scope(prestage_name, scope_rsrc, new_scope_sns, vlock, cnx)
+      def update_scope(prestage_name, spath, new_scope_sns, vlock, cnx)
         assignment_data = {
           serialNumbers: new_scope_sns,
           versionLock: vlock
         }
-        Jamf::PrestageScope.new cnx.jp_put(scope_rsrc, assignment_data)
+        INSTANCE_SCOPE_OBJECT.new cnx.jp_put(spath, assignment_data)
       end
       private :update_scope
 
@@ -273,7 +277,7 @@ module Jamf
       @scope = nil if refresh
       return @scope if @scope
 
-      @scope = Jamf::PrestageScope.new @cnx.get(scope_rsrc)
+      @scope = Jamf::PrestageScope.new @cnx.get(scope_path)
       unless @scope.versionLock == @versionLock
         raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again"
       end
@@ -335,21 +339,6 @@ module Jamf
     def scope
       INSTANCE_SCOPE_OBJECT.new @cnx.jp_get(scope_path)
     end
-
-    # def update_scope(new_scope_sns)
-    #   assignment_data = {
-    #     serialNumbers: new_scope_sns,
-    #     versionLock: @scope.versionLock
-    #   }
-    #   begin
-    #     @scope = Jamf::PrestageScope.new @cnx.jp_put(scope_rsrc, assignment_data)
-    #   rescue Jamf::Connection::APIError => e
-    #     raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again" if e.status == 409
-    #
-    #     raise e
-    #   end # begin
-    #   @versionLock = @scope.versionLock
-    # end
 
   end # class
 
