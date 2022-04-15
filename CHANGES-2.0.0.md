@@ -21,16 +21,20 @@ These changes have been in mind for some time, but the ability (soon to be requi
 			- [Which API does an object come from?](#which-api-does-an-object-come-from)
 - [Automatic code generation](#automatic-code-generation)
 - [Autoloading of files](#autoloading-of-files)
-- [Specific changes from ruby-jss 1.x](#specific-changes-from-ruby-jss-1x)
+- [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
 	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
 	- [API data are no longer cached](#api-data-are-no-longer-cached)
+	- [No Attribute/Property aliases for Jamf Pro API objects](#no-attributeproperty-aliases-for-jamf-pro-api-objects)
+	- [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
 - [Planned deprecations](#planned-deprecations)
 	- [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
 	- [`#map_all_ids_to` method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
 	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
+	- [JSS::CONFIG](#jssconfig)
+	- [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-nextrefresh-secstorefresh-timetorefresh)
+- [Contact](#contact)
 
 <!-- /TOC -->
-
 
 ## Requirements
 
@@ -117,7 +121,7 @@ Then as files load, lines will be written to standard error indicating:
   - A module was mixed-in to some other module or class
   - A method was just automatically defined
 
-## Specific changes from ruby-jss 1.x
+## Notable changes from ruby-jss 1.x
 
 ### Paged queries to the Jamf Pro API
 
@@ -140,6 +144,21 @@ In 2.0+, that caching has been removed. If you want to avoid repeated GET reques
 
 **WARNING**: Be careful that the list you pass in via `cached_list` contains the correct data structure for the class, and came from the desired Connection instance.
 
+### No Attribute/Property aliases for Jamf Pro API objects
+
+Objects from the Jamf Pro API will no longer define aliases for the attribute names that come from the API itself. This means, e.g., to get the name of a ComputerPrestage or MobileDevicePrestage, you have to ask for its `displayName` not its `name`, since the property comes from the API as `displayName`. To see a list  of all the names, you must use `.all_displayNames` not `.all_names`.  For objects with a 'name' property (most of them) then you can use `.name` and `.all_names`.
+
+The reason behind this is twofold: 1) to simplify ruby-jss's code and automate as much as possible; 2) to reflect what Jamf actually gives us in the APIs.
+
+This is a breaking change from earlier ruby-jss versions, for which Jamf Pro API objects had the potential for aliases of their attribute names.
+
+### Class/Mixin hierarchy for Jamf Pro API objects
+
+If you contribute to ruby-jss, be aware that the structure of superclasses, subclasses, and mixin modules, and their file locations has changed drastically. Also changed is how to implement new objects using the OAPI auto-generated classes. These changes are due to using the auto-generated classes, as well as using Zeitwerk to autoload everything.
+
+There's a lot to document about these changes, and much of the current documentation is out of date, referring to how things were done when the Jamf module was separate and only talked to the Jamf Pro API.
+
+Give us time and we'll get everything updated. In the meantime, feel free to reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
 
 ## Planned deprecations
 
@@ -242,3 +261,7 @@ This also should never have been a constant.  Use Jamf.config.  JSS::CONFIG will
 ### Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`
 
 These values are actually part of the token used by the connection, not the conection itself. Replace them with `#token.next_refresh`, `#token.secs_to_refresh`, & `#token.time_to_refresh`
+
+## Contact
+
+If you have questions or feedback about all these changes, please reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
