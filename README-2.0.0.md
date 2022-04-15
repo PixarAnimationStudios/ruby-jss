@@ -283,7 +283,6 @@ This type of pre-validation will be removed over time from objects in the Classi
 
 The last point is very important.  Right now, in order to be able to manipulate the scope of any scopable object, the account with which you're accessing the API must have at least 'read' permission on all the different kinds of objects that _might_ be in the scope: computers, computer groups, buildings, departments, network segments, and so on. Removing or limiting the validation-based interdependency will make it easier to limit the access needed for API service accounts, and thereby increase overall security.
 
-
 ## Contact
 
 If you have questions or feedback about all these changes, please reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
