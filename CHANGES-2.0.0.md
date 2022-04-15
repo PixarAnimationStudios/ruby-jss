@@ -24,11 +24,11 @@ These changes have been in mind for some time, but the ability (soon to be requi
 - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
 	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
 	- [API data are no longer cached](#api-data-are-no-longer-cached)
-	- [No Attribute/Property aliases for Jamf Pro API objects](#no-attributeproperty-aliases-for-jamf-pro-api-objects)
+	- [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
 	- [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
 - [Planned deprecations](#planned-deprecations)
 	- [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
-	- [`#map_all_ids_to` method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
+	- [`.map_all_ids_to` method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
 	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
 	- [JSS::CONFIG](#jssconfig)
 	- [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-nextrefresh-secstorefresh-timetorefresh)
@@ -94,7 +94,7 @@ The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist f
 
 ##### Which API does an object come from?
 
-To confirm which API an class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
+To confirm which API a class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
 
 ## Automatic code generation
 
@@ -144,7 +144,7 @@ In 2.0+, that caching has been removed. If you want to avoid repeated GET reques
 
 **WARNING**: Be careful that the list you pass in via `cached_list` contains the correct data structure for the class, and came from the desired Connection instance.
 
-### No Attribute/Property aliases for Jamf Pro API objects
+### No Attribute aliases for Jamf Pro API objects
 
 Objects from the Jamf Pro API will no longer define aliases for the attribute names that come from the API itself. This means, e.g., to get the name of a ComputerPrestage or MobileDevicePrestage, you have to ask for its `displayName` not its `name`, since the property comes from the API as `displayName`. To see a list  of all the names, you must use `.all_displayNames` not `.all_names`.  For objects with a 'name' property (most of them) then you can use `.name` and `.all_names`.
 
@@ -190,7 +190,7 @@ The Original Jamf module, which accessed only the Jamf Pro API, has always used 
 
 Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use `Jamf.cnx`
 
-### `#map_all_ids_to` method for Classic API collection classes
+### `.map_all_ids_to` method for Classic API collection classes
 
 The `map_all_ids_to` method for the Classic API collection classes has been superceded by the more flexible `map_all` method, bringing it in-line with the Jamf Pro API classes.
 
