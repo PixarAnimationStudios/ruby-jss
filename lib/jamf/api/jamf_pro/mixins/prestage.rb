@@ -277,7 +277,7 @@ module Jamf
       @scope = nil if refresh
       return @scope if @scope
 
-      @scope = Jamf::PrestageScope.new @cnx.get(scope_path)
+      @scope = INSTANCE_SCOPE_OBJECT.new @cnx.get(scope_path)
       unless @scope.versionLock == @versionLock
         raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again"
       end
