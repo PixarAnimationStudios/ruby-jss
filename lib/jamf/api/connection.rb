@@ -196,7 +196,13 @@ module Jamf
     # @return [String]
     #
     def to_s
-      @connected ? "Using #{base_url} as user #{user}" : 'not connected'
+      return 'not connected' unless connected?
+
+      if name.start_with? "#{user}@"
+        name
+      else
+        "#{user}@#{host}:#{port}, name: #{name}"
+      end
     end
 
     # Only selected items are displayed with prettyprint
