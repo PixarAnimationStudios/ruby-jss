@@ -1376,7 +1376,7 @@ module Jamf
     # object type in the OBJECT_HISTORY_TABLE in the database
     # (e.g. for computers, the object type is 1)
     #
-    # NOTE: Object history is not available via the API,
+    # NOTE: Object history is not available via the Classic API,
     #   so access is only available through direct MySQL
     #   connections
     #
@@ -1400,7 +1400,7 @@ module Jamf
 
       raise Jamf::MissingDataError, 'A user: must be provided to make the entry' unless user
 
-      raise Jamf::MissingDataError, 'Either notes: must be provided to make the entry' unless notes
+      raise Jamf::MissingDataError, 'notes: must be provided to make the entry' unless notes
 
       user = "'#{Mysql.quote user.to_s}'"
       notes =  "'#{Mysql.quote notes.to_s}'"
