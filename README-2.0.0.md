@@ -32,6 +32,7 @@ These changes have been in mind for some time, but the ability (soon to be requi
 	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
 	- [JSS::CONFIG](#jssconfig)
 	- [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-nextrefresh-secstorefresh-timetorefresh)
+	- [Cross-object validation in setters](#cross-object-validation-in-setters)
 - [Contact](#contact)
 
 <!-- /TOC -->
@@ -261,6 +262,27 @@ This also should never have been a constant.  Use Jamf.config.  JSS::CONFIG will
 ### Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`
 
 These values are actually part of the token used by the connection, not the conection itself. Replace them with `#token.next_refresh`, `#token.secs_to_refresh`, & `#token.time_to_refresh`
+
+### Cross-object validation in setters
+
+Most 'setters' (methods that let you set values for the attributes of an object) in ruby-jss perform some kind of validation to make sure the value you're trying to set is valid for that attribute. While still true, in v2.0 and up, this validation will be much more limited, mostly to ensuring the new value is of the correct type, e.g. an integer or a string, or a Jamf::Timestamp.
+
+Objects from the Classic API have also provided validation that goes beyond that - using other API objects as needed to 'pre-validate' your data in the setter method.
+
+For example, If you try to target a Policy scope to a certain ComputerGroup, when you use `my_policy.scope.add_target :computer_group, 1234` ruby-jss will use the Classic API to confirm that there actually is a computer group with the id 1234. If not, it will raise an exception.
+
+Or when you try to set the value of an extension attribute on a Computer object, ruby-jss will retrieve the details of the ComputerExtensionAttribute definition from the api, and make sure that the value you are setting is valid - the data type, and if a Popup Menu is the input, the value is one of the popup choices.
+
+This validation happens before you try to send the new data to the server.
+
+This type of pre-validation will be removed over time from objects in the Classic API, for 3 reasons:
+
+1) The API itself will perform this validation when you send the data, and will return an error if there's a problem.
+2) Removing this validation will simplify the code, and reduce interdependency between objects
+3) Removing this code will make it easier to understand the permissions needed to do things in ruby-jss
+
+The last point is very important.  Right now, in order to be able to manipulate the scope of any scopable object, the account with which you're accessing the API must have at least 'read' permission on all the different kinds of objects that _might_ be in the scope: computers, computer groups, buildings, departments, network segments, and so on. Removing or limiting the validation-based interdependency will make it easier to limit the access needed for API service accounts, and thereby increase overall security.
+
 
 ## Contact
 
