@@ -230,6 +230,36 @@ module Jamf
         Time.now >= @expires
       end
 
+      # when is the next rerefresh going to happen, if we are set to keep alive?
+      #
+      # @return [Time, nil] the time of the next scheduled refresh, or nil if not keep_alive?
+      def next_refresh
+        return unless keep_alive?
+
+        @expires - @refresh_buffer
+      end
+
+      # how many secs until the next refresh?
+      # will return 0 during the actual refresh process.
+      #
+      # @return [Float, nil] Seconds until the next scheduled refresh, or nil if not keep_alive?
+      #
+      def secs_to_refresh
+        return unless keep_alive?
+
+        secs = next_refresh - Time.now
+        secs.negative? ? 0 : secs
+      end
+
+      # Returns e.g. "1 week 6 days 23 hours 49 minutes 56 seconds"
+      #
+      # @return [String, nil]
+      def time_to_refresh
+        return unless keep_alive?
+
+        Jamf.humanize_secs secs_to_refresh
+      end
+
       # @return [Float]
       #################################
       def secs_remaining
@@ -318,34 +348,6 @@ module Jamf
       end
       alias keep_alive refresh
 
-      # when is the next rerefresh going to happen, if we are set to keep alive?
-      #
-      # @return [Time, nil] the time of the next scheduled refresh, or nil if not keep_alive?
-      def next_refresh
-        return unless keep_alive?
-
-        @expires - @refresh_buffer
-      end
-
-      # how many secs until the next refresh
-      #
-      # @return [Integer, nil] Seconds until the next scheduled refresh, or nil if not keep_alive?
-      #
-      def secs_to_refresh
-        return unless keep_alive?
-
-        next_refresh - Time.now
-      end
-
-      # Returns e.g. “1 week 6 days 23 hours 49 minutes 56 seconds”.
-      #
-      # @return [String, nil]
-      def time_to_refresh
-        return unless keep_alive?
-        return 0 if secs_to_refresh.negative?
-
-        Jamf.humanize_secs secs_to_refresh
-      end
 
       # Make this token invalid
       #################################
