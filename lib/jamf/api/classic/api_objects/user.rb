@@ -160,7 +160,7 @@ module Jamf
     ###
     ### See Jamf::APIObject#initialize
     ###
-    def initialize (args = {})
+    def initialize(**args)
       super
 
       @full_name = @init_data[:full_name]

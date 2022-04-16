@@ -29,15 +29,15 @@ module JamfRubyExtensions
 
       # Copy a path to a destination
       # @see FileUtils.cp
-      def j_cp(dest, options = {})
-        FileUtils.cp @path, dest.to_s, options
+      def j_cp(dest, **options)
+        FileUtils.cp @path, dest.to_s, **options
       end # cp
       alias jss_cp j_cp
 
       # Recursively copy this path to a destination
       # @see FileUtils.cp_r
-      def j_cp_r(dest, options = {})
-        FileUtils.cp_r @path, dest.to_s, options
+      def j_cp_r(dest, **options)
+        FileUtils.cp_r @path, dest.to_s, **options
       end # cp
       alias jss_cp_r j_cp_r
 

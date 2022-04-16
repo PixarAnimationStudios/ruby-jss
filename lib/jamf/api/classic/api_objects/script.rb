@@ -133,7 +133,7 @@ module Jamf
     #####################################
 
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
 
       @filename = @init_data[:filename] || @name
@@ -385,7 +385,7 @@ module Jamf
     #
     # @return [Array<(Integer,String)>] the exit status and stdout+stderr of the script
     #
-    def run(opts = {})
+    def run(**opts)
       raise Jamf::MissingDataError, 'script_contents does not start with #!' unless @script_contents.to_s.start_with? '#!'
 
       opts[:target] ||= '/'

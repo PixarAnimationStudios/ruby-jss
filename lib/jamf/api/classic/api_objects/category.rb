@@ -100,7 +100,7 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
     end

@@ -362,7 +362,7 @@ module Jamf
     # If target_version: is provided, it must exist in the PatchTitle,
     # and must have a package assigned to it.
     #
-    def initialize(data = {})
+    def initialize(**data)
       super
 
       # creation...

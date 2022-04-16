@@ -89,8 +89,8 @@ module Jamf
     # Constructor
     # @see Jamf::APIObject.initialize
     #####################################
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
 
       @uuid = @init_data[:uuid]
       @major = @init_data[:major]

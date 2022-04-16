@@ -277,7 +277,7 @@ module Jamf
     #
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
 
       @hostname = @init_data[:connection][:hostname]

@@ -388,8 +388,8 @@ module Jamf
     ### @see_also Jamf::NetworkSegment.ip_range for how starting and ending
     ### addresses can be provided when using id: :new
     ###
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
 
       if args[:id] == :new
         range = self.class.ip_range(

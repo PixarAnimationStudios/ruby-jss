@@ -79,7 +79,7 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
       @level = @main_subset[:level]
     end

@@ -88,8 +88,8 @@ module Jamf
     # Instance Methods
     #####################################
 
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
 
       @init_data[:general] ||= {}
       @process_name = @init_data[:general][:process_name]

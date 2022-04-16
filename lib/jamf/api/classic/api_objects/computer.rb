@@ -875,8 +875,8 @@ module Jamf
     #   alt_mac_address:, barcode_1:, barcode_2:
     #
     #
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
       if @in_jss
 
         # mutable stuff

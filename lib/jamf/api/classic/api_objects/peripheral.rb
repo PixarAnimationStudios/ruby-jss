@@ -115,7 +115,7 @@ module Jamf
     ###
     ### @see APIObject
     ###
-    def initialize (args = {})
+    def initialize(**args)
 
       ### periphs don't really have names, and the JSS module list method for
       ### periphs gives the computer_id as the name, so give it a temp

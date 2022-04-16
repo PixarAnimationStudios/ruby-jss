@@ -220,12 +220,12 @@ module Jamf
     #
     # @see Jamf::APIObject
     #
-    def initialize(args = {})
+    def initialize(**args)
       if args[:id] == :new
         raise Jamf::InvalidDataError, 'New group creation must specify a :type of :smart or :static' unless GROUP_TYPES.include? args[:type]
       end
 
-      super args
+      super
 
       @is_smart = @init_data[:is_smart] || (args[:type] == :smart)
 

@@ -132,7 +132,7 @@ module Jamf
     ###
     ### @return [true] the connection was successfully made.
     ###
-    def connect(args = {})
+    def connect(**args)
       begin
         disconnect if @connected
       rescue Mysql::ClientError::ServerGoneError

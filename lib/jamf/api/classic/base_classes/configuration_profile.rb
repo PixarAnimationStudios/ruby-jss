@@ -96,7 +96,7 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
       @description = @main_subset[:description]
       @uuid = @main_subset[:uuid]

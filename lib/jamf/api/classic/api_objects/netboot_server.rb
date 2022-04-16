@@ -124,7 +124,7 @@ module Jamf
     ### See Jamf::APIObject#initialize
     ###
 
-    def initialize (args = {})
+    def initialize(**args)
       super
       @boot_args = @init_data[:boot_args]
       @boot_device = @init_data[:boot_device]

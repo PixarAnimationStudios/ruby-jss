@@ -175,7 +175,7 @@ module Jamf
       #
       # @return [Integer] the exit status of the jamfHelper command. See above.
       #
-      def jamf_helper(window_type = :hud, opts = {})
+      def jamf_helper(window_type = :hud, **opts)
         raise Jamf::UnmanagedError, 'The jamfHelper app is not installed properly on this computer.' unless JAMF_HELPER.executable?
 
         unless JAMF_HELPER_WINDOW_TYPES.include? window_type

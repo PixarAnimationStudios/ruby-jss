@@ -92,7 +92,7 @@ module Jamf
     ###
     ### @return [Pathname] the local path to the new .pkg
     ###
-    def self.mk_pkg(name, version, root, opts = {})
+    def self.mk_pkg(name, version, root, **opts)
       raise NoSuchItemError, "Missing pkgbuild tool. Please make sure you're running 10.8 or later." unless PKGBUILD.executable?
 
       opts[:out_dir] ||= DEFAULT_OUT_DIR

@@ -51,11 +51,11 @@ module Jamf
     )
       include Jamf::ManagementHistory::HashLike
 
-      def initialize(args = {})
+      def initialize(**args)
         args[:completed_epoch] ||= args[:date_time_completed_epoch]
         args[:issued_epoch] ||= args[:date_time_issued_epoch]
         args[:failed_epoch] ||= args[:date_time_failed_epoch]
-        super args
+        super
       end
 
       # @!attribute [r] name

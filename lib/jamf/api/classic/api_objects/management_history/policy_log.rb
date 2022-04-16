@@ -45,7 +45,7 @@ module Jamf
     )
       include Jamf::ManagementHistory::HashLike
 
-      def initialize(args = {})
+      def initialize(**args)
         # we want the status as a Symbol
         args[:status] &&= args[:status].downcase.to_sym
         super

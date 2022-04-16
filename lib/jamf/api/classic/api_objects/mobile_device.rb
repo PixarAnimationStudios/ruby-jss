@@ -438,8 +438,8 @@ module Jamf
     # udid:, serial_number:, and asset_tag: can be provided in
     # the args.
     #
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
       if @in_jss
 
         gen = @init_data[:general]

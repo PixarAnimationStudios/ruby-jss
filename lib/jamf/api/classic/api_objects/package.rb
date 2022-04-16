@@ -297,7 +297,7 @@ module Jamf
 
     # @see Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
 
       # now we have pkg_data with something in it, so fill out the instance vars
@@ -934,7 +934,7 @@ module Jamf
     #
     # @todo deal with cert-based https authentication in dist points
     #
-    def install(args = {})
+    def install(**args)
       raise Jamf::UnsupportedError, 'You must have root privileges to install packages' unless JSS.superuser?
 
       args[:target] ||= '/'
@@ -1026,7 +1026,7 @@ module Jamf
     #
     # @note This code must be run as root to uninstall packages
     #
-    def uninstall(args = {})
+    def uninstall(**args)
       unless removable?
         raise Jamf::UnsupportedError, \
               'This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls'

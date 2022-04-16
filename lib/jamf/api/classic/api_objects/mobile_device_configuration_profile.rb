@@ -64,7 +64,7 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
       @redeploy_days_before_certificate_expires = @main_subset[:redeploy_days_before_certificate_expires]
     end

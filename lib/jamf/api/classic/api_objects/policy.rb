@@ -696,7 +696,7 @@ module Jamf
 
     # @see APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
 
       if @in_jss

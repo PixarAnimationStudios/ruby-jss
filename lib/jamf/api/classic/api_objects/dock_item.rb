@@ -86,8 +86,8 @@ module Jamf
     # Constructor
     # @see Jamf::APIObject.initialize
     #####################################
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
 
       @type = 'App' if @init_data[:type].nil?
       @type = @init_data[:type]

@@ -95,7 +95,7 @@ module Jamf
     ###
     ### @see SS::APIObject#initialize
     ###
-    def initialize (args = {})
+    def initialize(**args)
       super
       @ip_address = @init_data[:ip_address]
       @port = @init_data[:port]

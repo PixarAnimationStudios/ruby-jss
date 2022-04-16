@@ -82,7 +82,7 @@ module Jamf
     ## Constructor
     #####################################
 
-    def initialize(args = {})
+    def initialize(**args)
       super
       general = @init_data[:general]
       @version = general[:version]

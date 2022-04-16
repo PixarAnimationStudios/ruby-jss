@@ -157,13 +157,14 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
-      super args
+    def initialize(**args)
+      super
 
       # check to see if a user has been specified, haven't built groups yet
       is_user = [:userid, :username].any? { |key| args.keys.include? key }
 
       return unless is_user
+
       @user_name = @init_data[:name]
       @full_name = @init_data[:full_name]
       @email = @init_data[:email]

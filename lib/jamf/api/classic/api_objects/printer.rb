@@ -86,8 +86,8 @@ module Jamf
         #####################################
 
         ###
-        def initialize(args = {})
-            super args
+        def initialize(**args)
+            super
 
             if self.in_jss?
 
@@ -393,7 +393,7 @@ module Jamf
             else
                 raise Jamf::InvalidDataError, "os_requirements must either be a string, float, or an array containing strings or floats." unless (newvalue.is_a?(String) || newvalue.is_a?(Float)) && !newvalue.nil?
             end
-                
+
             @os_requirements = newvalue
 
             @need_to_update = true

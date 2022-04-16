@@ -1,16 +1,16 @@
 module Jamf
     ### Module Constants
     #####################################
-    
+
     ### Module Variables
     #####################################
-    
+
     ### Module Methods
     #####################################
-    
+
     ### Classes
     #####################################
-    
+
     ### Disk Encryption Configuration object inside JSS
     ###
     ### More Detailed Description if needed
@@ -34,7 +34,7 @@ module Jamf
             management: "Management Account",
             current: "Current or Next User"
         }.freeze
-        
+
         ### The base for REST resources of this class
         RSRC_BASE = 'diskencryptionconfigurations'.freeze
 
@@ -53,9 +53,9 @@ module Jamf
 
         ## Constructor
         #####################################
-        
+
         ###
-        def initialize(args = {})
+        def initialize(**args)
             super
 
             if self.in_jss?
@@ -66,7 +66,7 @@ module Jamf
                 raise Jamf::InvalidDataError, "Currently the ability to create a Disk Encryption Configuration is not possible through ruby-jss."
             end
 
-            
+
 
         end
 

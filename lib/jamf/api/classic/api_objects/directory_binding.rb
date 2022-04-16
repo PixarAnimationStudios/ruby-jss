@@ -107,8 +107,8 @@ module Jamf
         # Ex: Creating an Active Directory object:
         # Jamf::DirectoryBinding.make name: "Example Binding", username: "BindingUser", password: "SuperMonkey123", computer_ou: "computers", active_directory: { multiple_domains: false }, domain: your.domain.server
         #####################################
-        def initialize(args = {})
-            super args
+        def initialize(**args)
+            super
 
             if self.in_jss?
                 @priority = @init_data[:priority]

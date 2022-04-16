@@ -2,7 +2,7 @@
 
 Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood. **_PLEASE TEST YOUR CODE EXTENSIVELY_**
 
-This document discusses the major changes, attempts to list the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background for the changes.
+This document discusses the high-level changes, listing the detailed changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. It is a work-in-progress at the moment, and hopefully will prompt discussion and decision-making in the #ruby-jss channel of MacAdmins Slack (Please join us!)
 
 These changes have been in mind for some time, but the ability (soon to be requirement) for the Classic API authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
 
@@ -47,7 +47,7 @@ The plan is for ruby-jss 2.0+ to be compatible with ruby 3.x.
 
 As of this writing, work towards this goal has just barely started, but will be in full-swing after getting everything else mentioned here ready for public testing in ruby 2.7.
 
-It looks like the biggest changes will be dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when foo is a hash of keyword args.
+It looks like the biggest changes will be dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
 ## Combined API access
 

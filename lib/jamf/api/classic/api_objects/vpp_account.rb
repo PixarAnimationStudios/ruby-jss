@@ -95,7 +95,7 @@ module Jamf
 
     # See Jamf::APIObject#initialize
     #
-    def initialize(args = {})
+    def initialize(**args)
       super
       @contact = @init_data[:contact]
       @service_token = @init_data[:service_token]

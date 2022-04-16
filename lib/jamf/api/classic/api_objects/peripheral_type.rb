@@ -89,7 +89,7 @@ module Jamf
     ###
     ### Initialize
     ###
-    def initialize (args = {})
+    def initialize(**args)
 
       super
 
@@ -167,7 +167,7 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def set_field(order, field = {})
+    def set_field(order, **field)
       raise Jamf::NoSuchItemError, "No field with number '#{order}'. Use #append_field, #prepend_field, or #insert_field" unless @fields[order]
       field_ok? field
       @fields[order] = field
@@ -181,7 +181,7 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def append_field(field = {})
+    def append_field(**field)
       field_ok? field
       @fields << field
       order_fields
@@ -195,7 +195,7 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def prepend_field(field = {})
+    def prepend_field(**field)
       field_ok? field
       @fields.unshift field
       order_fields
@@ -211,7 +211,7 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def insert_field(order,field = {})
+    def insert_field(order, **field)
       field_ok? field
       @fields.insert((order -1), field)
       order_fields

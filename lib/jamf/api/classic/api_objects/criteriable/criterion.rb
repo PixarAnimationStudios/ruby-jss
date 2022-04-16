@@ -122,7 +122,7 @@ module Jamf
       #
       # @note :priority is maintained by the Jamf::Criteriable::Criteria object holding this instance
       #
-      def initialize(args = {})
+      def initialize(**args)
         @priority = args[:priority]
 
         @and_or = (args[:and_or].downcase.to_sym if args[:and_or]) || :and
