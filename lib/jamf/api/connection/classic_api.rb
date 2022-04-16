@@ -158,7 +158,7 @@ module Jamf
 
         # delete the resource
         resp =
-          @cnx.delete(rsrc) do |req|
+          @c_cnx.delete(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = Jamf::Connection::MIME_XML
           end
