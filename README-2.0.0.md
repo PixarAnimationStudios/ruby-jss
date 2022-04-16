@@ -45,7 +45,9 @@ ruby-jss 2.0.0 requires ruby 2.7, and a Jamf Pro server running version 10.35 or
 
 The plan is for ruby-jss 2.0+ to be compatible with ruby 3.x.
 
-As of this writing, no work towards this has been done, but it's next up after getting everything else mentioned here ready for beta-testing in ruby 2.7.
+As of this writing, work towards this goal has just barely started, but will be in full-swing after getting everything else mentioned here ready for public testing in ruby 2.7.
+
+It looks like the biggest changes will be dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when foo is a hash of keyword args.
 
 ## Combined API access
 

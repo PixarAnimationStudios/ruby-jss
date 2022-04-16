@@ -429,7 +429,7 @@ module Jamf
         token_params[:token_string] = params[:token] if type == :token_string
         token_params[:pw] = params[:pw] unless params[:pw].is_a? Symbol
 
-        self.class::Token.new token_params
+        self.class::Token.new **token_params
       end
 
       # Build the base URL for the API connection

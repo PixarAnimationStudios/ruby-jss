@@ -143,7 +143,7 @@ module Jamf
       ###########################################
       def initialize(**params)
         @valid = false
-        parse_params(params)
+        parse_params(**params)
 
         if params[:token_string]
           @pw_fallback = false unless @pw
@@ -406,7 +406,7 @@ module Jamf
 
       # set values from params & defaults
       ###########################################
-      def parse_params(params)
+      def parse_params(**params)
         # This process of deleting suffixes will leave in place any
         # URL paths before the the CAPI_RSRC_BASE or JPAPI_RSRC_BASE
         # e.g.  https://my.jamf.server:8443/some/path/before/api
