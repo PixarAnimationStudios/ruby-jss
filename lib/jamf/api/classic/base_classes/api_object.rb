@@ -982,7 +982,7 @@ module Jamf
       data = cnx.c_get rsrc, format, raw_json: as_string
       return data if format == :json || as_string
 
-      REXML::Document.new(data)
+      REXML::Document.new(**data)
     end
 
     # PUT some raw XML to the API for a given id in this subclass.
@@ -1072,7 +1072,7 @@ module Jamf
 
       args[:api] ||= Jamf.cnx
       args[:id] = :new
-      new args
+      new **args
     end
 
     # backward compatability
