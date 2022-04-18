@@ -35,10 +35,10 @@ module JamfTest
 
     # The main test method for this class
     def run_class_tests
-      run_collection_tests
+      run_collection_tests do_object_tests: false
 
-      create_new_pol
-      add_data_to_new_pol
+      # create_new_pol
+      # add_data_to_new_pol
     end
 
     #################

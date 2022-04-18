@@ -16,24 +16,12 @@ Reading most tutorials about ruby testing has lead me in circles considering nee
 
 Many proponents of unit testing might disagree and find this suite odd.  Thats ok. Any functional testing suite is better than none.
 
-This comment from
+This [comment from StackOverflow](https://stackoverflow.com/questions/8752654/how-do-i-effectively-force-minitest-to-run-my-tests-in-order) sums it up:
 
-https://stackoverflow.com/questions/8752654/how-do-i-effectively-force-minitest-to-run-my-tests-in-order
+> Note that, as of minitest 5.10.1, the i_suck_and_my_tests_are_order_dependent! method/directive is completely nonfunctional in test suites using MiniTest::Spec syntax. The Minitest.test_order method is apparently not being called at all.
+EDIT: This has been a known issue since Minitest 5.3.4: see seattlerb/minitest#514 for the blow-by-blow wailing and preening.
+You and I aren't the ones who "suck". What's needed is a BDD specification tool for Ruby without the bloat of RSpec and without the frat-boy attitude and contempt for wider community practices of MiniTest. Does anyone have any pointers?
 
-sums it up:
-
-```
-Note that, as of minitest 5.10.1, the i_suck_and_my_tests_are_order_dependent!
-method/directive is completely nonfunctional in test suites using MiniTest::Spec syntax.
-The Minitest.test_order method is apparently not being called at all.
-
-EDIT: This has been a known issue since Minitest 5.3.4: see seattlerb/minitest#514
-for the blow-by-blow wailing and preening.
-
-You and I aren't the ones who "suck". What's needed is a BDD specification tool for Ruby
-without the bloat of RSpec and without the frat-boy attitude and contempt for wider
-community practices of MiniTest. Does anyone have any pointers?
-```
 
 Since I've always done manual testing by pasting code into an IRB session, all I really want is a more automated way to do exactly that. Given that I already have all these files with pastable 'tests' for IRB,  why not just write an app-ish wrapper for them?
 

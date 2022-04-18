@@ -272,6 +272,20 @@ module Jamf
   #
   class APIObject
 
+    include Comparable
+
+    # COMPARABLE
+    # APIobjects are == if all of their lookup key values are the same
+    #
+    def <=>(other)
+      idents_combined <=> other.idents_combined
+    end
+
+    def idents_combined
+      my_keys = self.class.lookup_keys.values.uniq
+      my_keys.map { |k| send(k).to_s }.sort.join
+    end
+
     # Meta Programming
     ####################################################
 

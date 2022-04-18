@@ -33,6 +33,7 @@ module JamfTest
 
     TEST_OBJECT_BASE_NAME = 'ruby-jss-test'.freeze
 
+    ########
     def collection_class
       self.class::COLLECTION_CLASS
     end
@@ -63,8 +64,13 @@ module JamfTest
       @identifiers ||= jpapi? ? collection_class.identifiers : collection_class.lookup_keys.values.uniq
     end
 
+    ######
+    def test_object_name
+      @test_object_name ||= "#{TEST_OBJECT_BASE_NAME}-#{Jamf.cnx.user}-#{Time.now.strftime('%Y%m%d%H%M%S')}"
+    end
+
     # The main test method
-    def run_collection_tests
+    def run_collection_tests(do_object_tests: true)
       # Order Matters! Instance variabls are set and used throughout
       all
       sorted_all
@@ -73,23 +79,31 @@ module JamfTest
       cached_list_all_ids
       map_all
       cached_list_map_all
+      valid_id
 
-      # Tests like those listed here should be custom written
-      # in the test classes, cuz the details are too variable to
-      # generalize in this mixin module.
+      return unless do_object_tests
 
-      # create_new
-      # add_data_to_new
-      # save_new
-      # fetch_new
-      # validate_fetched
-      # modify_fetched
-      # re_save_fetched
-      # re_fetch
-      # validate_changes
-      # delete
-      # confirm_deleted
+      # These methods are very basic and assume a simple object
+      # that can be created with only a 'name'.
+      #
+      # For anything more complex, they should be overridden in the classes that
+      # mixin this module, since the details will be very different
+
+      create_new
+      add_data_to_new
+      save_new
+      fetch_new
+      validate_fetched
+      modify_fetched
+      re_save_fetched
+      re_fetch
+      validate_changes
+      delete
+      confirm_deleted
     end
+
+    ########### Collection Class Tests
+    ####################################
 
     # No need to test pagers, because .all uses a pager
     #################
@@ -195,6 +209,103 @@ module JamfTest
       validate_hash ids_to_other
       validate_array ids_to_other.keys, item_class: id_class
       say '..output looks good'
+    end
+
+    ################
+    def valid_id
+      other_ident = (identifiers - [:id]).sample
+      ids_to_other_ident = collection_class.map_all :id, to: other_ident
+      id, other = ids_to_other_ident.to_a.sample
+
+      valid_id = collection_class.valid_id other
+      raise "#{collection_class} id #{id}, has #{other_ident} '#{other}', but calling .valid_id('#{other}') returned id: #{valid_id}" unless id.to_s == valid_id.to_s
+
+      say "#{collection_class}.valid_id for #{other_ident} '#{other}' returned the correct id"
+    end
+
+    ########### Object Tests
+    ####################################
+
+
+    # override this if the class requires more than 'name' with .create
+    ################
+    def create_new
+      @unsaved_new_object = collection_class.create name: test_object_name
+      say "Created new #{collection_class}, name #{test_object_name}, to be saved in Jamf."
+
+    end
+
+    # override this if your class can take more than 'name'
+    ################
+    def add_data_to_new
+      nil
+    end
+
+    ################
+    def save_new
+      @new_object_id = @unsaved_new_object.save
+      say "Saved new #{collection_class} '#{test_object_name}', id: #{@new_object_id}"
+    end
+
+    ################
+    def fetch_new
+      @fetched_new_object = collection_class.fetch id: @new_object_id
+      say "Fetched new instance of #{collection_class} '#{test_object_name}' by id"
+
+      collection_class.fetch name: test_object_name
+      say "Fetched new instance of #{collection_class} '#{test_object_name}' by explicit name"
+
+      collection_class.fetch test_object_name
+      say "Fetched new instance of #{collection_class} '#{test_object_name}' by searchterm name"
+    end
+
+    ################
+    def validate_fetched
+      raise 'Original ruby object created with .create is not == to the one re-fetched after saving!' unless @fetched_new_object == @unsaved_new_object
+
+      say "Fetched instance of #{collection_class} '#{test_object_name}' is == to the original one we made with .create"
+    end
+
+    ################
+    def modify_fetched
+      @test_object_name_edited = "#{test_object_name}-edited"
+      @fetched_new_object.name = @test_object_name_edited
+
+      say "Changed local instance name from '#{test_object_name}' to '#{@test_object_name_edited}'"
+    end
+
+    ################
+    def re_save_fetched
+      @fetched_new_object.save
+      say "Saved changes to #{collection_class} '#{test_object_name}'"
+    end
+
+    ################
+    def re_fetch
+      @fetched_edited_object = collection_class.fetch name: @test_object_name_edited
+      say "Fetched fresh instance of #{collection_class} '#{@test_object_name_edited}' by its new name"
+    end
+
+    ################
+    def validate_changes
+      # override this if you changed more than the name.
+      # the re-fetch above validated the name change
+      nil
+    end
+
+    ################
+    def delete
+      @fetched_edited_object.delete
+      say "Deleted #{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) from Jamf Pro"
+    end
+
+    ################
+    def confirm_deleted
+      all_ids = classic? ? collection_class.all_ids(:refresh) : collection_class.all_ids
+
+      raise "#{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) was NOT deleted from Jamf Pro" if all_ids.include? @new_object_id
+
+      say "Confirmed deletion of #{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) from Jamf Pro"
     end
 
   end # module

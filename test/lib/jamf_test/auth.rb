@@ -140,7 +140,7 @@ module JamfTest
     # Save the API testing credentials to the default keychain
     ###########################
     def self.save_api_creds(host:, user:, pw:, port: nil)
-      delete_api_pw(host: host)
+      delete_api_creds(host: host)
 
       cmd = +'add-internet-password'
       cmd << " -a #{escape_for_security user}"
