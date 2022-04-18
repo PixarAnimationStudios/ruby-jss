@@ -1,6 +1,4 @@
-#!/usr/local/opt/ruby@3.1/bin/ruby
-#!/usr/local/pixar/bin/ruby
-
+#!/usr/bin/env ruby
 
 ### Copyright 2022 Pixar
 
@@ -27,21 +25,6 @@
 ###
 ###
 
-# Uses the MiniTest::Spec infrastructure to run one or tests of ruby-jss
-#
-# We do not use minitest/autorun, so that we have more control over which tests
-# are run and how. But the individual spec files are standard MiniTest::Spec
-# 'describe' blocks
-#
-# Those blocks become classes when the tests are run, and for each test,
-# an instance of the class is created.
-# As such, the interior of the blocks can be treated like class definitions,
-# defining constants, class methods, instance methods and so on.
-#
-# As well as that class-based infratructure, this tool includes a JamfTest
-# module which defines usefule constants and helper methods, accessible from
-# anywhere via the module name.
-#
 require 'pathname'
 require 'getoptlong'
 require 'ruby-jss'

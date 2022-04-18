@@ -1,11 +1,10 @@
 # About the ruby-jss test suite
 
-### Why not use Minitest, or Rspec or other testing library
+### Why not use Minitest, or Rspec or some other testing library
 
 For years, I've attempted to use some ruby testing framework to automate testing of ruby-jss.
 
-Every time I've run into walls because unit testing suites are designed for unit testing, and that's not really what we need to do. Yes we need to test individual methods of classes and so on, but when working with a REST API, there's a lot of
-scaffolding that needs to happen before tests can even start - and that scaffolding itself is testing the code. And the details of the scaffolding will vary in different environments. We need integration tests, not unit tests.
+Every time I've run into walls of frustration because testing suites are designed for unit testing, and that's not really what we need to do. Yes we need to test individual methods of classes and so on, but when working with a REST API, there's a lot of scaffolding that needs to happen before tests can even start - and that scaffolding itself is testing the code. And the details of the scaffolding will vary in different environments. We need integration tests, not unit tests.
 
 For example, the tests *must* be very interactive from the start - you have to tell them what server to connect with, what credentials to use, and so on.
 
@@ -22,7 +21,6 @@ This comment from
 https://stackoverflow.com/questions/8752654/how-do-i-effectively-force-minitest-to-run-my-tests-in-order
 
 sums it up:
-
 
 ```
 Note that, as of minitest 5.10.1, the i_suck_and_my_tests_are_order_dependent!
@@ -50,11 +48,14 @@ tldr:
 
   `/path/to/your/ruby-jss/gem/installation/test/bin/runtests --host myjss.company.com`
 
-IMPORTANT: It must be run on a Mac from a Finder session: it uses your keychain to store connection data and credentials, so you only have to provide them the first time or when changing them.
 
-See below for the help output
+**IMPORTANT:** It must be run on a Mac from a Finder session: it uses your keychain to store connection data and credentials, so you only have to provide them the first time or when changing them.(Don't have access to a Mac? Why are you using ruby-jss and Jamf Pro?)
 
-### Here's how this thing works:
+Want to test with a different version of ruby? Change the #! line of the `runtests` executable, or change your environment so that `/usr/bin/env ruby` points to the one you want.
+
+### Here's how this thing works
+
+[ Work In Progress ]
 
  - The individual tests are methods in classes defined in files in the 'tests' directory adjacent to this file.
  - In general, each class test a matching ruby-jss class, usually an APIObject (classic) or JPAPIResource (jamf pro).
@@ -62,7 +63,7 @@ See below for the help output
 
 **WARNING**: **DANGER DANGER** Be very careful about running these tests on your production Jamf Pro server!!!
 
-These tests create and delete objects in the JSS. While they _shouldn't_ hurt any of the existing data - we cannot make any guarantees that they won't hurt something you care about.
+These tests create and delete objects in the JSS. While they _shouldn't_ hurt any of the existing data - no guarantees are made that they won't hurt something you care about.
 
 As the license text for ruby-jss states, ruby-jss is...
 
