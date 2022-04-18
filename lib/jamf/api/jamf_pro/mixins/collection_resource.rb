@@ -256,7 +256,6 @@ module Jamf
       #
       ######################################
       def all(sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx, refresh: nil)
-        stop_if_base_class
 
         # if we are here, we need to query for all items, possibly filtered and
         # sorted
@@ -288,7 +287,7 @@ module Jamf
       #   arbitrary pages from the collection.
       #
       def pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
-        stop_if_base_class
+
         sort = Jamf::Sortable.parse_url_sort_param(sort)
         filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
 
@@ -375,7 +374,7 @@ module Jamf
       #
       ######################################
       def raw_data(searchterm = nil, ident: nil, value: nil, cnx: Jamf.cnx)
-        stop_if_base_class
+
 
         # given a value with no ident key
         return raw_data_by_searchterm_only(searchterm, cnx: cnx) if searchterm
@@ -491,7 +490,7 @@ module Jamf
       # Make a new thing to be added to the API
       ######################################
       def create(**params)
-        stop_if_base_class
+
 
         # no such animal when .creating
         params.delete :id
@@ -523,7 +522,7 @@ module Jamf
       #
       ######################################
       def fetch(searchterm = nil, random: false, cnx: Jamf.cnx, **ident_and_val)
-        stop_if_base_class
+
         data =
           if searchterm
             raw_data searchterm, cnx: cnx
@@ -584,8 +583,8 @@ module Jamf
       # Dynamically create_identifier_list_methods
       # when one is called.
       def method_missing(method, *args, &block)
-        if method.to_s =~ /^all_(\w+?)s?$/
-          attr_name = Regexp.last_match[1]
+        if available_list_methods.key? method.to_s
+          attr_name = available_list_methods[method.to_s]
           create_identifier_list_method attr_name.to_sym, method
           send method, *args
         else
@@ -595,7 +594,21 @@ module Jamf
 
       # this is needed to prevent problems with method_missing!
       def respond_to_missing?(method, *)
-        method.to_s =~ /^all_(\w+)s?$/ || super
+        available_list_methods.key?(method.to_s) || super
+      end
+
+      # @return [Hash{String: Symbol}] Method name to matching attribute name for
+      #   all identifiers
+      def available_list_methods
+        return @available_list_methods if @available_list_methods
+
+        @available_list_methods = {}
+
+        identifiers.each do |i|
+          meth_name = i.to_s.end_with?('s') ? "all_#{i}es" : "all_#{i}s"
+          @available_list_methods[meth_name] = i
+        end
+        @available_list_methods
       end
 
       # called from method_missing to create
@@ -615,7 +628,7 @@ module Jamf
               all_list.map { |i| attr_def[:class].new i[attr_name] }
             end
           end # define_singleton_method
-          Jamf.load_msg "Defined method #{self}.#{list_method_name}"
+          Jamf.load_msg "Defined method #{self}##{list_method_name}"
         else
 
           define_singleton_method(list_method_name) do |*|
@@ -644,7 +657,7 @@ module Jamf
     # Constructor
     #####################################
     def initialize(**data)
-      super(**data)
+      super
       set_api_paths
     end
 
@@ -661,6 +674,14 @@ module Jamf
       raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless self.class.deletable?
 
       @cnx.jp_delete delete_path
+    end
+
+    # A meaningful string representation of this object
+    #
+    # @return [String]
+    #
+    def to_s
+      "#{self.class}@#{cnx.host}, id: #{@id}"
     end
 
     # Private Instance Methods

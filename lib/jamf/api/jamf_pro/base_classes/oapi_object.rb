@@ -34,7 +34,6 @@ module Jamf
   class OAPIObject
 
     include Comparable
-    extend Jamf::BaseClass
 
 
     # Public Class Methods
@@ -345,7 +344,7 @@ module Jamf
     #
     # @param data[Hash] the data for constructing a new object.
     #
-    def initialize(**data)
+    def initialize(data)
       @init_data = data
 
       # creating a new one, not fetching from the API
@@ -578,6 +577,25 @@ module Jamf
       self.class.validate_attr attr_name, value
     end
 
+    # Ruby 3's default behavior when raising exceptions will include the output
+    # of #inspect, recursively for all data in an object.
+    # For many OAPIObjects, esp JPAPI Resources, this includes the embedded
+    # Connection object and all the caches is might hold, which might be
+    # thousands of lines.
+    # we override that here to prevent that. I've heard rumor this will be
+    # fixed in ruby 3.2
+    # def inspect
+    #   #<Jamf::Policy:0x0000000110138df8
+    #   "<#{self.class}:#{object_id}>"
+    # end
+
+    # A meaningful string representation of this object
+    #
+    # @return [String]
+    #
+    def to_s
+      inspect
+    end
 
   end # class JSONObject
 

@@ -23,35 +23,19 @@
 ###
 ###
 
-describe JSS::APIConnection do
+module JamfTest
 
-  ##### Constants
+  class JpBuilding < JamfTest::APITest
 
-  TEST_CONNECTION_NAME = 'testconnection'.freeze
+    include JamfTest::CollectionTests
 
-  ##### Specs
+    COLLECTION_CLASS = Jamf::JpBuilding
 
-  # this happens before each 'it' block below.
-  before do
-    @newcon = JSS::APIConnection.new(
-      server: Jamf.cnx.hostname,
-      user: Jamf.cnx.jss_user,
-      pw: JSSTestHelper::Auth.api_pw(server: nil, port: nil, user: nil),
-      name: TEST_CONNECTION_NAME
-    )
-  end
+    # run the tests
+    def run_class_tests
+      run_collection_tests
+    end
 
-  it 'can be created' do
-    @newcon.must_be_instance_of JSS::APIConnection
-  end
+  end # class
 
-  it 'has a settable name at creation' do
-    @newcon.name.must_equal TEST_CONNECTION_NAME
-  end
-
-  it 'can be made default' do
-    JSS.use_api_connection @newcon
-    Jamf.cnx.name.must_equal TEST_CONNECTION_NAME
-  end
-
-end
+end # module JamfTest

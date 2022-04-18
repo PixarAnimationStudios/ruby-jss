@@ -337,7 +337,8 @@ module Jamf
     end
 
     def scope
-      INSTANCE_SCOPE_OBJECT.new @cnx.jp_get(scope_path)
+      data = @cnx.jp_get(scope_path)
+      INSTANCE_SCOPE_OBJECT.new **data
     end
 
   end # class

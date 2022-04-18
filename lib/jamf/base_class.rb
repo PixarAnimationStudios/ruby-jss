@@ -54,16 +54,16 @@ module Jamf
       Jamf::BaseClass.base_classes.include? self
     end
 
-    # Can't allocate if base class
-    def allocate(*args, &block)
-      stop_if_base_class ALLOCATION_ACTION
-      super
-    end
+    # # Can't allocate if base class
+    # def allocate(*args, **kwargs, &block)
+    #   stop_if_base_class ALLOCATION_ACTION
+    #   super
+    # end
 
     # Can't instantiate if base_class
-    def new(*args, &block)
+    def new(*args, **kwargs, &block)
       stop_if_base_class INSTANTIATION_ACTION
-      super
+      super(*args, **kwargs, &block)
     end
 
     # raise an exception if this class is a base class

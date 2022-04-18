@@ -811,6 +811,11 @@ module Jamf
         a_target?(machine_data) && within_limitations?(machine_data) && !excluded?(machine_data)
       end
 
+      #####
+      def to_s
+        "Scope for #{container.class} id #{container.id}"
+      end
+
       # Private Instance Methods
       #####################################
       private

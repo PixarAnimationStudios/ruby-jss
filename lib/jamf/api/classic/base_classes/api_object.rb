@@ -290,23 +290,24 @@ module Jamf
           # the all_ method - skip if defined in the class
           next if singleton_methods.include? meth_name
 
-          Jamf.load_msg "..defining #{meth_name}"
-          define_singleton_method meth_name do |refresh = false, api: nil, cnx: Jamf.cnx|
+          define_singleton_method meth_name do |refresh = false, cached_list: nil, api: nil, cnx: Jamf.cnx|
             cnx = api if api
-            all(refresh, cnx: cnx).map { |i| i[key] }
+            list = cached_list || all(refresh, cnx: cnx)
+            list.map { |i| i[key] }
           end
+          Jamf.load_msg "Defined method #{self}##{meth_name}"
 
         else
           # an alias - skip if defined in the class
           als_name = als.to_s.end_with?('s') ? "all_#{als}es" : "all_#{als}s"
           next if singleton_methods.include? als_name
 
-          Jamf.load_msg "..defining alias '#{als_name}' of method #{meth_name}"
-
           define_singleton_method als_name do |refresh = false, api: nil, cnx: Jamf.cnx|
             cnx = api if api
             send meth_name, refresh, cnx: cnx
           end
+          Jamf.load_msg "Defined alias '#{als_name}' of #{self}##{meth_name}"
+
         end # if
       end # lookup_keys.eachs
       true
@@ -596,10 +597,10 @@ module Jamf
     #
     # @return [Hash{Integer => Oject}] the associated ids and data
     #
-    def self.map_all_ids_to(other_key, refresh = false, api: nil, cnx: Jamf.cnx)
+    def self.map_all_ids_to(other_key, refresh = false, cached_list: nil, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      map_all :id, to: other_key, refresh: refresh, cnx: cnx
+      map_all :id, to: other_key, refresh: refresh, cnx: cnx, cached_list: cached_list
 
       # # we will accept any key, it'll just return nil if not in the
       # # .all hashes. However if we're given an alias of a lookup key
@@ -1219,6 +1220,18 @@ module Jamf
     # Public Instance Methods
     #####################################
 
+    # Ruby 3's default behavior when raising exceptions will include the output
+    # of #inspect, recursively for all data in an object.
+    # For many OAPIObjects, esp JPAPI Resources, this includes the embedded
+    # Connection object and all the caches is might hold, which might be
+    # thousands of lines.
+    # we override that here to prevent that. I've heard rumor this will be
+    # fixed in ruby 3.2
+    # def inspect
+    #   #<Jamf::Policy:0x0000000110138df8
+    #   "<#{self.class}:#{object_id}>"
+    # end
+
     # Either Create or Update this object in the JSS
     #
     # If this item is creatable or updatable, then
@@ -1353,7 +1366,7 @@ module Jamf
     # @return [String]
     #
     def to_s
-      "#{self.class}, name: #{@name}, id: #{@id}"
+      "#{self.class}@#{cnx.host}, id: #{@id}"
     end
 
     # Remove the init_data and api object from

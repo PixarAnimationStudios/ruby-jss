@@ -23,30 +23,19 @@
 ###
 ###
 
-describe JSSTestHelper do
+module JamfTest
 
-  # this effectively makes the tests run in the order defined, which is
-  # needed in this situattion.
-  def self.test_order
-    :alpha
-  end
+  class Category < JamfTest::APITest
 
-  it 'can delete external source' do
-    gone = JSSTestHelper::PatchMgmt.delete_external_src
-    gone.must_be_instance_of Array
-    gone.must_be_empty
-  end
+    include JamfTest::CollectionTests
 
-  it 'can delete patch policy' do
-    gone = JSSTestHelper::PatchMgmt.delete_policy
-    gone.must_be_instance_of Array
-    gone.must_be_empty
-  end
+    COLLECTION_CLASS = Jamf::Category
 
-  it 'can delete patch title' do
-    gone = JSSTestHelper::PatchMgmt.delete_title
-    gone.must_be_instance_of Array
-    gone.must_be_empty
-  end
+    # run the tests
+    def run_class_tests
+      run_collection_tests
+    end
 
-end
+  end # class
+
+end # module JamfTest

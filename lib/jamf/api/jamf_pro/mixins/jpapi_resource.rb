@@ -70,7 +70,6 @@ module Jamf
       # Require use of .fetch or .create, or 'all'
       #
       def new(**data)
-        stop_if_base_class
         calling_method = caller_locations(1..1).first.label
         unless NEW_CALLERS.include? calling_method
           raise Jamf::UnsupportedError, 'Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::JPAPIResource objects'
