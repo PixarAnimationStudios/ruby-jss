@@ -11,16 +11,17 @@ These changes have been in mind for some time, but the ability (soon to be requi
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Requirements](#requirements)
-- [Ruby 3.x support](#ruby-3x-support)
-- [Combined API access](#combined-api-access)
-	- [A single Connection class](#a-single-connection-class)
-		- [Connecting to the API](#connecting-to-the-api)
-			- [The default connection](#the-default-connection)
-	- [A single namespace `Jamf`](#a-single-namespace-jamf)
-		- [Inherant differences between the APIs](#inherant-differences-between-the-apis)
+- [High level changes](#high-level-changes)
+	- [Ruby 3.x support](#ruby-3x-support)
+	- [Combined API access](#combined-api-access)
+		- [A single Connection class](#a-single-connection-class)
+			- [Connecting to the API](#connecting-to-the-api)
+				- [The default connection](#the-default-connection)
+		- [A single namespace `Jamf`](#a-single-namespace-jamf)
+			- [Inherant differences between the APIs](#inherant-differences-between-the-apis)
 			- [Which API does an object come from?](#which-api-does-an-object-come-from)
-- [Automatic code generation](#automatic-code-generation)
-- [Autoloading of files](#autoloading-of-files)
+	- [Automatic code generation](#automatic-code-generation)
+	- [Autoloading of files](#autoloading-of-files)
 - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
 	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
 	- [API data are no longer cached](#api-data-are-no-longer-cached)
@@ -41,15 +42,19 @@ These changes have been in mind for some time, but the ability (soon to be requi
 
 ruby-jss 2.0.0 requires ruby 2.7, and a Jamf Pro server running version 10.35 or higher.
 
-## Ruby 3.x support
+## High level changes
+
+### Ruby 3.x support
 
 The plan is for ruby-jss 2.0+ to be compatible with ruby 3.x.
 
-As of this writing, work towards this goal has just barely started, but will be in full-swing after getting everything else mentioned here ready for public testing in ruby 2.7.
+As of this writing, basic access to the API seems to be working, but much much more testing is required.
 
-It looks like the biggest changes will be dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
+It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
-## Combined API access
+**IMPORTANT**: do not pass raw hashes as 'keyword' args.  Instead use the double-splat: `methodname(**hash)` which should be compatible with ruby 3.x and 2.7.x
+
+### Combined API access
 
 ruby-jss has always used the `JSS` module to encapsulate all access to the Classic API. When the Jamf Pro API became a thing, the `Jamf` module was created as the way to interact with that API as it grew and developed.
 
@@ -57,11 +62,11 @@ Even though the latest Jamf Pro release notes say the Jamf Pro API is still offi
 
 The announcement with Jamf Pro 10.35 that the Classic API can use, and will eventually require, a Bearer Token from the Jamf Pro API meant that it was time to merge the two in ruby-jss.
 
-### A single Connection class
+#### A single Connection class
 
 There is now one `Jamf::Connection` class, instances of which are connections to a Jamf Pro server. Once connected, the connection instance maintains connections to _both_ APIs and other classes use them as needed. As before, there are low-level methods available for sending HTTP requests manually, which are specific to each API. See the documentation for `Jamf::Connection` (link TBA) for details.
 
-#### Connecting to the API
+##### Connecting to the API
 
 Most of the previous methods and parameters for making API connections to either API should still work, including using a URL rather than individual connection parameters. So both of these are valid and identical:
 
@@ -73,17 +78,17 @@ another_connection = Jamf::Connection.new host: 'my.jamf.server', port: 8443, us
 
 Other connection parameters can be passed in as normal.
 
-##### The default connection
+###### The default connection
 
 The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. The use of `JSS::API` has been deprecated for years now, and still is (see below).
 
-### A single namespace `Jamf`
+#### A single namespace `Jamf`
 
 Version 2.0.0 combines the `JSS` module and the `Jamf` module into a single `Jamf` module, with `JSS` aliased to it. This means you can use them interchangably to refer to the Jamf module, and existing code that used either should still work. The module name no longer indicates which API you're working with.
 
 For example, the `JSS::Computer` class, from the Classic API, is still a thing, but now just points to the `Jamf::Computer` class, still from the Classic API.  The `Jamf::InventoryPreloadRecord` class, from the Jamf Pro API remains as is, but can also be referred to as `JSS::InventoryPreloadRecord`
 
-#### Inherant differences between the APIs
+##### Inherant differences between the APIs
 
 In theory, you shouldn't need to worry about which classes and objects come from which API - you can just `.fetch`, `.create`, `.save`, etc.. and ruby-jss will deal with the API interaction for you.
 
@@ -99,7 +104,7 @@ The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist f
 
 To confirm which API a class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
 
-## Automatic code generation
+### Automatic code generation
 
 While the Classic API classes in ruby-jss are very hand-built and must be manually edited to add access to new data, the Jamf Pro API has an OpenAPI3 specification - a JSON document that fully describes the entire API and what it can do.
 
@@ -111,7 +116,7 @@ Not only does this make it fast and simple to implement new objects in ruby-jss,
 
 If you develop ruby-jss, please see (documentation link TBA) for more info about how to use the auto-generated classes.
 
-## Autoloading of files
+### Autoloading of files
 
 Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require ruby-jss`, since most of them will never be used for any given application.
 
