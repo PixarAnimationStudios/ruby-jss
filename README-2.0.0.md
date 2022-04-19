@@ -4,7 +4,7 @@ Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as
 
 This document discusses the high-level changes, listing the detailed changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. It is a work-in-progress at the moment, and hopefully will prompt discussion and decision-making in the #ruby-jss channel of MacAdmins Slack (Please join us!)
 
-These changes have been in mind for some time, but the ability (soon to be requirement) for the Classic API authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
+These changes have been in mind for some time, but the ability (soon to be requirement) for the Classic API to authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
 
 **CONTENTS**
 
@@ -21,10 +21,10 @@ These changes have been in mind for some time, but the ability (soon to be requi
 			- [Inherant differences between the APIs](#inherant-differences-between-the-apis)
 			- [Which API does an object come from?](#which-api-does-an-object-come-from)
 	- [Automatic code generation](#automatic-code-generation)
-	- [Autoloading of files](#autoloading-of-files)
+	- [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
 - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
 	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
-	- [API data are no longer cached](#api-data-are-no-longer-cached)
+	- [API data are no longer cached (?)](#api-data-are-no-longer-cached-)
 	- [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
 	- [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
 - [Planned deprecations](#planned-deprecations)
@@ -40,15 +40,15 @@ These changes have been in mind for some time, but the ability (soon to be requi
 
 ## Requirements
 
-ruby-jss 2.0.0 requires ruby 2.7, and a Jamf Pro server running version 10.35 or higher.
+ruby-jss 2.0.0 requires ruby 2.7 or higher , and a Jamf Pro server running version 10.35 or higher.
 
 ## High level changes
 
 ### Ruby 3.x support
 
-The plan is for ruby-jss 2.0+ to be compatible with ruby 3.x.
+The plan is for ruby-jss 2.0+ to be compatible with ruby 2.7 and higher, including ruby 3.x
 
-As of this writing, basic access to the API seems to be working, but much much more testing is required.
+As of this writing, basic access to the API seems to be working in ruby 3, but much much more testing is needed.
 
 It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
@@ -116,7 +116,7 @@ Not only does this make it fast and simple to implement new objects in ruby-jss,
 
 If you develop ruby-jss, please see (documentation link TBA) for more info about how to use the auto-generated classes.
 
-### Autoloading of files
+### Autoloading with Zeitwerk
 
 Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require ruby-jss`, since most of them will never be used for any given application.
 
@@ -139,16 +139,18 @@ Now to get paged results, use the `.pager` class method, optionally sorted and f
 
 The `.all` method will never deliver paged results, however if you give it a `filter` parameter for classes that support filtering, then `.all` returns "all that match the filter", which may be fewer than the entire collection.
 
-### API data are no longer cached
+### API data are no longer cached (?)
 
-NOTE: As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with users of ruby-jss.
+**NOTE:** As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with users of ruby-jss.
 
 Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
 - collection lists, used by `.all` and friends, like `.all_ids` and `.valid_id`
-- EA definitions, used for validating Extension Attribute values
+- Extension Attribute, definitions, used for validating Extension Attribute values
 
-In 2.0+, that caching has been removed. If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
+In 2.0+, that caching has been removed for objects from them Jamf Pro API.
+
+ If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
 
 **WARNING**: Be careful that the list you pass in via `cached_list` contains the correct data structure for the class, and came from the desired Connection instance.
 
