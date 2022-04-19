@@ -33,7 +33,7 @@ module JamfTest
 
     # run the tests - order matters
     def run_class_tests
-      run_collection_tests
+      run_collection_tests do_object_tests: false
 
       fetch_all_devices
       fetch_all_devices_for_instance

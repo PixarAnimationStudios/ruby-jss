@@ -31,10 +31,11 @@ module JamfTest
 
     COLLECTION_CLASS = Jamf::Policy
 
-    CUSTOM_TRIGGER = 'ruby-jss-test-custom-trigger'
+    CUSTOM_TRIGGER = 'ruby-jss-test-custom-trigger'.freeze
 
     # The main test method for this class
     def run_class_tests
+      # we will override the object tests
       run_collection_tests do_object_tests: false
 
       # create_new_pol

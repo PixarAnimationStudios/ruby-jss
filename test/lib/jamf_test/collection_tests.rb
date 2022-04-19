@@ -69,6 +69,8 @@ module JamfTest
       @test_object_name ||= "#{TEST_OBJECT_BASE_NAME}-#{Jamf.cnx.user}-#{Time.now.strftime('%Y%m%d%H%M%S')}"
     end
 
+    ##############################################
+
     # The main test method
     def run_collection_tests(do_object_tests: true)
       # Order Matters! Instance variabls are set and used throughout
