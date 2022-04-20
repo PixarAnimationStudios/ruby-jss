@@ -685,4 +685,14 @@ class App
 
 end # class App
 
-App.new.run
+begin
+  App.new.run
+ensure
+  if App::JAMF_PRO_ACCESS_FILE.file?
+    puts
+    puts '***** WARNING ******'
+    puts "Be sure to delete #{App::JAMF_PRO_ACCESS_FILE}"
+    puts "if you're done using this tool for a while"
+    puts '***** WARNING ******'
+  end
+end
