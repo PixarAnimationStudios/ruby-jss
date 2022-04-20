@@ -12,29 +12,30 @@ These changes have been in mind for some time, but the ability (soon to be requi
 
 - [Requirements](#requirements)
 - [High level changes](#high-level-changes)
-	- [Ruby 3.x support](#ruby-3x-support)
-	- [Combined API access](#combined-api-access)
-		- [A single Connection class](#a-single-connection-class)
-			- [Connecting to the API](#connecting-to-the-api)
-				- [The default connection](#the-default-connection)
-		- [A single namespace `Jamf`](#a-single-namespace-jamf)
-			- [Inherant differences between the APIs](#inherant-differences-between-the-apis)
-			- [Which API does an object come from?](#which-api-does-an-object-come-from)
-	- [Automatic code generation](#automatic-code-generation)
-	- [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
+  - [Ruby 3.x support](#ruby-3x-support)
+  - [Combined API access](#combined-api-access)
+    - [A single Connection class](#a-single-connection-class)
+      - [Connecting to the API](#connecting-to-the-api)
+        - [The default connection](#the-default-connection)
+    - [A single namespace `Jamf`](#a-single-namespace-jamf)
+      - [Inherant differences between the APIs](#inherant-differences-between-the-apis)
+      - [Which API does an object come from?](#which-api-does-an-object-come-from)
+  - [Automatic code generation](#automatic-code-generation)
+  - [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
 - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
-	- [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
-	- [API data are no longer cached (?)](#api-data-are-no-longer-cached-)
-	- [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
-	- [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
+  - [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
+  - [API data are no longer cached (?)](#api-data-are-no-longer-cached-)
+  - [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
+  - [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
 - [Planned deprecations](#planned-deprecations)
-	- [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
-	- [`.map_all_ids_to` method for Classic API collection classes](#mapallidsto-method-for-classic-api-collection-classes)
-	- [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
-	- [JSS::CONFIG](#jssconfig)
-	- [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-nextrefresh-secstorefresh-timetorefresh)
-	- [Cross-object validation in setters](#cross-object-validation-in-setters)
-	- [.fetch :random](#fetch-random)
+  - [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
+  - [`.map_all_ids_to` method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
+  - [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
+  - [JSS::CONFIG](#jssconfig)
+  - [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-next_refresh-secs_to_refresh---time_to_refresh)
+  - [Cross-object validation in setters](#cross-object-validation-in-setters)
+  - [.fetch :random](#fetch-random)
+- [How to install for testing](#how-to-install-for-testing)
 - [Contact](#contact)
 
 <!-- /TOC -->
@@ -300,6 +301,15 @@ The last point is very important.  Right now, in order to be able to manipulate 
 You can still fetch random objects from a collection, but use `.fetch random: true`. The older `.fetch :random` is deprecated and will be removed.
 
 
+## How to install for testing
+
+`gem install ruby-jss --version 2.0.0xy`
+
+where x is a or b, and y is the alpha or beta number
+
+You can also clone the GitHub repo, cd into the top level of the project and run `gem build ruby-jss.gemspec`, then install the resulting gem.
+
+
 ## Contact
 
-If you have questions or feedback about all these changes, please reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
+If you have questions or feedback about all this, please reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
