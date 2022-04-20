@@ -917,7 +917,7 @@ module Jamf
       end
 
       # a random object?
-      if searchterm == :random
+      if searchterm == :random || args[:random]
         rnd_thing = all(cnx: cnx).sample
         raise Jamf::NoSuchItemError, "No #{self::RSRC_LIST_KEY} found" unless rnd_thing
 

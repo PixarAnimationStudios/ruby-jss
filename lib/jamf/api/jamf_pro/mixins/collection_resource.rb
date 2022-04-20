@@ -530,6 +530,10 @@ module Jamf
       #
       ######################################
       def fetch(searchterm = nil, random: false, cnx: Jamf.cnx, **ident_and_val)
+        if searchterm == :random
+          random = true
+          searchterm = nil
+        end
 
         data =
           if searchterm
@@ -547,7 +551,7 @@ module Jamf
         new(**data)
       end # fetch
 
-      # By default, CollectionResource subclass instances are deletable.
+      # By default, CollectionResource instances are deletable.
       # If not, just extend the subclass with Jamf::Undeletable, and this
       # will return false, and .delete & #delete will raise errors
       ######################################
@@ -557,6 +561,10 @@ module Jamf
 
       def filterable?
         singleton_class.ancestors.include? Jamf::Filterable
+      end
+
+      def bulk_deletable?
+        singleton_class.ancestors.include? Jamf::BulkDeletable
       end
 
       # Delete one or more objects by id
@@ -574,14 +582,13 @@ module Jamf
       def delete(*ids, cnx: Jamf.cnx)
         raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
 
-        # TODO: implement bulk_deletable? in the mixin
-        return bulk_delete(ids, cnx: Jamf.cnx) if self&.bulk_deletable?
+        return bulk_delete(ids, cnx: Jamf.cnx) if self.bulk_deletable?
 
         errs = []
         ids.each do |id_to_delete|
           cnx.jp_delete "#{delete_path}/#{id_to_delete}"
-        rescue Jamf::Connection::APIError => e
-          raise e unless e.httpStatus == 404
+        rescue Jamf::Connection::JamfProAPIError => e
+          raise e unless e.http_response.status == 404
 
           errs += e.errors
         end # ids.each

@@ -35,6 +35,11 @@ module JamfTest
     def run_class_tests
       run_collection_tests do_object_tests: false
 
+      if @cached_all.empty?
+        say 'The result of .all was empty, skipping related device &  sync history tests'
+        return
+      end
+
       fetch_all_devices
       fetch_all_devices_for_instance
       fetch_all_sync_history

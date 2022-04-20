@@ -52,6 +52,8 @@ class App
 
   # Setup
   def initialize
+    raise "These tests only work in ruby-jss 2.0 and up. You are running #{JSS::VERSION}" unless JSS::VERSION[0].to_i > 1
+
     parse_opts
 
     @bindir = Pathname.new File.dirname(__FILE__)
@@ -136,10 +138,14 @@ class App
       end
 
       load testfile.to_s
-      test_class = JamfTest.const_get(camelize_snake t)
+      test_class = JamfTest.const_get(camelize_snake(t))
+
       puts
       JamfTest.say "Running test #{testfile.basename}: "
       test_class.new.run_tests
+    rescue => e
+      puts "ERROR in '#{testfile.basename}': #{e.class}: #{e}"
+      puts e.backtrace
     end # each
   end # run tests
 

@@ -48,7 +48,6 @@ Want to test with a different version of ruby? Change the #! line of the `runtes
  - The individual tests are methods in classes defined in files in the 'tests' directory adjacent to this file.
  - In general, each class test a matching ruby-jss class, usually an APIObject (classic) or JPAPIResource (jamf pro).
 
-
 **WARNING**: **DANGER DANGER** Be very careful about running these tests on your production Jamf Pro server!!!
 
 These tests create and delete objects in the JSS. While they _shouldn't_ hurt any of the existing data - no guarantees are made that they won't hurt something you care about.

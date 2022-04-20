@@ -31,10 +31,10 @@ module JamfTest
       JamfTest.say msg, from: self.class.to_s
     end
 
-    ##### The main test method
+    # The main test method
+    # each subclass MUST define a run_class_tests method
+    #####
     def run_tests
-
-      # each subclass must define this method
       run_class_tests
 
       say "Done! Congrats, #{self.class} looks good!"
@@ -56,7 +56,11 @@ module JamfTest
       raise 'Value is not an Array' unless ary.is_a? Array
       return unless item_class
 
-      raise 'Array is empty, cannot validate item class' if ary.empty?
+      if ary.empty?
+        puts 'WARNING: Array is empty! This may be OK depending on your environment'
+        return
+      end
+
       raise "Randomly chosen item from Array is not a #{item_class}" unless ary.sample.is_a? item_class
     end
 

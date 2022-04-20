@@ -34,6 +34,7 @@ These changes have been in mind for some time, but the ability (soon to be requi
 	- [JSS::CONFIG](#jssconfig)
 	- [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-nextrefresh-secstorefresh-timetorefresh)
 	- [Cross-object validation in setters](#cross-object-validation-in-setters)
+	- [.fetch :random](#fetch-random)
 - [Contact](#contact)
 
 <!-- /TOC -->
@@ -53,6 +54,8 @@ As of this writing, basic access to the API seems to be working in ruby 3, but m
 It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
 **IMPORTANT**: do not pass raw hashes as 'keyword' args.  Instead use the double-splat: `methodname(**hash)` which should be compatible with ruby 3.x and 2.7.x
+
+for more info see [Separation of positional and keyword arguments in Ruby 3.0](https://www.ruby-lang.org/en/news/2019/12/12/separation-of-positional-and-keyword-arguments-in-ruby-3-0/)
 
 ### Combined API access
 
@@ -291,6 +294,11 @@ This type of pre-validation will be removed over time from objects in the Classi
 3) Removing this code will make it easier to understand the permissions needed to do things in ruby-jss
 
 The last point is very important.  Right now, in order to be able to manipulate the scope of any scopable object, the account with which you're accessing the API must have at least 'read' permission on all the different kinds of objects that _might_ be in the scope: computers, computer groups, buildings, departments, network segments, and so on. Removing or limiting the validation-based interdependency will make it easier to limit the access needed for API service accounts, and thereby increase overall security.
+
+### .fetch :random
+
+You can still fetch random objects from a collection, but use `.fetch random: true`. The older `.fetch :random` is deprecated and will be removed.
+
 
 ## Contact
 

@@ -72,9 +72,17 @@ module JamfTest
     ##############################################
 
     # The main test method
+    #
+    # @param do_object_tests [Boolean] do CRUD tests on test-objects in this collection
+    #
     def run_collection_tests(do_object_tests: true)
       # Order Matters! Instance variabls are set and used throughout
       all
+      if @cached_all.empty?
+        say 'The result of .all was empty, skipping related collection tests'
+        return
+      end
+
       sorted_all
       filtered_all
       all_identifiers
@@ -82,7 +90,7 @@ module JamfTest
       map_all
       cached_list_map_all
       valid_id
-
+      fetch_random
       return unless do_object_tests
 
       # These methods are very basic and assume a simple object
@@ -102,6 +110,8 @@ module JamfTest
       validate_changes
       delete
       confirm_deleted
+    ensure
+      ensure_deleted
     end
 
     ########### Collection Class Tests
@@ -114,18 +124,26 @@ module JamfTest
       say "Ran #{collection_class}.all"
 
       validate_array @cached_all, item_class: Hash
+      return if @cached_all.empty?
+
       one_of_all = @cached_all.sample
 
       validate_hash one_of_all, has_key: :id, val_class: id_class
-      say '..output looks good'
+
     end
 
     #################
     def sorted_all
       return unless jpapi?
 
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing sorted_all"
+        return
+      end
+
+
       sorted_desc = collection_class.all sort: 'id:desc'
-      raise "#{collection_class}.all sort: 'id:desc' ; didn't work as expected" unless sorted_desc.first[:id] >= sorted_desc.last[:id]
+      raise "#{collection_class}.all sort: 'id:desc' ; didn't work as expected" unless sorted_desc.first[:id].to_i >= sorted_desc.last[:id].to_i
 
       say "Ran #{collection_class}.all sort: 'id:desc'"
     end
@@ -136,21 +154,30 @@ module JamfTest
       return unless defined? collection_class::FILTER_KEYS
       return unless defined? collection_class::FILTER_KEYS
 
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing filtered_all"
+        return
+      end
+
       fkey = collection_class::FILTER_KEYS.sample
       fval = @cached_all.sample[fkey]
       filter = "#{fkey}==\"#{fval}\""
       filtered = collection_class.all filter: filter
-      raise "#{collection_class}.all filter: '#{filter}' ; came back empty" if filtered.empty?
 
       say "Ran #{collection_class}.all filter: '#{filter}'"
     end
 
     #################
     def all_identifiers
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing all_identifiers"
+        return
+      end
+
       ids = collection_class.all_ids
       say "Ran #{collection_class}.all_ids"
       validate_array ids, item_class: id_class
-      say '..output looks good'
+
 
       identifiers.each do |ident|
         next if ident == :id
@@ -163,14 +190,24 @@ module JamfTest
 
     ################
     def cached_list_all_ids
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing cached_list:"
+        return
+      end
+
       cached_ids = collection_class.all_ids cached_list: @cached_all
       say "Ran #{collection_class}.all_ids cached_list: @cached_all"
       validate_array cached_ids, item_class: id_class
-      say '..output looks good'
+
     end
 
     #################
     def map_all
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing map_all"
+        return
+      end
+
       if classic?
         ids_to_names = Jamf::Policy.map_all_ids_to :name, :refresh
         say 'Ran legacy Jamf::Policy.map_all_ids_to :name, :refresh'
@@ -178,7 +215,7 @@ module JamfTest
         validate_hash ids_to_names
         validate_array ids_to_names.keys, item_class: Integer
         validate_array ids_to_names.values, item_class: String
-        say '..output looks good'
+
       end
 
       other_key = (collection_class.all.sample.keys - [:id]).sample
@@ -188,11 +225,16 @@ module JamfTest
 
       validate_hash ids_to_other
       validate_array ids_to_other.keys, item_class: id_class
-      say '..output looks good'
+
     end
 
     ################
     def cached_list_map_all
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing map_all cached_list:"
+        return
+      end
+
       if classic?
         ids_to_names = Jamf::Policy.map_all_ids_to :name, cached_list: @cached_all
         say 'Ran legacy Jamf::Policy.map_all_ids_to :name, cached_list: @cached_all'
@@ -200,7 +242,7 @@ module JamfTest
         validate_hash ids_to_names
         validate_array ids_to_names.keys, item_class: Integer
         validate_array ids_to_names.values, item_class: String
-        say '..output looks good'
+
       end
 
       other_key = (collection_class.all.sample.keys - [:id]).sample
@@ -210,11 +252,16 @@ module JamfTest
 
       validate_hash ids_to_other
       validate_array ids_to_other.keys, item_class: id_class
-      say '..output looks good'
+
     end
 
     ################
     def valid_id
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing valid_id"
+        return
+      end
+
       other_ident = (identifiers - [:id]).sample
       ids_to_other_ident = collection_class.map_all :id, to: other_ident
       id, other = ids_to_other_ident.to_a.sample
@@ -225,6 +272,17 @@ module JamfTest
       say "#{collection_class}.valid_id for #{other_ident} '#{other}' returned the correct id"
     end
 
+    ################
+    def fetch_random
+      if @cached_all.empty?
+        say "There are no #{collection_class} objects on the server, not testing fetch_random"
+        return
+      end
+
+      rando = collection_class.fetch random: true
+      say "Ran #{collection_class}.fetch random: true "
+    end
+
     ########### Object Tests
     ####################################
 
@@ -233,7 +291,7 @@ module JamfTest
     ################
     def create_new
       @unsaved_new_object = collection_class.create name: test_object_name
-      say "Created new #{collection_class}, name #{test_object_name}, to be saved in Jamf."
+      say "Created new #{collection_class}, to be saved in Jamf."
 
     end
 
@@ -246,26 +304,39 @@ module JamfTest
     ################
     def save_new
       @new_object_id = @unsaved_new_object.save
-      say "Saved new #{collection_class} '#{test_object_name}', id: #{@new_object_id}"
+      say "Saved new #{collection_class} id: #{@new_object_id}"
     end
 
+    # the `val_to_fetch` is used both for the searchterm and by_ident
+    # e.g. if val to fetch is 'foobar'
+    # searchterm fetch will be .fetch 'foobar'
+    # and if ident is ':displayname' then ident fetch will be .fetch displayname: 'foobar'
     ################
-    def fetch_new
+    def fetch_new(by_name: true, by_searchterm: true, by_ident: nil, val_to_fetch: nil)
       @fetched_new_object = collection_class.fetch id: @new_object_id
-      say "Fetched new instance of #{collection_class} '#{test_object_name}' by id"
+      say "Fetched new instance of #{collection_class} id: #{@new_object_id} by id"
 
-      collection_class.fetch name: test_object_name
-      say "Fetched new instance of #{collection_class} '#{test_object_name}' by explicit name"
+      if by_name
+        collection_class.fetch name: test_object_name
+        say "Fetched new instance of #{collection_class} id: #{@new_object_id} by explicit name"
+      end
 
-      collection_class.fetch test_object_name
-      say "Fetched new instance of #{collection_class} '#{test_object_name}' by searchterm name"
+      if by_searchterm
+        val_to_fetch ||= test_object_name
+        collection_class.fetch val_to_fetch
+        say "Fetched new instance of #{collection_class} id: #{@new_object_id} by searchterm '#{val_to_fetch}'"
+      end
+      return unless by_ident && val_to_fetch
+
+      collection_class.fetch(**{ by_ident => val_to_fetch })
+      say "Fetched new instance of #{collection_class} id: #{@new_object_id} by '#{by_ident}: #{val_to_fetch}'"
     end
 
     ################
     def validate_fetched
       raise 'Original ruby object created with .create is not == to the one re-fetched after saving!' unless @fetched_new_object == @unsaved_new_object
 
-      say "Fetched instance of #{collection_class} '#{test_object_name}' is == to the original one we made with .create"
+      say "Fetched instance of #{collection_class} is == to the original one we made with .create"
     end
 
     ################
@@ -279,13 +350,13 @@ module JamfTest
     ################
     def re_save_fetched
       @fetched_new_object.save
-      say "Saved changes to #{collection_class} '#{test_object_name}'"
+      say "Saved changes to #{collection_class}"
     end
 
     ################
     def re_fetch
       @fetched_edited_object = collection_class.fetch name: @test_object_name_edited
-      say "Fetched fresh instance of #{collection_class} '#{@test_object_name_edited}' by its new name"
+      say "Fetched fresh instance of #{collection_class} id: #{@new_object_id} by its new name"
     end
 
     ################
@@ -298,16 +369,23 @@ module JamfTest
     ################
     def delete
       @fetched_edited_object.delete
-      say "Deleted #{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) from Jamf Pro"
+      say "Deleted #{collection_class} id: #{@new_object_id} from Jamf Pro"
     end
 
     ################
     def confirm_deleted
       all_ids = classic? ? collection_class.all_ids(:refresh) : collection_class.all_ids
 
-      raise "#{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) was NOT deleted from Jamf Pro" if all_ids.include? @new_object_id
+      raise "#{collection_class} id: #{@new_object_id} was NOT deleted from Jamf Pro" if all_ids.include? @new_object_id
 
-      say "Confirmed deletion of #{collection_class} '#{@test_object_name_edited}' (id: #{@new_object_id}) from Jamf Pro"
+      say "Confirmed deletion of #{collection_class} id: #{@new_object_id} from Jamf Pro"
+    end
+
+    ###############
+    def ensure_deleted
+      return unless @new_object_id
+
+      collection_class.delete @new_object_id
     end
 
   end # module
