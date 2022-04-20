@@ -325,13 +325,21 @@ module Jamf
 
         raise Jamf::NoSuchItemError, "No attribute :#{to} for class #{self}" unless self::OAPI_PROPERTIES.key? to
 
+
         list = cached_list || all(cnx: cnx)
         to_class = self::OAPI_PROPERTIES[to][:class]
+        to_multi = self::OAPI_PROPERTIES[to][:multi]
         mapped = list.map do |i|
-          [
-            i[ident],
-            to_class.is_a?(Symbol) ? i[to] : to_class.new(i[to])
-          ]
+          mapped_val =
+            if to_class.is_a?(Symbol)
+              i[to]
+            elsif to_multi
+              i[to].map { |sub_i| to_class.new(sub_i) }
+            else
+              to_class.new(i[to])
+            end
+
+          [i[ident], mapped_val]
         end # do i
         mapped.to_h
       end
