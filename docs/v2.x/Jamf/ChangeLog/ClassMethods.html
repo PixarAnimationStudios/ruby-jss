@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::ChangeLog::ClassMethods
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::ChangeLog::ClassMethods";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../ChangeLog.html" title="Jamf::ChangeLog (module)">ChangeLog</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::ChangeLog::ClassMethods
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/jamf_pro/mixins/change_log.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Class Methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extended-class_method" title="extended (class method)">.<strong>extended</strong>(extender)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_change_log_note-instance_method" title="#add_change_log_note (instance method)">#<strong>add_change_log_note</strong>(note, id: nil, cnx: Jamf.cnx)  &#x21d2; Jamf::ChangeLogEntry </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add an entry with a note to this object&#39;s change log.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_log-instance_method" title="#change_log (instance method)">#<strong>change_log</strong>(id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ChangeLogEntry&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The entire change and note history for this resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_log_pager-instance_method" title="#change_log_pager (instance method)">#<strong>change_log_pager</strong>(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)  &#x21d2; Jamf::Pager </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a Jamf::Pager object for retrieving all change log entries in smaller groups.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_log_size-instance_method" title="#change_log_size (instance method)">#<strong>change_log_size</strong>(id: nil, cnx: Jamf.cnx)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>how many change log entries are there? needed when using paged #change_log calls.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#history_path-instance_method" title="#history_path (instance method)">#<strong>history_path</strong>(id = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The path to get or post change logs for this object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="extended-class_method">
+  
+    .<strong>extended</strong>(extender)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extended'>extended</span><span class='lparen'>(</span><span class='id identifier rubyid_extender'>extender</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_msg'><span class='object_link'><a href="../../Jamf.html#load_msg-class_method" title="Jamf.load_msg (method)">load_msg</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_extender'>extender</span><span class='embexpr_end'>}</span><span class='tstring_content'> is extending Jamf::ChangeLog::ClassMethods</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_change_log_note-instance_method">
+  
+    #<strong>add_change_log_note</strong>(note, id: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Add an entry with a note to this object&#39;s change log.</p>
+
+<p>If the change history has been cached already, the cache is flushed after adding the note.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>note</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The note to add. It cannot be empty.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new entry</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_change_log_note'>add_change_log_note</span><span class='lparen'>(</span><span class='id identifier rubyid_note'>note</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_note_to_send'>note_to_send</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ChangeLog.html#POST_NOTE_OBJECT-constant" title="Jamf::ChangeLog::POST_NOTE_OBJECT (constant)">POST_NOTE_OBJECT</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='label'>note:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Validate.html" title="Jamf::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_non_empty_string'><span class='object_link'><a href="../Validate.html#non_empty_string-class_method" title="Jamf::Validate.non_empty_string (method)">non_empty_string</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_note'>note</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_jp_post'>jp_post</span> <span class='id identifier rubyid_history_path'>history_path</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_note_to_send'>note_to_send</span><span class='period'>.</span><span class='id identifier rubyid_to_jamf'>to_jamf</span>
+
+  <span class='comment'># flush the cached data, forces reload when next accessed, to get new note
+</span>  <span class='ivar'>@cached_change_log</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='const'><span class='object_link'><a href="../ChangeLog.html#HISTORY_ENTRY_OBJECT-constant" title="Jamf::ChangeLog::HISTORY_ENTRY_OBJECT (constant)">HISTORY_ENTRY_OBJECT</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="change_log-instance_method">
+  
+    #<strong>change_log</strong>(id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The entire change and note history for this resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>For Collection Items that have a change log This is the id of the  item. Omit this param for singletons, or collections which have a single change log.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Server-side sorting criteria in the format: property:direction, where direction is &#39;asc&#39; or &#39;desc&#39;. Multiple properties are supported, either as separate strings in an Array, or a single string, comma separated.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An RSQL filter string. Not all change_log resources currently support filters, and if they don&#39;t, this will be ignored.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use, default: Jamf.cnx. If this is an instance of a Collection Resource, this is always the connection from which it was fetched.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The change log entries requested</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_change_log'>change_log</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filter:</span> <span class='kw'>nil</span><span class='comma'>,</span>  <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sort'>sort</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Sortable.html" title="Jamf::Sortable (module)">Sortable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_sort_param'><span class='object_link'><a href="../Sortable.html#parse_url_sort_param-class_method" title="Jamf::Sortable.parse_url_sort_param (method)">parse_url_sort_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sort'>sort</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filter'>filter</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Filterable.html" title="Jamf::Filterable (module)">Filterable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_filter_param'><span class='object_link'><a href="../Filterable.html#parse_url_filter_param-class_method" title="Jamf::Filterable.parse_url_filter_param (method)">parse_url_filter_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='rparen'>)</span>
+
+  <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Pager.html" title="Jamf::Pager (class)">Pager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_pages'><span class='object_link'><a href="../Pager.html#all_pages-class_method" title="Jamf::Pager.all_pages (method)">all_pages</a></span></span><span class='lparen'>(</span>
+    <span class='label'>list_path:</span> <span class='id identifier rubyid_history_path'>history_path</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>sort:</span> <span class='id identifier rubyid_sort'>sort</span><span class='comma'>,</span>
+    <span class='label'>filter:</span> <span class='id identifier rubyid_filter'>filter</span><span class='comma'>,</span>
+    <span class='label'>instantiate:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">ChangeLogEntry</a></span></span><span class='comma'>,</span>
+    <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="change_log_pager-instance_method">
+  
+    #<strong>change_log_pager</strong>(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Pager.html" title="Jamf::Pager (class)">Jamf::Pager</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a Jamf::Pager object for retrieving all change log entries in smaller groups.</p>
+
+<p>For most parameters, see .change_log</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>page_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf::Pager::DEFAULT_PAGE_SIZE</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The pager object returns results in groups of this many entries. Minimum is 1, maximum is 2000, default is 100 Note: the final page of data may contain fewer items than the page_size</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pager.html" title="Jamf::Pager (class)">Jamf::Pager</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An object from which you can retrieve sequential or arbitrary pages from the collection.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_change_log_pager'>change_log_pager</span><span class='lparen'>(</span><span class='label'>page_size:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Pager.html" title="Jamf::Pager (class)">Pager</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Pager.html#DEFAULT_PAGE_SIZE-constant" title="Jamf::Pager::DEFAULT_PAGE_SIZE (constant)">DEFAULT_PAGE_SIZE</a></span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filter:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sort'>sort</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Sortable.html" title="Jamf::Sortable (module)">Sortable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_sort_param'><span class='object_link'><a href="../Sortable.html#parse_url_sort_param-class_method" title="Jamf::Sortable.parse_url_sort_param (method)">parse_url_sort_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sort'>sort</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filter'>filter</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Filterable.html" title="Jamf::Filterable (module)">Filterable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_filter_param'><span class='object_link'><a href="../Filterable.html#parse_url_filter_param-class_method" title="Jamf::Filterable.parse_url_filter_param (method)">parse_url_filter_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='rparen'>)</span>
+
+  <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Pager.html" title="Jamf::Pager (class)">Pager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Pager.html#initialize-instance_method" title="Jamf::Pager#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+    <span class='label'>page_size:</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='comma'>,</span>
+    <span class='label'>list_path:</span> <span class='id identifier rubyid_history_path'>history_path</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>sort:</span> <span class='id identifier rubyid_sort'>sort</span><span class='comma'>,</span>
+    <span class='label'>filter:</span> <span class='id identifier rubyid_filter'>filter</span><span class='comma'>,</span>
+    <span class='label'>instantiate:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">ChangeLogEntry</a></span></span><span class='comma'>,</span>
+    <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="change_log_size-instance_method">
+  
+    #<strong>change_log_size</strong>(id: nil, cnx: Jamf.cnx)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>how many change log entries are there? needed when using paged #change_log calls</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use, default: Jamf.cnx This is ignored for instances of Collection Resources, which always use the same connection from which they were fetched.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many changelog entries exist?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_change_log_size'>change_log_size</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_search_path'>search_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_history_path'>history_path</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>?page=0&amp;page-size=1</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_search_result'>search_result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ChangeLog.html#SEARCH_RESULTS_OBJECT-constant" title="Jamf::ChangeLog::SEARCH_RESULTS_OBJECT (constant)">SEARCH_RESULTS_OBJECT</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_jp_get'>jp_get</span><span class='lparen'>(</span><span class='id identifier rubyid_search_path'>search_path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_search_result'>search_result</span><span class='period'>.</span><span class='id identifier rubyid_totalCount'>totalCount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="history_path-instance_method">
+  
+    #<strong>history_path</strong>(id = nil)  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The path to get or post change logs for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The path to get or post change logs for this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+201
+202
+203
+204
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/mixins/change_log.rb', line 201</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_history_path'>history_path</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_get_path'>get_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../ChangeLog.html#DFT_HISTORY_PATH-constant" title="Jamf::ChangeLog::DFT_HISTORY_PATH (constant)">DFT_HISTORY_PATH</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_get_path'>get_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../ChangeLog.html#DFT_HISTORY_PATH-constant" title="Jamf::ChangeLog::DFT_HISTORY_PATH (constant)">DFT_HISTORY_PATH</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:15 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

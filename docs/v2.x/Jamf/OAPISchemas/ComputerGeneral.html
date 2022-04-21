@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::OAPISchemas::ComputerGeneral
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::OAPISchemas::ComputerGeneral";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span>
+     &raquo; 
+    <span class="title">ComputerGeneral</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::OAPISchemas::ComputerGeneral
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></li>
+          
+            <li class="next">Jamf::OAPISchemas::ComputerGeneral</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>OAPI Object Model and Enums for: ComputerGeneral</p>
+
+<p>This class was automatically genereated from the api/schema URL path on a Jamf Pro server version 10.36.1-t1645562643</p>
+
+<p>This class may be used directly, e.g instances of other classes may use instances of this class as one of their own properties/attributes.</p>
+
+<p>It may also be used as a superclass when implementing Jamf Pro API Resources in ruby-jss. The subclasses include appropriate mixins, and should expand on the basic functionality provided here.</p>
+
+<p>Container Objects: Other object models that use this model as the value in one of their attributes.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerInventoryResponse.html" title="Jamf::OAPISchemas::ComputerInventoryResponse (class)">ComputerInventoryResponse</a></span></span>
+</code></pre>
+
+<p>Sub Objects: Other object models used by this model&#39;s attributes.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerRemoteManagement.html" title="Jamf::OAPISchemas::ComputerRemoteManagement (class)">ComputerRemoteManagement</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerMdmCapability.html" title="Jamf::OAPISchemas::ComputerMdmCapability (class)">ComputerMdmCapability</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EnrollmentMethod.html" title="Jamf::OAPISchemas::EnrollmentMethod (class)">EnrollmentMethod</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="V1Site.html" title="Jamf::OAPISchemas::V1Site (class)">V1Site</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerExtensionAttribute.html" title="Jamf::OAPISchemas::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span></span>
+</code></pre>
+
+<p>Endpoints and Privileges: API endpoints and HTTP operations that use this object model, and the Jamf Pro privileges needed to access them.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="OAPI_PROPERTIES-constant" class="">OAPI_PROPERTIES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='comment'># @!attribute name
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>name:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute lastIpAddress
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>lastIpAddress:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute lastReportedIp
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>lastReportedIp:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute jamfBinaryVersion
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>jamfBinaryVersion:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute platform
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>platform:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute barcode1
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>barcode1:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute barcode2
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>barcode2:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute assetTag
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>assetTag:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute remoteManagement
+</span>  <span class='comment'>#   @return [Jamf::OAPISchemas::ComputerRemoteManagement]
+</span>  <span class='label'>remoteManagement:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerRemoteManagement.html" title="Jamf::OAPISchemas::ComputerRemoteManagement (class)">ComputerRemoteManagement</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute supervised
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>supervised:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute mdmCapable
+</span>  <span class='comment'>#   @return [Jamf::OAPISchemas::ComputerMdmCapability]
+</span>  <span class='label'>mdmCapable:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerMdmCapability.html" title="Jamf::OAPISchemas::ComputerMdmCapability (class)">ComputerMdmCapability</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute reportDate
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>reportDate:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date-time</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute lastContactTime
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>lastContactTime:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date-time</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute lastCloudBackupDate
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>lastCloudBackupDate:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date-time</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute lastEnrolledDate
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>lastEnrolledDate:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date-time</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute mdmProfileExpiration
+</span>  <span class='comment'>#   @return [Jamf::Timestamp]
+</span>  <span class='label'>mdmProfileExpiration:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span></span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date-time</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute initialEntryDate
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>initialEntryDate:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>format:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute distributionPoint
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>distributionPoint:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute enrollmentMethod
+</span>  <span class='comment'>#   @return [Jamf::OAPISchemas::EnrollmentMethod]
+</span>  <span class='label'>enrollmentMethod:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EnrollmentMethod.html" title="Jamf::OAPISchemas::EnrollmentMethod (class)">EnrollmentMethod</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute site
+</span>  <span class='comment'>#   @return [Jamf::OAPISchemas::V1Site]
+</span>  <span class='label'>site:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="V1Site.html" title="Jamf::OAPISchemas::V1Site (class)">V1Site</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute itunesStoreAccountActive
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>itunesStoreAccountActive:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute enrolledViaAutomatedDeviceEnrollment
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>enrolledViaAutomatedDeviceEnrollment:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute userApprovedMdm
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>userApprovedMdm:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute extensionAttributes
+</span>  <span class='comment'>#   @return [Array&lt;Jamf::OAPISchemas::ComputerExtensionAttribute&gt;]
+</span>  <span class='label'>extensionAttributes:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerExtensionAttribute.html" title="Jamf::OAPISchemas::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span></span><span class='comma'>,</span>
+    <span class='label'>multi:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span>
+
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assetTag-instance_method" title="#assetTag (instance method)">#<strong>assetTag</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#barcode1-instance_method" title="#barcode1 (instance method)">#<strong>barcode1</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#barcode2-instance_method" title="#barcode2 (instance method)">#<strong>barcode2</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#distributionPoint-instance_method" title="#distributionPoint (instance method)">#<strong>distributionPoint</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enrolledViaAutomatedDeviceEnrollment-instance_method" title="#enrolledViaAutomatedDeviceEnrollment (instance method)">#<strong>enrolledViaAutomatedDeviceEnrollment</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enrollmentMethod-instance_method" title="#enrollmentMethod (instance method)">#<strong>enrollmentMethod</strong>  &#x21d2; Jamf::OAPISchemas::EnrollmentMethod </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extensionAttributes-instance_method" title="#extensionAttributes (instance method)">#<strong>extensionAttributes</strong>  &#x21d2; Array&lt;Jamf::OAPISchemas::ComputerExtensionAttribute&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialEntryDate-instance_method" title="#initialEntryDate (instance method)">#<strong>initialEntryDate</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#itunesStoreAccountActive-instance_method" title="#itunesStoreAccountActive (instance method)">#<strong>itunesStoreAccountActive</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamfBinaryVersion-instance_method" title="#jamfBinaryVersion (instance method)">#<strong>jamfBinaryVersion</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lastCloudBackupDate-instance_method" title="#lastCloudBackupDate (instance method)">#<strong>lastCloudBackupDate</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lastContactTime-instance_method" title="#lastContactTime (instance method)">#<strong>lastContactTime</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lastEnrolledDate-instance_method" title="#lastEnrolledDate (instance method)">#<strong>lastEnrolledDate</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lastIpAddress-instance_method" title="#lastIpAddress (instance method)">#<strong>lastIpAddress</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lastReportedIp-instance_method" title="#lastReportedIp (instance method)">#<strong>lastReportedIp</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdmCapable-instance_method" title="#mdmCapable (instance method)">#<strong>mdmCapable</strong>  &#x21d2; Jamf::OAPISchemas::ComputerMdmCapability </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdmProfileExpiration-instance_method" title="#mdmProfileExpiration (instance method)">#<strong>mdmProfileExpiration</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#platform-instance_method" title="#platform (instance method)">#<strong>platform</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remoteManagement-instance_method" title="#remoteManagement (instance method)">#<strong>remoteManagement</strong>  &#x21d2; Jamf::OAPISchemas::ComputerRemoteManagement </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reportDate-instance_method" title="#reportDate (instance method)">#<strong>reportDate</strong>  &#x21d2; Jamf::Timestamp </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#site-instance_method" title="#site (instance method)">#<strong>site</strong>  &#x21d2; Jamf::OAPISchemas::V1Site </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supervised-instance_method" title="#supervised (instance method)">#<strong>supervised</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#userApprovedMdm-instance_method" title="#userApprovedMdm (instance method)">#<strong>userApprovedMdm</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="../OAPIObject.html#initialize-instance_method" title="Jamf::OAPIObject#initialize (method)">Jamf::OAPIObject</a></span></p>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="assetTag=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="assetTag-instance_method">
+  
+    #<strong>assetTag</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 116</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="barcode1=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="barcode1-instance_method">
+  
+    #<strong>barcode1</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 104</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="barcode2=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="barcode2-instance_method">
+  
+    #<strong>barcode2</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 110</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="distributionPoint=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="distributionPoint-instance_method">
+  
+    #<strong>distributionPoint</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 182</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="enrolledViaAutomatedDeviceEnrollment=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enrolledViaAutomatedDeviceEnrollment-instance_method">
+  
+    #<strong>enrolledViaAutomatedDeviceEnrollment</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 206</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="enrollmentMethod=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enrollmentMethod-instance_method">
+  
+    #<strong>enrollmentMethod</strong>  &#x21d2; <tt><span class='object_link'><a href="EnrollmentMethod.html" title="Jamf::OAPISchemas::EnrollmentMethod (class)">Jamf::OAPISchemas::EnrollmentMethod</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EnrollmentMethod.html" title="Jamf::OAPISchemas::EnrollmentMethod (class)">Jamf::OAPISchemas::EnrollmentMethod</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 188</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="extensionAttributes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="extensionAttributes-instance_method">
+  
+    #<strong>extensionAttributes</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerExtensionAttribute.html" title="Jamf::OAPISchemas::ComputerExtensionAttribute (class)">Jamf::OAPISchemas::ComputerExtensionAttribute</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerExtensionAttribute.html" title="Jamf::OAPISchemas::ComputerExtensionAttribute (class)">Jamf::OAPISchemas::ComputerExtensionAttribute</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 218</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="initialEntryDate=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="initialEntryDate-instance_method">
+  
+    #<strong>initialEntryDate</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 175</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="itunesStoreAccountActive=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="itunesStoreAccountActive-instance_method">
+  
+    #<strong>itunesStoreAccountActive</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 200</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="jamfBinaryVersion=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="jamfBinaryVersion-instance_method">
+  
+    #<strong>jamfBinaryVersion</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 92</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lastCloudBackupDate=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lastCloudBackupDate-instance_method">
+  
+    #<strong>lastCloudBackupDate</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 154</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lastContactTime=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lastContactTime-instance_method">
+  
+    #<strong>lastContactTime</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 147</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lastEnrolledDate=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lastEnrolledDate-instance_method">
+  
+    #<strong>lastEnrolledDate</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 161</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lastIpAddress=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lastIpAddress-instance_method">
+  
+    #<strong>lastIpAddress</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 80</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="lastReportedIp=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="lastReportedIp-instance_method">
+  
+    #<strong>lastReportedIp</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 86</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mdmCapable=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mdmCapable-instance_method">
+  
+    #<strong>mdmCapable</strong>  &#x21d2; <tt><span class='object_link'><a href="ComputerMdmCapability.html" title="Jamf::OAPISchemas::ComputerMdmCapability (class)">Jamf::OAPISchemas::ComputerMdmCapability</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ComputerMdmCapability.html" title="Jamf::OAPISchemas::ComputerMdmCapability (class)">Jamf::OAPISchemas::ComputerMdmCapability</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 134</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mdmProfileExpiration=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mdmProfileExpiration-instance_method">
+  
+    #<strong>mdmProfileExpiration</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 168</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 74</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="platform=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="platform-instance_method">
+  
+    #<strong>platform</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 98</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="remoteManagement=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="remoteManagement-instance_method">
+  
+    #<strong>remoteManagement</strong>  &#x21d2; <tt><span class='object_link'><a href="ComputerRemoteManagement.html" title="Jamf::OAPISchemas::ComputerRemoteManagement (class)">Jamf::OAPISchemas::ComputerRemoteManagement</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ComputerRemoteManagement.html" title="Jamf::OAPISchemas::ComputerRemoteManagement (class)">Jamf::OAPISchemas::ComputerRemoteManagement</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 122</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="reportDate=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reportDate-instance_method">
+  
+    #<strong>reportDate</strong>  &#x21d2; <tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Timestamp.html" title="Jamf::Timestamp (class)">Jamf::Timestamp</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 140</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="site=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="site-instance_method">
+  
+    #<strong>site</strong>  &#x21d2; <tt><span class='object_link'><a href="V1Site.html" title="Jamf::OAPISchemas::V1Site (class)">Jamf::OAPISchemas::V1Site</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="V1Site.html" title="Jamf::OAPISchemas::V1Site (class)">Jamf::OAPISchemas::V1Site</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 194</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="supervised=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="supervised-instance_method">
+  
+    #<strong>supervised</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 128</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="userApprovedMdm=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="userApprovedMdm-instance_method">
+  
+    #<strong>userApprovedMdm</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb', line 212</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:44 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

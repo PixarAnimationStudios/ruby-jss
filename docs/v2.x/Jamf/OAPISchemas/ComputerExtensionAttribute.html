@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::OAPISchemas::ComputerExtensionAttribute
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::OAPISchemas::ComputerExtensionAttribute";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span>
+     &raquo; 
+    <span class="title">ComputerExtensionAttribute</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::OAPISchemas::ComputerExtensionAttribute
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></li>
+          
+            <li class="next">Jamf::OAPISchemas::ComputerExtensionAttribute</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>OAPI Object Model and Enums for: ComputerExtensionAttribute</p>
+
+<p>This class was automatically genereated from the api/schema URL path on a Jamf Pro server version 10.36.1-t1645562643</p>
+
+<p>This class may be used directly, e.g instances of other classes may use instances of this class as one of their own properties/attributes.</p>
+
+<p>It may also be used as a superclass when implementing Jamf Pro API Resources in ruby-jss. The subclasses include appropriate mixins, and should expand on the basic functionality provided here.</p>
+
+<p>Container Objects: Other object models that use this model as the value in one of their attributes.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerGeneral.html" title="Jamf::OAPISchemas::ComputerGeneral (class)">ComputerGeneral</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerGeneralUpdate.html" title="Jamf::OAPISchemas::ComputerGeneralUpdate (class)">ComputerGeneralUpdate</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerHardware.html" title="Jamf::OAPISchemas::ComputerHardware (class)">ComputerHardware</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerHardwareUpdate.html" title="Jamf::OAPISchemas::ComputerHardwareUpdate (class)">ComputerHardwareUpdate</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerInventoryResponse.html" title="Jamf::OAPISchemas::ComputerInventoryResponse (class)">ComputerInventoryResponse</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerInventoryUpdateRequest.html" title="Jamf::OAPISchemas::ComputerInventoryUpdateRequest (class)">ComputerInventoryUpdateRequest</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerOperatingSystem.html" title="Jamf::OAPISchemas::ComputerOperatingSystem (class)">ComputerOperatingSystem</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerOperatingSystemUpdate.html" title="Jamf::OAPISchemas::ComputerOperatingSystemUpdate (class)">ComputerOperatingSystemUpdate</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerPurchase.html" title="Jamf::OAPISchemas::ComputerPurchase (class)">ComputerPurchase</a></span></span>
+<span class='op'>-</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerUserAndLocation.html" title="Jamf::OAPISchemas::ComputerUserAndLocation (class)">ComputerUserAndLocation</a></span></span>
+</code></pre>
+
+<p>Sub Objects: Other object models used by this model&#39;s attributes.</p>
+
+<p>Endpoints and Privileges: API endpoints and HTTP operations that use this object model, and the Jamf Pro privileges needed to access them.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DATA_TYPE_OPTIONS-constant" class="">DATA_TYPE_OPTIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Enums used by this class or others</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>STRING</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INTEGER</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DATE_TIME</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INPUT_TYPE_OPTIONS-constant" class="">INPUT_TYPE_OPTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>TEXT</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>POPUP</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SCRIPT</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>LDAP</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="OAPI_PROPERTIES-constant" class="">OAPI_PROPERTIES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='comment'># An identifier of extension attribute definition.
+</span>  <span class='comment'># @!attribute definitionId
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>definitionId:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># A human-readable name by which attribute can be referred to.
+</span>  <span class='comment'># @!attribute [r] name
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>name:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># An additional explanation of exact attribute meaning, possible values, etc.
+</span>  <span class='comment'># @!attribute [r] description
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>description:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>nil_ok:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] enabled
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>enabled:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute [r] multiValue
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>multiValue:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># A value of extension attribute, in some rare cases there may be multiple values present, hence the array.
+</span>  <span class='comment'># @!attribute values
+</span>  <span class='comment'>#   @return [Array&lt;String&gt;]
+</span>  <span class='label'>values:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>nil_ok:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>multi:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># A data type of extension attribute.
+</span>  <span class='comment'># @!attribute [r] dataType
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>dataType:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>nil_ok:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>enum:</span> <span class='const'><span class='object_link'><a href="#DATA_TYPE_OPTIONS-constant" title="Jamf::OAPISchemas::ComputerExtensionAttribute::DATA_TYPE_OPTIONS (constant)">DATA_TYPE_OPTIONS</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># A closed list of possible values (applies to `popup` input type).
+</span>  <span class='comment'># @!attribute [r] options
+</span>  <span class='comment'>#   @return [Array&lt;String&gt;]
+</span>  <span class='label'>options:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>nil_ok:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>multi:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># The input method. `text` is most common and means simply free text, `popup` i a closed list of values from
+</span>  <span class='comment'># which one or many can be selected and `script` value is calculated and can never be set directly.
+</span>  <span class='comment'># @!attribute [r] inputType
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>inputType:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>nil_ok:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>readonly:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>enum:</span> <span class='const'><span class='object_link'><a href="#INPUT_TYPE_OPTIONS-constant" title="Jamf::OAPISchemas::ComputerExtensionAttribute::INPUT_TYPE_OPTIONS (constant)">INPUT_TYPE_OPTIONS</a></span></span>
+  <span class='rbrace'>}</span>
+
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dataType-instance_method" title="#dataType (instance method)">#<strong>dataType</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#definitionId-instance_method" title="#definitionId (instance method)">#<strong>definitionId</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#description-instance_method" title="#description (instance method)">#<strong>description</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enabled-instance_method" title="#enabled (instance method)">#<strong>enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inputType-instance_method" title="#inputType (instance method)">#<strong>inputType</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#multiValue-instance_method" title="#multiValue (instance method)">#<strong>multiValue</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#options-instance_method" title="#options (instance method)">#<strong>options</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#values-instance_method" title="#values (instance method)">#<strong>values</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="../OAPIObject.html#initialize-instance_method" title="Jamf::OAPIObject#initialize (method)">Jamf::OAPIObject</a></span></p>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="dataType-instance_method">
+  
+    #<strong>dataType</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 139</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="definitionId=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="definitionId-instance_method">
+  
+    #<strong>definitionId</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 92</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="description-instance_method">
+  
+    #<strong>description</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 107</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enabled-instance_method">
+  
+    #<strong>enabled</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 116</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="inputType-instance_method">
+  
+    #<strong>inputType</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 159</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="multiValue-instance_method">
+  
+    #<strong>multiValue</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 123</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 99</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="options-instance_method">
+  
+    #<strong>options</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 149</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="values=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="values-instance_method">
+  
+    #<strong>values</strong>  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb', line 130</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:11:03 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,3513 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::ManagementHistory::ClassMethods
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::ManagementHistory::ClassMethods";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::ManagementHistory::ClassMethods
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/classic/api_objects/management_history.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#app_store_app_history-instance_method" title="#app_store_app_history (instance method)">#<strong>app_store_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Array </a>
+    
+
+    
+      (also: #managed_app_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Wrapper for app store history for both computers and mobile devices.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#audit_history-instance_method" title="#audit_history (instance method)">#<strong>audit_history</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::AuditEvent&gt; </a>
+    
+
+    
+      (also: #audits)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Audit events for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_imaging_logs-instance_method" title="#casper_imaging_logs (instance method)">#<strong>casper_imaging_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::CasperImagingLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Casper Imaging events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#casper_remote_logs-instance_method" title="#casper_remote_logs (instance method)">#<strong>casper_remote_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::CasperRemoteLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of Casper Remote events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_mdm_commands-instance_method" title="#completed_mdm_commands (instance method)">#<strong>completed_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MdmCommand&gt; </a>
+    
+
+    
+      (also: #completed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of completed mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#completed_policies-instance_method" title="#completed_policies (instance method)">#<strong>completed_policies</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :completed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#computer_usage_logs-instance_method" title="#computer_usage_logs (instance method)">#<strong>computer_usage_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::ComputerUsageLog&gt; </a>
+    
+
+    
+      (also: #usage_logs)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of usage events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ebook_history-instance_method" title="#ebook_history (instance method)">#<strong>ebook_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::Ebook&gt; </a>
+    
+
+    
+      (also: #managed_ebook_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of ebooks for a mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_app_store_apps-instance_method" title="#failed_app_store_apps (instance method)">#<strong>failed_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_ebooks-instance_method" title="#failed_ebooks (instance method)">#<strong>failed_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #failed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_mdm_commands-instance_method" title="#failed_mdm_commands (instance method)">#<strong>failed_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MdmCommand&gt; </a>
+    
+
+    
+      (also: #failed_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of failed mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failed_policies-instance_method" title="#failed_policies (instance method)">#<strong>failed_policies</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The array from .policy_logs, limited to status = :failed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_app_store_apps-instance_method" title="#installed_app_store_apps (instance method)">#<strong>installed_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#installed_ebooks-instance_method" title="#installed_ebooks (instance method)">#<strong>installed_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #installed_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :installed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_mdm_contact-instance_method" title="#last_mdm_contact (instance method)">#<strong>last_mdm_contact</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The time of the most recently completed or failed MDM command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mac_app_store_app_history-instance_method" title="#mac_app_store_app_history (instance method)">#<strong>mac_app_store_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MacAppStoreApp&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of app store apps  for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#management_history-instance_method" title="#management_history (instance method)">#<strong>management_history</strong>(ident, subset = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Hash, Array </a>
+    
+
+    
+      (also: #history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the raw management history for a Computer or Mobile Device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mdm_command_history-instance_method" title="#mdm_command_history (instance method)">#<strong>mdm_command_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MdmCommand&gt; </a>
+    
+
+    
+      (also: #commands, #management_command_history)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mobile_device_app_history-instance_method" title="#mobile_device_app_history (instance method)">#<strong>mobile_device_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MobileDeviceApp&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of apps for a mobile device.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_app_store_apps-instance_method" title="#pending_app_store_apps (instance method)">#<strong>pending_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_apps)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for app_store_app_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_ebooks-instance_method" title="#pending_ebooks (instance method)">#<strong>pending_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Object </a>
+    
+
+    
+      (also: #pending_managed_ebooks)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>shortcut for ebook_history where status = :pending.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pending_mdm_commands-instance_method" title="#pending_mdm_commands (instance method)">#<strong>pending_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::MdmCommand&gt; </a>
+    
+
+    
+      (also: #pending_commands)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of pending mdm commands for a target.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#policy_logs-instance_method" title="#policy_logs (instance method)">#<strong>policy_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::PolicyLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of policy execution for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#screen_sharing_logs-instance_method" title="#screen_sharing_logs (instance method)">#<strong>screen_sharing_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::ScreenSharingLog&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of screen sharing events for a computer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_location_history-instance_method" title="#user_location_history (instance method)">#<strong>user_location_history</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ManagementHistory::UserLocationChange&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The history of User/Location changes for a target.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="app_store_app_history-instance_method">
+  
+    #<strong>app_store_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_app_history-instance_method'>managed_app_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Wrapper for app store history for both computers and mobile devices</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MacAppStoreApp or MobileDeviceApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+468
+469
+470
+471
+472
+473
+474
+475
+476</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 468</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span></span>
+    <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="audit_history-instance_method">
+  
+    #<strong>audit_history</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="AuditEvent.html" title="Jamf::ManagementHistory::AuditEvent (class)">Jamf::ManagementHistory::AuditEvent</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='audits-instance_method'>audits</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Audit events for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="AuditEvent.html" title="Jamf::ManagementHistory::AuditEvent (class)">Jamf::ManagementHistory::AuditEvent</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of audit events</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 224</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_audit_history'>audit_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:audits</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_aud'>aud</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AuditEvent.html" title="Jamf::ManagementHistory::AuditEvent (class)">AuditEvent</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_aud'>aud</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_imaging_logs-instance_method">
+  
+    #<strong>casper_imaging_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperImagingLog.html" title="Jamf::ManagementHistory::CasperImagingLog (class)">Jamf::ManagementHistory::CasperImagingLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Casper Imaging events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperImagingLog.html" title="Jamf::ManagementHistory::CasperImagingLog (class)">Jamf::ManagementHistory::CasperImagingLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of CasperImagingLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+521
+522
+523
+524
+525
+526
+527</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 521</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_imaging_logs'>casper_imaging_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper imaging logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:casper_imaging_logs</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CasperImagingLog.html" title="Jamf::ManagementHistory::CasperImagingLog (class)">CasperImagingLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="casper_remote_logs-instance_method">
+  
+    #<strong>casper_remote_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperRemoteLog.html" title="Jamf::ManagementHistory::CasperRemoteLog (class)">Jamf::ManagementHistory::CasperRemoteLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of Casper Remote events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="CasperRemoteLog.html" title="Jamf::ManagementHistory::CasperRemoteLog (class)">Jamf::ManagementHistory::CasperRemoteLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of CasperRemoteLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+538
+539
+540
+541
+542
+543
+544</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 538</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_casper_remote_logs'>casper_remote_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have casper remote logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:casper_remote_logs</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CasperRemoteLog.html" title="Jamf::ManagementHistory::CasperRemoteLog (class)">CasperRemoteLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_mdm_commands-instance_method">
+  
+    #<strong>completed_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='completed_commands-instance_method'>completed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of completed mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of completed MdmCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301
+302
+303</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:completed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="completed_policies-instance_method">
+  
+    #<strong>completed_policies</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :completed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>ManagementHistory::ClassMethods.policy_logs</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+601
+602
+603
+604
+605</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 601</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_completed_policies'>completed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:completed</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="computer_usage_logs-instance_method">
+  
+    #<strong>computer_usage_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerUsageLog.html" title="Jamf::ManagementHistory::ComputerUsageLog (class)">Jamf::ManagementHistory::ComputerUsageLog</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='usage_logs-instance_method'>usage_logs</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of usage events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ComputerUsageLog.html" title="Jamf::ManagementHistory::ComputerUsageLog (class)">Jamf::ManagementHistory::ComputerUsageLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of ComputerUsageLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+555
+556
+557
+558
+559
+560
+561</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 555</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_computer_usage_logs'>computer_usage_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have usage logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:computer_usage_logs</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerUsageLog.html" title="Jamf::ManagementHistory::ComputerUsageLog (class)">ComputerUsageLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ebook_history-instance_method">
+  
+    #<strong>ebook_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Ebook.html" title="Jamf::ManagementHistory::Ebook (class)">Jamf::ManagementHistory::Ebook</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='managed_ebook_history-instance_method'>managed_ebook_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of ebooks for a mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Ebook.html" title="Jamf::ManagementHistory::Ebook (class)">Jamf::ManagementHistory::Ebook</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of Ebook</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 627</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have ebooks</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:ebooks</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='comment'># merge the sources of installed apps into their hashes
+</span>    <span class='id identifier rubyid_books'>books</span> <span class='op'>=</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:installed</span>
+        <span class='id identifier rubyid_instbooks'>instbooks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_books_from_src'>books_from_src</span><span class='op'>|</span>
+          <span class='id identifier rubyid_real_src'>real_src</span> <span class='op'>=</span>
+            <span class='kw'>case</span> <span class='id identifier rubyid_src'>src</span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_EBOOK_IN_HOUSE-constant" title="Jamf::ManagementHistory::HIST_RAW_SOURCE_EBOOK_IN_HOUSE (constant)">HIST_RAW_SOURCE_EBOOK_IN_HOUSE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IN_HOUSE-constant" title="Jamf::ManagementHistory::HIST_SOURCE_IN_HOUSE (constant)">HIST_SOURCE_IN_HOUSE</a></span></span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_IBOOKSTORE-constant" title="Jamf::ManagementHistory::HIST_RAW_SOURCE_IBOOKSTORE (constant)">HIST_RAW_SOURCE_IBOOKSTORE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IBOOKSTORE-constant" title="Jamf::ManagementHistory::HIST_SOURCE_IBOOKSTORE (constant)">HIST_SOURCE_IBOOKSTORE</a></span></span>
+            <span class='kw'>else</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_OTHER-constant" title="Jamf::ManagementHistory::HIST_SOURCE_OTHER (constant)">HIST_SOURCE_OTHER</a></span></span>
+            <span class='kw'>end</span> <span class='comment'># case src
+</span>          <span class='id identifier rubyid_instbooks'>instbooks</span> <span class='op'>+=</span> <span class='id identifier rubyid_books_from_src'>books_from_src</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_book'>book</span><span class='op'>|</span> <span class='id identifier rubyid_book'>book</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_real_src'>real_src</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_instbooks'>instbooks</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='comment'># now &#39;books&#39; is an array of hashes of books with the same status
+</span>    <span class='comment'># and if they are :installed, their source is in the hash
+</span>
+    <span class='comment'># merge the statuses of the books into their hashes
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_books'>books</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_book'>book</span><span class='op'>|</span>
+      <span class='comment'># set the :status in the hash
+</span>      <span class='id identifier rubyid_book'>book</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ebook.html" title="Jamf::ManagementHistory::Ebook (class)">Ebook</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_book'>book</span>
+    <span class='kw'>end</span> <span class='comment'># map do |books|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_app_store_apps-instance_method">
+  
+    #<strong>failed_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_apps-instance_method'>failed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+505
+506
+507
+508
+509</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 505</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_app_store_apps'>failed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_ebooks-instance_method">
+  
+    #<strong>failed_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_managed_ebooks-instance_method'>failed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+701
+702
+703
+704
+705</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 701</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_ebooks'>failed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_mdm_commands-instance_method">
+  
+    #<strong>failed_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='failed_commands-instance_method'>failed_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of failed mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of failed MdmCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+331
+332
+333
+334
+335</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 331</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:failed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="failed_policies-instance_method">
+  
+    #<strong>failed_policies</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The array from .policy_logs, limited to status = :failed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>ManagementHistory::ClassMethods.policy_logs</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+610
+611
+612
+613
+614</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 610</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed_policies'>failed_policies</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pl'>pl</span><span class='op'>|</span> <span class='id identifier rubyid_pl'>pl</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:failed</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_app_store_apps-instance_method">
+  
+    #<strong>installed_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_apps-instance_method'>installed_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+483
+484
+485
+486
+487</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 483</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_app_store_apps'>installed_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span><span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="installed_ebooks-instance_method">
+  
+    #<strong>installed_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='installed_managed_ebooks-instance_method'>installed_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :installed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+679
+680
+681
+682
+683</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 679</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_installed_ebooks'>installed_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:installed</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="last_mdm_contact-instance_method">
+  
+    #<strong>last_mdm_contact</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The time of the most recently completed or failed MDM command. (knowledge of a failure means the device communicated with us)</p>
+
+<p>For Mobile Devices, this seems to be the best indicator of the real last-contact time, since the last_inventory_update is changed when changes are made via the API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of completed MdmCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+352
+353
+354
+355
+356
+357
+358
+359</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 352</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_last_mdm_contact'>last_mdm_contact</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_epochs'>epochs</span> <span class='op'>=</span> <span class='id identifier rubyid_completed_mdm_commands'>completed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_completed_epoch'>completed_epoch</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_epochs'>epochs</span> <span class='op'>+=</span> <span class='id identifier rubyid_failed_mdm_commands'>failed_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='period'>.</span><span class='id identifier rubyid_failed_epoch'>failed_epoch</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_epoch'>epoch</span> <span class='op'>=</span> <span class='id identifier rubyid_epochs'>epochs</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+  <span class='id identifier rubyid_epoch'>epoch</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'>epoch_to_time</span><span class='lparen'>(</span><span class='id identifier rubyid_epoch'>epoch</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mac_app_store_app_history-instance_method">
+  
+    #<strong>mac_app_store_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MacAppStoreApp.html" title="Jamf::ManagementHistory::MacAppStoreApp (class)">Jamf::ManagementHistory::MacAppStoreApp</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of app store apps  for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MacAppStoreApp.html" title="Jamf::ManagementHistory::MacAppStoreApp (class)">Jamf::ManagementHistory::MacAppStoreApp</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MacAppStoreApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 373</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mac_app_store_app_history'>mac_app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have mac app store apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:mac_app_store_applications</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_app'>app</span><span class='op'>|</span>
+      <span class='comment'># set the :status
+</span>      <span class='id identifier rubyid_app'>app</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MacAppStoreApp.html" title="Jamf::ManagementHistory::MacAppStoreApp (class)">MacAppStoreApp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_app'>app</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="management_history-instance_method">
+  
+    #<strong>management_history</strong>(ident, subset = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='history-instance_method'>history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the raw management history for a Computer or Mobile Device</p>
+
+<p>WARNING: It&#39;s huge, better to use a subset.</p>
+
+<p>NOTE: This returns the raw JSON data from the API, parsed into a ruby Hash. Use the subset-specific methods to retrieve more consistent arrays of ruby-jss objects for each kind of history event, e.g. Jamf::Computer.audits(id) or Jamf::MobileDevice.audits(id) to get an array of Jamf::ManagementHistory::AuditEvent objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An identifier (id, name, serialnumber, macadress or udid) of the computer or device for which to retrieve history</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>subset</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the subset to return, rather than full history.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Connection</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The raw full history or subset requested</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 189</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> matches identifier: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ident'>ident</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+
+  <span class='kw'>if</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+    <span class='ivar'>@hist_subsets</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_SUBSETS-constant" title="Jamf::ManagementHistory::HIST_COMPUTER_SUBSETS (constant)">HIST_COMPUTER_SUBSETS</a></span></span>
+    <span class='ivar'>@hist_rsrc</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_RSRC-constant" title="Jamf::ManagementHistory::HIST_COMPUTER_RSRC (constant)">HIST_COMPUTER_RSRC</a></span></span>
+    <span class='ivar'>@hist_key</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_COMPUTER_KEY-constant" title="Jamf::ManagementHistory::HIST_COMPUTER_KEY (constant)">HIST_COMPUTER_KEY</a></span></span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@hist_subsets</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_SUBSETS-constant" title="Jamf::ManagementHistory::HIST_DEVICE_SUBSETS (constant)">HIST_DEVICE_SUBSETS</a></span></span>
+    <span class='ivar'>@hist_rsrc</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_RSRC-constant" title="Jamf::ManagementHistory::HIST_DEVICE_RSRC (constant)">HIST_DEVICE_RSRC</a></span></span>
+    <span class='ivar'>@hist_key</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_DEVICE_KEY-constant" title="Jamf::ManagementHistory::HIST_DEVICE_KEY (constant)">HIST_DEVICE_KEY</a></span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_subset'>subset</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Subset must be one of :</span><span class='embexpr_beg'>#{</span><span class='ivar'>@hist_subsets</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@hist_subsets</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_subset'>subset</span>
+    <span class='id identifier rubyid_subset_rsrc'>subset_rsrc</span> <span class='op'>=</span> <span class='ivar'>@hist_rsrc</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/subset/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subset'>subset</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_c_get'>c_get</span><span class='lparen'>(</span><span class='id identifier rubyid_subset_rsrc'>subset_rsrc</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@hist_key</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_subset'>subset</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_c_get'>c_get</span><span class='lparen'>(</span><span class='ivar'>@hist_rsrc</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@hist_key</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mdm_command_history-instance_method">
+  
+    #<strong>mdm_command_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='commands-instance_method'>commands</span>, <span id='management_command_history-instance_method'>management_command_history</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :completed, :pending, or :failed commands</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MdmCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 259</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_subset'>subset</span> <span class='op'>=</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span> <span class='op'>?</span> <span class='symbol'>:commands</span> <span class='op'>:</span> <span class='symbol'>:management_commands</span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_subset'>subset</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :completed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_MDM_STATUSES-constant" title="Jamf::ManagementHistory::HIST_MDM_STATUSES (constant)">HIST_MDM_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_MDM_STATUSES-constant" title="Jamf::ManagementHistory::HIST_MDM_STATUSES (constant)">HIST_MDM_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span>
+      <span class='comment'># failed computer cmds have the error message in cmd[:status]
+</span>      <span class='comment'># failed mdm commands have them in cmd[:error], where they should be
+</span>      <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:failed</span>
+
+      <span class='comment'># but we always set the :status
+</span>      <span class='id identifier rubyid_cmd'>cmd</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+
+      <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">MdmCommand</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MdmCommand.html#initialize-instance_method" title="Jamf::ManagementHistory::MdmCommand#initialize (method)">new</a></span></span> <span class='id identifier rubyid_cmd'>cmd</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mobile_device_app_history-instance_method">
+  
+    #<strong>mobile_device_app_history</strong>(ident, status = nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MobileDeviceApp.html" title="Jamf::ManagementHistory::MobileDeviceApp (class)">Jamf::ManagementHistory::MobileDeviceApp</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of apps for a mobile device</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>status</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Return only the :installed, :pending, or :failed apps</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MobileDeviceApp.html" title="Jamf::ManagementHistory::MobileDeviceApp (class)">Jamf::ManagementHistory::MobileDeviceApp</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of MobileDeviceApp</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 410</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mobile_device_app_history'>mobile_device_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only mobile devices have mobile device apps</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span></span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:applications</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status must be one of :installed, :pending, or :failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_APP_STATUSES-constant" title="Jamf::ManagementHistory::HIST_APP_STATUSES (constant)">HIST_APP_STATUSES</a></span></span>
+  <span class='kw'>end</span> <span class='comment'># if status
+</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_statuses_to_do'>statuses_to_do</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_a_status'>a_status</span><span class='op'>|</span>
+    <span class='comment'># merge the sources of installed apps into their hashes
+</span>    <span class='id identifier rubyid_apps'>apps</span> <span class='op'>=</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_a_status'>a_status</span> <span class='op'>==</span> <span class='symbol'>:installed</span>
+        <span class='id identifier rubyid_instapps'>instapps</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_apps_from_src'>apps_from_src</span><span class='op'>|</span>
+          <span class='id identifier rubyid_real_src'>real_src</span> <span class='op'>=</span>
+            <span class='kw'>case</span> <span class='id identifier rubyid_src'>src</span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_APP_IN_HOUSE-constant" title="Jamf::ManagementHistory::HIST_RAW_SOURCE_APP_IN_HOUSE (constant)">HIST_RAW_SOURCE_APP_IN_HOUSE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_IN_HOUSE-constant" title="Jamf::ManagementHistory::HIST_SOURCE_IN_HOUSE (constant)">HIST_SOURCE_IN_HOUSE</a></span></span>
+            <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_RAW_SOURCE_APP_STORE-constant" title="Jamf::ManagementHistory::HIST_RAW_SOURCE_APP_STORE (constant)">HIST_RAW_SOURCE_APP_STORE</a></span></span> <span class='kw'>then</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_APP_STORE-constant" title="Jamf::ManagementHistory::HIST_SOURCE_APP_STORE (constant)">HIST_SOURCE_APP_STORE</a></span></span>
+            <span class='kw'>else</span> <span class='const'><span class='object_link'><a href="../ManagementHistory.html#HIST_SOURCE_OTHER-constant" title="Jamf::ManagementHistory::HIST_SOURCE_OTHER (constant)">HIST_SOURCE_OTHER</a></span></span>
+            <span class='kw'>end</span> <span class='comment'># case src
+</span>          <span class='id identifier rubyid_instapps'>instapps</span> <span class='op'>+=</span> <span class='id identifier rubyid_apps_from_src'>apps_from_src</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_iapp'>iapp</span><span class='op'>|</span> <span class='id identifier rubyid_iapp'>iapp</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_real_src'>real_src</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_instapps'>instapps</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_hist'>hist</span><span class='lbracket'>[</span><span class='id identifier rubyid_a_status'>a_status</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='comment'># now &#39;apps&#39; is an array of hashes of apps with the same status
+</span>    <span class='comment'># and if they are :installed, their source is in the hash
+</span>
+    <span class='comment'># merge the statuses of the apps into their hashes
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_apps'>apps</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_app'>app</span><span class='op'>|</span>
+      <span class='comment'># set the :status in the hash
+</span>      <span class='id identifier rubyid_app'>app</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_a_status'>a_status</span>
+      <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDeviceApp.html" title="Jamf::ManagementHistory::MobileDeviceApp (class)">MobileDeviceApp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_app'>app</span>
+    <span class='kw'>end</span> <span class='comment'># map do |cmd|
+</span>  <span class='kw'>end</span> <span class='comment'># statuses_to_do.each do |a_status|
+</span>
+  <span class='id identifier rubyid_result'>result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_app_store_apps-instance_method">
+  
+    #<strong>pending_app_store_apps</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_apps-instance_method'>pending_managed_apps</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for app_store_app_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#app_store_app_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#app_store_app_history (method)">#app_store_app_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+494
+495
+496
+497
+498</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 494</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_app_store_apps'>pending_app_store_apps</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_app_store_app_history'>app_store_app_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_ebooks-instance_method">
+  
+    #<strong>pending_ebooks</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_managed_ebooks-instance_method'>pending_managed_ebooks</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>shortcut for ebook_history where status = :pending</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#ebook_history-instance_method" title="Jamf::ManagementHistory::ClassMethods#ebook_history (method)">#ebook_history</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+690
+691
+692
+693
+694</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 690</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_ebooks'>pending_ebooks</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_ebook_history'>ebook_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pending_mdm_commands-instance_method">
+  
+    #<strong>pending_mdm_commands</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='pending_commands-instance_method'>pending_commands</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of pending mdm commands for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="MdmCommand.html" title="Jamf::ManagementHistory::MdmCommand (class)">Jamf::ManagementHistory::MdmCommand</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of pending MdmCommands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+315
+316
+317
+318
+319</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 315</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pending_mdm_commands'>pending_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_mdm_command_history'>mdm_command_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:pending</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="policy_logs-instance_method">
+  
+    #<strong>policy_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="PolicyLog.html" title="Jamf::ManagementHistory::PolicyLog (class)">Jamf::ManagementHistory::PolicyLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of policy execution for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="PolicyLog.html" title="Jamf::ManagementHistory::PolicyLog (class)">Jamf::ManagementHistory::PolicyLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of PolicyLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+590
+591
+592
+593
+594
+595
+596</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 590</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_policy_logs'>policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have policy logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:policy_logs</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PolicyLog.html" title="Jamf::ManagementHistory::PolicyLog (class)">PolicyLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="PolicyLog.html#initialize-instance_method" title="Jamf::ManagementHistory::PolicyLog#initialize (method)">new</a></span></span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="screen_sharing_logs-instance_method">
+  
+    #<strong>screen_sharing_logs</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ScreenSharingLog.html" title="Jamf::ManagementHistory::ScreenSharingLog (class)">Jamf::ManagementHistory::ScreenSharingLog</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of screen sharing events for a computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ScreenSharingLog.html" title="Jamf::ManagementHistory::ScreenSharingLog (class)">Jamf::ManagementHistory::ScreenSharingLog</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of ScreenSharingLog events</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+573
+574
+575
+576
+577
+578
+579</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 573</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_screen_sharing_logs'>screen_sharing_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Only computers have screen sharing logs</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Computer.html" title="Jamf::Computer (class)">Computer</a></span></span>
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:screen_sharing_logs</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ScreenSharingLog.html" title="Jamf::ManagementHistory::ScreenSharingLog (class)">ScreenSharingLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user_location_history-instance_method">
+  
+    #<strong>user_location_history</strong>(ident, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="UserLocationChange.html" title="Jamf::ManagementHistory::UserLocationChange (class)">Jamf::ManagementHistory::UserLocationChange</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The history of User/Location changes for a target</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ident</span>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The identifier for the object - id, name, sn, udid, etc.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use for the query defaults to the currently active connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="UserLocationChange.html" title="Jamf::ManagementHistory::UserLocationChange (class)">Jamf::ManagementHistory::UserLocationChange</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of UserLocation change events</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+241
+242
+243
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/management_history.rb', line 241</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user_location_history'>user_location_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_hist'>hist</span> <span class='op'>=</span> <span class='id identifier rubyid_management_history'>management_history</span><span class='lparen'>(</span><span class='id identifier rubyid_ident'>ident</span><span class='comma'>,</span> <span class='symbol'>:user_location</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hist'>hist</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_evt'>evt</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UserLocationChange.html" title="Jamf::ManagementHistory::UserLocationChange (class)">UserLocationChange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_evt'>evt</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:17 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

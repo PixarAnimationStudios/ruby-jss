@@ -1,0 +1,4660 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::Connection
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Connection";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Connection</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::Connection
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Jamf::Connection</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Connection/Attributes.html" title="Jamf::Connection::Attributes (module)">Attributes</a></span>, <span class='object_link'><a href="Connection/Cache.html" title="Jamf::Connection::Cache (module)">Cache</a></span>, <span class='object_link'><a href="Connection/ClassicAPI.html" title="Jamf::Connection::ClassicAPI (module)">ClassicAPI</a></span>, <span class='object_link'><a href="Connection/Connect.html" title="Jamf::Connection::Connect (module)">Connect</a></span>, <span class='object_link'><a href="Connection/Constants.html" title="Jamf::Connection::Constants (module)">Constants</a></span>, <span class='object_link'><a href="Connection/JamfProAPI.html" title="Jamf::Connection::JamfProAPI (module)">JamfProAPI</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/connection.rb<span class="defines">,<br />
+  lib/jamf/api/connection/cache.rb,<br /> lib/jamf/api/connection/token.rb,<br /> lib/jamf/api/connection/connect.rb,<br /> lib/jamf/api/connection/constants.rb,<br /> lib/jamf/api/connection/attributes.rb,<br /> lib/jamf/api/connection/classic_api.rb,<br /> lib/jamf/api/connection/jamf_pro_api.rb,<br /> lib/jamf/api/connection/default_connection.rb,<br /> lib/jamf/api/connection/jamf_pro_api_error.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The connection class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Connection/Attributes.html" title="Jamf::Connection::Attributes (module)">Attributes</a></span>, <span class='object_link'><a href="Connection/Cache.html" title="Jamf::Connection::Cache (module)">Cache</a></span>, <span class='object_link'><a href="Connection/ClassicAPI.html" title="Jamf::Connection::ClassicAPI (module)">ClassicAPI</a></span>, <span class='object_link'><a href="Connection/Connect.html" title="Jamf::Connection::Connect (module)">Connect</a></span>, <span class='object_link'><a href="Connection/Constants.html" title="Jamf::Connection::Constants (module)">Constants</a></span>, <span class='object_link'><a href="Connection/DefaultConnection.html" title="Jamf::Connection::DefaultConnection (module)">DefaultConnection</a></span>, <span class='object_link'><a href="Connection/JamfProAPI.html" title="Jamf::Connection::JamfProAPI (module)">JamfProAPI</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">JamfProAPIError</a></span>, <span class='object_link'><a href="Connection/Token.html" title="Jamf::Connection::Token (class)">Token</a></span>
+    
+  
+</p>
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_cnx-instance_method" title="#c_cnx (instance method)">#<strong>c_cnx</strong>  &#x21d2; Faraday::Connection </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#c_cnx-instance_method" title="Jamf::Connection::Attributes#c_cnx (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The underlying C-API connection object.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect_time-instance_method" title="#connect_time (instance method)">#<strong>connect_time</strong>  &#x21d2; Time </a>
+    
+
+    
+      (also: #login_time)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#connect_time-instance_method" title="Jamf::Connection::Attributes#connect_time (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When this connection was connected.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connected-instance_method" title="#connected (instance method)">#<strong>connected</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #connected?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#connected-instance_method" title="Jamf::Connection::Attributes#connected (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Are we connected right now?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_cnx-instance_method" title="#jp_cnx (instance method)">#<strong>jp_cnx</strong>  &#x21d2; Faraday::Connection </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#jp_cnx-instance_method" title="Jamf::Connection::Attributes#jp_cnx (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The underlying JPAPI connection object.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_http_response-instance_method" title="#last_http_response (instance method)">#<strong>last_http_response</strong>  &#x21d2; Faraday::Response </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#last_http_response-instance_method" title="Jamf::Connection::Attributes#last_http_response (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The response from the most recent API call.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String, Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#name-instance_method" title="Jamf::Connection::Attributes#name (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>An arbitrary name that can be given to this connection during initialization, using the name: parameter.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open_timeout-instance_method" title="#open_timeout (instance method)">#<strong>open_timeout</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#open_timeout-instance_method" title="Jamf::Connection::Attributes#open_timeout (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Seconds before an http connection open times out.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#server_path-instance_method" title="#server_path (instance method)">#<strong>server_path</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#server_path-instance_method" title="Jamf::Connection::Attributes#server_path (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Any path in the URL below the hostname.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#timeout-instance_method" title="#timeout (instance method)">#<strong>timeout</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#timeout-instance_method" title="Jamf::Connection::Attributes#timeout (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Seconds before an http request times out.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#token-instance_method" title="#token (instance method)">#<strong>token</strong>  &#x21d2; Jamf::Connection::Token </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#token-instance_method" title="Jamf::Connection::Attributes#token (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The token used for connecting.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#base_url-instance_method" title="#base_url (instance method)">#<strong>base_url</strong>  &#x21d2; URI::HTTPS </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#base_url-instance_method" title="Jamf::Connection::Attributes#base_url (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The base URL to the server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_delete-instance_method" title="#c_delete (instance method)">#<strong>c_delete</strong>(rsrc)  &#x21d2; String </a>
+    
+
+    
+      (also: #delete_rsrc)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/ClassicAPI.html#c_delete-instance_method" title="Jamf::Connection::ClassicAPI#c_delete (method)">ClassicAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete a resource from the Classic API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_ext_attr_definition_cache-instance_method" title="#c_ext_attr_definition_cache (instance method)">#<strong>c_ext_attr_definition_cache</strong>  &#x21d2; Hash{Class: Hash{String =&gt; Jamf::ExtensionAttribute}} </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Cache.html#c_ext_attr_definition_cache-instance_method" title="Jamf::Connection::Cache#c_ext_attr_definition_cache (method)">Cache</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This Hash caches the C-API Extension Attribute definition objects for the three types of ext.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_get-instance_method" title="#c_get (instance method)">#<strong>c_get</strong>(rsrc, format = :json, raw_json: false)  &#x21d2; Hash, String </a>
+    
+
+    
+      (also: #get_rsrc)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/ClassicAPI.html#c_get-instance_method" title="Jamf::Connection::ClassicAPI#c_get (method)">ClassicAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get a Classic API resource via GET.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_object_list_cache-instance_method" title="#c_object_list_cache (instance method)">#<strong>c_object_list_cache</strong>  &#x21d2; Concurrent::Map.new </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Cache.html#c_object_list_cache-instance_method" title="Jamf::Connection::Cache#c_object_list_cache (method)">Cache</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This Hash-like object caches the results of C-API queries for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_post-instance_method" title="#c_post (instance method)">#<strong>c_post</strong>(rsrc, xml)  &#x21d2; String </a>
+    
+
+    
+      (also: #post_rsrc)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/ClassicAPI.html#c_post-instance_method" title="Jamf::Connection::ClassicAPI#c_post (method)">ClassicAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new Classic API resource via POST.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#c_put-instance_method" title="#c_put (instance method)">#<strong>c_put</strong>(rsrc, xml)  &#x21d2; String </a>
+    
+
+    
+      (also: #put_rsrc)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/ClassicAPI.html#c_put-instance_method" title="Jamf::Connection::ClassicAPI#c_put (method)">ClassicAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing Classic API resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-instance_method" title="#connect (instance method)">#<strong>connect</strong>(url = nil, **params)  &#x21d2; String </a>
+    
+
+    
+      (also: #login)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Connect.html#connect-instance_method" title="Jamf::Connection::Connect#connect (method)">Connect</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Connect to the both the Classic and Jamf Pro APIs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_jp_connection-instance_method" title="#create_jp_connection (instance method)">#<strong>create_jp_connection</strong>(parse_json: true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#create_jp_connection-instance_method" title="Jamf::Connection::JamfProAPI#create_jp_connection (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>create the faraday JPAPI connection object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disconnect-instance_method" title="#disconnect (instance method)">#<strong>disconnect</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Connect.html#disconnect-instance_method" title="Jamf::Connection::Connect#disconnect (method)">Connect</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flushcache-instance_method" title="#flushcache (instance method)">#<strong>flushcache</strong>(key_or_klass = nil)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Cache.html#flushcache-instance_method" title="Jamf::Connection::Cache#flushcache (method)">Cache</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Empty cached lists from this connection then run garbage collection to clear any available memory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#host-instance_method" title="#host (instance method)">#<strong>host</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #server, #hostname)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#host-instance_method" title="Jamf::Connection::Attributes#host (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The hostname of the Jamf Pro server API connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(url = nil, **params)  &#x21d2; Connection </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Instantiate a connection object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_build-instance_method" title="#jamf_build (instance method)">#<strong>jamf_build</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#jamf_build-instance_method" title="Jamf::Connection::Attributes#jamf_build (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The build of the Jamf Pro server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jamf_version-instance_method" title="#jamf_version (instance method)">#<strong>jamf_version</strong>  &#x21d2; Gem::Version </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#jamf_version-instance_method" title="Jamf::Connection::Attributes#jamf_version (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The version of the Jamf Pro server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_delete-instance_method" title="#jp_delete (instance method)">#<strong>jp_delete</strong>(rsrc)  &#x21d2; String </a>
+    
+
+    
+      (also: #delete)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_delete-instance_method" title="Jamf::Connection::JamfProAPI#jp_delete (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete an existing Jamf Pro API resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_download-instance_method" title="#jp_download (instance method)">#<strong>jp_download</strong>(rsrc)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_download-instance_method" title="Jamf::Connection::JamfProAPI#jp_download (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday connection object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_get-instance_method" title="#jp_get (instance method)">#<strong>jp_get</strong>(rsrc)  &#x21d2; Hash </a>
+    
+
+    
+      (also: #get)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_get-instance_method" title="Jamf::Connection::JamfProAPI#jp_get (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The result of the get.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_patch-instance_method" title="#jp_patch (instance method)">#<strong>jp_patch</strong>(rsrc, data)  &#x21d2; String </a>
+    
+
+    
+      (also: #patch)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_patch-instance_method" title="Jamf::Connection::JamfProAPI#jp_patch (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing Jamf Pro API resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_post-instance_method" title="#jp_post (instance method)">#<strong>jp_post</strong>(rsrc, data)  &#x21d2; String </a>
+    
+
+    
+      (also: #post)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_post-instance_method" title="Jamf::Connection::JamfProAPI#jp_post (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a JPAPI resource via POST.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jp_put-instance_method" title="#jp_put (instance method)">#<strong>jp_put</strong>(rsrc, data)  &#x21d2; String </a>
+    
+
+    
+      (also: #put)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/JamfProAPI.html#jp_put-instance_method" title="Jamf::Connection::JamfProAPI#jp_put (method)">JamfProAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace an existing Jamf Pro API resource.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#keep_alive%3F-instance_method" title="#keep_alive? (instance method)">#<strong>keep_alive?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#keep_alive%3F-instance_method" title="Jamf::Connection::Attributes#keep_alive? (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is the connection token being automatically refreshed?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logout-instance_method" title="#logout (instance method)">#<strong>logout</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Connect.html#logout-instance_method" title="Jamf::Connection::Connect#logout (method)">Connect</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Same as disconnect, but invalidates the token on the server first.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#next_refresh-instance_method" title="#next_refresh (instance method)">#<strong>next_refresh</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@deprecated, use .token.next_refresh.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">#<strong>port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#port-instance_method" title="Jamf::Connection::Attributes#port (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The port of the Jamf Pro server API connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pretty_print_instance_variables-instance_method" title="#pretty_print_instance_variables (instance method)">#<strong>pretty_print_instance_variables</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only selected items are displayed with prettyprint otherwise its too much data in irb.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pw_fallback%3F-instance_method" title="#pw_fallback? (instance method)">#<strong>pw_fallback?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#pw_fallback%3F-instance_method" title="Jamf::Connection::Attributes#pw_fallback? (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>If keep_alive is true, is the password Cached in memory to use if the refresh fails?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#secs_to_refresh-instance_method" title="#secs_to_refresh (instance method)">#<strong>secs_to_refresh</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@deprecated, use .token.secs_to_refresh.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssl_options-instance_method" title="#ssl_options (instance method)">#<strong>ssl_options</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#ssl_options-instance_method" title="Jamf::Connection::Attributes#ssl_options (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The ssl version and verify cert, to pass into faraday connections.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssl_version-instance_method" title="#ssl_version (instance method)">#<strong>ssl_version</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#ssl_version-instance_method" title="Jamf::Connection::Attributes#ssl_version (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>SSL version used for the connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#time_to_refresh-instance_method" title="#time_to_refresh (instance method)">#<strong>time_to_refresh</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>@deprecated, use .token.time_to_refresh.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A useful string about this connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_refreshed_token-instance_method" title="#update_refreshed_token (instance method)">#<strong>update_refreshed_token</strong>(subcnx)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Connect.html#update_refreshed_token-instance_method" title="Jamf::Connection::Connect#update_refreshed_token (method)">Connect</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>always use the current token, which by default will auto-refresh.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(rsrc, local_file)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/ClassicAPI.html#upload-instance_method" title="Jamf::Connection::ClassicAPI#upload (method)">ClassicAPI</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Upload a file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user-instance_method" title="#user (instance method)">#<strong>user</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#user-instance_method" title="Jamf::Connection::Attributes#user (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The username who&#39;s connected to the JSS API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_connected-instance_method" title="#validate_connected (instance method)">#<strong>validate_connected</strong>(subcnx)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Connect.html#validate_connected-instance_method" title="Jamf::Connection::Connect#validate_connected (method)">Connect</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>raise exception if not connected, and make sure we&#39;re using the current token.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_token-instance_method" title="#validate_token (instance method)">#<strong>validate_token</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#validate_token-instance_method" title="Jamf::Connection::Attributes#validate_token (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>raise an error if no token yet.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify_cert%3F-instance_method" title="#verify_cert? (instance method)">#<strong>verify_cert?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #verify_cert)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Connection/Attributes.html#verify_cert%3F-instance_method" title="Jamf::Connection::Attributes#verify_cert? (method)">Attributes</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should the SSL certifcate from the server be verified?.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(url = nil, **params)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::Connection (class)">Connection</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Instantiate a connection object.</p>
+
+<p>If name: is provided it will be stored as the Connection&#39;s name attribute.</p>
+
+<p>if no url is provided and params are empty, or contains only a :name key, then you must call #connect with all the connection parameters before accessing a server.</p>
+
+<p>See <span class='object_link'><a href="Connection/Connect.html#connect-instance_method" title="Jamf::Connection::Connect#connect (method)">Jamf::Connection::Connect#connect</a></span> for the parameters</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 174</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:name</span>
+  <span class='ivar'>@connected</span> <span class='op'>=</span> <span class='kw'>false</span>
+
+  <span class='comment'># initialize the data caches
+</span>  <span class='comment'># see cache.rb
+</span>  <span class='ivar'>@c_object_list_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@c_ext_attr_definition_cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='comment'># @jp_singleton_cache = {}
+</span>  <span class='comment'># @jp_collection_cache = {}
+</span>  <span class='comment'># @jp_ext_attr_cache = {}
+</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_connect'>connect</span> <span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_params'>params</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="c_cnx-instance_method">
+  
+    #<strong>c_cnx</strong>  &#x21d2; <tt>Faraday::Connection</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#c_cnx-instance_method" title="Jamf::Connection::Attributes#c_cnx (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the underlying C-API connection object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Faraday::Connection</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the underlying C-API connection object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connect_time-instance_method">
+  
+    #<strong>connect_time</strong>  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='login_time-instance_method'>login_time</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#connect_time-instance_method" title="Jamf::Connection::Attributes#connect_time (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns when this connection was connected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when this connection was connected</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connected-instance_method">
+  
+    #<strong>connected</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='connected?-instance_method'>connected?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#connected-instance_method" title="Jamf::Connection::Attributes#connected (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns are we connected right now?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>are we connected right now?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="jp_cnx-instance_method">
+  
+    #<strong>jp_cnx</strong>  &#x21d2; <tt>Faraday::Connection</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#jp_cnx-instance_method" title="Jamf::Connection::Attributes#jp_cnx (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the underlying JPAPI connection object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Faraday::Connection</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the underlying JPAPI connection object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="last_http_response-instance_method">
+  
+    #<strong>last_http_response</strong>  &#x21d2; <tt>Faraday::Response</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#last_http_response-instance_method" title="Jamf::Connection::Attributes#last_http_response (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The response from the most recent API call.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Faraday::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The response from the most recent API call</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#name-instance_method" title="Jamf::Connection::Attributes#name (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an arbitrary name that can be given to this connection during initialization, using the name: parameter. defaults to user@hostname:port.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an arbitrary name that can be given to this connection during initialization, using the name: parameter. defaults to user@hostname:port</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="open_timeout=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="open_timeout-instance_method">
+  
+    #<strong>open_timeout</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#open_timeout-instance_method" title="Jamf::Connection::Attributes#open_timeout (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Seconds before an http connection open times out.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Seconds before an http connection open times out</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="server_path-instance_method">
+  
+    #<strong>server_path</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#server_path-instance_method" title="Jamf::Connection::Attributes#server_path (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns any path in the URL below the hostname. See <span class='object_link'><a href="Connection/Connect.html#connect-instance_method" title="Jamf::Connection::Connect#connect (method)">Connect#connect</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any path in the URL below the hostname. See <span class='object_link'><a href="Connection/Connect.html#connect-instance_method" title="Jamf::Connection::Connect#connect (method)">Connect#connect</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="timeout=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="timeout-instance_method">
+  
+    #<strong>timeout</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#timeout-instance_method" title="Jamf::Connection::Attributes#timeout (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Seconds before an http request times out.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Seconds before an http request times out</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="token-instance_method">
+  
+    #<strong>token</strong>  &#x21d2; <tt><span class='object_link'><a href="Connection/Token.html" title="Jamf::Connection::Token (class)">Jamf::Connection::Token</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#token-instance_method" title="Jamf::Connection::Attributes#token (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the token used for connecting.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/Token.html" title="Jamf::Connection::Token (class)">Jamf::Connection::Token</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the token used for connecting</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="base_url-instance_method">
+  
+    #<strong>base_url</strong>  &#x21d2; <tt>URI::HTTPS</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#base_url-instance_method" title="Jamf::Connection::Attributes#base_url (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the base URL to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>URI::HTTPS</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the base URL to the server</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_delete-instance_method">
+  
+    #<strong>c_delete</strong>(rsrc)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='delete_rsrc-instance_method'>delete_rsrc</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/ClassicAPI.html#c_delete-instance_method" title="Jamf::Connection::ClassicAPI#c_delete (method)">ClassicAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete a resource from the Classic API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to create, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="Jamf::MissingDataError (class)">MissingDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_ext_attr_definition_cache-instance_method">
+  
+    #<strong>c_ext_attr_definition_cache</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Class: <span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="ExtensionAttribute.html" title="Jamf::ExtensionAttribute (class)">Jamf::ExtensionAttribute</a></span>}}</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Cache.html#c_ext_attr_definition_cache-instance_method" title="Jamf::Connection::Cache#c_ext_attr_definition_cache (method)">Cache</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns This Hash caches the C-API Extension Attribute definition objects for the three types of ext. attribs: ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and UserExtensionAttribute, whenever they are fetched for parsing or validating extention attribute data.</p>
+
+<p>The top-level keys are the EA classes themselves:</p>
+<ul><li>
+<p>ComputerExtensionAttribute</p>
+</li><li>
+<p>MobileDeviceExtensionAttribute</p>
+</li><li>
+<p>UserExtensionAttribute</p>
+</li></ul>
+
+<p>These each point to a Hash of their instances, keyed by name, e.g.</p>
+
+<pre class="code ruby"><code class="ruby">{
+ &quot;A Computer EA&quot; =&gt; &lt;Jamf::ComputerExtensionAttribute...&gt;,
+ &quot;A different Computer EA&quot; =&gt; &lt;Jamf::ComputerExtensionAttribute...&gt;,
+ ...
+}.
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Class: <span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; <span class='object_link'><a href="ExtensionAttribute.html" title="Jamf::ExtensionAttribute (class)">Jamf::ExtensionAttribute</a></span>}}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>This Hash caches the C-API Extension Attribute definition objects for the three types of ext. attribs: ComputerExtensionAttribute, MobileDeviceExtensionAttribute, and UserExtensionAttribute, whenever they are fetched for parsing or validating extention attribute data.</p>
+
+<p>The top-level keys are the EA classes themselves:</p>
+<ul><li>
+<p>ComputerExtensionAttribute</p>
+</li><li>
+<p>MobileDeviceExtensionAttribute</p>
+</li><li>
+<p>UserExtensionAttribute</p>
+</li></ul>
+
+<p>These each point to a Hash of their instances, keyed by name, e.g.</p>
+
+<pre class="code ruby"><code class="ruby">{
+ &quot;A Computer EA&quot; =&gt; &lt;Jamf::ComputerExtensionAttribute...&gt;,
+ &quot;A different Computer EA&quot; =&gt; &lt;Jamf::ComputerExtensionAttribute...&gt;,
+ ...
+}
+</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_get-instance_method">
+  
+    #<strong>c_get</strong>(rsrc, format = :json, raw_json: false)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='get_rsrc-instance_method'>get_rsrc</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/ClassicAPI.html#c_get-instance_method" title="Jamf::Connection::ClassicAPI#c_get (method)">ClassicAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get a Classic API resource via GET</p>
+
+<p>The first argument is the resource to get (the part of the API url after the &#39;JSSResource/&#39; ) The resource must be properly URL escaped beforehand. Note: URL.encode is deprecated, use CGI.escape</p>
+
+<p>By default we get the data in JSON, and parse it into a ruby Hash with symbolized Hash keys.</p>
+
+<p>If the second parameter is :xml then the XML version is retrieved and returned as a String.</p>
+
+<p>To get the raw JSON string as it comes from the API, pass raw_json: true</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to get (the part of the API url after the &#39;JSSResource/&#39; )</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:json</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either ;json or :xml If the second argument is :xml, the XML data is returned as a String.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>raw_json</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>When GETting JSON, return the raw unparsed string (the XML is always returned as a raw string)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of the get</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_object_list_cache-instance_method">
+  
+    #<strong>c_object_list_cache</strong>  &#x21d2; <tt>Concurrent::Map.new</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Cache.html#c_object_list_cache-instance_method" title="Jamf::Connection::Cache#c_object_list_cache (method)">Cache</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns This Hash-like object caches the results of C-API queries for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY. See the APIObject.all class method.</p>
+
+<p>It also caches related data items for speedier processing:</p>
+<ul><li>
+<p>The Hashes created by APIObject.map_all_ids_to(other_key), keyed by “#RSRC_LIST_KEY<em>map</em>#other_key”.to_sym</p>
+</li><li>
+<p>This hash also holds a cache of the rarely-used APIObject.all_objects hash, keyed by “#RSRC_LIST_KEY_objects”.to_sym</p>
+</li></ul>
+
+<p>When APIObject.all, and related methods are called without an argument, and this hash has a matching value, the value is returned, rather than requerying the API. The first time a class calls .all, or whenever refresh is not false, the API is queried and the value in this hash is updated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Concurrent::Map.new</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>This Hash-like object caches the results of C-API queries for an APIObject subclass&#39;s .all summary list, keyed by the subclass&#39;s RSRC_LIST_KEY. See the APIObject.all class method.</p>
+
+<p>It also caches related data items for speedier processing:</p>
+<ul><li>
+<p>The Hashes created by APIObject.map_all_ids_to(other_key), keyed by “#RSRC_LIST_KEY<em>map</em>#other_key”.to_sym</p>
+</li><li>
+<p>This hash also holds a cache of the rarely-used APIObject.all_objects hash, keyed by “#RSRC_LIST_KEY_objects”.to_sym</p>
+</li></ul>
+
+<p>When APIObject.all, and related methods are called without an argument, and this hash has a matching value, the value is returned, rather than requerying the API. The first time a class calls .all, or whenever refresh is not false, the API is queried and the value in this hash is updated.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_post-instance_method">
+  
+    #<strong>c_post</strong>(rsrc, xml)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='post_rsrc-instance_method'>post_rsrc</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/ClassicAPI.html#c_post-instance_method" title="Jamf::Connection::ClassicAPI#c_post (method)">ClassicAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new Classic API resource via POST</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being created, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the new object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="c_put-instance_method">
+  
+    #<strong>c_put</strong>(rsrc, xml)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='put_rsrc-instance_method'>put_rsrc</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/ClassicAPI.html#c_put-instance_method" title="Jamf::Connection::ClassicAPI#c_put (method)">ClassicAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing Classic API resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being changed, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>xml</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml specifying the changes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="connect-instance_method">
+  
+    #<strong>connect</strong>(url = nil, **params)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='login-instance_method'>login</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Connect.html#connect-instance_method" title="Jamf::Connection::Connect#connect (method)">Connect</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Connect to the both the Classic and Jamf Pro APIs</p>
+
+<p>IMPORTANT: http (non-SSL, unencrypted) connections are not allowed.</p>
+
+<p>The first parameter may be a URL (must be https) from which the host &amp; port will be used, and if present, the user and password E.g.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_connect'>connect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://myuser:pass@host.domain.edu:8443</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>which is the same as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_connect'>connect</span> <span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>host.domain.edu</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>8443</span><span class='comma'>,</span> <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>myuser</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>pw:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pass</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>When using a URL, other parameters below may be specified, however host: and port: parameters will be ignored, since they came from the URL, as will user: and :pw, if they are present in the URL. If the URL doesn&#39;t contain user and pw, they can be provided via the parameters, or left to default values.</p>
+
+<p>### Passwords</p>
+
+<p>The pw: parameter also accepts the symbols :prompt, and :<a href="X">stdin</a></p>
+
+<p>If :prompt, the user is promted on the commandline to enter the password for the :user.</p>
+
+<p>If :stdin, the password is read from the first line of stdin</p>
+
+<p>If :stdinX, (where X is an integer) the password is read from the Xth line of stdin.see Jamf.stdin</p>
+
+<p>If omitted, and running from an interactive terminal, the user is prompted as with :prompt</p>
+
+<p>### Tokens Instead of a user and password, you may specify a valid &#39;token:&#39;, which is either:</p>
+
+<p>A Jamf::Connection::Token object, which can be extracted from an active Jamf::Connection via its #token method</p>
+
+<p>or</p>
+
+<p>A valid token string e.g. “eyJhdXR…6EKoo” from any source can also be used.</p>
+
+<p>When using an existing token or token string, the username used to create the token will be read from the server. However, if you don&#39;t also provide the users password using the pw: parameter, then the pw_fallback option will always be false.</p>
+
+<p>### Default values</p>
+
+<p>Any values available via JSS.config will be used if they are not provided in the parameters. See <span class='object_link'><a href="Configuration.html" title="Jamf::Configuration (class)">Jamf::Configuration</a></span>. If there are no config values then a built-in default is used if available.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URL to use for the connection. Must be &#39;https&#39;. The host, port, and (if provided), user and spassword will be extracted. Any of those params explicitly provided will be ignored if present in the url</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>params</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the keyed parameters for connection.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>**params</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:host</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the hostname of the JSS API server, required if not defined in JSS.config</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:server_path</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If your JSS is not at the root of the server, e.g. if it&#39;s at</p>
+
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/dev_mgmt/jssweb
+</code></pre>
+
+<p>rather than</p>
+
+<pre class="code ruby"><code class="ruby">https://myjss.myserver.edu:8443/
+</code></pre>
+
+<p>then use this parameter to specify the path below the root e.g:</p>
+
+<pre class="code ruby"><code class="ruby">server_path: &#39;dev_mgmt/jssweb&#39;
+</code></pre>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:user</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>a JSS user who has API privs, required if not defined in Jamf::CONFIG</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:pw</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The user&#39;s password, :prompt, or :stdin If :prompt, the user is promted on the commandline to enter the password If :stdin#, the password is read from a line of std in represented by the digit at #, so :stdin3 reads the passwd from the third line of standard input. Defaults to line 1, if no digit is supplied. see Jamf.stdin</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:port</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the port number to connect with, defaults to 443 for Jamf Cloud hosts, 8443 for on-prem hosts</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:ssl_version</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The SSL version to use. Default is TLSv1_2</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:verify_cert</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>should SSL certificates be verified. Defaults to true.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:open_timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds to wait for an initial response, defaults to 60</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:timeout</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the number of seconds before an API call times out, defaults to 60</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:keep_alive</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Should the token for the connection for be automatically refreshed before it expires? Default is true</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:token_refresh_buffer</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If keep_alive, refresh the token this many seconds before it expires. Must be &gt;= Jamf::Connection::Token::MIN_REFRESH_BUFFER, which is the default</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:pw_fallback</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If keep_alive, should the passwd be cached in memory and used to create a new token, if there are problems with the normal token refresh process?</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>connection description, the output of #to_s</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_jp_connection-instance_method">
+  
+    #<strong>create_jp_connection</strong>(parse_json: true)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#create_jp_connection-instance_method" title="Jamf::Connection::JamfProAPI#create_jp_connection (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>create the faraday JPAPI connection object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disconnect-instance_method">
+  
+    #<strong>disconnect</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Connect.html#disconnect-instance_method" title="Jamf::Connection::Connect#disconnect (method)">Connect</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>With a REST connection, there isn&#39;t any real “connection” to disconnect from So to disconnect, we just unset all our credentials.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="flushcache-instance_method">
+  
+    #<strong>flushcache</strong>(key_or_klass = nil)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Cache.html#flushcache-instance_method" title="Jamf::Connection::Cache#flushcache (method)">Cache</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Empty cached lists from this connection then run garbage collection to clear any available memory</p>
+
+<p>See the getters for</p>
+<ul><li>
+<p>c_object_list_cache</p>
+</li><li>
+<p>c_ext_attr_definition_cache</p>
+</li></ul>
+
+<p>NOTE since all ruby variables are references to objects in memory, if you&#39;ve referenced objects in these caches, those objects won&#39;t be removed from memory by garbage collection but all cached data will be recached as needed.</p>
+
+<p>e.g.s</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_ref'>my_ref</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>SomeClass</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+<span class='comment'># my_ref now points to the same cached hash that Jamf::SomeClass.all does
+</span>
+<span class='id identifier rubyid_my_connection'>my_connection</span><span class='period'>.</span><span class='id identifier rubyid_flushcache'>flushcache</span>
+<span class='comment'># Jamf::SomeClass.all now points to an empty hash in the cache, but the one
+</span><span class='comment'># that my_ref points to still exists, full of the original data. Because
+</span><span class='comment'># my_ref still points to it, garbage collection doesn&#39;t remove it from
+</span><span class='comment'># memory
+</span>
+<span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'>SomeClass</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+<span class='comment'># Jamf::SomeClass.all re-reads the data from the API and populates the
+</span><span class='comment'># Hash in the cache with new data, potentially different from that you&#39;re
+</span><span class='comment'># still seeing in my_ref
+</span></code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key_or_klass</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>Class</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Flush only the caches for the given RSRC_LIST_KEY. or the EAdef cache for the given extendable class. If nil (the default), flushes all caches</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="host-instance_method">
+  
+    #<strong>host</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='server-instance_method'>server</span>, <span id='hostname-instance_method'>hostname</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#host-instance_method" title="Jamf::Connection::Attributes#host (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the hostname of the Jamf Pro server API connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hostname of the Jamf Pro server API connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_build-instance_method">
+  
+    #<strong>jamf_build</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#jamf_build-instance_method" title="Jamf::Connection::Attributes#jamf_build (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the build of the Jamf Pro server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the build of the Jamf Pro server</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jamf_version-instance_method">
+  
+    #<strong>jamf_version</strong>  &#x21d2; <tt>Gem::Version</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#jamf_version-instance_method" title="Jamf::Connection::Attributes#jamf_version (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the version of the Jamf Pro server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Gem::Version</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the version of the Jamf Pro server</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_delete-instance_method">
+  
+    #<strong>jp_delete</strong>(rsrc)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='delete-instance_method'>delete</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_delete-instance_method" title="Jamf::Connection::JamfProAPI#jp_delete (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete an existing Jamf Pro API resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being deleted, the URL part after &#39;api/&#39;</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_download-instance_method">
+  
+    #<strong>jp_download</strong>(rsrc)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_download-instance_method" title="Jamf::Connection::JamfProAPI#jp_download (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>GET a rsrc without doing any JSON parsing, using a temporary Faraday connection object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_get-instance_method">
+  
+    #<strong>jp_get</strong>(rsrc)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='get-instance_method'>get</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_get-instance_method" title="Jamf::Connection::JamfProAPI#jp_get (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the result of the get.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to get (the part of the API url after the &#39;/api/&#39; )</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of the get</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_patch-instance_method">
+  
+    #<strong>jp_patch</strong>(rsrc, data)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='patch-instance_method'>patch</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_patch-instance_method" title="Jamf::Connection::JamfProAPI#jp_patch (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing Jamf Pro API resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being changed, the URL part after &#39;api/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the json specifying the changes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_post-instance_method">
+  
+    #<strong>jp_post</strong>(rsrc, data)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='post-instance_method'>post</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_post-instance_method" title="Jamf::Connection::JamfProAPI#jp_post (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a JPAPI resource via POST</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the resource to POST (the part of the API url after the &#39;/api/&#39; )</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the JSON data to POST</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the response body</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jp_put-instance_method">
+  
+    #<strong>jp_put</strong>(rsrc, data)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='put-instance_method'>put</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/JamfProAPI.html#jp_put-instance_method" title="Jamf::Connection::JamfProAPI#jp_put (method)">JamfProAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Replace an existing Jamf Pro API resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being changed, the URL part after &#39;api/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the json specifying the changes.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection/JamfProAPIError.html" title="Jamf::Connection::JamfProAPIError (class)">Jamf::Connection::JamfProAPIError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="keep_alive?-instance_method">
+  
+    #<strong>keep_alive?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#keep_alive%3F-instance_method" title="Jamf::Connection::Attributes#keep_alive? (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is the connection token being automatically refreshed?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is the connection token being automatically refreshed?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="logout-instance_method">
+  
+    #<strong>logout</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Connect.html#logout-instance_method" title="Jamf::Connection::Connect#logout (method)">Connect</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Same as disconnect, but invalidates the token on the server first</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="next_refresh-instance_method">
+  
+    #<strong>next_refresh</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@deprecated, use .token.next_refresh</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 218</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_next_refresh'>next_refresh</span>
+  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_next_refresh'>next_refresh</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    #<strong>port</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#port-instance_method" title="Jamf::Connection::Attributes#port (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The port of the Jamf Pro server API connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The port of the Jamf Pro server API connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pretty_print_instance_variables-instance_method">
+  
+    #<strong>pretty_print_instance_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only selected items are displayed with prettyprint otherwise its too much data in irb.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the desired instance_variables</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
+  <span class='const'><span class='object_link'><a href="Connection/Constants.html#PP_VARS-constant" title="Jamf::Connection::Constants::PP_VARS (constant)">PP_VARS</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pw_fallback?-instance_method">
+  
+    #<strong>pw_fallback?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#pw_fallback%3F-instance_method" title="Jamf::Connection::Attributes#pw_fallback? (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns If keep_alive is true, is the password Cached in memory to use if the refresh fails?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If keep_alive is true, is the password Cached in memory to use if the refresh fails?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="secs_to_refresh-instance_method">
+  
+    #<strong>secs_to_refresh</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@deprecated, use .token.secs_to_refresh</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_secs_to_refresh'>secs_to_refresh</span>
+  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_secs_to_refresh'>secs_to_refresh</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ssl_options-instance_method">
+  
+    #<strong>ssl_options</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#ssl_options-instance_method" title="Jamf::Connection::Attributes#ssl_options (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the ssl version and verify cert, to pass into faraday connections.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the ssl version and verify cert, to pass into faraday connections</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ssl_version-instance_method">
+  
+    #<strong>ssl_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#ssl_version-instance_method" title="Jamf::Connection::Attributes#ssl_version (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns SSL version used for the connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>SSL version used for the connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="time_to_refresh-instance_method">
+  
+    #<strong>time_to_refresh</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>@deprecated, use .token.time_to_refresh</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 228</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_time_to_refresh'>time_to_refresh</span>
+  <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_time_to_refresh'>time_to_refresh</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A useful string about this connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/connection.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>not connected</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_connected?'>connected?</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_host'>host</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='embexpr_end'>}</span><span class='tstring_content'>, name: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_refreshed_token-instance_method">
+  
+    #<strong>update_refreshed_token</strong>(subcnx)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Connect.html#update_refreshed_token-instance_method" title="Jamf::Connection::Connect#update_refreshed_token (method)">Connect</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>always use the current token, which by default will auto-refresh</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload-instance_method">
+  
+    #<strong>upload</strong>(rsrc, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/ClassicAPI.html#upload-instance_method" title="Jamf::Connection::ClassicAPI#upload (method)">ClassicAPI</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upload a file. This is really only used for the &#39;fileuploads&#39; endpoint of the classic API, as implemented in the Uploadable mixin module, q.v.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rsrc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API resource being uploadad-to, the URL part after &#39;JSSResource/&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local file to upload</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml response from the server.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user-instance_method">
+  
+    #<strong>user</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#user-instance_method" title="Jamf::Connection::Attributes#user (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the username who&#39;s connected to the JSS API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username who&#39;s connected to the JSS API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_connected-instance_method">
+  
+    #<strong>validate_connected</strong>(subcnx)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Connect.html#validate_connected-instance_method" title="Jamf::Connection::Connect#validate_connected (method)">Connect</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>raise exception if not connected, and make sure we&#39;re using the current token</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="Jamf::InvalidConnectionError (class)">Jamf::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_token-instance_method">
+  
+    #<strong>validate_token</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#validate_token-instance_method" title="Jamf::Connection::Attributes#validate_token (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>raise an error if no token yet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidConnectionError.html" title="Jamf::InvalidConnectionError (class)">Jamf::InvalidConnectionError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify_cert?-instance_method">
+  
+    #<strong>verify_cert?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='verify_cert-instance_method'>verify_cert</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Connection/Attributes.html#verify_cert%3F-instance_method" title="Jamf::Connection::Attributes#verify_cert? (method)">Attributes</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should the SSL certifcate from the server be verified?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the SSL certifcate from the server be verified?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:19 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

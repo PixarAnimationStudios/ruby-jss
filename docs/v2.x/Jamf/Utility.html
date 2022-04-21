@@ -1,0 +1,3010 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Utility
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Utility";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (U)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Utility</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Utility
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Constants.html" title="Jamf::Constants (module)">Constants</a></span></dd>
+  </dl>
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/utility.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A collection of useful utility methods. Mostly for converting values between formats, parsing data, and user interaction. This module should be extended into the Jamf Module so all methods become module methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="OS_TEN_MAXS-constant" class="">OS_TEN_MAXS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Hash of &#39;minor&#39; =&gt; &#39;maint&#39; The maximum maint release for macOS 10.minor.maint e.g the highest release of 10.6 was 10.6.8, the highest release of 10.15 was 10.15.7</p>
+
+<p>12 is the default for the current OS and higher (and hoping apple doesn&#39;t release 10.16.13)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='int'>2</span> <span class='op'>=&gt;</span> <span class='int'>8</span><span class='comma'>,</span>
+  <span class='int'>3</span> <span class='op'>=&gt;</span> <span class='int'>9</span><span class='comma'>,</span>
+  <span class='int'>4</span> <span class='op'>=&gt;</span> <span class='int'>11</span><span class='comma'>,</span>
+  <span class='int'>5</span> <span class='op'>=&gt;</span> <span class='int'>8</span><span class='comma'>,</span>
+  <span class='int'>6</span> <span class='op'>=&gt;</span> <span class='int'>8</span><span class='comma'>,</span>
+  <span class='int'>7</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
+  <span class='int'>8</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
+  <span class='int'>9</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
+  <span class='int'>10</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='comma'>,</span>
+  <span class='int'>11</span> <span class='op'>=&gt;</span> <span class='int'>6</span><span class='comma'>,</span>
+  <span class='int'>12</span> <span class='op'>=&gt;</span> <span class='int'>6</span><span class='comma'>,</span>
+  <span class='int'>13</span> <span class='op'>=&gt;</span> <span class='int'>6</span><span class='comma'>,</span>
+  <span class='int'>14</span> <span class='op'>=&gt;</span> <span class='int'>6</span><span class='comma'>,</span>
+  <span class='int'>15</span> <span class='op'>=&gt;</span> <span class='int'>7</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="MAC_OS_MAXS-constant" class="">MAC_OS_MAXS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Hash of &#39;major&#39; =&gt; &#39;minor&#39; The maximum minor release for macOS major.minor e.g. the highest release of 11 is 11.12</p>
+
+<p>12 is the default for the current OS and higher (and hoping apple doesn&#39;t release, e.g.,  11.13)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='int'>11</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>12</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>13</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>14</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>15</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>16</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>17</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>18</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>19</span> <span class='op'>=&gt;</span> <span class='int'>12</span><span class='comma'>,</span>
+  <span class='int'>20</span> <span class='op'>=&gt;</span> <span class='int'>12</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_object_class-instance_method" title="#api_object_class (instance method)">#<strong>api_object_class</strong>(name)  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a name, singular or plural, of a Jamf::APIObject subclass as a String or Symbol (e.g. :computer/&#39;computers&#39;), return the class itself (e.g. Jamf::Computer) The available names are the RSRC_LIST_KEY and RSRC_OBJECT_KEY values for each APIObject subclass.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_object_names-instance_method" title="#api_object_names (instance method)">#<strong>api_object_names</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>APIObject subclasses have singular names, and are, of course capitalized, e.g.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#array_to_rexml_array-instance_method" title="#array_to_rexml_array (instance method)">#<strong>array_to_rexml_array</strong>(element, list)  &#x21d2; Array&lt;REXML::Element&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given an element name and an array of content, generate an Array of REXML::Element objects with that name, and matching content.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#devmode-instance_method" title="#devmode (instance method)">#<strong>devmode</strong>(setting)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>un/set devmode mode.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#devmode%3F-instance_method" title="#devmode? (instance method)">#<strong>devmode?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is devmode currently on?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#epoch_to_time-instance_method" title="#epoch_to_time (instance method)">#<strong>epoch_to_time</strong>(epoch)  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#escape_xml-instance_method" title="#escape_xml (instance method)">#<strong>escape_xml</strong>(string)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a string of xml element text, escape any characters that would make XML unhappy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expand_min_os-instance_method" title="#expand_min_os (instance method)">#<strong>expand_min_os</strong>(min_os)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts an OS Version into an Array of equal or higher OS versions, up to some non-existant max, hopefully far in the future, currently 20.12.10.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hash_to_rexml_array-instance_method" title="#hash_to_rexml_array (instance method)">#<strong>hash_to_rexml_array</strong>(hash)  &#x21d2; Array&lt;REXML::Element&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a simple Hash, convert it to an array of REXML Elements such that each key becomes an element, and its value becomes the text content of that element.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#humanize_secs-instance_method" title="#humanize_secs (instance method)">#<strong>humanize_secs</strong>(secs)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Very handy! lifted from <a href="http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails">stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails</a>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#item_list_to_rexml_list-instance_method" title="#item_list_to_rexml_list (instance method)">#<strong>item_list_to_rexml_list</strong>(list_element, item_element, item_list, content = :name)  &#x21d2; REXML::Element </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given an Array of Hashes with :id and/or :name keys, return a single REXML element with a sub-element for each item, each of which contains a :name or :id element.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_ok%3F-instance_method" title="#os_ok? (instance method)">#<strong>os_ok?</strong>(requirement, os_to_check = nil)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Scripts and packages can have OS limitations.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_jss_version-instance_method" title="#parse_jss_version (instance method)">#<strong>parse_jss_version</strong>(version)  &#x21d2; Hash{Symbol =&gt; String, Gem::Version} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse a JSS Version number into something comparable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_plist-instance_method" title="#parse_plist (instance method)">#<strong>parse_plist</strong>(plist, symbol_keys: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse a plist into a Ruby data structure.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_time-instance_method" title="#parse_time (instance method)">#<strong>parse_time</strong>(a_datetime)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a wrapper around Time.parse that returns nil for nil, zero, and empty values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#processor_ok%3F-instance_method" title="#processor_ok? (instance method)">#<strong>processor_ok?</strong>(requirement, processor = nil)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Scripts and packages can have processor limitations.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prompt_for_password-instance_method" title="#prompt_for_password (instance method)">#<strong>prompt_for_password</strong>(message)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Prompt for a password in a terminal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stdin-instance_method" title="#stdin (instance method)">#<strong>stdin</strong>(line = 0)  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#superuser%3F-instance_method" title="#superuser? (instance method)">#<strong>superuser?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this code running as root?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s_and_a-instance_method" title="#to_s_and_a (instance method)">#<strong>to_s_and_a</strong>(somedata)  &#x21d2; Hash{:stringform =&gt; String, :arrayform =&gt; Array} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a list of data as a comma-separated string, or an Array of strings, return a Hash with both versions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#xml_plist_from-instance_method" title="#xml_plist_from (instance method)">#<strong>xml_plist_from</strong>(data)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert any ruby data to an XML plist.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="api_object_class-instance_method">
+  
+    #<strong>api_object_class</strong>(name)  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a name, singular or plural, of a Jamf::APIObject subclass as a String or Symbol (e.g. :computer/&#39;computers&#39;), return the class itself (e.g. Jamf::Computer) The available names are the RSRC_LIST_KEY and RSRC_OBJECT_KEY values for each APIObject subclass.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a Jamf::APIObject subclass, singluar or plural</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The class</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404
+405
+406
+407</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 402</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_object_class'>api_object_class</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='id identifier rubyid_api_object_names'>api_object_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown API Object Class: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span>
+
+  <span class='id identifier rubyid_klass'>klass</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="api_object_names-instance_method">
+  
+    #<strong>api_object_names</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>APIObject subclasses have singular names, and are, of course capitalized, e.g. &#39;Computer&#39; But we often want to refer to them in the plural, or lowercase, e.g. &#39;computers&#39; This method returns a Hash of the RSRC_LIST_KEY (a plural symbol) and the RSRC_OBJECT_KEY (a singular symbol) of each APIObject subclass, keyed to the class itself, such that both :computer and :computers are keys for Jamf::Computer and both :policy and :policies are keys for Jamf::Policy, and so on.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>APIObject subclass names to Classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 421</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_object_names'>api_object_names</span>
+  <span class='kw'>return</span> <span class='ivar'>@api_object_names</span> <span class='kw'>if</span> <span class='ivar'>@api_object_names</span>
+
+  <span class='ivar'>@api_object_names</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_constants'>constants</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_const'>const</span><span class='op'>|</span>
+    <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span> <span class='id identifier rubyid_const'>const</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Class</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_ancestors'>ancestors</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></span>
+
+    <span class='ivar'>@api_object_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:RSRC_LIST_KEY</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span> <span class='kw'>if</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_constants'>constants</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:RSRC_LIST_KEY</span>
+    <span class='ivar'>@api_object_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='symbol'>:RSRC_OBJECT_KEY</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span> <span class='kw'>if</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_constants'>constants</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:RSRC_OBJECT_KEY</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@api_object_names</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="array_to_rexml_array-instance_method">
+  
+    #<strong>array_to_rexml_array</strong>(element, list)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given an element name and an array of content, generate an Array of REXML::Element objects with that name, and matching content. Given element name &#39;foo&#39; and the array [&#39;bar&#39;,&#39;morefoo&#39;] The array of REXML elements would render thus:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;foo&gt;bar&lt;/foo&gt;
+&lt;foo&gt;morefoo&lt;/foo&gt;
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an element_name like :foo</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>list</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;#to_s&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an Array of element content such as [“bar”, :morefoo]</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 464</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_array_to_rexml_array'>array_to_rexml_array</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Arg. must be an Array.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span>
+
+  <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+    <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Element</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_e'>e</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="devmode-instance_method">
+  
+    #<strong>devmode</strong>(setting)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>un/set devmode mode. Useful when coding - methods can call JSS.devmode? and then e.g. spit out something instead of performing some action.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>Set</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>devmode :on or :off</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new state of devmode</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+633
+634
+635</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 633</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_devmode'>devmode</span><span class='lparen'>(</span><span class='id identifier rubyid_setting'>setting</span><span class='rparen'>)</span>
+  <span class='ivar'>@devmode</span> <span class='op'>=</span> <span class='id identifier rubyid_setting'>setting</span> <span class='op'>==</span> <span class='symbol'>:on</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="devmode?-instance_method">
+  
+    #<strong>devmode?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is devmode currently on?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+641
+642
+643</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 641</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_devmode?'>devmode?</span>
+  <span class='ivar'>@devmode</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="epoch_to_time-instance_method">
+  
+    #<strong>epoch_to_time</strong>(epoch)  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>epoch</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nil is returned if epoch is nil, 0 or an empty String.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+383
+384
+385
+386
+387</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 383</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_epoch_to_time'>epoch_to_time</span><span class='lparen'>(</span><span class='id identifier rubyid_epoch'>epoch</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Constants.html#NIL_DATES-constant" title="Jamf::Constants::NIL_DATES (constant)">NIL_DATES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_epoch'>epoch</span>
+
+  <span class='const'><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at'>at</span><span class='lparen'>(</span><span class='id identifier rubyid_epoch'>epoch</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>/</span> <span class='float'>1000.0</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="escape_xml-instance_method">
+  
+    #<strong>escape_xml</strong>(string)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a string of xml element text, escape any characters that would make XML unhappy.</p>
+
+<pre class="code ruby"><code class="ruby">* &amp; =&gt; &amp;amp;
+* &quot; =&gt; &amp;quot;
+* &lt; =&gt; &amp;lt;
+* &gt; =&gt; &amp;gt;
+* &#39; =&gt; &amp;apos;
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>string</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the string to make xml-compliant.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml-compliant string</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_escape_xml'>escape_xml</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_string'>string</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&amp;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;amp;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&quot;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;quot;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&gt;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&lt;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;lt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&#39;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;apos;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="expand_min_os-instance_method">
+  
+    #<strong>expand_min_os</strong>(min_os)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts an OS Version into an Array of equal or higher OS versions, up to some non-existant max, hopefully far in the future, currently 20.12.10</p>
+
+<p>This array can then be joined with commas and used as the value of the os_requirements for Packages and Scripts.</p>
+
+<p>It&#39;s unlikely that this method, as written, will still be in use by the release of macOS 20.12.10, but currently thats the upper limit.</p>
+
+<p>Hopefully well before then JAMF will implement a “minimum OS” in Jamf Pro itself, then we could avoid the inherant limitations in using a method like this.</p>
+
+<p>When the highest maint. release of an OS version is not known, because its the currently released OS version or higher, then this method assumes &#39;12&#39; e.g. &#39;10.16.12&#39;, &#39;11.12&#39;, &#39;12.12&#39;, etc.</p>
+
+<p>Apple has never released more than 11 updates to a version of macOS (that being 10.4), so hopefully 12 is enough</p>
+
+<p>Since Big Sur might report itself as either &#39;10.16&#39; or &#39;11.x.x&#39;, this method will allow for both possibilities, and the array will contain whatever iterations needed for both version numbers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_expand_min_os'>expand_min_os</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&gt;=10.9.4</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># =&gt; returns this array
+</span> <span class='comment'># [&quot;10.9.4&quot;,
+</span> <span class='comment'>#  &quot;10.9.5&quot;,
+</span> <span class='comment'>#  &quot;10.10.x&quot;
+</span> <span class='comment'>#  ...
+</span> <span class='comment'>#  &quot;10.16.x&quot;,
+</span> <span class='comment'>#  &quot;11.x&quot;,
+</span> <span class='comment'>#  &quot;12.x&quot;,
+</span> <span class='comment'>#  ...
+</span> <span class='comment'>#  &quot;20.x&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>min_os</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mimimum OS version to expand, e.g. “&gt;=10.9.4”  or “11.1”</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Nearly all potential OS versions from the minimum to 20.12.10</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_expand_min_os'>expand_min_os</span><span class='lparen'>(</span><span class='id identifier rubyid_min_os'>min_os</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_min_os'>min_os</span> <span class='op'>=</span> <span class='id identifier rubyid_min_os'>min_os</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&gt;=</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='comment'># split the version into major, minor and maintenance release numbers
+</span>  <span class='id identifier rubyid_major'>major</span><span class='comma'>,</span> <span class='id identifier rubyid_minor'>minor</span><span class='comma'>,</span> <span class='id identifier rubyid_maint'>maint</span> <span class='op'>=</span> <span class='id identifier rubyid_min_os'>min_os</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_minor'>minor</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_minor'>minor</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_maint'>maint</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_maint'>maint</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_maint'>maint</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Deal with 10.x.x up to 10.16
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_major'>major</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10</span><span class='tstring_end'>&#39;</span></span>
+
+    <span class='comment'># In big sur with SYSTEM_VERSION_COMPAT
+</span>    <span class='comment'># set, it will only ever report as `10.16`
+</span>    <span class='comment'># So if major is 10 and minor is 16, ignore maint
+</span>    <span class='comment'># and start explicitly at &#39;10.16&#39;
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_minor'>minor</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>16</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.16</span><span class='tstring_end'>&#39;</span></span>
+
+    <span class='comment'># But for Catalina and below, we need to
+</span>    <span class='comment'># expand things out
+</span>    <span class='kw'>else</span>
+      <span class='comment'># e.g. 10.14.x
+</span>      <span class='comment'># doesn&#39;t expand to anything
+</span>      <span class='kw'>if</span> <span class='id identifier rubyid_maint'>maint</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>10.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_minor'>minor</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span>
+
+      <span class='comment'># e.g. 10.15.5
+</span>      <span class='comment'># expand to 10.15.5, 10.15.6, 10.15.7
+</span>      <span class='kw'>else</span>
+        <span class='id identifier rubyid_max_maint_for_minor'>max_maint_for_minor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#OS_TEN_MAXS-constant" title="Jamf::Utility::OS_TEN_MAXS (constant)">OS_TEN_MAXS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbracket'>]</span>
+
+        <span class='lparen'>(</span><span class='id identifier rubyid_maint'>maint</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='op'>..</span><span class='id identifier rubyid_max_maint_for_minor'>max_maint_for_minor</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>
+          <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_major'>major</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_minor'>minor</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_m'>m</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span> <span class='comment'># each m
+</span>      <span class='kw'>end</span> <span class='comment'># if maint == x
+</span>
+      <span class='comment'># now if we started below catalina, account for everything
+</span>      <span class='comment'># up to 10.15.x
+</span>      <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='int'>15</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>10.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&lt;</span> <span class='int'>15</span>
+
+      <span class='comment'># and add big sur with SYSTEM_VERSION_COMPAT
+</span>      <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.16</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span> <span class='comment'># if minor == 16
+</span>
+    <span class='comment'># now reset these so we can go higher
+</span>    <span class='id identifier rubyid_major'>major</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_minor'>minor</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_maint'>maint</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span> <span class='comment'># if major == 10
+</span>
+  <span class='comment'># if the min os is 11.0.0 or equiv, and we aven&#39;t added 10.16
+</span>  <span class='comment'># for SYSTEM_VERSION_COMPAT, add it now
+</span>  <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.16</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11.x</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11.x.x</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11.0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>11.0.0</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_min_os'>min_os</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_ok_oses'>ok_oses</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.16</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># e.g. 11.x, or 11.x.x
+</span>  <span class='comment'># expand to 11.x, 12.x, 13.x, ... 20.x
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_minor'>minor</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span>
+    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rparen'>)</span><span class='op'>..</span><span class='int'>20</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+
+  <span class='comment'># e.g. 11.2.x
+</span>  <span class='comment'># expand to 11.2.x, 11.3.x, ... 11.12.x,
+</span>  <span class='comment'>#   12.x, 13.x,  ... 20.x
+</span>  <span class='kw'>elsif</span> <span class='id identifier rubyid_maint'>maint</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x</span><span class='tstring_end'>&#39;</span></span>
+    <span class='comment'># first expand the minors out to their max
+</span>    <span class='comment'># e.g. 11.2.x, 11.3.x, ... 11.12.x
+</span>    <span class='id identifier rubyid_max_minor_for_major'>max_minor_for_major</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#MAC_OS_MAXS-constant" title="Jamf::Utility::MAC_OS_MAXS (constant)">MAC_OS_MAXS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbracket'>]</span>
+    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rparen'>)</span><span class='op'>..</span><span class='id identifier rubyid_max_minor_for_major'>max_minor_for_major</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>
+      <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_major'>major</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_m'>m</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span> <span class='comment'># each m
+</span>
+    <span class='comment'># then add the majors out to 20
+</span>    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='int'>20</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+
+  <span class='comment'># e.g. 11.2.3
+</span>  <span class='comment'># expand to 11.2.3, 11.2.4, ... 11.2.10,
+</span>  <span class='comment'>#   11.3.x, 11.4.x, ... 11.12.x,
+</span>  <span class='comment'>#   12.x, 13.x, ... 20.x
+</span>  <span class='kw'>else</span>
+    <span class='comment'># first expand the maints out to 10
+</span>    <span class='comment'># e.g. 11.2.3, 11.2.4, ... 11.2.10
+</span>    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_maint'>maint</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rparen'>)</span><span class='op'>..</span><span class='int'>10</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_mnt'>mnt</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_major'>major</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_minor'>minor</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_mnt'>mnt</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+
+    <span class='comment'># then expand the minors out to their max
+</span>    <span class='comment'># e.g. 11.3.x, ... 11.12.x
+</span>    <span class='id identifier rubyid_max_minor_for_major'>max_minor_for_major</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#MAC_OS_MAXS-constant" title="Jamf::Utility::MAC_OS_MAXS (constant)">MAC_OS_MAXS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbracket'>]</span>
+    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='id identifier rubyid_max_minor_for_major'>max_minor_for_major</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_min'>min</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_major'>major</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+
+    <span class='comment'># then add the majors out to 20
+</span>    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='int'>20</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_ok_oses'>ok_oses</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'>.x</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_ok_oses'>ok_oses</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="hash_to_rexml_array-instance_method">
+  
+    #<strong>hash_to_rexml_array</strong>(hash)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a simple Hash, convert it to an array of REXML Elements such that each key becomes an element, and its value becomes the text content of that element</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>my_hash = {:foo =&gt; &quot;bar&quot;, :baz =&gt; :morefoo}
+xml = JSS.hash_to_rexml_array(my_hash)
+xml.each{|x| puts x }
+
+&lt;foo&gt;bar&lt;/foo&gt;
+&lt;baz&gt;morefoo&lt;/baz&gt;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>hash</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{#to_s =&gt; #to_s}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Hash to convert</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Array of REXML elements.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 491</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hash_to_rexml_array'>hash_to_rexml_array</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Arg. must be a Hash.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span>
+
+  <span class='id identifier rubyid_ary'>ary</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+    <span class='id identifier rubyid_el'>el</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Element</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_ary'>ary</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_el'>el</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_ary'>ary</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="humanize_secs-instance_method">
+  
+    #<strong>humanize_secs</strong>(secs)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Very handy! lifted from <a href="http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails">stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails</a></p>
+
+<p>Turns the integer 834756398 into the string “26 years 23 weeks 1 day 12 hours 46 minutes 38 seconds”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>secs</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a number of seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a human-readable (English) version of that number of seconds.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+655
+656
+657
+658
+659
+660
+661
+662
+663</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 655</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_humanize_secs'>humanize_secs</span><span class='lparen'>(</span><span class='id identifier rubyid_secs'>secs</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='int'>60</span><span class='comma'>,</span> <span class='symbol'>:second</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>60</span><span class='comma'>,</span> <span class='symbol'>:minute</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>24</span><span class='comma'>,</span> <span class='symbol'>:hour</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>7</span><span class='comma'>,</span> <span class='symbol'>:day</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='float'>52.179</span><span class='comma'>,</span> <span class='symbol'>:week</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>1_000_000_000</span><span class='comma'>,</span> <span class='symbol'>:year</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_count'>count</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_secs'>secs</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+
+    <span class='id identifier rubyid_secs'>secs</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_secs'>secs</span><span class='period'>.</span><span class='id identifier rubyid_divmod'>divmod</span><span class='lparen'>(</span><span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="item_list_to_rexml_list-instance_method">
+  
+    #<strong>item_list_to_rexml_list</strong>(list_element, item_element, item_list, content = :name)  &#x21d2; <tt>REXML::Element</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given an Array of Hashes with :id and/or :name keys, return a single REXML element with a sub-element for each item, each of which contains a :name or :id element.</p>
+
+<p>e.g. :computers</p>
+
+<p>e.g. :computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>comps = [{:id=&gt;2,:name=&gt;&#39;kimchi&#39;},{:id=&gt;5,:name=&gt;&#39;mantis&#39;}]
+xml = JSS.item_list_to_rexml_list(:computers, :computer , comps, :name)
+puts xml
+# output manually formatted for clarity. No newlines in the real xml string
+&lt;computers&gt;
+  &lt;computer&gt;
+    &lt;name&gt;kimchi&lt;/name&gt;
+  &lt;/computer&gt;
+  &lt;computer&gt;
+    &lt;name&gt;mantis&lt;/name&gt;
+  &lt;/computer&gt;
+&lt;/computers&gt;
+
+# if content is :id, then, eg. &lt;name&gt;kimchi&lt;/name&gt; would be &lt;id&gt;2&lt;/id&gt;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>list_element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the XML element that contains the list.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>item_element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of each XML element in the list,</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>item_list</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an Array of Hashes each with a :name or :id key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>content</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:name</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which hash key should be used as the content of if list item? Defaults to :name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the item list as REXML</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+535
+536
+537
+538
+539
+540
+541</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 535</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_item_list_to_rexml_list'>item_list_to_rexml_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list_element'>list_element</span><span class='comma'>,</span> <span class='id identifier rubyid_item_element'>item_element</span><span class='comma'>,</span> <span class='id identifier rubyid_item_list'>item_list</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml_list'>xml_list</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Element</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>  <span class='id identifier rubyid_list_element'>list_element</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_item_list'>item_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='id identifier rubyid_xml_list'>xml_list</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='id identifier rubyid_item_element'>item_element</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='id identifier rubyid_content'>content</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_xml_list'>xml_list</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="os_ok?-instance_method">
+  
+    #<strong>os_ok?</strong>(requirement, os_to_check = nil)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Scripts and packages can have OS limitations. This method tests a given OS, against a requirement list to see if the requirement is met.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>requirement</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The os requirement list, a comma-seprated string or array of strings of allows OSes. e.g. 10.7, 10.8.5 or 10.9.x</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>processor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the os to check, defaults to the os of the current machine.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can this pkg be installed with the processor given?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 252</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_os_ok?'>os_ok?</span><span class='lparen'>(</span><span class='id identifier rubyid_requirement'>requirement</span><span class='comma'>,</span> <span class='id identifier rubyid_os_to_check'>os_to_check</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_requirement'>requirement</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>none</span><span class='regexp_end'>/i</span></span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_requirement'>requirement</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>n</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='id identifier rubyid_requirement'>requirement</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span><span class='lparen'>(</span><span class='id identifier rubyid_requirement'>requirement</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:arrayform</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_requirement'>requirement</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_os_to_check'>os_to_check</span> <span class='op'>||=</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/bin/sw_vers -productVersion</span><span class='tstring_end'>`</span></span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span>
+
+  <span class='comment'># convert the requirement array into an array of regexps.
+</span>  <span class='comment'># examples:
+</span>  <span class='comment'>#   &quot;10.8.5&quot; becomes  /^10\.8\.5$/
+</span>  <span class='comment'>#   &quot;10.8&quot; becomes /^10.8(.0)?$/
+</span>  <span class='comment'>#   &quot;10.8.x&quot; /^10\.8\.?\d*$/
+</span>  <span class='id identifier rubyid_req_regexps'>req_regexps</span> <span class='op'>=</span> <span class='id identifier rubyid_requirement'>requirement</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.x</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.x</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>(\.?\d*)*$</span><span class='regexp_end'>/</span></span>
+
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_r'>r</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\d+\.\d+$</span><span class='regexp_end'>/</span></span>
+      <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>(.0)?$</span><span class='regexp_end'>/</span></span>
+
+    <span class='kw'>else</span>
+      <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>$</span><span class='regexp_end'>/</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_req_regexps'>req_regexps</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_re'>re</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_os_to_check'>os_to_check</span> <span class='op'>=~</span> <span class='id identifier rubyid_re'>re</span> <span class='rbrace'>}</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_jss_version-instance_method">
+  
+    #<strong>parse_jss_version</strong>(version)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Gem::Version}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse a JSS Version number into something comparable.</p>
+
+<p>This method returns a Hash with these keys:</p>
+<ul><li>
+<p>:major =&gt; the major version, Integer</p>
+</li><li>
+<p>:minor =&gt; the minor version, Integor</p>
+</li><li>
+<p>:maint =&gt; the revision, Integer (also available as :patch and :revision)</p>
+</li><li>
+<p>:build =&gt; the revision, String</p>
+</li><li>
+<p>:version =&gt; a Gem::Version object built from :major, :minor, :revision which can be easily compared with other Gem::Version objects.</p>
+</li></ul>
+
+<p>NOTE: the :version value ignores build numbers, so comparisons only compare major.minor.maint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>version</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a JSS version number from the API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Gem::Version}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parsed version data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 560</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_jss_version'>parse_jss_version</span><span class='lparen'>(</span><span class='id identifier rubyid_version'>version</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_major'>major</span><span class='comma'>,</span> <span class='id identifier rubyid_second_part'>second_part</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid__rest'>_rest</span> <span class='op'>=</span> <span class='id identifier rubyid_version'>version</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSS Versions must start with &quot;x.x&quot; where x is one or more digits</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_major'>major</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\d$</span><span class='regexp_end'>/</span></span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_second_part'>second_part</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\d</span><span class='regexp_end'>/</span></span>
+
+  <span class='id identifier rubyid_release'>release</span><span class='comma'>,</span> <span class='id identifier rubyid_build'>build</span> <span class='op'>=</span> <span class='id identifier rubyid_version'>version</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>-</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_major'>major</span><span class='comma'>,</span> <span class='id identifier rubyid_minor'>minor</span><span class='comma'>,</span> <span class='id identifier rubyid_revision'>revision</span> <span class='op'>=</span> <span class='id identifier rubyid_release'>release</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_minor'>minor</span> <span class='op'>||=</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_revision'>revision</span> <span class='op'>||=</span> <span class='int'>0</span>
+
+  <span class='lbrace'>{</span>
+    <span class='label'>major:</span> <span class='id identifier rubyid_major'>major</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span>
+    <span class='label'>minor:</span> <span class='id identifier rubyid_minor'>minor</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span>
+    <span class='label'>revision:</span> <span class='id identifier rubyid_revision'>revision</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span>
+    <span class='label'>maint:</span> <span class='id identifier rubyid_revision'>revision</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span>
+    <span class='label'>patch:</span> <span class='id identifier rubyid_revision'>revision</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span>
+    <span class='label'>build:</span> <span class='id identifier rubyid_build'>build</span><span class='comma'>,</span>
+    <span class='label'>version:</span> <span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_major'>major</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_minor'>minor</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_revision'>revision</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_plist-instance_method">
+  
+    #<strong>parse_plist</strong>(plist, symbol_keys: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse a plist into a Ruby data structure. The plist parameter may be a String containing an XML plist, or a path to a plist file, or it may be a Pathname object pointing to a plist file. The plist files may be XML or binary.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>plist</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the plist XML, or the path to a plist file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>symbol_keys</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should any Hash keys in the result be converted into Symbols rather than remain as Strings?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parsed plist as a ruby hash,array, etc.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 335</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_plist'>parse_plist</span><span class='lparen'>(</span><span class='id identifier rubyid_plist'>plist</span><span class='comma'>,</span> <span class='label'>symbol_keys:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cfpropertylist</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='comment'># did we get a string of xml, or a string pathname?
+</span>  <span class='kw'>case</span> <span class='id identifier rubyid_plist'>plist</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+    <span class='kw'>return</span> <span class='const'>CFPropertyList</span><span class='period'>.</span><span class='id identifier rubyid_native_types'>native_types</span><span class='lparen'>(</span><span class='const'>CFPropertyList</span><span class='op'>::</span><span class='const'>List</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>data:</span> <span class='id identifier rubyid_plist'>plist</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_symbol_keys'>symbol_keys</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;/plist&gt;</span><span class='tstring_end'>&#39;</span></span>
+
+    <span class='id identifier rubyid_plist'>plist</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_plist'>plist</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span>
+    <span class='kw'>true</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Argument must be a path (as a Pathname or String) or a String of XML</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span> <span class='comment'># case plist
+</span>
+  <span class='comment'># if we&#39;re here, its a Pathname
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="Jamf::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No such file: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_plist'>plist</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
+
+  <span class='const'>CFPropertyList</span><span class='period'>.</span><span class='id identifier rubyid_native_types'>native_types</span><span class='lparen'>(</span><span class='const'>CFPropertyList</span><span class='op'>::</span><span class='const'>List</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>file:</span> <span class='id identifier rubyid_plist'>plist</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_symbol_keys'>symbol_keys</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_time-instance_method">
+  
+    #<strong>parse_time</strong>(a_datetime)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a wrapper around Time.parse that returns nil for nil, zero, and empty values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+317
+318
+319
+320
+321</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 317</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_time'>parse_time</span><span class='lparen'>(</span><span class='id identifier rubyid_a_datetime'>a_datetime</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Constants.html#NIL_DATES-constant" title="Jamf::Constants::NIL_DATES (constant)">NIL_DATES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_a_datetime'>a_datetime</span>
+
+  <span class='const'><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_a_datetime'>a_datetime</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="processor_ok?-instance_method">
+  
+    #<strong>processor_ok?</strong>(requirement, processor = nil)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Scripts and packages can have processor limitations. This method tests a given processor, against a requirement to see if the requirement is met.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>requirement</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The processor requirement. either &#39;ppc&#39;, &#39;x86&#39;, or some variation on “none”, nil, or empty</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>processor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the processor to check, defaults to the processor of the current machine. Any flavor of intel</p>
+
+<pre class="code ruby"><code class="ruby">is (i486, i386, x86-64, etc) is treated as &quot;x86&quot;
+</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can this pkg be installed with the processor given?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+232
+233
+234
+235
+236
+237</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 232</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_processor_ok?'>processor_ok?</span><span class='lparen'>(</span><span class='id identifier rubyid_requirement'>requirement</span><span class='comma'>,</span> <span class='id identifier rubyid_processor'>processor</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_requirement'>requirement</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>||</span> <span class='id identifier rubyid_requirement'>requirement</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>none</span><span class='regexp_end'>/i</span></span>
+
+  <span class='id identifier rubyid_processor'>processor</span> <span class='op'>||=</span> <span class='backtick'>`</span><span class='tstring_content'>/usr/bin/uname -p</span><span class='tstring_end'>`</span></span>
+  <span class='id identifier rubyid_requirement'>requirement</span> <span class='op'>==</span> <span class='lparen'>(</span><span class='id identifier rubyid_processor'>processor</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>86</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>x86</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ppc</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prompt_for_password-instance_method">
+  
+    #<strong>prompt_for_password</strong>(message)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Prompt for a password in a terminal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the prompt message to display</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the text typed by the user</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 612</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prompt_for_password'>prompt_for_password</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='kw'>begin</span>
+    <span class='gvar'>$stdin</span><span class='period'>.</span><span class='id identifier rubyid_reopen'>reopen</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/dev/tty</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='gvar'>$stdin</span><span class='period'>.</span><span class='id identifier rubyid_tty?'>tty?</span>
+    <span class='gvar'>$stderr</span><span class='period'>.</span><span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_system'>system</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/bin/stty -echo</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='gvar'>$stdin</span><span class='period'>.</span><span class='id identifier rubyid_gets'>gets</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_puts'>puts</span>
+  <span class='kw'>ensure</span>
+    <span class='id identifier rubyid_system'>system</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/bin/stty echo</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span> <span class='comment'># begin
+</span>  <span class='id identifier rubyid_pw'>pw</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stdin-instance_method">
+  
+    #<strong>stdin</strong>(line = 0)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+
+<p>Standard input is read completely the first time this method is called and the lines are stored as an Array in the module var @stdin_lines</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>line</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which line of stdin is being retrieved. The default is zero (0) which returns all of stdin as a single string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the requested ling of stdin, or nil if it doesn&#39;t exist.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+597
+598
+599
+600
+601
+602
+603
+604</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 597</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stdin'>stdin</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='ivar'>@stdin_lines</span> <span class='op'>||=</span> <span class='lparen'>(</span><span class='gvar'>$stdin</span><span class='period'>.</span><span class='id identifier rubyid_tty?'>tty?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='gvar'>$stdin</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='period'>.</span><span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_l'>l</span><span class='op'>|</span> <span class='id identifier rubyid_l'>l</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='kw'>return</span> <span class='ivar'>@stdin_lines</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
+
+  <span class='id identifier rubyid_idx'>idx</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span> <span class='op'>-</span> <span class='int'>1</span>
+  <span class='ivar'>@stdin_lines</span><span class='lbracket'>[</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="superuser?-instance_method">
+  
+    #<strong>superuser?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this code running as root?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this code running as root?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+583
+584
+585</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 583</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_superuser?'>superuser?</span>
+  <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_euid'>euid</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s_and_a-instance_method">
+  
+    #<strong>to_s_and_a</strong>(somedata)  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:stringform =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, :arrayform =&gt; <span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a list of data as a comma-separated string, or an Array of strings, return a Hash with both versions.</p>
+
+<p>Some parts of the JSS require lists as comma-separated strings, while often those data are easier work with as arrays. This method is a handy way to get either form when given either form.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo, bar, baz</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}
+</span>
+<span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bar</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>baz</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>somedata</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data to parse, of either class,</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{:stringform =&gt; <span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, :arrayform =&gt; <span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data as both comma-separated String and Array</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 298</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span><span class='lparen'>(</span><span class='id identifier rubyid_somedata'>somedata</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_somedata'>somedata</span>
+  <span class='kw'>when</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_valstr'>valstr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_valarr'>valarr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+    <span class='id identifier rubyid_valstr'>valstr</span> <span class='op'>=</span> <span class='id identifier rubyid_somedata'>somedata</span>
+    <span class='id identifier rubyid_valarr'>valarr</span> <span class='op'>=</span> <span class='id identifier rubyid_somedata'>somedata</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>,\s*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span>
+    <span class='id identifier rubyid_valstr'>valstr</span> <span class='op'>=</span> <span class='id identifier rubyid_somedata'>somedata</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_valarr'>valarr</span> <span class='op'>=</span> <span class='id identifier rubyid_somedata'>somedata</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Input must be a comma-separated String or an Array of Strings</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span> <span class='comment'># case
+</span>  <span class='lbrace'>{</span> <span class='label'>stringform:</span> <span class='id identifier rubyid_valstr'>valstr</span><span class='comma'>,</span> <span class='label'>arrayform:</span> <span class='id identifier rubyid_valarr'>valarr</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="xml_plist_from-instance_method">
+  
+    #<strong>xml_plist_from</strong>(data)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert any ruby data to an XML plist.</p>
+
+<p>NOTE: Binary data is tricky. Easiest way is to pass in a Pathname or IO object (anything that responds to `read` and returns a bytestring) and then the CFPropertyList.guess method will read it and convert it to a Plist &lt;data&gt; element with base64 encoded data. For more info, see CFPropertyList.guess</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data to be converted, usually a Hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the object converted into an XML plist</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+370
+371
+372
+373
+374
+375</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/utility.rb', line 370</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_xml_plist_from'>xml_plist_from</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cfpropertylist</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_plist'>plist</span> <span class='op'>=</span> <span class='const'>CFPropertyList</span><span class='op'>::</span><span class='const'>List</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>CFPropertyList</span><span class='period'>.</span><span class='id identifier rubyid_guess'>guess</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>convert_unknown_to_string:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_to_str'>to_str</span><span class='lparen'>(</span><span class='const'>CFPropertyList</span><span class='op'>::</span><span class='const'>List</span><span class='op'>::</span><span class='const'>FORMAT_XML</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:11 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

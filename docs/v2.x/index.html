@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="ruby-jss-working-with-the-jamf-pro-classic-api-in-ruby">ruby-jss: Working with the Jamf Pro Classic API in Ruby</h1>
+<p><a href="http://badge.fury.io/rb/ruby-jss"><img src="https://badge.fury.io/rb/ruby-jss.svg" alt="Gem Version" /></a></p>
+
+<h2 id="important-known-security-issue-in-v153-and-below"><strong>IMPORTANT: Known Security Issue in v1.5.3 and below</strong></h2>
+
+<p>Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the ‘plist’ gem.</p>
+
+<p>This has been resolved in 1.6.0, which now uses the CFProperlyList gem.</p>
+
+<p>Please update all installations of ruby-jss to at least v1.6.0.</p>
+
+<p>Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.</p>
+
+<h3 id="table-of-contents">Table of contents</h3>
+<ul>
+  <li><a href="#description">DESCRIPTION</a></li>
+  <li><a href="#synopsis">SYNOPSIS</a></li>
+  <li><a href="#usage">USAGE</a>
+    <ul>
+      <li><a href="#connecting-to-the-api">Connecting to the API</a></li>
+      <li><a href="#working-with-jss-objects-aka-rest-resources">Working with JSS Objects (a.k.a REST Resources)</a></li>
+      <li><a href="#listing-objects">Listing Objects</a></li>
+      <li><a href="#retrieving-objects">Retrieving Objects</a></li>
+      <li><a href="#updating-objects">Updating Objects</a></li>
+      <li><a href="#deleting-objects">Deleting Objects</a></li>
+    </ul>
+  </li>
+  <li><a href="#objects-implemented">OBJECTS IMPLEMENTED</a>
+    <ul>
+      <li><a href="#creatable-and-updatable">Creatable and Updatable</a></li>
+      <li><a href="#updatable-but-not-creatable">Updatable but not Creatable</a></li>
+      <li><a href="#read-only">Read-Only</a></li>
+      <li><a href="#creatable-and-updatable">Creatable and Updatable</a></li>
+      <li><a href="#deletable">Deletable</a></li>
+    </ul>
+  </li>
+  <li><a href="#configuration">CONFIGURATION</a>
+    <ul>
+      <li><a href="#passwords">Passwords</a></li>
+    </ul>
+  </li>
+  <li><a href="#beyond-the-api">BEYOND THE API</a></li>
+  <li><a href="#requirements">REQUIREMENTS</a></li>
+  <li><a href="#install">INSTALL</a></li>
+  <li><a href="#help">HELP</a></li>
+  <li><a href="#license">LICENSE</a></li>
+</ul>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>ruby-jss defines a Ruby module called JSS, which is used for accessing the ‘classic’ REST API of
+the JAMF Software Server (JSS), the core of Jamf Pro, an enterprise-level management tool for Apple
+devices from <a href="http://www.jamf.com/">Jamf.com</a>. It is available as a
+<a href="https://rubygems.org/gems/ruby-jss">ruby gem</a>, and the
+<a href="https://github.com/PixarAnimationStudios/ruby-jss">source is on github</a>.</p>
+
+<p>The module abstracts many API resources as Ruby objects, and provides methods for interacting with those
+resources. It also provides some features that aren’t a part of the API itself, but come with other
+Jamf-related tools, such as uploading .pkg and .dmg <span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Jamf::Package</a></span> data to the master distribution
+point, and the installation of <span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Jamf::Package</a></span> objects on client machines. (See <a href="#beyond-the-api">BEYOND THE API</a>)</p>
+
+<p>The module is not a complete implementation of the Jamf Pro Classic API. Only some API objects are modeled, some only minimally. Of those, some are read-only, some partially writable, some fully read-write (all implemented objects can be deleted) See <a href="#objects-implemented">OBJECTS IMPLEMENTED</a> for a list.</p>
+
+<p>We’ve implemented the things we need in our environment, and as our needs grow, we’ll add more.
+Hopefully others will find it useful, and add more to it as well.</p>
+
+<p><a href="http://www.rubydoc.info/gems/ruby-jss/">Full technical documentation can be found here.</a></p>
+
+<p>NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API in a ruby module called ‘Jamf’, See  README-JP-API.md in /lib/jamf, or in the ‘Files’ section of the YARD docs file for details.</p>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<p>Here are some simple examples of using ruby-jss</p>
+
+<p>```ruby
+require ‘ruby-jss’</p>
+
+<h1 id="connect-to-the-api">Connect to the API</h1>
+<p>Jamf.cnx.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname</p>
+
+<h1 id="get-an-array-of-basic-data-about-all-jsspackage-objects-in-the-jss">get an array of basic data about all JSS::Package objects in the JSS:</h1>
+<p>pkgs = JSS::Package.all</p>
+
+<h1 id="get-an-array-of-names-of-all-jsspackage-objects-in-the-jss">get an array of names of all JSS::Package objects in the JSS:</h1>
+<p>pkg_names = JSS::Package.all_names</p>
+
+<h1 id="get-a-static-computer-group-this-creates-a-new-ruby-object">Get a static computer group. This creates a new Ruby object</h1>
+<p># representing the existing JSS computer group.
+mg = JSS::ComputerGroup.fetch name: “Macs of interest”</p>
+
+<h1 id="add-a-computer-to-the-group">Add a computer to the group</h1>
+<p>mg.add_member “pricklepants”</p>
+
+<h1 id="save-changes-back-to-the-jss-mgupdate-works-also">save changes back to the JSS, mg.update works also</h1>
+<p>mg.save</p>
+
+<h1 id="create-a-new-network-segment-to-store-in-the-jss">Create a new network segment to store in the JSS.</h1>
+<p># This makes a new Ruby Object that doesn’t yet exist in the JSS.
+ns = JSS::NetworkSegment.make(
+  name: ‘Private Class C’,
+  starting_address: ‘192.168.0.0’,
+  ending_address: ‘192.168.0.255’
+)</p>
+
+<h1 id="associate-this-network-segment-with-a-specific-building">Associate this network segment with a specific building,</h1>
+<p># which must exist in the JSS, and be listed in JSS::Building.all_names
+ns.building = “Main Office”</p>
+
+<h1 id="associate-this-network-segment-with-a-specific-software-update-server">Associate this network segment with a specific software update server,</h1>
+<p>#  which must exist in the JSS, and be listed in JSS::SoftwareUpdateServer.all_names
+ns.swu_server = “Main SWU Server”</p>
+
+<h1 id="save-the-new-network-segment-in-the-jss-nscreate-works-as-well">save the new network segment in the JSS, ns.create works as well</h1>
+<p>ns.save
+```</p>
+
+<h2 id="usage">USAGE</h2>
+
+<h3 id="connecting-to-the-api">Connecting to the API</h3>
+
+<p>Before you can work with JSS Objects via the API, you have to connect to it.</p>
+
+<p>The method <code>Jamf.cnx</code> returns the currently active connection to the API (an instance of a APIConnection, q.v.).</p>
+
+<p>When the JSS Module is first loaded, that connection object isn’t connected to anything. To remedy that, use <code>Jamf.cnx.connect</code>, passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, jss_user_pw, and jss_server_hostname, and others are left as default.</p>
+
+<p><code>ruby
+Jamf.cnx.connect user: jss_user, pw: jss_user_pw, server: jss_server_hostname
+</code></p>
+
+<p>Make sure the user has privileges in the JSS to do things with desired objects. Note that these might be more than you think, since some objects refer to other objects, like Sites and Categories.</p>
+
+<p>If the server name given ends with ‘jamfcloud.com’ the port number will default to 443 via SSL.  Otherwise, it defaults to 8443 with SSL (the default port for locally-hosted servers). In other situations, you can specify it with the <code>port:</code> and <code>use_ssl:</code> parameters.</p>
+
+<p>The connect method also accepts the symbols :stdin and :prompt as values for pw:, which will cause it to read the
+password from stdin, or prompt for it in the shell. See the APIConnection class for more connection options and details about its methods.</p>
+
+<p>Also see JSS::Configuration, and the <a href="#configuration">CONFIGURATION</a> section below, for how to store
+server connection parameters in a simple config file.</p>
+
+<h3 id="working-with-jss-objects">Working with JSS Objects</h3>
+
+<p>All of the ruby classes representing objects in Jamf Pro are subclasse of, or modules within, JSS::APIObject and share methods for creating, listing, retrieving, updating, and deleting via the API. All supported objects can be listed, retrieved and deleted, but only some can be updated or created. See below for the level of implementation of each class.</p>
+
+<p>Some of those objects also provide access to more ‘functional’ API resources. For example, the API resources for sending MDM commands to computers and mobile devices are available as class and instance methods of JSS::Computer and JSS::MobileDevice, as are the API resources for accessing management history.</p>
+
+<hr />
+
+<h4 id="listing-objects">Listing Objects</h4>
+
+<p>To get an Array with a summary of every object in the JSS of some Class, call that Class’s .all method:</p>
+
+<p><code>ruby
+JSS::Computer.all # =&gt; [{:name=&gt;"cephei", :id=&gt;1122},{:name=&gt;"peterparker", :id=&gt;1218}, {:name=&gt;"rowdy", :id=&gt;931}, ...]
+</code></p>
+
+<p>The Array will contain a Hash for each item, with at least a :name and an :id.  Some classes provide more summary data for each item.
+To get just the names or just the ids in an Array, use the .all_names or .all_ids Class method</p>
+
+<p><code>ruby
+JSS::Computer.all_names # =&gt;  ["cephei", "peterparker", "rowdy", ...]
+JSS::Computer.all_ids # =&gt;  [1122, 1218, 931, ...]
+</code></p>
+
+<p>Some Classes provide other ways to list objects, or subsets of them, depending on the data available, e.g. JSS::MobileDevice.all_udids or JSS::Computer.all_laptops</p>
+
+<p>You can also perform simple searches for JSS::Computer, JSS::MobileDevice and JSS::User with the <code>.match</code> class method. This is the API equivalent of using the simple search field at the top of the Computers, Devices, or Users pages in the Jamf Pro Web interface. This method will return an Array of Hashes for the matching items. Each Hash is a summary of info about a matching item, similar to the summaries returned by the <code>.all</code> methods for those items.</p>
+
+<p>To create, modify, or perform advanced searches, use the classes JSS::AdvancedComputerSearch, JSS::AdvancedMobileDeviceSearch, and JSS::AdvancedUserSearch.</p>
+
+<hr />
+
+<h4 id="retrieving-objects">Retrieving Objects</h4>
+
+<p>To retrieve a single object call the class’s <code>.fetch</code> method and provide a name:,  id:, or other valid identifier.</p>
+
+<p><code>ruby
+a_dept = JSS::Department.fetch name: 'Payroll'# =&gt;  #&lt;JSS::Department:0x10b4c0818...
+</code></p>
+
+<p>Some classes can use more than just the :id and name: keys for lookups, e.g. computers can be looked up with udid:, serial_number:, or mac_address:.</p>
+
+<p>You can even fetch objects without specifying the kind of identifier, e.g. <code>JSS::Computer.fetch 'VM3X9483HD78'</code>, but this will be slower, since ruby-jss searches by matching the given value with all available identifiers, returning the first match.</p>
+
+<hr />
+
+<h4 id="creating-objects">Creating Objects</h4>
+
+<p>Some Objects can be created anew in the JSS via ruby. To do so, first make a Ruby object using the class’s <code>.make</code> method and providing a unique :name:, e.g.</p>
+
+<p><code>ruby
+new_pkg = JSS::Package.make name: "transmogrifier-2.3-1.pkg"
+</code>
+<em>NOTE</em>: some classes require more data than just a name: when created with .make</p>
+
+<p>Then set the attributes of the new object as needed</p>
+
+<p><code>ruby
+new_pkg.reboot_required = false
+new_pkg.category = "CoolTools"
+# etc..
+</code></p>
+
+<p>Then use the #save method to create it in the JSS. The #create method is the same</p>
+
+<p><code>ruby
+new_pkg.save # returns 453, the id number of the object just created
+</code></p>
+
+<hr />
+
+<h4 id="updating-objects">Updating Objects</h4>
+
+<p>Some objects can be modified in the JSS.</p>
+
+<p><code>ruby
+existing_script = JSS::Script.fetch id: 321
+existing_script.name = "transmogrifier-2.3-1.post-install"
+</code></p>
+
+<p>After changing any attributes, use the #save method (also aliased to #update) to push the changes to the JSS.</p>
+
+<p><code>ruby
+existing_script.save #  =&gt; returns the id number of the object just saved
+</code></p>
+
+<hr />
+
+<h4 id="deleting-objects">Deleting Objects</h4>
+
+<p>To delete an object, just call its #delete method</p>
+
+<p><code>ruby
+existing_script = JSS::Script.fetch id: 321
+existing_script.delete # =&gt; true # the delete was successful
+</code>
+To delete an object without fetching it, use the class’s .delete method and provide the id, or an array of ids.</p>
+
+<p><code>ruby
+JSS::Script.delete [321, 543, 374]
+</code></p>
+
+<p>See <a href="http://www.rubydoc.info/gems/ruby-jss/JSS/APIObject">JSS::APIObject</a>, the parent class of all API resources, for general information about creating, reading, updating/saving, and deleting resources.</p>
+
+<p>See the individual subclasses for any details specific to them.</p>
+
+<h2 id="objects-implemented">OBJECTS IMPLEMENTED</h2>
+
+<p>While the API itself supports nearly full CRUD (Create,Read,Update,Delete) for all objects, ruby-jss doesn’t yet do so. Why? Because implementing the data validation and other parts needed for creating &amp; updating can be time-consuming and we’ve focused on what we needed. As we keep developing ruby-jss, this list changes. If you’d like to help implement some of these objects more fully, please fork the github project and reach out to us at ruby-jss@pixar.com.</p>
+
+<p>Here’s what we’ve implemented so far. See each Class’s [documentation(http://www.rubydoc.info/gems/ruby-jss)] for details.</p>
+
+<h3 id="creatable-and-updatable">Creatable and Updatable</h3>
+
+<ul>
+  <li><span class='object_link'><a href="Jamf/AdvancedComputerSearch.html" title="Jamf::AdvancedComputerSearch (class)">Jamf::AdvancedComputerSearch</a></span></li>
+  <li><span class='object_link'><a href="Jamf/AdvancedMobileDeviceSearch.html" title="Jamf::AdvancedMobileDeviceSearch (class)">Jamf::AdvancedMobileDeviceSearch</a></span></li>
+  <li><span class='object_link'><a href="Jamf/AdvancedUserSearch.html" title="Jamf::AdvancedUserSearch (class)">Jamf::AdvancedUserSearch</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Building.html" title="Jamf::Building (class)">Jamf::Building</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Category.html" title="Jamf::Category (class)">Jamf::Category</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Jamf::Computer</a></span></li>
+  <li><span class='object_link'><a href="Jamf/ComputerExtensionAttribute.html" title="Jamf::ComputerExtensionAttribute (class)">Jamf::ComputerExtensionAttribute</a></span></li>
+  <li><span class='object_link'><a href="Jamf/ComputerGroup.html" title="Jamf::ComputerGroup (class)">Jamf::ComputerGroup</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Department.html" title="Jamf::Department (class)">Jamf::Department</a></span></li>
+  <li><span class='object_link'><a href="Jamf/DistributionPoint.html" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></li>
+  <li><span class='object_link'><a href="Jamf/MobileDevice.html" title="Jamf::MobileDevice (class)">Jamf::MobileDevice</a></span></li>
+  <li><span class='object_link'><a href="Jamf/MobileDeviceApplication.html" title="Jamf::MobileDeviceApplication (class)">Jamf::MobileDeviceApplication</a></span></li>
+  <li><span class='object_link'><a href="Jamf/MobileDeviceExtensionAttribute.html" title="Jamf::MobileDeviceExtensionAttribute (class)">Jamf::MobileDeviceExtensionAttribute</a></span></li>
+  <li><span class='object_link'><a href="Jamf/MobileDeviceGroup.html" title="Jamf::MobileDeviceGroup (class)">Jamf::MobileDeviceGroup</a></span></li>
+  <li><span class='object_link'><a href="Jamf/NetworkSegment.html" title="Jamf::NetworkSegment (class)">Jamf::NetworkSegment</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Jamf::Package</a></span></li>
+  <li><span class='object_link'><a href="Jamf/PatchTitle.html" title="Jamf::PatchTitle (class)">Jamf::PatchTitle</a></span></li>
+  <li>JSS::PatchTitle::Version</li>
+  <li><span class='object_link'><a href="Jamf/PatchExternalSource.html" title="Jamf::PatchExternalSource (class)">Jamf::PatchExternalSource</a></span></li>
+  <li><span class='object_link'><a href="Jamf/PatchPolicy.html" title="Jamf::PatchPolicy (class)">Jamf::PatchPolicy</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Peripheral.html" title="Jamf::Peripheral (class)">Jamf::Peripheral</a></span></li>
+  <li><span class='object_link'><a href="Jamf/PeripheralType.html" title="Jamf::PeripheralType (class)">Jamf::PeripheralType</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Policy.html" title="Jamf::Policy (class)">Jamf::Policy</a></span> (not fully implemented)</li>
+  <li><span class='object_link'><a href="Jamf/RemovableMacAddress.html" title="Jamf::RemovableMacAddress (class)">Jamf::RemovableMacAddress</a></span></li>
+  <li><span class='object_link'><a href="Jamf/RestrictedSoftware.html" title="Jamf::RestrictedSoftware (class)">Jamf::RestrictedSoftware</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Script.html" title="Jamf::Script (class)">Jamf::Script</a></span></li>
+  <li><span class='object_link'><a href="Jamf/Site.html" title="Jamf::Site (class)">Jamf::Site</a></span></li>
+  <li><span class='object_link'><a href="Jamf/User.html" title="Jamf::User (class)">Jamf::User</a></span></li>
+  <li><span class='object_link'><a href="Jamf/UserExtensionAttribute.html" title="Jamf::UserExtensionAttribute (class)">Jamf::UserExtensionAttribute</a></span></li>
+  <li><span class='object_link'><a href="Jamf/UserGroup.html" title="Jamf::UserGroup (class)">Jamf::UserGroup</a></span></li>
+  <li><span class='object_link'><a href="Jamf/WebHook.html" title="Jamf::WebHook (class)">Jamf::WebHook</a></span></li>
+</ul>
+
+<p><strong>NOTE</strong> Most Computer and MobileDevice data gathered by an Inventory Upate (a.k.a. ‘recon’) is not editable.</p>
+
+<h3 id="updatable-but-must-be-created-in-the-web-ui">Updatable, but must be created in the Web UI</h3>
+
+<ul>
+  <li><span class='object_link'><a href="Jamf/OSXConfigurationProfile.html" title="Jamf::OSXConfigurationProfile (class)">Jamf::OSXConfigurationProfile</a></span></li>
+  <li><span class='object_link'><a href="Jamf/MobileDeviceConfigurationProfile.html" title="Jamf::MobileDeviceConfigurationProfile (class)">Jamf::MobileDeviceConfigurationProfile</a></span></li>
+  <li><span class='object_link'><a href="Jamf/PatchInternalSource.html" title="Jamf::PatchInternalSource (class)">Jamf::PatchInternalSource</a></span></li>
+</ul>
+
+<h3 id="creatable-only">Creatable only</h3>
+
+<ul>
+  <li><span class='object_link'><a href="Jamf/ComputerInvitation.html" title="Jamf::ComputerInvitation (class)">Jamf::ComputerInvitation</a></span></li>
+</ul>
+
+<h3 id="read-only">Read-Only</h3>
+
+<p>These must be created and edited via the JSS WebApp</p>
+
+<ul>
+  <li><span class='object_link'><a href="Jamf/DistributionPoint.html" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></li>
+  <li><span class='object_link'><a href="Jamf/LdapServer.html" title="Jamf::LdapServer (class)">Jamf::LdapServer</a></span></li>
+  <li><span class='object_link'><a href="Jamf/NetBootServer.html" title="Jamf::NetBootServer (class)">Jamf::NetBootServer</a></span></li>
+  <li><span class='object_link'><a href="Jamf/SoftwareUpdateServer.html" title="Jamf::SoftwareUpdateServer (class)">Jamf::SoftwareUpdateServer</a></span></li>
+</ul>
+
+<h3 id="deletable">Deletable</h3>
+
+<p>All supported API Objects can be deleted</p>
+
+<h4 id="other-useful-classes--modules">Other useful classes &amp; modules:</h4>
+
+<ul>
+  <li>APIConnection - An object representing a connection to the Classic API on some server. The ‘default’ connection object is available via <code>Jamf.cnx</code> but you can create others, and pass them into calls like <code>.fetch</code> as needed. This is useful when working with multiple servers at a time, such as a production and a test server. Objects retrieved from a connection know which connection they came from, and will only send changes via that connection.</li>
+  <li><span class='object_link'><a href="Jamf/DBConnection.html" title="Jamf::DBConnection (class)">Jamf::DBConnection</a></span> - An object representing the connection to MySQL database, if used.</li>
+  <li>Server - An object representing the Jamf Pro server being used by a connection. An instance is available in the #server attribute of a APIConnection.</li>
+  <li><span class='object_link'><a href="Jamf/Client.html" title="Jamf::Client (class)">Jamf::Client</a></span> - An object representing the local machine as a Jamf-managed client, and provifing Jamf-related info and methods</li>
+  <li><span class='object_link'><a href="Jamf/ManagementHistory.html" title="Jamf::ManagementHistory (module)">Jamf::ManagementHistory</a></span> - a module for handing the management history for Computers and Mobile Devices. It defines many read-only classes representing events in a machine’s history. It is accessed via the Computer and MobileDevice classes and their instances.</li>
+  <li><span class='object_link'><a href="Jamf/Scopable.html" title="Jamf::Scopable (module)">Jamf::Scopable</a></span> - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects.</li>
+  <li><span class='object_link'><a href="Jamf/MDM.html" title="Jamf::MDM (module)">Jamf::MDM</a></span> - a module that handles sending MDM commands. It is accessed via the Computer and MobileDevice classes and their instances.</li>
+</ul>
+
+<h2 id="object-related-api-endpoints">Object-related API endpoints</h2>
+
+<p>The classic API provides many endpoints not just for objects stored in Jamf Pro, but also for accessing data <em>about</em> those  objects or interacting with the machines they represent. ruby-jss embeds access to those endpoints into their related classes.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>/computerapplications, /computerapplicationusage, /computerhardwaresoftwarereports, /computerhistory, etc.
+    <ul>
+      <li>The data provided by these endpoints are accessible via class and instance methods for <span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Jamf::Computer</a></span></li>
+    </ul>
+  </li>
+  <li>/computercheckin, /computerinventorycollection
+    <ul>
+      <li>These endpoints deal with server-wide settings regarding computer management, and are available via <span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Jamf::Computer</a></span> class methods</li>
+    </ul>
+  </li>
+  <li>/computercommands, /mobiledevicecommands, /commandflush, etc.
+    <ul>
+      <li>These endpoints provide access to the MDM infrastructure, and can be used to send MDM commands. Ruby-jss provides these as class and instance methods in <span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Jamf::Computer</a></span>, <span class='object_link'><a href="Jamf/ComputerGroup.html" title="Jamf::ComputerGroup (class)">Jamf::ComputerGroup</a></span>, <span class='object_link'><a href="Jamf/MobileDevice.html" title="Jamf::MobileDevice (class)">Jamf::MobileDevice</a></span>, and <span class='object_link'><a href="Jamf/MobileDeviceGroup.html" title="Jamf::MobileDeviceGroup (class)">Jamf::MobileDeviceGroup</a></span></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="configuration">CONFIGURATION</h2>
+
+<p>The <span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Jamf::Configuration</a></span> singleton class is used to read, write, and use site-specific defaults for the JSS module. When ruby-jss is required, the single instance of <span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Jamf::Configuration</a></span> is created and stored in the constant <span class='object_link'><a href="Jamf.html#CONFIG-constant" title="Jamf::CONFIG (constant)">Jamf::CONFIG</a></span>. At that time the system-wide file /etc/ruby-jss.conf is examined if it exists, and the items in it are loaded into the attributes of <span class='object_link'><a href="Jamf.html#CONFIG-constant" title="Jamf::CONFIG (constant)">Jamf::CONFIG</a></span>. The user-specific file ~/.ruby-hss.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.</p>
+
+<p>The values defined in those files are used as defaults throughout the module. Currently, those values are only related to establishing the API connection. For example, if a server name is defined, then a :server does not have to be specified when calling JSS::APIConnection#connect. Values provided explicitly when calling JSS::APIConnection#connect will override the config values.</p>
+
+<p>While the <span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Jamf::Configuration</a></span> class provides methods for changing the values, saving the files, and re-reading them, or reading an arbitrary file, the files are text files with a simple format, and can be created by any means desired. The file format is one attribute per line, thus:</p>
+
+<pre class="code ruby"><code class="ruby">attr_name: value
+</code></pre>
+
+<p>Lines that don’t start with a known attribute name followed by a colon are ignored. If an attribute is defined more than once, the last one wins.</p>
+
+<p>The currently known attributes are:</p>
+
+<ul>
+  <li>api_server_name [String] the hostname of the JSS API server</li>
+  <li>api_server_port [Integer] the port number for the API connection</li>
+  <li>api_verify_cert [Boolean] ‘true’ or ‘false’ - if SSL is used, should the certificate be verified? (usually false for a self-signed cert)</li>
+  <li>api_username [String] the JSS username for connecting to the API</li>
+  <li>api_timeout_open [Integer] the number of seconds for the open-connection timeout</li>
+  <li>api_timeout [Integer] the number of seconds for the response timeout</li>
+</ul>
+
+<p>To put a standard server &amp; username on all client machines, and auto-accept the JSS’s self-signed https certificate, create the file /etc/ruby-jss.conf containing three lines like this:</p>
+
+<p><code>
+api_server_name: jamfpro.myschool.edu
+api_username: readonly-api-user
+api_verify_cert: false
+</code></p>
+
+<p>and then any calls to Jamf.cnx.connect will assume that server and username, and won’t complain about the self-signed certificate.</p>
+
+<h3 id="passwords">Passwords</h3>
+
+<p>The config files don’t store passwords and the <span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Jamf::Configuration</a></span> instance doesn’t work with them. You’ll have to use your own methods for acquiring the password for the Jamf.cnx.connect call.</p>
+
+<p>The JSS::APIConnection.connect method also accepts the symbols :stdin# and :prompt as values for the :pw argument, which will cause it to read the password from a line of stdin, or prompt for it in the shell.</p>
+
+<p>If you must store a password in a file, or retrieve it from the network, make sure it’s stored securely, and that the JSS user has limited permissions.</p>
+
+<p>Here’s an example of how to use a password stored in a file:</p>
+
+<p><code>ruby
+password = File.read "/path/to/secure/password/file" # read the password from a file
+Jamf.cnx.connect pw: password   # other arguments used from the config settings
+</code></p>
+
+<p>And here’s an example of how to read a password from a web server and use it.</p>
+
+<p><code>ruby
+require 'open-uri'
+password =  URI.parse('https://server.org.org/path/to/password').read
+Jamf.cnx.connect pw: password   # other arguments used from the config settings
+</code></p>
+
+<h2 id="beyond-the-api">BEYOND THE API</h2>
+
+<p>While the Jamf Pro Classic API provides access to object data in the JSS, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss uses the API to provide functionality found in various Jamf tools:</p>
+
+<ul>
+  <li>Client Machine Access
+    <ul>
+      <li>The <span class='object_link'><a href="Jamf/Client.html" title="Jamf::Client (class)">Jamf::Client</a></span> module provides the ability to run jamf binary commands, and access the local cache of package receipts</li>
+    </ul>
+  </li>
+  <li>Package Installation
+    <ul>
+      <li><span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Jamf::Package</a></span> objects can be installed on the local machine, from the appropriate distribution point</li>
+    </ul>
+  </li>
+  <li>Script Execution
+    <ul>
+      <li><span class='object_link'><a href="Jamf/Script.html" title="Jamf::Script (class)">Jamf::Script</a></span> objects can be executed locally on demand</li>
+    </ul>
+  </li>
+  <li>Package Creation
+    <ul>
+      <li>The <span class='object_link'><a href="Jamf/Composer.html" title="Jamf::Composer (module)">Jamf::Composer</a></span> module provides creation of very simple .pkg and .dmg packages</li>
+      <li><span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Jamf::Package</a></span> objects can upload their .pkg or .dmg files to the master distribution point (<span class='object_link'><a href="Jamf/Script.html" title="Jamf::Script (class)">Jamf::Script</a></span> objects can also if you store them there.)</li>
+    </ul>
+  </li>
+  <li>Reporting/AdvancedSearch exporting
+    <ul>
+      <li><span class='object_link'><a href="Jamf/AdvancedSearch.html" title="Jamf::AdvancedSearch (class)">Jamf::AdvancedSearch</a></span> subclasses can export their results to csv, tab, and xml files.</li>
+    </ul>
+  </li>
+  <li>MDM Commands
+    <ul>
+      <li><span class='object_link'><a href="Jamf/MobileDevice.html" title="Jamf::MobileDevice (class)">Jamf::MobileDevice</a></span>s (and eventually <span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Jamf::Computer</a></span>s) can be sent MDM commands</li>
+    </ul>
+  </li>
+  <li>Extension Attributes
+    <ul>
+      <li><span class='object_link'><a href="Jamf/ExtensionAttribute.html" title="Jamf::ExtensionAttribute (class)">Jamf::ExtensionAttribute</a></span> work with <span class='object_link'><a href="Jamf/AdvancedSearch.html" title="Jamf::AdvancedSearch (class)">Jamf::AdvancedSearch</a></span> subclasses to provide extra reporting about Ext. Attrib. values.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="install">INSTALL</h2>
+
+<p>NOTE: You may need to install XCode, or it’s CLI tools, in order to install the required gems.</p>
+
+<p>In general, you can install ruby-jss with this command:</p>
+
+<p><code>gem install ruby-jss</code></p>
+
+<h2 id="requirements">REQUIREMENTS</h2>
+
+<p>ruby-jss was written for:</p>
+
+<ul>
+  <li>Mac OS X 10.9 or higher</li>
+  <li>Ruby 2.0 or higher</li>
+  <li>Casper Suite version 10.4 or higher</li>
+</ul>
+
+<p>It also requires other ruby gems, which will be installed automatically if you install with <code>gem install ruby-jss</code>
+See the .gemspec file for details</p>
+
+<h2 id="help">HELP</h2>
+
+<p>Full documentation is available at <a href="http://www.rubydoc.info/gems/ruby-jss/">rubydoc.info</a>.</p>
+
+<p>There’s a <a href="https://github.com/PixarAnimationStudios/ruby-jss/wiki">wiki on the github page</a>, feel free to contribute examples and tidbits.</p>
+
+<p><a href="mailto:ruby-jss@pixar.com">Email the developers</a></p>
+
+<p><a href="https://macadmins.slack.com/messages/#jss-api/">Macadmins Slack Channel</a></p>
+
+<h2 id="license">LICENSE</h2>
+
+<p>Copyright 2022 Pixar</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “Apache License”) with modifications. See LICENSE.txt for details</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:10 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

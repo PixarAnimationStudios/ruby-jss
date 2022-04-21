@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (J)</a> &raquo;
+    
+    
+    <span class="title">Jamf</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="Jamf/Connection/DefaultConnection.html" title="Jamf::Connection::DefaultConnection (module)">Connection::DefaultConnection</a></span>, <span class='object_link'><a href="Jamf/Utility.html" title="Jamf::Utility (module)">Utility</a></span></dd>
+  </dl>
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Jamf/Constants.html" title="Jamf::Constants (module)">Constants</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf.rb<span class="defines">,<br />
+  lib/jamf/client.rb,<br /> lib/jamf/utility.rb,<br /> lib/jamf/version.rb,<br /> lib/jamf/composer.rb,<br /> lib/jamf/validate.rb,<br /> lib/jamf/constants.rb,<br /> lib/jamf/base_class.rb,<br /> lib/jamf/exceptions.rb,<br /> lib/jamf/configuration.rb,<br /> lib/jamf/db_connection.rb,<br /> lib/jamf/oapi_validate.rb,<br /> lib/jamf/api/connection.rb,<br /> lib/jamf/client/jamf_binary.rb,<br /> lib/jamf/client/jamf_helper.rb,<br /> lib/jamf/api/connection/cache.rb,<br /> lib/jamf/api/connection/token.rb,<br /> lib/jamf/api/connection/connect.rb,<br /> lib/jamf/api/connection/constants.rb,<br /> lib/jamf/client/management_action.rb,<br /> lib/jamf/api/connection/attributes.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas.rb,<br /> lib/jamf/api/classic/xml_workaround.rb,<br /> lib/jamf/api/connection/classic_api.rb,<br /> lib/jamf/api/classic/api_objects/mdm.rb,<br /> lib/jamf/api/connection/jamf_pro_api.rb,<br /> lib/jamf/api/classic/api_objects/icon.rb,<br /> lib/jamf/api/classic/api_objects/site.rb,<br /> lib/jamf/api/classic/api_objects/user.rb,<br /> lib/jamf/api/jamf_pro/mixins/lockable.rb,<br /> lib/jamf/api/jamf_pro/mixins/prestage.rb,<br /> lib/jamf/api/jamf_pro/mixins/sortable.rb,<br /> lib/jamf/api/classic/api_objects/ebook.rb,<br /> lib/jamf/api/jamf_pro/mixins/immutable.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ids.rb,<br /> lib/jamf/api/classic/api_objects/policy.rb,<br /> lib/jamf/api/classic/api_objects/script.rb,<br /> lib/jamf/api/classic/base_classes/group.rb,<br /> lib/jamf/api/jamf_pro/mixins/change_log.rb,<br /> lib/jamf/api/jamf_pro/mixins/filterable.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/site.rb,<br /> lib/jamf/api/classic/api_objects/account.rb,<br /> lib/jamf/api/classic/api_objects/ibeacon.rb,<br /> lib/jamf/api/classic/api_objects/package.rb,<br /> lib/jamf/api/classic/api_objects/printer.rb,<br /> lib/jamf/api/classic/api_objects/sitable.rb,<br /> lib/jamf/api/classic/api_objects/vppable.rb,<br /> lib/jamf/api/jamf_pro/mixins/uncreatable.rb,<br /> lib/jamf/api/jamf_pro/mixins/undeletable.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ebook.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/udids.rb,<br /> lib/jamf/api/classic/api_objects/building.rb,<br /> lib/jamf/api/classic/api_objects/category.rb,<br /> lib/jamf/api/classic/api_objects/computer.rb,<br /> lib/jamf/api/classic/api_objects/scopable.rb,<br /> lib/jamf/api/classic/api_objects/web_hook.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/engage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/filter.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/locale.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/script.rb,<br /> lib/jamf/api/jamf_pro/other_classes/pager.rb,<br /> lib/jamf/api/classic/api_objects/creatable.rb,<br /> lib/jamf/api/classic/api_objects/dock_item.rb,<br /> lib/jamf/api/classic/api_objects/locatable.rb,<br /> lib/jamf/api/classic/api_objects/matchable.rb,<br /> lib/jamf/api/classic/api_objects/updatable.rb,<br /> lib/jamf/api/connection/default_connection.rb,<br /> lib/jamf/api/connection/jamf_pro_api_error.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/account.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/country.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/network.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/session.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/v1_site.rb,<br /> lib/jamf/api/classic/api_objects/department.rb,<br /> lib/jamf/api/classic/api_objects/extendable.rb,<br /> lib/jamf/api/classic/api_objects/peripheral.rb,<br /> lib/jamf/api/classic/api_objects/uploadable.rb,<br /> lib/jamf/api/classic/api_objects/user_group.rb,<br /> lib/jamf/api/jamf_pro/mixins/bulk_deletable.rb,<br /> lib/jamf/api/jamf_pro/mixins/jpapi_resource.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_path.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/building.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/category.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/location.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/markdown.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/order_by.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/security.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/web_link.rb,<br /> lib/jamf/api/classic/api_objects/criteriable.rb,<br /> lib/jamf/api/classic/api_objects/ldap_server.rb,<br /> lib/jamf/api/classic/api_objects/patch_title.rb,<br /> lib/jamf/api/classic/api_objects/purchasable.rb,<br /> lib/jamf/api/classic/api_objects/vpp_account.rb,<br /> lib/jamf/api/classic/base_classes/api_object.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/api_error.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/csa_token.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/font_path.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/recipient.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/signature.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/time_zone.rb,<br /> lib/jamf/api/classic/api_objects/patch_policy.rb,<br /> lib/jamf/api/jamf_pro/api_objects/jp_building.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/attributes.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/auth_token.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/department.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/initialize.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_group.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/network_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/parent_app.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/purchasing.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/recipients.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/time_frame.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_ios.rb,<br /> lib/jamf/api/jamf_pro/other_classes/timestamp.rb,<br /> lib/jamf/api/classic/api_objects/categorizable.rb,<br /> lib/jamf/api/classic/api_objects/mobile_device.rb,<br /> lib/jamf/api/classic/api_objects/self_servable.rb,<br /> lib/jamf/api/classic/base_classes/patch_source.rb,<br /> lib/jamf/api/jamf_pro/base_classes/oapi_object.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/create_path.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/day_of_week.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ebook_scope.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/id_and_name.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ios_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_server.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/location_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/plugin_path.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/security_v2.rb,<br /> lib/jamf/api/jamf_pro/other_classes/ip_address.rb,<br /> lib/jamf/api/classic/api_objects/computer_group.rb,<br /> lib/jamf/api/classic/api_objects/netboot_server.rb,<br /> lib/jamf/api/classic/api_objects/scopable/scope.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/auth_account.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/export_field.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/notification.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/reenrollment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_tv_os.rb,<br /> lib/jamf/api/classic/api_objects/mac_application.rb,<br /> lib/jamf/api/classic/api_objects/network_segment.rb,<br /> lib/jamf/api/classic/api_objects/peripheral_type.rb,<br /> lib/jamf/api/jamf_pro/mixins/collection_resource.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/account_group.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/admin_account.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/auth_token_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/authorization.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_disk.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_font.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/country_codes.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/href_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/icon_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/initialize_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/language_code.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_version.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/purchasing_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/tv_os_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_ios_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/user_mappings.rb,<br /> lib/jamf/api/classic/base_classes/advanced_search.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_mappings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cache_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/group_mappings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/id_and_name_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ios_details_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/object_history.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/session_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/startup_status.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding.rb,<br /> lib/jamf/api/classic/api_objects/removable_macaddr.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/advanced_search.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/android_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/api_error_cause.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/auth_account_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/certificate_key.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_plugin.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/current_account.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deployment_task.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/file_attachment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/install_package.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/integer_wrapper.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_client_type.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/notification_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/safelisted_apps.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/session_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_apple_tv.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/user_attributes.rb,<br /> lib/jamf/api/classic/api_objects/distribution_point.rb,<br /> lib/jamf/api/classic/api_objects/management_history.rb,<br /> lib/jamf/api/jamf_pro/api_objects/computer_prestage.rb,<br /> lib/jamf/api/jamf_pro/api_objects/device_enrollment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/apple_tv_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/authorization_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_general.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_ibeacon.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_printer.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_section.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_service.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_storage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ebook_exclusions.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/group_membership.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_pro_version.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_command_type.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/package_manifest.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_log.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/settings_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_metadata_url.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/teacher_features.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/user_test_search.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/venafi_ca_record.rb,<br /> lib/jamf/api/classic/api_objects/computer_invitation.rb,<br /> lib/jamf/api/classic/api_objects/mobile_device_group.rb,<br /> lib/jamf/api/classic/api_objects/patch_title/version.rb,<br /> lib/jamf/api/classic/api_objects/restricted_software.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_id_p_common.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_hardware.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_location.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_overview.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_purchase.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_security.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/database_password.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ebook_limitations.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_method.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/export_parameters.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/group_test_search.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_protect_plan.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_command_state.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/notification_type.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/object_history_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/policy_properties.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/static_user_group.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/vpp_admin_account.rb,<br /> lib/jamf/api/jamf_pro/other_classes/change_log_entry.rb,<br /> lib/jamf/api/classic/api_objects/advanced_user_search.rb,<br /> lib/jamf/api/classic/api_objects/criteriable/criteria.rb,<br /> lib/jamf/api/classic/base_classes/extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/branding_image_url.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/certificate_record.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/client_check_in_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/client_check_in_v3.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_partition.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/external_recipient.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/file_attachment_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/internal_recipient.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_command_client.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_parse.rb,<br /> lib/jamf/api/classic/api_objects/criteriable/criterion.rb,<br /> lib/jamf/api/classic/api_objects/patch_external_source.rb,<br /> lib/jamf/api/classic/api_objects/patch_internal_source.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/account_preferences.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_dynamics_config.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/certificate_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_keystore.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_attachment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/delete_user_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_pro_server_url.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_command_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/membership_mappings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/memcached_endpoints.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_ebook.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_group.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/object_history_note.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/plan_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_dependency.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type.rb,<br /> lib/jamf/api/classic/api_objects/software_update_server.rb,<br /> lib/jamf/api/classic/base_classes/configuration_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/active_patch_history.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/active_patch_summary.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_request_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_application.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_certificate.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/data_roaming_setting.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ebook_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_pro_information.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/location_information.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_attempt.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_summary.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/policy_properties_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_sync_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/provisioning_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/supervision_identity.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_mobile_device.rb,<br /> lib/jamf/api/jamf_pro/api_objects/mobile_device_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_analytics_setting.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/classic_ldap_mappings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/configuration_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/current_authorization.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_computer_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_information.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_package_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_dependencies.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/put_computer_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/recalculation_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/self_service_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/venafi_service_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/voice_roaming_setting.rb,<br /> lib/jamf/api/classic/api_objects/advanced_computer_search.rb,<br /> lib/jamf/api/classic/api_objects/management_history/ebook.rb,<br /> lib/jamf/api/classic/api_objects/user_extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/account_preferences_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/account_preferences_v4.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/application_attributes.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_settings_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/extension_attribute_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/file_attachment_delete.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/history_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/linked_connect_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_ids_on_dashboard.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/restart_device_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/scripts_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/smart_search_criterion.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/vpp_token_subscription.rb,<br /> lib/jamf/api/classic/api_objects/mobile_device_application.rb,<br /> lib/jamf/api/classic/api_objects/osx_configuration_profile.rb,<br /> lib/jamf/api/jamf_pro/api_objects/inventory_preload_record.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/building_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/certificate_identity_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/certificate_identity_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_general_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_mdm_capability.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_token.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_access_group.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_nation_credentials.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/location_information_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mdm_signing_certificate.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_sync_status_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/update_mobile_device_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_keystore_file.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_server_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_disk_encryption.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_hardware_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_software_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computers_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_server_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_device.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enable_lost_mode_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_computer_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_record.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_attachment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_details_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/personal_hotspot_setting.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_file_attachment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/put_computer_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/software_update_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/teacher_settings_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/user_test_search_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/application_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/categories_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_id_p_common_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_server_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_operating_system.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_package_receipts.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_server_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/group_test_search_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/history_search_results_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/jamf_application_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_configuration_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_group_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_application.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_on_dashboard.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/post_computer_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_assignment.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/protect_settings_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/retry_patch_policy_params.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/session_candidate_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/set_recovery_lock_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_with_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/teacher_settings_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/user_test_search_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/venafi_pki_payload_record.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_content.rb,<br /> lib/jamf/api/classic/api_objects/computer_extension_attribute.rb,<br /> lib/jamf/api/classic/api_objects/management_history/hash_like.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_configuration_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_server_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_id_p_common_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_server_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_licensed_software.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_remote_management.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_user_and_location.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/departments_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_server_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_instance.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_access_group_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_mobile_device_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/group_test_search_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ios_branding_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_configuration_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_response_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/put_mobile_device_prestage.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/renew_mdm_profile_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_location.rb,<br /> lib/jamf/api/classic/api_objects/advanced_mobile_device_search.rb,<br /> lib/jamf/api/classic/api_objects/disk_encryption_configuration.rb,<br /> lib/jamf/api/classic/api_objects/management_history/policy_log.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_configuration_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_mappings_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_local_user_account.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_csv_error.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_record_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ios_branding_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/ldap_configuration_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_attachment_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_name.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_search_params.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_attempt_action.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_file_attachment_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/self_service_login_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/shared_device_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/supervision_identity_create.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/supervision_identity_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_locations.rb,<br /> lib/jamf/api/classic/api_objects/management_history/audit_event.rb,<br /> lib/jamf/api/classic/api_objects/management_history/mdm_command.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/access_groups_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/advanced_user_content_search.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_request_form_input_field.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_connection_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_mappings_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/configuration_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_enrollment_customization.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_certificate_v1.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_certificate_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_details_get_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_names.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_scope_assignment_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/process_texts_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/protect_registration_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/software_title_configuration.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/admitmac.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/centrify.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_partition_encryption.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_communication_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_compliance_information.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_disown_body.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/diagnostic_submission_setting.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_mobile_device_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mac_os_branding_configuration.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/put_mobile_device_prestage_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/self_service_install_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/advanced_search_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_configuration_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_alert.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deployment_task_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_panel.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_process_text_object.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mac_os_branding_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mac_os_managed_software_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/membership_test_search_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_name_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/remote_administration_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/search_patch_policy_log_params.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/session_details_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_subscription.rb,<br /> lib/jamf/api/classic/api_objects/mobile_device_extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/access_groups_v2_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_parent.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_configuration_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_access_group_preview.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/membership_test_search_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_names_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_search_results_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/patch_policy_log_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_purchasing_information.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_location_post.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_subscriptions.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/advanced_search_criteria_choices.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_operating_system_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_prestage_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_configuration_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_cert_parse_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_location_patch.rb,<br /> lib/jamf/api/classic/api_objects/mobile_device_configuration_profile.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_ad_migration_report_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_server_configuration_update.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_update_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/connection_configuration_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_configuration_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_disown_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/self_service_interaction_settings.rb,<br /> lib/jamf/api/classic/api_objects/management_history/casper_remote_log.rb,<br /> lib/jamf/api/classic/api_objects/management_history/mac_app_store_app.rb,<br /> lib/jamf/api/classic/api_objects/management_history/mobile_device_app.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_server_configuration_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_enrollment_customization_panel.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/prestage_purchasing_information_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/protect_updatable_settings_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/search_active_patch_history_params.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/sso_keystore_response_with_details.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/open_directory.rb,<br /> lib/jamf/api/classic/api_objects/management_history/casper_imaging_log.rb,<br /> lib/jamf/api/classic/api_objects/management_history/computer_usage_log.rb,<br /> lib/jamf/api/classic/api_objects/management_history/screen_sharing_log.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/active_patch_history_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_prestage_search_results_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_dependency.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_panel_list.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_panel_text.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/supervision_identity_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/verbose_package_deployment_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_subscription_base.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/access_groups_preview_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_partition_file_vault2_state.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/remote_administration_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/volume_purchasing_location_list_view.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/active_directory.rb,<br /> lib/jamf/api/classic/api_objects/management_history/user_location_change.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_connection_pool_statistics.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_cache_detail.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_parent_alert.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_dependencies.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_extension_attribute.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/linked_connect_profile_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/software_title_patch_policy_summaries.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_collection_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_instance_sync_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_csv_validation_error.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_invalid_csv_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_parent_details.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/connection_configuration_update_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/deprecated_configuration_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_device_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_panel_sso_auth.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_enrollment_customization_panel_text.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_record_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mac_os_managed_software_update_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/supervision_identity_certificate_upload.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/azure_ad_migration_report_process_status.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/connection_configuration_status_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_panel_ldap_auth.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_csv_validation_success.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_prestage_search_results_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/venafi_pki_payload_record_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/assign_remove_profile_response_sync_state.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_collection_preferences.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/device_enrollment_instance_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/mobile_device_extension_attribute_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/connection_configuration_candidate_request.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_branding_settings.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_ldap_group_access.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/enrollment_customization_search_results_v2.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_record_search_results_v2.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/directory_binding_type.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/advanced_user_content_search_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/app_request_form_input_field_search_results.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_enrollment_customization_panel_sso_auth.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/redeploy_jamf_management_framework_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_parent_capabilities.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/get_enrollment_customization_panel_ldap_auth.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_csv_validation_error_cause.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_extension_attribute_column.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_data_migration_error.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_parent_local_network.rb,<br /> lib/jamf/api/classic/api_objects/directory_binding_type/powerbroker_identity_services.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_inventory_recovery_lock_password_response.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/inventory_preload_extension_attribute_column_result.rb,<br /> lib/jamf/api/jamf_pro/oapi_schemas/computer_content_caching_data_migration_error_user_info.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Licensed under the Apache License, Version 2.0 (the “Apache License”)</p>
+
+<pre class="code ruby"><code class="ruby">with the following modification; you may not use this file except in
+compliance with the Apache License and the following modification to it:
+Section 6. Trademarks. is deleted and replaced with:
+
+6. Trademarks. This License does not grant permission to use the trade
+   names, trademarks, service marks, or product names of the Licensor
+   and its affiliates, except as required to comply with Section 4(c) of
+   the License and to reproduce the content of the NOTICE file.
+
+You may obtain a copy of the Apache License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the Apache License with the above modification is
+distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied. See the Apache License for the specific
+language governing permissions and limitations under the Apache License.
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Jamf/BaseClass.html" title="Jamf::BaseClass (module)">BaseClass</a></span>, <span class='object_link'><a href="Jamf/BulkDeletable.html" title="Jamf::BulkDeletable (module)">BulkDeletable</a></span>, <span class='object_link'><a href="Jamf/Categorizable.html" title="Jamf::Categorizable (module)">Categorizable</a></span>, <span class='object_link'><a href="Jamf/ChangeLog.html" title="Jamf::ChangeLog (module)">ChangeLog</a></span>, <span class='object_link'><a href="Jamf/CollectionResource.html" title="Jamf::CollectionResource (module)">CollectionResource</a></span>, <span class='object_link'><a href="Jamf/Composer.html" title="Jamf::Composer (module)">Composer</a></span>, <span class='object_link'><a href="Jamf/Constants.html" title="Jamf::Constants (module)">Constants</a></span>, <span class='object_link'><a href="Jamf/Creatable.html" title="Jamf::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Jamf/Criteriable.html" title="Jamf::Criteriable (module)">Criteriable</a></span>, <span class='object_link'><a href="Jamf/DirectoryBindingType.html" title="Jamf::DirectoryBindingType (module)">DirectoryBindingType</a></span>, <span class='object_link'><a href="Jamf/Extendable.html" title="Jamf::Extendable (module)">Extendable</a></span>, <span class='object_link'><a href="Jamf/Filterable.html" title="Jamf::Filterable (module)">Filterable</a></span>, <span class='object_link'><a href="Jamf/Immutable.html" title="Jamf::Immutable (module)">Immutable</a></span>, <span class='object_link'><a href="Jamf/JPAPIResource.html" title="Jamf::JPAPIResource (module)">JPAPIResource</a></span>, <span class='object_link'><a href="Jamf/Locatable.html" title="Jamf::Locatable (module)">Locatable</a></span>, <span class='object_link'><a href="Jamf/Lockable.html" title="Jamf::Lockable (module)">Lockable</a></span>, <span class='object_link'><a href="Jamf/MDM.html" title="Jamf::MDM (module)">MDM</a></span>, <span class='object_link'><a href="Jamf/ManagementHistory.html" title="Jamf::ManagementHistory (module)">ManagementHistory</a></span>, <span class='object_link'><a href="Jamf/Matchable.html" title="Jamf::Matchable (module)">Matchable</a></span>, <span class='object_link'><a href="Jamf/OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span>, <span class='object_link'><a href="Jamf/OAPIValidate.html" title="Jamf::OAPIValidate (module)">OAPIValidate</a></span>, <span class='object_link'><a href="Jamf/Prestage.html" title="Jamf::Prestage (module)">Prestage</a></span>, <span class='object_link'><a href="Jamf/Purchasable.html" title="Jamf::Purchasable (module)">Purchasable</a></span>, <span class='object_link'><a href="Jamf/Scopable.html" title="Jamf::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="Jamf/SelfServable.html" title="Jamf::SelfServable (module)">SelfServable</a></span>, <span class='object_link'><a href="Jamf/Sitable.html" title="Jamf::Sitable (module)">Sitable</a></span>, <span class='object_link'><a href="Jamf/Sortable.html" title="Jamf::Sortable (module)">Sortable</a></span>, <span class='object_link'><a href="Jamf/Uncreatable.html" title="Jamf::Uncreatable (module)">Uncreatable</a></span>, <span class='object_link'><a href="Jamf/Undeletable.html" title="Jamf::Undeletable (module)">Undeletable</a></span>, <span class='object_link'><a href="Jamf/Updatable.html" title="Jamf::Updatable (module)">Updatable</a></span>, <span class='object_link'><a href="Jamf/Uploadable.html" title="Jamf::Uploadable (module)">Uploadable</a></span>, <span class='object_link'><a href="Jamf/Utility.html" title="Jamf::Utility (module)">Utility</a></span>, <span class='object_link'><a href="Jamf/VPPable.html" title="Jamf::VPPable (module)">VPPable</a></span>, <span class='object_link'><a href="Jamf/Validate.html" title="Jamf::Validate (module)">Validate</a></span>, <span class='object_link'><a href="Jamf/XMLWorkaround.html" title="Jamf::XMLWorkaround (module)">XMLWorkaround</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Jamf/APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span>, <span class='object_link'><a href="Jamf/APIRequestError.html" title="Jamf::APIRequestError (class)">APIRequestError</a></span>, <span class='object_link'><a href="Jamf/Account.html" title="Jamf::Account (class)">Account</a></span>, <span class='object_link'><a href="Jamf/AdvancedComputerSearch.html" title="Jamf::AdvancedComputerSearch (class)">AdvancedComputerSearch</a></span>, <span class='object_link'><a href="Jamf/AdvancedMobileDeviceSearch.html" title="Jamf::AdvancedMobileDeviceSearch (class)">AdvancedMobileDeviceSearch</a></span>, <span class='object_link'><a href="Jamf/AdvancedSearch.html" title="Jamf::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Jamf/AdvancedUserSearch.html" title="Jamf::AdvancedUserSearch (class)">AdvancedUserSearch</a></span>, <span class='object_link'><a href="Jamf/AlreadyExistsError.html" title="Jamf::AlreadyExistsError (class)">AlreadyExistsError</a></span>, <span class='object_link'><a href="Jamf/AmbiguousError.html" title="Jamf::AmbiguousError (class)">AmbiguousError</a></span>, <span class='object_link'><a href="Jamf/AuthenticationError.html" title="Jamf::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="Jamf/AuthorizationError.html" title="Jamf::AuthorizationError (class)">AuthorizationError</a></span>, <span class='object_link'><a href="Jamf/BadRequestError.html" title="Jamf::BadRequestError (class)">BadRequestError</a></span>, <span class='object_link'><a href="Jamf/Building.html" title="Jamf::Building (class)">Building</a></span>, <span class='object_link'><a href="Jamf/Category.html" title="Jamf::Category (class)">Category</a></span>, <span class='object_link'><a href="Jamf/ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">ChangeLogEntry</a></span>, <span class='object_link'><a href="Jamf/Client.html" title="Jamf::Client (class)">Client</a></span>, <span class='object_link'><a href="Jamf/Computer.html" title="Jamf::Computer (class)">Computer</a></span>, <span class='object_link'><a href="Jamf/ComputerExtensionAttribute.html" title="Jamf::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span>, <span class='object_link'><a href="Jamf/ComputerGroup.html" title="Jamf::ComputerGroup (class)">ComputerGroup</a></span>, <span class='object_link'><a href="Jamf/ComputerInvitation.html" title="Jamf::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="Jamf/ComputerPrestage.html" title="Jamf::ComputerPrestage (class)">ComputerPrestage</a></span>, <span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="Jamf/ConfigurationProfile.html" title="Jamf::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="Jamf/ConflictError.html" title="Jamf::ConflictError (class)">ConflictError</a></span>, <span class='object_link'><a href="Jamf/Connection.html" title="Jamf::Connection (class)">Connection</a></span>, <span class='object_link'><a href="Jamf/DBConnection.html" title="Jamf::DBConnection (class)">DBConnection</a></span>, <span class='object_link'><a href="Jamf/Department.html" title="Jamf::Department (class)">Department</a></span>, <span class='object_link'><a href="Jamf/DeviceEnrollment.html" title="Jamf::DeviceEnrollment (class)">DeviceEnrollment</a></span>, <span class='object_link'><a href="Jamf/DirectoryBinding.html" title="Jamf::DirectoryBinding (class)">DirectoryBinding</a></span>, <span class='object_link'><a href="Jamf/DiskEncryptionConfiguration.html" title="Jamf::DiskEncryptionConfiguration (class)">DiskEncryptionConfiguration</a></span>, <span class='object_link'><a href="Jamf/DistributionPoint.html" title="Jamf::DistributionPoint (class)">DistributionPoint</a></span>, <span class='object_link'><a href="Jamf/DockItem.html" title="Jamf::DockItem (class)">DockItem</a></span>, <span class='object_link'><a href="Jamf/Ebook.html" title="Jamf::Ebook (class)">Ebook</a></span>, <span class='object_link'><a href="Jamf/ExtensionAttribute.html" title="Jamf::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Jamf/FileServiceError.html" title="Jamf::FileServiceError (class)">FileServiceError</a></span>, <span class='object_link'><a href="Jamf/Group.html" title="Jamf::Group (class)">Group</a></span>, <span class='object_link'><a href="Jamf/IBeacon.html" title="Jamf::IBeacon (class)">IBeacon</a></span>, <span class='object_link'><a href="Jamf/IPAddress.html" title="Jamf::IPAddress (class)">IPAddress</a></span>, <span class='object_link'><a href="Jamf/Icon.html" title="Jamf::Icon (class)">Icon</a></span>, <span class='object_link'><a href="Jamf/InvalidConnectionError.html" title="Jamf::InvalidConnectionError (class)">InvalidConnectionError</a></span>, <span class='object_link'><a href="Jamf/InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span>, <span class='object_link'><a href="Jamf/InventoryPreloadRecord.html" title="Jamf::InventoryPreloadRecord (class)">InventoryPreloadRecord</a></span>, <span class='object_link'><a href="Jamf/JpBuilding.html" title="Jamf::JpBuilding (class)">JpBuilding</a></span>, <span class='object_link'><a href="Jamf/LdapServer.html" title="Jamf::LdapServer (class)">LdapServer</a></span>, <span class='object_link'><a href="Jamf/MacApplication.html" title="Jamf::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="Jamf/MissingDataError.html" title="Jamf::MissingDataError (class)">MissingDataError</a></span>, <span class='object_link'><a href="Jamf/MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="Jamf/MobileDeviceApplication.html" title="Jamf::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="Jamf/MobileDeviceConfigurationProfile.html" title="Jamf::MobileDeviceConfigurationProfile (class)">MobileDeviceConfigurationProfile</a></span>, <span class='object_link'><a href="Jamf/MobileDeviceExtensionAttribute.html" title="Jamf::MobileDeviceExtensionAttribute (class)">MobileDeviceExtensionAttribute</a></span>, <span class='object_link'><a href="Jamf/MobileDeviceGroup.html" title="Jamf::MobileDeviceGroup (class)">MobileDeviceGroup</a></span>, <span class='object_link'><a href="Jamf/MobileDevicePrestage.html" title="Jamf::MobileDevicePrestage (class)">MobileDevicePrestage</a></span>, <span class='object_link'><a href="Jamf/NetBootServer.html" title="Jamf::NetBootServer (class)">NetBootServer</a></span>, <span class='object_link'><a href="Jamf/NetworkSegment.html" title="Jamf::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Jamf/NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span>, <span class='object_link'><a href="Jamf/OAPIObject.html" title="Jamf::OAPIObject (class)">OAPIObject</a></span>, <span class='object_link'><a href="Jamf/OSXConfigurationProfile.html" title="Jamf::OSXConfigurationProfile (class)">OSXConfigurationProfile</a></span>, <span class='object_link'><a href="Jamf/Package.html" title="Jamf::Package (class)">Package</a></span>, <span class='object_link'><a href="Jamf/Pager.html" title="Jamf::Pager (class)">Pager</a></span>, <span class='object_link'><a href="Jamf/PatchExternalSource.html" title="Jamf::PatchExternalSource (class)">PatchExternalSource</a></span>, <span class='object_link'><a href="Jamf/PatchInternalSource.html" title="Jamf::PatchInternalSource (class)">PatchInternalSource</a></span>, <span class='object_link'><a href="Jamf/PatchPolicy.html" title="Jamf::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="Jamf/PatchSource.html" title="Jamf::PatchSource (class)">PatchSource</a></span>, <span class='object_link'><a href="Jamf/PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Jamf/Peripheral.html" title="Jamf::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="Jamf/PeripheralType.html" title="Jamf::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Jamf/Policy.html" title="Jamf::Policy (class)">Policy</a></span>, <span class='object_link'><a href="Jamf/Printer.html" title="Jamf::Printer (class)">Printer</a></span>, <span class='object_link'><a href="Jamf/RemovableMacAddress.html" title="Jamf::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="Jamf/RestrictedSoftware.html" title="Jamf::RestrictedSoftware (class)">RestrictedSoftware</a></span>, <span class='object_link'><a href="Jamf/Script.html" title="Jamf::Script (class)">Script</a></span>, <span class='object_link'><a href="Jamf/Site.html" title="Jamf::Site (class)">Site</a></span>, <span class='object_link'><a href="Jamf/SoftwareUpdateServer.html" title="Jamf::SoftwareUpdateServer (class)">SoftwareUpdateServer</a></span>, <span class='object_link'><a href="Jamf/TimeoutError.html" title="Jamf::TimeoutError (class)">TimeoutError</a></span>, <span class='object_link'><a href="Jamf/Timestamp.html" title="Jamf::Timestamp (class)">Timestamp</a></span>, <span class='object_link'><a href="Jamf/UnmanagedError.html" title="Jamf::UnmanagedError (class)">UnmanagedError</a></span>, <span class='object_link'><a href="Jamf/UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span>, <span class='object_link'><a href="Jamf/User.html" title="Jamf::User (class)">User</a></span>, <span class='object_link'><a href="Jamf/UserExtensionAttribute.html" title="Jamf::UserExtensionAttribute (class)">UserExtensionAttribute</a></span>, <span class='object_link'><a href="Jamf/UserGroup.html" title="Jamf::UserGroup (class)">UserGroup</a></span>, <span class='object_link'><a href="Jamf/VPPAccount.html" title="Jamf::VPPAccount (class)">VPPAccount</a></span>, <span class='object_link'><a href="Jamf/WebHook.html" title="Jamf::WebHook (class)">WebHook</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The version of ruby-jss</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.0.0a10</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DB_CNX-constant" class="">DB_CNX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The single instance of the DBConnection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="Jamf/DBConnection.html" title="Jamf::DBConnection (class)">DBConnection</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span></pre></dd>
+      
+        <dt id="API-constant" class="deprecated">API =
+          <div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Use Jamf.cnx to access the module-wide default connection</p>
+</div></div>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Jamf</span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span></pre></dd>
+      
+        <dt id="CONFIG-constant" class="deprecated">CONFIG =
+          <div class="docstring">
+  <div class="discussion">
+    <div class="note deprecated"><strong>Deprecated.</strong> <div class='inline'>
+<p>Use Jamf.config to access the module-wide config settings</p>
+</div></div>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Jamf</span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="#config-class_method" title="Jamf.config (method)">config</a></span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_object_class-class_method" title="#api_object_class (class method)">.<strong>api_object_class</strong>(name)  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#api_object_class-class_method" title="Jamf::Utility#api_object_class (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a name, singular or plural, of a Jamf::APIObject subclass as a String or Symbol (e.g. :computer/&#39;computers&#39;), return the class itself (e.g. Jamf::Computer) The available names are the RSRC_LIST_KEY and RSRC_OBJECT_KEY values for each APIObject subclass.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_object_names-class_method" title="#api_object_names (class method)">.<strong>api_object_names</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#api_object_names-class_method" title="Jamf::Utility#api_object_names (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>APIObject subclasses have singular names, and are, of course capitalized, e.g.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#array_to_rexml_array-class_method" title="#array_to_rexml_array (class method)">.<strong>array_to_rexml_array</strong>(element, list)  &#x21d2; Array&lt;REXML::Element&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#array_to_rexml_array-class_method" title="Jamf::Utility#array_to_rexml_array (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given an element name and an array of content, generate an Array of REXML::Element objects with that name, and matching content.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx-class_method" title="#cnx (class method)">.<strong>cnx</strong>  &#x21d2; Jamf::Connection </a>
+    
+
+    
+      (also: #api, #api_connection, #connection, #default_connection)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#cnx-class_method" title="Jamf::Connection::DefaultConnection#cnx (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The current default Jamf::Connection instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx=-class_method" title="#cnx= (class method)">.<strong>cnx=</strong>(connection)  &#x21d2; APIConnection </a>
+    
+
+    
+      (also: #use_connection, #use_api_connection, #use_api, #activate_connection)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#cnx=-class_method" title="Jamf::Connection::DefaultConnection#cnx= (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Use the given Jamf::Connection object as the default connection, replacing the one that currently exists.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-class_method" title="config (class method)">.<strong>config</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>the single instance of our configuration object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-class_method" title="#connect (class method)">.<strong>connect</strong>(url = nil, **params)  &#x21d2; String </a>
+    
+
+    
+      (also: #login, #new_api_connection, #new_api, #new_cnx, #new_connection)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#connect-class_method" title="Jamf::Connection::DefaultConnection#connect (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new Connection object and use it as the default for all future API calls.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#db-class_method" title="db (class method)">.<strong>db</strong>  &#x21d2; Mysql </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The mysql database available through the DBConnection.instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#devmode-class_method" title="#devmode (class method)">.<strong>devmode</strong>(setting)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#devmode-class_method" title="Jamf::Utility#devmode (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>un/set devmode mode.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#devmode%3F-class_method" title="#devmode? (class method)">.<strong>devmode?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#devmode%3F-class_method" title="Jamf::Utility#devmode? (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>is devmode currently on?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disconnect-class_method" title="#disconnect (class method)">.<strong>disconnect</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#disconnect-class_method" title="Jamf::Connection::DefaultConnection#disconnect (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Disconnect the default connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#epoch_to_time-class_method" title="#epoch_to_time (class method)">.<strong>epoch_to_time</strong>(epoch)  &#x21d2; Time<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#epoch_to_time-class_method" title="Jamf::Utility#epoch_to_time (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#escape_xml-class_method" title="#escape_xml (class method)">.<strong>escape_xml</strong>(string)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#escape_xml-class_method" title="Jamf::Utility#escape_xml (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a string of xml element text, escape any characters that would make XML unhappy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expand_min_os-class_method" title="#expand_min_os (class method)">.<strong>expand_min_os</strong>(min_os)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#expand_min_os-class_method" title="Jamf::Utility#expand_min_os (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts an OS Version into an Array of equal or higher OS versions, up to some non-existant max, hopefully far in the future, currently 20.12.10.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hash_to_rexml_array-class_method" title="#hash_to_rexml_array (class method)">.<strong>hash_to_rexml_array</strong>(hash)  &#x21d2; Array&lt;REXML::Element&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#hash_to_rexml_array-class_method" title="Jamf::Utility#hash_to_rexml_array (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a simple Hash, convert it to an array of REXML Elements such that each key becomes an element, and its value becomes the text content of that element.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#humanize_secs-class_method" title="#humanize_secs (class method)">.<strong>humanize_secs</strong>(secs)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#humanize_secs-class_method" title="Jamf::Utility#humanize_secs (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Very handy! lifted from <a href="http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails">stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails</a>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#item_list_to_rexml_list-class_method" title="#item_list_to_rexml_list (class method)">.<strong>item_list_to_rexml_list</strong>(list_element, item_element, item_list, content = :name)  &#x21d2; REXML::Element </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#item_list_to_rexml_list-class_method" title="Jamf::Utility#item_list_to_rexml_list (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given an Array of Hashes with :id and/or :name keys, return a single REXML element with a sub-element for each item, each of which contains a :name or :id element.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_msg-class_method" title="load_msg (class method)">.<strong>load_msg</strong>(msg)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>rubocop: disable Style/StderrPuts.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logout-class_method" title="#logout (class method)">.<strong>logout</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#logout-class_method" title="Jamf::Connection::DefaultConnection#logout (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Log out the default connection This not only disconnects the connection, but tells the server to invalidate the token that was used, meaning that token cannot be used elsewhere before its expiration time.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#os_ok%3F-class_method" title="#os_ok? (class method)">.<strong>os_ok?</strong>(requirement, os_to_check = nil)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#os_ok%3F-class_method" title="Jamf::Utility#os_ok? (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Scripts and packages can have OS limitations.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_jss_version-class_method" title="#parse_jss_version (class method)">.<strong>parse_jss_version</strong>(version)  &#x21d2; Hash{Symbol =&gt; String, Gem::Version} </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#parse_jss_version-class_method" title="Jamf::Utility#parse_jss_version (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse a JSS Version number into something comparable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_plist-class_method" title="#parse_plist (class method)">.<strong>parse_plist</strong>(plist, symbol_keys: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#parse_plist-class_method" title="Jamf::Utility#parse_plist (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parse a plist into a Ruby data structure.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_time-class_method" title="#parse_time (class method)">.<strong>parse_time</strong>(a_datetime)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#parse_time-class_method" title="Jamf::Utility#parse_time (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>a wrapper around Time.parse that returns nil for nil, zero, and empty values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#processor_ok%3F-class_method" title="#processor_ok? (class method)">.<strong>processor_ok?</strong>(requirement, processor = nil)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#processor_ok%3F-class_method" title="Jamf::Utility#processor_ok? (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Scripts and packages can have processor limitations.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prompt_for_password-class_method" title="#prompt_for_password (class method)">.<strong>prompt_for_password</strong>(message)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#prompt_for_password-class_method" title="Jamf::Utility#prompt_for_password (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Prompt for a password in a terminal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stdin-class_method" title="#stdin (class method)">.<strong>stdin</strong>(line = 0)  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#stdin-class_method" title="Jamf::Utility#stdin (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#superuser%3F-class_method" title="#superuser? (class method)">.<strong>superuser?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#superuser%3F-class_method" title="Jamf::Utility#superuser? (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this code running as root?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s_and_a-class_method" title="#to_s_and_a (class method)">.<strong>to_s_and_a</strong>(somedata)  &#x21d2; Hash{:stringform =&gt; String, :arrayform =&gt; Array} </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#to_s_and_a-class_method" title="Jamf::Utility#to_s_and_a (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a list of data as a comma-separated string, or an Array of strings, return a Hash with both versions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_ruby_version-class_method" title="validate_ruby_version (class method)">.<strong>validate_ruby_version</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verbose_loading%3F-class_method" title="verbose_loading? (class method)">.<strong>verbose_loading?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only look at the filesystem once.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#xml_plist_from-class_method" title="#xml_plist_from (class method)">.<strong>xml_plist_from</strong>(data)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="Jamf/Utility.html#xml_plist_from-class_method" title="Jamf::Utility#xml_plist_from (method)">Utility</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert any ruby data to an XML plist.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="api_object_class-class_method">
+  
+    .<strong>api_object_class</strong>(name)  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#api_object_class-class_method" title="Jamf::Utility#api_object_class (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a name, singular or plural, of a Jamf::APIObject subclass as a String or Symbol (e.g. :computer/&#39;computers&#39;), return the class itself (e.g. Jamf::Computer) The available names are the RSRC_LIST_KEY and RSRC_OBJECT_KEY values for each APIObject subclass.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of a Jamf::APIObject subclass, singluar or plural</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The class</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="api_object_names-class_method">
+  
+    .<strong>api_object_names</strong>  &#x21d2; <tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#api_object_names-class_method" title="Jamf::Utility#api_object_names (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>APIObject subclasses have singular names, and are, of course capitalized, e.g. &#39;Computer&#39; But we often want to refer to them in the plural, or lowercase, e.g. &#39;computers&#39; This method returns a Hash of the RSRC_LIST_KEY (a plural symbol) and the RSRC_OBJECT_KEY (a singular symbol) of each APIObject subclass, keyed to the class itself, such that both :computer and :computers are keys for Jamf::Computer and both :policy and :policies are keys for Jamf::Policy, and so on.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>APIObject subclass names to Classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="array_to_rexml_array-class_method">
+  
+    .<strong>array_to_rexml_array</strong>(element, list)  &#x21d2; <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#array_to_rexml_array-class_method" title="Jamf::Utility#array_to_rexml_array (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given an element name and an array of content, generate an Array of REXML::Element objects with that name, and matching content. Given element name &#39;foo&#39; and the array [&#39;bar&#39;,&#39;morefoo&#39;] The array of REXML elements would render thus:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;foo&gt;bar&lt;/foo&gt;
+&lt;foo&gt;morefoo&lt;/foo&gt;
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an element_name like :foo</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>list</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;#to_s&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an Array of element content such as [“bar”, :morefoo]</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cnx-class_method">
+  
+    .<strong>cnx</strong>  &#x21d2; <tt><span class='object_link'><a href="Jamf/Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='api-instance_method'>api</span>, <span id='api_connection-instance_method'>api_connection</span>, <span id='connection-instance_method'>connection</span>, <span id='default_connection-instance_method'>default_connection</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#cnx-class_method" title="Jamf::Connection::DefaultConnection#cnx (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The current default Jamf::Connection instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cnx=-class_method">
+  
+    .<strong>cnx=</strong>(connection)  &#x21d2; <tt>APIConnection</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='use_connection-instance_method'>use_connection</span>, <span id='use_api_connection-instance_method'>use_api_connection</span>, <span id='use_api-instance_method'>use_api</span>, <span id='activate_connection-instance_method'>activate_connection</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#cnx=-class_method" title="Jamf::Connection::DefaultConnection#cnx= (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Use the given Jamf::Connection object as the default connection, replacing the one that currently exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>connection</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The default Connection to use for future API calls</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>APIConnection</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The connection now being used.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="config-class_method">
+  
+    .<strong>config</strong>  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>the single instance of our configuration object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span>
+  <span class='const'><span class='object_link'><a href="" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Jamf/Configuration.html" title="Jamf::Configuration (class)">Configuration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="connect-class_method">
+  
+    .<strong>connect</strong>(url = nil, **params)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='login-instance_method'>login</span>, <span id='new_api_connection-instance_method'>new_api_connection</span>, <span id='new_api-instance_method'>new_api</span>, <span id='new_cnx-instance_method'>new_cnx</span>, <span id='new_connection-instance_method'>new_connection</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#connect-class_method" title="Jamf::Connection::DefaultConnection#connect (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new Connection object and use it as the default for all future API calls. This will replace the existing default connection with a totally new one</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'></span>
+      
+      
+        <span class='type'>(<tt>See <span class='object_link'><a href="Jamf/Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span>#<span class='object_link'><a href="Jamf/Connection.html#initialize-instance_method" title="Jamf::Connection#initialize (method)">initialize</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the to_s output of the new connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="db-class_method">
+  
+    .<strong>db</strong>  &#x21d2; <tt>Mysql</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The mysql database available through the DBConnection.instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Mysql</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The mysql database available through the DBConnection.instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+285
+286
+287</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/db_connection.rb', line 285</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span>
+  <span class='const'><span class='object_link'><a href="#DB_CNX-constant" title="Jamf::DB_CNX (constant)">DB_CNX</a></span></span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="devmode-class_method">
+  
+    .<strong>devmode</strong>(setting)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#devmode-class_method" title="Jamf::Utility#devmode (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>un/set devmode mode. Useful when coding - methods can call JSS.devmode? and then e.g. spit out something instead of performing some action.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>Set</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>devmode :on or :off</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new state of devmode</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="devmode?-class_method">
+  
+    .<strong>devmode?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#devmode%3F-class_method" title="Jamf::Utility#devmode? (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>is devmode currently on?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disconnect-class_method">
+  
+    .<strong>disconnect</strong>  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#disconnect-class_method" title="Jamf::Connection::DefaultConnection#disconnect (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Disconnect the default connection</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="epoch_to_time-class_method">
+  
+    .<strong>epoch_to_time</strong>(epoch)  &#x21d2; <tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#epoch_to_time-class_method" title="Jamf::Utility#epoch_to_time (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts JSS epoch (unix epoch + milliseconds) to a Ruby Time object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>epoch</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Time.html" title="Time (class)">Time</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nil is returned if epoch is nil, 0 or an empty String.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="escape_xml-class_method">
+  
+    .<strong>escape_xml</strong>(string)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#escape_xml-class_method" title="Jamf::Utility#escape_xml (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a string of xml element text, escape any characters that would make XML unhappy.</p>
+
+<pre class="code ruby"><code class="ruby">* &amp; =&gt; &amp;amp;
+* &quot; =&gt; &amp;quot;
+* &lt; =&gt; &amp;lt;
+* &gt; =&gt; &amp;gt;
+* &#39; =&gt; &amp;apos;
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>string</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the string to make xml-compliant.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the xml-compliant string</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="expand_min_os-class_method">
+  
+    .<strong>expand_min_os</strong>(min_os)  &#x21d2; <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#expand_min_os-class_method" title="Jamf::Utility#expand_min_os (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts an OS Version into an Array of equal or higher OS versions, up to some non-existant max, hopefully far in the future, currently 20.12.10</p>
+
+<p>This array can then be joined with commas and used as the value of the os_requirements for Packages and Scripts.</p>
+
+<p>It&#39;s unlikely that this method, as written, will still be in use by the release of macOS 20.12.10, but currently thats the upper limit.</p>
+
+<p>Hopefully well before then JAMF will implement a “minimum OS” in Jamf Pro itself, then we could avoid the inherant limitations in using a method like this.</p>
+
+<p>When the highest maint. release of an OS version is not known, because its the currently released OS version or higher, then this method assumes &#39;12&#39; e.g. &#39;10.16.12&#39;, &#39;11.12&#39;, &#39;12.12&#39;, etc.</p>
+
+<p>Apple has never released more than 11 updates to a version of macOS (that being 10.4), so hopefully 12 is enough</p>
+
+<p>Since Big Sur might report itself as either &#39;10.16&#39; or &#39;11.x.x&#39;, this method will allow for both possibilities, and the array will contain whatever iterations needed for both version numbers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_expand_min_os'>expand_min_os</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&gt;=10.9.4</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># =&gt; returns this array
+</span> <span class='comment'># [&quot;10.9.4&quot;,
+</span> <span class='comment'>#  &quot;10.9.5&quot;,
+</span> <span class='comment'>#  &quot;10.10.x&quot;
+</span> <span class='comment'>#  ...
+</span> <span class='comment'>#  &quot;10.16.x&quot;,
+</span> <span class='comment'>#  &quot;11.x&quot;,
+</span> <span class='comment'>#  &quot;12.x&quot;,
+</span> <span class='comment'>#  ...
+</span> <span class='comment'>#  &quot;20.x&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>min_os</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mimimum OS version to expand, e.g. “&gt;=10.9.4”  or “11.1”</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Nearly all potential OS versions from the minimum to 20.12.10</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="hash_to_rexml_array-class_method">
+  
+    .<strong>hash_to_rexml_array</strong>(hash)  &#x21d2; <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#hash_to_rexml_array-class_method" title="Jamf::Utility#hash_to_rexml_array (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a simple Hash, convert it to an array of REXML Elements such that each key becomes an element, and its value becomes the text content of that element</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>my_hash = {:foo =&gt; &quot;bar&quot;, :baz =&gt; :morefoo}
+xml = JSS.hash_to_rexml_array(my_hash)
+xml.each{|x| puts x }
+
+&lt;foo&gt;bar&lt;/foo&gt;
+&lt;baz&gt;morefoo&lt;/baz&gt;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>hash</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{#to_s =&gt; #to_s}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Hash to convert</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;REXML::Element&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the Array of REXML elements.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="humanize_secs-class_method">
+  
+    .<strong>humanize_secs</strong>(secs)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#humanize_secs-class_method" title="Jamf::Utility#humanize_secs (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Very handy! lifted from <a href="http://stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails">stackoverflow.com/questions/4136248/how-to-generate-a-human-readable-time-range-using-ruby-on-rails</a></p>
+
+<p>Turns the integer 834756398 into the string “26 years 23 weeks 1 day 12 hours 46 minutes 38 seconds”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>secs</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a number of seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a human-readable (English) version of that number of seconds.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="item_list_to_rexml_list-class_method">
+  
+    .<strong>item_list_to_rexml_list</strong>(list_element, item_element, item_list, content = :name)  &#x21d2; <tt>REXML::Element</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#item_list_to_rexml_list-class_method" title="Jamf::Utility#item_list_to_rexml_list (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given an Array of Hashes with :id and/or :name keys, return a single REXML element with a sub-element for each item, each of which contains a :name or :id element.</p>
+
+<p>e.g. :computers</p>
+
+<p>e.g. :computer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>comps = [{:id=&gt;2,:name=&gt;&#39;kimchi&#39;},{:id=&gt;5,:name=&gt;&#39;mantis&#39;}]
+xml = JSS.item_list_to_rexml_list(:computers, :computer , comps, :name)
+puts xml
+# output manually formatted for clarity. No newlines in the real xml string
+&lt;computers&gt;
+  &lt;computer&gt;
+    &lt;name&gt;kimchi&lt;/name&gt;
+  &lt;/computer&gt;
+  &lt;computer&gt;
+    &lt;name&gt;mantis&lt;/name&gt;
+  &lt;/computer&gt;
+&lt;/computers&gt;
+
+# if content is :id, then, eg. &lt;name&gt;kimchi&lt;/name&gt; would be &lt;id&gt;2&lt;/id&gt;</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>list_element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the XML element that contains the list.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>item_element</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of each XML element in the list,</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>item_list</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an Array of Hashes each with a :name or :id key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>content</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:name</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which hash key should be used as the content of if list item? Defaults to :name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>REXML::Element</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the item list as REXML</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_msg-class_method">
+  
+    .<strong>load_msg</strong>(msg)  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>rubocop: disable Style/StderrPuts</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_msg'>load_msg</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_verbose_loading?'>verbose_loading?</span>
+
+  <span class='gvar'>$stderr</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_msg'>msg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="logout-class_method">
+  
+    .<strong>logout</strong>  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Connection/DefaultConnection.html#logout-class_method" title="Jamf::Connection::DefaultConnection#logout (method)">Connection::DefaultConnection</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Log out the default connection This not only disconnects the connection, but tells the server to invalidate the token that was used, meaning that token cannot be used elsewhere before its expiration time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="os_ok?-class_method">
+  
+    .<strong>os_ok?</strong>(requirement, os_to_check = nil)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#os_ok%3F-class_method" title="Jamf::Utility#os_ok? (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Scripts and packages can have OS limitations. This method tests a given OS, against a requirement list to see if the requirement is met.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>requirement</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The os requirement list, a comma-seprated string or array of strings of allows OSes. e.g. 10.7, 10.8.5 or 10.9.x</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>processor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the os to check, defaults to the os of the current machine.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can this pkg be installed with the processor given?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_jss_version-class_method">
+  
+    .<strong>parse_jss_version</strong>(version)  &#x21d2; <tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="String.html" title="String (class)">String</a></span>, Gem::Version}</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#parse_jss_version-class_method" title="Jamf::Utility#parse_jss_version (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse a JSS Version number into something comparable.</p>
+
+<p>This method returns a Hash with these keys:</p>
+<ul><li>
+<p>:major =&gt; the major version, Integer</p>
+</li><li>
+<p>:minor =&gt; the minor version, Integor</p>
+</li><li>
+<p>:maint =&gt; the revision, Integer (also available as :patch and :revision)</p>
+</li><li>
+<p>:build =&gt; the revision, String</p>
+</li><li>
+<p>:version =&gt; a Gem::Version object built from :major, :minor, :revision which can be easily compared with other Gem::Version objects.</p>
+</li></ul>
+
+<p>NOTE: the :version value ignores build numbers, so comparisons only compare major.minor.maint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>version</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a JSS version number from the API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="String.html" title="String (class)">String</a></span>, Gem::Version}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parsed version data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Jamf/InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_plist-class_method">
+  
+    .<strong>parse_plist</strong>(plist, symbol_keys: false)  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#parse_plist-class_method" title="Jamf::Utility#parse_plist (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parse a plist into a Ruby data structure. The plist parameter may be a String containing an XML plist, or a path to a plist file, or it may be a Pathname object pointing to a plist file. The plist files may be XML or binary.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>plist</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Pathname.html" title="Pathname (class)">Pathname</a></span></tt>, <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the plist XML, or the path to a plist file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>symbol_keys</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should any Hash keys in the result be converted into Symbols rather than remain as Strings?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the parsed plist as a ruby hash,array, etc.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_time-class_method">
+  
+    .<strong>parse_time</strong>(a_datetime)  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#parse_time-class_method" title="Jamf::Utility#parse_time (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>a wrapper around Time.parse that returns nil for nil, zero, and empty values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="processor_ok?-class_method">
+  
+    .<strong>processor_ok?</strong>(requirement, processor = nil)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#processor_ok%3F-class_method" title="Jamf::Utility#processor_ok? (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Scripts and packages can have processor limitations. This method tests a given processor, against a requirement to see if the requirement is met.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>requirement</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The processor requirement. either &#39;ppc&#39;, &#39;x86&#39;, or some variation on “none”, nil, or empty</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>processor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the processor to check, defaults to the processor of the current machine. Any flavor of intel</p>
+
+<pre class="code ruby"><code class="ruby">is (i486, i386, x86-64, etc) is treated as &quot;x86&quot;
+</code></pre>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can this pkg be installed with the processor given?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prompt_for_password-class_method">
+  
+    .<strong>prompt_for_password</strong>(message)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#prompt_for_password-class_method" title="Jamf::Utility#prompt_for_password (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Prompt for a password in a terminal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the prompt message to display</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the text typed by the user</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stdin-class_method">
+  
+    .<strong>stdin</strong>(line = 0)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#stdin-class_method" title="Jamf::Utility#stdin (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrive one or all lines from whatever was piped to standard input.</p>
+
+<p>Standard input is read completely the first time this method is called and the lines are stored as an Array in the module var @stdin_lines</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>line</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which line of stdin is being retrieved. The default is zero (0) which returns all of stdin as a single string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the requested ling of stdin, or nil if it doesn&#39;t exist.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="superuser?-class_method">
+  
+    .<strong>superuser?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#superuser%3F-class_method" title="Jamf::Utility#superuser? (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this code running as root?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this code running as root?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s_and_a-class_method">
+  
+    .<strong>to_s_and_a</strong>(somedata)  &#x21d2; <tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{:stringform =&gt; <span class='object_link'><a href="String.html" title="String (class)">String</a></span>, :arrayform =&gt; <span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>}</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#to_s_and_a-class_method" title="Jamf::Utility#to_s_and_a (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a list of data as a comma-separated string, or an Array of strings, return a Hash with both versions.</p>
+
+<p>Some parts of the JSS require lists as comma-separated strings, while often those data are easier work with as arrays. This method is a handy way to get either form when given either form.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo, bar, baz</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}
+</span>
+<span class='const'><span class='object_link'><a href="top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s_and_a'>to_s_and_a</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bar</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>baz</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># Hash =&gt; {:stringform =&gt; &quot;foo, bar, baz&quot;, :arrayform =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]}</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>somedata</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data to parse, of either class,</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{:stringform =&gt; <span class='object_link'><a href="String.html" title="String (class)">String</a></span>, :arrayform =&gt; <span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data as both comma-separated String and Array</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_ruby_version-class_method">
+  
+    .<strong>validate_ruby_version</strong>  &#x21d2; <tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_validate_ruby_version'>validate_ruby_version</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>RUBY_VERSION</span><span class='rparen'>)</span> <span class='op'>&gt;=</span> <span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Jamf/Constants.html#MINIMUM_RUBY_VERSION-constant" title="Jamf::Constants::MINIMUM_RUBY_VERSION (constant)">MINIMUM_RUBY_VERSION</a></span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t use ruby-jss </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#VERSION-constant" title="Jamf::VERSION (constant)">VERSION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>, ruby itself must be version </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="Jamf/Constants.html#MINIMUM_RUBY_VERSION-constant" title="Jamf::Constants::MINIMUM_RUBY_VERSION (constant)">MINIMUM_RUBY_VERSION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'> or greater, this is ruby </span><span class='embexpr_beg'>#{</span><span class='const'>RUBY_VERSION</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verbose_loading?-class_method">
+  
+    .<strong>verbose_loading?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only look at the filesystem once.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87
+88
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_verbose_loading?'>verbose_loading?</span>
+  <span class='kw'>return</span> <span class='ivar'>@verbose_loading</span> <span class='kw'>unless</span> <span class='ivar'>@verbose_loading</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='ivar'>@verbose_loading</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="top-level-namespace.html#JAMF_VERBOSE_LOADING_FILE-constant" title="JAMF_VERBOSE_LOADING_FILE (constant)">JAMF_VERBOSE_LOADING_FILE</a></span></span><span class='period'>.</span><span class='id identifier rubyid_file?'>file?</span>
+  <span class='ivar'>@verbose_loading</span> <span class='op'>||=</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='const'><span class='object_link'><a href="top-level-namespace.html#JAMF_VERBOSE_LOADING_ENV-constant" title="JAMF_VERBOSE_LOADING_ENV (constant)">JAMF_VERBOSE_LOADING_ENV</a></span></span>
+  <span class='ivar'>@verbose_loading</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="xml_plist_from-class_method">
+  
+    .<strong>xml_plist_from</strong>(data)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Jamf/Utility.html#xml_plist_from-class_method" title="Jamf::Utility#xml_plist_from (method)">Utility</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert any ruby data to an XML plist.</p>
+
+<p>NOTE: Binary data is tricky. Easiest way is to pass in a Pathname or IO object (anything that responds to `read` and returns a bytestring) and then the CFPropertyList.guess method will read it and convert it to a Plist &lt;data&gt; element with base64 encoded data. For more info, see CFPropertyList.guess</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the data to be converted, usually a Hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the object converted into an XML plist</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:11 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

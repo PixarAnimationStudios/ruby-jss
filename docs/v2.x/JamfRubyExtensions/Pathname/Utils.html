@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JamfRubyExtensions::Pathname::Utils
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JamfRubyExtensions::Pathname::Utils";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (U)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../JamfRubyExtensions.html" title="JamfRubyExtensions (module)">JamfRubyExtensions</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Pathname.html" title="JamfRubyExtensions::Pathname (module)">Pathname</a></span></span>
+     &raquo; 
+    <span class="title">Utils</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JamfRubyExtensions::Pathname::Utils
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../../Pathname.html" title="Pathname (class)">Pathname</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/ruby_extensions/pathname/utils.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_append-instance_method" title="#j_append (instance method)">#<strong>j_append</strong>(content)  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_append)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Append some string content to a file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_chown-instance_method" title="#j_chown (instance method)">#<strong>j_chown</strong>(usr, grp)  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_chown)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Pathname should use FileUtils.chown, not File.chown.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_cp-instance_method" title="#j_cp (instance method)">#<strong>j_cp</strong>(dest, **options)  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_cp)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Copy a path to a destination.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_cp_r-instance_method" title="#j_cp_r (instance method)">#<strong>j_cp_r</strong>(dest, **options)  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_cp_r)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Recursively copy this path to a destination.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_save-instance_method" title="#j_save (instance method)">#<strong>j_save</strong>(content)  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_save)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Write some string content to a file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#j_touch-instance_method" title="#j_touch (instance method)">#<strong>j_touch</strong>  &#x21d2; Object </a>
+    
+
+    
+      (also: #jss_touch)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Touching can sometimes be good.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="j_append-instance_method">
+  
+    #<strong>j_append</strong>(content)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_append-instance_method'>jss_append</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Append some string content to a file.</p>
+
+<p>Simpler than always using an open(&#39;a&#39;) block</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_append'>j_append</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>a</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_chown-instance_method">
+  
+    #<strong>j_chown</strong>(usr, grp)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_chown-instance_method'>jss_chown</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Pathname should use FileUtils.chown, not File.chown</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_chown'>j_chown</span><span class='lparen'>(</span><span class='id identifier rubyid_usr'>usr</span><span class='comma'>,</span> <span class='id identifier rubyid_grp'>grp</span><span class='rparen'>)</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_chown'>chown</span> <span class='id identifier rubyid_usr'>usr</span><span class='comma'>,</span> <span class='id identifier rubyid_grp'>grp</span><span class='comma'>,</span> <span class='ivar'>@path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_cp-instance_method">
+  
+    #<strong>j_cp</strong>(dest, **options)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_cp-instance_method'>jss_cp</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Copy a path to a destination</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.cp</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_cp'>j_cp</span><span class='lparen'>(</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_cp'>cp</span> <span class='ivar'>@path</span><span class='comma'>,</span> <span class='id identifier rubyid_dest'>dest</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_cp_r-instance_method">
+  
+    #<strong>j_cp_r</strong>(dest, **options)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_cp_r-instance_method'>jss_cp_r</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Recursively copy this path to a destination</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.cp_r</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_cp_r'>j_cp_r</span><span class='lparen'>(</span><span class='id identifier rubyid_dest'>dest</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_cp_r'>cp_r</span> <span class='ivar'>@path</span><span class='comma'>,</span> <span class='id identifier rubyid_dest'>dest</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_save-instance_method">
+  
+    #<strong>j_save</strong>(content)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_save-instance_method'>jss_save</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Write some string content to a file.</p>
+
+<p>Simpler than always using an open(&#39;w&#39;) block <strong>CAUTION</strong> this overwrites files!</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_save'>j_save</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="j_touch-instance_method">
+  
+    #<strong>j_touch</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="JamfRubyExtensions::Object (module)">Object</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='jss_touch-instance_method'>jss_touch</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Touching can sometimes be good</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>FileUtils.touch</li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/ruby_extensions/pathname/utils.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_j_touch'>j_touch</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_touch'>touch</span> <span class='ivar'>@path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:15 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

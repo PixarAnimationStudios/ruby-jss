@@ -1,0 +1,5556 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::PatchPolicy
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::PatchPolicy";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">PatchPolicy</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::PatchPolicy
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">Jamf::PatchPolicy</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Creatable.html" title="Jamf::Creatable (module)">Creatable</a></span>, <span class='object_link'><a href="Scopable.html" title="Jamf::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="SelfServable.html" title="Jamf::SelfServable (module)">SelfServable</a></span>, <span class='object_link'><a href="Updatable.html" title="Jamf::Updatable (module)">Updatable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/classic/api_objects/patch_policy.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A Patch Policy in the JSS</p>
+
+<p>When making new Patch Polices :patch_title and :target_version must be provided as well as :name.</p>
+
+<p>:patch_title is the name or id of a currently active patch title</p>
+
+<p>:target_version is the string identfier of an available version of the title. The target version MUST have a package assigned to it.</p>
+
+<p>See <span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span> and <span class='object_link'><a href="PatchSource.html#available_titles-class_method" title="Jamf::PatchSource.available_titles (method)">Jamf::PatchSource.available_titles</a></span> for methods to acquire such info.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>patchpolicies</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:patch_policies</span></pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:patch_policy</span></pre></dd>
+      
+        <dt id="RSRC_BY_PATCH_TITLE-constant" class="">RSRC_BY_PATCH_TITLE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>patchpolicies/softwaretitleconfig/id/</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_BY_PATCH_TITLE_LIST_KEY-constant" class="">RSRC_BY_PATCH_TITLE_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>TODO: complain to jamf about this - should be the same as RSRC_LIST_KEY</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:&quot;patch policies&quot;</span></pre></dd>
+      
+        <dt id="SCOPE_TARGET_KEY-constant" class="">SCOPE_TARGET_KEY =
+          
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:computers</span></pre></dd>
+      
+        <dt id="AUTO_INSTALL_GRACE_PERIOD_MESSAGE-constant" class="">AUTO_INSTALL_GRACE_PERIOD_MESSAGE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>$APP_NAMES will quit in $DELAY_MINUTES minutes so that $SOFTWARE_TITLE can be updated. Save anything you are working on and quit the app(s).</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DFT_ENABLED-constant" class="">DFT_ENABLED =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
+      
+        <dt id="DFT_DISTRIBUTION-constant" class="">DFT_DISTRIBUTION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the default dist method - not in ssvc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prompt</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="NO_DEADLINE-constant" class="">NO_DEADLINE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the value of #deadline when there is no deadline</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:none</span></pre></dd>
+      
+        <dt id="DFT_DEADLINE-constant" class="">DFT_DEADLINE =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>7</span></pre></dd>
+      
+        <dt id="DFT_GRACE_PERIOD-constant" class="">DFT_GRACE_PERIOD =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The valud of #grace_period when not defined</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>15</span></pre></dd>
+      
+        <dt id="DFT_GRACE_PERIOD_SUBJECT-constant" class="">DFT_GRACE_PERIOD_SUBJECT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Important</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DFT_GRACE_PERIOD_MESSAGE-constant" class="">DFT_GRACE_PERIOD_MESSAGE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>$APP_NAMES will quit in $DELAY_MINUTES minutes so that $SOFTWARE_TITLE can be updated. Save anything you are working on and quit the app(s).</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="USE_XML_WORKAROUND-constant" class="">USE_XML_WORKAROUND =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>See <span class='object_link'><a href="XMLWorkaround.html" title="Jamf::XMLWorkaround (module)">XMLWorkaround</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>patch_policy:</span> <span class='lbrace'>{</span>
+    <span class='label'>general:</span> <span class='lbrace'>{</span>
+      <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+      <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>enabled:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>target_version:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>release_date:</span> <span class='int'>0</span><span class='comma'>,</span>
+      <span class='label'>incremental_update:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>reboot:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>minimum_os:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>kill_apps:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>kill_app_name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+          <span class='label'>kill_app_bundle_id:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>distribution_method:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>allow_downgrade:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>patch_unknown:</span> <span class='kw'>nil</span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>scope:</span> <span class='lbrace'>{</span>
+      <span class='label'>all_computers:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='label'>computers:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+          <span class='label'>udid:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>computer_groups:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>users:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>username:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>user_groups:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>buildings:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>departments:</span> <span class='lbracket'>[</span>
+        <span class='lbrace'>{</span>
+          <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+          <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+        <span class='rbrace'>}</span>
+      <span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>limitations:</span> <span class='lbrace'>{</span>
+        <span class='label'>network_segments:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>ibeacons:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span>
+      <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='label'>exclusions:</span> <span class='lbrace'>{</span>
+        <span class='label'>computers:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+            <span class='label'>udid:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>computer_groups:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>users:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>username:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>user_groups:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>buildings:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>departments:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>network_segments:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>ibeacons:</span> <span class='lbracket'>[</span>
+          <span class='lbrace'>{</span>
+            <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+            <span class='label'>name:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+          <span class='rbrace'>}</span>
+        <span class='rbracket'>]</span>
+      <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>user_interaction:</span> <span class='lbrace'>{</span>
+      <span class='label'>install_button_text:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>self_service_description:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+      <span class='label'>self_service_icon:</span> <span class='lbrace'>{</span>
+        <span class='label'>id:</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span>
+        <span class='label'>filename:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>uri:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span>
+      <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='label'>notifications:</span> <span class='lbrace'>{</span>
+        <span class='label'>notification_enabled:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+        <span class='label'>notification_type:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>notification_subject:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>notification_message:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#BLANK-constant" title="Jamf::Constants::BLANK (constant)">BLANK</a></span></span><span class='comma'>,</span>
+        <span class='label'>reminders:</span> <span class='lbrace'>{</span>
+          <span class='label'>notification_reminders_enabled:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+          <span class='label'>notification_reminder_frequency:</span> <span class='int'>1</span>
+        <span class='rbrace'>}</span>
+      <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='label'>deadlines:</span> <span class='lbrace'>{</span>
+        <span class='label'>deadline_enabled:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+        <span class='label'>deadline_period:</span> <span class='int'>7</span>
+      <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='label'>grace_period:</span> <span class='lbrace'>{</span>
+        <span class='label'>grace_period_duration:</span> <span class='int'>15</span><span class='comma'>,</span>
+        <span class='label'>notification_center_subject:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Important</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+        <span class='label'>message:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL_GRACE_PERIOD_MESSAGE-constant" title="Jamf::PatchPolicy::AUTO_INSTALL_GRACE_PERIOD_MESSAGE (constant)">AUTO_INSTALL_GRACE_PERIOD_MESSAGE</a></span></span>
+      <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>software_title_configuration_id:</span> <span class='int'>2</span>
+  <span class='rbrace'>}</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#allow_downgrade-instance_method" title="#allow_downgrade (instance method)">#<strong>allow_downgrade</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #allow_downgrade?, #downgradable?)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Can this title be downgraded to this version?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deadline-instance_method" title="#deadline (instance method)">#<strong>deadline</strong>  &#x21d2; Integer, Symnol </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many days is the install deadline?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enabled-instance_method" title="#enabled (instance method)">#<strong>enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #enabled?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this patch policy enabled?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#grace_period-instance_method" title="#grace_period (instance method)">#<strong>grace_period</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #grace_period_duration)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many minutes does the user have to quit the killapps?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#grace_period_message-instance_method" title="#grace_period_message (instance method)">#<strong>grace_period_message</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#grace_period_subject-instance_method" title="#grace_period_subject (instance method)">#<strong>grace_period_subject</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #grace_period_notification_center_subject)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#icon-instance_method" title="#icon (instance method)">#<strong>icon</strong>  &#x21d2; Jamf::Icon<sup>?</sup> </a>
+    
+
+    
+      (also: #self_service_icon)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#icon-instance_method" title="Jamf::SelfServable#icon (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The icon used in self-service.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_self_service-instance_method" title="#in_self_service (instance method)">#<strong>in_self_service</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #in_self_service?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#in_self_service-instance_method" title="Jamf::SelfServable#in_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this thing available in Self Service?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#incremental_update-instance_method" title="#incremental_update (instance method)">#<strong>incremental_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #incremental_update?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Must this patch be installed only over the prev.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#kill_apps-instance_method" title="#kill_apps (instance method)">#<strong>kill_apps</strong>  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The apps that cannot be running when this is installed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#minimum_os-instance_method" title="#minimum_os (instance method)">#<strong>minimum_os</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The min.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="Jamf::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_title_id-instance_method" title="#patch_title_id (instance method)">#<strong>patch_title_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #software_title_id, #software_title_configuration_id)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id of the Jamf::PatchTitle for this policy.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_unknown-instance_method" title="#patch_unknown (instance method)">#<strong>patch_unknown</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #patch_unknown?)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Can this policy run when we don&#39;t know the prev.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot-instance_method" title="#reboot (instance method)">#<strong>reboot</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #reboot_required, #reboot?, #reboot_required?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this patch require a reboot after installation?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#release_date-instance_method" title="#release_date (instance method)">#<strong>release_date</strong>  &#x21d2; Time </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When the target_version was released.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope-instance_method" title="#scope (instance method)">#<strong>scope</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#scope-instance_method" title="Jamf::Scopable#scope (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attribtues.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_categories-instance_method" title="#self_service_categories (instance method)">#<strong>self_service_categories</strong>  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_categories-instance_method" title="Jamf::SelfServable#self_service_categories (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_description-instance_method" title="#self_service_description (instance method)">#<strong>self_service_description</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_description-instance_method" title="Jamf::SelfServable#self_service_description (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The verbage that appears in SelfSvc for this item.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_display_name-instance_method" title="#self_service_display_name (instance method)">#<strong>self_service_display_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #self_service_dislay_name)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_display_name-instance_method" title="Jamf::SelfServable#self_service_display_name (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name to display in macOS Self Service.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_feature_on_main_page-instance_method" title="#self_service_feature_on_main_page (instance method)">#<strong>self_service_feature_on_main_page</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_feature_on_main_page-instance_method" title="Jamf::SelfServable#self_service_feature_on_main_page (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only applicable to macOS targets.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_force_users_to_view_description-instance_method" title="#self_service_force_users_to_view_description (instance method)">#<strong>self_service_force_users_to_view_description</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_force_users_to_view_description-instance_method" title="Jamf::SelfServable#self_service_force_users_to_view_description (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_install_button_text-instance_method" title="#self_service_install_button_text (instance method)">#<strong>self_service_install_button_text</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_install_button_text-instance_method" title="Jamf::SelfServable#self_service_install_button_text (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>defaults to &#39;Install&#39;.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_message-instance_method" title="#self_service_notification_message (instance method)">#<strong>self_service_notification_message</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_message-instance_method" title="Jamf::SelfServable#self_service_notification_message (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The message text of the notification.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_subject-instance_method" title="#self_service_notification_subject (instance method)">#<strong>self_service_notification_subject</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_subject-instance_method" title="Jamf::SelfServable#self_service_notification_subject (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>object name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_type-instance_method" title="#self_service_notification_type (instance method)">#<strong>self_service_notification_type</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_type-instance_method" title="Jamf::SelfServable#self_service_notification_type (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notifications_enabled-instance_method" title="#self_service_notifications_enabled (instance method)">#<strong>self_service_notifications_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #self_service_notifications_enabled?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notifications_enabled-instance_method" title="Jamf::SelfServable#self_service_notifications_enabled (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should jamf send notifications to self service?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reinstall_button_text-instance_method" title="#self_service_reinstall_button_text (instance method)">#<strong>self_service_reinstall_button_text</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reinstall_button_text-instance_method" title="Jamf::SelfServable#self_service_reinstall_button_text (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>defaults to &#39;Reinstall&#39;.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reminder_frequency-instance_method" title="#self_service_reminder_frequency (instance method)">#<strong>self_service_reminder_frequency</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reminder_frequency-instance_method" title="Jamf::SelfServable#self_service_reminder_frequency (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How often (in days) should reminders be given.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reminders_enabled-instance_method" title="#self_service_reminders_enabled (instance method)">#<strong>self_service_reminders_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #self_service_reminders_enabled?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reminders_enabled-instance_method" title="Jamf::SelfServable#self_service_reminders_enabled (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_removal_password-instance_method" title="#self_service_removal_password (instance method)">#<strong>self_service_removal_password</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_removal_password-instance_method" title="Jamf::SelfServable#self_service_removal_password (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The password needed for removal, in plain text.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_user_removable-instance_method" title="#self_service_user_removable (instance method)">#<strong>self_service_user_removable</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_user_removable-instance_method" title="Jamf::SelfServable#self_service_user_removable (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>One of the keys in PROFILE_REMOVAL_BY_USER.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#target_version-instance_method" title="#target_version (instance method)">#<strong>target_version</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #version)
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When setting, the version must exist in the policy&#39;s PatchTitle, and have a package assigned to it.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_for_title-class_method" title="all_for_title (class method)">.<strong>all_for_title</strong>(title, api: nil, cnx: Jamf.cnx)  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Fetch name and id of all PatchPolicies tied to a given PatchTitle.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fetch-class_method" title="fetch (class method)">.<strong>fetch</strong>(searchterm = nil, **args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Override APIObject.fetch, since there&#39;s no …/patchpolicies/name/…</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_self_service_category-instance_method" title="#add_self_service_category (instance method)">#<strong>add_self_service_category</strong>(new_cat, display_in: true, feature_in: false)  &#x21d2; void </a>
+    
+
+    
+      (also: #set_self_service_category, #change_self_service_category)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#add_self_service_category-instance_method" title="Jamf::SelfServable#add_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add or change one of the categories for this item in self service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_to_self_service-instance_method" title="#add_to_self_service (instance method)">#<strong>add_to_self_service</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#add_to_self_service-instance_method" title="Jamf::SelfServable#add_to_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add this object to self service if not already there.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>(new_name, api: nil, cnx: nil)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Creatable.html#clone-instance_method" title="Jamf::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>make a clone of this API object, with a new name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new PatchPolicy in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable-instance_method" title="#disable (instance method)">#<strong>disable</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>disable this policy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable-instance_method" title="#enable (instance method)">#<strong>enable</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>enable this policy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(**data)  &#x21d2; PatchPolicy </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When making new Patch Polices :patch_title is required and is a Jamf::PatchTitle or the name or id of one.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(newname)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name=-instance_method" title="Jamf::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_scope-instance_method" title="#parse_scope (instance method)">#<strong>parse_scope</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#parse_scope-instance_method" title="Jamf::Scopable#parse_scope (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_title-instance_method" title="#patch_title (instance method)">#<strong>patch_title</strong>(refresh = false)  &#x21d2; Jamf::PatchTitle<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Jamf::PatchTitle to for this PatchPolicy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patch_title_name-instance_method" title="#patch_title_name (instance method)">#<strong>patch_title_name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the PatchTitle for this patch policy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_from_self_service-instance_method" title="#remove_from_self_service (instance method)">#<strong>remove_from_self_service</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#remove_from_self_service-instance_method" title="Jamf::SelfServable#remove_from_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove this object from self service if it&#39;s there.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_self_service_category-instance_method" title="#remove_self_service_category (instance method)">#<strong>remove_self_service_category</strong>(cat)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#remove_self_service_category-instance_method" title="Jamf::SelfServable#remove_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove a category from those for this item in SSvc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_execute_url-instance_method" title="#self_service_execute_url (instance method)">#<strong>self_service_execute_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_execute_url-instance_method" title="Jamf::SelfServable#self_service_execute_url (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The url to view this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_payload-instance_method" title="#self_service_payload (instance method)">#<strong>self_service_payload</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_payload-instance_method" title="Jamf::SelfServable#self_service_payload (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>What does this object deploy to the device via self service?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_targets-instance_method" title="#self_service_targets (instance method)">#<strong>self_service_targets</strong>  &#x21d2; Array&lt;Symbol&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_targets-instance_method" title="Jamf::SelfServable#self_service_targets (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>What devices types can get this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_view_url-instance_method" title="#self_service_view_url (instance method)">#<strong>self_service_view_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_view_url-instance_method" title="Jamf::SelfServable#self_service_view_url (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The url to view this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#should_update-instance_method" title="#should_update (instance method)">#<strong>should_update</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#should_update-instance_method" title="Jamf::Scopable#should_update (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing PatchPolicy with changes from ruby.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Uploadable.html#upload-instance_method" title="Jamf::Uploadable#upload (method)">Uploadable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>instance method wrapper for class method.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_removable%3F-instance_method" title="#user_removable? (instance method)">#<strong>user_removable?</strong>  &#x21d2; Boolean<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#user_removable%3F-instance_method" title="Jamf::SelfServable#user_removable? (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Can this thing be removed by the user?.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(**data)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::PatchPolicy (class)">PatchPolicy</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>When making new Patch Polices :patch_title is required and is a Jamf::PatchTitle or the name or id of one</p>
+
+<p>If target_version: is provided, it must exist in the PatchTitle, and must have a package assigned to it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 365</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+
+  <span class='comment'># creation...
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_in_jss'>in_jss</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:software_title_configuration_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_patch_title'>validate_patch_title</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:patch_title</span><span class='rbracket'>]</span>
+
+    <span class='comment'># were we given target_version in the make params?
+</span>    <span class='id identifier rubyid_validate_target_version'>validate_target_version</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:target_version</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:target_version</span><span class='rbracket'>]</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:target_version</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:target_version</span><span class='rbracket'>]</span>
+
+    <span class='comment'># other defaults
+</span>    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:enabled</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:allow_downgrade</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:patch_unknown</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:distribution_method</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DFT_DISTRIBUTION-constant" title="Jamf::PatchPolicy::DFT_DISTRIBUTION (constant)">DFT_DISTRIBUTION</a></span></span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@patch_title_id</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:software_title_configuration_id</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_gen'>gen</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span>
+  <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:enabled</span><span class='rbracket'>]</span>
+  <span class='ivar'>@target_version</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:target_version</span><span class='rbracket'>]</span>
+  <span class='ivar'>@allow_downgrade</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:allow_downgrade</span><span class='rbracket'>]</span>
+  <span class='ivar'>@patch_unknown</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:patch_unknown</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:user_interaction</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_deadlines'>deadlines</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:user_interaction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:deadlines</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_deadlines'>deadlines</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_deadlines'>deadlines</span><span class='lbracket'>[</span><span class='symbol'>:deadline_period</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DFT_DEADLINE-constant" title="Jamf::PatchPolicy::DFT_DEADLINE (constant)">DFT_DEADLINE</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_deadlines'>deadlines</span><span class='lbracket'>[</span><span class='symbol'>:deadline_period</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='ivar'>@deadline</span> <span class='op'>=</span> <span class='id identifier rubyid_deadlines'>deadlines</span><span class='lbracket'>[</span><span class='symbol'>:deadline_enabled</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_deadlines'>deadlines</span><span class='lbracket'>[</span><span class='symbol'>:deadline_period</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#NO_DEADLINE-constant" title="Jamf::PatchPolicy::NO_DEADLINE (constant)">NO_DEADLINE</a></span></span>
+
+  <span class='id identifier rubyid_grace'>grace</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:user_interaction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:grace_period</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_grace'>grace</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='ivar'>@grace_period</span> <span class='op'>=</span> <span class='id identifier rubyid_grace'>grace</span><span class='lbracket'>[</span><span class='symbol'>:grace_period_duration</span><span class='rbracket'>]</span>
+  <span class='ivar'>@grace_period</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DFT_GRACE_PERIOD-constant" title="Jamf::PatchPolicy::DFT_GRACE_PERIOD (constant)">DFT_GRACE_PERIOD</a></span></span> <span class='kw'>if</span> <span class='ivar'>@grace_period</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='ivar'>@grace_period_subject</span> <span class='op'>=</span> <span class='id identifier rubyid_grace'>grace</span><span class='lbracket'>[</span><span class='symbol'>:notification_center_subject</span><span class='rbracket'>]</span>
+  <span class='ivar'>@grace_period_subject</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DFT_GRACE_PERIOD_SUBJECT-constant" title="Jamf::PatchPolicy::DFT_GRACE_PERIOD_SUBJECT (constant)">DFT_GRACE_PERIOD_SUBJECT</a></span></span> <span class='kw'>if</span> <span class='ivar'>@grace_period_subject</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='ivar'>@grace_period_message</span> <span class='op'>=</span> <span class='id identifier rubyid_grace'>grace</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span>
+  <span class='ivar'>@grace_period_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DFT_GRACE_PERIOD_MESSAGE-constant" title="Jamf::PatchPolicy::DFT_GRACE_PERIOD_MESSAGE (constant)">DFT_GRACE_PERIOD_MESSAGE</a></span></span> <span class='kw'>if</span> <span class='ivar'>@grace_period_message</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+
+  <span class='comment'># read-only values, they come from the version.
+</span>  <span class='ivar'>@release_date</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'>epoch_to_time</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:release_date</span><span class='rbracket'>]</span>
+  <span class='ivar'>@incremental_update</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:incremental_update</span><span class='rbracket'>]</span>
+  <span class='ivar'>@reboot</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:reboot</span><span class='rbracket'>]</span>
+  <span class='ivar'>@minimum_os</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:minimum_os</span><span class='rbracket'>]</span>
+  <span class='ivar'>@kill_apps</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:kill_apps</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="allow_downgrade=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="allow_downgrade-instance_method">
+  
+    #<strong>allow_downgrade</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='allow_downgrade?-instance_method'>allow_downgrade?</span>, <span id='downgradable?-instance_method'>downgradable?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Can this title be downgraded to this version?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_val</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+315
+316
+317</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 315</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_allow_downgrade'>allow_downgrade</span>
+  <span class='ivar'>@allow_downgrade</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="deadline=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="deadline-instance_method">
+  
+    #<strong>deadline</strong>  &#x21d2; <tt>Integer</tt>, <tt>Symnol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>How many days is the install deadline?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>days</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:none, or a positive integer. Integers &lt; 1 have the same meaning as :none</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Symnol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:none, or a positive integer</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+330
+331
+332</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 330</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_deadline'>deadline</span>
+  <span class='ivar'>@deadline</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enabled-instance_method">
+  
+    #<strong>enabled</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='enabled?-instance_method'>enabled?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this patch policy enabled?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this patch policy enabled?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+279
+280
+281</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 279</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enabled'>enabled</span>
+  <span class='ivar'>@enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="grace_period=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="grace_period-instance_method">
+  
+    #<strong>grace_period</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='grace_period_duration-instance_method'>grace_period_duration</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How many minutes does the user have to quit the killapps?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_period</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Negative integers will be saved as 0</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many minutes does the user have to quit the killapps?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+336
+337
+338</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 336</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_grace_period'>grace_period</span>
+  <span class='ivar'>@grace_period</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="grace_period_message=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="grace_period_message-instance_method">
+  
+    #<strong>grace_period_message</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>subj</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new message</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The message displayed asking the user to quit the killapps within @grace_period minutes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+350
+351
+352</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 350</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_grace_period_message'>grace_period_message</span>
+  <span class='ivar'>@grace_period_message</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="grace_period_subject=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="grace_period_subject-instance_method">
+  
+    #<strong>grace_period_subject</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='grace_period_notification_center_subject-instance_method'>grace_period_notification_center_subject</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>subj</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new subject</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Subject of the message displayed asking the user to quit the killapps within @grace_period minutes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+343
+344
+345</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 343</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_grace_period_subject'>grace_period_subject</span>
+  <span class='ivar'>@grace_period_subject</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="icon=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="icon-instance_method">
+  
+    #<strong>icon</strong>  &#x21d2; <tt><span class='object_link'><a href="Icon.html" title="Jamf::Icon (class)">Jamf::Icon</a></span></tt><sup>?</sup> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_icon-instance_method'>self_service_icon</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#icon-instance_method" title="Jamf::SelfServable#icon (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The icon used in self-service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Icon.html" title="Jamf::Icon (class)">Jamf::Icon</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The icon used in self-service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_self_service-instance_method">
+  
+    #<strong>in_self_service</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_self_service?-instance_method'>in_self_service?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#in_self_service-instance_method" title="Jamf::SelfServable#in_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is this thing available in Self Service?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is this thing available in Self Service?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="incremental_update-instance_method">
+  
+    #<strong>incremental_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='incremental_update?-instance_method'>incremental_update?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns must this patch be installed only over the prev. version?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>must this patch be installed only over the prev. version?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 296</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_incremental_update'>incremental_update</span>
+  <span class='ivar'>@incremental_update</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="kill_apps-instance_method">
+  
+    #<strong>kill_apps</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The apps that cannot be running when this is installed. each Hash contains :kill_app_name and :kill_app_bundle_id, both Strings.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The apps that cannot be running when this is installed. each Hash contains :kill_app_name and :kill_app_bundle_id, both Strings</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+310
+311
+312</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 310</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_kill_apps'>kill_apps</span>
+  <span class='ivar'>@kill_apps</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="minimum_os-instance_method">
+  
+    #<strong>minimum_os</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The min. OS version require to install this patch.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The min. OS version require to install this patch</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 306</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_minimum_os'>minimum_os</span>
+  <span class='ivar'>@minimum_os</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="Jamf::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="patch_title_id-instance_method">
+  
+    #<strong>patch_title_id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='software_title_id-instance_method'>software_title_id</span>, <span id='software_title_configuration_id-instance_method'>software_title_configuration_id</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the id of the Jamf::PatchTitle for this policy. Can be set with the patch_title: param of .make, but is read-only after that.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the Jamf::PatchTitle for this policy. Can be set with the patch_title: param of .make, but is read-only after that.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+355
+356
+357</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 355</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patch_title_id'>patch_title_id</span>
+  <span class='ivar'>@patch_title_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="patch_unknown=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="patch_unknown-instance_method">
+  
+    #<strong>patch_unknown</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='patch_unknown?-instance_method'>patch_unknown?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Can this policy run when we don&#39;t know the prev. version?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_val</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+322
+323
+324</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 322</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patch_unknown'>patch_unknown</span>
+  <span class='ivar'>@patch_unknown</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reboot-instance_method">
+  
+    #<strong>reboot</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='reboot_required-instance_method'>reboot_required</span>, <span id='reboot?-instance_method'>reboot?</span>, <span id='reboot_required?-instance_method'>reboot_required?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns does this patch require a reboot after installation?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>does this patch require a reboot after installation?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reboot'>reboot</span>
+  <span class='ivar'>@reboot</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="release_date-instance_method">
+  
+    #<strong>release_date</strong>  &#x21d2; <tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns when the target_version was released.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when the target_version was released</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 293</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_release_date'>release_date</span>
+  <span class='ivar'>@release_date</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="scope=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="scope-instance_method">
+  
+    #<strong>scope</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#scope-instance_method" title="Jamf::Scopable#scope (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attribtues</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_categories-instance_method">
+  
+    #<strong>self_service_categories</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_categories-instance_method" title="Jamf::SelfServable#self_service_categories (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Each Hash has these keys about the category</p>
+<ul><li>
+<p>:id =&gt; [Integer] the JSS id of the category</p>
+</li><li>
+<p>:name =&gt; [String] the name of the category</p>
+</li></ul>
+
+<p>Most objects also include one or both of these keys:</p>
+<ul><li>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
+</li><li>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The categories in which this item should appear in SSvc</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_description-instance_method">
+  
+    #<strong>self_service_description</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_description-instance_method" title="Jamf::SelfServable#self_service_description (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The verbage that appears in SelfSvc for this item</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_display_name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_display_name-instance_method">
+  
+    #<strong>self_service_display_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_dislay_name-instance_method'>self_service_dislay_name</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_display_name-instance_method" title="Jamf::SelfServable#self_service_display_name (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The name to display in macOS Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name to display in macOS Self Service.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_feature_on_main_page=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_feature_on_main_page-instance_method">
+  
+    #<strong>self_service_feature_on_main_page</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_feature_on_main_page-instance_method" title="Jamf::SelfServable#self_service_feature_on_main_page (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only applicable to macOS targets</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should this item feature on the main page of SSvc?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_force_users_to_view_description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_force_users_to_view_description-instance_method">
+  
+    #<strong>self_service_force_users_to_view_description</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_force_users_to_view_description-instance_method" title="Jamf::SelfServable#self_service_force_users_to_view_description (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_install_button_text=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_install_button_text-instance_method">
+  
+    #<strong>self_service_install_button_text</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_install_button_text-instance_method" title="Jamf::SelfServable#self_service_install_button_text (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>defaults to &#39;Install&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text label on the install button in SSvc (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_message=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_message-instance_method">
+  
+    #<strong>self_service_notification_message</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_message-instance_method" title="Jamf::SelfServable#self_service_notification_message (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The message text of the notification.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The message text of the notification</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_subject=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_subject-instance_method">
+  
+    #<strong>self_service_notification_subject</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_subject-instance_method" title="Jamf::SelfServable#self_service_notification_subject (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>object name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The subject text of the notification. Defaults to the</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_type-instance_method">
+  
+    #<strong>self_service_notification_type</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_type-instance_method" title="Jamf::SelfServable#self_service_notification_type (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How should notifications be sent either :ssvc_only or :ssvc_and_nctr</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notifications_enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notifications_enabled-instance_method">
+  
+    #<strong>self_service_notifications_enabled</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_notifications_enabled?-instance_method'>self_service_notifications_enabled?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notifications_enabled-instance_method" title="Jamf::SelfServable#self_service_notifications_enabled (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should jamf send notifications to self service?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should jamf send notifications to self service?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reinstall_button_text=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reinstall_button_text-instance_method">
+  
+    #<strong>self_service_reinstall_button_text</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reinstall_button_text-instance_method" title="Jamf::SelfServable#self_service_reinstall_button_text (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>defaults to &#39;Reinstall&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text label on the reinstall button in SSvc (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reminder_frequency=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reminder_frequency-instance_method">
+  
+    #<strong>self_service_reminder_frequency</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reminder_frequency-instance_method" title="Jamf::SelfServable#self_service_reminder_frequency (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How often (in days) should reminders be given.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How often (in days) should reminders be given</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reminders_enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reminders_enabled-instance_method">
+  
+    #<strong>self_service_reminders_enabled</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_reminders_enabled?-instance_method'>self_service_reminders_enabled?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reminders_enabled-instance_method" title="Jamf::SelfServable#self_service_reminders_enabled (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_removal_password-instance_method">
+  
+    #<strong>self_service_removal_password</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_removal_password-instance_method" title="Jamf::SelfServable#self_service_removal_password (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The password needed for removal, in plain text.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The password needed for removal, in plain text.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_user_removable=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_user_removable-instance_method">
+  
+    #<strong>self_service_user_removable</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_user_removable-instance_method" title="Jamf::SelfServable#self_service_user_removable (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>one of the keys in PROFILE_REMOVAL_BY_USER</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="target_version=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="target_version-instance_method">
+  
+    #<strong>target_version</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='version-instance_method'>version</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>When setting, the version must exist in the policy&#39;s PatchTitle, and have a package assigned to it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_tgt_vers</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new version for this Patch Policy.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The version deployed by this policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 289</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_target_version'>target_version</span>
+  <span class='ivar'>@target_version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="all_for_title-class_method">
+  
+    .<strong>all_for_title</strong>(title, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Fetch name and id of all PatchPolicies tied to a given PatchTitle</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>title</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the PatchTitle for which to retrieve a list of patch policies</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the :id and :name of each policy for the title</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 252</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_for_title'>all_for_title</span><span class='lparen'>(</span><span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='id identifier rubyid_title_id'>title_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="PatchTitle.html#valid_id-class_method" title="Jamf::PatchTitle.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_title'>title</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No PatchTitle matching &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_title'>title</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_title_id'>title_id</span>
+
+  <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_c_get'>c_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BY_PATCH_TITLE-constant" title="Jamf::PatchPolicy::RSRC_BY_PATCH_TITLE (constant)">RSRC_BY_PATCH_TITLE</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_title_id'>title_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#RSRC_BY_PATCH_TITLE_LIST_KEY-constant" title="Jamf::PatchPolicy::RSRC_BY_PATCH_TITLE_LIST_KEY (constant)">RSRC_BY_PATCH_TITLE_LIST_KEY</a></span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fetch-class_method">
+  
+    .<strong>fetch</strong>(searchterm = nil, **args)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Override APIObject.fetch, since there&#39;s no …/patchpolicies/name/… endpoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#fetch-class_method" title="Jamf::APIObject.fetch (method)">APIObject.fetch</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 264</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_searchterm'>searchterm</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name_search'>name_search</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='symbol'>:name</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_name_search'>name_search</span>
+    <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_name_search'>name_search</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> found </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_err_detail'>err_detail</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+
+    <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span>
+  <span class='kw'>end</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_self_service_category-instance_method">
+  
+    #<strong>add_self_service_category</strong>(new_cat, display_in: true, feature_in: false)  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_self_service_category-instance_method'>set_self_service_category</span>, <span id='change_self_service_category-instance_method'>change_self_service_category</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#add_self_service_category-instance_method" title="Jamf::SelfServable#add_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add or change one of the categories for this item in self service</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of a category where this object should appear in SelfSvc</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>display_in</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>feature_in</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_to_self_service-instance_method">
+  
+    #<strong>add_to_self_service</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#add_to_self_service-instance_method" title="Jamf::SelfServable#add_to_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add this object to self service if not already there.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clone-instance_method">
+  
+    #<strong>clone</strong>(new_name, api: nil, cnx: nil)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Creatable.html#clone-instance_method" title="Jamf::Creatable#clone (method)">Creatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name for the new object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An unsaved clone of this APIObject with the given name</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new PatchPolicy in the JSS</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the new policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 525</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+  <span class='id identifier rubyid_validate_for_saving'>validate_for_saving</span>
+  <span class='comment'># TODO: prepare for more cases where the POST rsrc is
+</span>  <span class='comment'># different from the PUT/GET/DELETE.
+</span>  <span class='id identifier rubyid_orig_rsrc'>orig_rsrc</span> <span class='op'>=</span> <span class='ivar'>@rest_rsrc</span>
+  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BY_PATCH_TITLE-constant" title="Jamf::PatchPolicy::RSRC_BY_PATCH_TITLE (constant)">RSRC_BY_PATCH_TITLE</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_patch_title_id'>patch_title_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_rsrc'>orig_rsrc</span>
+  <span class='id identifier rubyid_refetch_version_info'>refetch_version_info</span>
+  <span class='id identifier rubyid_id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable-instance_method">
+  
+    #<strong>disable</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>disable this policy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+461
+462
+463
+464
+465</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 461</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable'>disable</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_enabled'>enabled</span>
+  <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable-instance_method">
+  
+    #<strong>enable</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>enable this policy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+451
+452
+453
+454
+455</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 451</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable'>enable</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_enabled'>enabled</span>
+  <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(newname)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name=-instance_method" title="Jamf::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_scope-instance_method">
+  
+    #<strong>parse_scope</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#parse_scope-instance_method" title="Jamf::Scopable#parse_scope (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+<p class="note returns_void">This method returns an undefined value.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="patch_title-instance_method">
+  
+    #<strong>patch_title</strong>(refresh = false)  &#x21d2; <tt><span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">Jamf::PatchTitle</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The Jamf::PatchTitle to for this PatchPolicy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the Title be re-fetched from the API?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">Jamf::PatchTitle</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+426
+427
+428
+429</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 426</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patch_title'>patch_title</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@patch_title</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='ivar'>@patch_title</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="PatchTitle.html#fetch-class_method" title="Jamf::PatchTitle.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='id identifier rubyid_patch_title_id'>patch_title_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="patch_title_name-instance_method">
+  
+    #<strong>patch_title_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name of the PatchTitle for this patch policy.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the PatchTitle for this patch policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+433
+434
+435
+436</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 433</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patch_title_name'>patch_title_name</span>
+  <span class='kw'>return</span> <span class='ivar'>@patch_title</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='kw'>if</span> <span class='ivar'>@patch_title</span>
+  <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map_all_ids_to'><span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="Jamf::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span></span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_software_title_configuration_id'>software_title_configuration_id</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_from_self_service-instance_method">
+  
+    #<strong>remove_from_self_service</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#remove_from_self_service-instance_method" title="Jamf::SelfServable#remove_from_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Remove this object from self service if it&#39;s there.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_self_service_category-instance_method">
+  
+    #<strong>remove_self_service_category</strong>(cat)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#remove_self_service_category-instance_method" title="Jamf::SelfServable#remove_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Remove a category from those for this item in SSvc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the category to remove</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_execute_url-instance_method">
+  
+    #<strong>self_service_execute_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_execute_url-instance_method" title="Jamf::SelfServable#self_service_execute_url (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The url to view this thing in Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The url to view this thing in Self Service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_payload-instance_method">
+  
+    #<strong>self_service_payload</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_payload-instance_method" title="Jamf::SelfServable#self_service_payload (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>What does this object deploy to the device via self service?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:profile, :app, or :policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_targets-instance_method">
+  
+    #<strong>self_service_targets</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Symbol&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_targets-instance_method" title="Jamf::SelfServable#self_service_targets (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>What devices types can get this thing in Self Service</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of :macos, :ios, or both.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_view_url-instance_method">
+  
+    #<strong>self_service_view_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_view_url-instance_method" title="Jamf::SelfServable#self_service_view_url (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The url to view this thing in Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The url to view this thing in Self Service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="should_update-instance_method">
+  
+    #<strong>should_update</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#should_update-instance_method" title="Jamf::Scopable#should_update (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing PatchPolicy with changes from ruby</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+541
+542
+543
+544
+545
+546
+547</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/patch_policy.rb', line 541</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
+  <span class='id identifier rubyid_validate_for_saving'>validate_for_saving</span>
+  <span class='kw'>super</span>
+  <span class='id identifier rubyid_refetch_version_info'>refetch_version_info</span> <span class='kw'>if</span> <span class='ivar'>@refetch_for_new_version</span>
+  <span class='ivar'>@refetch_for_new_version</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id identifier rubyid_id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload-instance_method">
+  
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Uploadable.html#upload-instance_method" title="Jamf::Uploadable#upload (method)">Uploadable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>local_file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>String or Pathname pointing to the locally-readable file to be uploaded.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>was the  upload successful?</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user_removable?-instance_method">
+  
+    #<strong>user_removable?</strong>  &#x21d2; <tt>Boolean</tt><sup>?</sup> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#user_removable%3F-instance_method" title="Jamf::SelfServable#user_removable? (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Can this thing be removed by the user?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nil means &#39;not applicable&#39;</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:31 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

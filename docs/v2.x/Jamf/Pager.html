@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::Pager
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Pager";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Pager</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::Pager
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Jamf::Pager</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/jamf_pro/other_classes/pager.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>an object that performs a paged query for a pageable resource, possibly sorted and filtered. One of these is returned by class method .pager class method of CollectionResources the .change_log_pager method of ChangeLog resources</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="MIN_PAGE_SIZE-constant" class="">MIN_PAGE_SIZE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+      
+        <dt id="MAX_PAGE_SIZE-constant" class="">MAX_PAGE_SIZE =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>2000</span></pre></dd>
+      
+        <dt id="DEFAULT_PAGE_SIZE-constant" class="">DEFAULT_PAGE_SIZE =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>100</span></pre></dd>
+      
+        <dt id="PAGE_SIZE_RANGE-constant" class="">PAGE_SIZE_RANGE =
+          
+        </dt>
+        <dd><pre class="code"><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#MIN_PAGE_SIZE-constant" title="Jamf::Pager::MIN_PAGE_SIZE (constant)">MIN_PAGE_SIZE</a></span></span><span class='op'>..</span><span class='const'>MAX_PAGE_SIZE</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cnx-instance_method" title="#cnx (instance method)">#<strong>cnx</strong>  &#x21d2; Jamf::Connection </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Connection object used for the query.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter-instance_method" title="#filter (instance method)">#<strong>filter</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The optional filter parameter for the query.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_path-instance_method" title="#list_path (instance method)">#<strong>list_path</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The Resource URL path that provides the paged query results.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#next_page-instance_method" title="#next_page (instance method)">#<strong>next_page</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The page which will be returned when next_page is called.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#page_size-instance_method" title="#page_size (instance method)">#<strong>page_size</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many items to return per page.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_path-instance_method" title="#query_path (instance method)">#<strong>query_path</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><dl class="rdoc-list label-list"><dt>
+<dd>
+<p>The full r#source URL, with page_size, sort, and filter, but without the &#39;page&#39; parameter.</p>
+</dd></dl>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort-instance_method" title="#sort (instance method)">#<strong>sort</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The optional sort parameter for the query,.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#total_count-instance_method" title="#total_count (instance method)">#<strong>total_count</strong>  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many items are there in total? NOTE: this does not apply any given filter, which might reduce the number of items returned by a pager.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#total_pages-instance_method" title="#total_pages (instance method)">#<strong>total_pages</strong>  &#x21d2; Integer<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many pages needed to retrieve the total_count? nil if using a filter, since that may return fewer than the total count.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_pages-class_method" title="all_pages (class method)">.<strong>all_pages</strong>(list_path:, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)  &#x21d2; Type </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return all results from a pageable list path.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fetch_next_page-instance_method" title="#fetch_next_page (instance method)">#<strong>fetch_next_page</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The next page of the collection, i.e.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(list_path:, page_size: DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: nil, cnx: Jamf.cnx)  &#x21d2; Pager </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Pager.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#page-instance_method" title="#page (instance method)">#<strong>page</strong>(page_number, increment_next: false)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieve an arbitrary page of the result.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset-instance_method" title="#reset (instance method)">#<strong>reset</strong>(to_page = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset the pager to start at a specific page (by default, the beginning) so that #fetch_next_page will start from there the next time it&#39;s called.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(list_path:, page_size: DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::Pager (class)">Pager</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Pager.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>list_path</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Resource URL path that provides the paged query results</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>page_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>DEFAULT_PAGE_SIZE</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many items to return per page</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional sort parameter for the query</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional RSQL filter parameter for the query</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>instantiate</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the results be instantiated as the given class?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Connection object used for the query. Defaults to the Default connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 144</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>list_path:</span><span class='comma'>,</span> <span class='label'>page_size:</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PAGE_SIZE-constant" title="Jamf::Pager::DEFAULT_PAGE_SIZE (constant)">DEFAULT_PAGE_SIZE</a></span></span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filter:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>instantiate:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_page_size'>validate_page_size</span><span class='lparen'>(</span><span class='id identifier rubyid_page_size'>page_size</span><span class='rparen'>)</span>
+
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='ivar'>@list_path</span> <span class='op'>=</span> <span class='id identifier rubyid_list_path'>list_path</span>
+  <span class='ivar'>@sort</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Sortable.html" title="Jamf::Sortable (module)">Sortable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_sort_param'><span class='object_link'><a href="Sortable.html#parse_url_sort_param-class_method" title="Jamf::Sortable.parse_url_sort_param (method)">parse_url_sort_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sort'>sort</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Filterable.html" title="Jamf::Filterable (module)">Filterable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_filter_param'><span class='object_link'><a href="Filterable.html#parse_url_filter_param-class_method" title="Jamf::Filterable.parse_url_filter_param (method)">parse_url_filter_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='rparen'>)</span>
+  <span class='ivar'>@page_size</span> <span class='op'>=</span> <span class='id identifier rubyid_page_size'>page_size</span>
+  <span class='ivar'>@instantiate</span> <span class='op'>=</span> <span class='id identifier rubyid_instantiate'>instantiate</span>
+
+  <span class='comment'># start with page 0, the first page
+</span>  <span class='comment'># This will be incremented and appended to the query path each time we call
+</span>  <span class='comment'># next_page
+</span>  <span class='ivar'>@next_page</span> <span class='op'>=</span> <span class='int'>0</span>
+
+  <span class='ivar'>@query_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@list_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>?page-size=</span><span class='embexpr_beg'>#{</span><span class='ivar'>@page_size</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sort</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filter</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='comment'># get one item which will contain the total count
+</span>  <span class='ivar'>@total_count</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_jp_get'>jp_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@query_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>?page-size=1&amp;page=0</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filter</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:totalCount</span><span class='rbracket'>]</span>
+  <span class='comment'># can&#39;t know total pages of filtered query
+</span>  <span class='ivar'>@total_pages</span> <span class='op'>=</span> <span class='ivar'>@filter</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='ivar'>@total_count</span> <span class='op'>/</span> <span class='ivar'>@page_size</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_ceil'>ceil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="cnx-instance_method">
+  
+    #<strong>cnx</strong>  &#x21d2; <tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The Connection object used for the query.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Connection object used for the query</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='ivar'>@cnx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="filter-instance_method">
+  
+    #<strong>filter</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The optional filter parameter for the query.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional filter parameter for the query</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 104</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter'>filter</span>
+  <span class='ivar'>@filter</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="list_path-instance_method">
+  
+    #<strong>list_path</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The Resource URL path that provides the paged query results.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Resource URL path that provides the paged query results</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_list_path'>list_path</span>
+  <span class='ivar'>@list_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="next_page-instance_method">
+  
+    #<strong>next_page</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The page which will be returned when next_page is called.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The page which will be returned when next_page is called</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_next_page'>next_page</span>
+  <span class='ivar'>@next_page</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="page_size-instance_method">
+  
+    #<strong>page_size</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How many items to return per page.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many items to return per page</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_page_size'>page_size</span>
+  <span class='ivar'>@page_size</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="query_path-instance_method">
+  
+    #<strong>query_path</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns [] The full r#source URL, with page_size, sort, and filter, but without the &#39;page&#39; parameter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><dl class="rdoc-list label-list"><dt>
+<dd>
+<p>The full r#source URL, with page_size, sort, and filter, but</p>
+</dd></dl>
+
+<p>without the &#39;page&#39; parameter</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_query_path'>query_path</span>
+  <span class='ivar'>@query_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sort-instance_method">
+  
+    #<strong>sort</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The optional sort parameter for the query,.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional sort parameter for the query,</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 101</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sort'>sort</span>
+  <span class='ivar'>@sort</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="total_count-instance_method">
+  
+    #<strong>total_count</strong>  &#x21d2; <tt>Integer</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>How many items are there in total? NOTE: this does not apply any given filter, which might reduce the number of items returned by a pager.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many items are there in total? NOTE: this does not apply any given filter, which might reduce the number of items returned by a pager.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_total_count'>total_count</span>
+  <span class='ivar'>@total_count</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="total_pages-instance_method">
+  
+    #<strong>total_pages</strong>  &#x21d2; <tt>Integer</tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How many pages needed to retrieve the total_count? nil if using a filter, since that may return fewer than the total count.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many pages needed to retrieve the total_count? nil if using a filter, since that may return fewer than the total count.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_total_pages'>total_pages</span>
+  <span class='ivar'>@total_pages</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="all_pages-class_method">
+  
+    .<strong>all_pages</strong>(list_path:, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)  &#x21d2; <tt>Type</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return all results from a pageable list path.</p>
+
+<p>Since the JPAPI always returns results in pages of 2000, if there are more than that many in the collection we must loop through the pages to get them all.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>list_path</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Resource URL path that provides the paged query results</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional sort parameter for the query</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The optional RSQL filter parameter for the query</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>instantiate</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defaults to false. Should the items in the returned Array(s) be ruby instances of the CollectionObject subclass, or plain Hashes of data as returned by the API?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use, default: Jamf.cnx</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Type</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>description_of_returned_object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_pages'>all_pages</span><span class='lparen'>(</span><span class='label'>list_path:</span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filter:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>instantiate:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sort'>sort</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Sortable.html" title="Jamf::Sortable (module)">Sortable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_sort_param'><span class='object_link'><a href="Sortable.html#parse_url_sort_param-class_method" title="Jamf::Sortable.parse_url_sort_param (method)">parse_url_sort_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sort'>sort</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filter'>filter</span> <span class='op'>&amp;&amp;=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Filterable.html" title="Jamf::Filterable (module)">Filterable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_url_filter_param'><span class='object_link'><a href="Filterable.html#parse_url_filter_param-class_method" title="Jamf::Filterable.parse_url_filter_param (method)">parse_url_filter_param</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_pager'>pager</span> <span class='op'>=</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>page_size:</span> <span class='const'><span class='object_link'><a href="#MAX_PAGE_SIZE-constant" title="Jamf::Pager::MAX_PAGE_SIZE (constant)">MAX_PAGE_SIZE</a></span></span><span class='comma'>,</span>
+    <span class='label'>list_path:</span> <span class='id identifier rubyid_list_path'>list_path</span><span class='comma'>,</span>
+    <span class='label'>sort:</span> <span class='id identifier rubyid_sort'>sort</span><span class='comma'>,</span>
+    <span class='label'>filter:</span> <span class='id identifier rubyid_filter'>filter</span><span class='comma'>,</span>
+    <span class='label'>instantiate:</span> <span class='id identifier rubyid_instantiate'>instantiate</span><span class='comma'>,</span>
+    <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_fetched_page'>fetched_page</span> <span class='op'>=</span> <span class='id identifier rubyid_pager'>pager</span><span class='period'>.</span><span class='id identifier rubyid_fetch_next_page'>fetch_next_page</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_fetched_page'>fetched_page</span>
+  <span class='kw'>until</span> <span class='id identifier rubyid_fetched_page'>fetched_page</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_fetched_page'>fetched_page</span> <span class='op'>=</span> <span class='id identifier rubyid_pager'>pager</span><span class='period'>.</span><span class='id identifier rubyid_fetch_next_page'>fetch_next_page</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>+=</span> <span class='id identifier rubyid_fetched_page'>fetched_page</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="fetch_next_page-instance_method">
+  
+    #<strong>fetch_next_page</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The next page of the collection, i.e. whichever page is indicated in the next_page attribute.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The next page of the collection, i.e. whichever page is indicated in the next_page attribute.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fetch_next_page'>fetch_next_page</span>
+  <span class='id identifier rubyid_page'>page</span> <span class='ivar'>@next_page</span><span class='comma'>,</span> <span class='label'>increment_next:</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="page-instance_method">
+  
+    #<strong>page</strong>(page_number, increment_next: false)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrieve an arbitrary page of the result.</p>
+
+<p>IMPORTANT: In the Jamf Pro API, page numbers are zero-based! The first page is 0, the second is 1, and so on. Asking for page 27 will give you the 28th page of results</p>
+
+<p>If increment_next is true, then subsequent calls to #next_page will continue from whatever page number was requested.</p>
+
+<p>When increment_next is false (the default), the sequence of pages returned by #next_page is unchanged, regardless of which page you return here.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>number</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Which page to retrieve. The Symbols :first and :last will work as expected. Otherwise, the zero-based page number is needed. Will return an empty array if greater than the total number of pages in the query result</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>increment_next</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the next_page value be reset to the page number plus 1? This makes #fetch_next_page continue from this one.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The desired page of the result, containing up to #page_size items. Will be empty if the page is greater than the total available.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 207</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span><span class='id identifier rubyid_page_number'>page_number</span><span class='comma'>,</span> <span class='label'>increment_next:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>==</span> <span class='symbol'>:first</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>==</span> <span class='symbol'>:last</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot use :last with filtered queries</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@filter</span>
+
+    <span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@total_pages</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_validate_page_number'>validate_page_number</span> <span class='id identifier rubyid_page_number'>page_number</span>
+
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_jp_get'>jp_get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@query_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;page=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page_number'>page_number</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='ivar'>@instantiate</span>
+      <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='ivar'>@instantiate</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+
+  <span class='ivar'>@next_page</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_page_number'>page_number</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_increment_next'>increment_next</span>
+  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reset-instance_method">
+  
+    #<strong>reset</strong>(to_page = 0)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset the pager to start at a specific page (by default, the beginning) so that #fetch_next_page will start from there the next time it&#39;s called.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/other_classes/pager.rb', line 176</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reset'>reset</span><span class='lparen'>(</span><span class='id identifier rubyid_to_page'>to_page</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_to_page'>to_page</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_to_page'>to_page</span> <span class='op'>==</span> <span class='symbol'>:first</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Page number must be an Integer 0 or higher</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_to_page'>to_page</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_to_page'>to_page</span><span class='period'>.</span><span class='id identifier rubyid_negative?'>negative?</span>
+
+  <span class='ivar'>@next_page</span> <span class='op'>=</span> <span class='id identifier rubyid_to_page'>to_page</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:27 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

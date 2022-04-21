@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::OAPISchemas::CloudLdapConnectionStatus
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::OAPISchemas::CloudLdapConnectionStatus";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../OAPISchemas.html" title="Jamf::OAPISchemas (module)">OAPISchemas</a></span></span>
+     &raquo; 
+    <span class="title">CloudLdapConnectionStatus</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::OAPISchemas::CloudLdapConnectionStatus
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../OAPIObject.html" title="Jamf::OAPIObject (class)">Jamf::OAPIObject</a></span></li>
+          
+            <li class="next">Jamf::OAPISchemas::CloudLdapConnectionStatus</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_connection_status.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>OAPI Object Model and Enums for: CloudLdapConnectionStatus</p>
+
+<p>Description of this class from the OAPI Schema:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>Status</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_tested'>tested</span> <span class='const'>Cloud</span> <span class='const'>Ldap</span> <span class='id identifier rubyid_connection'>connection</span>
+</code></pre>
+
+<p>This class was automatically genereated from the api/schema URL path on a Jamf Pro server version 10.36.1-t1645562643</p>
+
+<p>This class may be used directly, e.g instances of other classes may use instances of this class as one of their own properties/attributes.</p>
+
+<p>It may also be used as a superclass when implementing Jamf Pro API Resources in ruby-jss. The subclasses include appropriate mixins, and should expand on the basic functionality provided here.</p>
+
+<p>Container Objects: Other object models that use this model as the value in one of their attributes.</p>
+
+<p>Sub Objects: Other object models used by this model&#39;s attributes.</p>
+
+<p>Endpoints and Privileges: API endpoints and HTTP operations that use this object model, and the Jamf Pro privileges needed to access them.</p>
+
+<pre class="code ruby"><code class="ruby">- &#39;/v2/cloud-ldaps/{id}/connection/status:GET&#39; needs permissions:
+  - Read LDAP Servers
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="OAPI_PROPERTIES-constant" class="">OAPI_PROPERTIES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+
+  <span class='comment'># @!attribute status
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>status:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span>
+
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#status-instance_method" title="#status (instance method)">#<strong>status</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="../OAPIObject.html#initialize-instance_method" title="Jamf::OAPIObject#initialize (method)">Jamf::OAPIObject</a></span></p>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="status=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="status-instance_method">
+  
+    #<strong>status</strong>  &#x21d2; <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/jamf_pro/oapi_schemas/cloud_ldap_connection_status.rb', line 72</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:11:03 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

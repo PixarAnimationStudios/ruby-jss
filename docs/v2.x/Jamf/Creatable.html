@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Creatable
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Creatable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">Creatable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Creatable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="AdvancedSearch.html" title="Jamf::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Building.html" title="Jamf::Building (class)">Building</a></span>, <span class='object_link'><a href="Category.html" title="Jamf::Category (class)">Category</a></span>, <span class='object_link'><a href="Computer.html" title="Jamf::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerInvitation.html" title="Jamf::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="Department.html" title="Jamf::Department (class)">Department</a></span>, <span class='object_link'><a href="DirectoryBinding.html" title="Jamf::DirectoryBinding (class)">DirectoryBinding</a></span>, <span class='object_link'><a href="DockItem.html" title="Jamf::DockItem (class)">DockItem</a></span>, <span class='object_link'><a href="ExtensionAttribute.html" title="Jamf::ExtensionAttribute (class)">ExtensionAttribute</a></span>, <span class='object_link'><a href="Group.html" title="Jamf::Group (class)">Group</a></span>, <span class='object_link'><a href="IBeacon.html" title="Jamf::IBeacon (class)">IBeacon</a></span>, <span class='object_link'><a href="MobileDevice.html" title="Jamf::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="Jamf::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="NetworkSegment.html" title="Jamf::NetworkSegment (class)">NetworkSegment</a></span>, <span class='object_link'><a href="Package.html" title="Jamf::Package (class)">Package</a></span>, <span class='object_link'><a href="PatchExternalSource.html" title="Jamf::PatchExternalSource (class)">PatchExternalSource</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="Jamf::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="PatchTitle.html" title="Jamf::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Peripheral.html" title="Jamf::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="PeripheralType.html" title="Jamf::PeripheralType (class)">PeripheralType</a></span>, <span class='object_link'><a href="Policy.html" title="Jamf::Policy (class)">Policy</a></span>, <span class='object_link'><a href="Printer.html" title="Jamf::Printer (class)">Printer</a></span>, <span class='object_link'><a href="RemovableMacAddress.html" title="Jamf::RemovableMacAddress (class)">RemovableMacAddress</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="Jamf::RestrictedSoftware (class)">RestrictedSoftware</a></span>, <span class='object_link'><a href="Script.html" title="Jamf::Script (class)">Script</a></span>, <span class='object_link'><a href="Site.html" title="Jamf::Site (class)">Site</a></span>, <span class='object_link'><a href="User.html" title="Jamf::User (class)">User</a></span>, <span class='object_link'><a href="WebHook.html" title="Jamf::WebHook (class)">WebHook</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/classic/api_objects/creatable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A mix-in module that allows objects to be created in the JSS via the API.</p>
+
+<p>When a Jamf::APIObject subclass includes this module, that subclass can be instantiated with :id =&gt; :new, and :name =&gt; “some_new_name”.</p>
+
+<p>Classes mixing this module <strong>must</strong> provide a #rest_xml instance method that returns the XML String to be submitted to the API for object creation.</p>
+
+<p>The instance can be used to set desired values for the new object, and once everything&#39;s good, use #create to create it in the JSS.</p>
+
+<p>If a Creatable object requires more data than just a :name for creation, the subclass may want to redefine #initialize to require those data before calling super, or may want to redefine #create or #rest_xml to check the data for consistency, and then call super</p>
+
+<p>It is also wise to have the individual setter methods do data validation</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html#save-instance_method" title="Jamf::APIObject#save (method)">APIObject#save</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="CREATABLE-constant" class="">CREATABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Constants</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">#<strong>clone</strong>(new_name, api: nil, cnx: nil)  &#x21d2; APIObject </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>make a clone of this API object, with a new name.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="clone-instance_method">
+  
+    #<strong>clone</strong>(new_name, api: nil, cnx: nil)  &#x21d2; <tt><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name for the new object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An unsaved clone of this APIObject with the given name</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/creatable.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clone'>clone</span><span class='lparen'>(</span><span class='id identifier rubyid_new_name'>new_name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>||=</span> <span class='ivar'>@cnx</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This class is not creatable in via ruby-jss</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_creatable?'>creatable?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlreadyExistsError.html" title="Jamf::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'> already exists with that name</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> \
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span><span class='lparen'>(</span><span class='symbol'>:refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_new_name'>new_name</span>
+
+  <span class='id identifier rubyid_orig_in_jss'>orig_in_jss</span> <span class='op'>=</span> <span class='ivar'>@in_jss</span>
+  <span class='ivar'>@in_jss</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id identifier rubyid_orig_id'>orig_id</span> <span class='op'>=</span> <span class='ivar'>@id</span>
+  <span class='ivar'>@id</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_orig_rsrc'>orig_rsrc</span> <span class='op'>=</span> <span class='ivar'>@rest_rsrc</span>
+  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_BASE</span><span class='embexpr_end'>}</span><span class='tstring_content'>/name/</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_new_name'>new_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_orig_cnx'>orig_cnx</span> <span class='op'>=</span> <span class='ivar'>@cnx</span>
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_cnx'>cnx</span>
+
+  <span class='id identifier rubyid_new_obj'>new_obj</span> <span class='op'>=</span> <span class='id identifier rubyid_dup'>dup</span>
+
+  <span class='ivar'>@in_jss</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_in_jss'>orig_in_jss</span>
+  <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_id'>orig_id</span>
+  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_rsrc'>orig_rsrc</span>
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_cnx'>orig_cnx</span>
+  <span class='id identifier rubyid_new_obj'>new_obj</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_new_name'>new_name</span>
+
+  <span class='id identifier rubyid_new_obj'>new_obj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:15 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

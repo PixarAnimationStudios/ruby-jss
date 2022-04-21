@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::Connection::Constants
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::Connection::Constants";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Jamf.html" title="Jamf (module)">Jamf</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Connection</a></span></span>
+     &raquo; 
+    <span class="title">Constants</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::Connection::Constants
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/connection/constants.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This module defines constants related to API connctions, used throughout the connection class and elsewhere.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="MIN_JAMF_VERSION-constant" class="">MIN_JAMF_VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>This version of ruby-jss only works with this version of the server and higher</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Gem</span><span class='op'>::</span><span class='const'>Version</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>10.35.0</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="CAPI_RSRC_BASE-constant" class="">CAPI_RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base of the Classic API resources</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSSResource</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JPAPI_RSRC_BASE-constant" class="">JPAPI_RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base of the Jamf Pro API resources</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>api</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="TOKEN_REUSE_MIN_LIFE-constant" class="">TOKEN_REUSE_MIN_LIFE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>pre-existing tokens must have this many seconds before before they expire</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>60</span></pre></dd>
+      
+        <dt id="NOT_CONNECTED-constant" class="">NOT_CONNECTED =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>A string indicating we are not connected</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Not Connected</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="NON_NAMES-constant" class="">NON_NAMES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>if @name is any of these when a connection is made, it is reset to a default based on the connection params</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#NOT_CONNECTED-constant" title="Jamf::Connection::Constants::NOT_CONNECTED (constant)">NOT_CONNECTED</a></span></span><span class='comma'>,</span> <span class='symbol'>:unknown</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:disconnected</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HTTPS_SCHEME-constant" class="">HTTPS_SCHEME =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ON_PREM_SSL_PORT-constant" class="">ON_PREM_SSL_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Jamf default SSL port for on-prem servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>8443</span></pre></dd>
+      
+        <dt id="HTTPS_SSL_PORT-constant" class="">HTTPS_SSL_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The https default SSL port for Jamf Cloud servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>443</span></pre></dd>
+      
+        <dt id="JAMFCLOUD_DOMAIN-constant" class="">JAMFCLOUD_DOMAIN =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Recognize Jamf Cloud servers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jamfcloud.com</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="JAMFCLOUD_PORT-constant" class="">JAMFCLOUD_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>JamfCloud connections default to 443, not 8443</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#HTTPS_SSL_PORT-constant" title="Jamf::Connection::Constants::HTTPS_SSL_PORT (constant)">HTTPS_SSL_PORT</a></span></span></pre></dd>
+      
+        <dt id="XML_HEADER-constant" class="">XML_HEADER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The top line of an XML doc for submitting data via Classic API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DFT_OPEN_TIMEOUT-constant" class="">DFT_OPEN_TIMEOUT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>60</span></pre></dd>
+      
+        <dt id="DFT_TIMEOUT-constant" class="">DFT_TIMEOUT =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>60</span></pre></dd>
+      
+        <dt id="DFT_SSL_VERSION-constant" class="">DFT_SSL_VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The Default SSL Version</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>TLSv1_2</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_NOT_FOUND_MSG-constant" class="">RSRC_NOT_FOUND_MSG =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The requested resource was not found</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="GET_FORMATS-constant" class="">GET_FORMATS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>values for the &#39;format&#39; param of #c_get</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>json</span><span class='words_sep'> </span><span class='tstring_content'>xml</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HTTP_ACCEPT_HEADER-constant" class="">HTTP_ACCEPT_HEADER =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Accept</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HTTP_CONTENT_TYPE_HEADER-constant" class="">HTTP_CONTENT_TYPE_HEADER =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="MIME_JSON-constant" class="">MIME_JSON =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/json</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="MIME_XML-constant" class="">MIME_XML =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/xml</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PP_VARS-constant" class="">PP_VARS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Only these variables are displayed with PrettyPrint This avoids, especially, the caches, which are available as attr_readers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>@name</span><span class='words_sep'>
+  </span><span class='tstring_content'>@connected</span><span class='words_sep'>
+  </span><span class='tstring_content'>@open_timeout</span><span class='words_sep'>
+  </span><span class='tstring_content'>@timeout</span><span class='words_sep'>
+  </span><span class='tstring_content'>@server_path</span><span class='words_sep'>
+  </span><span class='tstring_content'>@connect_time</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:12 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

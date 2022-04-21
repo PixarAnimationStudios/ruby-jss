@@ -1,0 +1,4164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Jamf::DistributionPoint
+  
+    &mdash; ruby-jss-2.0.0a10
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::DistributionPoint";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">DistributionPoint</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Jamf::DistributionPoint
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></li>
+          
+            <li class="next">Jamf::DistributionPoint</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/classic/api_objects/distribution_point.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A FileShare Distribution Point in the JSS</p>
+
+<p>As well as the normal Class and Instance methods for <span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span> subclasses, the DistributionPoint class provides more interaction with other parts of the API.</p>
+
+<p>Beyond the standard listing methods DistributionPoint.all, .all_ids, etc, every JSS has a single “master” distribution point.  The Class method <span class='object_link'><a href="#master_distribution_point-class_method" title="Jamf::DistributionPoint.master_distribution_point (method)">DistributionPoint.master_distribution_point</a></span> will return the Jamf::DistributionPoint object for that master.</p>
+
+<p>Also, some network segments have specific DistributionPoints assigned to them. Calling the Class method <span class='object_link'><a href="#my_distribution_point-class_method" title="Jamf::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span> will return a Jamf::DistributionPoint object for your local IP address.</p>
+
+<p>Once you have an instance of Jamf::DistributionPoint, you can mount it (on a Mac) by calling its <span class='object_link'><a href="#mount-instance_method" title="Jamf::DistributionPoint#mount (method)">#mount</a></span> method and unmount it with <span class='object_link'><a href="#unmount-instance_method" title="Jamf::DistributionPoint#unmount (method)">#unmount</a></span>. The <span class='object_link'><a href="Package.html" title="Jamf::Package (class)">Package</a></span> and possibly <span class='object_link'><a href="Script.html" title="Jamf::Script (class)">Script</a></span> classes use this to upload items to the master.</p>
+
+<p>NOTE: This class only deals with FileShare Distribution Points. There is no access to the Cloud Distribution Point in the classic API. See the .master_distribution_point and .my_distribution_point class methods for how they handle things when the Cloud DP is the master.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="APIObject.html" title="Jamf::APIObject (class)">APIObject</a></span></li>
+    
+  </ul>
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RSRC_BASE-constant" class="">RSRC_BASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The base for REST resources of this class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>distributionpoints</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RSRC_LIST_KEY-constant" class="">RSRC_LIST_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the hash key used for the JSON list output of all objects in the JSS its also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:distribution_points</span></pre></dd>
+      
+        <dt id="RSRC_OBJECT_KEY-constant" class="">RSRC_OBJECT_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:distribution_point</span></pre></dd>
+      
+        <dt id="MOUNT_OPTIONS-constant" class="">MOUNT_OPTIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>what  are the mount options? these are comma-separated, and are passed with -o</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nobrowse</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="EMPTY_PW_256-constant" class="">EMPTY_PW_256 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>An empty SHA256 digest</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="DEFAULT_MOUNTPOINT_DIR-constant" class="">DEFAULT_MOUNTPOINT_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Set default local mount for distribution point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/tmp</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="DEFAULT_MOUNTPOINT_PREFIX-constant" class="">DEFAULT_MOUNTPOINT_PREFIX =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CasperDistribution-id</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="Jamf::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>76</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#certificate-instance_method" title="#certificate (instance method)">#<strong>certificate</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the cert.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#certificate_required-instance_method" title="#certificate_required (instance method)">#<strong>certificate_required</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do http downloads use cert.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connection_type-instance_method" title="#connection_type (instance method)">#<strong>connection_type</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Protocol for fileservice access (e.g. AFP, SMB).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#context-instance_method" title="#context (instance method)">#<strong>context</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The “context” for http downloads (what goes after the hostname part of the URL).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_load_balancing-instance_method" title="#enable_load_balancing (instance method)">#<strong>enable_load_balancing</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Load balanacing enabled?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failover_point-instance_method" title="#failover_point (instance method)">#<strong>failover_point</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id of the DP to use for failover.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#failover_point_url-instance_method" title="#failover_point_url (instance method)">#<strong>failover_point_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The URL to use if this one doesn&#39;t work.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_downloads_enabled-instance_method" title="#http_downloads_enabled (instance method)">#<strong>http_downloads_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Are http downloads available from this DP?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_password_sha256-instance_method" title="#http_password_sha256 (instance method)">#<strong>http_password_sha256</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The password for http downloads, if needed, as a SHA256 digest.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_url-instance_method" title="#http_url (instance method)">#<strong>http_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The URL for http downloads.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#http_username-instance_method" title="#http_username (instance method)">#<strong>http_username</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The username to use for http downloads if needed for user/pw auth.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ip_address-instance_method" title="#ip_address (instance method)">#<strong>ip_address</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #hostname)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The hostname of this DP.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_master-instance_method" title="#is_master (instance method)">#<strong>is_master</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #master?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this the master DP?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#local_path-instance_method" title="#local_path (instance method)">#<strong>local_path</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The local path on the server to the distribution point directory.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#no_authentication_required-instance_method" title="#no_authentication_required (instance method)">#<strong>no_authentication_required</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do http downloads work without auth?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#port-instance_method" title="#port (instance method)">#<strong>port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The port for http access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#protocol-instance_method" title="#protocol (instance method)">#<strong>protocol</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The protocol to use for http downloads (http/https).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_only_password_sha256-instance_method" title="#read_only_password_sha256 (instance method)">#<strong>read_only_password_sha256</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Read-only password as a SHA256 digest.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_only_username-instance_method" title="#read_only_username (instance method)">#<strong>read_only_username</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Read-only username for fileservice.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_write_password_sha256-instance_method" title="#read_write_password_sha256 (instance method)">#<strong>read_write_password_sha256</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The read-write password as a SHA256 digest.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_write_username-instance_method" title="#read_write_username (instance method)">#<strong>read_write_username</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The read-write username for fileservice access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#share_name-instance_method" title="#share_name (instance method)">#<strong>share_name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the fileservice sharepoint.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#share_port-instance_method" title="#share_port (instance method)">#<strong>share_port</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The port for fileservice access.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssh_password_sha256-instance_method" title="#ssh_password_sha256 (instance method)">#<strong>ssh_password_sha256</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The ssh password as a SHA256 digest.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ssh_username-instance_method" title="#ssh_username (instance method)">#<strong>ssh_username</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Ssh username.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#username_password_required-instance_method" title="#username_password_required (instance method)">#<strong>username_password_required</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do http downloads use user/pw auth?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#workgroup_or_domain-instance_method" title="#workgroup_or_domain (instance method)">#<strong>workgroup_or_domain</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Work group or domain for SMB.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#master_distribution_point-class_method" title="master_distribution_point (class method)">.<strong>master_distribution_point</strong>(refresh = false, default: nil, api: nil, cnx: Jamf.cnx)  &#x21d2; Jamf::DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the DistributionPoint instance for the master distribution point.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#my_distribution_point-class_method" title="my_distribution_point (class method)">.<strong>my_distribution_point</strong>(refresh = false, default: :master, api: nil, cnx: Jamf.cnx)  &#x21d2; Jamf::DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the DistributionPoint instance for the machine running this code, based on its IP address.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_pw-instance_method" title="#check_pw (instance method)">#<strong>check_pw</strong>(user, pw)  &#x21d2; Boolean, Nil </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check the validity of a password.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(**args)  &#x21d2; DistributionPoint </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>As well as the standard :id, :name, and :data, you can instantiate this class with :id =&gt; :master, in which case you&#39;ll get the Master Distribution Point as defined in the JSS.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mount-instance_method" title="#mount (instance method)">#<strong>mount</strong>(pw = nil, access = :ro)  &#x21d2; Pathname </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mount this distribution point locally.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mounted%3F-instance_method" title="#mounted? (instance method)">#<strong>mounted?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this thing mounted right now?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reachable_for_download%3F-instance_method" title="#reachable_for_download? (instance method)">#<strong>reachable_for_download?</strong>(pw = &#39;&#39;, check_http = true)  &#x21d2; FalseClass, Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check to see if this dist point is reachable for downloads (read-only) via either http, if available, or filesharing.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reachable_for_upload%3F-instance_method" title="#reachable_for_upload? (instance method)">#<strong>reachable_for_upload?</strong>(pw)  &#x21d2; FalseClass, Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check to see if this dist point is reachable for uploads (read-write) via filesharing.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unmount-instance_method" title="#unmount (instance method)">#<strong>unmount</strong>  &#x21d2; void </a>
+    
+
+    
+      (also: #umount)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Unmount the distribution point.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(**args)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::DistributionPoint (class)">DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>As well as the standard :id, :name, and :data, you can instantiate this class with :id =&gt; :master, in which case you&#39;ll get the Master Distribution Point as defined in the JSS. An error will be raised if one hasn&#39;t been defined.</p>
+
+<p>You can also do this more easily by calling JSS.master_distribution_point</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='comment'># TODO: this looks redundant with super....
+</span>  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:cnx</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:api</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:cnx</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span>
+
+  <span class='ivar'>@cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:cnx</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@init_data</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+  <span class='comment'># looking for master?
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:master</span>
+
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='label'>cnx:</span> <span class='ivar'>@cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
+      <span class='ivar'>@init_data</span> <span class='op'>=</span> <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_c_get'>c_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BASE-constant" title="Jamf::DistributionPoint::RSRC_BASE (constant)">RSRC_BASE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="#RSRC_OBJECT_KEY-constant" title="Jamf::DistributionPoint::RSRC_OBJECT_KEY (constant)">RSRC_OBJECT_KEY</a></span></span><span class='rbracket'>]</span>
+      <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:is_master</span><span class='rbracket'>]</span>
+        <span class='ivar'>@id</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+        <span class='ivar'>@name</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+        <span class='kw'>break</span>
+      <span class='kw'>end</span> <span class='comment'># if data is master
+</span>      <span class='ivar'>@init_data</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span> <span class='comment'># each id
+</span>  <span class='kw'>end</span> <span class='comment'># if args is master
+</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='ivar'>@ip_address</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ip_address</span><span class='rbracket'>]</span>
+  <span class='ivar'>@local_path</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:local_path</span><span class='rbracket'>]</span>
+  <span class='ivar'>@enable_load_balancing</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:enable_load_balancing</span><span class='rbracket'>]</span>
+  <span class='ivar'>@failover_point</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:failover_point</span><span class='rbracket'>]</span>
+  <span class='ivar'>@is_master</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:is_master</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@connection_type</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:connection_type</span><span class='rbracket'>]</span>
+  <span class='ivar'>@share_port</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:share_port</span><span class='rbracket'>]</span>
+  <span class='ivar'>@share_name</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:share_name</span><span class='rbracket'>]</span>
+  <span class='ivar'>@workgroup_or_domain</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:workgroup_or_domain</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@read_write_username</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:read_write_username</span><span class='rbracket'>]</span>
+  <span class='ivar'>@read_write_password_sha256</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:read_write_password_sha256</span><span class='rbracket'>]</span>
+  <span class='ivar'>@read_only_username</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:read_only_username</span><span class='rbracket'>]</span>
+  <span class='ivar'>@read_only_password_sha256</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:read_only_password_sha256</span><span class='rbracket'>]</span>
+  <span class='ivar'>@ssh_username</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ssh_username</span><span class='rbracket'>]</span>
+  <span class='ivar'>@ssh_password_sha256</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ssh_password_sha256</span><span class='rbracket'>]</span>
+  <span class='ivar'>@http_username</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:http_username</span><span class='rbracket'>]</span>
+  <span class='ivar'>@http_password_sha256</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:http_password_sha256</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@http_downloads_enabled</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:http_downloads_enabled</span><span class='rbracket'>]</span>
+  <span class='ivar'>@protocol</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:protocol</span><span class='rbracket'>]</span>
+  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span>
+  <span class='ivar'>@context</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:context</span><span class='rbracket'>]</span>
+  <span class='ivar'>@no_authentication_required</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:no_authentication_required</span><span class='rbracket'>]</span>
+  <span class='ivar'>@certificate_required</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:certificate_required</span><span class='rbracket'>]</span>
+  <span class='ivar'>@username_password_required</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:username_password_required</span><span class='rbracket'>]</span>
+  <span class='ivar'>@certificate</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:certificate</span><span class='rbracket'>]</span>
+  <span class='ivar'>@http_url</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:http_url</span><span class='rbracket'>]</span>
+  <span class='ivar'>@failover_point_url</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:failover_point_url</span><span class='rbracket'>]</span>
+
+  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ssh_password</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Note, as of Casper 9.3:
+</span>  <span class='comment'># :management_password_md5=&gt;&quot;xxxxx&quot;
+</span>  <span class='comment'># and
+</span>  <span class='comment'># :management_password_sha256=&gt; &quot;xxxxxxxxxx&quot;
+</span>  <span class='comment'># Are the read/write password
+</span>  <span class='comment'>#
+</span>  <span class='comment'># An empty passwd is
+</span>  <span class='comment'># MD5 = d41d8cd98f00b204e9800998ecf8427e
+</span>  <span class='comment'># SHA256 = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+</span>  <span class='comment'>#
+</span>  <span class='comment'># Seemms the read-only pw isn&#39;t available in the API
+</span>
+  <span class='comment'># if we mount for fileservice, where&#39;s the mountpoint?
+</span>  <span class='ivar'>@mountpoint</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_DIR-constant" title="Jamf::DistributionPoint::DEFAULT_MOUNTPOINT_DIR (constant)">DEFAULT_MOUNTPOINT_DIR</a></span></span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DEFAULT_MOUNTPOINT_PREFIX-constant" title="Jamf::DistributionPoint::DEFAULT_MOUNTPOINT_PREFIX (constant)">DEFAULT_MOUNTPOINT_PREFIX</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="certificate-instance_method">
+  
+    #<strong>certificate</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name of the cert. used for http cert. auth.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the cert. used for http cert. auth.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+254
+255
+256</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 254</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_certificate'>certificate</span>
+  <span class='ivar'>@certificate</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="certificate_required-instance_method">
+  
+    #<strong>certificate_required</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do http downloads use cert. authentication?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do http downloads use cert. authentication?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 242</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_certificate_required'>certificate_required</span>
+  <span class='ivar'>@certificate_required</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="connection_type-instance_method">
+  
+    #<strong>connection_type</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Protocol for fileservice access (e.g. AFP, SMB).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Protocol for fileservice access (e.g. AFP, SMB)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 201</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_connection_type'>connection_type</span>
+  <span class='ivar'>@connection_type</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="context-instance_method">
+  
+    #<strong>context</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the “context” for http downloads (what goes after the hostname part of the URL).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the “context” for http downloads (what goes after the hostname part of the URL)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 236</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_context'>context</span>
+  <span class='ivar'>@context</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enable_load_balancing-instance_method">
+  
+    #<strong>enable_load_balancing</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns load balanacing enabled?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>load balanacing enabled?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_load_balancing'>enable_load_balancing</span>
+  <span class='ivar'>@enable_load_balancing</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="failover_point-instance_method">
+  
+    #<strong>failover_point</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the id of the DP to use for failover.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the id of the DP to use for failover</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failover_point'>failover_point</span>
+  <span class='ivar'>@failover_point</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="failover_point_url-instance_method">
+  
+    #<strong>failover_point_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the URL to use if this one doesn&#39;t work.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the URL to use if this one doesn&#39;t work</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 260</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failover_point_url'>failover_point_url</span>
+  <span class='ivar'>@failover_point_url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_downloads_enabled-instance_method">
+  
+    #<strong>http_downloads_enabled</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns are http downloads available from this DP?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>are http downloads available from this DP?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 227</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_http_downloads_enabled'>http_downloads_enabled</span>
+  <span class='ivar'>@http_downloads_enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_password_sha256-instance_method">
+  
+    #<strong>http_password_sha256</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the password for http downloads, if needed, as a SHA256 digest.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password for http downloads, if needed, as a SHA256 digest</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 251</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_http_password_sha256'>http_password_sha256</span>
+  <span class='ivar'>@http_password_sha256</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_url-instance_method">
+  
+    #<strong>http_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the URL for http downloads.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the URL for http downloads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 257</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_http_url'>http_url</span>
+  <span class='ivar'>@http_url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="http_username-instance_method">
+  
+    #<strong>http_username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the username to use for http downloads if needed for user/pw auth.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the username to use for http downloads if needed for user/pw auth</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 248</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_http_username'>http_username</span>
+  <span class='ivar'>@http_username</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ip_address-instance_method">
+  
+    #<strong>ip_address</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='hostname-instance_method'>hostname</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the hostname of this DP.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hostname of this DP</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ip_address'>ip_address</span>
+  <span class='ivar'>@ip_address</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_master-instance_method">
+  
+    #<strong>is_master</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='master?-instance_method'>master?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns is this the master DP?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>is this the master DP?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 196</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_is_master'>is_master</span>
+  <span class='ivar'>@is_master</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="local_path-instance_method">
+  
+    #<strong>local_path</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the local path on the server to the distribution point directory.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the local path on the server to the distribution point directory</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 187</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_local_path'>local_path</span>
+  <span class='ivar'>@local_path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="no_authentication_required-instance_method">
+  
+    #<strong>no_authentication_required</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do http downloads work without auth?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do http downloads work without auth?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_no_authentication_required'>no_authentication_required</span>
+  <span class='ivar'>@no_authentication_required</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="port-instance_method">
+  
+    #<strong>port</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the port for http access.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the port for http access</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 233</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
+  <span class='ivar'>@port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="protocol-instance_method">
+  
+    #<strong>protocol</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the protocol to use for http downloads (http/https).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the protocol to use for http downloads (http/https)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 230</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_protocol'>protocol</span>
+  <span class='ivar'>@protocol</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_only_password_sha256-instance_method">
+  
+    #<strong>read_only_password_sha256</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns read-only password as a SHA256 digest.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>read-only password as a SHA256 digest</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 219</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_only_password_sha256'>read_only_password_sha256</span>
+  <span class='ivar'>@read_only_password_sha256</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_only_username-instance_method">
+  
+    #<strong>read_only_username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns read-only username for fileservice.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>read-only username for fileservice</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_only_username'>read_only_username</span>
+  <span class='ivar'>@read_only_username</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_write_password_sha256-instance_method">
+  
+    #<strong>read_write_password_sha256</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the read-write password as a SHA256 digest.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the read-write password as a SHA256 digest</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_write_password_sha256'>read_write_password_sha256</span>
+  <span class='ivar'>@read_write_password_sha256</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="read_write_username-instance_method">
+  
+    #<strong>read_write_username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the read-write username for fileservice access.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the read-write username for fileservice access</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 210</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_write_username'>read_write_username</span>
+  <span class='ivar'>@read_write_username</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="share_name-instance_method">
+  
+    #<strong>share_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the name of the fileservice sharepoint.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the fileservice sharepoint</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 207</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_share_name'>share_name</span>
+  <span class='ivar'>@share_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="share_port-instance_method">
+  
+    #<strong>share_port</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the port for fileservice access.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the port for fileservice access</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+204
+205
+206</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 204</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_share_port'>share_port</span>
+  <span class='ivar'>@share_port</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ssh_password_sha256-instance_method">
+  
+    #<strong>ssh_password_sha256</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the ssh password as a SHA256 digest.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the ssh password as a SHA256 digest</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ssh_password_sha256'>ssh_password_sha256</span>
+  <span class='ivar'>@ssh_password_sha256</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ssh_username-instance_method">
+  
+    #<strong>ssh_username</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns ssh username.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ssh username</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ssh_username'>ssh_username</span>
+  <span class='ivar'>@ssh_username</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="username_password_required-instance_method">
+  
+    #<strong>username_password_required</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do http downloads use user/pw auth?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do http downloads use user/pw auth?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 245</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_username_password_required'>username_password_required</span>
+  <span class='ivar'>@username_password_required</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="workgroup_or_domain-instance_method">
+  
+    #<strong>workgroup_or_domain</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns work group or domain for SMB.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>work group or domain for SMB</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 222</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_workgroup_or_domain'>workgroup_or_domain</span>
+  <span class='ivar'>@workgroup_or_domain</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="master_distribution_point-class_method">
+  
+    .<strong>master_distribution_point</strong>(refresh = false, default: nil, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the DistributionPoint instance for the master distribution point.</p>
+
+<p>If the Cloud Dist Point is master, then the classic API has no way to know that or access it. In that case you can provide the &#39;default:&#39; parameter. Give it the name or id of any dist. point to be used instead, or give it :random to randomly choose one.</p>
+
+<p>If there are no fileshare dist points defined (the cloud is the only one) then this whole class can&#39;t really be used.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the distribution point be re-queried?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>default</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name or ID of a dist point to use if no master is found, or :random to randomly choose one.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which API connection should we query?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">Jamf::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@master_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+
+  <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dp_id'>dp_id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dp'>dp</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_dp_id'>dp_id</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_dp'>dp</span><span class='period'>.</span><span class='id identifier rubyid_master?'>master?</span>
+      <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_dp'>dp</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># If we&#39;re here, the Cloud DP might be master, but there&#39;s no
+</span>  <span class='comment'># access to it in the API :/
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No Master FileShare Distribtion Point. Use the default: parameter if needed.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@master_distribution_point</span> <span class='op'>||</span> <span class='id identifier rubyid_default'>default</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@master_distribution_point</span>
+    <span class='ivar'>@master_distribution_point</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_default'>default</span> <span class='op'>==</span> <span class='symbol'>:random</span>
+    <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_all_ids'>all_ids</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@master_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="my_distribution_point-class_method">
+  
+    .<strong>my_distribution_point</strong>(refresh = false, default: :master, api: nil, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the DistributionPoint instance for the machine running this code, based on its IP address. If none is defined for this IP address, use the name or id provided as default. If no default: is provided, the master dp is used. If no master dp available (meaning its the cloud dp) then use a randomly chosen dp.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should the distribution point be re-queried?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>default</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:master</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of a Dist Point to use if none is specified for this IP addr. Or :master, to use the master DP, or :random to use a randomly chosen one. If :master is specified and there is no master (master is cloud) then a random one is used.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which API connection should we query?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Jamf::DistributionPoint (class)">Jamf::DistributionPoint</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 151</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'>my_distribution_point</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='symbol'>:master</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="Connection/DefaultConnection.html#cnx-instance_method" title="Jamf::Connection::DefaultConnection#cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cnx'>cnx</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span> <span class='kw'>if</span> <span class='id identifier rubyid_api'>api</span>
+
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
+
+  <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="Jamf::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_network_segment'><span class='object_link'><a href="NetworkSegment.html#my_network_segment-class_method" title="Jamf::NetworkSegment.my_network_segment (method)">my_network_segment</a></span></span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span>
+    <span class='id identifier rubyid_my_net_seg'>my_net_seg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NetworkSegment.html" title="Jamf::NetworkSegment (class)">NetworkSegment</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'><span class='object_link'><a href="APIObject.html#fetch-class_method" title="Jamf::APIObject.fetch (method)">fetch</a></span></span> <span class='label'>id:</span> <span class='id identifier rubyid_my_net_seg_id'>my_net_seg_id</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='id identifier rubyid_my_dp_name'>my_dp_name</span> <span class='op'>=</span> <span class='id identifier rubyid_my_net_seg'>my_net_seg</span><span class='period'>.</span><span class='id identifier rubyid_distribution_point'>distribution_point</span>
+    <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span> <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>name:</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span> <span class='kw'>if</span> <span class='id identifier rubyid_my_dp_name'>my_dp_name</span>
+  <span class='kw'>end</span> <span class='comment'># if my_net_seg_id
+</span>
+  <span class='kw'>return</span> <span class='ivar'>@my_distribution_point</span> <span class='kw'>if</span> <span class='ivar'>@my_distribution_point</span>
+
+  <span class='ivar'>@my_distribution_point</span> <span class='op'>=</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_default'>default</span>
+    <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>name:</span> <span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='kw'>when</span> <span class='const'>Integer</span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_default'>default</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='kw'>when</span> <span class='symbol'>:master</span>
+      <span class='id identifier rubyid_master_distribution_point'>master_distribution_point</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='symbol'>:random</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='kw'>when</span> <span class='symbol'>:random</span>
+      <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="check_pw-instance_method">
+  
+    #<strong>check_pw</strong>(user, pw)  &#x21d2; <tt>Boolean</tt>, <tt>Nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check the validity of a password.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>one of :ro, :rw, :ssh, :http</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the password to check for the given user</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>Nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>was the password correct? nil is returned if there is no password set in the JSS.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">Jamf::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 360</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_pw'>check_pw</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The first parameter must be one of :ro, :rw, :ssh, :http</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ro</span><span class='words_sep'> </span><span class='tstring_content'>rw</span><span class='words_sep'> </span><span class='tstring_content'>ssh</span><span class='words_sep'> </span><span class='tstring_content'>http</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_user'>user</span>
+
+  <span class='id identifier rubyid_sha256'>sha256</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_user'>user</span>
+           <span class='kw'>when</span> <span class='symbol'>:rw</span> <span class='kw'>then</span> <span class='ivar'>@read_write_password_sha256</span>
+           <span class='kw'>when</span> <span class='symbol'>:ro</span> <span class='kw'>then</span> <span class='ivar'>@read_only_password_sha256</span>
+           <span class='kw'>when</span> <span class='symbol'>:http</span> <span class='kw'>then</span> <span class='ivar'>@http_password_sha256</span>
+           <span class='kw'>when</span> <span class='symbol'>:ssh</span> <span class='kw'>then</span> <span class='ivar'>@ssh_password_sha256</span>
+  <span class='kw'>end</span> <span class='comment'># case
+</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_sha256'>sha256</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#EMPTY_PW_256-constant" title="Jamf::DistributionPoint::EMPTY_PW_256 (constant)">EMPTY_PW_256</a></span></span>
+
+  <span class='id identifier rubyid_sha256'>sha256</span> <span class='op'>==</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>SHA2</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>256</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mount-instance_method">
+  
+    #<strong>mount</strong>(pw = nil, access = :ro)  &#x21d2; <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mount this distribution point locally.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the read-only or read-write password for this DistributionPoint If :prompt, the user is promted on the commandline to enter the password for the :user. If :stdin#, the password is read from a line of std in represented by the digits at #, so :stdin3 reads the passwd from the third line of standard input. defaults to line 2, if no digit is supplied. see Jamf.stdin</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>access</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:ro</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>how to mount the DistributionPoint, and which password to expect. :ro (or anything else) = read-only, :rw = read-write</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mountpoint.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_access'>access</span> <span class='op'>=</span> <span class='symbol'>:ro</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@mountpoint</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
+
+  <span class='id identifier rubyid_access'>access</span> <span class='op'>=</span> <span class='symbol'>:ro</span> <span class='kw'>unless</span> <span class='id identifier rubyid_access'>access</span> <span class='op'>==</span> <span class='symbol'>:rw</span>
+
+  <span class='id identifier rubyid_password'>password</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_pw'>pw</span> <span class='op'>==</span> <span class='symbol'>:prompt</span>
+               <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prompt_for_password'>prompt_for_password</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Enter the password for the </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access'>access</span><span class='embexpr_end'>}</span><span class='tstring_content'> user &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access'>access</span> <span class='op'>==</span> <span class='symbol'>:ro</span> <span class='op'>?</span> <span class='ivar'>@read_only_username</span> <span class='op'>:</span> <span class='ivar'>@read_write_username</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;:</span><span class='tstring_end'>&quot;</span></span>
+             <span class='kw'>elsif</span> <span class='id identifier rubyid_pw'>pw</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Symbol</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_pw'>pw</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>stdin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+               <span class='id identifier rubyid_pw'>pw</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^stdin(\d+)$</span><span class='regexp_end'>/</span></span>
+               <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span>
+               <span class='id identifier rubyid_line'>line</span> <span class='op'>||=</span> <span class='int'>2</span>
+               <span class='const'><span class='object_link'><a href="../top-level-namespace.html#JSS-constant" title="JSS (constant)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_stdin'>stdin</span> <span class='id identifier rubyid_line'>line</span>
+             <span class='kw'>else</span>
+               <span class='id identifier rubyid_pw'>pw</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_pwok'>pwok</span> <span class='op'>=</span> <span class='id identifier rubyid_check_pw'>check_pw</span><span class='lparen'>(</span><span class='id identifier rubyid_access'>access</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_pwok'>pwok</span>
+    <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='id identifier rubyid_pwok'>pwok</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access'>access</span><span class='embexpr_end'>}</span><span class='tstring_content'> password set in the JSS</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Incorrect password for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access'>access</span><span class='embexpr_end'>}</span><span class='tstring_content'> account</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="Jamf::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_access'>access</span> <span class='op'>==</span> <span class='symbol'>:ro</span> <span class='op'>?</span> <span class='ivar'>@read_only_username</span> <span class='op'>:</span> <span class='ivar'>@read_write_username</span>
+
+  <span class='id identifier rubyid_safe_pw'>safe_pw</span> <span class='op'>=</span> <span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='id identifier rubyid_password'>password</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+  <span class='ivar'>@mount_url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@connection_type</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='embexpr_end'>}</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_safe_pw'>safe_pw</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ip_address</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@share_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@mnt_cmd</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='ivar'>@connection_type</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+             <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smb</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>then</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/sbin/mount_smbfs</span><span class='tstring_end'>&#39;</span></span>
+             <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>afp</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>then</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/sbin/mount_afp</span><span class='tstring_end'>&#39;</span></span>
+             <span class='kw'>else</span> <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t mount distribution point </span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>: no known connection type.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_mkpath'>mkpath</span>
+
+  <span class='id identifier rubyid_mount_out'>mount_out</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='embexpr_beg'>#{</span><span class='ivar'>@mnt_cmd</span><span class='embexpr_end'>}</span><span class='tstring_content'> -o &#39;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#MOUNT_OPTIONS-constant" title="Jamf::DistributionPoint::MOUNT_OPTIONS (constant)">MOUNT_OPTIONS</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@mount_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@mountpoint</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; 2&gt;&amp;1</span><span class='tstring_end'>`</span></span>
+  <span class='kw'>if</span> <span class='lparen'>(</span><span class='gvar'>$CHILD_STATUS</span><span class='period'>.</span><span class='id identifier rubyid_exitstatus'>exitstatus</span> <span class='op'>==</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span>
+    <span class='comment'># if system @mnt_cmd.to_s, *[&#39;-o&#39;, MOUNT_OPTIONS, @mount_url, @mountpoint.to_s]
+</span>    <span class='ivar'>@mounted</span> <span class='op'>=</span> <span class='id identifier rubyid_access'>access</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_rmdir'>rmdir</span> <span class='kw'>if</span> <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span>
+    <span class='ivar'>@mounted</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FileServiceError.html" title="Jamf::FileServiceError (class)">FileServiceError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can&#39;t mount </span><span class='embexpr_beg'>#{</span><span class='ivar'>@ip_address</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_mount_out'>mount_out</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@mountpoint</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mounted?-instance_method">
+  
+    #<strong>mounted?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Is this thing mounted right now?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+508
+509
+510</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 508</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
+  <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reachable_for_download?-instance_method">
+  
+    #<strong>reachable_for_download?</strong>(pw = &#39;&#39;, check_http = true)  &#x21d2; <tt>FalseClass</tt>, <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check to see if this dist point is reachable for downloads (read-only) via either http, if available, or filesharing.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the read-only password to use for checking the connection If http downloads are enabled, and no http password is required this can be omitted.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>check_http</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should we try the http download first, if enabled? If you&#39;re intentionally using the ro password for filesharing, and want to check only filesharing, then set this to false.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>false if not reachable, otherwise :http or :mountable</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 388</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reachable_for_download?'>reachable_for_download?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_check_http'>check_http</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='symbol'>:http</span> <span class='kw'>if</span> <span class='id identifier rubyid_check_http'>check_http</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_http_reachable?'>http_reachable?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='symbol'>:mountable</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_check_pw'>check_pw</span> <span class='symbol'>:ro</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span>
+
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_mount'>mount</span> <span class='id identifier rubyid_pw'>pw</span><span class='comma'>,</span> <span class='symbol'>:ro</span>
+    <span class='symbol'>:mountable</span>
+  <span class='kw'>rescue</span>
+    <span class='kw'>false</span>
+  <span class='kw'>ensure</span>
+    <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reachable_for_upload?-instance_method">
+  
+    #<strong>reachable_for_upload?</strong>(pw)  &#x21d2; <tt>FalseClass</tt>, <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check to see if this dist point is reachable for uploads (read-write) via filesharing.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>pw</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the read-write password to use for checking the connection</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>FalseClass</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>false if not reachable, otherwise :mountable</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 410</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reachable_for_upload?'>reachable_for_upload?</span><span class='lparen'>(</span><span class='id identifier rubyid_pw'>pw</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='symbol'>:mountable</span> <span class='kw'>if</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_check_pw'>check_pw</span> <span class='symbol'>:rw</span><span class='comma'>,</span> <span class='id identifier rubyid_pw'>pw</span>
+
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_mount'>mount</span> <span class='id identifier rubyid_pw'>pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span>
+    <span class='symbol'>:mountable</span>
+  <span class='kw'>rescue</span>
+    <span class='kw'>false</span>
+  <span class='kw'>ensure</span>
+    <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unmount-instance_method">
+  
+    #<strong>unmount</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='umount-instance_method'>umount</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Unmount the distribution point.</p>
+
+<p>Does nothing if it wasn&#39;t mounted with #mount.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/classic/api_objects/distribution_point.rb', line 491</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unmount'>unmount</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_mounted?'>mounted?</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_system'>system</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sbin/umount &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@mountpoint</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span> <span class='comment'># the umount takes time.
+</span>    <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_rmdir'>rmdir</span> <span class='kw'>if</span> <span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_directory?'>directory?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@mountpoint</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span>
+    <span class='ivar'>@mounted</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FileServiceError.html" title="Jamf::FileServiceError (class)">FileServiceError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>There was a problem unmounting </span><span class='embexpr_beg'>#{</span><span class='ivar'>@mountpoint</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Apr 20 17:10:43 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>
