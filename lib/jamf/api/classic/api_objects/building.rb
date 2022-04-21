@@ -24,7 +24,7 @@
 ###
 
 ###
-module JSS
+module Jamf
 
   # Module Variables
   #####################################
@@ -44,8 +44,8 @@ module JSS
 
     # Mix-Ins
     #####################################
-    include JSS::Creatable
-    include JSS::Updatable
+    include Jamf::Creatable
+    include Jamf::Updatable
 
     # Class Methods
     #####################################
