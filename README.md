@@ -12,28 +12,37 @@ Please update all installations of ruby-jss to at least v1.6.0.
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 ### Table of contents
-* [DESCRIPTION](#description)
-* [SYNOPSIS](#synopsis)
-* [USAGE](#usage)
-  * [Connecting to the API](#connecting-to-the-api)
-  * [Working with JSS Objects (a.k.a REST Resources)](#working-with-jss-objects-aka-rest-resources)
-  * [Listing Objects](#listing-objects)
-  * [Retrieving Objects](#retrieving-objects)
-  * [Updating Objects](#updating-objects)
-  * [Deleting Objects](#deleting-objects)
-* [OBJECTS IMPLEMENTED](#objects-implemented)
-  * [Creatable and Updatable](#creatable-and-updatable)
-  * [Updatable but not Creatable](#updatable-but-not-creatable)
-  * [Read-Only](#read-only)
-  * [Creatable and Updatable](#creatable-and-updatable)
-  * [Deletable](#deletable)
-* [CONFIGURATION](#configuration)
-  * [Passwords](#passwords)
-* [BEYOND THE API](#beyond-the-api)
-* [REQUIREMENTS](#requirements)
-* [INSTALL](#install)
-* [HELP](#help)
-* [LICENSE](#license)
+
+<!-- TOC -->
+
+- [DESCRIPTION](#description)
+  - [Contact](#contact)
+- [SYNOPSIS](#synopsis)
+- [USAGE](#usage)
+  - [Connecting to the API](#connecting-to-the-api)
+  - [Working with JSS Objects](#working-with-jss-objects)
+    - [Listing Objects](#listing-objects)
+    - [Retrieving Objects](#retrieving-objects)
+    - [Creating Objects](#creating-objects)
+    - [Updating Objects](#updating-objects)
+    - [Deleting Objects](#deleting-objects)
+- [OBJECTS IMPLEMENTED](#objects-implemented)
+  - [Creatable and Updatable](#creatable-and-updatable)
+  - [Updatable, but must be created in the Web UI](#updatable-but-must-be-created-in-the-web-ui)
+  - [Creatable only](#creatable-only)
+  - [Read-Only](#read-only)
+  - [Deletable](#deletable)
+    - [Other useful classes & modules:](#other-useful-classes--modules)
+- [Object-related API endpoints](#object-related-api-endpoints)
+- [CONFIGURATION](#configuration)
+  - [Passwords](#passwords)
+- [BEYOND THE API](#beyond-the-api)
+- [INSTALL](#install)
+- [REQUIREMENTS](#requirements)
+- [HELP](#help)
+- [LICENSE](#license)
+
+<!-- /TOC -->
 
 ## DESCRIPTION
 
@@ -55,7 +64,12 @@ Hopefully others will find it useful, and add more to it as well.
 
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
 
-NOTE: ruby-jss 1.2.4 will introduce beta-level support for the Jamf Pro API in a ruby module called 'Jamf', See  README-JP-API.md in /lib/jamf, or in the 'Files' section of the YARD docs file for details.
+NOTE: ruby-jss 2.0.0 is in testing, see [README-2.0.0.md](README-2.0.0.md) for more info.
+
+### Contact
+
+If you have questions or feedback about ruby-jss, please reach out in the [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK), or open an issue on GitHub, or email ruby-jss@pixar.com.
+
 
 ## SYNOPSIS
 

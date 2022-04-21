@@ -313,4 +313,4 @@ Check GitHub or rubygems.org to make sure you have the lastest test version.
 
 ## Contact
 
-If you have questions or feedback about all this, please reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
+If you have questions or feedback about all this, please reach out in the [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK), or open an issue on GitHub, or email ruby-jss@pixar.com.
