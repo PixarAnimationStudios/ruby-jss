@@ -35,6 +35,7 @@ These changes have been in mind for some time, but the ability (soon to be requi
   - [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-next_refresh-secs_to_refresh---time_to_refresh)
   - [Cross-object validation in setters](#cross-object-validation-in-setters)
   - [.fetch :random](#fetch-random)
+- [Documentation](#documentation)
 - [How to install for testing](#how-to-install-for-testing)
 - [Contact](#contact)
 
@@ -300,6 +301,11 @@ The last point is very important.  Right now, in order to be able to manipulate 
 
 You can still fetch random objects from a collection, but use `.fetch random: true`. The older `.fetch :random` is deprecated and will be removed.
 
+## Documentation
+
+The YARD documentation for v2.0.0 is available before release in the [github.io site for ruby-jss](http://pixaranimationstudios.github.io/ruby-jss/docs/v2.x/index.html).
+
+All the documentation for ruby-jss is in need of updating, from the top-level README to the auto-generated YARD docs.  If you have questions that aren't answered there, please reach out (see Contact, below)
 
 ## How to install for testing
 
