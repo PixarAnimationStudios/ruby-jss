@@ -305,10 +305,11 @@ You can still fetch random objects from a collection, but use `.fetch random: tr
 
 `gem install ruby-jss --version 2.0.0xy`
 
-where x is a or b, and y is the alpha or beta number
+where x is 'a' or 'b', and y is the alpha or beta number
 
 You can also clone the GitHub repo, cd into the top level of the project and run `gem build ruby-jss.gemspec`, then install the resulting gem.
 
+Check GitHub or rubygems.org to make sure you have the lastest test version.
 
 ## Contact
 
